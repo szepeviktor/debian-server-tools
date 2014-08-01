@@ -17,6 +17,21 @@ die() {
 }
 
 #####################################################
+# Parses out the version from a script
+# Arguments:
+#   FILE
+#####################################################
+get_version() {
+    local FILE="$1"
+    local VER="$(grep -m1 "^# VERSION\s*:" "$FILE" | cut -d":" -f2-)"
+
+    if [ -z "$VER" ]; then
+        VAR="(unknown)"
+    fi
+    echo "$VER"
+}
+
+#####################################################
 # Copies files in place, sets permissions and owner
 # Arguments:
 #   LOCATION
@@ -34,6 +49,10 @@ do_install() {
 
     for TOOL in $@; do
         TARGET="${LOCATION}/$(basename "$TOOL")"
+        if [ -f "$TARGET" ]; then
+            echo "replacing $(get_version "$TARGET") with $(get_version "$TOOL")"
+        fi
+
         cp -v "$TOOL" "$TARGET" || die 10 "copy failure (${TOOL})"
         chown ${OWNER} "$TARGET" || die 11 "cannot set owner (${TOOL})"
         chmod ${PERMS} "$TARGET" || die 12 "cannot set permissions (${TOOL})"
@@ -46,7 +65,7 @@ do_install() {
 
 # version
 if [ "$1" = "--version" ]; then
-    grep -m1 "^# VERSION\s*:" "$0" | cut -d":" -f2-
+    get_version "$0"
     exit 0
 fi
 
