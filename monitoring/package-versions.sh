@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# monthly mail
-# ------------
-# cron job: /usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions" -S from="pkgs <cron.monthly>" root
+# Linux package versions and possible updates - apt, python, pear, pecl, node.js, ruby gems and java JRE
+# ------------------------------------------------------------------------------------------------------
+#
+# monthly mail by cron job
+# /usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions" -S from="pkgs <cron.monthly>" root
 
 h1() {
         local MAXWIDTH="$(( 26 - 2 ))"
