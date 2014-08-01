@@ -73,7 +73,7 @@ uname --all
 h1 "apt"
 v; apt-get --version | head -n 1
 aptitude update --quiet=2 || echo "apt update failure"
-aptitude --disable-columns -F%p search ?upgradable || echo "apt package listing error"
+aptitude --disable-columns --display-format "%p" search ?upgradable || echo "apt package listing error"
 
 h1 "python"
 v; python --version 2>&1

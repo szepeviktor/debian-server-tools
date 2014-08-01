@@ -40,6 +40,7 @@ do_install() {
     done
 }
 
+#########################################################
 
 [ "$(id --user)" = 0 ] || die 1 "only root is allowed to install"
 
