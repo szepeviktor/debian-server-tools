@@ -1,0 +1,3 @@
+/var/www/site1/nginx.conf IN_MODIFY,IN_NO_LOOP /usr/local/sbin/nginx-reload.sh
+/var/www/site2/nginx.conf IN_MODIFY,IN_NO_LOOP /usr/local/sbin/nginx-reload.sh
+/var/www/site3/nginx.conf IN_MODIFY,IN_NO_LOOP /usr/local/sbin/nginx-reload.sh
