@@ -50,7 +50,7 @@ do_install() {
     for TOOL in $@; do
         TARGET="${LOCATION}/$(basename "$TOOL")"
         if [ -f "$TARGET" ]; then
-            echo "replacing $(get_version "$TARGET") with $(get_version "$TOOL")"
+            echo -n "replacing $(get_version "$TARGET") with $(get_version "$TOOL") "
         fi
 
         cp -v "$TOOL" "$TARGET" || die 10 "copy failure (${TOOL})"
