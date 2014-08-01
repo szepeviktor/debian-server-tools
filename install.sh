@@ -49,6 +49,11 @@ do_install() {
 
     for TOOL in $@; do
         TARGET="${LOCATION}/$(basename "$TOOL")"
+        if ! diff "$TOOL" "$TARGET" &> /dev/null; then
+            echo "${TOOL}: already up-to-date"
+            continue
+        fi
+
         if [ -f "$TARGET" ]; then
             echo -n "replacing $(get_version "$TARGET") with $(get_version "$TOOL") "
         fi
