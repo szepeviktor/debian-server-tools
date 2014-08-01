@@ -74,7 +74,8 @@ h1 "python"
 v; python --version 2>&1
 pip-review 2>&1 || echo "python package list error"
 
-h1 "PHP extensions: pear + pecl"
+# pear + pecl
+h1 "PHP extensions"
 v; pear version | head -n 1
 pear update-channels > /dev/null && pear list-upgrades || echo "pear update failure"
 
