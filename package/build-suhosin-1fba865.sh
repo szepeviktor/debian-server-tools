@@ -29,7 +29,7 @@ SUHO="stefanesser-suhosin-1fba865"
 PHPVER="$(php -r 'echo substr(PHP_VERSION,0,3);')"
 [ "$PHPVER" = 5.4 ] || die 1 "only for PHP 5.4"
 
-apt-get -y install build-essential make php5-common php5-dev php5-cli || die 2 "cannot install requirements"
+apt-get -y install build-essential php5-common php5-dev php5-cli || die 2 "cannot install requirements"
 
 cd /usr/local/src || die 3 "no /usr/local/src"
 tar zxvf "./${SUHO}/${SUHO}.tar.gz" || die 4 "extract failure"
