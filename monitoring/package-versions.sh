@@ -1,8 +1,13 @@
 #!/bin/bash
-
-# Linux package versions and possible updates - apt, python, pear, pecl, node.js, ruby gems and java JRE
-# ------------------------------------------------------------------------------------------------------
 #
+# Linux package versions and possible updates - apt, python, pear, pecl, node.js, ruby gems and java JRE.
+#
+# VERSION       :0.3
+# DATE          :2014-08-01
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+
 # monthly mail by cron job
 # /usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions and updates" -S from="pkgs <cron.monthly>" root
 
