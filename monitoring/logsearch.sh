@@ -2,7 +2,7 @@
 #
 # Smart search in Apache logs.
 #
-# VERSION       :0.2
+# VERSION       :0.3
 # DATE          :2014-08-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -51,7 +51,8 @@ Searches all Apache logs and displays selected log fields.
   -m                pipe through \`most\`
   -q                pipe through \`uniq -c\`
   -s                pipe through \`sort -n\`
-  -p                replace dots with \\.
+  -t                pipe through sort by IP
+  -p                replace IP dots with \\.
   -o                parse previous logs (log.1)
   -e                parse error logs
   -h                display this help
@@ -89,7 +90,7 @@ add_pipe() {
 
 ##########################################################
 
-while getopts ":lwdirunfmqspoeh" opt; do
+while getopts ":lwdirunfmqstpoeh" opt; do
     case $opt in
         l) # log PATH
             add_field "\1\/\2"
@@ -123,6 +124,9 @@ while getopts ":lwdirunfmqspoeh" opt; do
             ;;
         s)
             add_pipe "sort -n"
+            ;;
+        t)
+            add_pipe "sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n"
             ;;
         p)
             IP_DOTS="1"
