@@ -26,7 +26,7 @@ get_version() {
     local VER="$(grep -m1 "^# VERSION\s*:" "$FILE" | cut -d":" -f2-)"
 
     if [ -z "$VER" ]; then
-        VAR="(unknown)"
+        VER="(unknown)"
     fi
     echo "$VER"
 }
