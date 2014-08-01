@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------------------------------
 #
 # monthly mail by cron job
-# /usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions" -S from="pkgs <cron.monthly>" root
+# /usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions and updates" -S from="pkgs <cron.monthly>" root
 
 h1() {
         local MAXWIDTH="$(( 26 - 2 ))"
