@@ -1,5 +1,34 @@
 #!/bin/bash
 
+# fill the disk with random data
+# usage: filld <dir> <4K-blocks>
+filld() {
+    local FILLDIR="$1"
+    local MAXSIZE="$2"
+    local DIR="$FILLDIR"
+    local -i SIZE="0"
+
+    mkdir -p "$FILLDIR" &> /dev/null
+
+    while [ "$SIZE" -lt "$MAXSIZE" ]; do
+        # dir
+        if [ $((RANDOM % 100)) == 0 ]; then
+            DIR="$(mktemp -d "${FILLDIR}/XXXXXXXX")"
+        fi
+
+        # file
+        FILE="$(mktemp "${DIR}/XXXXXXXX")"
+        BLOCK4K=$((RANDOM % 64))
+        [ -f "$FILE" ] || exit 1
+        dd if=/dev/urandom of="$FILE" bs=4k count="$BLOCK4K" 2> /dev/null
+
+        SIZE+="$BLOCK4K"
+    done
+}
+
+# 1 million 4K blocks = 4 GB
+#filld /filldir 1048576
+
 # we need a compiler
 which gcc &> /dev/null || exit 1
 
@@ -43,35 +72,4 @@ echo ------------------------------------
 
 echo;echo "CACHED benchmark"
 hdparm -T "$DEVICE"
-
-exit
-# fill the disk with random data
-#!/bin/bash
-
-filld() {
-    local FILLDIR="$1"
-    local MAXSIZE="$2"
-    local DIR="$FILLDIR"
-    local -i SIZE="0"
-
-    mkdir -p "$FILLDIR" &> /dev/null
-
-    while [ "$SIZE" -lt "$MAXSIZE" ]; do
-        # dir
-        if [ $((RANDOM % 100)) == 0 ]; then
-            DIR="$(mktemp -d "${FILLDIR}/XXXXXXXX")"
-        fi
-
-        # file
-        FILE="$(mktemp "${DIR}/XXXXXXXX")"
-        BLOCK4K=$((RANDOM % 64))
-        [ -f "$FILE" ] || exit 1
-        dd if=/dev/urandom of="$FILE" bs=4k count="$BLOCK4K" 2> /dev/null
-
-        SIZE+="$BLOCK4K"
-    done
-}
-
-# 1 million 4K blocks = 4 GB
-filld /filld 1000000
 
