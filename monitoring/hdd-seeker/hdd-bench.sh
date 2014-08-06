@@ -64,7 +64,11 @@ echo;echo "DIRECT benchmark"
 echo ------------------------------------
 
 # hdparm
-which hdparm &> /dev/null || exit 0
+if ! which hdparm &> /dev/null; then
+    echo "to install hdparm on a Debian based system issue:"
+    echo "apt-get install hdparm"
+    exit
+fi
 
 echo;echo "BUFFERED benchmark"
 hdparm -t "$DEVICE"
