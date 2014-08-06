@@ -1,0 +1,42 @@
+#!/bin/bash
+
+## Generate a list of IPs in a country
+##
+## uses: wget, unzip, range2cidr.awk
+
+OUT="GeoIPhuWhois.txt"
+OUT2="ip.ludost.txt"
+
+
+######### Maxmind ###############
+
+if ! [ -f GeoIPCountryWhois.csv ]; then
+    wget -q http://geolite.maxmind.com/download/geoip/database/GeoIPCountryCSV.zip
+    unzip GeoIPCountryCSV.zip > /dev/null
+fi
+
+echo '<Files wp-login.php>
+# GeoLite data created by MaxMind
+# http://dev.maxmind.com/geoip/legacy/geolite/
+  order deny,allow
+  deny from all' > "$OUT"
+
+grep ',"HU",' GeoIPCountryWhois.csv \
+    | cut -d"," -f1,2 | sed 's|^"\(.*\)","\(.*\)"$|\1 \2|' \
+    | while read range; do
+        range2cidr.awk $range | while read r2; do
+            echo "  Allow from $r2" >> "$OUT"
+        done
+     done
+
+######### ludost ###############
+
+echo '<Files wp-login.php>' > "$OUT2"
+
+wget -qO - --post-data="country=1&country_list=hu&format_template=apache-allow&format_name=&format_target=&format_default=" \
+    https://ip.ludost.net/cgi/process >> "$OUT2"
+
+########## both ############
+
+echo '</Files>' | tee -a "$OUT2" >> "$OUT"
+
