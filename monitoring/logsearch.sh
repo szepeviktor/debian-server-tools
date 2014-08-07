@@ -165,17 +165,23 @@ SEARCH="$*"
 # error       [Sun Jul 13 12:00:51 2014] [error] [client 192.99.200.213] File does not exist: /home/user/public_html
 
 if [ -z "$ERRORLOG" ]; then
+    # process access logs
     grep "${SEARCH}" ${LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
         | eval "${PIPE}"
-else
-    # precess error logs
-    #             log path:1,2          date:4                        IP:3               message:5
-    # 1 -> 1,  2 -> 2,  4 -> 3,  3 -> 4,  5 -> 5
-    FIELDS="${FIELDS//\3/\X}"
-    FIELDS="${FIELDS//\4/\3}"
-    FIELDS="${FIELDS//\X/\4}"
 
+else
+    # process error logs
+
+    # remove: 6,7,8, 4 -> 3, 3 -> 4
+    FIELDS="${FIELDS//\\6/}"
+    FIELDS="${FIELDS//\\7/}"
+    FIELDS="${FIELDS//\\8/}"
+    FIELDS="${FIELDS//\\3/\X}"
+    FIELDS="${FIELDS//\\4/\3}"
+    FIELDS="${FIELDS//\\X/\4}"
+
+    #             log path:1,2          date:4                        IP:3               message:5
     grep "${SEARCH}" ${ERROR_LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\(\[.*\]\) \[error\] \[client \([0-9a-f:\.]*\)\] \(.*\)$/'"$FIELDS"'/' \
         | eval "${PIPE}"
