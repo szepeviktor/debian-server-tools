@@ -41,6 +41,8 @@ gcc -pthread -o seekmark seekmark-0.9.1.c
 DEVICE="/dev/sda"
 # XEN
 [ -b "$DEVICE" ] || DEVICE="/dev/xvda"
+# KVM
+[ -b "$DEVICE" ] || DEVICE="/dev/vda"
 # first block device
 if ! [ -b "$DEVICE" ]; then
     DEVICE="/dev/$(tail -n +3 /proc/partitions 2>/dev/null | head -n 1 | tr ' ' $'\n' | tail -n 1)"
