@@ -90,7 +90,7 @@ DoInstall() {
 }
 
 #####################################################
-# Process all files in a directory recursively
+# Process all files in a directory NOT recursively
 # Arguments:
 #   DIR
 #   OWNER
@@ -103,7 +103,7 @@ DoDir() {
     local FILE
     local LOCATION
 
-    find "$DIR" -type f \
+    find "$DIR" -maxdepth 1 -type f \
         | while read FILE; do
             LOCATION="$(GetLocation "$FILE")"
 
@@ -135,7 +135,9 @@ DoDir ./backup root:staff 755
 DoDir ./monitoring root:staff 755
 DoDir ./package root:staff 755
 DoDir ./webserver root:staff 755
+DoDir ./webserver/nginx-incron root:staff 755
 
 # special cases
-#DoInstall /usr/local/sbin root:root 755 monitoring/package-versions.sh
+DoInstall /root/hdd-bench root:root 700 monitoring/hdd-seeker/hdd-bench.sh
+DoInstall /root/hdd-bench root:root 644 monitoring/hdd-seeker/seeker_baryluk.c monitoring/hdd-seeker/seekmark-0.9.1.c
 
