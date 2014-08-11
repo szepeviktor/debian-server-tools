@@ -8,7 +8,8 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# UPSTREAM      :https://github.com/phpmyadmin/phpmyadmin
+# LOCATION      :/usr/local/bin/phpmyadmin-get.sh
+# SOURCE        :https://github.com/phpmyadmin/phpmyadmin
 
 
 TAGSAPI="https://api.github.com/repos/phpmyadmin/phpmyadmin/tags"

@@ -1,4 +1,15 @@
 #!/bin/bash
+#
+# Measure disk access time
+#
+# VERSION       :0.2
+# DATE          :2014-08-01
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/root/hdd-bench/hdd-bench.sh
+# DEPENDS       :apt-get install build-essential
 
 # fill the disk with random data
 # usage: filld <dir> <4K-blocks>

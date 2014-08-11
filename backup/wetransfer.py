@@ -1,8 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+# Measures HTTP response time and show it on stderr
+# Use -S option to show HTTP response on stdout
+#
+# VERSION       :1.0
+# DATE          :2014-08-01
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LOCATION      :/usr/local/bin/wetransfer.py
+# DEPENDS       :pip install requests
+# SOURCE        :https://github.com/superalex/py-wetransfer
+
 
 from urlparse import urlparse, parse_qs
 import requests, sys, json, re, getopt, sys
+
+__version__ = '1.0'
 
 DOWNLOAD_URL_PARAMS_PREFIX = 'downloads/'
 CHUNK_SIZE = 1024

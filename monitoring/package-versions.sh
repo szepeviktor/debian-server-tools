@@ -8,9 +8,10 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/package-versions.sh
+# DEPENDS       :https://github.com/farukuzun/pip-tools/commit/fde178cb6c80217f49e3fb178d21b05611076a1f
+# CRON-MONTHLY  :/usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions and updates" -S from="pkgs <cron.monthly>" root
 
-# monthly mail by cron job
-# /usr/local/sbin/package-versions.sh | mailx -s "[admin] package versions and updates" -S from="pkgs <cron.monthly>" root
 
 h1() {
         local MAXWIDTH="$(( 26 - 2 ))"

@@ -3,6 +3,7 @@
 /*
  *  Tripwire
  *  Luke Stevenson <www.lucanos.com>
+ *  https://github.com/lucanos/Tripwire
  *
  *  This is a PHP script which will scan files within a directory (including
  *    sub-directories), calculate their MD5 Hashes and then compare them against
@@ -18,9 +19,10 @@
  *
  */
 
-//FIXME gihub link, set tz, clean up code
+//FIXME clean up code, create PR
 
 set_time_limit( 0 );
+date_default_timezone_set( 'Europe/Budapest' );
 
 if( file_exists( 'tripwire_config.php' ) ){
 
@@ -315,7 +317,7 @@ if( count( $last )
   // Send Email Flag
   $sendEmail = false;
 
-}else{
+} else {
  # First Run
 
   // Prepare the placeholder details
@@ -328,10 +330,10 @@ if( count( $last )
     '[DF]' => 'No Files' ,
   );
   $title = str_replace( '[X]' , count( $new ) , $config['email']['title'] );
-  
+
   // Adjust the Template
   $config['email']['body'] = "Tripwire has made it's first pass of your files.\n\n".$config['email']['body'];
-  
+
   // Send Email Flag
   $sendEmail = true;
 
@@ -345,27 +347,30 @@ $body = str_replace(
           $config['email']['body']
         );
 
+if ( count( $config['email']['to'] ) ) {
 
-if( count( $config['email']['to'] ) ){
-
-  if( $sendEmail ){
+  if ( $sendEmail ) {
 
     // Prepare the recipients
     $to = implode( ', ' , $config['email']['to'] );
+
     // Send it
-    if( mail( $to , $title , $body ) ){
+    if ( mail( $to , $title , $body ) ) {
       echo "Email Sent Successfully\n";
-    }else{
+    } else {
       echo "Email Failed\n";
     }
-    
-  }else{
-  
+
+  } else {
+
     // No Email Needed
-  
+
   }
-  
-}else{
+
+} else {
+
   // Just echo the result
-  echo '<pre>'.$body.'</pre>';
+  echo '<pre>' . $body . '</pre>';
+
 }
+

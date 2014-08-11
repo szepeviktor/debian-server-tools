@@ -1,11 +1,20 @@
 #!/bin/bash
+#
+# Generate an Apache config file to allow access only from Hungary
+#
+# VERSION       :0.2
+# DATE          :2014-08-01
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/GeoIP-whois-hu.sh
+# DEPENDS       :apt-get install wget unzip
+# DEPENDS       :/usr/local/bin/range2cidr.awk
 
-## Generate a list of IPs in a country
-##
-## uses: wget, unzip, range2cidr.awk
 
-OUT="GeoIPhuWhois.txt"
-OUT2="ip.ludost.txt"
+OUT="./GeoIPhuWhois.txt"
+OUT2="./ip.ludost.txt"
 
 
 ######### Maxmind ###############

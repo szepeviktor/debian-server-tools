@@ -8,7 +8,8 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# UPSTREAM      :https://sourceforge.net/projects/phpmyadmin/files/latest/download
+# LOCATION      :/usr/local/bin/phpmyadmin-get-sf.sh
+# SOURCE        :https://sourceforge.net/projects/phpmyadmin/files/latest/download
 
 
 FILERELEASES="https://sourceforge.net/api/file/index/project-id/23067/mtime/desc/limit/20/rss"

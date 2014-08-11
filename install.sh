@@ -2,7 +2,7 @@
 #
 # Install all tools from debian-server-tools.
 #
-# VERSION       :0.1
+# VERSION       :0.3
 # DATE          :2014-08-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -24,12 +24,23 @@ die() {
 #####################################################
 get_version() {
     local FILE="$1"
-    local VER="$(grep -m1 "^# VERSION\s*:" "$FILE" | cut -d":" -f2-)"
+    local VER="$(head -n30 "$FILE" | grep -m1 "^# VERSION\s*:" | cut -d":" -f2-)"
 
     if [ -z "$VER" ]; then
         VER="(unknown)"
     fi
     echo "$VER"
+}
+
+#####################################################
+# Parses out LOCATION from a script
+# Arguments:
+#   FILE
+#####################################################
+get_location() {
+    local FILE="$1"
+
+    head -n30 "$FILE" | grep -m1 "^# LOCATION\s*:" | cut -d":" -f2
 }
 
 #####################################################
@@ -46,24 +57,67 @@ do_install() {
     local PERMS="$3"
     local TARGET
 
+    # "go to" files
     shift 3
 
-    for TOOL in $@; do
+    # check location
+    if ! [ -d "$LOCATION" ]; then
+        # default owner (possibly root:root) and default permissions (755)
+        echo "create directory: ${LOCATION}"
+        mkdir -p "$LOCATION" || die 10 "cannot create dir (${LOCATION})"
+    fi
+
+    for TOOL in "$@"; do
         TARGET="${LOCATION}/$(basename "$TOOL")"
+        echo "install: ${TARGET}"
+
+        # check the file in place
         if ! diff "$TOOL" "$TARGET" &> /dev/null; then
             echo "${TOOL}: already up-to-date"
             continue
         fi
 
+        # check for existence
         if [ -f "$TARGET" ]; then
             echo -n "replacing $(get_version "$TARGET") with $(get_version "$TOOL") "
         fi
 
-        cp -v "$TOOL" "$TARGET" || die 10 "copy failure (${TOOL})"
-        chown ${OWNER} "$TARGET" || die 11 "cannot set owner (${TOOL})"
-        chmod ${PERMS} "$TARGET" || die 12 "cannot set permissions (${TOOL})"
+        # copy and set owner and permissions
+        cp -v "$TOOL" "$TARGET" || die 11 "copy failure (${TOOL})"
+        chown --changes ${OWNER} "$TARGET" || die 12 "cannot set owner (${TOOL})"
+        chmod --changes ${PERMS} "$TARGET" || die 13 "cannot set permissions (${TOOL})"
     done
 }
+
+#####################################################
+# Process all files in a directory recursively
+# Arguments:
+#   DIR
+#   OWNER
+#   PERMS
+#####################################################
+do_dir() {
+    local DIR="$1"
+    local OWNER="$2"
+    local PERMS="$3"
+    local FILE
+    local LOCATION
+
+    find "$DIR" -type f \
+        | while read FILE; do
+            LOCATION="$(get_location "$FILE")"
+
+            if ! [ -z "$LOCATION" ]; then
+                # warn on different actual file name and file name in LOCATION
+                if ! [ "$(basename "$FILE")" = "$(basename "$LOCATION")" ]; then
+                    echo "[WARNING] different file name in LOCATION comment ("$(basename "$FILE")" != "$(basename "$LOCATION")")"
+                fi
+
+                do_install "$(dirname "$LOCATION")" "$OWNER" "$PERMS" "$FILE"
+            fi
+        done
+}
+
 
 #########################################################
 
@@ -77,8 +131,11 @@ fi
 
 echo "debian-server-tools installer"
 
-# system binaries
-do_install /usr/local/sbin root:root 755 \
-    monitoring/package-versions.sh
+do_dir ./backup root:root 755
+do_dir ./monitoring root:root 755
+do_dir ./package root:root 755
+do_dir ./webserver root:root 755
 
+# special cases
+#do_install /usr/local/sbin root:root 755 monitoring/package-versions.sh
 

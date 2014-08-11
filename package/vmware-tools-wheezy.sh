@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Install VMware tools Tools for virtual machines hosted on VMware (CLI)
-# This is NOT a shell script but you can figure out what to do.
+# This is NOT A SHELL SCRIPT but you can figure out what to do.
 #
 # VERSION       :0.2
 # DATE          :2014-08-01
@@ -9,14 +9,17 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/vmware-tools-wheezy.sh
+
 
 exit 0
 
-# Debian has a package
+# Debian has a package called open-vm-tools
 # https://packages.debian.org/wheezy-backports/open-vm-tools
-# from upstream http://sourceforge.net/projects/open-vm-tools/files/open-vm-tools/
+# upstream: http://sourceforge.net/projects/open-vm-tools/files/open-vm-tools/
 
-# Add VMware tools Debian repository - http://packages.vmware.com/tools/versions
+# Add VMware tools Debian repository
+# info: http://packages.vmware.com/tools/versions
 echo "deb http://packages.vmware.com/tools/esx/latest/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
 
 # fake upstart
@@ -28,7 +31,8 @@ apt-get install vmware-tools-services vmware-tools-user
 # start on boot
 ln -sv /etc/vmware-tools/init/vmware-tools-services /etc/init.d/vmware-tools-services
 
-# prepend this to /etc/vmware-tools/init/vmware-tools-services
+# prepend this to
+# /etc/vmware-tools/init/vmware-tools-services
 # and on every update
 
 
@@ -44,7 +48,10 @@ ln -sv /etc/vmware-tools/init/vmware-tools-services /etc/init.d/vmware-tools-ser
 # Short-Description: Enables VMware host/guest functionality.
 ### END INIT INFO
 
+
+# enable init script
 insserv -vf vmware-tools-services
 
-# on update
-# update-rc.d vmware-tools-services start 20 2 3 4 5 . stop 20 0 1 6 .
+# update
+update-rc.d vmware-tools-services start 20 2 3 4 5 . stop 20 0 1 6 .
+

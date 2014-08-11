@@ -8,7 +8,8 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# UPSTREAM      :https://wiki.debian.org/SimpleBackportCreation
+# LOCATION      :/usr/local/bin/debackport.sh
+# DOC           :https://wiki.debian.org/SimpleBackportCreation
 
 
 PKG="$1"

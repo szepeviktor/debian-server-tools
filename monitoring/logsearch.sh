@@ -8,6 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/logsearch.sh
 # STYLE         :https://google-styleguide.googlecode.com/svn/trunk/shell.xml
 
 

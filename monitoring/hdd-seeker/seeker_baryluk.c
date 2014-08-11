@@ -1,3 +1,12 @@
+/*
+# Seeker with threads
+#
+# VERSION       :3.0
+# DATE          :2009-06-17
+# AUTHOR        :https://github.com/baryluk
+# LOCATION      :/root/hdd-bench/seeker_baryluk.c
+*/
+
 #define _LARGEFILE64_SOURCE
 
 #ifndef _REENTRANT

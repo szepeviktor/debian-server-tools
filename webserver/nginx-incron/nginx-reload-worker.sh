@@ -1,6 +1,9 @@
 #!/bin/sh
+#
+# VERSION       :0.1
+# LOCATION      :/usr/local/sbin/nginx-reload-worker.sh
 
-error() {
+die() {
     local RET=$1
     shift
     echo -e "$@" >&2
@@ -8,4 +11,5 @@ error() {
 }
 
 sleep 5
-service nginx reload || error 2 "nginx reload error"
+service nginx reload || die 1 "nginx reload error"
+

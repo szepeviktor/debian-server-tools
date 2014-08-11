@@ -1,4 +1,9 @@
 /*
+# VERSION       :0.9.1
+# SOURCE        :https://github.com/mlsorensen/seekmark
+# LOCATION      :/root/hdd-bench/seekmark-0.9.1.c
+# COMPILE       :gcc -o seekmark -lpthread -O3 seekmark-*.c
+
 Written by Marcus Sorensen
 Copyright (C) 2010-2011
 learnitwithme.com

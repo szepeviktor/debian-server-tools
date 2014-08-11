@@ -9,6 +9,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/deb-pack.sh
 # DEPENDS:      :apt-get install binutils xz-utils gzip file
 
 
