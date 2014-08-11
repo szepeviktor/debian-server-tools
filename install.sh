@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 
 
-die() {
+Die() {
     local RET="$1"
     shift
     echo -e $@ >&2
@@ -22,7 +22,7 @@ die() {
 # Arguments:
 #   FILE
 #####################################################
-get_version() {
+GetVersion() {
     local FILE="$1"
     local VER="$(head -n30 "$FILE" | grep -m1 "^# VERSION\s*:" | cut -d":" -f2-)"
 
@@ -37,7 +37,7 @@ get_version() {
 # Arguments:
 #   FILE
 #####################################################
-get_location() {
+GetLocation() {
     local FILE="$1"
 
     head -n30 "$FILE" | grep -m1 "^# LOCATION\s*:" | cut -d":" -f2
@@ -51,7 +51,7 @@ get_location() {
 #   PERMS
 #   <file> <file> ...
 #####################################################
-do_install() {
+DoInstall() {
     local LOCATION="$1"
     local OWNER="$2"
     local PERMS="$3"
@@ -64,7 +64,7 @@ do_install() {
     if ! [ -d "$LOCATION" ]; then
         # default owner (possibly root:root) and default permissions (755)
         echo "create directory: ${LOCATION}"
-        mkdir -p "$LOCATION" || die 10 "cannot create dir (${LOCATION})"
+        mkdir -p "$LOCATION" || Die 10 "cannot create dir (${LOCATION})"
     fi
 
     for TOOL in "$@"; do
@@ -72,20 +72,20 @@ do_install() {
         echo "install: ${TARGET}"
 
         # check the file in place
-        if ! diff "$TOOL" "$TARGET" &> /dev/null; then
+        if diff -q "$TOOL" "$TARGET" &> /dev/null; then
             echo "${TOOL}: already up-to-date"
             continue
         fi
 
         # check for existence
         if [ -f "$TARGET" ]; then
-            echo -n "replacing $(get_version "$TARGET") with $(get_version "$TOOL") "
+            echo -n "replacing $(GetVersion "$TARGET") with $(GetVersion "$TOOL") "
         fi
 
         # copy and set owner and permissions
-        cp -v "$TOOL" "$TARGET" || die 11 "copy failure (${TOOL})"
-        chown --changes ${OWNER} "$TARGET" || die 12 "cannot set owner (${TOOL})"
-        chmod --changes ${PERMS} "$TARGET" || die 13 "cannot set permissions (${TOOL})"
+        cp -v "$TOOL" "$TARGET" || Die 11 "copy failure (${TOOL})"
+        chown --changes ${OWNER} "$TARGET" || Die 12 "cannot set owner (${TOOL})"
+        chmod --changes ${PERMS} "$TARGET" || Die 13 "cannot set permissions (${TOOL})"
     done
 }
 
@@ -96,7 +96,7 @@ do_install() {
 #   OWNER
 #   PERMS
 #####################################################
-do_dir() {
+DoDir() {
     local DIR="$1"
     local OWNER="$2"
     local PERMS="$3"
@@ -105,7 +105,7 @@ do_dir() {
 
     find "$DIR" -type f \
         | while read FILE; do
-            LOCATION="$(get_location "$FILE")"
+            LOCATION="$(GetLocation "$FILE")"
 
             if ! [ -z "$LOCATION" ]; then
                 # warn on different actual file name and file name in LOCATION
@@ -113,7 +113,7 @@ do_dir() {
                     echo "[WARNING] different file name in LOCATION comment ("$(basename "$FILE")" != "$(basename "$LOCATION")")"
                 fi
 
-                do_install "$(dirname "$LOCATION")" "$OWNER" "$PERMS" "$FILE"
+                DoInstall "$(dirname "$LOCATION")" "$OWNER" "$PERMS" "$FILE"
             fi
         done
 }
@@ -121,21 +121,21 @@ do_dir() {
 
 #########################################################
 
-[ "$(id --user)" = 0 ] || die 1 "only root is allowed to install"
+[ "$(id --user)" = 0 ] || Die 1 "only root is allowed to install"
 
 # version
 if [ "$1" = "--version" ]; then
-    get_version "$0"
+    GetVersion "$0"
     exit 0
 fi
 
 echo "debian-server-tools installer"
 
-do_dir ./backup root:root 755
-do_dir ./monitoring root:root 755
-do_dir ./package root:root 755
-do_dir ./webserver root:root 755
+DoDir ./backup root:staff 755
+DoDir ./monitoring root:staff 755
+DoDir ./package root:staff 755
+DoDir ./webserver root:staff 755
 
 # special cases
-#do_install /usr/local/sbin root:root 755 monitoring/package-versions.sh
+#DoInstall /usr/local/sbin root:root 755 monitoring/package-versions.sh
 
