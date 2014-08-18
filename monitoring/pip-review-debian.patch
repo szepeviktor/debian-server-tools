@@ -1,0 +1,27 @@
+--- /usr/local/bin/pip-review-debian	2014-08-18 14:05:35.000000000 +0200
++++ /usr/local/bin/pip-review-new	2014-08-18 14:15:49.720735513 +0200
+@@ -7,6 +7,7 @@
+ import logging
+ import sys
+ import json
++import pkgutil
+ try:
+     import urllib2 as urllib_request  # Python2
+ except ImportError:
+@@ -148,10 +149,14 @@
+             name = line.split('#egg=', 1)[1]
+             if name.endswith('-dev'):
+                 name = name[:-4]
+-            yield name, 'dev', 'dev', True
++            pkg_dir = pkgutil.get_loader(name)
++            if pkg_dir is not None and pkg_dir.filename.startswith('/usr/local/lib/python'):
++                yield name, 'dev', 'dev', True
+         else:
+             name, version = line.split('==')
+-            yield name, parse_version(version), version, False
++            pkg_dir = pkgutil.get_loader(name)
++            if pkg_dir is not None and pkg_dir.filename.startswith('/usr/local/lib/python'):
++                yield name, parse_version(version), version, False
+ 
+ 
+ class StdOutFilter(logging.Filter):

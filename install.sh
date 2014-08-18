@@ -138,6 +138,7 @@ DoDir ./webserver root:staff 755
 DoDir ./webserver/nginx-incron root:staff 755
 
 # special cases
-DoInstall /root/hdd-bench root:root 700 monitoring/hdd-seeker/hdd-bench.sh
-DoInstall /root/hdd-bench root:root 644 monitoring/hdd-seeker/seeker_baryluk.c monitoring/hdd-seeker/seekmark-0.9.1.c
+DoInstall /root/hdd-bench root:root 700 ./monitoring/hdd-seeker/hdd-bench.sh
+DoInstall /root/hdd-bench root:root 644 ./monitoring/hdd-seeker/seeker_baryluk.c \
+    ./monitoring/hdd-seeker/seekmark-0.9.1.c
 
