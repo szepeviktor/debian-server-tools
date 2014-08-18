@@ -79,7 +79,7 @@ aptitude --disable-columns --display-format "%p" search ?upgradable || echo "apt
 
 h1 "python"
 v; python --version 2>&1
-pip-review 2>&1 || echo "python package list error"
+pip-review-debian 2>&1 || echo "python package list error"
 
 # pear + pecl
 h1 "PHP extensions"
