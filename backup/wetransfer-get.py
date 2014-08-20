@@ -9,7 +9,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # DEPENDS       :pip install requests
 # UPSTREAM      :https://github.com/superalex/py-wetransfer
-# LOCATION      :/usr/local/bin/wetransfer.py
+# LOCATION      :/usr/local/bin/wetransfer-get.py
 
 
 from urlparse import urlparse, parse_qs
