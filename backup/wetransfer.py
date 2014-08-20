@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Measures HTTP response time and show it on stderr
-# Use -S option to show HTTP response on stdout
+# Download WeTransfer files
 #
 # VERSION       :1.0
 # DATE          :2014-08-01
+# AUTHOR        :Alejandro <https://github.com/superalex>
 # URL           :https://github.com/szepeviktor/debian-server-tools
-# LOCATION      :/usr/local/bin/wetransfer.py
 # DEPENDS       :pip install requests
-# SOURCE        :https://github.com/superalex/py-wetransfer
+# UPSTREAM      :https://github.com/superalex/py-wetransfer
+# LOCATION      :/usr/local/bin/wetransfer.py
 
 
 from urlparse import urlparse, parse_qs

@@ -1,0 +1,6 @@
+[submodule "backup/hubic"]
+	path = backup/hubic
+	url = https://github.com/puzzle1536/hubic-wrapper-to-swift.git
+[submodule "backup/wetransfer"]
+	path = backup/wetransfer
+	url = https://github.com/superalex/py-wetransfer
