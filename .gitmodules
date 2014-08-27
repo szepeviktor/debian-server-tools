@@ -7,3 +7,6 @@
 [submodule "mysql/mysqltuner"]
 	path = mysql/mysqltuner
 	url = https://github.com/major/MySQLTuner-perl.git
+[submodule "monitoring/speedtest-cli"]
+	path = monitoring/speedtest-cli
+	url = https://github.com/sivel/speedtest-cli
