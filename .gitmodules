@@ -4,3 +4,6 @@
 [submodule "backup/wetransfer"]
 	path = backup/wetransfer
 	url = https://github.com/superalex/py-wetransfer
+[submodule "mysql/mysqltuner"]
+	path = mysql/mysqltuner
+	url = https://github.com/major/MySQLTuner-perl.git
