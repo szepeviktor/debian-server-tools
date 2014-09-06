@@ -26,7 +26,7 @@ capitalize() {
     local LOWERCASE="$1"
 
     echo -n "${LOWERCASE:0:1}" | tr '[:lower:]' '[:upper:]'
-    echo -n "${LOWERCASE#?}"
+    echo -n "${LOWERCASE:1}"
 }
 
 [ -z "$ACROSTIC" ] || echo "a.c.r.o.s.t.i.c.: '${ACROSTIC}'"
