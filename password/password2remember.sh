@@ -5,7 +5,7 @@
 # Set P2R_LANG to any language name after you added the corresponding wordlist file.
 # The fixed delimiter is period (the `-d` option of xkcdpass)
 #
-# VERSION       :0.1
+# VERSION       :0.2
 # DATE          :2014-08-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -21,30 +21,21 @@ P2R_LANG="hu"
 ACROSTIC="$1"
 NUMBER="$2"
 
+# capitalize the first letter
 capitalize() {
-    local RATIO="$1"
-    # bash RANDOM is in 0..32767
-    local CAP_LIMIT="$(( 32767 / RATIO ))"
+    local LOWERCASE="$1"
 
-    while read -n 1 LETTER; do
-        echo -n "$LETTER" \
-            | if [ "$RANDOM" -lt "$CAP_LIMIT" ]; then
-                tr '[:lower:]' '[:upper:]'
-            else
-                cat
-            fi
-    done
+    echo -n "${LOWERCASE:0:1}" | tr '[:lower:]' '[:upper:]'
+    echo -n "${LOWERCASE#?}"
 }
 
-[ -z "$ACROSTIC" ] || echo "a.c.r.o.s.t.i.c.: ${ACROSTIC}"
-[ -z "$NUMBER" ] || echo "number: ${NUMBER}"
+[ -z "$ACROSTIC" ] || echo "a.c.r.o.s.t.i.c.: '${ACROSTIC}'"
+[ -z "$NUMBER" ] || echo "number: '${NUMBER}'"
 
-# 8 password offers
-for I in $(seq 1 8); do
-    XKCDPASS=$(xkcdpass -d . -w "password2remember_${P2R_LANG}.txt" -n 4 --max=7 -a "$ACROSTIC")
+# generate 8 passwords
+for N in $(seq 1 8); do
+    XKCDPASS="$(xkcdpass -d . -w "password2remember_${P2R_LANG}.txt" -n 4 --max=7 -a "$ACROSTIC")"
 
-    # capitalize in 1/6 ratio
-    echo "$XKCDPASS" | capitalize 6
-
+    capitalize "$XKCDPASS"
     echo "$NUMBER"
 done
