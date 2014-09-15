@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Smart search in Apache logs.
+# Smart search Apache logs.
 #
-# VERSION       :0.3
-# DATE          :2014-08-01
+# VERSION       :0.4
+# DATE          :2014-09-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -12,7 +12,7 @@
 # STYLE         :https://google-styleguide.googlecode.com/svn/trunk/shell.xml
 
 
-# put your log location here
+# put your log locations here
 LOGS="/var/log/apache2/access*.log /home/*/log/access*.log"
 LOGS_OLD="/var/log/apache2/access*.log.1 /home/*/log/access*.log.1"
 ERROR_LOGS="/var/log/apache2/error*.log /home/*/log/error*.log"
@@ -35,6 +35,9 @@ get_version() {
     echo "$VER"
 }
 
+##########################################################
+# Show help
+##########################################################
 usage() {
     cat << USAGE
 logsearch v$(get_version "$0")
@@ -49,10 +52,11 @@ Searches all Apache logs and displays selected log fields.
   -n                include status code
   -f                include referer
   -u                include user agent
-  -m                pipe through \`most\`
-  -q                pipe through \`uniq -c\`
-  -s                pipe through \`sort -n\`
-  -t                pipe through sort by IP
+  -q                show only unique lines
+  -s                numeric sort
+  -t                sort by IP
+  -c                show only line count
+  -m                display the output by \`most\`
   -p                replace IP dots with \\.
   -o                parse previous logs (log.1)
   -e                parse error logs
@@ -91,7 +95,7 @@ add_pipe() {
 
 ##########################################################
 
-while getopts ":lwdirunfmqstpoeh" opt; do
+while getopts ":lwdirunfqstcmpoeh" opt; do
     case $opt in
         l) # log PATH
             add_field "\1\/\2"
@@ -117,9 +121,6 @@ while getopts ":lwdirunfmqstpoeh" opt; do
         u) # UA
             add_field "\8"
             ;;
-        m)
-            add_pipe "most"
-            ;;
         q)
             add_pipe "uniq -c"
             ;;
@@ -128,6 +129,12 @@ while getopts ":lwdirunfmqstpoeh" opt; do
             ;;
         t)
             add_pipe "sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n"
+            ;;
+        c)
+            add_pipe "wc -l"
+            ;;
+        m)
+            add_pipe "most"
             ;;
         p)
             IP_DOTS="1"
