@@ -51,6 +51,13 @@ fi
 if ! [ -f "$CA" ] || ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
     Die 3 "Missing cert(s)."
 fi
+# check certs
+PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl md5)"
+PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl md5)"
+if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
+    Die 4 "Missmatching certs."
+fi
+
 # protect certs
 chown root:root "$CA" "$SUB" "$PRIV" "$PUB" || Die 10 "certs owner"
 chmod 600 "$CA" "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
@@ -58,7 +65,7 @@ chmod 600 "$CA" "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
 
 # courier
 
-# public + imtermediate + private
+# public + intermediate + private
 COURIER_SSL="/etc/courier/ssl-comb3.pem"
 cat "$PUB" "$SUB" "$PRIV" > "$COURIER_SSL" || Die 12 "courier cert creation"
 chown root:daemon "$COURIER_SSL" || Die 13 "courier owner"
@@ -67,6 +74,7 @@ chmod 640 "$COURIER_SSL" || Die 14 "courier perms"
 if grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd \
     && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd-ssl \
     && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/imapd-ssl; then
+    service courier-mta      restart
     service courier-mta-ssl restart
     service courier-imap restart
     service courier-imap-ssl restart
