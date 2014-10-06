@@ -55,7 +55,7 @@ fi
 PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl md5)"
 PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl md5)"
 if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
-    Die 4 "Missmatching certs."
+    Die 4 "Mismatching certs."
 fi
 
 # protect certs
