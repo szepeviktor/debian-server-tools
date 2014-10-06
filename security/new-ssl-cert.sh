@@ -74,7 +74,7 @@ chmod 640 "$COURIER_SSL" || Die 14 "courier perms"
 if grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd \
     && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd-ssl \
     && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/imapd-ssl; then
-    service courier-mta      restart
+    service courier-mta restart
     service courier-mta-ssl restart
     service courier-imap restart
     service courier-imap-ssl restart
@@ -90,11 +90,10 @@ if grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd \
     Readkey
     echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
     echo "IMAPS result=$?"
-    Readkey
 else
     echo "Add 'TLS_CERTFILE=${COURIER_SSL}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
-    Readkey
 fi
+Readkey
 
 
 # proftpd
@@ -115,11 +114,10 @@ if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
     # test
     echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:21 -starttls ftp
     echo "AUTH TLS result=$?"
-    Readkey
 else
     echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" >&2
-    Readkey
 fi
+Readkey
 
 
 # apache
@@ -146,6 +144,6 @@ if  grep -q "^\s*SSLCertificateFile\s*${APACHE_PUB}\$" /etc/apache2/sites-availa
 else
     echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificateFile and SSLCertificateChainFile" >&2
 fi
+# skip last Readkey
 
-# skip last Readkey-s
 echo "Done."

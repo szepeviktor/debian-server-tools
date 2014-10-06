@@ -31,6 +31,6 @@ find /etc -not -path "/etc/ssl/certs/*" \( -iname "*\.crt" -or -iname "*\.pem" \
         #echo -e "[DBG] file: ${PEM} / days: ${EXPIRY_DAYS}" >&2
 
         if [ "$EXPIRY_DAYS" -lt "$ALERT_DAYS" ]; then
-            echo "$(openssl x509 -issuer -noout -in "$PEM") (${PEM}) expires in ${EXPIRY_DAYS} day(s)."
+            echo "$(openssl x509 -subject -noout -in "$PEM" | cut -d '=' -f 2-) (${PEM}) expires in ${EXPIRY_DAYS} day(s)."
         fi
     done
