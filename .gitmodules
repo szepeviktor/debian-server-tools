@@ -10,3 +10,6 @@
 [submodule "monitoring/speedtest-cli"]
 	path = monitoring/speedtest-cli
 	url = https://github.com/sivel/speedtest-cli
+[submodule "mail/imapsync"]
+	path = mail/imapsync
+	url = https://github.com/imapsync/imapsync.git
