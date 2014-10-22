@@ -12,6 +12,9 @@
 # SOURCE        :https://github.com/phpmyadmin/phpmyadmin
 
 
+# Older version compatible with PHP 5.2 and MySQL 5
+#wget 'https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_0_10_4.tar.gz'
+
 TAGSAPI="https://api.github.com/repos/phpmyadmin/phpmyadmin/tags"
 
 # get Tags API JSON

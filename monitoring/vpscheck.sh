@@ -10,12 +10,12 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install iproute heirloom-mailx
-# LOCATION      :/usr/local/sbin/vpscheck
-# CRON-DAILY    :/usr/local/sbin/vpscheck
+# LOCATION      :/usr/local/sbin/vpscheck.sh
+# CRON-DAILY    :/usr/local/sbin/vpscheck.sh
 
 ###################
 
-# First generate your values:  vpscheck -gen
+# First generate your values:  vpscheck.sh -gen
 # E.g.
 
 PROC=1
