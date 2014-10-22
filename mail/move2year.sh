@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Move old messages to yearly folders
+# Move old messages to a yearly folder.
 #
 # VERSION       :0.1
 # DATE          :2014-10-18
@@ -11,6 +11,7 @@
 
 
 # Create maildir folder
+# maildirmake -f archive.inbox-2014 /var/mail/MAILDIR
 # maildirmake -f archive.sent-2014 /var/mail/MAILDIR
 
 YEAR="$1"

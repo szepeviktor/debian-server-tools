@@ -1,0 +1,14 @@
+## Debian repository infos
+
+-   a,archive,suite (eg, "stable")
+-   c,component     (eg, "main", "crontrib", "non-free")
+-   l,label         (eg, "Debian", "Debian-Security")
+-   o,origin        (eg, "Debian", "Unofficial Multimedia Packages")
+-   n,codename      (eg, "jessie", "jessie-updates")
+-     site          (eg, "http.debian.net")
+
+### unattended-upgrades for squeeze
+
+```
+Allowed origins are: ["('Debian', 'oldstable')", "('Debian', 'squeeze-security')", "('Debian', 'squeeze-lts')"]
+```
