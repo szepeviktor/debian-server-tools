@@ -2,6 +2,7 @@
 #
 # Check your VPS' resources daily.
 # CPU, memory, disks, swap, clock source, console, nameserver, IP address, gateway, nearest hop
+# Config file location: XDG Base Directory.
 #
 # VERSION       :0.1
 # DATE          :2014-10-22
@@ -11,35 +12,30 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install iproute heirloom-mailx
 # LOCATION      :/usr/local/sbin/vpscheck.sh
+# CONFIG        :~/.config/vpscheck/configuration
 # CRON-DAILY    :/usr/local/sbin/vpscheck.sh
 
-###################
 
- #TODO: to config file!
-
-# First generate your values:  vpscheck.sh -gen
-# E.g.
-
-PROC=1
-MEM=1048576
-PART="/dev/xvda,/dev/xvda1"
-SWAP=2097144
-CLOCK=xen
-CONSOLE=/dev/hvc0
-DNS1=8.8.8.8
-IP=95.140.33.67
-GW=95.140.33.1
-HOP=95.140.33.252
-# k.root-servers.net.
-HOP_TO=193.0.14.129
-
-# Then examine the checks below (many Add_check calls)
+# Fenerate your values:  vpscheck.sh -gen
+#
+# PROC=1
+# MEM=1048576
+# PART="/dev/xvda,/dev/xvda1"
+# SWAP=2097144
+# CLOCK=xen
+# CONSOLE=/dev/hvc0
+# DNS1=8.8.8.8
+# IP=95.140.33.67
+# GW=95.140.33.1
+# HOP=95.140.33.252
+# # k.root-servers.net.
+# HOP_TO=193.0.14.129
+#
+# Examine the checks below: many Add_check() calls
 # Write your own checks!
 # Report issues: https://github.com/szepeviktor/debian-server-tools/issues/new
 
-###################
-
-Necessary() {
+Needs_root_commands() {
     [ "$(id --user)" == 0 ] || exit 1
 
     which ifconfig ip traceroute mailx &> /dev/null || exit 2
@@ -67,6 +63,7 @@ Nearest_rootserver() {
 }
 
 Add_check() {
+    #FIXME keep orignal order
     CHECKS["$1"]="$2"
 }
 
@@ -109,7 +106,11 @@ Check_vps() {
 
 
 # check user and dependencies
-Necessary
+Needs_root_commands
+
+# source config
+eval "VPS_CONFIG=~/.config/vpscheck/configuration"
+source "$VPS_CONFIG"
 
 declare -A CHECKS=()
 unset DIFF
