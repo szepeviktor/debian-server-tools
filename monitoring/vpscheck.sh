@@ -15,6 +15,8 @@
 
 ###################
 
+ #TODO: to config file!
+
 # First generate your values:  vpscheck.sh -gen
 # E.g.
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Find largest emails, save&strip attachments.
+# save_all_attachments.py needs to be in the current dir.
 #
 # VERSION       :0.1
 # DATE          :2014-10-18
@@ -14,12 +15,57 @@ MAIL_ROOT="/var/mail"
 STORAGE_BASE="/var/mail/attachments-5mb-plus"
 TOPFOLDERS="20"
 
+Extract_one() {
+    local EMAIL="$1"
+    local FOLDER_STORAGE="$2"
+
+    # title
+    echo -n "--- "
+    basename "$EMAIL"
+
+    # parse date for storage folder name
+    EMAIL_DATE="$(grep -m 1 '^Date: [a-zA-Z0-9, +)(\:-]\+$' "$EMAIL")"
+    EMAIL_DATE="${EMAIL_DATE#Date: }"
+    if [ -z "$EMAIL_DATE" ]; then
+        echo "No date header in email: ${EMAIL}" >&2
+        return
+    fi
+
+    # set directory to store attachments
+    STORAGE="${FOLDER_STORAGE}/$(LC_ALL=C date -d "$EMAIL_DATE" "+%Y%m%d-%H%M%S")"
+    if [ $? != 0 ]; then
+        echo "Invalid date header (${EMAIL_DATE}) in email: ${EMAIL}" >&2
+        return
+    fi
+
+    # if already exists add a number
+    if [ -d "$STORAGE" ]; then
+        SAME="$(ls -d "$STORAGE"* | wc -l)"
+        STORAGE+=".$(( SAME ))"
+    fi
+    mkdir -p "$STORAGE"
+
+    # remember recipient, from and file path and strip&save attachments
+    if ! ./save_all_attachments.py --verbose --delete --dir "$STORAGE" "$EMAIL"; then
+        echo "extract error ($?): ${STORAGE} / ${EMAIL}" >&2
+    fi
+
+    # if only _email.txt is generated
+    if [ "$(ls "$STORAGE" | wc -l)" == "1" ]; then
+        rm "{$STORAGE}/_email.txt"
+        rmdir "$STORAGE"
+    fi
+
+    # separator
+    echo
+}
+
 # detect folder sizes by email size
 # generates .largefolders
 find "$MAIL_ROOT" -type d -wholename "*/Maildir/*/cur" -exec du -sb \{\} \; \
     | sort -n | tail -n "$TOPFOLDERS" | cut -f2- | tee .largefolders
 
-# separate
+# separator
 echo
 
 # calculate total size of large emails
@@ -31,7 +77,7 @@ while read FOLDER; do
 done < .largefolders \
     | sort -t':' -k2 -n | tee .largemessages
 
-# separate
+# separator
 echo
 
 # copy and strip attachments
@@ -43,6 +89,9 @@ while read MSG; do
     echo "*** ${FOLDER}"
     FOLDER_STORAGE="${FOLDER//[^a-z0-9]/_}"
 
-    find "$FOLDER" -type f -size "+${MAXSIZE}" -exec \
-        ./extract-one.sh \{\} "${STORAGE_BASE}/${FOLDER_STORAGE}" \; 2>> extract-attachments.log
+    # extract-one.sh needs to be a different file, we are in a pipe already
+    find "$FOLDER" -type f -size "+${MAXSIZE}" \
+        | while read EMAIL_FILE; do
+            Extract_one "$EMAIL_FILE" "${STORAGE_BASE}/${FOLDER_STORAGE}" 2>> extract-attachments.log
+        done
 done < .largemessages

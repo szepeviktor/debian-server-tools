@@ -20,12 +20,12 @@ SWAP_MAX=256000
 SWAP_USAGE="$(tail -n +2 /proc/swaps | head -n 1 | sed 's/\s\+/ /g' | cut -d' ' -f 4)"
 FREE_MEM="$(free -k | grep '^Mem' | sed 's/\s\+/ /g' | cut -d' ' -f 3)"
 
-if [ "$SWAP_USAGE" -ge "$SWAP_MAX" ];then
-    echo "Swap usage over maximum! (${SWAP_USAGE} kB)"
+if [ "$SWAP_USAGE" -ge "$SWAP_MAX" ]; then
+    echo "Swap usage is over maximum! (${SWAP_USAGE} kB)" >&2
     exit 1
 fi
-if [ "$FREE_MEM" -le "$SWAP_USAGE" ];then
-    echo "Not enough free memory. (${FREE_MEM} kB)"
+if [ "$FREE_MEM" -le "$SWAP_USAGE" ]; then
+    echo "Not enough free memory! (${FREE_MEM} kB)" >&2
     exit 2
 fi
 
