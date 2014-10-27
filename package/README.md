@@ -7,6 +7,10 @@
 -   n,codename      (eg, "jessie", "jessie-updates")
 -     site          (eg, "http.debian.net")
 
+### Import apt key
+
+apt-key adv --keyserver pgp.mit.edu --recv-keys NNNNNNNN
+
 ### unattended-upgrades for squeeze
 
 ```
