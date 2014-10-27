@@ -16,7 +16,7 @@
 # CRON-DAILY    :/usr/local/sbin/vpscheck.sh
 
 
-# Fenerate your values:  vpscheck.sh -gen
+# Generate config:  vpscheck.sh -gen
 #
 # PROC=1
 # MEM=1048576
@@ -31,7 +31,7 @@
 # # k.root-servers.net.
 # HOP_TO=193.0.14.129
 #
-# Examine the checks below: many Add_check() calls
+# Examine the checks below (many Add_check() calls)
 # Write your own checks!
 # Report issues: https://github.com/szepeviktor/debian-server-tools/issues/new
 
@@ -155,7 +155,6 @@ Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
 
 # first hop towards the nearest root server
 Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
-
 
 Check_vps
 
