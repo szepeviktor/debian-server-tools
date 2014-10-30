@@ -108,9 +108,7 @@ Check_vps() {
 # check user and dependencies
 Needs_root_commands
 
-# source config
 eval "VPS_CONFIG=~/.config/vpscheck/configuration"
-source "$VPS_CONFIG"
 
 declare -A CHECKS=()
 unset DIFF
@@ -120,6 +118,9 @@ if [ "$1" == "-gen" ]; then
     GENERATE_DEFAULTS="1"
     HOP_TO="$(Nearest_rootserver)"
     echo "HOP_TO=${HOP_TO}"
+else
+    # source config
+    source "$VPS_CONFIG"
 fi
 
 
@@ -133,6 +134,7 @@ Add_check MEM 'grep "^MemTotal:" /proc/meminfo | sed "s/\s\+/ /g" | cut -d" " -f
 # - VMware /dev/sd*
 # - XEN /dev/xvd*
 # - KVM dev/vd*
+# - OpenVZ /dev/simfs
 Add_check PART 'ls -1 /dev/xvd* | paste -s -d","'
 
 # swap sizes (kB)
@@ -148,10 +150,11 @@ Add_check CONSOLE 'ls /dev/hvc0'
 Add_check DNS1 'grep -m 1 "^\s*[^#]*nameserver" /etc/resolv.conf | grep -o "[0-9.]*"'
 
 # first IPv4 address
-Add_check IP 'ip addr show | grep -o "inet [0-9.]*" | grep -v -m 1 "127.0.0.1" | cut -d" " -f 2'
+Add_check IP 'ip addr show | grep -o "inet [0-9.]*" | grep -v -m 1 "127\.0\.0\." | cut -d" " -f 2'
 
 # default gateway (IPv4 only)
 Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
+#FIME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
 
 # first hop towards the nearest root server
 Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
@@ -159,7 +162,9 @@ Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
 Check_vps
 
 if [ "$GENERATE_DEFAULTS" == 1 ]; then
+    mkdir -p "$(dirname "$VPS_CONFIG")"
     echo "$MAIL_CONTENT"
+    echo "config: ${VPS_CONFIG}"
     exit
 fi
 
