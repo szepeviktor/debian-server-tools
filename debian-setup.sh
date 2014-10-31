@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Debian setup (wheezy amd64).
-# Not really a sctipr but a manual.
+# Not really a script but a manual.
 #
 
 # identify
