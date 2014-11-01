@@ -22,6 +22,3 @@ Tools related to Debian packages and general packaging
 
 Tools related to building webservers
 
-#### Detect if your container is running under a hypervisor
-
-https://github.com/kaniini/slabbed-or-not

@@ -52,6 +52,13 @@ e /etc/shadow
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
 service ssh restart
 
+# detect whether your container is running under a hypervisor
+#??? apt-get install -y gcc
+wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
+unzip slabbed-or-not.zip && rm slabbed-or-not.zip
+cd slabbed-or-not-master/
+make && ./slabbed-or-not | tee ../slabbed-or-not.log
+
 # IPv6 ???
 e /etc/network/interfaces
 e /etc/resolv.conf
@@ -98,6 +105,10 @@ e /etc/fail2ban/jail.local
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
 
+# Apache 2.4.x
+
+# PHP 5.5 from DotDeb
+apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-common php5-curl php5-dev php5-fpm php5-gd php5-mcrypt php5-mysqlnd php5-readline php5-sqlite pkg-php-tools
 
 # colorized less
 man() {
