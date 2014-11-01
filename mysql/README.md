@@ -3,7 +3,7 @@
 http://nathan.rambeck.org/blog/28-drop-all-mysql-tables-command-line
 
 ```bash
-# check for credentials in .my.cnf
+# check for credentials in ~/.my.cnf
 mysqldump --no-create-info --no-data information_schema > /dev/null && echo "USE information_schema;" | mysql
 
 mysqldump --no-data <DATABASE> | grep "^DROP TABLE IF EXISTS " | ionice mysql
@@ -37,7 +37,7 @@ cat alter.sql | mysql | ionice mysql
 ### Check an optimize databases
 
 ```bash
-# check for credentials in .my.cnf
+# check for credentials in ~/.my.cnf
 mysqlcheck information_schema
 
 ionice mysqlcheck --check --all-databases
@@ -73,3 +73,7 @@ SET autocommit=1;
 SET unique_checks=1;
 SET foreign_key_checks=1;
 ```
+
+### Percona Toolkit
+
+http://www.percona.com/software/percona-toolkit

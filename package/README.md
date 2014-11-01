@@ -117,7 +117,7 @@ deb http://dl.google.com/linux/mod-pagespeed/deb stable  main
 #K: wget -qO- https://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
 #M: https://www.varnish-cache.org/installation/debian
 
-# NGINX mainline (dev)
+# NGINX stable
 #deb http://nginx.org/packages/debian wheezy nginx
 #K: wget -qO- http://nginx.org/keys/nginx_signing.key | apt-key add -
 #M: http://nginx.org/en/linux_packages.html
@@ -131,7 +131,7 @@ deb http://dl.google.com/linux/mod-pagespeed/deb stable  main
 # eval "$(grep "^#K:" <SOURCES-FILE> | cut -d' ' -f 2-)"
 ```
 
-##### Disable apt language
+### Disable apt language
 
 /etc/apt/apt.conf.d/00language-none
 
@@ -139,8 +139,14 @@ deb http://dl.google.com/linux/mod-pagespeed/deb stable  main
 Acquire::Languages:: "none";
 ```
 
-##### Check apt configuration
+### Check apt configuration
 
 ```bash
 apt-config dump | most
+```
+
+### Search package contents
+
+```bash
+dpkg -S <FILE-PATTERN>
 ```

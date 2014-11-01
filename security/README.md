@@ -39,5 +39,5 @@ nmap --script ssl-cert,ssl-enum-ciphers -p 443 <TARGET>
 
 ### Mozilla Server side TLS Tools
 
-[Server side TLS Tools](http://mozilla.github.io/server-side-tls/ssl-config-generator/)
-[Server Side TLS Document](https://wiki.mozilla.org/Security/Server_Side_TLS)
+[Server side TLS Tools](http://mozilla.github.io/server-side-tls/ssl-config-generator/),
+doc: [Server Side TLS Document](https://wiki.mozilla.org/Security/Server_Side_TLS)
