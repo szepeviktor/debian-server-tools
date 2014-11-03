@@ -1,23 +1,40 @@
 #!/bin/bash
+#
+# Mirror ESET antivirus' updates.
+#
+# VERSION       :0.1
+# DATE          :2014-11-02
+# AUTHOR        :Viktor SzÃ©pe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/nod32mirror
+# CRON-WEEKLY   :/usr/local/bin/nod32mirror
 
+
+# FILL IN user, pass, expiry, root path
 NOD_USER="EAV-1111111111"
 NOD_PASS="rrrrrrrrrr"
 NOD_EXPIRE="2015-04-15"
+MIRROR="/var/www/nod-update/server"
 
 EXPIRE_WARN_DAYS=15
 
+# Licence expiration check and contact address
 # http://exp01.eset.com/getlicexp
 # mailto:zoltan.kiss@sicontact.hu
 
-MIRROR="/var/www/nod-update/server"
-
-# SETUP:
-# ------
-
+# SETUP
+# -----
+#
+# Apache site config
+#
 #    <Directory />
 #        AllowOverride AuthConfig
 #    </Directory>
-
+#
+# .htaccess file
+#
 # cat <<EOF > ".htaccess"
 # AuthType Basic
 # AuthName "Access NOD32 updates"
@@ -25,40 +42,33 @@ MIRROR="/var/www/nod-update/server"
 # AuthGroupFile /dev/null
 # Require valid-user
 # EOF
-
-# create auth file #
+#
+# Create HTTP auth file.
 # htpasswd -cb "httpauth" nod32 nod32
-# update user
+# Update HTTP auth file.
 # htpasswd -b "httpauth" user2 pass2
+#
+# Get favicon from ESET's website.
+#
+# wget -O favicon.ico "http://www.eset.hu/$(wget -qO- "http://www.eset.hu/" | grep -m1 icon | cut -d'"' -f 2)"
 
-# wget -O favicon.ico "http://www.eset.hu/$(wget -qO- "http://www.eset.hu/" | grep -m1 icon | cut -d'"' -f2)"
-
-
-#NOD32 2.7
+# NOD32 2.7 update server
 ESET_URL2="http://um21.eset.com"
 ESET_DIR2="nod_upd"
 
-#NOD32 >= 3.0
-#ESET_URL3="http://update.eset.com"
+#NOD32 >= 3.0 update server
 ESET_URL3="http://um21.eset.com"
 ESET_DIR3="eset_upd"
 
-#http://um21.eset.com
-#http://91.228.167.21
-#http://um01.eset.com
-#http://91.228.166.14
-#http://um03.eset.com
-#http://91.228.166.16
-#http://um05.eset.com
-#http://91.228.167.133
-#http://um07.eset.com
-#http://38.90.226.37
-#http://um09.eset.com
-#http://38.90.226.39
-
-#NOD32 >= 5.0
+#NOD32 >= 5.0 update server
 ESET_URL5="http://um21.eset.com"
 ESET_DIR5="eset_upd/v5"
+
+# excluded languages
+IGNORE_LANG="ch.nup cz.nup fr.nup ge.nup hr.nup it.nup jp.nup nl.nup pl.nup pt.nup sk.nup sp.nup"
+IGNORE_LANG3="bgr.nup chs.nup cht.nup csy.nup dan.nup deu.nup esn.nup fin.nup fra.nup hrv.nup ita.nup nld.nup nor.nup plk.nup ptb.nup rom.nup rus.nup sky.nup slv.nup sve.nup trk.nup ukr.nup"
+
+################################
 
 ESET_FILE="update.ver"
 ESET_UPDATEVER_INI_DIR="/tmp"
@@ -67,20 +77,15 @@ ESET_UPDATEVER_INI="${ESET_UPDATEVER_INI_DIR}/${ESET_FILE}"
 ESET_NUPS="${ESET_UPDATEVER_INI_DIR}/nod32-list$$"
 ESET_NUPS_DL="${ESET_UPDATEVER_INI_DIR}/nod32-d-l$$"
 
-DAEMON="NOD32mirror[$$]"
-#WGET_DEF="-t 9 -T 9 -N -nH -r --user=\"$NOD_USER\" --password=\"$NOD_PASS\" -U \"ESS Update (Windows; U; 32bit; VDB 1870; BPC 3.0.566.0; OS: 5.2.3790 SP 2.0 NT; LNG 1033; x64c)\""
-#WGET_DEF="-t 9 -T 9 -N -nH -r --user=\"$NOD_USER\" --password=\"$NOD_PASS\" -U \"ESS Update (Windows; U; 32bit; VDB 6937; BPC 4.0.474.0; OS: 5.1.2600 SP 3.0 NT; CH 0.0; LNG 1033; x32c; UPD http://93.184.71.27/eset_upd; APP eavbe; BEO 1; CPU 6092; ASP 0.10)\""
-#WGET_DEF="-t 9 -T 9 -N -nH -r --auth-no-challenge --user=\"$NOD_USER\" --password=\"$NOD_PASS\" -U \"ESS Update (Windows; U; 32bit; VDB 7361; BPC 4.2.40.23; OS: 5.1.2600 SP 3.0 NT; CH 0.0; LNG 1038; x32c; UPD http://um10.eset.com/eset_upd; APP eavbe; BEO 1; CPU 1356; ASP 0.10)\""
-WGET_DEF="-t 3 -T 3 -N -nH -r --auth-no-challenge --user=\"$NOD_USER\" --password=\"$NOD_PASS\" -U \"ESS Update (Windows; U; 32bit; PVT F; VDB 18166; BPC 5.0.2228.1; OS: 6.1.7601 SP 1.0 NT; TDB 18166; CL 1.1.1; LNG 1038; x32c; APP eea; BEO 1; ASP 0.10; FW 0.0; PX 0; PUA 1; CD 0; RA 0; HWF: 0100DD77-56C9-6057-724A-1A28716ED715)\""
+DAEMON="nod32mirror[$$]"
+WGET_UA="ESS Update (Windows; U; 32bit; PVT F; VDB 18166; BPC 5.0.2228.1; OS: 6.1.7601 SP 1.0 NT; TDB 18166; CL 1.1.1; LNG 1038; x32c; APP eea; BEO 1; ASP 0.10; FW 0.0; PX 0; PUA 1; CD 0; RA 0; HWF: 0100DD77-56C9-6057-724A-1A28716ED715)"
+WGET_DEF="-t 3 -T 3 -N -nH -r --auth-no-challenge --user=\"${NOD_USER}\" --password=\"${NOD_PASS}\" -U \"${WGET_UA}\""
 
-WGET="wget -q $WGET_DEF"
-WGET_NV="wget -nv $WGET_DEF"
+WGET="wget -q ${WGET_DEF}"
+WGET_NV="wget -nv ${WGET_DEF}"
 WGET_SPIDER="wget --spider -q -t 1 -T 3"
 
-IGNORE_LANG="ch.nup cz.nup fr.nup ge.nup hr.nup it.nup jp.nup nl.nup pl.nup pt.nup sk.nup sp.nup"
-IGNORE_LANG3="bgr.nup chs.nup cht.nup csy.nup dan.nup deu.nup esn.nup fin.nup fra.nup hrv.nup ita.nup nld.nup nor.nup plk.nup ptb.nup rom.nup rus.nup sky.nup slv.nup sve.nup trk.nup ukr.nup"
-
-# log <message level name> <messages>...
+# log <message level name> <messages> ...
 log() {
     [ -z "$LOG_MODE" ] && return 1
     [ -z "$LOG_LEVEL" ] && return 2
@@ -106,19 +111,21 @@ log() {
     if [ "$MSG_LEVEL" -lt "$LOG_LEVEL" ]; then
         return
     fi
+
     case "$LOG_MODE" in
         console)
-            echo "$DAEMON: ($MSG_LEVEL) $@" 1>&2
+            echo "$DAEMON: ($MSG_LEVEL) $*" 1>&2
             ;;
-        syslog)  # syslog: LOG_INFO level (3) and up
-            [ "$MSG_LEVEL" -ge 3 ] && logger -t "$DAEMON" "$@"
+        syslog)
+            # LOG_INFO level (3) and up
+            [ "$MSG_LEVEL" -ge 3 ] && logger -t "$DAEMON" "$*"
             ;;
     esac
 }
 
 die() {
-    log LOG_ERROR "ERROR: $@"
-    #stderr
+    log LOG_ERROR "ERROR: $*"
+    # write to stderr
     echo "$2" >&2
     exit $1
 }
@@ -126,15 +133,17 @@ die() {
 inset() {
     local SET_E
     local IN_SET_ELEMENT="$1"
+
     [ -z "$IN_SET_ELEMENT" ] && return 1
+
     shift
     local IN_SET="$*"
     [ -z "$IN_SET" ] && return 2
 
-    for SET_E in $IN_SET
-    do
-        [ "$SET_E" = "$IN_SET_ELEMENT" ] && return 0
+    for SET_E in ${IN_SET}; do
+        [ "$SET_E" == "$IN_SET_ELEMENT" ] && return 0
     done
+
     return 3
 }
 
@@ -172,10 +181,10 @@ updatever() {
               echo "${URL}${NUP}" >> "$ESET_NUPS"
         done 2> /dev/null || die 3 "update file process error"
 
-        # `sed` to local directory
+        # sed to local directory
 #        sed 's/^file=\(.*\)$/file=\/nod32\1/;s/^Other=.*$/Other=20@http:\/\/domain.hu\/nod32\/, 20@http:\/\/domain.hu:80\/nod32\//' \
 #            < "$ESET_UPDATEVER_INI" > "$ESET_UPDATEVER_INI_MOD" || die 6
-#        log LOG_VERBOSE "`(echo -n "[HOSTS] "; grep "^Other=" "$ESET_UPDATEVER_INI_MOD")`"
+#        log LOG_VERBOSE "$((echo -n "[HOSTS] "; grep "^Other=" "$ESET_UPDATEVER_INI_MOD"))"
 
         # repack
 #        mv -f "$ESET_UPDATEVER_INI_MOD" "$ESET_UPDATEVER_INI" || die 10
@@ -217,22 +226,19 @@ log LOG_DEBUG "required commands"
 which wget file unrar rar logger mailx &> /dev/null || die 99 "required command not found"
 
 log LOG_DEBUG "checking expire"
-NOW_SEC="`date "+%s"`"
-EXPIRE_SEC="`date --date "$NOD_EXPIRE" "+%s"`"
-EXPIRE_DAYS=$(( (EXPIRE_SEC - NOW_SEC) / 86400 ))
+NOW_SEC="$(date "+%s")"
+EXPIRE_SEC="$(date --date "$NOD_EXPIRE" "+%s")"
+EXPIRE_DAYS="$(( (EXPIRE_SEC - NOW_SEC) / 86400 ))"
 log LOG_DEBUG "expires on $NOD_EXPIRE"
 if [ $EXPIRE_DAYS -lt $EXPIRE_WARN_DAYS ]; then
-    log LOG_INFO "+ATTENTION+ licence is about to expire on $NOD_EXPIRE"
+    log LOG_INFO "+ATTENTION+ licence is about to expire on ${NOD_EXPIRE}"
 
-    cat <<EOF | LANG=hu_HU mailx -S from="NOD32 Tükör <root@`hostname`>" -s "ESET NOD32 Antivírus licenc lejár" root
-Kedves root!
+    cat <<EOF | mailx -S from="nod32mirror <root>" -s "[nod32mirror] ESET licenc exipres" root
+${NOD_USER} licenc expires on ${NOD_EXPIRE}
 
-A $NOD_USER licenc lejár ekkor: $NOD_EXPIRE
+https://www.eset.hu/vasarlas/hosszabbitas
 
-Kérlek hosszabbítsd meg! https://www.eset.hu/vasarlas/hosszabbitas
-
-Üdvözöllek
-$DAEMON
+${DAEMON}
 EOF
 fi
 
@@ -240,7 +246,7 @@ pushd "$MIRROR" &> /dev/null
 
 echo -n > "$ESET_NUPS"
 
-
+# v2 disabled
 #log LOG_DEBUG "getting and parsing update.ver v2.7"
 #updatever "$ESET_URL2" "$ESET_DIR2"
 #cp -f "$ESET_DIR2/$ESET_FILE" "$ESET_FILE" &> /dev/null
@@ -252,23 +258,23 @@ log LOG_DEBUG "getting and parsing update.ver >= v5.0"
 updatever "$ESET_URL5" "$ESET_DIR5"
 
 
-log LOG_DEBUG ".nup-s to check: `cat "$ESET_NUPS"`"
+log LOG_DEBUG ".nup-s to check: $(cat "$ESET_NUPS")"
 
 log LOG_DEBUG "downloading .nup-s"
 [ -s "$ESET_NUPS" ] || die 4 "no .nup-s"
-log LOG_VERBOSE "`wc -l < "$ESET_NUPS"` .nup-s to check"
+log LOG_VERBOSE "$(wc -l < "$ESET_NUPS") .nup-s to check"
 
 log LOG_DEBUG ".nup download log: $ESET_NUPS_DL"
 
 eval "$WGET_NV -i \"${ESET_NUPS}\"" > "$ESET_NUPS_DL" 2>&1 || die 5 ".nup-s d/l failed"
-DIFFS="`grep -c " -> " < "$ESET_NUPS_DL"`"
+DIFFS="$(grep -c " -> " < "$ESET_NUPS_DL")"
 
-# v2
+# v2 disabled
 #http://download.eset.com/download/win/v2st/ndntenst.exe
 #http://download.eset.com/download/win/v2ad/ndntenad.exe
 #http://download.eset.com/download/win/v2st/ndnthust.exe
 #http://download.eset.com/download/win/v2ad/ndnthuad.exe
-eval "$WGET -i-" &> /dev/null <<EOF || die 10 "program d/l error"
+eval "${WGET} -i-" &> /dev/null <<EOF || die 10 "program d/l error"
 http://download.eset.com/download/win/eavbe/eavbe_nt32_enu.msi
 http://download.eset.com/download/win/eavbe/eavbe_nt64_enu.msi
 http://download.eset.com/download/win/eavbe/eavbe_nt32_hun.msi

@@ -9,7 +9,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/root/hdd-bench/hdd-bench.sh
-# DEPENDS       :apt-get install build-essential
+# DEPENDS       :apt-get install build-essential hdparm
 
 # fill the disk with random data
 # usage: filld <dir> <4K-blocks>
@@ -61,6 +61,12 @@ if ! [ -b "$DEVICE" ]; then
 fi
 [ -r "$DEVICE" ] || exit 2
 
+
+# standard dd with fdatasync
+echo;echo "DD to filesystem"
+time (dd if=/dev/zero of=test bs=64k count=16k conv=fdatasync; sync)
+echo ------------------------------------
+
 # SeekMark ~ 30 sec
 ONESEC=$(./seekmark -f "$DEVICE" -t 2 -s 1000 \
     | grep -o ", [0-9.]* READ seeks per sec per thread$" | grep -o "[0-9]*" | head -n 1)
@@ -89,4 +95,3 @@ echo ------------------------------------
 
 echo;echo "CACHED benchmark"
 hdparm -T "$DEVICE"
-

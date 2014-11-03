@@ -1,7 +1,8 @@
 #!/bin/bash
 #
-# Generate certificate files for courier, proftpd and apache
-# Certificate file names are hardcoded as follows
+# Generate certificate files for courier-mta, proftpd and apache2.
+#
+# Certificate file names are hardcoded as follows.
 # /etc/courier/ssl-comb3.pem
 # /etc/proftpd/ssl-pub.pem
 # /etc/proftpd/ssl-priv.pem
@@ -18,10 +19,10 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 
-
 # StartSSL: https://www.startssl.com/certs/
 # CAcert: http://www.cacert.org/index.php?id=3
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
+
 TODAY="$(date +%Y%m%d)"
 CA="ca.pem"
 SUB="sub.class1.server.ca.pem"
@@ -51,6 +52,7 @@ fi
 if ! [ -f "$CA" ] || ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
     Die 3 "Missing cert(s)."
 fi
+
 # check certs
 PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl md5)"
 PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl md5)"
@@ -62,8 +64,7 @@ fi
 chown root:root "$CA" "$SUB" "$PRIV" "$PUB" || Die 10 "certs owner"
 chmod 600 "$CA" "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
 
-
-# courier
+# courier-mta
 
 # public + intermediate + private
 COURIER_SSL="/etc/courier/ssl-comb3.pem"
@@ -95,7 +96,6 @@ else
 fi
 Readkey
 
-
 # proftpd
 
 PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
@@ -119,8 +119,7 @@ else
 fi
 Readkey
 
-
-# apache
+# apache2
 
 APACHE_PUB="/etc/apache2/ssl-pub.pem"
 APACHE_PRIV="/etc/apache2/ssl-priv.pem"

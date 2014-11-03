@@ -1,36 +1,39 @@
 #!/bin/bash
 #
 # Check certificate expiry.
-# This is a weekly cron job.
 #
-# VERSION       :0.1
+# VERSION       :0.2
 # DATE          :2014-09-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/etc/cron.weekly/cert-expiry
-
+# LOCATION      :/usr/local/bin/cert-expiry
+# CRON-WEEKLY   :/usr/local/bin/cert-expiry
 
 ALERT_DAYS="10"
 NOW_SEC="$(date "+%s")"
 
+# find certs in /etc excluding /etc/ssl/certs/
 find /etc -not -path "/etc/ssl/certs/*" \( -iname "*\.crt" -or -iname "*\.pem" \) \
     | while read PEM; do
+        # not an X509 cert
         if ! grep -q -- "-BEGIN CERTIFICATE-" "$PEM"; then
             continue
         fi
 
-        EXPIRY_DATE="$(openssl x509 -enddate -noout -in "$PEM" | cut -d '=' -f 2-)"
+        EXPIRY_DATE="$(openssl x509 -in "$PEM" -noout -enddate | cut -d'=' -f 2-)"
         EXPIRY_SEC="$(date --date "$EXPIRY_DATE" "+%s")"
+
         if [ $? != 0 ]; then
             echo "Invalid end date (${EXPIRY_DATE}) in ${PEM}" >&2
             continue
         fi
-        EXPIRY_DAYS=$(( (EXPIRY_SEC - NOW_SEC) / 86400 ))
+
+        EXPIRY_DAYS="$(( (EXPIRY_SEC - NOW_SEC) / 86400 ))"
         #echo -e "[DBG] file: ${PEM} / days: ${EXPIRY_DAYS}" >&2
 
         if [ "$EXPIRY_DAYS" -lt "$ALERT_DAYS" ]; then
-            echo "$(openssl x509 -subject -noout -in "$PEM" | cut -d '=' -f 2-) (${PEM}) expires in ${EXPIRY_DAYS} day(s)."
+            echo "$(openssl x509 -in "$PEM" -noout -subject | cut -d'=' -f 2-) (${PEM}) expires in ${EXPIRY_DAYS} day(s)."
         fi
     done

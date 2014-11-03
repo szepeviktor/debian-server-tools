@@ -70,7 +70,7 @@ deb http://packages.dotdeb.org/ wheezy-php55  all
 #K: wget -qO- http://www.dotdeb.org/dotdeb.gpg | apt-key add -
 #M: http://www.dotdeb.org/mirrors/
 
-# MariaDB 10
+# MariaDB
 deb http://mariadb.mirror.nucleus.be/repo/10.0/debian wheezy  main
 #K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xcbcb082a1bb943db
 #M: https://downloads.mariadb.org/mariadb/repositories/#distro=Debian

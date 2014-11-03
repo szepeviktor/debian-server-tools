@@ -1,9 +1,9 @@
 #!/bin/sh
 #
 # Install VMware tools Tools for virtual machines hosted on VMware (CLI)
-# This is NOT A SHELL SCRIPT but you can figure out what to do.
+# This is NOT A SHELL SCRIPT but manual.
 #
-# VERSION       :0.2
+# VERSION       :0.3
 # DATE          :2014-08-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -17,6 +17,12 @@ exit 0
 # Debian has a package called open-vm-tools
 # https://packages.debian.org/wheezy-backports/open-vm-tools
 # upstream: http://sourceforge.net/projects/open-vm-tools/files/open-vm-tools/
+
+# get current tool version
+vmtoolsd --version
+
+# uninstall
+vmware-uninstall-tools.pl
 
 # Add VMware tools Debian repository
 # info: http://packages.vmware.com/tools/versions
@@ -55,3 +61,12 @@ insserv -vf vmware-tools-services
 # update
 update-rc.d vmware-tools-services start 20 2 3 4 5 . stop 20 0 1 6 .
 
+# start
+service vmware-tools-services start
+
+# test
+service vmware-tools status
+ps aux|grep -v "grep"|egrep "vmtoolsd"
+vmtoolsd --version
+vmware-checkvm
+vmware-toolbox-cmd stat sessionid
