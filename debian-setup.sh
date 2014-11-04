@@ -132,7 +132,6 @@ ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
 # see: package/vmware-tools-wheezy.sh
 dpkg -l|most
 # dpkg -l|egrep "fancontrol|acpid|laptop-detect|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils"
-# sanitize files
 apt-get autoremove --purge
 
 # essential packages
@@ -158,7 +157,7 @@ e /etc/nscd.conf
 # positive-time-to-live   hosts   60
 # negative-time-to-live   hosts   20
 
-# non-package files
+# sanitize files
 find / -iname "*<HOSTING-COMPANY>*"
 cruft --ignore /dev/|tee cruft.log
 debsums -c
