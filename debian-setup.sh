@@ -15,7 +15,8 @@ apt-get autoremove --purge -y
 
 # packages sources
 nano /etc/apt/sources.list
-# OVH's local mirror: http://debian.mirrors.ovh.net/debian
+# Linode: http://mirrors.linode.com/debian
+# OVH: http://debian.mirrors.ovh.net/debian
 # server4you: http://debian.intergenia.de/debian
 # closest mirror http://http.debian.net/debian
 # national mirror: http://ftp.<COUNTRY-CODE>.debian.org/debian
@@ -31,7 +32,7 @@ deb <MIRROR> wheezy-backports  main
 # upgrade
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y ssh mc most ca-certificates lftp bash-completion sudo htop bind9-host ncurses-term
+apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc ncurses-term
 
 # input
 echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
@@ -46,7 +47,8 @@ dpkg-reconfigure -f noninteractive dash
 
 # bashrc
 nano /root/.bashrc
-export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
+export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\
+\w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
 # ls -1 /usr/share/mc/skins/
 export MC_SKIN='modarin256root-defbg'
 export GREP_OPTIONS='--color'
@@ -86,12 +88,15 @@ grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
 # kernel
 uname -a
 dpkg -l|grep "grub"
-ls -ltr /boot/
+ls -latr /boot/
 # OVH Kernel
 #cd /boot/; lftp -e "mget *-xxxx-grs-ipv6-64-vps; bye" ftp://ftp.ovh.net/made-in-ovh/bzImage/latest-production/
+# Linode Kernels
+# auto renew - https://www.linode.com/kernels/
+e /etc/motd
 
 # network
-netstat -antp
+netstat -antup
 ifconfig
 route -n -4
 route -n -6
@@ -102,40 +107,47 @@ e /etc/resolv.conf
 #nameserver 8.8.4.4
 #nameserver <LOCAL_NS>
 #options timeout:2
+##options rotate
 host -v -t A example.com
+# view network graph: http://bgp.he.net/ip/<IP>
 
 # hostname
 # set A record and PTR record
+# consider: http://www.iata.org/publications/Pages/code-search.aspx
+#           http://www.world-airport-codes.com/
 H="<HOST-NAME>"
 grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 e /etc/hosts
 
-# locale
+# locale, timezone
 dpkg-reconfigure locales
+dpkg-reconfigure tzdata
 
 # comment out getty[2-6], not init.d/rc !
+# consider agetty
 e /etc/inittab
 # sanitize users
 e /etc/passwd
+e /etc/shadow
 
 # sanitize packages (-hardware-related +monitoring -daemons)
 # delete not installed packages
 dpkg -l|grep -v "^ii"
-# apt-get purge
+# apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common
 # non-stable packages
 dpkg -l|grep "~[a-z]\+"|sort|uniq -c|sort -n
 #dpkg -l|grep "~squeeze"
 # vps monitoring
-ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
+ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon|rpc"
 # see: package/vmware-tools-wheezy.sh
 dpkg -l|most
-# dpkg -l|egrep "fancontrol|acpid|laptop-detect|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils"
+# dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils"
 apt-get autoremove --purge
 
 # essential packages
-apt-get install -y unattended-upgrades apt-listchanges cruft debsums ntpdate gcc make colordiff
+apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums ntpdate gcc make colordiff
 apt-get install -t wheezy-backports -y rsyslog whois git
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
 
@@ -144,9 +156,8 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
 
 # time
-dpkg-reconfigure tzdata
-# see: monitoring/ntpdated
-# set nearest time server
+./install-cron.sh monitoring/ntpdated
+# set nearest time server: http://www.pool.ntp.org/en/
 e /etc/default/ntpdate
 
 # backported unscd
@@ -156,9 +167,13 @@ e /etc/nscd.conf
 # enable-cache            hosts   yes
 # positive-time-to-live   hosts   60
 # negative-time-to-live   hosts   20
+service unscd restart
 
 # sanitize files
-find / -iname "*<HOSTING-COMPANY>*"
+HOSTING_COMPANY="<HOSTING-COMPANY>"
+find / -iname "*${HOSTING_COMPANY}*"
+grep -ir "${HOSTING_COMPANY}" /etc/
+dpkg -l|grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev/|tee cruft.log
 debsums -c
 
@@ -173,55 +188,74 @@ cd slabbed-or-not-master/
 make && ./slabbed-or-not|tee ../slabbed-or-not.log
 
 # VPS check
-mv monitoring/vpscheck.sh /usr/local/sbin/vpscheck.sh
+#FIXMe install.sh ...
+cp -v monitoring/vpscheck.sh /usr/local/sbin/vpscheck.sh
 vpscheck.sh -gen
-install-cron.sh /usr/local/sbin/vpscheck.sh
+./install-cron.sh /usr/local/sbin/vpscheck.sh
 
 # fail2ban latest version's .dsc: https://tracker.debian.org/pkg/fail2ban
-apt-get install -y geoip-database-contrib geoip-bin recode python3-pyinotify
+apt-get install -y geoip-bin recode python3-pyinotify
 apt-get install -t wheezy-backports -y init-system-helpers
+# latest geoip-database-contrib version
+wget http://ftp.de.debian.org/debian/pool/contrib/g/geoip-database-contrib/geoip-database-contrib_1.17_all.deb
+dpkg -i geoip-database-contrib_*.deb
+# .dsc from sid: https://packages.debian.org/sid/fail2ban
 dget -ux <DSC-URL>
 dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
-# 0.9.1: wget http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
-dpkg -i --dry-run <PACKAGE>
-dpkg -i <PACKAGE>
+#wget http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
+dpkg -i --dry-run fail2ban_*.deb
+dpkg -i fail2ban_*.deb
+# filter: apache-combined
+# action: sendmail-geoip-lines.local
 e /etc/fail2ban/jail.local
 
-# repositories for these softwares
+# apt repositories for these softwares
 # see package/README.md
+apt-get update
 
 # Apache 2.4.x (jessie backport)
-apt-get install -y apache2-mpm-itk
+apt-get install -y -t wheezy-experimental apache2-mpm-itk
 
 # PHP 5.5 from DotDeb
 apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-curl php5-dev php5-fpm php5-gd \
-    php5-mcrypt php5-mysqlnd php5-readline php5-sqlite pkg-php-tools
+    php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
+# ??? pkg-php-tools
 
 # opcache, APC control panel
-cp webserver/ocp.php <DEVELOPMENT-DOCUMENT-ROOT>
+cp -v webserver/ocp.php <DEVELOPMENT-DOCUMENT-ROOT>
 APC_URL="http://pecl.php.net/get/APC-3.1.13.tgz"
 wget -qO- "$APC_URL" | tar xz --no-anchored apc.php && mv APC*/apc.php <DEVELOPMENT-DOCUMENT-ROOT> && rmdir APC*
 
+# for poorly written themes/plugins
+apt-get install -y mod-pagespeed-stable
+
 # suhosin: https://github.com/stefanesser/suhosin/releases
 SUHOSIN_URL="<RELEASE-TAR-GZ>"
-tar xf "$SUHOSIN_URL" && cd suhosin-*
+wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-suhosin-*
 phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
-make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini
+make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
 wget -O /usr/local/bin/wp "$WPCLI_URL" && chmod +x /usr/local/bin/wp
 WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash"
-wget -O- "$WPCLI_COMPLETION_URL" && sed 's/wp cli completions/wp --allow-root cli completions/' > /etc/bash_completion.d/wp-cli
-# if you use the suhosin patch
-grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/suhosin*.ini || echo "Please enable phar in suhosin!"
+wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli completions/' > /etc/bash_completion.d/wp-cli
+# if you have suhosin in global php5 config
+#grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/suhosin*.ini || echo "Please enable phar in suhosin!"
 
+wget -qO "getcomposer.php" https://getcomposer.org/installer
+php "getcomposer.php" --install-dir=/usr/local/bin --filename=composer
 # drush - https://github.com/drush-ops/drush/releases
-composer global require drush/drush:6.*
-# set up a Druapl site
-sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_private_path "<PRIVATE-PATH>"
-sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_temporary_path "<TEMP_DIRECTORY>"
-sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes cron_safe_threshold 0
+mkdir -p /opt/drush && cd /opt/drush
+composer require drush/drush:6.*
+ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
+# set up a Drupal site
+#sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_private_path "<PRIVATE-PATH>"
+#sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_temporary_path "<TEMP_DIRECTORY>"
+#sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes cron_safe_threshold 0
+
+# clean up
+apt-get autoremove --purge
 
 # colorized man with less
 man() {

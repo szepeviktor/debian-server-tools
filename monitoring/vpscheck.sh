@@ -49,7 +49,7 @@ Nearest_rootserver() {
 
     for R in {a..z}; do
         # ICMP pings, maximun 10 hops, 2 seconds timeout
-        HOPS="$(traceroute -n -m 10 -w 2 "${R}.root-servers.net." 2>&1 \
+        HOPS="$(traceroute -4 -n -m 10 -w 2 "${R}.root-servers.net." 2>&1 \
             | tail -n +2 | wc -l; echo ${PIPESTATUS[0]})"
 
         # traceroute is OK AND less hops than before

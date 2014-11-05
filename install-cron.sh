@@ -52,6 +52,7 @@ while read -r JOB; do
         CRON_FILE="/etc/${INTERVAL}/$(basename "$SCRIPT")"
         echo -e ":#!/bin/bash\n${JOB}" | cut -d':' -f 2 > "$CRON_FILE"
         chmod 755 "$CRON_FILE"
+        echo "${SCRIPT} -> ${CRON_FILE}"
     else
         Die "Invalid cron interval in script header: (${INTERVAL})"
     fi
