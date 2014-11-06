@@ -142,12 +142,12 @@ dpkg -l|grep "~[a-z]\+"|sort|uniq -c|sort -n
 # vps monitoring
 ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon|rpc"
 # see: package/vmware-tools-wheezy.sh
+dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils"
 dpkg -l|most
-# dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils"
 apt-get autoremove --purge
 
 # essential packages
-apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums ntpdate gcc make colordiff
+apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums ntpdate gcc make colordiff pwgen
 apt-get install -t wheezy-backports -y rsyslog whois git
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
 
@@ -159,6 +159,9 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 ./install-cron.sh monitoring/ntpdated
 # set nearest time server: http://www.pool.ntp.org/en/
 e /etc/default/ntpdate
+
+# measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
+# https://github.com/mgutz/vpsbench/blob/master/vpsbench
 
 # backported unscd
 wget http://mirror.szepe.net/debian/pool/main/u/unscd/unscd_0.51-1~bpo70+1_amd64.deb
@@ -214,12 +217,27 @@ e /etc/fail2ban/jail.local
 apt-get update
 
 # Apache 2.4.x (jessie backport)
-apt-get install -y -t wheezy-experimental apache2-mpm-itk
+apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils
+wget http://mirror.szepe.net/debian/pool/main/liba/libapache-mod-fastcgi/libapache2-mod-fastcgi_2.4.7~0910052141-1byte3_amd64.deb
+dpkg -i libapache2-mod-fastcgi_2.4*.deb
+a2enmod actions
+a2enmod rewrite
+a2enmod headers
+a2enmod deflate
+a2enmod expires
+# chmod 750 public_html/server
 
 # PHP 5.5 from DotDeb
 apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
 # ??? pkg-php-tools
+e /etc/php5/fpm/php.ini
+#expose_php = Off
+#max_execution_time = 65
+#memory_limit = 384M
+#upload_max_filesize = 20M
+#allow_url_fopen = Off
+
 
 # opcache, APC control panel
 cp -v webserver/ocp.php <DEVELOPMENT-DOCUMENT-ROOT>
@@ -253,6 +271,25 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 #sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_private_path "<PRIVATE-PATH>"
 #sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_temporary_path "<TEMP_DIRECTORY>"
 #sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes cron_safe_threshold 0
+
+# MariaDB
+apt-get install -y mariadb-server-10.0 mariadb-client-10.0
+echo -e "[mysql]\nuser=root\npass=<PASSWORD>" >> /root/.my.cnf && chmod 600 /root/.my.cnf
+# for PHPMyAdmin see: package/phpmyadmin-get.sh
+
+# Courier MTA - deliver all mail to a smart host
+apt-get install -y courier-mta courier-mta-ssl
+e /etc/courier/defaultdomain
+e /etc/courier/dsnfrom
+e /etc/courier/aliases/system
+e /etc/courier/esmtproutes
+# : <SMART-HOST>,587 /SECURITY=REQUIRED
+e /etc/courier/esmtpauthclient
+# <SMART-HOST>,587 <user> <pass>
+
+# set up certificates
+# see: security/new-ssl-cert.sh
+# test TLS connections: security/README.md
 
 # clean up
 apt-get autoremove --purge

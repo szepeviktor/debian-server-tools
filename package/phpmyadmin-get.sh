@@ -55,3 +55,10 @@ tar --exclude=doc \
     --exclude=build.xml \
     -xf "$TARBALL" && echo "OK." || echo 'NOT ok!'
 
+#$cfg['blowfish_secret']
+# pwgen 7
+
+#$cfg['SuhosinDisableWarning'] = true;
+#$cfg['PmaNoRelation_DisableWarning'] = true;
+#$cfg['DefaultLang'] = 'en';
+#$cfg['ThemeDefault'] = 'original';
