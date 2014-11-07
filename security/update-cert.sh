@@ -2,33 +2,54 @@
 #
 # Generate certificate files for courier-mta, proftpd and apache2.
 #
-# Certificate file names are hardcoded as follows.
-# /etc/courier/ssl-comb3.pem
-# /etc/proftpd/ssl-pub.pem
-# /etc/proftpd/ssl-priv.pem
-# /etc/proftpd/sub.class1.server.ca.pem
-# /etc/apache2/ssl-pub.pem
-# /etc/apache2/ssl-priv.pem
-# /etc/apache2/ca.pem
-# /etc/apache2/sub.class1.server.ca.pem
-#
-# VERSION       :0.1
-# DATE          :2014-09-25
+# VERSION       :0.2
+# DATE          :2014-11-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install openssl
 
 # StartSSL: https://www.startssl.com/certs/
-# CAcert: http://www.cacert.org/index.php?id=3
+#   wget https://www.startssl.com/certs/ca.pem
+#   wget https://www.startssl.com/certs/sub.class1.server.ca.pem
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
+# CAcert: http://www.cacert.org/index.php?id=3
+# NetLock: https://www.netlock.hu/html/cacrl.html
 
+# Certificates from the issuer.
 TODAY="$(date +%Y%m%d)"
 CA="ca.pem"
 SUB="sub.class1.server.ca.pem"
 PRIV="priv-key-${TODAY}.pem"
 PUB="pub-key-${TODAY}.pem"
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
+
+# courier-mta: public + intermediate + private
+COURIER_SSL="/etc/courier/ssl-comb3.pem"
+
+# proftpd
+PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
+PROFTPD_PRIV="/etc/proftpd/ssl-priv.pem"
+PROFTPD_SUB="/etc/proftpd/sub.class1.server.ca.pem"
+
+# apache2
+APACHE_PUB="/etc/apache2/ssl-pub.pem"
+APACHE_PRIV="/etc/apache2/ssl-priv.pem"
+APACHE_SUB="/etc/apache2/sub.class1.server.ca.pem"
+APACHE_CA="/etc/apache2/ca.pem"
+
+# dovecot: public + intermediate
+# http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
+#DOVECOT_PUB="/etc/dovecot/dovecot.pem"
+#DOVECOT_PRIV="/etc/dovecot/private/dovecot.pem"
+
+# webmin: private + public
+# SSL check: https://www.digicert.com/help/
+#WEBMIN_SSL="/etc/webmin/miniserv.pem"
+#WEBMIN_SUB="/etc/webmin/sub.class1.server.ca.pem"
+
+########################################
 
 Die() {
     local RET="$1"
@@ -42,107 +63,192 @@ Readkey() {
     echo
 }
 
-if [ "$(id --user)" != 0 ]; then
-    Die 1 "You need to be root."
-fi
-if [ "$(stat --format=%a .)" != 700 ] \
-    || [ "$(stat --format=%u .)" != 0 ]; then
-    Die 2 "This directory needs to be private (0700) and owned by root."
-fi
-if ! [ -f "$CA" ] || ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
-    Die 3 "Missing cert(s)."
-fi
+Check_requirements() {
+    if [ "$(id --user)" != 0 ]; then
+        Die 1 "You need to be root."
+    fi
+    if [ "$(stat --format=%a .)" != 700 ] \
+        || [ "$(stat --format=%u .)" != 0 ]; then
+        Die 2 "This directory needs to be private (0700) and owned by root."
+    fi
+    if ! [ -f "$CA" ] || ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
+        Die 3 "Missing cert(s)."
+    fi
 
-# check certs
-PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl md5)"
-PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl md5)"
-if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
-    Die 4 "Mismatching certs."
-fi
+    # check certs
+    PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl md5)"
+    PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl md5)"
+    if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
+        Die 4 "Mismatching certs."
+    fi
+}
 
-# protect certs
-chown root:root "$CA" "$SUB" "$PRIV" "$PUB" || Die 10 "certs owner"
-chmod 600 "$CA" "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
+Protect_certs() {
+    # also check cers are readable
+    chown root:root "$CA" "$SUB" "$PRIV" "$PUB" || Die 10 "certs owner"
+    chmod 600 "$CA" "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
+}
 
-# courier-mta
+Courier_mta() {
+    [ -z "$COURIER_SSL" ] && return 1
 
-# public + intermediate + private
-COURIER_SSL="/etc/courier/ssl-comb3.pem"
-cat "$PUB" "$SUB" "$PRIV" > "$COURIER_SSL" || Die 12 "courier cert creation"
-chown root:daemon "$COURIER_SSL" || Die 13 "courier owner"
-chmod 640 "$COURIER_SSL" || Die 14 "courier perms"
-# check configs STARTTLS, SMTPS, IMAP STARTTLS IMAPS
-if grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd \
-    && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd-ssl \
-    && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/imapd-ssl; then
-    service courier-mta restart
-    service courier-mta-ssl restart
-    service courier-imap restart
-    service courier-imap-ssl restart
-    # tests
-    echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:25 -starttls smtp
-    echo "SMTP STARTTLS result=$?"
-    Readkey
-    echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:465
-    echo "SMTPS result=$?"
-    Readkey
-    echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:143 -starttls imap
-    echo "IMAP STARTTLS result=$?"
-    Readkey
-    echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
-    echo "IMAPS result=$?"
-else
-    echo "Add 'TLS_CERTFILE=${COURIER_SSL}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
-fi
-Readkey
+    cat "$PUB" "$SUB" "$PRIV" > "$COURIER_SSL" || Die 12 "courier cert creation"
+    chown root:daemon "$COURIER_SSL" || Die 13 "courier owner"
+    chmod 640 "$COURIER_SSL" || Die 14 "courier perms"
 
-# proftpd
+    # check config files for STARTTLS, SMTPS, IMAP STARTTLS IMAPS
+    if grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd \
+        && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd-ssl \
+        && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/imapd-ssl; then
 
-PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
-PROFTPD_PRIV="/etc/proftpd/ssl-priv.pem"
-PROFTPS_SUB="/etc/proftpd/sub.class1.server.ca.pem"
-cp "$PUB" "$PROFTPD_PUB" || Die 15 "proftpd public"
-cp "$PRIV" "$PROFTPD_PRIV" || Die 16 "proftpd private"
-cp "$SUB" "$PROFTPS_SUB" || Die 17 "proftpd intermediate"
-chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPS_SUB" || Die 18 "proftpd owner"
-chmod 640 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPS_SUB" || Die 19 "proftp perms"
-# check config
-if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
-    && grep -q "^TLSRSACertificateKeyFile\s*${PROFTPD_PRIV}\$" /etc/proftpd/tls.conf \
-    && grep -q "^TLSCACertificateFile\s*${PROFTPS_SUB}\$" /etc/proftpd/tls.conf; then
-    service proftpd restart
-    # test
-    echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:21 -starttls ftp
-    echo "AUTH TLS result=$?"
-else
-    echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" >&2
-fi
-Readkey
+        service courier-mta restart
+        service courier-mta-ssl restart
+        service courier-imap restart
+        service courier-imap-ssl restart
 
-# apache2
+        # tests SMTP, SMTPS, IMAP, IMAPS
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:25 -starttls smtp
+        echo "SMTP STARTTLS result=$?"
+        Readkey
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:465
+        echo "SMTPS result=$?"
+        Readkey
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:143 -starttls imap
+        echo "IMAP STARTTLS result=$?"
+        Readkey
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
+        echo "IMAPS result=$?"
+    else
+        echo "Add 'TLS_CERTFILE=${COURIER_SSL}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
+    fi
+}
 
-APACHE_PUB="/etc/apache2/ssl-pub.pem"
-APACHE_PRIV="/etc/apache2/ssl-priv.pem"
-APACHE_CA="/etc/apache2/ca.pem"
-APACHE_SUB="/etc/apache2/sub.class1.server.ca.pem"
-cp "$PUB" "$APACHE_PUB" || Die 20 "apache public"
-cp "$PRIV" "$APACHE_PRIV" || Die 21 "apache private"
-cp "$CA" "$APACHE_CA" || Die 22 "apache certificate authority"
-cp "$SUB" "$APACHE_SUB" || Die 23 "apache intermediate"
-chown root:root "$APACHE_PUB" "$APACHE_PRIV" "$APACHE_CA" "$APACHE_SUB" || Die 24 "apache owner"
-chmod 640 "$APACHE_PUB" "$APACHE_PRIV" "$APACHE_CA" "$APACHE_SUB" || Die 25 "apache perms"
-# check config
-if  grep -q "^\s*SSLCertificateFile\s*${APACHE_PUB}\$" /etc/apache2/sites-available/default-ssl \
-    && grep -q "^\s*SSLCertificateKeyFile\s*${APACHE_PRIV}\$" /etc/apache2/sites-available/default-ssl \
-    && grep -q "^\s*SSLCACertificateFile\s*${APACHE_CA}\$" /etc/apache2/sites-available/default-ssl \
-    && grep -q "^\s*SSLCertificateChainFile\s*${APACHE_SUB}\$" /etc/apache2/sites-available/default-ssl; then
-    service apache2 restart
-    # test
-    timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:443
-    echo "HTTPS result=$?"
-else
-    echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificateFile and SSLCertificateChainFile" >&2
-fi
-# skip last Readkey
+Proftpd() {
+    [ -z "$PROFTPD_PUB" ] && return 1
+    [ -z "$PROFTPD_PRIV" ] && return 1
+    [ -z "$PROFTPD_SUB" ] && return 1
+
+    cp "$PUB" "$PROFTPD_PUB" || Die 15 "proftpd public"
+    cp "$PRIV" "$PROFTPD_PRIV" || Die 16 "proftpd private"
+    cp "$SUB" "$PROFTPD_SUB" || Die 17 "proftpd intermediate"
+    chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 18 "proftpd owner"
+    chmod 600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 19 "proftpd perms"
+
+    # check config
+    if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
+        && grep -q "^TLSRSACertificateKeyFile\s*${PROFTPD_PRIV}\$" /etc/proftpd/tls.conf \
+        && grep -q "^TLSCACertificateFile\s*${PROFTPD_SUB}\$" /etc/proftpd/tls.conf; then
+
+        service proftpd restart
+
+        # test FTP
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:21 -starttls ftp
+        echo "AUTH TLS result=$?"
+    else
+        echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" >&2
+    fi
+}
+
+Apache2() {
+    [ -z "$APACHE_PUB" ] && return 1
+    [ -z "$APACHE_PRIV" ] && return 1
+    [ -z "$APACHE_SUB" ] && return 1
+    [ -z "$APACHE_CA" ] && return 1
+
+    cp "$PUB" "$APACHE_PUB" || Die 20 "apache public"
+    cp "$PRIV" "$APACHE_PRIV" || Die 21 "apache private"
+    cp "$CA" "$APACHE_CA" || Die 22 "apache certificate authority"
+    cp "$SUB" "$APACHE_SUB" || Die 23 "apache intermediate"
+    chown root:root "$APACHE_PUB" "$APACHE_PRIV" "$APACHE_CA" "$APACHE_SUB" || Die 24 "apache owner"
+    chmod 640 "$APACHE_PUB" "$APACHE_PRIV" "$APACHE_CA" "$APACHE_SUB" || Die 25 "apache perms"
+
+    # check config
+    if  grep -q "^\s*SSLCertificateFile\s*${APACHE_PUB}\$" /etc/apache2/sites-available/default-ssl \
+        && grep -q "^\s*SSLCertificateKeyFile\s*${APACHE_PRIV}\$" /etc/apache2/sites-available/default-ssl \
+        && grep -q "^\s*SSLCACertificateFile\s*${APACHE_CA}\$" /etc/apache2/sites-available/default-ssl \
+        && grep -q "^\s*SSLCertificateChainFile\s*${APACHE_SUB}\$" /etc/apache2/sites-available/default-ssl; then
+
+        service apache2 restart
+
+        # test HTTPS
+#FIXME localhost != CN # SERVER_NAME="$(grep -io "ServerName\s\+\S\+" /etc/apache2/sites-enabled/*ssl*|cut -d' ' -f2)"
+        timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:443
+        echo "HTTPS result=$?"
+    else
+        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificateFile and SSLCertificateChainFile" >&2
+    fi
+}
+
+Dovecot() {
+    [ -z "$DOVECOT_PUB" ] && return 1
+    [ -z "$DOVECOT_PRIV" ] && return 1
+
+    # dovecot: public + intermediate
+    cat "$PUB" "$SUB" > "$DOVECOT_PUB" || Die 26 "dovecot cert creation"
+    cat "$PRIV" > "$DOVECOT_PRIV" || Die 27 "dovecot private cert creation"
+    chown root:root "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 28 "dovecot owner"
+    chmod 600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 29 "dovecot perms"
+
+    # check config files for ssl_cert, ssl_key
+    if grep -q "^ssl_cert\s*=\s*<${DOVECOT_PUB}\$" /etc/dovecot/conf.d/10-ssl.conf \
+        && grep -q "^ssl_key\s*=\s*<${DOVECOT_PRIV}\$" /etc/dovecot/conf.d/10-ssl.conf; then
+
+        service dovecot restart
+
+        # tests POP3, POP3S, IMAP, IMAPS
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:110 -starttls pop3
+        echo "POP3 STARTTLS result=$?"
+        Readkey
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:995
+        echo "POP3S result=$?"
+        Readkey
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:143 -starttls imap
+        echo "IMAP STARTTLS result=$?"
+        Readkey
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
+        echo "IMAPS result=$?"
+    else
+        echo "Edit Dovecot ssl_cert and ssl_key" >&2
+    fi
+}
+
+Webmin() {
+    [ -z "$WEBMIN_SSL" ] && return 1
+#FIXME: could be a separate public key: "certfile="
+    [ -z "$WEBMIN_SUB" ] && return 1
+
+    # webmin: private + public
+    cat "$PRIV" "$PUB" > "$WEBMIN_SSL" || Die 30 "webmin public"
+    cp "$SUB" "$WEBMIN_SUB" || Die 31 "webmin intermediate"
+    chown root:root "$WEBMIN_SSL" "$WEBMIN_SUB" || Die 32 "webmin owner"
+    chmod 600 "$WEBMIN_SSL" "$WEBMIN_SUB" || Die 33 "webmin perms"
+
+    # check config
+    if  grep -q "^keyfile=${WEBMIN_SSLL}\$" /etc/webmin/miniserv.conf \
+        && grep -q "^extracas=${WEBMIN_SUB}\$" /etc/webmin/miniserv.conf; then
+
+        service webmin restart
+
+        # test HTTPS:10000
+        timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:10000
+        echo "HTTPS result=$?"
+    else
+        echo "Edit Webmin keyfile and extracas" >&2
+    fi
+}
+
+Check_requirements
+Protect_certs
+
+Courier_mta && Readkey
+
+Proftpd && Readkey
+
+Apache2 && Readkey
+
+Dovecot && Readkey
+
+Webmin
+# no ReadKey at last
 
 echo "Done."
