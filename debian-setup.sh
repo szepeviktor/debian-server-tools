@@ -291,6 +291,12 @@ e /etc/courier/esmtpauthclient
 # see: security/new-ssl-cert.sh
 # test TLS connections: security/README.md
 
+# monit/oring
+apt-get install -y monit #sid backport???
+cd /etc/monit/conf.d && ln -sv ../monitrc.d/openssh-server openssh-server
+# https://github.com/perusio/monit-miscellaneous
+# http://storage.fladi.at/~FladischerMichael/monit/
+
 # clean up
 apt-get autoremove --purge
 
