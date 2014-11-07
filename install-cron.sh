@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Install all tools from debian-server-tools.
+# Install cron jobs from the script header.
+# E.g. "# CRON-HOURLY    :/usr/local/bin/example.sh"
 #
-# VERSION       :0.3
-# DATE          :2014-08-01
+# VERSION       :0.1
+# DATE          :2014-11-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -49,8 +50,9 @@ while read -r JOB; do
 
     if Valid_cron_interval "$INTERVAL"; then
         CRON_FILE="/etc/${INTERVAL}/$(basename "$SCRIPT")"
-        echo -e ":#!/bin/bash\n${JOB}" | cut -d':' -f 2 #> "$CRON_FILE"
-        echo OKchmod 755 "$CRON_FILE"
+        echo -e ":#!/bin/bash\n${JOB}" | cut -d':' -f 2 > "$CRON_FILE"
+        chmod 755 "$CRON_FILE"
+        echo "${SCRIPT} -> ${CRON_FILE}"
     else
         Die "Invalid cron interval in script header: (${INTERVAL})"
     fi
