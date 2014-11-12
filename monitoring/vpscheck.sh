@@ -4,8 +4,8 @@
 # CPU, memory, disks, swap, clock source, console, nameserver, IP address, gateway, nearest hop
 # Config file location: XDG Base Directory.
 #
-# VERSION       :0.1
-# DATE          :2014-10-22
+# VERSION       :0.2
+# DATE          :2014-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -134,7 +134,7 @@ Add_check MEM 'grep "^MemTotal:" /proc/meminfo | sed "s/\s\+/ /g" | cut -d" " -f
 # - VMware /dev/sd*
 # - XEN /dev/xvd*
 # - KVM dev/vd*
-# - OpenVZ /dev/simfs
+# - OpenVZ: no disk devices, delete this check
 Add_check PART 'ls -1 /dev/xvd* | paste -s -d","'
 
 # swap sizes (kB)
@@ -170,4 +170,9 @@ fi
 
 [ -z "$DIFF" ] && exit 0
 
-echo "$MAIL_CONTENT" | mailx -s "[vpscheck] WARNING!!! ${DIFF}changed" root
+# on terminal
+if tty --quiet; then
+    echo "DIFF=${DIFF}" >&2
+else
+    echo "$MAIL_CONTENT" | mailx -s "[vpscheck] WARNING!!! ${DIFF}changed" root
+fi
