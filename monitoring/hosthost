@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Resolve IPv4 or hostname vice-versa.
+# PTR -> A -> PTR
+# A -> PTR -> A
+#
+# VERSION       :0.2
+# DATE          :2014-11-14
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/hosthost
+# DEPENDS       :apt-get install bind9-host
+
+ARG="$1"
+
+[ -z "$ARG" ] && exit 1
+which host &> /dev/null || exit 2
+
+# IPv4-like pattern
+if [[ "$ARG" =~ ^[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}$ ]]; then
+    # IP -> hostname -> IP
+    PTR="$(host -t PTR "$ARG")"
+    if [ $? == 0 ]; then
+        echo "$PTR"
+        host -t A "${PTR##* domain name pointer }"
+    else
+        echo "Couldn't find PTR record" >&2
+    fi
+else
+    # hostname -> IP -> hostname
+    A="$(host -t A "$ARG")"
+    if [ $? == 0 ]; then
+        echo "$A"
+        # resolve only the first one
+        A="$(head -n 1 <<< "$A")"
+        host -t PTR "${A##* has address }"
+    else
+        echo "Couldn't find A record" >&2
+    fi
+fi

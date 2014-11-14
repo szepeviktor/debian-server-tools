@@ -71,7 +71,7 @@ Update_mini() {
         rm -r "${MINI_PATH}/speedtest" || Die 3 "Failed to remove old files: ./speedtest"
     fi
 
-    unzip "${MINI_PATH}/${ZIP}" -d "${MINI_PATH}/" || Die 4 "Extraction failed."
+    unzip -q "${MINI_PATH}/${ZIP}" -d "${MINI_PATH}/" || Die 4 "Extraction failed."
     rm "${MINI_PATH}/${ZIP}" || Die 5 "ZIP cannot be removed."
 
     mv "${MINI_PATH}/mini/speedtest.swf" "${MINI_PATH}/" || Die 6 "Flash file cannot be moved in place."

@@ -27,6 +27,7 @@ wget -q -O- "$TAGSAPI" \
     | wget -v --content-disposition -i-
 
 #FIXME  could always use this URL: https://github.com/phpmyadmin/phpmyadmin/archive/STABLE.zip
+#FIXME  includes ALL languages
 
 # latest tarball
 TARBALL="$(ls phpmyadmin-phpmyadmin-* | sort -n | tail -n 1)"

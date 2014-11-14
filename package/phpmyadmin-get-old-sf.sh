@@ -1,8 +1,9 @@
 #!/bin/bash
 #
-# Download and extract latest phpMyAdmin from SF
+# Download and extract latest phpMyAdmin 4.0 from SF
+# Older version compatible with PHP 5.2 and MySQL 5. Supported for security fixes only, until Jan 1, 2017.
 #
-# VERSION       :0.2
+# VERSION       :0.1
 # DATE          :2014-08-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,7 +24,7 @@ FILERELEASES="http://sourceforge.net/projects/phpmyadmin/rss?limit=20"
 #   parse tarball URL
 #   get tarball
 wget -q -O- "$FILERELEASES" \
-    | grep -m1 '<link>.*phpMyAdmin-[0-9.]\+-english.tar.xz' \
+    | grep -m1 '<link>.*phpMyAdmin-4\.0\.[0-9.]\+-english.tar.xz' \
     | sed 's|<[^>]*>||g' \
     | wget -nv -N --content-disposition -i-
 

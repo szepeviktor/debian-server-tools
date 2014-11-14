@@ -15,3 +15,5 @@
 # Options in /etc/default/ntpdate
 
 /usr/sbin/ntpdate-debian -s
+
+#TODO: cron.d @reboot, @hourly
