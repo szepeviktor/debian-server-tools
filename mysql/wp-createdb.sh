@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Create database and database user from wp-config.php
-# Need user and password in ~/.my.cnf
+# Needs user, password and default-character-set in ~/.my.cnf [mysql] section.
 #
 # VERSION       :0.1
 # DATE          :2014-11-14
@@ -16,13 +16,17 @@ WP_CONFIG="./wp-config.php"
 Get_wpconfig_var() {
     local VAR="$1"
 
-    if ! grep "^define.*${VAR}.*;$" "$WP_CONFIG" | cut -d"'" -f4; then
+    # UNIX or Windows lineends
+    if ! grep "^define.*${VAR}.*;.\?$" "$WP_CONFIG" | cut -d"'" -f4; then
         echo "Cannot find variable (${VAR})" >&2
         exit 1
     fi
 }
 
+which mysql &> /dev/null || exit 1
 [ -r "$WP_CONFIG" ] || exit 2
+# check credentials
+echo "exit" | mysql || exit 3
 
 DBNAME="$(Get_wpconfig_var "DB_NAME")"
 DBUSER="$(Get_wpconfig_var "DB_USER")"
@@ -48,6 +52,7 @@ mysql --default-character-set=utf8 --host="$DBHOST" <<WPMYSQL || echo "Couldn't 
 CREATE DATABASE IF NOT EXISTS \`${DBNAME}\`
     CHARACTER SET 'utf8'
     COLLATE 'utf8_general_ci';
+-- 'GRANT ALL PRIVILEGES' creates the user
 -- CREATE USER '${DBUSER}'@'${DBHOST}' IDENTIFIED BY '${DBPASS}';
 GRANT ALL PRIVILEGES ON \`${DBNAME}\`.* TO '${DBUSER}'@'${DBHOST}'
     IDENTIFIED BY '${DBPASS}';

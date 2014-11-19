@@ -84,8 +84,10 @@ echo ------------------------------------
 
 # hdparm
 if ! which hdparm &> /dev/null; then
-    echo "to install hdparm on a Debian based system issue:"
-    echo "apt-get install hdparm"
+    echo "to install hdparm on a Debian-based system:"
+    echo "apt-get install -y hdparm"
+    echo "hdparm -t ${DEVICE}"
+    echo "hdparm -T ${DEVICE}"
     exit
 fi
 

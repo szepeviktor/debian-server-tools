@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Complete MySQL backup daily.
+# Needs ~/.my.cnf [mysqldump] section.
 #
 # VERSION       :0.1
 # DATE          :2014-10-22
@@ -13,8 +14,6 @@
 # CRON.D        :2 2 * * *  root  /usr/local/sbin/mysql-backup.sh
 
 BACKUP_TARGET="/root/backup/mysql-today.sql.gz"
-
-# Set up /root/.my.cnf [mysqldump] section.
 
 # IO nice and CPU nice
 /usr/bin/mysqldump -u root --all-databases --events \
