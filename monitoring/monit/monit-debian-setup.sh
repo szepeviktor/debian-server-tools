@@ -22,7 +22,25 @@ Monit_enable() {
         || echo "Cannot create symlink" >&2
 }
 
+# INSTALL
+#
+# https://mmonit.com/monit/documentation/monit.html
+#apt-get install -t wheezy-backports -y monit
+# backported from sid: https://packages.debian.org/sid/amd64/monit/download
+#wget http://mirror.szepe.net/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
+#dpkg -i monit_*_amd64.deb
+# - configuration -
+#service monit restart
+#monit summary
+# wait for start
+#lynx 127.0.0.1:2812
+
 [ -d /etc/monit/monitrc.d ] || exit 1
+[ -z "$MONIT_BOOT_DELAY" ] && exit 2
+[ -z "$MONIT_EMAIL_HOST" ] && exit 2
+[ -z "$MONIT_FULL_HOSTNAME" ] && exit 2
+[ -z "$MONIT_SSH_PORT" ] && exit 2
+[ -z "$MONIT_PHPFPM_SOCKET" ] && exit 2
 
 ## main configuration file
 cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
@@ -108,17 +126,22 @@ Monit_enable fail2ban
 
 ## enable contributed plugins
 # https://github.com/perusio/monit-miscellaneous
-wget "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
-sed -i 's|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|' php-fpm-unix
+wget -O /etc/monit/monitrc.d/php-fpm-unix \
+    "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
+sed -i 's|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|' \
+    /etc/monit/monitrc.d/php-fpm-unix
 Monit_enable php-fpm-unix
 # http://storage.fladi.at/~FladischerMichael/monit/
 # mirror: https://github.com/szepeviktor/FladischerMichael.monit
-wget -O courier "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
+wget -O /etc/monit/monitrc.d/courier \
+    "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
 Monit_enable courier
-wget -O courier-auth "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-auth.test"
+wget -O /etc/monit/monitrc.d/courier-auth \
+    "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-auth.test"
 Monit_enable courier-auth
 if [ -x /usr/bin/imapd ]; then
-    wget -O courier-imap "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-imap.test"
+    wget -O /etc/monit/monitrc.d/courier-imap \
+        "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-imap.test"
     Monit_enable courier-imap
 fi
 # more: https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/

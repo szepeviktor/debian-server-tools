@@ -69,7 +69,7 @@ Add_check() {
 
 Translate() {
     local WORD="$1"
-    local -A DICT=( [PROC]="CPU#" [MEM]="RAM" [PART]="DISK" [DNS1]="DNS" [GW]="GATEWAY" )
+    local -A DICT=( [PROC]="CPU#irqbal" [MEM]="RAM" [PART]="DISK" [DNS1]="DNS" [GW]="GATEWAY" )
 
     if [ -z "${DICT[$WORD]}" ]; then
         echo "$WORD"

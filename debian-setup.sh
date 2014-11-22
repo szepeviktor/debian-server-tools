@@ -32,7 +32,7 @@ deb <MIRROR> wheezy-backports  main
 # upgrade
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc ncurses-term
+apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc lynx ncurses-term
 
 # input
 echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
@@ -178,8 +178,11 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 # time
 ./install-cron.sh monitoring/ntpdated
 # set nearest time server: http://www.pool.ntp.org/en/
+# NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
+# NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
 e /etc/default/ntpdate
-# OVH: ntp.ovh.net
+# OVH
+# NTPSERVERS="ntp.ovh.net"
 
 #TODO  measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
 # https://github.com/mgutz/vpsbench/blob/master/vpsbench
@@ -209,10 +212,10 @@ dpkg-reconfigure -f noninteractive unattended-upgrades
 wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
 unzip slabbed-or-not.zip && rm slabbed-or-not.zip
 cd slabbed-or-not-master/
-make && ./slabbed-or-not|tee ../slabbed-or-not.log
+make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
 
 # VPS check
-#FIXMe install.sh ...
+#FIXME install.sh ...
 cp -v monitoring/vpscheck.sh /usr/local/sbin/vpscheck.sh
 vpscheck.sh -gen
 ./install-cron.sh /usr/local/sbin/vpscheck.sh
@@ -224,18 +227,20 @@ apt-get install -t wheezy-backports -y init-system-helpers
 wget http://ftp.de.debian.org/debian/pool/contrib/g/geoip-database-contrib/geoip-database-contrib_1.17_all.deb
 dpkg -i geoip-database-contrib_*.deb
 # .dsc from sid: https://packages.debian.org/sid/fail2ban
-dget -ux <DSC-URL>
-dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
-#wget http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
-dpkg -i --dry-run fail2ban_*.deb
+#dget -ux <DSC-URL>
+#dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
+# packaged 0.9.1:
+wget http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
 dpkg -i fail2ban_*.deb
-# filter: apache-combined
+# filter: apache-combined, apache-asap
 # action: sendmail-geoip-lines.local
 e /etc/fail2ban/jail.local
 e /etc/fail2ban/fail2ban.local
 
 # apt repositories for these softwares
 # see package/README.md
+e /etc/apt/sources.list.d/others.list
+eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f 2-)"
 apt-get update
 
 # Apache 2.4.x (jessie backport)
@@ -249,24 +254,26 @@ a2enconf php-fpm
 a2enconf h5bp
 e /etc/apache2/conf-enabled/security.conf
 # ServerTokens Prod
-# chmod 750 public_html/server
 
 # for poorly written themes/plugins
 apt-get install -y mod-pagespeed-stable
+# comment out mod-pagespeed/deb
+e /etc/apt/sources.list.d/others.list
 
 # PHP 5.5 from DotDeb
 apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
 # ??? pkg-php-tools
-e /etc/php5/fpm/php.ini
-#expose_php = Off
-#max_execution_time = 65
-#memory_limit = 384M
-#upload_max_filesize = 20M
-#allow_url_fopen = Off
+sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
+sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
+sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
+sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
+sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
+# version 0.9.36
 SUHOSIN_URL="<RELEASE-TAR-GZ>"
+SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/suhosin-0.9.36.tar.gz"
 wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-suhosin-*
 phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
 make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
@@ -282,11 +289,15 @@ TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
 cp -v webserver/ocp.php "$TOOLS_DOCUMENT_ROOT"
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
 echo -e "User-agent: *\nDisallow: /" > "${TOOLS_DOCUMENT_ROOT}/robots.txt"
+# apc/tar
 #APC_URL="http://pecl.php.net/get/APC-3.1.13.tgz"
 #wget -qO- "$APC_URL" | tar xz --no-anchored apc.php && mv APC*/apc.php "$TOOLS_DOCUMENT_ROOT" && rmdir APC*
+# apc trunk for PHP 5.4-
 wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
+# APCu master for PHP 5.5+
+wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
 
-# PHPMyAdmin see: package/phpmyadmin-get.sh
+# PHPMyAdmin see: package/phpmyadmin-get-sf.sh
 cd <PHPMYADMIN_DIR>
 cp config.sample.inc.php config.inc.php
 pwgen -y 30 1
@@ -328,16 +339,23 @@ e /etc/courier/dsnfrom
 e /etc/courier/aliases/system
 e /etc/courier/esmtproutes
 # : <SMART-HOST>,587 /SECURITY=REQUIRED
-e /etc/courier/esmtpauthclient
-# <SMART-HOST>,587 <user> <pass>
+makesmtpaccess
+service courier-mta restart
+service courier-mta-ssl restart
+echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADDRESS>
+# add on the smarthost
+# <IP><TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
 
 # Apache add new site
 adduser --disabled-password <USER>
-# add permissions for real users
+# add sudo permissions for real users
 cd /etc/sudoers.d/
 cd /home/<USER>/public_html/
 mkdir {session,tmp,server,pagespeed,backup}
 htpasswd -c ./htpasswords <LOGIN>
+# chwon -R <USER>:<USER> /home/<USER>/public_*
+# chmod 600 htpasswords
+# chmod 750 /home/<USER>/public_*
 cd /etc/php5/fpm/pool.d
 cd /etc/apache2/sites-available
 a2ensite <SITE>
@@ -353,87 +371,24 @@ cd /etc/cron.d
 # monit-oring
 # https://mmonit.com/monit/documentation/monit.html
 #apt-get install -t wheezy-backports -y monit
-# from sid: https://packages.debian.org/sid/amd64/monit/download
-#wget http://mirror.szepe.net/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
+# backported from sid: https://packages.debian.org/sid/amd64/monit/download
+wget http://mirror.szepe.net/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
 dpkg -i monit_*_amd64.deb
-e /etc/monit/monitrc.d/00_monitrc
-# # https://wiki.debian.org/monit
-# # https://mmonit.com/monit/documentation/monit.html
-#
-# set daemon 120
-#     with start delay 120
-#
-# # alert emails
-# set mailserver localhost port 25
-# set mail-format { from: <root@H> }
-# set alert root@<H>
-#
-# # web interface
-# set httpd port 2812 and
-#     use address localhost
-#     allow localhost
-e "/etc/monit/monitrc.d/${H}"
-# check system ${H//[^a-z0-9]/_}
-#     if loadavg (1min) > 4 then alert
-#     if loadavg (5min) > 2 then alert
-#     if memory usage > 75% then alert
-#     if swap usage > 25% then alert
-#     if cpu usage (user) > 70% then alert
-#     if cpu usage (system) > 30% then alert
-#     if cpu usage (wait) > 20% then alert
-e /etc/monit/monitrc.d/unscd
-# # µNameservice caching daemon (unscd)
-#
-#  check process nscd with pidfile /var/run/nscd/nscd.pid
-#    group system
-#    start program = "/etc/init.d/unscd start"
-#    stop  program = "/etc/init.d/unscd stop"
-#    if 5 restarts within 5 cycles then timeout
-#    depends on nscd_bin
-#    depends on nscd_rc
-#
-#  check file nscd_bin with path /usr/sbin/nscd
-#    group system
-#    if failed permission 755 then unmonitor
-#    if failed uid root then unmonitor
-#    if failed gid root then unmonitor
-#
-#  check file nscd_rc with path /etc/init.d/unscd
-#    group system
-#    if failed permission 755 then unmonitor
-#    if failed uid root then unmonitor
-#    if failed gid root then unmonitor
-# edit SSH port
-wget -O /usr/local/share/munin/plugins/monit_parser https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser
-ln -sv /usr/local/share/munin/plugins/monit_parser /usr/share/munin/plugins/monit_parser
-# [monit_parser]
-# user root
-e /etc/monit/monitrc.d/openssh-server
-cd /etc/monit/conf.d
-ln -sv ../monitrc.d/00_monitrc 00_monitrc
-ln -sv "../monitrc.d/${H}" "$H"
-ln -sv ../monitrc.d/unscd unscd
-
-ln -sv ../monitrc.d/courier courier
-ln -sv ../monitrc.d/courier-auth courier-auth
-ln -sv ../monitrc.d/fail2ban fail2ban
-#e socket path
-ln -sv ../monitrc.d/php-fpm-unix php-fpm-unix
-
-ln -sv ../monitrc.d/apache2 apache2
-ln -sv ../monitrc.d/cron cron
-ln -sv ../monitrc.d/mysql mysql
-ln -sv ../monitrc.d/openssh-server openssh-server
-ln -sv ../monitrc.d/rsyslog rsyslog
+# for configuration see: monitoring/monit
 service monit restart
+monit summary
+# wait for start
 lynx 127.0.0.1:2812
-# https://github.com/perusio/monit-miscellaneous
-# http://storage.fladi.at/~FladischerMichael/monit/
-#TODO list services from above, auto-enable.sh, move to monitoring/monit
 
 # munin - network-wide graphing
 apt-get install -t wheezy-backports -y munin-node
 apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl
+# monit plugin
+mkdir -p /usr/local/share/munin/plugins
+wget -O /usr/local/share/munin/plugins/monit_parser https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser
+ln -sv /usr/local/share/munin/plugins/monit_parser /usr/share/munin/plugins/monit_parser
+# [monit_parser]
+# user root
 # latest mysql plugin
 MUNIN_MYSQL_URL="https://github.com/munin-monitoring/munin/raw/devel/plugins/node.d/mysql_.in"
 mkdir -p /usr/local/share/munin/plugins
