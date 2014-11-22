@@ -16,8 +16,8 @@
 # Older version compatible with PHP 5.2 and MySQL 5
 #wget 'http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/4.0.10.4/phpMyAdmin-4.0.10.4-english.tar.xz/download#!md5!b55c8f9c3447cd1faec3ae574e5daba2'
 
-#FILERELEASES="https://sourceforge.net/api/file/index/project-id/23067/mtime/desc/limit/20/rss"
-FILERELEASES="http://sourceforge.net/projects/phpmyadmin/rss?limit=20"
+# needs more items to include 4.0.x
+FILERELEASES="http://sourceforge.net/projects/phpmyadmin/rss?limit=100"
 
 # get releases RSS
 #   parse first release element

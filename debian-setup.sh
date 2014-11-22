@@ -38,6 +38,7 @@ apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9
 echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
 sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
+echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
 
@@ -50,9 +51,9 @@ nano /root/.bashrc
 export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\
 \w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
 # ls -1 /usr/share/mc/skins/
-export MC_SKIN='modarin256root-defbg'
 export GREP_OPTIONS='--color'
 alias grep='grep $GREP_OPTIONS'
+export MC_SKIN='modarin256root-defbg'
 
 # user
 adduser viktor
@@ -65,8 +66,10 @@ adduser viktor sudo
 nano /etc/shadow
 # ssh on port 3022
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
+# add IP blocking
+nano /etc/hosts.deny
 service ssh restart
-netstat -antp|grep sshd
+netstat -antup|grep sshd
 
 # log out as root
 logout
@@ -93,22 +96,30 @@ ls -latr /boot/
 #cd /boot/; lftp -e "mget *-xxxx-grs-ipv6-64-vps; bye" ftp://ftp.ovh.net/made-in-ovh/bzImage/latest-production/
 # Linode Kernels
 # auto renew - https://www.linode.com/kernels/
-e /etc/motd
 e /etc/sysctl.conf
 
+# misc. files
+e /etc/rc.local
+e /etc/profile
+e /etc/motd
+
 # network
-netstat -antup
-ifconfig
+e /etc/network/interfaces
+# iface eth0 inet static
+#     address <IP>
+#     gateway <GW>
+ifconfig -a
 route -n -4
 route -n -6
-ping6 -n 4 ipv6.google.com
-e /etc/network/interfaces
+netstat -antup
 e /etc/resolv.conf
 #nameserver 8.8.8.8
 #nameserver 8.8.4.4
 #nameserver <LOCAL_NS>
 #options timeout:2
 ##options rotate
+ping6 -c 4 ipv6.google.com
+# should be A 93.184.216.119
 host -v -t A example.com
 # view network graph: http://bgp.he.net/ip/<IP>
 
@@ -117,18 +128,20 @@ host -v -t A example.com
 # consider: http://www.iata.org/publications/Pages/code-search.aspx
 #           http://www.world-airport-codes.com/
 H="<HOST-NAME>"
-# saearch for the old hostname
+# search for the old hostname
 grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
+# add:
+# # <ORIG-REVERSE-DNS>
 e /etc/hosts
 
 # locale, timezone
 locale
 locale -a
-cat /etc/timezone
 dpkg-reconfigure locales
+cat /etc/timezone
 dpkg-reconfigure tzdata
 
 # comment out getty[2-6], not init.d/rc !
@@ -144,7 +157,7 @@ dpkg -l|grep -v "^ii"
 # apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common
 # non-stable packages
 dpkg -l|grep "~[a-z]\+"|sort|uniq -c|sort -n
-dpkg -l|grep "~squeeze"
+dpkg -l|egrep "~squeeze|python2\.6"
 # vps monitoring
 ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
 # see: package/vmware-tools-wheezy.sh
@@ -262,7 +275,7 @@ sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini |
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
-echo -e "[mysql]\nuser=root\npass=<PASSWORD>" >> /root/.my.cnf && chmod 600 /root/.my.cnf
+echo -e "[mysql]\nuser=root\npass=<PASSWORD>\ndefault-character-set=utf8" >> /root/.my.cnf && chmod 600 /root/.my.cnf
 
 # control panel for opcache and APC
 TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"

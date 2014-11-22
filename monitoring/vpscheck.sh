@@ -104,6 +104,8 @@ Check_vps() {
     done
 }
 
+# system tools
+PATH+=":/sbin:/usr/sbin"
 
 # check user and dependencies
 Needs_root_commands

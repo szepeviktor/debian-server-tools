@@ -61,7 +61,7 @@ Build_optipng() {
     dpkg -i optipng_*_amd64.deb
 
     [ -x /usr/bin/optipng ] || exit 16
-    /usr/bin/optipng --version || exit 17
+    optipng --version || exit 17
 }
 
 Build_all() {
@@ -71,6 +71,29 @@ Build_all() {
     Build_optipng
 }
 
+Optimize_jpeg() {
+    local NEW="$(tempfile).imageopti"
+
+    for JPG in *.jpg; do
+        # error check
+        jpeginfo --check "$JPG" | grep "\[OK\]$" || exit 1
+
+        if imgmin "$JPG" "$NEW"; then
+            # make it progressive, strip markers
+            jpegtran -perfect -optimize -progressive -outfile "$JPG" "$NEW" || exit 3
+        else
+            echo "Minification error: $?" >&2
+            exit 1
+        fi
+        echo
+    done
+    [ -f "$NEW" ] && rm "$NEW"
+}
+
+Optimize_png() {
+    optipng -clobber -strip all -o7 *.png
+}
+
 # to build tools
 #Build_all; exit
 
@@ -78,23 +101,5 @@ Build_all() {
 ldd /usr/local/bin/imgmin | grep -q "not found" && exit 99
 which jpeginfo &> /dev/null || exit 99
 
-# JPEG images
-NEW="$(tempfile).imageopti"
-
-for JPG in *.jpg; do
-    # error check
-    jpeginfo --check "$JPG" | grep "\[OK\]\$" || exit 1
-
-    if imgmin "$JPG" "$NEW"; then
-        # make it progressive, strip markers
-        /usr/local/bin/jpegtran -perfect -optimize -progressive -outfile "$JPG" "$NEW" || exit 3
-    else
-        echo "Minification error: $?" >&2
-        exit 1
-    fi
-    echo
-done
-[ -f "$NEW" ] && rm "$NEW"
-
-# PNG images
-[ -f *.png ] && /usr/local/bin/optipng -clobber -strip all -o7 *.png
+ls *.png &> /dev/null && Optimize_jpeg
+ls *.png &> /dev/null && Optimize_png
