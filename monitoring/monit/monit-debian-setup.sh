@@ -31,8 +31,8 @@ Monit_enable() {
 #dpkg -i monit_*_amd64.deb
 # - configuration -
 #service monit restart
-#monit summary
 # wait for start
+#monit summary
 #lynx 127.0.0.1:2812
 
 [ -d /etc/monit/monitrc.d ] || exit 1
@@ -41,6 +41,9 @@ Monit_enable() {
 [ -z "$MONIT_FULL_HOSTNAME" ] && exit 2
 [ -z "$MONIT_SSH_PORT" ] && exit 2
 [ -z "$MONIT_PHPFPM_SOCKET" ] && exit 2
+
+# filename only
+MONIT_PHPFPM_SOCKET="$(basename "$MONIT_PHPFPM_SOCKET")"
 
 ## main configuration file
 cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
@@ -77,6 +80,9 @@ MONITSYSTEM
 
 ## sshd
 sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
+
+## rsyslog
+#sed -i "s/if timestamp > 65 minutes then/if timestamp > 1 day then/" /etc/monit/monitrc.d/rsyslog
 
 ## unscd
 cat > "/etc/monit/monitrc.d/unscd" <<MONITUNSCD
@@ -128,7 +134,7 @@ Monit_enable fail2ban
 # https://github.com/perusio/monit-miscellaneous
 wget -O /etc/monit/monitrc.d/php-fpm-unix \
     "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
-sed -i 's|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|' \
+sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
     /etc/monit/monitrc.d/php-fpm-unix
 Monit_enable php-fpm-unix
 # http://storage.fladi.at/~FladischerMichael/monit/
