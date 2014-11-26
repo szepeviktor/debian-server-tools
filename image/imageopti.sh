@@ -53,7 +53,7 @@ Build_imgmin() {
     /usr/local/bin/imgmin --help || exit 15
 }
 
-Build_optipng() {
+Install_optipng() {
     OPTIPNG_URL="http://mirror.szepe.net/debian/pool/main/o/optipng/optipng_0.7.5-1~bpo70+1_amd64.deb"
 
     apt-get install -y libpng12-0 zlib1g
@@ -66,9 +66,32 @@ Build_optipng() {
 
 Build_all() {
     which autoconf make gcc &> /dev/null || exit 99
+    apt-get install -y libjpeg8 libmagickwand5 jpeginfo
     Build_jpeg
     Build_imgmin
-    Build_optipng
+    Install_optipng
+}
+
+Install_all() {
+    apt-get install -y libjpeg8 libmagickwand5 jpeginfo
+
+    # /usr/local/lib/libjpeg.a
+    # /usr/local/lib/libjpeg.la
+    # /usr/local/lib/libjpeg.so
+    # /usr/local/lib/libjpeg.so.9
+    # /usr/local/lib/libjpeg.so.9.1.0
+    # /usr/local/bin/jpegtran
+    # /usr/local/bin/cjpeg
+    # /usr/local/bin/djpeg
+    # /usr/local/bin/imgmin
+    tar -xvf image.tar
+
+    pushd /usr/local
+    # `/usr/lib/libjpeg.*' -> `/usr/local/lib/libjpeg.*'
+    find lib -name "libjpeg.*" -exec ln -sv /usr/local/\{\} /usr/\{\} \;
+    popd
+
+    Install_optipng
 }
 
 Optimize_jpeg() {
@@ -94,12 +117,16 @@ Optimize_png() {
     optipng -clobber -strip all -o7 *.png
 }
 
-# to build tools
+# build and install tools
 #Build_all; exit
+
+# install tools
+#Install_all; exit
 
 # run-time dependency
 ldd /usr/local/bin/imgmin | grep -q "not found" && exit 99
 which jpeginfo &> /dev/null || exit 99
 
-ls *.png &> /dev/null && Optimize_jpeg
+ls *.jpg &> /dev/null && Optimize_jpeg
 ls *.png &> /dev/null && Optimize_png
+find -maxdepth 1 -type f -iname "*.jpeg" && echo "ERROR: non-jpeg extension"

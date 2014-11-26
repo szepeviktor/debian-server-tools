@@ -13,3 +13,6 @@
 [submodule "mail/imapsync"]
 	path = mail/imapsync
 	url = https://github.com/imapsync/imapsync.git
+[submodule "monitoring/monit/FladischerMichael"]
+	path = monitoring/monit/FladischerMichael
+	url = https://github.com/szepeviktor/FladischerMichael.monit.git

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configure up monit plugins
+# Configure monit plugins
 # These variables need to be filled in.
 #
 
@@ -113,7 +113,7 @@ MONITUNSCD
 cat > "/etc/monit/monitrc.d/fail2ban" <<MONITFAIL2BAN
 check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
     group services
-    start program = "/etc/init.d/fail2ban start"
+    start program = "/etc/init.d/fail2ban force-start"
     stop  program = "/etc/init.d/fail2ban stop"
     if failed unixsocket /var/run/fail2ban/fail2ban.sock then restart
     if 5 restarts within 5 cycles then timeout
@@ -133,7 +133,8 @@ Monit_enable fail2ban
 ## enable contributed plugins
 # https://github.com/perusio/monit-miscellaneous
 wget -O /etc/monit/monitrc.d/php-fpm-unix \
-    "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
+    "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
+#has a bug    "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
 sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
     /etc/monit/monitrc.d/php-fpm-unix
 Monit_enable php-fpm-unix
