@@ -57,8 +57,8 @@ Install_optipng() {
     OPTIPNG_URL="http://mirror.szepe.net/debian/pool/main/o/optipng/optipng_0.7.5-1~bpo70+1_amd64.deb"
 
     apt-get install -y libpng12-0 zlib1g
-    wget "$OPTIPNG_URL"
-    dpkg -i optipng_*_amd64.deb
+    wget -nv -O optipng_amd64.deb "$OPTIPNG_URL"
+    dpkg -i optipng_amd64.deb
 
     [ -x /usr/bin/optipng ] || exit 16
     optipng --version || exit 17
@@ -84,7 +84,17 @@ Install_all() {
     # /usr/local/bin/cjpeg
     # /usr/local/bin/djpeg
     # /usr/local/bin/imgmin
-    tar -xvf image.tar
+    # for wheezy amd64
+    wget -nv http://mirror.szepe.net/_/image.tar
+    IMAGETAR="${PWD}/image.tar"
+
+    pushd /
+    tar -xvf "$IMAGETAR" || exit 1
+    popd
+
+    [ -x /usr/local/bin/jpegtran ] || exit 2
+    [ -x /usr/local/bin/imgmin ] || exit 3
+    /usr/local/bin/imgmin --help || exit 4
 
     pushd /usr/local
     # `/usr/lib/libjpeg.*' -> `/usr/local/lib/libjpeg.*'
@@ -103,7 +113,7 @@ Optimize_jpeg() {
 
         if imgmin "$JPG" "$NEW"; then
             # make it progressive, strip markers
-            jpegtran -perfect -optimize -progressive -outfile "$JPG" "$NEW" || exit 3
+            jpegtran -verbose -perfect -optimize -progressive -copy none -outfile "$JPG" "$NEW" || exit 3
         else
             echo "Minification error: $?" >&2
             exit 1
@@ -118,10 +128,16 @@ Optimize_png() {
 }
 
 # build and install tools
-#Build_all; exit
+if [ "$1" == "-build" ]; then
+    Build_all
+    exit
+fi
 
 # install tools
-#Install_all; exit
+if [ "$1" == "-install" ]; then
+    Install_all
+    exit
+fi
 
 # run-time dependency
 ldd /usr/local/bin/imgmin | grep -q "not found" && exit 99
@@ -129,4 +145,4 @@ which jpeginfo &> /dev/null || exit 99
 
 ls *.jpg &> /dev/null && Optimize_jpeg
 ls *.png &> /dev/null && Optimize_png
-find -maxdepth 1 -type f -iname "*.jpeg" && echo "ERROR: non-jpeg extension"
+find -maxdepth 1 -type f | grep -i "\.jpeg$" && echo "ERROR: non-jpeg extension"

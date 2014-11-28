@@ -167,7 +167,7 @@ apt-get autoremove --purge
 
 # essential packages
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
-    bootlogd ntpdate gcc make colordiff pwgen dos2unix strace
+    bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
 apt-get install -t wheezy-backports -y rsyslog whois git
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
 
@@ -264,11 +264,13 @@ e /etc/apt/sources.list.d/others.list
 apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
 # ??? pkg-php-tools
+PHP_TZ="Europe/London"
 sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
 sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
+sed -i 's|^date.timezone = .*$|date.timezone = ${PHP_TZ}|' /etc/php5/fpm/php.ini
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
 # version 0.9.36
@@ -348,22 +350,25 @@ echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADD
 
 # Apache add new site
 adduser --disabled-password <USER>
+# add system mail alias for <USER>
 # add sudo permissions for real users
 cd /etc/sudoers.d/
-cd /home/<USER>/public_html/
+cd /home/<USER>/
+mkdir public_html && cd public_html
 mkdir {session,tmp,server,pagespeed,backup}
 htpasswd -c ./htpasswords <LOGIN>
 # chwon -R <USER>:<USER> /home/<USER>/public_*
 # chmod 600 htpasswords
 # chmod 750 /home/<USER>/public_*
-cd /etc/php5/fpm/pool.d
+cd /etc/php5/fpm/pool.d/
 cd /etc/apache2/sites-available
 a2ensite <SITE>
-service php5-fpm restart && service apache2 restart
-# web application' cron
-cd /etc/cron.d
-# create WordPress database fromwp-config, see mysql/wp-createdb.sh
+service php5-fpm reload && service apache2 reload
+# web application's cron
+cd /etc/cron.d/
+# create WordPress database from wp-config, see: mysql/wp-createdb.sh
 
+# SSL
 # set up certificates
 # see: security/new-ssl-cert.sh
 # test TLS connections: security/README.md

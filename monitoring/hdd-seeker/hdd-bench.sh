@@ -2,14 +2,14 @@
 #
 # Measure disk access time
 #
-# VERSION       :0.2
-# DATE          :2014-08-01
+# VERSION       :0.3
+# DATE          :2014-11-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/root/hdd-bench/hdd-bench.sh
-# DEPENDS       :apt-get install build-essential hdparm
+# DEPENDS       :apt-get install build-essential hdparm ioping
 
 # fill the disk with random data
 # usage: filld <dir> <4K-blocks>
@@ -97,3 +97,14 @@ echo ------------------------------------
 
 echo;echo "CACHED benchmark"
 hdparm -T "$DEVICE"
+echo ------------------------------------
+
+which ioping &> /dev/null || exit 1
+
+echo;echo "RANDOM ioping"
+ioping -q -i 0 -w 5 -S 64m "$DEVICE"
+echo ------------------------------------
+
+echo;echo "SEQUENTIAL ioping"
+ioping -q -i 0 -w 5 -S 64m -L "$DEVICE"
+echo ------------------------------------
