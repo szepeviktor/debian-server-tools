@@ -150,3 +150,18 @@ apt-config dump | most
 ```bash
 dpkg -S <FILE-PATTERN>
 ```
+
+### List not required and not important packages (package priority)
+
+```bash
+aptitude search '?and(?installed, ?not(?priority(required)), ?not(?priority(important)))' -F"%p" | cut -d' ' -f 1
+```
+
+### List all installed packages and show differences from wheezy base
+
+```bash
+aptitude search '?installed' -F"%p" | cut -d' ' -f 1 > all.pkgs
+grep -v -f debian-wheezy-base.pkgs all.pkgs
+grep -v -f all.pkgs debian-wheezy-base.pkgs
+```
+

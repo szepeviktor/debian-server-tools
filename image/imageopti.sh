@@ -4,10 +4,24 @@
 # JPEG: decrease quality, make it progressive, strip markers
 # PNG: lossless recompression, strip metadata
 #
-# DEPENDS :apt-get install libjpeg8 libmagickwand5 jpeginfo
-# SOURCE  :http://www.infai.org/jpeg/ (jpegtran)
-# SOURCE  :https://github.com/rflynn/imgmin (imgmin)
-# SOURCE  :http://optipng.sourceforge.net/ (optipng)
+# VERSION       :0.2
+# DATE          :2014-11-29
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/imageopti.sh
+# DEPENDS       :apt-get install libmagickwand5 jpeginfo
+# SOURCE        :http://www.infai.org/jpeg/ (jpeg progs)
+# SOURCE        :https://github.com/rflynn/imgmin (imgmin)
+# SOURCE        :http://optipng.sourceforge.net/ (optipng)
+
+# Usage:
+# imageopti.sh -build
+# imageopti.sh -install
+#
+# To optimize all images in the current directory:
+# imageopti.sh
 
 Build_jpeg() {
     local JPEG_SITE="http://www.infai.org/jpeg/"
@@ -19,10 +33,6 @@ Build_jpeg() {
     pushd jpeg-*
     ./configure && make && make install || exit 11
     popd
-
-    # system-wide change
-    #echo "/usr/local/lib" > /etc/ld.so.conf.d/usr-local.conf
-    #ldconfig
 
     pushd /usr/local
     # `/usr/lib/libjpeg.*' -> `/usr/local/lib/libjpeg.*'
@@ -53,6 +63,30 @@ Build_imgmin() {
     /usr/local/bin/imgmin --help || exit 15
 }
 
+Install_jpeg() {
+    JPEG_URL="http://szepeviktor.github.io/debian/pool/main/libj/libjpeg9/libjpeg9_9a-2~bpo70+1_amd64.deb"
+    JPEG_PROGS_URL="http://szepeviktor.github.io/debian/pool/main/libj/libjpeg9/libjpeg-progs_9a-2~bpo70+1_amd64.deb"
+
+    wget -nv -O libjpeg_amd64.deb "$JPEG_URL"
+    wget -nv -O libjpeg-progs_amd64.deb "$JPEG_PROGS_URL"
+    dpkg -i libjpeg_amd64.deb libjpeg-progs_amd64.deb
+
+    [ -x /usr/bin/jpegtran ] || exit 16
+    # accepts no --version
+    #/usr/bin/jpegtran --version || exit 17
+}
+
+Install_imgmin() {
+    IMGMIN_URL="http://szepeviktor.github.io/debian/pool/main/i/imgmin/imgmin_1.0-1_amd64.deb"
+
+    apt-get install -y libgomp1 libmagickcore5 libmagickwand5
+    wget -nv -O imgmin_amd64.deb "$IMGMIN_URL"
+    dpkg -i imgmin_amd64.deb
+
+    [ -x /usr/bin/imgmin ] || exit 18
+    /usr/bin/imgmin --help || exit 19
+}
+
 Install_optipng() {
     OPTIPNG_URL="http://mirror.szepe.net/debian/pool/main/o/optipng/optipng_0.7.5-1~bpo70+1_amd64.deb"
 
@@ -60,21 +94,17 @@ Install_optipng() {
     wget -nv -O optipng_amd64.deb "$OPTIPNG_URL"
     dpkg -i optipng_amd64.deb
 
-    [ -x /usr/bin/optipng ] || exit 16
-    optipng --version || exit 17
+    [ -x /usr/bin/optipng ] || exit 20
+    optipng --version || exit 21
 }
 
 Build_all() {
+
     which autoconf make gcc &> /dev/null || exit 99
-    apt-get install -y libjpeg8 libmagickwand5 jpeginfo
+    apt-get install -y libmagickwand5 jpeginfo
+    jpeginfo --version
+
     Build_jpeg
-    Build_imgmin
-    Install_optipng
-}
-
-Install_all() {
-    apt-get install -y libjpeg8 libmagickwand5 jpeginfo
-
     # /usr/local/lib/libjpeg.a
     # /usr/local/lib/libjpeg.la
     # /usr/local/lib/libjpeg.so
@@ -83,24 +113,19 @@ Install_all() {
     # /usr/local/bin/jpegtran
     # /usr/local/bin/cjpeg
     # /usr/local/bin/djpeg
+
+    Build_imgmin
     # /usr/local/bin/imgmin
-    # for wheezy amd64
-    wget -nv http://mirror.szepe.net/_/image.tar
-    IMAGETAR="${PWD}/image.tar"
 
-    pushd /
-    tar -xvf "$IMAGETAR" || exit 1
-    popd
+    Install_optipng
+}
 
-    [ -x /usr/local/bin/jpegtran ] || exit 2
-    [ -x /usr/local/bin/imgmin ] || exit 3
-    /usr/local/bin/imgmin --help || exit 4
+Install_all() {
+    apt-get install -y jpeginfo
+    jpeginfo --version
 
-    pushd /usr/local
-    # `/usr/lib/libjpeg.*' -> `/usr/local/lib/libjpeg.*'
-    find lib -name "libjpeg.*" -exec ln -sv /usr/local/\{\} /usr/\{\} \;
-    popd
-
+    Install_jpeg
+    Install_imgmin
     Install_optipng
 }
 
@@ -145,4 +170,4 @@ which jpeginfo &> /dev/null || exit 99
 
 ls *.jpg &> /dev/null && Optimize_jpeg
 ls *.png &> /dev/null && Optimize_png
-find -maxdepth 1 -type f | grep -i "\.jpeg$" && echo "ERROR: non-jpeg extension"
+find -maxdepth 1 -type f | grep -i "\.jpeg$" && echo "ERROR: non-jpg extension"

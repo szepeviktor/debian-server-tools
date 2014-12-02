@@ -1,4 +1,5 @@
-5084#cut -d'#' -f1 speedtest_servers_hu.lst|while read S;do speedtest-cli/speedtest_cli.py --server $S;done
+5084#cut -d'#' -f1 speedtest_servers_hu.lst|while read S;do speedtest-cli/speedtest_cli.py --server $S;echo;done
+3715#speedtest-cli/speedtest_cli.py --list|grep -i Hungary|cut -d')' -f1 > /tmp/all-hu.lst
 4246#http://speedtest.szerverplex.hu/speedtest
 1697#http://speedtest.telenor.hu/speedtest
 1677#http://speedtest.vodafone.hu/speedtest/speedtest

@@ -1,0 +1,9 @@
+62.113.243.245	DE	Frankfurt, Germany
+5.196.101.156	FR	Roubaix, France new location
+37.35.104.117	CH	Lausanne, Switzerland
+5.2.16.102	GB	Fareham, GB
+88.80.186.162	GB	London, GB
+37.247.54.35	IT	Milan, Italy
+198.20.101.119	NL	Amsterdam, Netherlands
+185.65.206.103	TR	Istanbul, Turkey new location
+91.203.145.74	UA	Kharkiv, Ukraine

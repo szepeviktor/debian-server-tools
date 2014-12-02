@@ -52,6 +52,7 @@ export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput set
 \w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
 # ls -1 /usr/share/mc/skins/
 export GREP_OPTIONS='--color'
+alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 alias grep='grep $GREP_OPTIONS'
 export MC_SKIN='modarin256root-defbg'
 
@@ -170,6 +171,7 @@ apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debs
     bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
 apt-get install -t wheezy-backports -y rsyslog whois git
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
+cd debian-server-tools && git submodule init && git submodule update
 
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
@@ -341,12 +343,18 @@ e /etc/courier/dsnfrom
 e /etc/courier/aliases/system
 e /etc/courier/esmtproutes
 # : <SMART-HOST>,587 /SECURITY=REQUIRED
+# SMTP listen only on localhost?
+e /etc/courier/esmtpd
+e /etc/courier/esmtpd-ssl
+# ADDRESS=127.0.0.1
 makesmtpaccess
 service courier-mta restart
 service courier-mta-ssl restart
 echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADDRESS>
 # add on the smarthost
 # <IP><TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
+# Spamassassin from https://packages.debian.org/sid/spamassassin
+
 
 # Apache add new site
 adduser --disabled-password <USER>

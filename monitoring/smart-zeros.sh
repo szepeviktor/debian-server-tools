@@ -1,6 +1,20 @@
 #!/bin/bash
 #
 # Check specified S.M.A.R.T. attributes of all hard drives and SSD-s.
+#
+# Manual check: smartctl -A <DEVICE>
+# Only /dev/sd* and /dev/hd* devices are detected.
+#
+# VERSION       :0.2
+# DATE          :2014-12-01
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/smart-zeros.sh
+# CRON-HOURLY   :/usr/local/sbin/smart-zeros.sh
+# DEPENDS       :apt-get install heirloom-mailx smartmontools
+
 # These attributes must have zero raw value:
 #       1 Raw_Read_Error_Rate
 #       5 Reallocated_Sector_Ct
@@ -12,13 +26,10 @@
 #     198 Offline_Uncorrectable
 #     199 UDMA_CRC_Error_Count
 #     200 Multi_Zone_Error_Rate
-# Manual check: smartctl -A <DEVICE>
-# Only /dev/sd* and /dev/hd* devices are detected.
-#
-# DEPENDS          :apt-get install -y heirloom-mailx smartmontools
-
 ZERO_ATTRS=( 1 5 7 10 11 196 197 198 199 200 )
 ALERT_ADDRESS="root"
+# List tolerated errors: <DEVICE>:<ATTRIBUTE>=<VALUE>, /dev/sda:200=1
+SILENCED_ATTRS=( )
 
 Check_zero() {
     local SMART_ATTRS="$1"
@@ -50,8 +61,8 @@ Smart_error() {
     fi
 }
 
-# check for smartmontools
-which smartctl &> /dev/null || exit 99
+# check for smartmontools and mailx
+which smartctl mailx &> /dev/null || exit 99
 
 # /dev/sd* and /dev/hd*
 for DRIVE in $(grep -o "\b[hs]d[a-z]$" /proc/partitions); do
@@ -66,6 +77,15 @@ for DRIVE in $(grep -o "\b[hs]d[a-z]$" /proc/partitions); do
     SMART_ATTRS="$(smartctl -A "$DEVICE" | sed -e 's/^\s\+//' -e 's/\s\+/ /g' | grep '^[0-9]')"
     for ATTR in "${ZERO_ATTRS[@]}"; do
         if ! Check_zero "$SMART_ATTRS" "$ATTR"; then
+
+            # silenced attributes
+            if [ ${#SILENCED_ATTRS[@]} -ne 0 ]; then
+                ATTR_VALUE="$(grep "^${ATTR}\b" <<< "$SMART_ATTRS" | cut -d' ' -f10)"
+                for SILENCED in "${SILENCED_ATTRS[@]}"; do
+                    [ "${DEVICE}:${ATTR}=${ATTR_VALUE}" == "$SILENCED" ] && continue 2
+                done
+            fi
+
             Smart_error "Attribute $(grep -o "^${ATTR} \S\+" <<< "$SMART_ATTRS") changed from zero on (${DEVICE})" "WARNING"
             continue 2
         fi

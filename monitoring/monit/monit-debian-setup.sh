@@ -173,3 +173,7 @@ Monit_enable rsyslog
 #Monit_enable pdns-recursor
 #Monit_enable postfix
 #Monit_enable snmpd
+
+## mail
+#Monit_enable spamassassin
+#Monit_enable courier-imap

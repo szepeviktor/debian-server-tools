@@ -1,0 +1,25 @@
+check process spamd with pidfile /var/run/spamd.pid
+   group mail
+   start program = "/etc/init.d/spamd start"
+   stop  program = "/etc/init.d/spamd stop"
+   if 5 restarts within 5 cycles then timeout
+   if cpu usage > 90% for 5 cycles then alert
+   if mem usage > 90% for 5 cycles then alert
+   depends on spamd_bin
+   depends on spamd_rc
+
+ check file spamd_bin with path /usr/local/bin/spamd
+   group mail
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+
+ check file spamd_rc with path /etc/init.d/spamd
+   group mail
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+
+#compile dir > 7 days
