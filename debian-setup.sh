@@ -437,8 +437,8 @@ apt-get install -t wheezy-backports -y munin-node
 # for configuration see: monitoring/munin
 # enable plugins by hand
 munin-node-configure --shell
-ps aux
 # review plugins
+ps aux
 ls -l /etc/munin/plugins
 # check plugins
 ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4;
