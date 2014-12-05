@@ -16,6 +16,7 @@ Global networking tools
 - OVH datacenters http://travaux.ovh.net/vms/index_sbg1.html
 - Digital Ocean 9 http://speedtest-ams3.digitalocean.com/ PTS
 - Linode 6 https://www.linode.com/speedtest PTS
+- VPS.NET http://cloudtestfiles.net/ PTS
 - Vultr 10 http://www.ssdpromocode.com/vultr-locations-test PTS
     - http://fra-de-ping.vultr.com/ping.php?host=8.8.8.8
     - http://fra-de-ping.vultr.com/trace.php?host=8.8.8.8

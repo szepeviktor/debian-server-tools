@@ -20,14 +20,17 @@ nano /etc/apt/sources.list
 # server4you: http://debian.intergenia.de/debian
 # closest mirror http://http.debian.net/debian
 # national mirror: http://ftp.<COUNTRY-CODE>.debian.org/debian
-deb <MIRROR> wheezy  main contrib non-free
+deb <MIRROR> wheezy main contrib non-free
 # security
-deb http://security.debian.org/ wheezy/updates  main contrib non-free
+deb http://security.debian.org/ wheezy/updates main contrib non-free
 # updates (previously known as 'volatile')
-deb <MIRROR> wheezy-updates  main
+deb <MIRROR> wheezy-updates main
 # backports
 # http://backports.debian.org/changes/wheezy-backports.html
-deb <MIRROR> wheezy-backports  main
+deb <MIRROR> wheezy-backports main
+
+# disable apt languages
+echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 
 # upgrade
 apt-get update
@@ -68,6 +71,7 @@ nano /etc/shadow
 # ssh on port 3022
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
 # add IP blocking
+# see: security/README.md
 nano /etc/hosts.deny
 service ssh restart
 netstat -antup|grep sshd
@@ -190,8 +194,8 @@ e /etc/default/ntpdate
 # https://github.com/mgutz/vpsbench/blob/master/vpsbench
 
 # backported unscd
-wget http://mirror.szepe.net/debian/pool/main/u/unscd/unscd_0.51-1~bpo70+1_amd64.deb
-dpkg -i unscd_*_amd64.deb
+wget -O unscd_amd64.deb http://szepeviktor.github.io/debian/pool/main/u/unscd/unscd_0.51-1~bpo70+1_amd64.deb
+dpkg -i unscd_amd64.deb
 e /etc/nscd.conf
 # enable-cache            hosts   yes
 # positive-time-to-live   hosts   60
@@ -232,8 +236,9 @@ dpkg -i geoip-database-contrib_*.deb
 #dget -ux <DSC-URL>
 #dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
 # packaged 0.9.1:
-wget http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
-dpkg -i fail2ban_*.deb
+wget -O fail2ban_all.deb http://szepeviktor.github.io/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
+http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
+dpkg -i fail2ban_all.deb
 # filter: apache-combined, apache-asap
 # action: sendmail-geoip-lines.local
 e /etc/fail2ban/jail.local
@@ -385,8 +390,8 @@ cd /etc/cron.d/
 # https://mmonit.com/monit/documentation/monit.html
 #apt-get install -t wheezy-backports -y monit
 # backported from sid: https://packages.debian.org/sid/amd64/monit/download
-wget http://mirror.szepe.net/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
-dpkg -i monit_*_amd64.deb
+wget -O monit_amd64.deb http://szepeviktor.github.io/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
+dpkg -i monit_amd64.deb
 # for configuration see: monitoring/monit
 service monit restart
 monit summary
@@ -394,46 +399,21 @@ monit summary
 lynx 127.0.0.1:2812
 
 # munin - network-wide graphing
-apt-get install -t wheezy-backports -y munin-node
 apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl
-# monit plugin
-mkdir -p /usr/local/share/munin/plugins
-wget -O /usr/local/share/munin/plugins/monit_parser https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser
-ln -sv /usr/local/share/munin/plugins/monit_parser /usr/share/munin/plugins/monit_parser
-# [monit_parser]
-# user root
-# latest mysql plugin
-MUNIN_MYSQL_URL="https://github.com/munin-monitoring/munin/raw/devel/plugins/node.d/mysql_.in"
-mkdir -p /usr/local/share/munin/plugins
-wget -qO- "$MUNIN_MYSQL_URL"|sed 's|^#!@@PERL@@$|#!/usr/bin/env perl|' > /usr/local/share/munin/plugins/mysql_
-chmod 755 /usr/local/share/munin/plugins/mysql_
-ln -svf /usr/local/share/munin/plugins/mysql_ /usr/share/munin/plugins/mysql_
-munin-node-configure --suggest
+apt-get install -t wheezy-backports -y munin-node
+# for configuration see: monitoring/munin
+# enable plugins by hand
 munin-node-configure --shell
-# allow munin server IP
-e /etc/munin/munin-node.conf
-e /etc/munin/plugin-conf.d/munin-node
-# [fail2ban]
-# user root
-# [http_loadtime]
-# env.target http://website.tld/
-e /usr/share/munin/plugins/mysql_
-# mysql_qcache/Qcache_queries_in_cache
-# , cdef => 'Qcache_queries_in_cache,1024,/', type => 'GAUGE'
-e /usr/share/munin/plugins/courier_mta_mailqueue
-e /usr/share/munin/plugins/courier_mta_mailstats
-e /usr/share/munin/plugins/courier_mta_mailvolume
-# courier_mta*/"graph_category
-# graph_category mail
-# print "graph_category mail\n";
+ps aux
 # review plugins
 ls -l /etc/munin/plugins
+# check plugins
+ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4;
+    elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
+# allow munin server IP in node config
+# regexp IP address: ^1\.2\.3\.4$
+e /etc/munin/munin-node.conf
 service munin-node restart
-# add node to munin master
-# >>> https://github.com/stars?q=munin
-# https://github.com/tjstein/php5-fpm-munin-plugins
-#TODO list services from above
-#TODO https://www.monitis.com/monitoring-plan-builder
 
 # clean up
 apt-get autoremove --purge

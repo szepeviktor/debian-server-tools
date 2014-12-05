@@ -28,7 +28,8 @@
 #     200 Multi_Zone_Error_Rate
 ZERO_ATTRS=( 1 5 7 10 11 196 197 198 199 200 )
 ALERT_ADDRESS="root"
-# List tolerated errors: <DEVICE>:<ATTRIBUTE>=<VALUE>, /dev/sda:200=1
+# List tolerated errors: <DEVICE>:<ATTRIBUTE>=<VALUE>
+# Example: SILENCED_ATTRS=( /dev/sda:200=1 /dev/sdb:199=10 )
 SILENCED_ATTRS=( )
 
 Check_zero() {

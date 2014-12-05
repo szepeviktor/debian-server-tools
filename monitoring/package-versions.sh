@@ -93,6 +93,11 @@ if which pear &> /dev/null; then
     pear update-channels > /dev/null && pear list-upgrades || echo "pear update failure"
 fi
 
+##TODO perl
+# DEPENDS      :cpan App::pmodinfo
+# list all:     pmodinfo -l
+# updates:      echo n | pmodinfo -u
+
 if which npm &> /dev/null; then
     h1 "node.js"
     v "npm"; npm --version
