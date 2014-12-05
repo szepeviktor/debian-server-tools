@@ -45,6 +45,10 @@ Global networking tools
 - RIPE https://stat.ripe.net/widget/bgplay B https://stat.ripe.net/widget/list
 - RIPEstat https://stat.ripe.net/ B
 - https://www.peeringdb.com/login.php
+- BIX http://www.bix.hu/lg/lg.cgi PTB6
+- HBONE http://diag.vh.hbone.hu/lookingglass/lg.cgi PTB6
+- HBONE http://diag.vh.hbone.hu/mtr/ PT6
+
 
 ##### Legend
 
@@ -52,3 +56,4 @@ Global networking tools
 `T` - traceroute
 `S` - speedtest
 `B` - BGP
+`6` - IPv6

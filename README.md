@@ -37,3 +37,17 @@ Security and SSL certificate related tools.
 ### /webserver
 
 Tools related to building webservers.
+
+### Fast and safe transit of scripts (or any data) via copy&paste
+
+Pack:
+
+```bash
+cat <SCRIPT>|xz -9|base64 -w $((COLUMNS-1))
+```
+
+Unpack:
+
+```bash
+cat <PACKED>|base64 -d|xz -d > <SCRIPT>
+```
