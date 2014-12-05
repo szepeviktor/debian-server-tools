@@ -1,0 +1,29 @@
+[INCLUDES]
+
+before = sendmail-common.conf
+
+[Definition]
+
+actionban = printf %%b "Subject: [admin] fail2ban <name> banned <ip> from `uname -n`
+            Date: `LC_TIME=C date -u +"%%a, %%d %%h %%Y %%T +0000"`
+            From: <sendername> <<sender>>
+            To: <dest>
+            MIME-Version: 1.0
+            Content-Type: text/plain; charset=UTF-8
+            Content-Disposition: inline
+            Content-Transfer-Encoding: quoted-printable\n
+            <failures> attempts against <name>\n
+            http://whois.domaintools.com/<ip>\n\n
+            Country:`geoiplookup -f /usr/share/GeoIP/GeoIP.dat "<ip>" | cut -d":" -f2- | recode -f ..UTF8/QP`
+            AS:`geoiplookup -f /usr/share/GeoIP/GeoIPASNum.dat "<ip>" | cut -d":" -f2- | recode -f ..UTF8/QP`
+            hostname: `/usr/bin/host -tA <ip> 2>&1 | recode -f ..UTF8/QP`\n\n
+            Lines containing IP:<ip> in <logpath>\n
+            `grep '[^0-9]<ip>[^0-9]' <logpath> | recode -f ..UTF8/QP`\n\n
+            Regards,\n
+            Fail2Ban" | /usr/sbin/sendmail -f <sender> <dest>
+
+[Init]
+
+name = default
+
+logpath = /dev/null

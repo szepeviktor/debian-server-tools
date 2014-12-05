@@ -1,0 +1,82 @@
+# [DEFAULT]
+# bantime = 3600
+#
+# [sshd]
+# enabled = true
+#
+# See jail.conf(5) man page for more information
+
+
+[DEFAULT]
+#                      googlebot      CF                        own IP
+ignoreip = 127.0.0.1/8 66.249.64.0/19 54.72.0.0/13 54.80.0.0/12 @@IP@@
+# ignorecommand = /path/to/command <ip>
+ignorecommand =
+
+bantime  = 3600
+
+findtime  = 600
+
+maxretry = 5
+
+backend = pyinotify
+
+usedns = no
+
+destemail = viktor@szepe.net
+
+sender = @@SENDER@@
+
+# ban & send an e-mail with GEOIP data and relevant log lines
+action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+             %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+action = %(action_mgl)s
+
+
+#
+# JAILS
+#
+
+[sshd]
+enabled  = true
+port     = @@SSHPORT@@
+logpath  = %(sshd_log)s
+maxretry = 3
+
+[sshd-ddos]
+enabled = true
+port    = @@SSHPORT@@
+logpath = %(sshd_log)s
+
+[apache-combined]
+enabled  = true
+port     = http,https
+logpath  = %(apache_error_log)s
+bantime  = 172800 ; 48h
+maxretry = 6
+
+#[suhosin]
+#port    = http,https
+#logpath = %(suhosin_log)s
+
+#[horde]
+#port     = http,https
+#logpath  = /var/log/horde/horde.log
+
+#[courier-smtp]
+#enabled  = true
+#port     = smtp,465,submission
+#logpath  = %(syslog_mail)s
+
+#[courier-auth]
+#enabled  = true
+#port     = smtp,465,submission,imap3,imaps,pop3,pop3s
+#logpath  = %(syslog_mail)s
+
+[recidive]
+enabled  = true
+logpath  = /var/log/fail2ban.log
+bantime  = 604800  ; 1 week
+findtime = 86400   ; 1 day
+maxretry = 3
+action   = iptables-allports[name=recidive]

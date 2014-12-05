@@ -1,9 +1,15 @@
 #!/bin/bash
 #
-# Debian setup (wheezy amd64).
+# Debian server setup - wheezy amd64
 # Not a script but a manual.
 #
-# Some OVH VPS tips like: /etc/ovhrc
+# OVH VPS data: /etc/ovhrc
+
+exit 0
+
+# download this repo
+git clone https://github.com/szepeviktor/debian-server-tools.git
+cd debian-server-tools/ && git submodule init && git submodule update
 
 
 # identify distribution
@@ -15,6 +21,7 @@ apt-get autoremove --purge -y
 
 # packages sources
 nano /etc/apt/sources.list
+
 # Linode: http://mirrors.linode.com/debian
 # OVH: http://debian.mirrors.ovh.net/debian
 # server4you: http://debian.intergenia.de/debian
@@ -54,21 +61,23 @@ nano /root/.bashrc
 export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\
 \w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
 # ls -1 /usr/share/mc/skins/
-export GREP_OPTIONS='--color'
+export GREP_OPTIONS="--color"
 alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 alias grep='grep $GREP_OPTIONS'
-export MC_SKIN='modarin256root-defbg'
+# putty / Connection / Data / Terminal-type string: putty-256color
+export MC_SKIN="modarin256root-defbg"
 
 # user
-adduser viktor
+U="viktor"
+adduser $U
 # enter password...
 K="<PUBLIC-KEY>"
-S="/home/viktor/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R viktor:viktor "$S"
-adduser viktor sudo
+S="/home/$U/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R $U:$U "$S"
+adduser $U sudo
 
 # remove root password
 nano /etc/shadow
-# ssh on port 3022
+# sshd on another port
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
 # add IP blocking
 # see: security/README.md
@@ -175,17 +184,19 @@ apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debs
     bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
 apt-get install -t wheezy-backports -y rsyslog whois git
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
-cd debian-server-tools && git submodule init && git submodule update
+cd debian-server-tools/ && git submodule init && git submodule update
 
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
 
 # time
+cp -v monitoring/ntpdated /usr/local/sbin/
 ./install-cron.sh monitoring/ntpdated
 # set nearest time server: http://www.pool.ntp.org/en/
 # NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 # NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
+# NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
 e /etc/default/ntpdate
 # OVH
 # NTPSERVERS="ntp.ovh.net"
@@ -222,7 +233,7 @@ make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
 
 # VPS check
 #FIXME install.sh ...
-cp -v monitoring/vpscheck.sh /usr/local/sbin/vpscheck.sh
+cp -v monitoring/vpscheck.sh /usr/local/sbin/
 vpscheck.sh -gen
 ./install-cron.sh /usr/local/sbin/vpscheck.sh
 
@@ -230,22 +241,21 @@ vpscheck.sh -gen
 apt-get install -y geoip-bin recode python3-pyinotify
 apt-get install -t wheezy-backports -y init-system-helpers
 # latest geoip-database-contrib version
-wget http://ftp.de.debian.org/debian/pool/contrib/g/geoip-database-contrib/geoip-database-contrib_1.17_all.deb
-dpkg -i geoip-database-contrib_*.deb
+GEOIP=$(wget -qO- https://packages.debian.org/sid/all/geoip-database-contrib/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
+wget -O geoip-database-contrib_all.deb "$GEOIP"
+dpkg -i geoip-database-contrib_all.deb
 # .dsc from sid: https://packages.debian.org/sid/fail2ban
 #dget -ux <DSC-URL>
 #dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
-# packaged 0.9.1:
+# packaged 0.9.1
 wget -O fail2ban_all.deb http://szepeviktor.github.io/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
-http://mirror.szepe.net/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
 dpkg -i fail2ban_all.deb
 # filter: apache-combined, apache-asap
 # action: sendmail-geoip-lines.local
 e /etc/fail2ban/jail.local
 e /etc/fail2ban/fail2ban.local
 
-# apt repositories for these softwares
-# see package/README.md
+# apt repositories for these softwares, see package/README.md
 e /etc/apt/sources.list.d/others.list
 eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f 2-)"
 apt-get update

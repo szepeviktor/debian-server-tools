@@ -1,0 +1,30 @@
+[INCLUDES]
+before = apache-common.conf
+
+[Definition]
+ignoreregex = 
+
+#auth
+#noscript
+#overflows
+#shellshock
+#wpf2b
+failregex = ^%(_apache_error_client)s (AH(01797|01630): )?client denied by server configuration: (uri )?\S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01617: )?user .*? authentication failure for "\S*": Password Mismatch(, referer: \S+)?$
+            ^%(_apache_error_client)s (AH01618: )?user .*? not found(: )?\S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01614: )?client used wrong authentication scheme: \S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH\d+: )?Authorization of user \S+ to access \S* failed, reason: .*$
+            ^%(_apache_error_client)s (AH0179[24]: )?(Digest: )?user .*?: password mismatch: \S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH0179[01]: |Digest: )user `.*?' in realm `.+' (not found|denied by provider): \S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01631: )?user .*?: authorization failure for "\S*":(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01775: )?(Digest: )?invalid nonce .* received - length is not \S+(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01788: )?(Digest: )?realm mismatch - got `.*?' but expected `.+'(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01789: )?(Digest: )?unknown algorithm `.*?' received: \S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01793: )?invalid qop `.*?' received: \S*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01777: )?(Digest: )?invalid nonce .*? received - user attempted time travel(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s ((AH001(28|30): )?File does not exist|(AH01264: )?script not found or unable to stat): /\S*(php([45]|[.-]cgi)?|\.asp|\.exe|\.pl)(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s script '/\S*(php([45]|[.-]cgi)?|\.asp|\.exe|\.pl)\S*' not found or unable to stat(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s ((AH0013[456]: )?Invalid (method|URI) in request .*( - possible attempt to establish SSL connection on non-SSL port)?|(AH00565: )?request failed: URI too long \(longer than \d+\)|request failed: erroneous characters after protocol string: .*|AH00566: request failed: invalid characters in URI)(, referer: \S+)?$
+            ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: warning: HTTP_.*?: ignoring function definition attempt(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: error importing function definition for `HTTP_.*?'(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s FastCGI: server "/\S*" stderr: PHP message: File does not exist: .*(, referer: \S+)?\s*$

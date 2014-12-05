@@ -27,10 +27,13 @@ vmware-uninstall-tools.pl
 # Add VMware tools Debian repository
 # info: http://packages.vmware.com/tools/versions
 echo "deb http://packages.vmware.com/tools/esx/latest/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
+apt-get update
+# https://help.ubuntu.com/community/VMware/Tools
+wget -qO- http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub|apt-key add -
 
 # fake upstart
 dpkg-divert --local --rename --add /sbin/initctl
-ln -vfs /bin/true /sbin/initctl
+ln -vs /bin/true /sbin/initctl
 
 apt-get install vmware-tools-services vmware-tools-user
 
@@ -68,5 +71,7 @@ service vmware-tools-services start
 service vmware-tools status
 ps aux|grep -v "grep"|egrep "vmtoolsd"
 vmtoolsd --version
-vmware-checkvm
+# http://www.firetooth.net/confluence/display/public/VMware+Tools+for+Linux
+/usr/lib/vmware-tools/sbin/vmware-checkvm -p
+/usr/lib/vmware-tools/sbin/vmware-checkvm -h
 vmware-toolbox-cmd stat sessionid
