@@ -82,6 +82,8 @@ echo;echo "DIRECT benchmark"
 ./seeker "$DEVICE" 2
 echo ------------------------------------
 
+rm seeker seekmark test
+
 # hdparm
 if ! which hdparm &> /dev/null; then
     echo "to install hdparm on a Debian-based system:"
@@ -99,7 +101,14 @@ echo;echo "CACHED benchmark"
 hdparm -T "$DEVICE"
 echo ------------------------------------
 
-which ioping &> /dev/null || exit 1
+# ioping
+if ! which hdparm &> /dev/null; then
+    echo "to install ioping on a Debian-based system:"
+    echo "apt-get install -y ioping"
+    echo "ioping -q -i 0 -w 5 -S 64m ${DEVICE}"
+    echo "ioping -q -i 0 -w 5 -S 64m -L ${DEVICE}"
+    exit
+fi
 
 echo;echo "RANDOM ioping"
 ioping -q -i 0 -w 5 -S 64m "$DEVICE"

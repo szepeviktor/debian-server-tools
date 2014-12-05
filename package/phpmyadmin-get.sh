@@ -35,7 +35,6 @@ TARBALL="$(ls phpmyadmin-phpmyadmin-* | sort -n | tail -n 1)"
 # extract
 tar --exclude=doc \
     --exclude=.coveralls.yml \
-    --exclude=examples \
     --exclude=setup \
     --exclude=ChangeLog \
     --exclude=composer.json \

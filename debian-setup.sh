@@ -5,6 +5,14 @@
 #
 # OVH VPS data: /etc/ovhrc
 
+# How to choose VPS provider?
+# disk access time
+# CPU speed
+# worldwide/local bandwidth
+# nightime technical support: network or hardware failure response time
+# daytime technical and billing support
+# DoS mitigation
+
 exit 0
 
 # download this repo
@@ -281,18 +289,19 @@ e /etc/apt/sources.list.d/others.list
 apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
 # ??? pkg-php-tools
-PHP_TZ="Europe/London"
+PHP_TZ="$(head -n 1 /etc/timezone)"
 sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
 sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i 's|^date.timezone = .*$|date.timezone = ${PHP_TZ}|' /etc/php5/fpm/php.ini
+grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
-# version 0.9.36
+# version 0.9.37
 SUHOSIN_URL="<RELEASE-TAR-GZ>"
-SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/suhosin-0.9.36.tar.gz"
+SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/suhosin-0.9.37.tar.gz"
 wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-suhosin-*
 phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
 make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
@@ -305,6 +314,7 @@ echo -e "[mysql]\nuser=root\npass=<PASSWORD>\ndefault-character-set=utf8" >> /ro
 
 # control panel for opcache and APC
 TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
+TOOLS_DOCUMENT_ROOT=/home/web/public_html/server/
 cp -v webserver/ocp.php "$TOOLS_DOCUMENT_ROOT"
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
 echo -e "User-agent: *\nDisallow: /" > "${TOOLS_DOCUMENT_ROOT}/robots.txt"
@@ -312,9 +322,11 @@ echo -e "User-agent: *\nDisallow: /" > "${TOOLS_DOCUMENT_ROOT}/robots.txt"
 #APC_URL="http://pecl.php.net/get/APC-3.1.13.tgz"
 #wget -qO- "$APC_URL" | tar xz --no-anchored apc.php && mv APC*/apc.php "$TOOLS_DOCUMENT_ROOT" && rmdir APC*
 # apc trunk for PHP 5.4-
-wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
+php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
+    && wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
 # APCu master for PHP 5.5+
-wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
+php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
+    && wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
 
 # PHPMyAdmin see: package/phpmyadmin-get-sf.sh
 cd <PHPMYADMIN_DIR>
@@ -333,7 +345,7 @@ wget -O /usr/local/bin/wp "$WPCLI_URL" && chmod +x /usr/local/bin/wp
 WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash"
 wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli completions/' > /etc/bash_completion.d/wp-cli
 # if you have suhosin in global php5 config
-#grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/suhosin*.ini || echo "Please enable phar in suhosin!"
+#grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/*suhosin*.ini || echo "Please enable phar in suhosin!"
 
 # drush - https://github.com/drush-ops/drush/releases
 wget -qO "getcomposer.php" https://getcomposer.org/installer
@@ -352,8 +364,14 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 #sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes cron_safe_threshold 0
 
 # Courier MTA - deliver all mail to a smart host
-apt-get install -y courier-mta courier-mta-ssl
+apt-get install -y courier-mta courier-ssl
+# SMTPS: apt-get install -y courier-mta courier-mta-ssl
+dpkg -l|egrep "postfix|exim"
+apt-get purge exim4 exim4-base exim4-config exim4-daemon-light
+# hostname
 e /etc/courier/me
+# default domain
+e /etc/courier/defaultdomain
 e /etc/courier/dsnfrom
 e /etc/courier/aliases/system
 e /etc/courier/esmtproutes
@@ -362,14 +380,18 @@ e /etc/courier/esmtproutes
 e /etc/courier/esmtpd
 e /etc/courier/esmtpd-ssl
 # ADDRESS=127.0.0.1
+makealiases
 makesmtpaccess
 service courier-mta restart
 service courier-mta-ssl restart
 echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADDRESS>
-# add on the smarthost
+# on the smarthost add:
 # <IP><TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
-# Spamassassin from https://packages.debian.org/sid/spamassassin
 
+# latest Spamassassin version
+#SA_URL=$(wget -qO- https://packages.debian.org/sid/all/spamassassin/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
+#wget -O spamassassin_all.deb "$SA_URL"
+#dpkg -i spamassassin_all.deb
 
 # Apache add new site
 adduser --disabled-password <USER>
@@ -380,8 +402,8 @@ cd /home/<USER>/
 mkdir public_html && cd public_html
 mkdir {session,tmp,server,pagespeed,backup}
 htpasswd -c ./htpasswords <LOGIN>
+chmod 600 ./htpasswords
 # chwon -R <USER>:<USER> /home/<USER>/public_*
-# chmod 600 htpasswords
 # chmod 750 /home/<USER>/public_*
 cd /etc/php5/fpm/pool.d/
 cd /etc/apache2/sites-available
@@ -391,7 +413,7 @@ service php5-fpm reload && service apache2 reload
 cd /etc/cron.d/
 # create WordPress database from wp-config, see: mysql/wp-createdb.sh
 
-# SSL
+# SSL for web/mail/etc.
 # set up certificates
 # see: security/new-ssl-cert.sh
 # test TLS connections: security/README.md
@@ -404,8 +426,9 @@ wget -O monit_amd64.deb http://szepeviktor.github.io/debian/pool/main/m/monit/mo
 dpkg -i monit_amd64.deb
 # for configuration see: monitoring/monit
 service monit restart
-monit summary
 # wait for start
+tail -f /var/log/monit.log
+monit summary
 lynx 127.0.0.1:2812
 
 # munin - network-wide graphing

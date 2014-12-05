@@ -2,9 +2,10 @@
 #
 # Configure monit plugins
 # These variables need to be filled in.
-#
+# http://mmonit.com/wiki/Monit/ConfigurationExamples
 
 MONIT_BOOT_DELAY="120"
+# the hostname after root@
 MONIT_EMAIL_HOST=""
 MONIT_FULL_HOSTNAME=""
 MONIT_SSH_PORT=""
@@ -82,7 +83,7 @@ MONITSYSTEM
 sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
 
 ## rsyslog
-#sed -i "s/if timestamp > 65 minutes then/if timestamp > 1 day then/" /etc/monit/monitrc.d/rsyslog
+sed -i 's|check file rsyslog_file with path /var/log/messages|check file rsyslog_file with path /var/log/syslog|' /etc/monit/monitrc.d/rsyslog
 
 ## unscd
 cat > "/etc/monit/monitrc.d/unscd" <<MONITUNSCD
@@ -138,14 +139,21 @@ wget -O /etc/monit/monitrc.d/php-fpm-unix \
 sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
     /etc/monit/monitrc.d/php-fpm-unix
 Monit_enable php-fpm-unix
+
 # http://storage.fladi.at/~FladischerMichael/monit/
 # mirror: https://github.com/szepeviktor/FladischerMichael.monit
-wget -O /etc/monit/monitrc.d/courier \
-    "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
-Monit_enable courier
-wget -O /etc/monit/monitrc.d/courier-auth \
-    "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-auth.test"
-Monit_enable courier-auth
+if [ -x /usr/sbin/courieresmtpd ]; then
+    wget -O /etc/monit/monitrc.d/courier \
+        "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
+    Monit_enable courier
+fi
+
+if [ -x /usr/lib/courier/courier-authlib/authdaemond ]; then
+    wget -O /etc/monit/monitrc.d/courier-auth \
+        "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-auth.test"
+    Monit_enable courier-auth
+fi
+
 if [ -x /usr/bin/imapd ]; then
     wget -O /etc/monit/monitrc.d/courier-imap \
         "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-imap.test"

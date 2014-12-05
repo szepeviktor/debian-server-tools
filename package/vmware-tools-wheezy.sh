@@ -22,7 +22,7 @@ exit 0
 vmtoolsd --version
 
 # uninstall
-vmware-uninstall-tools.pl
+vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
 
 # Add VMware tools Debian repository
 # info: http://packages.vmware.com/tools/versions
