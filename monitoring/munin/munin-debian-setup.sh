@@ -84,17 +84,18 @@ MONIT_CONF
 munin_mysql() {
     # upstream: "https://github.com/munin-monitoring/munin/raw/devel/plugins/node.d/mysql_.in"
     # sed -i 's|^#!@@PERL@@$|#!/usr/bin/env perl|' mysql_
+    # mv mysql_ mysql2_
     # {name => 'Qcache_queries_in_cache', label => 'Queries in cache', type  => 'GAUGE'},
     # {name => 'Qcache_queries_in_cache', label => 'Queries in cache(k)', type  => 'GAUGE', cdef => 'Qcache_queries_in_cache,1024,/'},
 
-    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/mysql_"
+    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/mysql2_"
 }
 
 munin_ipmi() {
     which ipmitool &> /dev/null || return 1
 
     cat > "${PLUGIN_CONF_DIR}/ipmi" <<IPMI_PLG
-[ipmi_sensor_*]
+[ipmi_sensor2_*]
 user root
 timeout 20
 IPMI_PLG
@@ -105,6 +106,8 @@ rpm = CPU FAN, SYSTEM FAN
 volts = System 12V, System 5V, System 3.3V, CPU0 Vcore, System 1.25V, System 1.8V, System 1.2V
 degrees_c = CPU0 Dmn 0 Temp
 IPMI_CFG
+
+    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/ipmi_sensor2_"
 }
 
 munin_fail2ban() {
@@ -169,6 +172,9 @@ munin_phpfpm() {
     #     Require local
     # </Location>
 
+    # WordPress rewrite rule:
+    # RewriteCond %{REQUEST_URI} !=/status
+
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_average"
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_connections"
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_memory"
@@ -181,6 +187,11 @@ env.phpbin php-fpm
 env.phppool ${PHPFPM_POOL}
 env.url ${PHPFPM_STATUS}
 PHP_FPM
+
+    Enable_manual_plugin "phpfpm_average"
+    Enable_manual_plugin "phpfpm_memory"
+    Enable_manual_plugin "phpfpm_processes"
+    #TODO: rewrite 5 plugins: add autoconf
 }
 
 

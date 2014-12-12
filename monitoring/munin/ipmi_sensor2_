@@ -4,7 +4,7 @@
 """
 =head1 NAME
 
-ipmi_sensor_ - Wildcard plugin for the sensors data provided by ipmi
+ipmi_sensor2_ - Wildcard plugin for the sensors data provided by ipmi
 
 =head1 AUTHOR
 
@@ -17,9 +17,9 @@ Inspired by code written by Peter Palfrader
 ipmitool probably needs to be run as root, and it may take more than
 10 seconds on some hosts.
 
-Add the following to your @@CONFDIR@@/munin-node:
+Add the following to your /etc/munin/plugin-conf.d/ipmi:
 
- [ipmi_sensor_*]
+ [ipmi_sensor2_*]
   user root
   timeout 20
 
@@ -49,7 +49,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 =head1 BUGS
 
-Plugin reads @@CONFDIR@@/ipmi directly, instead of reading environment
+Plugin reads /etc/munin/ipmi directly, instead of reading environment
 variables.
 
 =head1 MAGIC MARKERS
@@ -172,7 +172,7 @@ def get_sensors():
 
 def query_unit(arg):
     #m = re.search( '_u_(.*)$', arg)
-    m = re.search( 'ipmi_sensor_(.*)$', arg)
+    m = re.search( 'ipmi_sensor2_(.*)$', arg)
     if not m:
         raise RuntimeError("Could not figure which unit you want based on executable name")
     return m.group(1)

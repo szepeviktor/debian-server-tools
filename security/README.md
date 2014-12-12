@@ -1,6 +1,10 @@
+### Store secret data in shares
+
+`apt-get install -y libgfshare-bin`
+
 ### Cipher names correspondence table @Mozilla
 
-[Cipher names correspondence table]https://wiki.mozilla.org/Security/Server_Side_TLS#Cipher_names_correspondence_table)
+[Cipher names correspondence table](https://wiki.mozilla.org/Security/Server_Side_TLS#Cipher_names_correspondence_table)
 
 [TLS Names table generator](https://github.com/jvehent/tlsnames)
 

@@ -180,6 +180,10 @@ dpkg -l|grep -v "^ii"
 # non-stable packages
 dpkg -l|grep "~[a-z]\+"|sort|uniq -c|sort -n
 dpkg -l|egrep "~squeeze|python2\.6"
+# non-Debian packages
+aptitude search '?narrow(?installed, !?origin(Debian))'
+# obsolete pacakages
+aptitude search '?obsolete'
 # vps monitoring
 ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
 # see: package/vmware-tools-wheezy.sh
@@ -393,25 +397,7 @@ echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADD
 #wget -O spamassassin_all.deb "$SA_URL"
 #dpkg -i spamassassin_all.deb
 
-# Apache add new site
-adduser --disabled-password <USER>
-# add system mail alias for <USER>
-# add sudo permissions for real users
-cd /etc/sudoers.d/
-cd /home/<USER>/
-mkdir public_html && cd public_html
-mkdir {session,tmp,server,pagespeed,backup}
-htpasswd -c ./htpasswords <LOGIN>
-chmod 600 ./htpasswords
-# chwon -R <USER>:<USER> /home/<USER>/public_*
-# chmod 750 /home/<USER>/public_*
-cd /etc/php5/fpm/pool.d/
-cd /etc/apache2/sites-available
-a2ensite <SITE>
-service php5-fpm reload && service apache2 reload
-# web application's cron
-cd /etc/cron.d/
-# create WordPress database from wp-config, see: mysql/wp-createdb.sh
+# adding a website see: webserver/Add-site.md
 
 # SSL for web/mail/etc.
 # set up certificates

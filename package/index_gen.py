@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # Name:    index_gen.py
-# Version: 0.2
+# Version: 0.2.1
 # Date:    2011-03-26 (yyyy-mm-dd)
 # Author:  Laszlo Szathmary <jabba.laci@gmail.com>
 # URL:     https://pythonadventures.wordpress.com/2011/03/26/static-html-filelist-generator/
@@ -19,7 +19,7 @@ class SimpleHtmlFilelistGenerator:
         self.base_dir = dir
 
     def print_html_header(self):
-        print """<html>
+        print """<!DOCTYPE html><html>
 <body>
 <code>
 """,
@@ -29,7 +29,7 @@ class SimpleHtmlFilelistGenerator:
         name = 'Static HTML Filelist Generator'
         print '</code>'
         href = "<a href=\"%s\">%s</a>" % (home, name)
-        print "<p><i><sub>This page was generated with Jabba Laci's %s.</sub></p>" % href
+        print "<p><em><sub>This page was generated with Jabba Laci's %s.</sub></em></p>" % href
         print """</body>
 </html>
 """,

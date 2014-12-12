@@ -28,7 +28,7 @@ wget -q -O- "$FILERELEASES" \
     | wget -nv -N --content-disposition -i-
 
 # latest tarball
-TARBALL="$(ls phpMyAdmin-* | sort -n | tail -n 1)"
+TARBALL="$(ls phpMyAdmin-*tar* | sort -n | tail -n 1)"
 
 # extract
 tar --exclude=doc \

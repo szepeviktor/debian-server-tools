@@ -30,7 +30,7 @@ wget -q -O- "$TAGSAPI" \
 #FIXME  includes ALL languages
 
 # latest tarball
-TARBALL="$(ls phpmyadmin-phpmyadmin-* | sort -n | tail -n 1)"
+TARBALL="$(ls phpmyadmin-phpmyadmin-*tar* | sort -n | tail -n 1)"
 
 # extract
 tar --exclude=doc \
