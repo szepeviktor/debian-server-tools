@@ -30,12 +30,12 @@ cd /home/$U/
 
 # migrate files NOW
 
-find -type f \( -name "*.php" -o -name "*.js" -o -name "*.css" \) -exec dos2unix --keepdate \{\} \;
+find -type f \( -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" \) -exec dos2unix --keepdate \{\} \;
 chown -R $U:$U *
-find -type f -exec chmod --changes 664 \{\} \;
-find -type d -exec chmod --changes 775 \{\} \;
+find -type f -exec chmod --changes 644 \{\} \;
+find -type d -exec chmod --changes 755 \{\} \;
 chmod -v 750 public_*
-find -name wp-config.php -exec chmod -v 640 \{\} \;
+find -name wp-config.php -exec chmod -v 400 \{\} \;
 find -name .htaccess -exec chmod -v 640 \{\} \;
 
 # WordPress wp-config.php

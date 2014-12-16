@@ -34,12 +34,12 @@ Global networking tools
     1. wa-us-ping.vultr.com
 
 - Cloud Monitor 50+ https://cloudmonitor.ca.com/en/ping.php PT
-- gtt 40+ http://bgpmap.sdv.fr/index.php PTB
+- gtt 40+ http://www.as3257.net/lg/ PTB
+- SdV 4 http://bgpmap.sdv.fr/index.php PTB
 - HE http://lg.he.net/ PTB
 - TATA (de) http://lg.as6453.net/bin/lg.cgi PTB
 - 10 http://www.locaping.com/ PT
 - pingdom  1×Sweden http://tools.pingdom.com/ping/ PT
-- http://www.as3257.net/lg/ PTB
 - http://www.super-ping.com/ PT
 - http://startping.com/ P
 - RIPE https://stat.ripe.net/widget/bgplay B https://stat.ripe.net/widget/list
@@ -48,6 +48,16 @@ Global networking tools
 - BIX http://www.bix.hu/lg/lg.cgi PTB6
 - HBONE http://diag.vh.hbone.hu/lookingglass/lg.cgi PTB6
 - HBONE http://diag.vh.hbone.hu/mtr/ PT6
+
+### Hungary
+
+- http://www.speedtest.net/
+- http://speedtest.upc.hu/
+- http://speedtest6.digi.hu/
+- http://www.sebessegteszt.telekom.hu/
+- http://speedtest.datanet.hu/
+- http://www.externet.hu/index.php?page=speedmeter_display
+- http://speedtest.szelessavkereso.hu/index.nof?parent=http%3A%2F%2Fwww.szelessavindex.hu%2FSzelessav_speedtest.nof
 
 
 ##### Legend
