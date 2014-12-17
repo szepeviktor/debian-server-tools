@@ -383,6 +383,8 @@ e /etc/courier/esmtproutes
 # : <SMART-HOST>,587 /SECURITY=REQUIRED
 # SMTP listen only on localhost?
 e /etc/courier/esmtpd
+# ESMTPAUTH=""
+# ESMTPAUTH_TLS="LOGIN PLAIN"
 e /etc/courier/esmtpd-ssl
 # ADDRESS=127.0.0.1
 makealiases

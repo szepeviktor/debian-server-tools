@@ -27,7 +27,7 @@ Get_version() {
 Usage() {
     cat << USAGE
 smtp-auth v$(Get_version "$0")
-Usage: $(basename $0) [OPTION]
+Usage: $(basename $0) <OPTION> ...
 Test SMTP authentication.
 
   -a                test authentication support
@@ -76,9 +76,10 @@ Smtp_plain() {
 
     (sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
-        echo -ne "AUTH PLAIN \x00${SMTP_USER}\x00${SMTP_PASS}" | base64 --wrap=0; sleep 2
+        echo "AUTH PLAIN $(echo -ne "\x00${SMTP_USER}\x00${SMTP_PASS}" | base64 --wrap=0)"; sleep 2
         echo "QUIT") \
-        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null
+        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null \
+        | grep "^235 "
 }
 
 Smtp_login() {
@@ -91,9 +92,10 @@ Smtp_login() {
     (sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
         echo "AUTH LOGIN $(echo -n "$SMTP_USER" | base64 --wrap=0)"; sleep 2
-        echo -n "$SMTP_PASS" | base64 --wrap=0; sleep 2
+        echo "$(echo -n "$SMTP_PASS" | base64 --wrap=0)"; sleep 2
         echo "QUIT") \
-        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null
+        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null \
+        | grep "^235 "
 }
 
 Python_cram_md5() {
