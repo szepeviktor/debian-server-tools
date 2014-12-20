@@ -1,4 +1,4 @@
-## Debian repository infos
+# Debian repository infos
 
 -   a,archive,suite (eg, "stable")
 -   c,component     (eg, "main", "crontrib", "non-free")
@@ -144,3 +144,8 @@ grep -v -f debian-wheezy-base.pkgs all.pkgs
 grep -v -f all.pkgs debian-wheezy-base.pkgs
 ```
 
+### Install pip (Python package manager)
+
+```bash
+wget -O- https://bootstrap.pypa.io/get-pip.py | python
+```

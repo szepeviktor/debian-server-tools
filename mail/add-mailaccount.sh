@@ -44,10 +44,11 @@ for V in EMAIL PASS DESC HOMEDIR; do
 done
 
 # check `virtual` user (1999:1999)
-if getent passwd "$VIRTUAL_UID" &> /dev/null; then
+if ! getent passwd "$VIRTUAL_UID" &> /dev/null; then
     echo "Creating virtual user ..."
     addgroup --gid "$VIRTUAL_UID" virtual
-    adduser --disabled-login --shell /usr/sbin/nologin --home /nonexistent --gid "$VIRTUAL_UID" --uid "$VIRTUAL_UID" virtual
+    adduser --disabled-login --shell /usr/sbin/nologin --no-create-home --home /nonexistent \
+        --gid "$VIRTUAL_UID" --uid "$VIRTUAL_UID" virtual
     getent passwd "$VIRTUAL_UID"
 fi
 
@@ -69,22 +70,28 @@ sudo -u virtual maildirmake -f Sent "$NEW_MAILDIR" && echo "Sent OK." || Error 2
 sudo -u virtual maildirmake -f Trash "$NEW_MAILDIR" && echo "Trash OK." || Error 22 "Cannot create Trash folder"
 
 # MySQL output
-echo -e "\n---------------- >8 -----------------"
-cat <<SQL
+if grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
+    echo -e "\n---------------- >8 -----------------"
+    cat <<SQL
 USE horde4;
 INSERT INTO \`courier_horde\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
     \`defaultdelivery\`, \`quota\`, \`options\`, \`user_soft_expiration_date\`, \`user_hard_expiration_date\`, \`vac_msg\`, \`vac_subject\`, \`vac_stat\`) VALUES
 ('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '', '', '', '', NULL, NULL, '', '', 'N');
 SQL
-echo -e "---------------- >8 -----------------\n"
+    echo -e "---------------- >8 -----------------\n"
+fi
 
 # userdb
-if which userdb userdbpw &> /dev/null && [ -r /etc/courier/userdb ]; then
+if which userdb userdbpw &> /dev/null \
+    && [ -r /etc/courier/userdb ] \
+    && grep -q "^authmodulelist=.*\bauthuserdb\b" /etc/courier/authdaemonrc; then
     userdb "$EMAIL" set "home=${NEW_MAILDIR}" || Error 30 "Failed to add to userdb"
     userdb "$EMAIL" set "mail=${NEW_MAILDIR}" || Error 31 "Failed to add to userdb"
-    userdb "$EMAIL" set "uid=${VIRTUAL_UID}" || Error 32 "Failed to add to userdb"
-    userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 33 "Failed to add to userdb"
-    echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 34 "Failed to add to userdb"
+    userdb "$EMAIL" set "maildir=${NEW_MAILDIR}" || Error 32 "Failed to add to userdb"
+    userdb "$EMAIL" set "uid=${VIRTUAL_UID}" || Error 33 "Failed to add to userdb"
+    userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 34 "Failed to add to userdb"
+    echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 35 "Failed to add to userdb"
+    [ -z "$DESC" ] || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
 fi
 
 # SMTP authentication test

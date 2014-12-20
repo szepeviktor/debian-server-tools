@@ -9,7 +9,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/phpmyadmin-get-sf.sh
+# LOCATION      :/usr/local/bin/phpmyadmin-get-old-sf.sh
 # SOURCE        :https://sourceforge.net/projects/phpmyadmin/files/latest/download
 
 

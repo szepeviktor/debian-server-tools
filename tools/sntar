@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Compress tar with snappy zip.
+#
+
+tar -I /usr/bin/snzip "$@"

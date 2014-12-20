@@ -72,6 +72,7 @@ export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput set
 # ls -1 /usr/share/mc/skins/
 export GREP_OPTIONS="--color"
 alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
+alias iotop='iotop -d 0.1 -qqq -o'
 alias grep='grep $GREP_OPTIONS'
 # putty / Connection / Data / Terminal-type string: putty-256color
 export MC_SKIN="modarin256root-defbg"

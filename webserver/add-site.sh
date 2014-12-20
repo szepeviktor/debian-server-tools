@@ -16,6 +16,11 @@ makealiases
 
 # add sudo permissions for real users
 cd /etc/sudoers.d/
+# set up SSH key
+sudo -u $U -i -- ssh-keygen -t rsa
+cd /home/$U/.ssh
+cp -a id_rsa.pub authorized_keys2
+#7z a -p<PASS> $U.zip id_rsa*
 
 cd /home/$U/
 mkdir public_html && cd public_html

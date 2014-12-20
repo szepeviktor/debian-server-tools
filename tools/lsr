@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Display every parent directories' owner and permissions.
+#
+
+ONE_PATH="$1"
+
+while [ "$ONE_PATH" != / ]; do
+    ls -ld "$ONE_PATH"
+
+    ONE_PATH="$(dirname "$ONE_PATH")"
+done

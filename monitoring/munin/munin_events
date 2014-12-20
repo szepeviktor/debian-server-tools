@@ -1,9 +1,5 @@
 #!/bin/bash
 # -*- sh -*-
-
-# LOCATION   :/usr/local/share/munin/plugins/munin_events
-# SYMLINK    :ln -svf /usr/local/share/munin/plugins/munin_events /usr/share/munin/plugins/
-
 : <<=cut
 
 =head1 NAME
@@ -46,7 +42,7 @@ displayed.
 
 =head1 VERSION
 
-  1.1.20141114
+  1.1.20141220
 
 =head1 AUTHOR
 
@@ -58,6 +54,11 @@ GPLv2
 
 =cut
 
+
+##############################
+# Includes
+
+. $MUNIN_LIBDIR/plugins/plugin.sh
 
 ##############################
 # Configurable variables
@@ -105,9 +106,17 @@ config() {
     echo 'graph_printf %6.0lf'
 
     echo 'munin_info.label INFO'
+    print_warning munin_info
+    print_critical munin_info
     echo 'munin_warning.label WARNING'
+    print_warning munin_warning
+    print_critical munin_warning
     echo 'munin_error.label ERROR'
+    print_warning munin_error
+    print_critical munin_error
     echo 'munin_fatal.label FATAL'
+    print_warning munin_fatal
+    print_critical munin_fatal
 }
 
 # Print autoconfiguration hint
