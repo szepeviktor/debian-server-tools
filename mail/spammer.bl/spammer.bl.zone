@@ -1,0 +1,98 @@
+#### /var/lib/rbldns/spammer/spammer.bl.zone
+#### DOMAIN: spammer.bl
+#### DOCUMENTATION: http://www.corpit.ru/mjt/rbldnsd.html
+#### DUMP: rbldnsd -d -r/var/lib/rbldns/spammer spammer.bl:ip4set:spammer.bl.zone
+
+
+#### 10 - authentication attacker
+####  5 - spammer
+####  3 - neighbour
+#### 99 - known host (score: -10)
+
+$NS 3600 worker.szepe.net
+# one minute TTL
+$TTL 60
+
+# ---------------------------------------
+
+# KNOWN HOSTS
+:127.0.0.99:Known host
+
+95.140.33.67     szerver.szepe.net
+81.2.236.171     worker.szepe.net
+79.172.214.123   szerver4.szepe.net
+# QSS
+91.82.110.50     mail.qupdate.net
+# CB
+37.187.55.1      strass2.szepe.net
+# increst
+80.85.86.212     lhr.belmanetti.hu
+212.111.41.56    lgw.emineo.hu
+# OLM
+94.125.178.61    web.olmunkaido.hu
+87.229.24.89     fw1.olmunkaido.hu
+# MegaCP
+5.56.37.12       server.megacp.com
+5.56.38.50       server2.megacp.com
+88.151.100.170   server3.megacp.com
+85.25.196.8      server4.megacp.com
+5.56.32.1        server5.megacp.com
+91.82.237.28     server6.megacp.com
+81.0.75.81       server7.megacp.com
+88.151.100.100   server8.megacp.com
+109.200.8.122    server9.megacp.com
+5.56.38.50       server10.megacp.com
+5.56.33.1        server11.megacp.com
+85.25.73.121     server12.megacp.com
+5.56.37.120      server13.megacp.com
+5.56.37.3        server14.megacp.com
+85.25.213.173    server15.megacp.com
+# Gyümölcs tárhely (Nobilitas Hungariae)
+# for i in `seq 1 255`; do host -t A 212.52.167.$i; done|grep lanten
+212.52.167.89    szirmay.lanten.hu
+212.52.167.244   gyimothy.lanten.hu
+
+# ---------------------------------------
+
+# SPAMMERS
+:127.0.0.5:Is a spammer
+
+# single hosts
+23.88.228.135    HU_mail.onlinestoresample.info@ENZUINC/AS18978
+23.238.16.159    HU_smartingatlan.info@HOSTWINDS-17-5/AS54290
+##121.243.144.234  lonely spammer@TATA/AS17908
+
+# CHINANET-HE
+111.224.250      CHINANET-HE
+# CHINANET-JX
+117.41           CHINANET-JX
+
+# SYSTECH Global
+91.82.84-85      :3:Neighbour of smtp*.mindenalove.hu
+91.82.84.143-152 HU_SYSTECH-GLOBAL/AS12301@Invitel smtp*.mindenalove.hu
+91.82.84.203-204 HU_SYSTECH-GLOBAL/AS12301@Invitel vps.*-ad.com
+
+# Hostkey / Mir Telematiki
+5.39.216.0/21    HOSTKEY-NET/AS57043
+91.218.112-115   BERMOSCOM-NET/AS49335
+158.255.0-7      RU-HOSTKEY-20111114/AS49335
+193.109.68.0/23  NCONNECT-NET/AS57043
+195.162.68.0/23  NCONNECT-NET/AS57043
+
+# root.lu
+94.242.210       LU-ROOT/AS5577
+188.42.252-254   :3:Neighbour of root.lu
+188.42.255       WZSG-1/AS45470@Singapure
+
+# Tigernet Kft
+193.9.29-31      HU_TigerNet/AS47381
+
+# smpt*.topszallasok.hu, smtp.wellness4youmail.hu
+91.83.236.239-250 smtp*.topszallasok.hu@Invitel/AS12301
+
+# FR-ILIAD-ENTREPRISES-CUSTOMERS
+195.154.0-127    :3:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
+195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/ASAS12876
+
+# Peter Krozser
+198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475

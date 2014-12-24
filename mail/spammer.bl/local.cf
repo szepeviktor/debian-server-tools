@@ -1,0 +1,30 @@
+# Spamassassin config
+# /etc/spamassassin/local.cf
+
+# http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules#check_rbl.28_.29
+header   __RCVD_IN_BL_SPAMMER eval:check_rbl('spammer', 'spammer.bl.')
+describe __RCVD_IN_BL_SPAMMER SPAMMER: Received via a relay
+tflags   __RCVD_IN_BL_SPAMMER net
+
+header   RCVD_IN_BL_SPAMMER_IS eval:check_rbl_sub('spammer', '127.0.0.5')
+describe RCVD_IN_BL_SPAMMER_IS SPAMMER: Is a spammer
+tflags   RCVD_IN_BL_SPAMMER_IS net
+
+header   RCVD_IN_BL_SPAMMER_NEIGH eval:check_rbl_sub('spammer', '127.0.0.3')
+describe RCVD_IN_BL_SPAMMER_NEIGH SPAMMER: Neighbour of a spammer
+tflags   RCVD_IN_BL_SPAMMER_NEIGH net
+
+header   RCVD_IN_BL_SPAMMER_ATTACKER eval:check_rbl_sub('spammer', '127.0.0.10')
+describe RCVD_IN_BL_SPAMMER_ATTACKER SMTP attacker
+tflags   RCVD_IN_BL_SPAMMER_ATTACKER net
+
+header   RCVD_IN_BL_SPAMMER_KNOWN_HOST eval:check_rbl_sub('spammer', '127.0.0.99')
+describe RCVD_IN_BL_SPAMMER_KNOWN_HOST Known host
+tflags   RCVD_IN_BL_SPAMMER_KNOWN_HOST net
+
+score RCVD_IN_BL_SPAMMER_IS      5.0
+score RCVD_IN_BL_SPAMMER_NEIGH   3.0
+score RCVD_IN_BL_SPAMMER_ATTACKER 10.0
+score RCVD_IN_BL_SPAMMER_KNOWN_HOST -10.0
+
+# Check: spamassassin --lint
