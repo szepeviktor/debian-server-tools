@@ -1,4 +1,0 @@
-# /etc/default/rbldnsd
-
-# -r<CHROOT> -b<IP>/<PORT> <DOMAIN>:ip4set:<FILE>
-RBLDNSD="dsbl -r/var/lib/rbldns/spammer -b10.0.0.1/8053 spammer.bl:ip4set:spammer.bl.zone"

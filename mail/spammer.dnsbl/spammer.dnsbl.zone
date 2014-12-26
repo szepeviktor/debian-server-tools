@@ -1,7 +1,7 @@
-#### /var/lib/rbldns/spammer/spammer.bl.zone
-#### DOMAIN: spammer.bl
+#### /var/lib/rbldns/spammer/spammer.dnsbl.zone
+#### DOMAIN: spammer.dnsbl
 #### DOCUMENTATION: http://www.corpit.ru/mjt/rbldnsd.html
-#### DUMP: rbldnsd -d -r/var/lib/rbldns/spammer spammer.bl:ip4set:spammer.bl.zone
+#### DUMP: rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone
 
 
 #### 10 - authentication attacker
