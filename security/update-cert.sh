@@ -18,6 +18,9 @@
 # NetLock: https://www.netlock.hu/html/cacrl.html
 
 # Certificates from the issuer.
+# e priv-key-$(date +%Y%m%d)-enc.pem
+# openssl rsa -in priv-key-$(date +%Y%m%d)-enc.pem -out priv-key-$(date +%Y%m%d).pem
+# e pub-key-$(date +%Y%m%d).pem
 TODAY="$(date +%Y%m%d)"
 CA="ca.pem"
 SUB="sub.class1.server.ca.pem"

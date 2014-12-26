@@ -1,9 +1,15 @@
 #!/bin/bash
 #
-# Add a virtual mail account using courier-mta.
+# Add a virtual mail account to courier-mta.
 #
-#LOCATION       :/usr/local/sbin/add-mailaccount.sh
-#DEPENDS        :apt-get install courier-mta
+# VERSION       :0.2
+# DATE          :2014-12-25
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/add-mailaccount.sh
+# DEPENDS       :apt-get install courier-authdaemon courier-mta-ssl
 
 ACCOUNT="$1"
 MAILROOT="/var/mail"
@@ -54,8 +60,8 @@ fi
 
 # check domain
 NEW_DOMAIN="${EMAIL##*@}"
-grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/esmtpacceptmailfor.dir || Error 10 "This domain is no accepted here (${NEW_DOMAIN})"
-grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/hosteddomains || echo "ALERT! This domain is not hosted here (${NEW_DOMAIN})"
+grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/esmtpacceptmailfor.dir || Error 10 "This domain is not accepted here (${NEW_DOMAIN})"
+grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/hosteddomains || echo "[WARNING] This domain is not hosted here (${NEW_DOMAIN})" >&2
 
 # account folder and maildir
 NEW_MAILDIR="${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}"
@@ -70,10 +76,11 @@ sudo -u virtual maildirmake -f Sent "$NEW_MAILDIR" && echo "Sent OK." || Error 2
 sudo -u virtual maildirmake -f Trash "$NEW_MAILDIR" && echo "Trash OK." || Error 22 "Cannot create Trash folder"
 
 # MySQL output
-if grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
+if which mysql \
+    && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
     echo -e "\n---------------- >8 -----------------"
-    cat <<SQL
-USE horde4;
+    mysql horde4 <<SQL
+-- USE horde4;
 INSERT INTO \`courier_horde\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
     \`defaultdelivery\`, \`quota\`, \`options\`, \`user_soft_expiration_date\`, \`user_hard_expiration_date\`, \`vac_msg\`, \`vac_subject\`, \`vac_stat\`) VALUES
 ('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '', '', '', '', NULL, NULL, '', '', 'N');
@@ -92,6 +99,7 @@ if which userdb userdbpw &> /dev/null \
     userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 34 "Failed to add to userdb"
     echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 35 "Failed to add to userdb"
     [ -z "$DESC" ] || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
+    makeuserdb || Error 37 "Failed to make userdb"
 fi
 
 # SMTP authentication test

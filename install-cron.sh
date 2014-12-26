@@ -2,9 +2,11 @@
 #
 # Install cron jobs from the script header.
 # E.g. "# CRON-HOURLY    :/usr/local/bin/example.sh"
+# In cron syntax "# CRON-D         :09,39 *  * * *  root  /usr/local/bin/example.sh"
+# See: man 5 crontab
 #
-# VERSION       :0.1
-# DATE          :2014-11-04
+# VERSION       :0.2
+# DATE          :2014-12-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -24,7 +26,6 @@ Valid_cron_interval() {
     for VALID in cron.daily cron.hourly cron.monthly cron.weekly; do
         if [ "$QUESTION" == "$VALID" ]; then
             return 0
-            return
         fi
     done
 
@@ -35,25 +36,35 @@ Valid_cron_interval() {
 
 [ "$(id --user)" = 0 ] || Die 1 "Only root is allowed to install cron jobs."
 
-[ -f "$1" ] || Die 2 "Please specify a script."
-
 SCRIPT="$1"
+[ -f "$SCRIPT" ] || Die 2 "Please specify a script."
 
-CRON_JOBS="$(head -n 40 "$SCRIPT" | grep -i "^# CRON-")"
+#TODO rewrite: loop through valid crons and `head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE"`
+CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i "^# CRON-")"
 
 [ -z "$CRON_JOBS" ] && Die 3 "No cron job in script."
 
-while read -r JOB; do
-    INTERVAL="$(echo "$JOB" | cut -d' ' -f 2)"
-    INTERVAL="$(tr '[:upper:]' '[:lower:]' <<< "$INTERVAL")"
-    INTERVAL="${INTERVAL/-/.}"
+declare -i JOB_ID="0"
+declare -i JOB_ID_D="0"
 
-    if Valid_cron_interval "$INTERVAL"; then
-        CRON_FILE="/etc/${INTERVAL}/$(basename "$SCRIPT")"
-        echo -e ":#!/bin/bash\n${JOB}" | cut -d':' -f 2 > "$CRON_FILE"
+while read -r JOB; do
+    CRON_INTERVAL="$(echo "$JOB" | cut -d' ' -f 2 | tr '[:upper:]' '[:lower:]')"
+    CRON_INTERVAL="${CRON_INTERVAL/-/.}"
+
+    if Valid_cron_interval "$CRON_INTERVAL"; then
+        CRON_FILE="/etc/${CRON_INTERVAL}/$(basename "${SCRIPT%.*}")$(( ++JOB_ID ))"
+        ( echo "#!/bin/bash"; echo "${JOB}" | cut -d':' -f 2 ) >> "$CRON_FILE"
         chmod 755 "$CRON_FILE"
-        echo "${SCRIPT} -> ${CRON_FILE}"
+        echo "[cron] ${SCRIPT} -> ${CRON_FILE}"
+    elif [ "$CRON_INTERVAL" == cron.d ]; then
+        CRON_FILE="/etc/cron.d/$(basename "${SCRIPT%.*}")"
+        if [ $(( ++JOB_ID_D )) -eq 1 ]; then
+            # initialize cron.d file
+            echo -n > "$CRON_FILE"
+        fi
+        echo "${JOB}" | cut -d':' -f 2 >> "$CRON_FILE"
+        echo "[cron] ${SCRIPT} -> ${CRON_FILE}"
     else
-        Die "Invalid cron interval in script header: (${INTERVAL})"
+        Die "Invalid cron interval in script header: (${CRON_INTERVAL})"
     fi
 done <<< "$CRON_JOBS"

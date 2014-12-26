@@ -65,7 +65,7 @@ SET unique_checks=0;
 SET foreign_key_checks=0;
 ```
 
-... here comes the dump ...
+... the dump ...
 
 ```sql
 COMMIT;
@@ -77,3 +77,15 @@ SET foreign_key_checks=1;
 ### Percona Toolkit
 
 http://www.percona.com/software/percona-toolkit
+
+```bash
+# http://www.percona.com/doc/percona-xtrabackup/2.2/innobackupex/incremental_backups_innobackupex.html
+#innobackupex /var/archives/sql/
+
+#TO_LSN="$(grep -o "^to_lsn\s*=\s*[0-9]\+$" ${LAST}/xtrabackup_checkpoints | cut -d' ' -f 3)"
+#innobackupex --incremental /var/archives/sql/ --incremental-lsn="$TO_LSN" >> /logfile 2>&1
+
+innobackupex --incremental /var/archives/sql/ --incremental-basedir=/var/archives/sql/${$LAST_BACKUP} >> /logfile 2>&1
+
+if tail -n 1 /logfile | grep -q "completed OK!$";then
+```

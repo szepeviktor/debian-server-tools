@@ -147,5 +147,6 @@ grep -v -f all.pkgs debian-wheezy-base.pkgs
 ### Install pip (Python package manager)
 
 ```bash
-wget -O- https://bootstrap.pypa.io/get-pip.py | python
+wget -O- https://bootstrap.pypa.io/get-pip.py | python2
+wget -O- https://bootstrap.pypa.io/get-pip.py | python3
 ```

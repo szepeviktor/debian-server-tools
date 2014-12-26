@@ -1,19 +1,17 @@
 #!/bin/bash
 #
-# Run ntpdate daily to correct the system clock.
+# Run ntpdate daily and on reboot to correct the system clock.
 #
-# VERSION       :0.2
-# DATE          :2014-10-22
+# VERSION       :0.3
+# DATE          :2014-12-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install iproute heirloom-mailx
 # LOCATION      :/usr/local/sbin/ntpdated
-# CRON-HOURLY   :/usr/local/sbin/ntpdated
+# CRON-D        :@reboot  root  /usr/local/sbin/ntpdated
+# CRON-D        :@hourly  root  /usr/local/sbin/ntpdated
 
 # Options in /etc/default/ntpdate
 
 /usr/sbin/ntpdate-debian -s
-
-#TODO: cron.d @reboot, @hourly

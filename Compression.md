@@ -1,0 +1,4 @@
+- http://www.7-zip.org/ http://tukaani.org/xz/
+- https://code.google.com/p/snappy/ https://github.com/kubo/snzip
+- https://code.google.com/p/zopfli/
+- http://www.quicklz.com/

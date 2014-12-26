@@ -115,7 +115,7 @@ cat > "/etc/monit/monitrc.d/fail2ban" <<MONITFAIL2BAN
 check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
     group services
     start program = "/etc/init.d/fail2ban force-start"
-    stop  program = "/etc/init.d/fail2ban stop"
+    stop  program = "/etc/init.d/fail2ban stop || :"
     if failed unixsocket /var/run/fail2ban/fail2ban.sock then restart
     if 5 restarts within 5 cycles then timeout
 

@@ -60,6 +60,11 @@ sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
+# ~/.config/mc/mc.ext
+# ### Markdown ###
+# # cp /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
+# regex/\.md(own)?$
+# 	View=pandoc -s -f markdown -t man %p | man -l -
 
 # bash as default shell
 echo "dash dash/sh boolean false"|debconf-set-selections -v
@@ -76,6 +81,9 @@ alias iotop='iotop -d 0.1 -qqq -o'
 alias grep='grep $GREP_OPTIONS'
 # putty / Connection / Data / Terminal-type string: putty-256color
 export MC_SKIN="modarin256root-defbg"
+alias transit='xz -9|base64 -w $((COLUMNS-1))'
+alias transit-receive='base64 -d|xz -d'
+
 
 # user
 U="viktor"
@@ -305,9 +313,9 @@ sed -i 's|^date.timezone = .*$|date.timezone = ${PHP_TZ}|' /etc/php5/fpm/php.ini
 grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
-# version 0.9.37
 SUHOSIN_URL="<RELEASE-TAR-GZ>"
-SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/suhosin-0.9.37.tar.gz"
+# version 0.9.37.1
+SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.37.1.tar.gz"
 wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-suhosin-*
 phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
 make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..

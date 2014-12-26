@@ -1,3 +1,14 @@
+### Outlook 2013
+
+- Root: "Inbox"
+- after account setup: [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
+
+### Email sending and receiving
+
+- SSL?
+- headers: From, from name, To, Reply-to, Return-path, SMTP "MAIL FROM:"
+- 
+
 ### Bulk email
 
 https://support.google.com/mail/answer/81126?hl=en

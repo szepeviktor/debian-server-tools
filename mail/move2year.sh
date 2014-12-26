@@ -44,3 +44,5 @@ find "$FROM_FOLDER" -type f \
             mv -v "$FILE" "$TO_FOLDER"
         fi
     done
+
+#TODO chown, chmod

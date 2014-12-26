@@ -18,29 +18,22 @@ Die() {
 }
 
 #####################################################
-# Parses out the version from a script
+# Parses out a meta value from a script
 # Arguments:
 #   FILE
+#   META
 #####################################################
-GetVersion() {
-    local FILE="$1"
-    local VER="$(head -n30 "$FILE" | grep -m1 "^# VERSION\s*:" | cut -d":" -f2-)"
+Get_meta() {
+    # defaults to self
+    local FILE="${1:-$0}"
+    # defaults to "VERSION"
+    local META="${2:-VERSION}"
+    local VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d':' -f 2-)"
 
-    if [ -z "$VER" ]; then
-        VER="(unknown)"
+    if [ -z "$VALUE" ]; then
+        VALUE="(unknown)"
     fi
-    echo "$VER"
-}
-
-#####################################################
-# Parses out LOCATION from a script
-# Arguments:
-#   FILE
-#####################################################
-GetLocation() {
-    local FILE="$1"
-
-    head -n30 "$FILE" | grep -m1 "^# LOCATION\s*:" | cut -d":" -f2
+    echo "$VALUE"
 }
 
 #####################################################
@@ -51,7 +44,7 @@ GetLocation() {
 #   PERMS
 #   <file> <file> ...
 #####################################################
-DoInstall() {
+Do_install() {
     local LOCATION="$1"
     local OWNER="$2"
     local PERMS="$3"
@@ -79,13 +72,19 @@ DoInstall() {
 
         # check for existence
         if [ -f "$TARGET" ]; then
-            echo -n "replacing $(GetVersion "$TARGET") with $(GetVersion "$TOOL") "
+            echo -n "replacing $(Get_meta "$TARGET") with $(Get_meta "$TOOL") "
         fi
 
         # copy and set owner and permissions
+        #TODO install -v --no-target-directory --preserve-timestamps --owner="${OWNER%:*}" --group="${OWNER#*:}" --mode "${PERMS}" \
+        #    "$TOOL" "$TARGET" || Die 11 "install failure (${TOOL})"
         cp -v "$TOOL" "$TARGET" || Die 11 "copy failure (${TOOL})"
         chown --changes ${OWNER} "$TARGET" || Die 12 "cannot set owner (${TOOL})"
         chmod --changes ${PERMS} "$TARGET" || Die 13 "cannot set permissions (${TOOL})"
+
+        if head -n 30 "$TOOL" | grep -qi "^# CRON-"; then
+            ./install-cron.sh "$TOOL"
+        fi
     done
 }
 
@@ -96,7 +95,7 @@ DoInstall() {
 #   OWNER
 #   PERMS
 #####################################################
-DoDir() {
+Do_dir() {
     local DIR="$1"
     local OWNER="$2"
     local PERMS="$3"
@@ -105,40 +104,49 @@ DoDir() {
 
     find "$DIR" -maxdepth 1 -type f \
         | while read FILE; do
-            LOCATION="$(GetLocation "$FILE")"
+            LOCATION="$(Get_meta "$FILE" LOCATION)"
 
-            if ! [ -z "$LOCATION" ]; then
-                # warn on different actual file name and file name in LOCATION
-                if ! [ "$(basename "$FILE")" = "$(basename "$LOCATION")" ]; then
-                    echo "[WARNING] different file name in LOCATION comment ("$(basename "$FILE")" != "$(basename "$LOCATION")")"
-                fi
-
-                DoInstall "$(dirname "$LOCATION")" "$OWNER" "$PERMS" "$FILE"
+            if [ -z "$LOCATION" ] || [ "$LOCATION" == "(unknown)" ]; then
+                continue
             fi
+
+            # warn on different actual file name and LOCATION meta
+            if [ "$(basename "$FILE")" != "$(basename "$LOCATION")" ]; then
+                echo "[WARNING] different file name in LOCATION header ($(basename "$FILE") != $(basename "$LOCATION"))" >&2
+            fi
+
+            Do_install "$(dirname "$LOCATION")" "$OWNER" "$PERMS" "$FILE"
         done
 }
 
 
 #########################################################
 
-[ "$(id --user)" = 0 ] || Die 1 "only root is allowed to install"
+if [ "$(id --user)" -ne 0 ]; then
+    Die 1 "Only root is allowed to install"
+fi
 
 # version
-if [ "$1" = "--version" ]; then
-    GetVersion "$0"
+if [ "$1" == "--version" ]; then
+    Get_meta
     exit 0
 fi
 
 echo "debian-server-tools installer"
 
-DoDir ./backup root:staff 755
-DoDir ./monitoring root:staff 755
-DoDir ./package root:staff 755
-DoDir ./webserver root:staff 755
-DoDir ./webserver/nginx-incron root:staff 755
+Do_dir ./backup root:staff 755
+Do_dir ./image root:staff 755
+Do_dir ./mail root:staff 755
+Do_dir ./monitoring root:staff 755
+Do_dir ./mysql root:staff 755
+Do_dir ./package root:staff 755
+Do_dir ./security root:staff 755
+Do_dir ./tools root:staff 755
+Do_dir ./webserver root:staff 755
+Do_dir ./webserver/nginx-incron root:staff 755
 
 # special cases
-DoInstall /root/hdd-bench root:root 700 ./monitoring/hdd-seeker/hdd-bench.sh
-DoInstall /root/hdd-bench root:root 644 ./monitoring/hdd-seeker/seeker_baryluk.c \
+Do_install /root/hdd-bench root:root 700 ./monitoring/hdd-seeker/hdd-bench.sh
+Do_install /root/hdd-bench root:root 644 \
+    ./monitoring/hdd-seeker/seeker_baryluk.c \
     ./monitoring/hdd-seeker/seekmark-0.9.1.c
-
