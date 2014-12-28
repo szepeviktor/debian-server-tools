@@ -1,7 +1,21 @@
-# Spamassassin config
-# /etc/spamassassin/local.cf
+# SpamAssassin rules file: DNS blacklist tests and scores.
+#
+# /etc/spamassassin/20_spammer.dnsbl.cf
+#
+###########################################################################
 
-# http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules#check_rbl.28_.29
+require_version 3.004000
+
+###########################################################################
+
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+# See: http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules#check_rbl.28_.29
+# and: https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Conf.html
+
+# ---------------------------------------------------------------------------
+# spammer.dnsbl on worker.szepe.net.
+
 header   __RCVD_IN_BL_SPAMMER eval:check_rbl('spammer', 'spammer.dnsbl.')
 describe __RCVD_IN_BL_SPAMMER SPAMMER: Received via a relay
 tflags   __RCVD_IN_BL_SPAMMER net
@@ -19,14 +33,10 @@ header   RCVD_IN_BL_SPAMMER_ATTACKER eval:check_rbl_sub('spammer', '127.0.0.10')
 describe RCVD_IN_BL_SPAMMER_ATTACKER SMTP attacker
 tflags   RCVD_IN_BL_SPAMMER_ATTACKER net
 
-#TODO move to known-hosts.dnsbl
-header   RCVD_IN_BL_SPAMMER_KNOWN_HOST eval:check_rbl_sub('spammer', '127.0.0.99')
-describe RCVD_IN_BL_SPAMMER_KNOWN_HOST Known host
-tflags   RCVD_IN_BL_SPAMMER_KNOWN_HOST net
+endif
 
-score RCVD_IN_BL_SPAMMER_IS      5.0
-score RCVD_IN_BL_SPAMMER_NEIGH   3.0
+score RCVD_IN_BL_SPAMMER_IS        5.0
+score RCVD_IN_BL_SPAMMER_NEIGH     3.0
 score RCVD_IN_BL_SPAMMER_ATTACKER 10.0
-score RCVD_IN_BL_SPAMMER_KNOWN_HOST -10.0
 
 # Check: spamassassin --lint

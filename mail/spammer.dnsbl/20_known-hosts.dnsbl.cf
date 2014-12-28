@@ -1,0 +1,35 @@
+#
+# SpamAssassin rules file: DNS whitelist tests and scores.
+#
+# LOCATION         :/etc/spamassassin/20_known-hosts.dnsbl.cf
+#
+###########################################################################
+
+require_version 3.004000
+
+###########################################################################
+
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+# See: http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules#check_rbl.28_.29
+# and: https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Conf.html
+
+# ---------------------------------------------------------------------------
+# Known host test
+
+header   __RCVD_IN_WL_KNOWN_HOST eval:check_rbl('known-hosts', 'known-hosts.dnsbl.')
+describe __RCVD_IN_WL_KNOWN_HOST Known host
+tflags   __RCVD_IN_WL_KNOWN_HOST nice
+
+# ---------------------------------------------------------------------------
+# Scores for known-hosts.dnsbl
+
+header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts', '127.0.0.99')
+describe RCVD_IN_WL_KNOWN_HOST Known host
+tflags   RCVD_IN_WL_KNOWN_HOST nice
+
+endif
+
+score RCVD_IN_WL_KNOWN_HOST -20.0
+
+# Check: spamassassin --lint
