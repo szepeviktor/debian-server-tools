@@ -1,4 +1,5 @@
-# SpamAssassin rules file: DNS blacklist tests and scores.
+#
+# SpamAssassin config file: DNS blacklist tests and scores.
 #
 # /etc/spamassassin/20_spammer.dnsbl.cf
 #

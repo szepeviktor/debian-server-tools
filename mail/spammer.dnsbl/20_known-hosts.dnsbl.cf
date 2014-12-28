@@ -1,5 +1,5 @@
 #
-# SpamAssassin rules file: DNS whitelist tests and scores.
+# SpamAssassin config file: DNS whitelist tests and scores.
 #
 # LOCATION         :/etc/spamassassin/20_known-hosts.dnsbl.cf
 #
