@@ -17,7 +17,7 @@
 
 ### Options
 
-- separate backups (etc, home, DB, mail, web)
+- separate backups (etc, homes, databases, mail accounts, websites)
 - excludes (DB, cache, spool, tmp)
 - logging
 - monitoring: send email

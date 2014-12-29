@@ -7,9 +7,9 @@
 #### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone
 
 
-#### 10 - authentication attacker
-####  5 - spammer
-####  3 - neighbour
+####  1 - spammer
+####  2 - neighbour
+####  4 - attacker
 
 $NS 3600 worker.szepe.net
 # one minute TTL
@@ -18,7 +18,7 @@ $TTL 60
 # ---------------------------------------
 
 # SPAMMERS
-:127.0.0.5:Is a spammer
+:127.0.0.1:Is a spammer
 
 # single hosts
 23.88.228.135    HU_mail.onlinestoresample.info@ENZUINC/AS18978
@@ -31,7 +31,7 @@ $TTL 60
 117.41           CHINANET-JX
 
 # SYSTECH Global
-91.82.84-85      :3:Neighbour of smtp*.mindenalove.hu
+91.82.84-85      :2:Neighbour of smtp*.mindenalove.hu
 91.82.84.143-152 HU_SYSTECH-GLOBAL/AS12301@Invitel smtp*.mindenalove.hu
 91.82.84.203-204 HU_SYSTECH-GLOBAL/AS12301@Invitel vps.*-ad.com
 
@@ -45,7 +45,7 @@ $TTL 60
 
 # root.lu
 94.242.210       LU-ROOT/AS5577
-188.42.252-254   :3:Neighbour of root.lu
+188.42.252-254   :2:Neighbour of root.lu
 188.42.255       WZSG-1/AS45470@Singapure
 
 # Tigernet Kft
@@ -55,7 +55,7 @@ $TTL 60
 91.83.236.239-250 smtp*.topszallasok.hu@Invitel/AS12301
 
 # FR-ILIAD-ENTREPRISES-CUSTOMERS
-195.154.0-127    :3:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
+195.154.0-127    :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 
 # Peter Krozser

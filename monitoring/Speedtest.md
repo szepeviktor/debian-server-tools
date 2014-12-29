@@ -59,6 +59,11 @@ Global networking tools
 - http://www.externet.hu/index.php?page=speedmeter_display
 - http://speedtest.szelessavkereso.hu/index.nof?parent=http%3A%2F%2Fwww.szelessavindex.hu%2FSzelessav_speedtest.nof
 
+### IX locations
+
+- http://espanix.eu/en/noticias.html
+- https://www.euro-ix.net/users/sign_up
+- http://www.bgp4.as/looking-glasses
 
 ##### Legend
 

@@ -21,23 +21,23 @@ header   __RCVD_IN_BL_SPAMMER eval:check_rbl('spammer', 'spammer.dnsbl.')
 describe __RCVD_IN_BL_SPAMMER SPAMMER: Received via a relay
 tflags   __RCVD_IN_BL_SPAMMER net
 
-header   RCVD_IN_BL_SPAMMER_IS eval:check_rbl_sub('spammer', '127.0.0.5')
+header   RCVD_IN_BL_SPAMMER_IS eval:check_rbl_sub('spammer', '127.0.0.1')
 describe RCVD_IN_BL_SPAMMER_IS SPAMMER: Is a spammer
 tflags   RCVD_IN_BL_SPAMMER_IS net
 
-header   RCVD_IN_BL_SPAMMER_NEIGH eval:check_rbl_sub('spammer', '127.0.0.3')
+header   RCVD_IN_BL_SPAMMER_NEIGH eval:check_rbl_sub('spammer', '127.0.0.2')
 describe RCVD_IN_BL_SPAMMER_NEIGH SPAMMER: Neighbour of a spammer
 tflags   RCVD_IN_BL_SPAMMER_NEIGH net
 
 #TODO move to smtp-attacker.dnsbl
-header   RCVD_IN_BL_SPAMMER_ATTACKER eval:check_rbl_sub('spammer', '127.0.0.10')
+header   RCVD_IN_BL_SPAMMER_ATTACKER eval:check_rbl_sub('spammer', '127.0.0.4')
 describe RCVD_IN_BL_SPAMMER_ATTACKER SMTP attacker
 tflags   RCVD_IN_BL_SPAMMER_ATTACKER net
 
 endif
 
-score RCVD_IN_BL_SPAMMER_IS        5.0
 score RCVD_IN_BL_SPAMMER_NEIGH     3.0
-score RCVD_IN_BL_SPAMMER_ATTACKER 10.0
+score RCVD_IN_BL_SPAMMER_IS       10.0
+score RCVD_IN_BL_SPAMMER_ATTACKER 20.0
 
-# Check: spamassassin --lint
+# Check: sudo -u daemon -- spamassassin --lint

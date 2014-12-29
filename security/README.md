@@ -3,6 +3,7 @@
 #### gfshare
 
 `apt-get install -y libgfshare-bin`
+http://www.digital-scurf.org/software/libgfshare
 
 ### Cipher names correspondence table @Mozilla
 

@@ -24,7 +24,7 @@ tflags   __RCVD_IN_WL_KNOWN_HOST nice
 # ---------------------------------------------------------------------------
 # Scores for known-hosts.dnsbl
 
-header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts', '127.0.0.99')
+header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts', '127.0.0.128')
 describe RCVD_IN_WL_KNOWN_HOST Known host
 tflags   RCVD_IN_WL_KNOWN_HOST nice
 
@@ -32,4 +32,4 @@ endif
 
 score RCVD_IN_WL_KNOWN_HOST -20.0
 
-# Check: spamassassin --lint
+# Check: sudo -u daemon -- spamassassin --lint

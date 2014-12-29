@@ -7,7 +7,7 @@
 #### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer known-hosts.dnsbl:ip4set:known-hosts.dnsbl.zone
 
 
-#### 99 - known host (score: -20)
+#### 128 - known host
 
 $NS 3600 worker.szepe.net
 # one hour TTL
@@ -16,7 +16,7 @@ $TTL 3600
 # ---------------------------------------
 
 # KNOWN HOSTS
-:127.0.0.99:Known host
+:127.0.0.128:Known host
 
 95.140.33.67     szerver.szepe.net
 81.2.236.171     worker.szepe.net
