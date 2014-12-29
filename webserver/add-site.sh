@@ -56,12 +56,20 @@ sudo -u $U -- wp --path=$PWD user create viktor viktor@szepe.net --role=administ
 # PHP
 cd /etc/php5/fpm/pool.d/
 sed "s/@@USER@@/$U/g" < ../Skeleton.conf > $U.conf
+# purge old sessions
+e /etc/cron.d/php5-user
+# minutes from 15-
+# 15 *  * * *  $U  [ -d /home/$U/public_html/session ] && /usr/lib/php5/sessionclean /home/$U/public_html/session $(/usr/lib/php5/maxlifetime)
+
 # Apache
 cd /etc/apache2/sites-available
 D=<DOMAIN>
 sed -e "s/@@DOMAIN@@/$D/g" -e "s/@@USER@@/$U/g" < Skeleton.conf > $D.conf
 a2ensite $D
 # see: webrestart.sh
+# logrotate
+e /etc/logrotate.d/apache2-$D
+# prerotate & postrotate
 
-# add cron job
+# add cron jobs
 cd /etc/cron.d/
