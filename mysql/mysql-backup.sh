@@ -16,5 +16,5 @@
 BACKUP_TARGET="/root/backup/mysql-today.sql.gz"
 
 # IO nice and CPU nice
-/usr/bin/mysqldump -u root --all-databases --events \
+/usr/bin/mysqldump --all-databases --single-transaction --events \
     | ionice -c 3 nice gzip -9 > "$BACKUP_TARGET"

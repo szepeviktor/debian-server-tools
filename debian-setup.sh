@@ -52,6 +52,7 @@ echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 apt-get update
 apt-get dist-upgrade -y
 apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc lynx ncurses-term
+ln -sv /usr/bin/host /usr/local/bin/mx
 
 # input
 echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
@@ -205,6 +206,10 @@ apt-get autoremove --purge
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
     bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
 apt-get install -t wheezy-backports -y rsyslog whois git
+# rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
+# e /etc/rsyslog.conf
+# $ModLoad immark
+# $MarkMessagePeriod 1800
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
 cd debian-server-tools/ && git submodule init && git submodule update
 
@@ -241,6 +246,8 @@ find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l|grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev/|tee cruft.log
+# find broken symlinks
+find / -type l -xtype l
 debsums -c
 
 # updates

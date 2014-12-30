@@ -89,3 +89,7 @@ innobackupex --incremental /var/archives/sql/ --incremental-basedir=/var/archive
 
 if tail -n 1 /logfile | grep -q "completed OK!$";then
 ```
+
+### MySQL Levenshtein
+
+[MySQL Levenshtein and Damerau-Levenshtein UDF’s](https://samjlevy.com/mysql-levenshtein-and-damerau-levenshtein-udfs/)

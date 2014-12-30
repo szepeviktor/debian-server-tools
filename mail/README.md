@@ -7,13 +7,33 @@
 
 - SSL?
 - headers: From, from name, To, Reply-to, Return-path, SMTP "MAIL FROM:"
-- 
+
+### Online email tests
+
+- https://www.mail-tester.com/
+
+
+### Spamassassin test
+
+```bash
+spamassassin --test-mode -D < msg.eml
+# specific test, see: man spamassassin-run
+spamassassin --test-mode -D dkim < msg-signed.eml
+opendkim -vvv -t msg-signed.eml
+```
 
 ### Bulk email
 
 https://support.google.com/mail/answer/81126?hl=en
 
-#### SPF
+#### Sender ID
+
+- http://en.wikipedia.org/wiki/Sender_ID
+- http://tools.ietf.org/html/rfc4407#section-2
+- PRA: Resent-Sender > Resent-From > Sender > From > ill-formed
+- http://www.appmaildev.com/
+
+#### SPF (MAIL FROM:)
 
 - setup
 - check
@@ -21,9 +41,13 @@ https://support.google.com/mail/answer/81126?hl=en
 
 #### DKIM
 
-- setup
+- setup http://www.tana.it/sw/zdkimfilter/
 - check
 - monitor
+
+#### ADSP
+
+- https://unlocktheinbox.com/resources/adsp/
 
 #### DMARC
 
