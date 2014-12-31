@@ -17,7 +17,7 @@ ifplugin Mail::SpamAssassin::Plugin::DNSEval
 # ---------------------------------------------------------------------------
 # Known host test
 
-header   __RCVD_IN_WL_KNOWN_HOST eval:check_rbl('known-hosts', 'known-hosts.dnsbl.')
+header   __RCVD_IN_WL_KNOWN_HOST eval:check_rbl('known-hosts-lastexternal', 'known-hosts.dnsbl.')
 describe __RCVD_IN_WL_KNOWN_HOST Known host
 tflags   __RCVD_IN_WL_KNOWN_HOST nice
 
