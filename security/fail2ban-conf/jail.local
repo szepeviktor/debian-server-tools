@@ -29,7 +29,7 @@ sender = @@SENDER@@
 
 # ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-             %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+             %(mta)s-geoip[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 action = %(action_mgl)s
 
 
