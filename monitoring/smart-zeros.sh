@@ -78,16 +78,18 @@ for DRIVE in $(grep -o "\b[hs]d[a-z]$" /proc/partitions); do
     SMART_ATTRS="$(smartctl -A "$DEVICE" | sed -e 's/^\s\+//' -e 's/\s\+/ /g' | grep '^[0-9]')"
     for ATTR in "${ZERO_ATTRS[@]}"; do
         if ! Check_zero "$SMART_ATTRS" "$ATTR"; then
+            NORMAL_ATTR_VALUE="zero"
 
             # silenced attributes
             if [ ${#SILENCED_ATTRS[@]} -ne 0 ]; then
                 ATTR_VALUE="$(grep "^${ATTR}\b" <<< "$SMART_ATTRS" | cut -d' ' -f10)"
                 for SILENCED in "${SILENCED_ATTRS[@]}"; do
+                    [ "${DEVICE}:${ATTR}" == "${SILENCED%=*}" ] && NORMAL_ATTR_VALUE="${SILENCED##*=}"
                     [ "${DEVICE}:${ATTR}=${ATTR_VALUE}" == "$SILENCED" ] && continue 2
                 done
             fi
 
-            Smart_error "Attribute $(grep -o "^${ATTR} \S\+" <<< "$SMART_ATTRS") changed from zero on (${DEVICE})" "WARNING"
+            Smart_error "Attribute $(grep -o "^${ATTR} \S\+" <<< "$SMART_ATTRS") changed from ${NORMAL_ATTR_VALUE} on (${DEVICE})" "WARNING"
             continue 2
         fi
     done

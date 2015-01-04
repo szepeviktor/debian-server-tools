@@ -54,10 +54,6 @@ cat <PASTED-FILE>|base64 -d|xz -d > <SCRIPT>
 # alias: cat <PASTED-FILE>|transit-receive
 ```
 
-### Backup all GitHub repos
+### Flush Google public DNS cache
 
-```bash
-GH_USER="szepeviktor"
-wget -qO- "https://api.github.com/users/${GH_USER}/repos?per_page=100"|grep '"clone_url"'|cut -d'"' -f4 > github.repos
-cat github.repos|xargs -L 1 git clone
-```
+http://google-public-dns.appspot.com/cache

@@ -3,6 +3,10 @@
 - Root: "Inbox"
 - after account setup: [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
 
+### Mail account migration
+
+see: mail/imapsync
+
 ### Email sending and receiving
 
 - SSL?
@@ -11,7 +15,8 @@
 ### Online email tests
 
 - https://www.mail-tester.com/
-
+- mailtest@unlocktheinbox.com https://unlocktheinbox.com/resources/adsp/
+- checkmyauth@auth.returnpath.net http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 ### Spamassassin test
 
@@ -41,20 +46,20 @@ https://support.google.com/mail/answer/81126?hl=en
 
 #### DKIM
 
+- [RFC 6376](https://tools.ietf.org/html/rfc6376)
 - setup http://www.tana.it/sw/zdkimfilter/
 - check
 - monitor
 
 #### ADSP
 
-- https://unlocktheinbox.com/resources/adsp/
 
 #### DMARC
 
 Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text=1
 
 - setup https://unlocktheinbox.com/dmarcwizard/
-- check mailto:mailtest@unlocktheinbox.com
+- check
 - monitor `host -t TXT <domain>`
 
 #### Headers
@@ -71,3 +76,8 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - contact
 - unsubscribe link
 - HTML and plain payload
+
+### White lists
+
+- https://www.dnswl.org/?page_id=87
+- .

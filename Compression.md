@@ -2,3 +2,5 @@
 - https://code.google.com/p/snappy/ https://github.com/kubo/snzip
 - https://code.google.com/p/zopfli/
 - http://www.quicklz.com/
+- apt-get install lzop
+- https://code.google.com/p/lz4/
