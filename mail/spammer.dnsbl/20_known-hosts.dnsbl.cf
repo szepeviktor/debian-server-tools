@@ -24,7 +24,7 @@ tflags   __RCVD_IN_WL_KNOWN_HOST nice
 # ---------------------------------------------------------------------------
 # Scores for known-hosts.dnsbl
 
-header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts', '127.0.0.128')
+header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts-lastexternal', '127.0.0.128')
 describe RCVD_IN_WL_KNOWN_HOST Known host
 tflags   RCVD_IN_WL_KNOWN_HOST nice
 
