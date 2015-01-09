@@ -17,6 +17,16 @@ $TTL 60
 
 # ---------------------------------------
 
+# ATTACKERS
+:127.0.0.4:An attacker
+
+109.239.112.0/23 :2:Neighbour of lcfoot.fr
+109.239.113.16   FR_lcfoot.nvlasp.fr@COVAGE NETWORKS SASU/AS44902
+109.239.116.0/24 :2:Neighbour of lcfoot.fr
+109.239.117.0/24 :2:Neighbour of lcfoot.fr
+
+# ---------------------------------------
+
 # SPAMMERS
 :127.0.0.1:Is a spammer
 
@@ -24,6 +34,11 @@ $TTL 60
 23.88.228.135    HU_mail.onlinestoresample.info@ENZUINC/AS18978
 23.238.16.159    HU_smartingatlan.info@HOSTWINDS-17-5/AS54290
 23.238.56.218    HU_Laszlo Nagypal/ujfej.com@HOSTWINDS-17-5/AS54290
+91.82.226.172    HU_penzaramlas.smtp.hu@Invitel-pool/@AS12301
+198.143.96.181   HU_arctic.gytcre.com@HOSTWINDS-17-5/AS54290
+199.59.62.53     HU_aback.gytcre.com@HOSTWINDS-17-5/AS54290
+79.172.239.117   HU_server1.bestofmarket.hu@TARHELYEU-NET/AS29278
+178.238.222.94   HU_server2.bestofmarket.hu@FREEMIUM-NET/AS29278
 
 # CHINANET-HE
 111.224.250      CHINANET-HE
@@ -37,6 +52,7 @@ $TTL 60
 
 # Hostkey / Mir Telematiki
 5.39.216.0/21    HOSTKEY-NET/AS57043
+46.17.96.0/21    Kryptos-Net/AS57043
 91.218.112-115   BERMOSCOM-NET/AS49335
 146.0.72.0/21    HOSTKEY-NET/AS57043
 158.255.0-7      RU-HOSTKEY-20111114/AS49335
