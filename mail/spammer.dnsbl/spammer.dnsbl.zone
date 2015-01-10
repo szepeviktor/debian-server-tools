@@ -76,3 +76,7 @@ $TTL 60
 
 # Peter Krozser
 198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
+
+# Electris Ltd
+83.143.176-183   :2:Neighbour of Electris Ltd
+83.143.178.104   BG_brandsvirals.net@IXTLAN-SYSTEMS/AS200002
