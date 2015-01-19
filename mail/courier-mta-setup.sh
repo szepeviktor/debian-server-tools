@@ -19,11 +19,14 @@ pip install courier-pythonfilter
 git clone https://github.com/szepeviktor/courier-pythonfilter-custom
 ln -sv email-correct.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
 ln -sv spamassassin3.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
+# whitelist_replayclient
+apt-get install python-gdbm
+
 
 # DKIM support
 # build deps
-apt-get install -y -t wheezy-backports libopendkim-dev libopendbx1-dev nettle-dev
-apt-get install -y libc6-dev pkg-config libtool
+#apt-get install -y -t wheezy-backports libopendkim-dev libopendbx1-dev nettle-dev
+#apt-get install -y libc6-dev pkg-config libtool
 # runtim deps
 apt-get install -y libopendkim7
 apt-get install -y -t wheezy-backports libopendbx1 libnettle4
@@ -34,8 +37,20 @@ wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
 #
 # rule compile:
 mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
+#cd /etc/cron.hourly
+#patch -p0 < spamassassin34.patch
 # DKIM check:
 apt-get install -y libmail-dkim-perl
+
+pip install pyzor
+pip install courier-pythonfilter
+ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
+# whitelist_relayclients depends apt-get install -y python-gdbm
+# e /etc/courier/smtpaccess/default
+# :::1<-->allow,RELAYCLIENT
+filterctl start pythonfilter
+
+# document message way SMTP, courier C, courier filters (spamassassin, pyzor), aliases, .courier
 
 #TODO Where to whitelist: courier domain,IP; sa domain; dnsbl known_hosts;
 #     What: own IP, servers, (smtp.timeweb.ru), broken SMTP servers

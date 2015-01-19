@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Repair ANSI escape charaters
+# Repair ANSI escape charaters in boot log.
 #
 # LOCATION       :/usr/local/sbin/bootlog-view.sh
 # DEPENDS        :apt-get install bootlogd less

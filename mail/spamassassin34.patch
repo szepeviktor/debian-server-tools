@@ -1,0 +1,11 @@
+--- spamassassin	2014-07-11 16:56:51.000000000 +0200
++++ spamassassin.quite	2015-01-09 12:39:12.471468869 +0100
+@@ -36,7 +36,7 @@
+     if [ -x /usr/bin/re2c -a -x /usr/bin/sa-compile ]; then
+         env -i LANG="$LANG" PATH="$PATH" start-stop-daemon \
+             --chuid debian-spamd:debian-spamd --start \
+-            --exec /usr/bin/sa-compile
++            --exec /usr/bin/sa-compile -- --quiet
+ 
+         # Fixup perms -- group and other should be able to
+         # read and execute, but never write.  Works around

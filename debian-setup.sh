@@ -61,9 +61,9 @@ sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
-# ~/.config/mc/mc.ext
-# ### Markdown ###
+# ### Markdown for mc ###
 # # cp /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
+# e ~/.config/mc/mc.ext
 # regex/\.md(own)?$
 # 	View=pandoc -s -f markdown -t man %p | man -l -
 
@@ -123,12 +123,16 @@ grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
 
 # kernel
 uname -a
+# list kernels
+apt-cache policy linux-image-amd64
+apt-get install linux-image-amd64=<KERNEL-VERSION>
 dpkg -l|grep "grub"
 ls -latr /boot/
 # OVH Kernel
 #cd /boot/; lftp -e "mget *-xxxx-grs-ipv6-64-vps; bye" ftp://ftp.ovh.net/made-in-ovh/bzImage/latest-production/
 # Linode Kernels
 # auto renew - https://www.linode.com/kernels/
+e /etc/modules
 e /etc/sysctl.conf
 
 # misc. files
@@ -177,7 +181,7 @@ dpkg-reconfigure locales
 cat /etc/timezone
 dpkg-reconfigure tzdata
 
-# comment out getty[2-6], not init.d/rc !
+# comment out getty[2-6], not /etc/init.d/rc !
 # consider agetty
 e /etc/inittab
 # sanitize users
@@ -205,7 +209,7 @@ apt-get autoremove --purge
 # essential packages
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
     bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
-apt-get install -t wheezy-backports -y rsyslog whois git
+apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
 # e /etc/rsyslog.conf
 # $ModLoad immark
@@ -300,6 +304,9 @@ a2enconf php-fpm
 a2enconf h5bp
 e /etc/apache2/conf-enabled/security.conf
 # ServerTokens Prod
+e /etc/apache2/apache2.conf
+# LogLevel info
+
 
 # for poorly written themes/plugins
 apt-get install -y mod-pagespeed-stable
@@ -315,6 +322,7 @@ sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
 sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
+sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i 's|^date.timezone = .*$|date.timezone = ${PHP_TZ}|' /etc/php5/fpm/php.ini
 grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
@@ -328,6 +336,9 @@ phpize && ./configure && make && make test || echo "ERROR: suhosin build failed.
 make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
 # enable
 sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini || echo "ERROR: enabling suhosin"
+# security check
+git clone https://github.com/sektioneins/pcc.git
+# pool config: env[PCC_ALLOW_IP] = 123.45.67.*
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
@@ -336,10 +347,12 @@ echo -e "[mysql]\nuser=root\npass=<PASSWORD>\ndefault-character-set=utf8" >> /ro
 # control panel for opcache and APC
 TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
 TOOLS_DOCUMENT_ROOT=/home/web/public_html/server/
-cp -v webserver/ocp.php "$TOOLS_DOCUMENT_ROOT"
+# favicon, robots.txt
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
 echo -e "User-agent: *\nDisallow: /" > "${TOOLS_DOCUMENT_ROOT}/robots.txt"
-# apc/tar
+# kabel / ocp.php
+cp -v webserver/ocp.php "$TOOLS_DOCUMENT_ROOT"
+# old apc/PECL
 #APC_URL="http://pecl.php.net/get/APC-3.1.13.tgz"
 #wget -qO- "$APC_URL" | tar xz --no-anchored apc.php && mv APC*/apc.php "$TOOLS_DOCUMENT_ROOT" && rmdir APC*
 # apc trunk for PHP 5.4-

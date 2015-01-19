@@ -14,6 +14,7 @@
 ACCOUNT="$1"
 MAILROOT="/var/mail"
 VIRTUAL_UID="1999"
+COURIER_AUTH_DBNAME="horde4"
 CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 
 Error() {
@@ -76,16 +77,14 @@ sudo -u virtual maildirmake -f Sent "$NEW_MAILDIR" && echo "Sent OK." || Error 2
 sudo -u virtual maildirmake -f Trash "$NEW_MAILDIR" && echo "Trash OK." || Error 22 "Cannot create Trash folder"
 
 # MySQL output
-if which mysql \
+if which mysql &> /dev/null \
     && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
-    echo -e "\n---------------- >8 -----------------"
-    mysql horde4 <<SQL
--- USE horde4;
+    mysql "$COURIER_AUTH_DBNAME" <<SQL
+-- USE ${COURIER_AUTH_DBNAME};
 INSERT INTO \`courier_horde\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
     \`defaultdelivery\`, \`quota\`, \`options\`, \`user_soft_expiration_date\`, \`user_hard_expiration_date\`, \`vac_msg\`, \`vac_subject\`, \`vac_stat\`) VALUES
 ('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '', '', '', '', NULL, NULL, '', '', 'N');
 SQL
-    echo -e "---------------- >8 -----------------\n"
 fi
 
 # userdb

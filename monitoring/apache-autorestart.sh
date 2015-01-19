@@ -52,7 +52,7 @@ apache_count() {
 }
 
 debug() {
-    echo -n "$(date "+%b %l %H:%M:%S") apache-autorestart[${PID}]: @${1}; apache#=$(apache_count)" >> "$LOG"
+    echo -n "$(date "+%b %e %H:%M:%S") apache-autorestart[${PID}]: @${1}; apache#=$(apache_count)" >> "$LOG"
 }
 
 force_restart() {
@@ -112,6 +112,9 @@ relive() {
 
     # testing
     #exit 0
+
+    # turn on swap
+    /sbin/swapon -a
 
     # cron/1min = 3×2sec/repeat + 50sec/restart
     force_restart &  FR_PID=$!
