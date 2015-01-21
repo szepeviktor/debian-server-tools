@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Test SMTP authentication.
+# Test SMTPS authentication on port 465.
 #
-# VERSION       :0.2
+# VERSION       :0.3
 # DATE          :2014-12-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,7 +28,7 @@ Usage() {
     cat << USAGE
 smtp-auth v$(Get_version "$0")
 Usage: $(basename $0) <OPTION> ...
-Test SMTP authentication.
+Test SMTPS authentication.
 
   -a                test authentication support
   -p                PLAIN authentication

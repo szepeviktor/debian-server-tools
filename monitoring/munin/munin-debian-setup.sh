@@ -8,7 +8,8 @@ PLUGIN_CONF_DIR="/etc/munin/plugin-conf.d"
 PLUGIN_PATH="/usr/share/munin/plugins"
 ENABLED_PLUGIN_PATH="/etc/munin/plugins"
 
-# Every installatino step
+# All installation steps
+#
 #apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl
 #apt-get install -t wheezy-backports -y munin-node
 ## enable plugins by hand

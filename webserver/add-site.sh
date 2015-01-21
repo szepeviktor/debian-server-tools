@@ -27,7 +27,7 @@ mkdir public_html && cd public_html
 mkdir {session,tmp,server,pagespeed,backup}
 
 # HTTP authentication
-htpasswd -c ./htpasswords <LOGIN>
+htpasswd -c ./htpasswords <USERNAME>
 chmod 600 ./htpasswords
 
 # existing WP install
@@ -55,7 +55,7 @@ sudo -u $U -- wp --path=$PWD user create viktor viktor@szepe.net --role=administ
 
 # PHP
 cd /etc/php5/fpm/pool.d/
-sed "s/@@USER@@/$U/g" < ../Skeleton.conf > $U.conf
+sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > $U.conf
 # purge old sessions
 e /etc/cron.d/php5-user
 # minutes from 15-
@@ -64,7 +64,7 @@ e /etc/cron.d/php5-user
 # Apache
 cd /etc/apache2/sites-available
 D=<DOMAIN>
-sed -e "s/@@DOMAIN@@/$D/g" -e "s/@@USER@@/$U/g" < Skeleton.conf > $D.conf
+sed -e "s/@@DOMAIN@@/$D/g" -e "s/@@USER@@/$U/g" < Skeleton-site.conf > $D.conf
 a2ensite $D
 # see: webrestart.sh
 # logrotate

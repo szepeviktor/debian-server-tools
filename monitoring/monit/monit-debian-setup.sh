@@ -83,6 +83,7 @@ MONITSYSTEM
 sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
 
 ## rsyslog
+#FIXME --MARK--
 sed -i 's|check file rsyslog_file with path /var/log/messages|check file rsyslog_file with path /var/log/syslog|' /etc/monit/monitrc.d/rsyslog
 
 ## unscd

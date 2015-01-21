@@ -314,7 +314,7 @@ apt-get install -y mod-pagespeed-stable
 e /etc/apt/sources.list.d/others.list
 
 # PHP 5.5 from DotDeb
-apt-get install -y php-pear php5-apcu php5-cgi php5-cli php5-curl php5-dev php5-fpm php5-gd \
+apt-get install -y php-pear php5-apcu php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
 # ??? pkg-php-tools
 PHP_TZ="$(head -n 1 /etc/timezone)"
@@ -324,14 +324,14 @@ sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
 sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
-sed -i 's|^date.timezone = .*$|date.timezone = ${PHP_TZ}|' /etc/php5/fpm/php.ini
+sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
 SUHOSIN_URL="<RELEASE-TAR-GZ>"
 # version 0.9.37.1
 SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.37.1.tar.gz"
-wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-suhosin-*
+wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-*
 phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
 make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
 # enable
@@ -361,6 +361,8 @@ php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
 # APCu master for PHP 5.5+
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
+# HTTP/AUTH
+htpasswd -c ../htpasswords <USERNAME>
 
 # PHPMyAdmin see: package/phpmyadmin-get-sf.sh
 cd <PHPMYADMIN_DIR>
@@ -404,7 +406,7 @@ dpkg -l|egrep "postfix|exim"
 apt-get purge exim4 exim4-base exim4-config exim4-daemon-light
 # hostname
 e /etc/courier/me
-# default domain
+mx $(cat /etc/courier/me)
 e /etc/courier/defaultdomain
 e /etc/courier/dsnfrom
 e /etc/courier/aliases/system
@@ -415,7 +417,7 @@ e /etc/courier/esmtpd
 # ESMTPAUTH=""
 # ESMTPAUTH_TLS="LOGIN PLAIN"
 e /etc/courier/esmtpd-ssl
-# ADDRESS=127.0.0.1
+# SSLADDRESS=127.0.0.1
 makealiases
 makesmtpaccess
 service courier-mta restart
@@ -470,7 +472,7 @@ service munin-node restart
 apt-get autoremove --purge
 
 # backup /etc
-tar cJf "/root/etc-backup_$(date +%Y%m%d).tar.xz" /etc/
+tar cJf "/root/etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
 
 # colorized man with less
 man() {
