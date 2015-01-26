@@ -17,6 +17,10 @@ http://www.digital-scurf.org/software/libgfshare
 nmap --script ssl-cert,ssl-enum-ciphers -p 443 <TARGET>
 ```
 
+### DigiCert (online)
+
+[DigiCert® SSL Installation Diagnostics Tool](https://www.digicert.com/help/)
+
 ### Qualys SSL Labs (online)
 
 [SSL Server Test](https://www.ssllabs.com/ssltest/index.html)

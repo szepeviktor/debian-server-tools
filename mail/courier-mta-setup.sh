@@ -75,5 +75,12 @@ score FM_FAKE_HELO_HOTMAIL       2.0
 
 score T_DKIM_INVALID             1.0
 whitelist_from *@domain.tld
-
 # sagrey.pm
+
+# Monitoring
+# - MAIL_RECEPTION='courieresmtpd: error.*534 SIZE=Message too big\|courieresmtpd: error.*523 Message length .* exceeds administrative limit'
+# - MAIL_FILER_EXCEPTION='courierfilter:.*xception'
+# - MAIL_BROKEN='4[0-9][0-9]\s*tls\|Broken pipe'
+# - weekly: grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554"
+# - yearly: archive
+# - monthly: maildir-top10-message-count & -folder-size (du -sk "$FULLPATH")

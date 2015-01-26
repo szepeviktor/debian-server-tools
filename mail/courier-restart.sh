@@ -2,13 +2,14 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.1
-# DATE          :2015-01-12
+# VERSION       :0.2
+# DATE          :2015-01-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install courier-mta courier-mta-ssl
+# LOCATION      :/usr/local/sbin/courier-restart.sh
 
 Error() {
     echo "ERROR: $*"
@@ -16,9 +17,9 @@ Error() {
 }
 
 makesmtpaccess || Error $? "smtpaccess/*"
-makesmtpaccess-msa || Error $? "esmtpd-msa"
-makeacceptmailfor || Error $? "esmtpacceptmailfor.dir/*"
-makehosteddomains || Error $? "hosteddomains"
+grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa || makesmtpaccess-msa || Error $? "esmtpd-msa"
+! [ -d /etc/courier/esmtpacceptmailfor.dir ] || makeacceptmailfor || Error $? "esmtpacceptmailfor.dir/*"
+! [ -e /etc/courier/hosteddomains ] || makehosteddomains || Error $? "hosteddomains"
 ! [ -f /etc/courier/userdb ] || makeuserdb || Error $? "userdb"
 makealiases || Error $? "aliases/*"
 service courier-mta-ssl restart || Error $? "courier-mta-ssl"

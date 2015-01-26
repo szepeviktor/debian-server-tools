@@ -14,9 +14,8 @@
 
 # maximum swap to refresh, in kB
 SWAP_MAX=256000
-###############
 
-# first swap only, in kB (collapse whitespaces)
+# first swap only, in kB
 SWAP_USAGE="$(tail -n +2 /proc/swaps | head -n 1 | sed 's/\s\+/ /g' | cut -d' ' -f 4)"
 FREE_MEM="$(free -k | grep '^Mem' | sed 's/\s\+/ /g' | cut -d' ' -f 3)"
 

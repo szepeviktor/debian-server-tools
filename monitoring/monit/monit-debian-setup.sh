@@ -1,12 +1,15 @@
 #!/bin/bash
 #
 # Configure monit plugins
-# These variables need to be filled in.
-# http://mmonit.com/wiki/Monit/ConfigurationExamples
+# These MONIT_* variables need to be filled in.
+#
+# DOCUMENTATION  :http://mmonit.com/wiki/Monit/ConfigurationExamples
+# VERSION        :0.2
 
 MONIT_BOOT_DELAY="120"
-# the hostname after root@
+# hostname in alert address: root@
 MONIT_EMAIL_HOST=""
+# for system monitoring file name
 MONIT_FULL_HOSTNAME=""
 MONIT_SSH_PORT=""
 MONIT_PHPFPM_SOCKET=""
@@ -138,6 +141,10 @@ wget -O /etc/monit/monitrc.d/php-fpm-unix \
     "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
 #has a bug    "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
 sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
+    /etc/monit/monitrc.d/php-fpm-unix
+sed -i "s|alert root@localhost only on {timeout}$|alert root@${MONIT_EMAIL_HOST} only on {timeout}|g" \
+    /etc/monit/monitrc.d/php-fpm-unix
+sed -i "s|alert root@localhost$||g" \
     /etc/monit/monitrc.d/php-fpm-unix
 Monit_enable php-fpm-unix
 

@@ -61,7 +61,7 @@ fi
 
 # check domain
 NEW_DOMAIN="${EMAIL##*@}"
-grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/esmtpacceptmailfor.dir || Error 10 "This domain is not accepted here (${NEW_DOMAIN})"
+grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/locals /etc/courier/esmtpacceptmailfor.dir || Error 10 "This domain is not accepted here (${NEW_DOMAIN})"
 grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/hosteddomains || echo "[WARNING] This domain is not hosted here (${NEW_DOMAIN})" >&2
 
 # account folder and maildir
@@ -93,7 +93,8 @@ if which userdb userdbpw &> /dev/null \
     && grep -q "^authmodulelist=.*\bauthuserdb\b" /etc/courier/authdaemonrc; then
     userdb "$EMAIL" set "home=${NEW_MAILDIR}" || Error 30 "Failed to add to userdb"
     userdb "$EMAIL" set "mail=${NEW_MAILDIR}" || Error 31 "Failed to add to userdb"
-    userdb "$EMAIL" set "maildir=${NEW_MAILDIR}" || Error 32 "Failed to add to userdb"
+    # man makeuserdb
+    #userdb "$EMAIL" set "maildir=${NEW_MAILDIR}" || Error 32 "Failed to add to userdb"
     userdb "$EMAIL" set "uid=${VIRTUAL_UID}" || Error 33 "Failed to add to userdb"
     userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 34 "Failed to add to userdb"
     echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 35 "Failed to add to userdb"

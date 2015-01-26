@@ -35,6 +35,7 @@ cd /home/$U/
 
 # migrate files NOW
 
+# repair permissions, line ends
 find -type f \( -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" \) -exec dos2unix --keepdate \{\} \;
 chown -R $U:$U *
 find -type f -exec chmod --changes 644 \{\} \;

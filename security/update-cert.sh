@@ -2,8 +2,8 @@
 #
 # Generate certificate files for courier-mta, proftpd and apache2.
 #
-# VERSION       :0.2
-# DATE          :2014-11-07
+# VERSION       :0.3
+# DATE          :2015-01-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,13 +18,13 @@
 # NetLock: https://www.netlock.hu/html/cacrl.html
 
 # Certificates from the issuer.
-# e priv-key-$(date +%Y%m%d)-enc.pem
-# openssl rsa -in priv-key-$(date +%Y%m%d)-enc.pem -out priv-key-$(date +%Y%m%d).pem
-# e pub-key-$(date +%Y%m%d).pem
+# e priv-key-$(date +%Y%m%d)-enc.key
+# openssl rsa -in priv-key-$(date +%Y%m%d)-encrypted.key -out priv-key-$(date +%Y%m%d).key
+# e pub-key-$(date +%Y%m%d).key
 TODAY="$(date +%Y%m%d)"
 CA="ca.pem"
 SUB="sub.class1.server.ca.pem"
-PRIV="priv-key-${TODAY}.pem"
+PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 
@@ -32,20 +32,20 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 COURIER_SSL="/etc/courier/ssl-comb3.pem"
 
 # proftpd
-PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
-PROFTPD_PRIV="/etc/proftpd/ssl-priv.pem"
-PROFTPD_SUB="/etc/proftpd/sub.class1.server.ca.pem"
+#PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
+#PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
+#PROFTPD_SUB="/etc/proftpd/sub.class1.server.ca.pem"
 
-# apache2
-APACHE_PUB="/etc/apache2/ssl-pub.pem"
-APACHE_PRIV="/etc/apache2/ssl-priv.pem"
-APACHE_SUB="/etc/apache2/sub.class1.server.ca.pem"
-APACHE_CA="/etc/apache2/ca.pem"
+# apache2: public + intermediate + ca
+# "include intermediate CA certificates, sorted from leaf to root"
+APACHE_PUB="/etc/apache2/ssl/apache.pem"
+APACHE_PRIV="/etc/apache2/ssl/priv-key.key"
+APACHE_SSL_CONFIG="/etc/apache2/sites-available/default-ssl"
 
 # dovecot: public + intermediate
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
 #DOVECOT_PUB="/etc/dovecot/dovecot.pem"
-#DOVECOT_PRIV="/etc/dovecot/private/dovecot.pem"
+#DOVECOT_PRIV="/etc/dovecot/private/dovecot.key"
 
 # webmin: private + public
 # SSL check: https://www.digicert.com/help/
@@ -145,7 +145,7 @@ Proftpd() {
         service proftpd restart
 
         # test FTP
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:21 -starttls ftp
+        echo "QUIT"|openssl s_client -crlf -CAfile "$CABUNDLE" -connect localhost:21 -starttls ftp
         echo "AUTH TLS result=$?"
     else
         echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" >&2
@@ -155,30 +155,27 @@ Proftpd() {
 Apache2() {
     [ -z "$APACHE_PUB" ] && return 1
     [ -z "$APACHE_PRIV" ] && return 1
-    [ -z "$APACHE_SUB" ] && return 1
-    [ -z "$APACHE_CA" ] && return 1
+    [ -z "$APACHE_SSL_CONFIG" ] && return 1
 
-    cp "$PUB" "$APACHE_PUB" || Die 20 "apache public"
+    cat "$PUB" "$SUB" "$CA" > "$APACHE_PUB" || Die 20 "apache cert creation"
     cp "$PRIV" "$APACHE_PRIV" || Die 21 "apache private"
-    cp "$CA" "$APACHE_CA" || Die 22 "apache certificate authority"
-    cp "$SUB" "$APACHE_SUB" || Die 23 "apache intermediate"
-    chown root:root "$APACHE_PUB" "$APACHE_PRIV" "$APACHE_CA" "$APACHE_SUB" || Die 24 "apache owner"
-    chmod 640 "$APACHE_PUB" "$APACHE_PRIV" "$APACHE_CA" "$APACHE_SUB" || Die 25 "apache perms"
+    chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 23 "apache owner"
+    chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 24 "apache perms"
 
     # check config
-    if  grep -q "^\s*SSLCertificateFile\s*${APACHE_PUB}\$" /etc/apache2/sites-available/default-ssl \
-        && grep -q "^\s*SSLCertificateKeyFile\s*${APACHE_PRIV}\$" /etc/apache2/sites-available/default-ssl \
-        && grep -q "^\s*SSLCACertificateFile\s*${APACHE_CA}\$" /etc/apache2/sites-available/default-ssl \
-        && grep -q "^\s*SSLCertificateChainFile\s*${APACHE_SUB}\$" /etc/apache2/sites-available/default-ssl; then
+    if  grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}\$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}\$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs/\$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}\$" "$APACHE_SSL_CONFIG"; then
 
         service apache2 restart
 
         # test HTTPS
-#FIXME localhost != CN # SERVER_NAME="$(grep -io "ServerName\s\+\S\+" /etc/apache2/sites-enabled/*ssl*|cut -d' ' -f2)"
-        timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:443
+        SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_SSL_CONFIG"|cut -d' ' -f2)"
+        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
         echo "HTTPS result=$?"
     else
-        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificateFile and SSLCertificateChainFile" >&2
+        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" >&2
     fi
 }
 

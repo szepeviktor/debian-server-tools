@@ -8,11 +8,12 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/move2year.sh
 
 
 # Create maildir folder
-# maildirmake -f archive.inbox-2014 /var/mail/MAILDIR
-# maildirmake -f archive.sent-2014 /var/mail/MAILDIR
+# sudo -u <MAILUSER> -- maildirmake -f archive.inbox-2014 /var/mail/<MAILDIR>
+# sudo -u <MAILUSER> -- maildirmake -f archive.sent-2014 /var/mail/<MAILDIR>
 
 YEAR="$1"
 FROM_FOLDER="$2"
@@ -41,8 +42,7 @@ find "$FROM_FOLDER" -type f \
         # in current year
         if [ "$DATE_STAMP" -ge "$YEAR_START" ] && [ "$DATE_STAMP" -le "$YEAR_END" ]; then
             echo -n "$(date -d"@${DATE_STAMP}" -R) "
+            # move keeps owner and permissions
             mv -v "$FILE" "$TO_FOLDER"
         fi
     done
-
-#TODO chown, chmod

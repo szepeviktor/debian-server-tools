@@ -77,9 +77,9 @@ export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput set
 \w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
 # ls -1 /usr/share/mc/skins/
 export GREP_OPTIONS="--color"
-alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
-alias iotop='iotop -d 0.1 -qqq -o'
 alias grep='grep $GREP_OPTIONS'
+alias iotop='iotop -d 0.1 -qqq -o'
+alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 # putty / Connection / Data / Terminal-type string: putty-256color
 export MC_SKIN="modarin256root-defbg"
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
@@ -160,6 +160,12 @@ ping6 -c 4 ipv6.google.com
 host -v -t A example.com
 # view network graph: http://bgp.he.net/ip/<IP>
 
+# MYATTACKERS chain
+iptables -N MYATTACKERS
+iptables -I INPUT -j MYATTACKERS
+iptables -A MYATTACKERS -j RETURN
+# for management scripts see: tools/deny-ip.sh
+
 # hostname
 # set A record and PTR record
 # consider: http://www.iata.org/publications/Pages/code-search.aspx
@@ -208,7 +214,7 @@ apt-get autoremove --purge
 
 # essential packages
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
-    bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
+    iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
 apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
 # e /etc/rsyslog.conf
@@ -326,6 +332,11 @@ sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
+# timeouts
+# - PHP max_execution_time
+# - PHP max_input_time
+# - FastCGI -idle-timeout
+# - PHP-FPM pool request_terminate_timeout
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
 SUHOSIN_URL="<RELEASE-TAR-GZ>"
@@ -336,6 +347,20 @@ phpize && ./configure && make && make test || echo "ERROR: suhosin build failed.
 make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
 # enable
 sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini || echo "ERROR: enabling suhosin"
+
+#TODO: ini-handler, Search for it!
+assert.active
+mail.add_x_header
+
+suhosin.executor.disable_emodifier = On
+suhosin.disable.display_errors = 1
+suhosin.session.cryptkey = `apg -m 32`
+
+# Drupal
+suhosin.get.max_array_index_length = 128
+suhosin.post.max_array_index_length = 128
+suhosin.request.max_array_index_length = 128
+
 # security check
 git clone https://github.com/sektioneins/pcc.git
 # pool config: env[PCC_ALLOW_IP] = 123.45.67.*
@@ -411,6 +436,7 @@ e /etc/courier/defaultdomain
 e /etc/courier/dsnfrom
 e /etc/courier/aliases/system
 e /etc/courier/esmtproutes
+# TODO in jessie: ": <SMART-HOST>,465 /SECURITY=SMTPS" - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 # : <SMART-HOST>,587 /SECURITY=REQUIRED
 # SMTP listen only on localhost?
 e /etc/courier/esmtpd

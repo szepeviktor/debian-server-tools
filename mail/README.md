@@ -3,6 +3,7 @@
 - Root: "Inbox"
 - to recognize standard folder names [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
 after account setup
+- (Outlook 2007) empty folder subscription, see: mail/courier-outlook-subscribe-bug.sh
 
 ### Set up Google Apps mailing
 
@@ -91,3 +92,8 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 
 - https://www.dnswl.org/?page_id=87
 - .
+
+### Courier kitchen sink
+
+- `echo > /etc/courier/aliasdir/.courier-kitchensink`
+- alias: `any.address@any-domain.net:  kitchensink@localhost`

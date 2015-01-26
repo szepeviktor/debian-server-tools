@@ -160,7 +160,7 @@ munin_phpfpm() {
     [ -x /usr/sbin/php5-fpm ] || return 1
 
     if ! dpkg -l libwww-perl &> /dev/null; then
-        echo "ERROR: libwww-perl missing, apt-get install -y libwww-perl" >&2
+        echo "ERROR: libwww-perl missing,  apt-get install -y libwww-perl" >&2
         return 2
     fi
 
@@ -189,9 +189,21 @@ env.phppool ${PHPFPM_POOL}
 env.url ${PHPFPM_STATUS}
 PHP_FPM
 
+    cat >&2 <<APACHE_CNF
+# terminate rewrite processing for php-fpm status
+<Location /status>
+    SetHandler application/x-httpd-php
+    Require local
+</Location>
+RewriteEngine on
+RewriteRule ^/status$ - [END]
+APACHE_CNF
+
     Enable_manual_plugin "phpfpm_average"
+    # phpfpm_connections has autoconf
     Enable_manual_plugin "phpfpm_memory"
     Enable_manual_plugin "phpfpm_processes"
+    # phpfpm_status has autoconf
     #TODO: rewrite 5 plugins: add autoconf
 }
 

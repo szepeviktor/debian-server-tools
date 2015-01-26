@@ -73,17 +73,23 @@ deb http://dl.google.com/linux/mod-pagespeed/deb/ stable main
 #deb http://www.deb-multimedia.org/ wheezy-backports main
 #K: apt-get install -y deb-multimedia-keyring
 
+# Percona
+#deb http://repo.percona.com/apt/ wheezy main
+#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 1C4CBDCDCD2EFD2A
+#M: http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html
+
+# Modern webserver (szepe.net)
+deb http://szepeviktor.github.io/debian/ wheezy main
+#deb http://mirror.szepe.net/debian/ wheezy main
+#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 451A4FBA
+#M: http://mirror.szepe.net/debian/
+
 # Oracle JDK 8
 #deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
 # Oracle JDK 7
 #deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ precise main
 #K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
 #M: https://launchpad.net/~webupd8team/+archive/ubuntu/java
-
-# Percona
-#deb http://repo.percona.com/apt/ wheezy main
-#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 1C4CBDCDCD2EFD2A
-#M: http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html
 
 # PostgreSQL
 #deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main
@@ -100,14 +106,13 @@ deb http://dl.google.com/linux/mod-pagespeed/deb/ stable main
 #K: wget -qO- http://nginx.org/keys/nginx_signing.key | apt-key add -
 #M: http://nginx.org/en/linux_packages.html
 
-# Modern webserver (szepe.net)
-#deb http://szepeviktor.github.io/debian/ wheezy main
-#deb http://mirror.szepe.net/debian/ wheezy main
-#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 451A4FBA
-#M: http://mirror.szepe.net/debian/
+# Node JS
+#deb https://deb.nodesource.com/node wheezy main
+#K: wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+#M: https://github.com/joyent/node/wiki/installing-node.js-via-package-manager
 
 ## import all signing keys ##
-# eval "$(grep "^#K:" <SOURCES-FILE> | cut -d' ' -f 2-)"
+# eval "$(grep "^#K: " <SOURCES-FILE> | cut -d' ' -f 2-)"
 ```
 
 ### Disable apt language
