@@ -1,8 +1,9 @@
 #!/bin/bash
 #
 # Install cron jobs from the script header.
+#
 # E.g. "# CRON-HOURLY    :/usr/local/bin/example.sh"
-# In cron syntax "# CRON-D         :09,39 *  * * *  root  /usr/local/bin/example.sh"
+# Cron syntax: "# CRON-D         :09,39 *  * * *  root  /usr/local/bin/example.sh"
 # See: man 5 crontab
 #
 # VERSION       :0.2

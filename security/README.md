@@ -1,3 +1,7 @@
+### Custom certificate installation
+
+/usr/local/share/ca-certificates
+
 ### Store secret data in shares
 
 #### gfshare

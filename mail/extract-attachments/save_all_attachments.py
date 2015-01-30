@@ -131,10 +131,11 @@ def gen_filename(name, part, addr, date, n):
 		pre = '%s.%s.%d' % (date, addr, n)
 		file = ''.join((pre, ext))
 	else:
-		#file = email.Header.decode_header(name)[0][0]
 		file = part.get_filename()
-		if email.Header.decode_header(file)[0][1] is not None:
-			file = str(email.Header.decode_header(file)[0][0]).decode(email.Header.decode_header(file)[0][1])
+		# no need to decode
+		#file = email.Header.decode_header(name)[0][0]
+		#if email.Header.decode_header(file)[0][1] is not None:
+		#	file = str(email.Header.decode_header(file)[0][0]).decode(email.Header.decode_header(file)[0][1])
 		file = file.replace(' ', '_')
 
 		if type(file) is not type('') and type(file) is not unicode:
@@ -180,6 +181,7 @@ def walk_parts(msg, addr, date, dtime, count, msgnum):
 			else:
 				continue
 		else:
+			Debug(3, '''"dtypes=%s" % `dtypes`''')
 			attachment,filename = None,None
 			for key,val in dtypes:
 				key = key.lower()

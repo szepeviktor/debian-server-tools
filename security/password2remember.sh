@@ -2,40 +2,61 @@
 #
 # Generate 8 easy to remember passwords.
 # First option is the acrostic word, second is a number to append.
-# Set P2R_LANG to any language name after you added the corresponding wordlist file.
-# The fixed delimiter is period (the `-d` option of xkcdpass)
 #
-# VERSION       :0.2
-# DATE          :2014-08-27
+# Set P2R_LANG to any language code after you added the corresponding wordlist file (password2remember_<CODE>.txt).
+#
+# VERSION       :0.3
+# DATE          :2015-01-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :pip install xkcdpass
+# LOCATION      :/usr/local/bin/password2remember.sh
 # WORDLIST_HU   :http://packetstormsecurity.com/files/32010/hungarian.gz.html
 # WORDLIST_HU2  :http://sourceforge.net/projects/wordlist-hu/
 
 P2R_LANG="hu"
-
+DELIMITER="."
 
 ACROSTIC="$1"
 NUMBER="$2"
 
 # capitalize the first letter
-capitalize() {
+Capitalize() {
     local LOWERCASE="$1"
 
     echo -n "${LOWERCASE:0:1}" | tr '[:lower:]' '[:upper:]'
     echo -n "${LOWERCASE:1}"
 }
 
+# add the number
+Append_number() {
+    echo "$NUMBER"
+}
+
+# locate the word list file
+Find_wordlist() {
+    local WL="password2remember_${P2R_LANG}.txt"
+
+    [ -r "/usr/local/share/password2remember/${WL}" ] \
+        && WL="/usr/local/share/password2remember/${WL}"
+
+    echo "$WL"
+}
+
+
 [ -z "$ACROSTIC" ] || echo "a.c.r.o.s.t.i.c.: '${ACROSTIC}'"
 [ -z "$NUMBER" ] || echo "number: '${NUMBER}'"
 
-# generate 8 passwords
+# generate 8 passwords choices
 for N in $(seq 1 8); do
-    XKCDPASS="$(xkcdpass -d . -w "password2remember_${P2R_LANG}.txt" -n 4 --max=7 -a "$ACROSTIC")"
+    XKCDPASS="$(xkcdpass -d "$DELIMITER" -w "$(Find_wordlist)" -n 4 --max=7 -a "$ACROSTIC")"
 
-    capitalize "$XKCDPASS"
-    echo "$NUMBER"
+    if [ -z "$NUMBER" ]; then
+        echo "$XKCDPASS"
+    else
+        Capitalize "$XKCDPASS"
+        Append_number
+    fi
 done

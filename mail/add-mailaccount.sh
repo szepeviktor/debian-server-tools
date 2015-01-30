@@ -2,30 +2,31 @@
 #
 # Add a virtual mail account to courier-mta.
 #
-# VERSION       :0.2
-# DATE          :2014-12-25
+# VERSION       :0.3
+# DATE          :2015-01-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/add-mailaccount.sh
-# DEPENDS       :apt-get install courier-authdaemon courier-mta-ssl
+# DEPENDS       :apt-get install courier-authdaemon courier-mta-ssl pwgen
+# DEPENDS       :security/password2remember.sh
 
-ACCOUNT="$1"
-MAILROOT="/var/mail"
 VIRTUAL_UID="1999"
 COURIER_AUTH_DBNAME="horde4"
-CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 
 Error() {
     echo "ERROR: $*"
     exit $1
 }
 
-[ -z "$ACCOUNT" ] && Error 1 "No account given."
-[ -d "$MAILROOT" ] || Error 1 "Mail root (${MAILROOT}) does not exist."
+ACCOUNT="$1"
+MAILROOT="/var/mail"
+CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 
 [ "$(id --user)" == 0 ] || Error 1 "Only root is allowed to add mail accounts."
+[ -z "$ACCOUNT" ] && Error 1 "No account given."
+[ -d "$MAILROOT" ] || Error 1 "Mail root (${MAILROOT}) does not exist."
 
 # inputs
 for V in EMAIL PASS DESC HOMEDIR; do
@@ -34,8 +35,11 @@ for V in EMAIL PASS DESC HOMEDIR; do
             DEFAULT="$ACCOUNT"
             ;;
         PASS)
-            #TODO: xkcd-style password
             DEFAULT="$(pwgen 8 1)$((RANDOM % 10))"
+            # xkcd-style password
+            WORDLIST_HU="/usr/local/share/password2remember/password2remember_hu.txt"
+            [ -f "$WORDLIST_HU" ] \
+                && DEFAULT="$(xkcdpass -d . -w "$WORDLIST_HU" -n 4)"
             ;;
         HOMEDIR)
             DEFAULT="${MAILROOT}/${EMAIL##*@}/${EMAIL%%@*}"
@@ -45,8 +49,6 @@ for V in EMAIL PASS DESC HOMEDIR; do
             ;;
     esac
 
-    #read -e -p "${V}? " -i "$DEFAULT" VALUE
-    #eval "$V"="'$VALUE'"
     read -e -p "${V}? " -i "$DEFAULT" "$V"
 done
 
@@ -59,47 +61,62 @@ if ! getent passwd "$VIRTUAL_UID" &> /dev/null; then
     getent passwd "$VIRTUAL_UID"
 fi
 
-# check domain
+# check email format
+# https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
+grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@([a-z0-9_][-a-z0-9_])*(\.[-a-z0-9_]+)+$' <<< "$EMAIL" || Error 8 'Non-regular email address'
+
 NEW_DOMAIN="${EMAIL##*@}"
-grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/locals /etc/courier/esmtpacceptmailfor.dir || Error 10 "This domain is not accepted here (${NEW_DOMAIN})"
-grep -qr "^${NEW_DOMAIN//./\\.}$" /etc/courier/hosteddomains || echo "[WARNING] This domain is not hosted here (${NEW_DOMAIN})" >&2
+NEW_MAILDIR="${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}/Maildir"
+#?
+
+# check home
+[ -d "$HOMEDIR" ] && Error 9 "This home ($HOMEDIR) already exists."
+
+# check domain
+grep -qFxr "${NEW_DOMAIN}" /etc/courier/locals /etc/courier/esmtpacceptmailfor.dir || Error 10 "This domain is not accepted here (${NEW_DOMAIN})"
+grep -qFxr "${NEW_DOMAIN}" /etc/courier/hosteddomains || echo "[WARNING] This domain is not hosted here (${NEW_DOMAIN})" >&2
 
 # account folder and maildir
-NEW_MAILDIR="${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}"
-mkdir -v -p "${MAILROOT}/${NEW_DOMAIN}" || Error 12 "Failed to create dir: (${MAILROOT}/${NEW_DOMAIN})"
-chown -v "$VIRTUAL_UID":"$VIRTUAL_UID" "${MAILROOT}/${NEW_DOMAIN}" || Error 13 "Cannot chown (${MAILROOT}/${NEW_DOMAIN})"
-chmod -v o-rx "${MAILROOT}/${NEW_DOMAIN}" || Error 14 "Cannot chmod (${MAILROOT}/${NEW_DOMAIN})"
-sudo -u virtual maildirmake "$NEW_MAILDIR" && echo "Maildir OK." || Error 15 "Cannot create maildir (${NEW_MAILDIR})"
+install -o "$VIRTUAL_UID" -g "$VIRTUAL_UID" -m "u=rwx" -d "${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}" || Error 12 "Failed to install dir: (${MAILROOT}/${NEW_DOMAIN})"
+#?
+sudo -u virtual -- maildirmake "$NEW_MAILDIR" && echo "Maildir OK." || Error 15 "Cannot create maildir (${NEW_MAILDIR})"
 
 # special folders
-sudo -u virtual maildirmake -f Drafts "$NEW_MAILDIR" && echo "Drafts OK." || Error 20 "Cannot create Drafts folder"
-sudo -u virtual maildirmake -f Sent "$NEW_MAILDIR" && echo "Sent OK." || Error 21 "Cannot create Sent folder"
-sudo -u virtual maildirmake -f Trash "$NEW_MAILDIR" && echo "Trash OK." || Error 22 "Cannot create Trash folder"
+sudo -u virtual -- maildirmake -f Drafts "$NEW_MAILDIR" && echo "Drafts OK." || Error 20 "Cannot create Drafts folder"
+sudo -u virtual -- maildirmake -f Sent "$NEW_MAILDIR" && echo "Sent OK." || Error 21 "Cannot create Sent folder"
+sudo -u virtual -- maildirmake -f Trash "$NEW_MAILDIR" && echo "Trash OK." || Error 22 "Cannot create Trash folder"
+# removal instruction
+echo "Remove home:  rm -rf '${HOMEDIR}'"
 
-# MySQL output
+# MySQL authentication
 if which mysql &> /dev/null \
     && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
-    mysql "$COURIER_AUTH_DBNAME" <<SQL
+    mysql "$COURIER_AUTH_DBNAME" <<SQL && echo "User inserted into database. OK."
 -- USE ${COURIER_AUTH_DBNAME};
 INSERT INTO \`courier_horde\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
     \`defaultdelivery\`, \`quota\`, \`options\`, \`user_soft_expiration_date\`, \`user_hard_expiration_date\`, \`vac_msg\`, \`vac_subject\`, \`vac_stat\`) VALUES
-('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '', '', '', '', NULL, NULL, '', '', 'N');
+('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '${NEW_MAILDIR}', '', '', '', NULL, NULL, '', '', 'N');
 SQL
+    # removal instruction
+    echo "Remove user:  -- USE ${COURIER_AUTH_DBNAME};"
+    echo "Remove user:  DELETE FROM \`courier_horde\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"
 fi
 
-# userdb
+# userdb authentication
 if which userdb userdbpw &> /dev/null \
     && [ -r /etc/courier/userdb ] \
     && grep -q "^authmodulelist=.*\bauthuserdb\b" /etc/courier/authdaemonrc; then
-    userdb "$EMAIL" set "home=${NEW_MAILDIR}" || Error 30 "Failed to add to userdb"
+    userdb "$EMAIL" set "home=${HOMEDIR}" || Error 30 "Failed to add to userdb"
     userdb "$EMAIL" set "mail=${NEW_MAILDIR}" || Error 31 "Failed to add to userdb"
-    # man makeuserdb
+    # 'maildir' is not necessary, see:  man makeuserdb
     #userdb "$EMAIL" set "maildir=${NEW_MAILDIR}" || Error 32 "Failed to add to userdb"
     userdb "$EMAIL" set "uid=${VIRTUAL_UID}" || Error 33 "Failed to add to userdb"
     userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 34 "Failed to add to userdb"
     echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 35 "Failed to add to userdb"
     [ -z "$DESC" ] || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
     makeuserdb || Error 37 "Failed to make userdb"
+    # removal instruction
+    echo "Remove user:  userdb '$EMAIL' del"
 fi
 
 # SMTP authentication test
