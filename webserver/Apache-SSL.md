@@ -38,5 +38,7 @@ Test: https://github.com/tatsuhiro-t/spdylay
 
 ### Final tests
 
-https://www.ssllabs.com/ssltest/
-https://hstspreload.appspot.com/
+SNI https://sni.velox.ch/
+SSL https://www.ssllabs.com/ssltest/
+HSTS https://hstspreload.appspot.com/
+SPDY https://spdycheck.org/

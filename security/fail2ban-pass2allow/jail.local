@@ -1,0 +1,17 @@
+# sample jail.local
+
+[pass2allow]
+# allow FTP login after successful HTTP auth
+enabled = true
+filter = apache-pass
+banaction = allow-iptables-multiport
+# authorization-website's access.log
+logpath = /var/log/nginx/access.log
+port = ftp,ftp-data,ftps,ftps-data
+protocol = tcp
+# allowtime
+bantime  = 3600
+# small value
+findtime  = 1
+# allow at once
+maxretry = 1

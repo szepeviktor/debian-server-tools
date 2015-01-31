@@ -98,6 +98,8 @@ adduser $U sudo
 nano /etc/shadow
 # sshd on another port
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
+# disable password login for sudoers
+echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 # add IP blocking
 # see: security/README.md
 nano /etc/hosts.deny

@@ -65,7 +65,7 @@ e /etc/cron.d/php5-user
 # Apache
 cd /etc/apache2/sites-available
 D=<DOMAIN>
-sed -e "s/@@DOMAIN@@/$D/g" -e "s/@@USER@@/$U/g" < Skeleton-site.conf > $D.conf
+sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@USER@@/$U/g" < Skeleton-site.conf > $D.conf
 a2ensite $D
 # see: webrestart.sh
 # logrotate
