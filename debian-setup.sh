@@ -131,9 +131,9 @@ apt-get install linux-image-amd64=<KERNEL-VERSION>
 dpkg -l|grep "grub"
 ls -latr /boot/
 # OVH Kernel
-#cd /boot/; lftp -e "mget *-xxxx-grs-ipv6-64-vps; bye" ftp://ftp.ovh.net/made-in-ovh/bzImage/latest-production/
+# https://gist.github.com/szepeviktor/cf6b60ac1b2515cb41c1
 # Linode Kernels
-# auto renew - https://www.linode.com/kernels/
+# auto renew on reboot - https://www.linode.com/kernels/
 e /etc/modules
 e /etc/sysctl.conf
 
@@ -216,7 +216,7 @@ apt-get autoremove --purge
 
 # essential packages
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
-    iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze
+    iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze mtr-tiny
 apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
 # e /etc/rsyslog.conf
@@ -285,7 +285,7 @@ apt-get install -t wheezy-backports -y init-system-helpers
 GEOIP=$(wget -qO- https://packages.debian.org/sid/all/geoip-database-contrib/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
 wget -O geoip-database-contrib_all.deb "$GEOIP"
 dpkg -i geoip-database-contrib_all.deb
-# .dsc from sid: https://packages.debian.org/sid/fail2ban
+# .dsc from sid:  https://packages.debian.org/sid/fail2ban
 #dget -ux <DSC-URL>
 #dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
 # packaged 0.9.1
@@ -314,7 +314,7 @@ e /etc/apache2/conf-enabled/security.conf
 # ServerTokens Prod
 e /etc/apache2/apache2.conf
 # LogLevel info
-
+#TODO: fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/server
 
 # for poorly written themes/plugins
 apt-get install -y mod-pagespeed-stable

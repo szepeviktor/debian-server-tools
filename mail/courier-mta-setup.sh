@@ -7,21 +7,46 @@ exit 0
 # 3. filters
 # 4. DEFAULTDELIVERY
 
+# gamin for courier-imap
 
-# python filter
+# authmysqlrc
+DEFAULT_DOMAIN  szepe.net
+MYSQL_SERVER            localhost
+MYSQL_PORT              0
+MYSQL_DATABASE          horde
+MYSQL_USERNAME          courier
+MYSQL_USER_TABLE        courier_horde
+MYSQL_PASSWORD          <PASSWORD>
+
+MYSQL_AUXOPTIONS_FIELD  options
+MYSQL_CHARACTER_SET     utf8
+MYSQL_CRYPT_PWFIELD     crypt
+MYSQL_DEFAULTDELIVERY   defaultdelivery
+MYSQL_GID_FIELD         gid
+MYSQL_HOME_FIELD        home
+MYSQL_LOGIN_FIELD       id
+MYSQL_MAILDIR_FIELD     maildir
+MYSQL_NAME_FIELD        name
+MYSQL_OPT               0
+MYSQL_QUOTA_FIELD       quota
+MYSQL_UID_FIELD         uid
+
+
+# python filters (python3)
 # lxml dependencies
-apt-get install -y libxml2-dev libxslt-dev cython
-pip install lxml
-pip install html5lib
-pip install html2text
-pip install courier-pythonfilter
+apt-get install -y libxml2-dev libxslt-dev cython3
+pip3 install lxml
+pip3 install html2text
+pip3 install courier-pythonfilter
 # custom python filters
 git clone https://github.com/szepeviktor/courier-pythonfilter-custom
-ln -sv email-correct.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
-ln -sv spamassassin3.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
-# whitelist_replayclient
-apt-get install python-gdbm
-
+# /usr/local/lib/python3.4 for jessie
+ln -sv email-correct.py /usr/local/lib/python3.2/dist-packages/pythonfilter/
+ln -sv spamassassin3.py /usr/local/lib/python3.2/dist-packages/pythonfilter/
+# whitelist_replayclient dependency
+apt-get install -y python3-gdbm
+ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
+filterctl start pythonfilter
 
 # DKIM support
 # build deps
@@ -34,21 +59,18 @@ apt-get install -y -t wheezy-backports libopendbx1 libnettle4
 wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
 ./configure && make check && make install
 
-#
-# rule compile:
+# Spamassassin
+# trunk: http://svn.apache.org/repos/asf/spamassassin/trunk/
+# DKIM check
+apt-get install -y libmail-dkim-perl
+# rule compile
 mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
 #cd /etc/cron.hourly
 #patch -p0 < spamassassin34.patch
-# DKIM check:
-apt-get install -y libmail-dkim-perl
+pip3 install pyzor
 
-pip install pyzor
-pip install courier-pythonfilter
-ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
-# whitelist_relayclients depends apt-get install -y python-gdbm
 # e /etc/courier/smtpaccess/default
 # :::1<-->allow,RELAYCLIENT
-filterctl start pythonfilter
 
 # document message way SMTP, courier C, courier filters (spamassassin, pyzor), aliases, .courier
 

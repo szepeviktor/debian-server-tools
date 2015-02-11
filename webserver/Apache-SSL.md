@@ -4,17 +4,19 @@
 
 ```
 "Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
-SSLHonorCipherOrder on
+SSLHonorCipherOrder On
 SSLProtocol all -SSLv2 -SSLv3
 SSLStrictSNIVHostCheck Off
-SSLCompression off
 
-# could be in every virtual host
-# OCSP Stapling
-SSLUseStapling on
+SSLCompression Off
+
+# OCSP Stapling (could also be in every virtual host)
+SSLUseStapling On
 SSLStaplingResponderTimeout 5
-SSLStaplingReturnResponderErrors off
+SSLStaplingReturnResponderErrors Off
 SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
+
+Header always set Strict-Transport-Security "max-age=16070400; includeSubDomains"
 ```
 
 
@@ -42,3 +44,8 @@ SNI https://sni.velox.ch/
 SSL https://www.ssllabs.com/ssltest/
 HSTS https://hstspreload.appspot.com/
 SPDY https://spdycheck.org/
+
+### Search&Replace URL-s
+
+And external links.
+Analytics does not detect referer on redirection.

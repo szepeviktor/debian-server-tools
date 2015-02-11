@@ -19,6 +19,7 @@ actionban = printf %%b "Subject: [admin] fail2ban <name>: banned <ip> from `unam
             To: <dest>\n
             <failures> attempts against <name>\n
             http://bgp.he.net/ip/<ip>
+            http://www.projecthoneypot.org/ip_<ip>
             http://whois.domaintools.com/<ip>\n\n
             Country:`/usr/bin/geoiplookup -f /usr/share/GeoIP/GeoIP.dat "<ip>" | cut -d':' -f2- | /usr/bin/recode -f ..ASCII`
             AS:`/usr/bin/geoiplookup -f /usr/share/GeoIP/GeoIPASNum.dat "<ip>" | cut -d':' -f2- | /usr/bin/recode -f ..ASCII`
