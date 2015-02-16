@@ -7,6 +7,7 @@ exit 0
 
 
 U=<USER>
+D=<DOMAIN>
 
 adduser --disabled-password $U
 
@@ -42,6 +43,7 @@ find -type f -exec chmod --changes 644 \{\} \;
 find -type d -exec chmod --changes 755 \{\} \;
 chmod -v 750 public_*
 find -name wp-config.php -exec chmod -v 400 \{\} \;
+find -name settings.php -exec chmod -v 400 \{\} \;
 find -name .htaccess -exec chmod -v 640 \{\} \;
 
 # WordPress wp-config.php
@@ -51,8 +53,13 @@ find -name .htaccess -exec chmod -v 640 \{\} \;
 
 # create WordPress database from wp-config, see: mysql/wp-createdb.sh
 
-# add own user
-sudo -u $U -- wp --path=$PWD user create viktor viktor@szepe.net --role=administrator --user_pass=<PASSWORD> --display_name=v
+# add own WP user
+suwp user create viktor viktor@szepe.net --role=administrator --user_pass=<PASSWORD> --display_name=v
+
+# clean up old data
+suwp transient delete-all
+suwp w3-total-cache flush
+suwp search-replace --dry-run --precise /oldhome/path /home/path
 
 # PHP
 cd /etc/php5/fpm/pool.d/
@@ -64,8 +71,9 @@ e /etc/cron.d/php5-user
 
 # Apache
 cd /etc/apache2/sites-available
-D=<DOMAIN>
-sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@USER@@/$U/g" < Skeleton-site.conf > $D.conf
+sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > $D.conf
+# SSL
+sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > $D.conf
 a2ensite $D
 # see: webrestart.sh
 # logrotate
@@ -74,3 +82,4 @@ e /etc/logrotate.d/apache2-$D
 
 # add cron jobs
 cd /etc/cron.d/
+# webserver/preload-cache.sh

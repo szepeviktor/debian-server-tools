@@ -35,6 +35,9 @@
 - https://github.com/jborg/attic
 - https://github.com/zbackup/zbackup
 - https://github.com/bup/bup
+- http://mattmahoney.net/dc/zpaq.html
+- http://moinakg.github.io/pcompress/
+- http://nanozip.net/
 
 ### Backup all GitHub repos
 

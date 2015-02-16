@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Execute drushas the current directory's owner.
+#
+# VERSION       :0.1
+# DATE          :2015-02-12
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/sudrush
+
+THIS_OWNER="$(stat . -c %U)"
+
+sudo -u "$THIS_OWNER" --  drush --root="$PWD" "$@"

@@ -5,20 +5,20 @@
 - drush from debian-setup.sh
 - drushrc `sites/default/drushrc.php`: `$options['uri'] = "http://<DOMAIN.TLD>/";`
 - more config: https://raw.githubusercontent.com/drush-ops/drush/master/examples/example.drushrc.php
-- first run: `sudo -u $U -- drush status`
+- first run: `sudrush status`
 - PHP-FPM pool: `php_admin_value[allow_url_fopen] = On`
 
 ## Modules
 
 ### Browse modules
 
-`sudo -u $U -- drush en module_filter -y`
+`sudrush en module_filter -y`
 
 ### APC
 
 Cache backend.
 
-`sudo -u $U -- drush en apc -y`
+`sudrush en apc -y`
 
 `settings.php`:
 
@@ -32,11 +32,11 @@ $conf['cache_default_class'] = 'DrupalAPCCache';
 
 Object cache.
 
-`sudo -u $U -- drush en entitycache -y`
+`sudrush en entitycache -y`
 
 ### Alternative Database Cache
 
-`sudo -u $U -- drush en adbc -y`
+`sudrush en adbc -y`
 
 ### Fail2ban
 
@@ -52,7 +52,7 @@ suhosin.request.max_array_index_length = 128
 
 ### Translation updates
 
-`sudo -u $U -- drush en l10n_update -y`
+`sudrush en l10n_update -y`
 
 admin/config/regional/translate/update
 
@@ -60,7 +60,7 @@ admin/config/regional/translate/update
 
 Enable inclusion per content type.
 
-`sudo -u $U -- drush en xmlsitemap -y`
+`sudrush en xmlsitemap -y`
 
 ## Drupal menus
 

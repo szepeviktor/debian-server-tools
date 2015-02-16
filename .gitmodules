@@ -16,3 +16,6 @@
 [submodule "monitoring/monit/FladischerMichael"]
 	path = monitoring/monit/FladischerMichael
 	url = https://github.com/szepeviktor/FladischerMichael.monit.git
+[submodule "image/packjpg"]
+	path = image/packjpg
+	url = git@github.com:szepeviktor/packJPG.git

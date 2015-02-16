@@ -15,8 +15,6 @@ SSLUseStapling On
 SSLStaplingResponderTimeout 5
 SSLStaplingReturnResponderErrors Off
 SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
-
-Header always set Strict-Transport-Security "max-age=16070400; includeSubDomains"
 ```
 
 

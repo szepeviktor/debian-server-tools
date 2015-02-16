@@ -1,5 +1,13 @@
 # JPEG manipulations
 
+### Lossy minification
+
+- https://github.com/rflynn/imgmin
+
+### Lossless compression
+
+- http://packjpg.encode.ru/?page_id=17
+
 ### JPEG artifacts removal
 
 - http://www.vicman.net/jpegenhancer/

@@ -19,10 +19,11 @@ WORKS="./ok-emails.txt"
 BAD="./bad-emails.txt"
 
 dnsquery() {
-    ## error 1:  empty host
-    ## error 2:  invalid answer
-    ## error 3:  invalid query type
-    ## error 4:  not found
+    # dnsquery() ver 1.3
+    # error 1:  empty host
+    # error 2:  invalid answer
+    # error 3:  invalid query type
+    # error 4:  not found
 
     local TYPE="$1"
     local HOST="$2"
