@@ -19,3 +19,6 @@
 [submodule "image/packjpg"]
 	path = image/packjpg
 	url = git@github.com:szepeviktor/packJPG.git
+[submodule "image/jpegrescan"]
+	path = image/jpegrescan
+	url = https://github.com/kud/jpegrescan.git
