@@ -36,16 +36,16 @@ fi
 iptables -D INPUT -j "$A5K_CHAIN" &> /dev/null
 
 # set up chain and rules
-iptables -N "$A5K_CHAIN"
+iptables -N "$A5K_CHAIN" &> /dev/null
 iptables -F "$A5K_CHAIN"
 wget -qO- "$A5K_URL" | while read A5K; do
     iptables -A "$A5K_CHAIN" -s "$A5K" -j DROP
-    echo -n "."
 done
-echo
 iptables -A "$A5K_CHAIN" -j RETURN
 
 # add back to INPUT
 iptables -C INPUT -j "$A5K_CHAIN" &> /dev/null || iptables -I INPUT -j "$A5K_CHAIN"
 
 rm "$A5K_TMP"
+
+tty --quiet && iptables -n -L "$A5K_CHAIN" | grep -w "^DROP" | wc -l
