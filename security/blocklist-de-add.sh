@@ -15,6 +15,13 @@ A5K_URL="http://lists.blocklist.de/lists/strongips.txt"
 A5K_CHAIN="ATTACKER5K"
 IPTABLES="/sbin/iptables"
 
+isIP() {
+    local TOBEIP="$1"
+    local OCTET="([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
+
+    [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
+}
+
 # check iptables executable
 if ! [ -x "$IPTABLES" ]; then
     echo "iptables executable not found (${IPTABLES})" >&2
@@ -27,7 +34,7 @@ A5K_TMP="$(tempfile)"
 
 wget -qO "$A5K_TMP" "$A5K_URL"
 if ! [ -s "$A5K_TMP" ]; then
-    echo "blocklist.de's strongips list update failed." >&2
+    echo "blocklist.de's strongips list download failed." >&2
     rm "$A5K_TMP"
     exit 2
 fi
@@ -36,6 +43,7 @@ A5K_LIST_MD5="$(md5sum "$A5K_TMP")"
 A5K_LIST_MD5="${A5K_LIST_MD5%% *}"
 if [ "$A5K_LIST_MD5" != "$A5K_MD5" ]; then
     echo "blocklist.de's strongips list integrity failed." >&2
+    echo "Downloaded MD5 (${A5K_MD5}), calculated MD5 (${A5K_LIST_MD5}), list length in bytes ($(wc -c < "$A5K_TMP"))." >&2
     rm "$A5K_TMP"
     exit 3
 fi
@@ -47,7 +55,7 @@ fi
 "$IPTABLES" -N "$A5K_CHAIN" &> /dev/null
 "$IPTABLES" -F "$A5K_CHAIN"
 while read A5K; do
-    "$IPTABLES" -A "$A5K_CHAIN" -s "$A5K" -j DROP
+    isIP "$A5K" && "$IPTABLES" -A "$A5K_CHAIN" -s "$A5K" -j DROP
 done < "$A5K_TMP"
 "$IPTABLES" -A "$A5K_CHAIN" -j RETURN
 
