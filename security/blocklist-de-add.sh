@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/blocklist-de-add.sh
+# LOCATION      :/usr/local/sbin/blocklist-de-add.sh
 # CRON-D        :10 7  * * *  root  /usr/local/sbin/blocklist-de-add.sh
 
 A5K_URL="http://lists.blocklist.de/lists/strongips.txt"
