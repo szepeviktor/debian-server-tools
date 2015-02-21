@@ -1,11 +1,11 @@
 #!/bin/sh
 #
-# Optimize images in the current directory.
+# Optimize all images in the current directory.
 # JPEG: decrease quality, make it progressive, strip markers
 # PNG: lossless recompression, strip metadata
 #
-# VERSION       :0.2
-# DATE          :2014-11-29
+# VERSION       :0.3
+# DATE          :2015-02-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,12 +16,10 @@
 # SOURCE        :https://github.com/rflynn/imgmin (imgmin)
 # SOURCE        :http://optipng.sourceforge.net/ (optipng)
 
-# Usage:
+# Usage cases:
 # imageopti.sh -build
 # imageopti.sh -install
-#
-# To optimize all images in the current directory:
-# imageopti.sh
+# find wp-content/uploads/ -type d '(' -print -a -exec bash -c "cd {};imageopti.sh" ';' -o -quit ')'
 
 Build_jpeg() {
     local JPEG_SITE="http://www.infai.org/jpeg/"
@@ -88,7 +86,7 @@ Install_imgmin() {
 }
 
 Install_optipng() {
-    OPTIPNG_URL="http://mirror.szepe.net/debian/pool/main/o/optipng/optipng_0.7.5-1~bpo70+1_amd64.deb"
+    OPTIPNG_URL="http://szepeviktor.github.io/debian/pool/main/o/optipng/optipng_0.7.5-1~bpo70+1_amd64.deb"
 
     apt-get install -y libpng12-0 zlib1g
     wget -nv -O optipng_amd64.deb "$OPTIPNG_URL"
@@ -136,9 +134,9 @@ Optimize_jpeg() {
         # error check
         jpeginfo --check "$JPG" | grep "\[OK\]$" || exit 1
 
-        if imgmin "$JPG" "$NEW"; then
+        if nice "$IMGMIN" "$JPG" "$NEW"; then
             # make it progressive, strip markers
-            jpegtran -verbose -perfect -optimize -progressive -copy none -outfile "$JPG" "$NEW" || exit 3
+            jpegtran -perfect -optimize -progressive -copy none -outfile "$JPG" "$NEW" || exit 3
         else
             echo "Minification error: $?" >&2
             exit 1
@@ -149,7 +147,7 @@ Optimize_jpeg() {
 }
 
 Optimize_png() {
-    optipng -clobber -strip all -o7 *.png
+    nice optipng -clobber -strip all -o7 *.png
 }
 
 # build and install tools
@@ -165,9 +163,10 @@ if [ "$1" == "-install" ]; then
 fi
 
 # run-time dependency
-ldd /usr/local/bin/imgmin | grep -q "not found" && exit 99
+IMGMIN="$(which imgmin)"
+ldd "$IMGMIN" | grep -q "not found" && exit 99
 which jpeginfo &> /dev/null || exit 99
 
 ls *.jpg &> /dev/null && Optimize_jpeg
 ls *.png &> /dev/null && Optimize_png
-find -maxdepth 1 -type f | grep -i "\.jpeg$" && echo "ERROR: non-jpg extension"
+find -maxdepth 1 -type f | grep -i "\.jpeg$" && echo "ERROR: '.jpeg' extension"
