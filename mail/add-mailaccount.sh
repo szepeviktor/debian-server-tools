@@ -63,7 +63,7 @@ fi
 
 # check email format
 # https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
-grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@([a-z0-9_][-a-z0-9_])*(\.[-a-z0-9_]+)+$' <<< "$EMAIL" || Error 8 'Non-regular email address'
+grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9_]([-a-z0-9_])*(\.[-a-z0-9_]+)+$' <<< "$EMAIL" || Error 8 'Non-regular email address'
 
 NEW_DOMAIN="${EMAIL##*@}"
 NEW_MAILDIR="${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}/Maildir"
