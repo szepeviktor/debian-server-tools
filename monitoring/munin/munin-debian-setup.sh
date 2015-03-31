@@ -1,8 +1,9 @@
 #!/bin/bash
 
-LOADTIME_URL="http://..."
+LOADTIME_URL="http://www.site.net/login"
 PHPFPM_POOL="web"
 PHPFPM_STATUS="http://www.site.net/status"
+APACHE_STATUS="http://www.site.net:%d/server-status?auto"
 
 PLUGIN_CONF_DIR="/etc/munin/plugin-conf.d"
 PLUGIN_PATH="/usr/share/munin/plugins"
@@ -194,9 +195,9 @@ PHP_FPM
 <Location /status>
     SetHandler application/x-httpd-php
     Require local
+    RewriteEngine on
+    RewriteRule ^/status$ - [END]
 </Location>
-RewriteEngine on
-RewriteRule ^/status$ - [END]
 APACHE_CNF
 
     Enable_manual_plugin "phpfpm_average"
@@ -207,6 +208,24 @@ APACHE_CNF
     #TODO: rewrite 5 plugins: add autoconf
 }
 
+munin_apache() {
+    cat > "${PLUGIN_CONF_DIR}/apache" <<APACHE
+[apache_*]
+env.url ${APACHE_STATUS}
+APACHE
+
+    cat >&2 <<APACHE_CONF
+# terminate rewrite processing for apache status
+<IfModule mod_status.c>
+    <Location /server-status>
+        SetHandler server-status
+        Require local
+        RewriteEngine On
+        RewriteRule ^/server-status$ - [END]
+    </Location>
+</IfModule>
+APACHE_CONF
+}
 
 #https://www.monitis.com/monitoring-plan-builder
 #uptime
@@ -231,7 +250,7 @@ munin_ipmi
 munin_mysql
 munin_fail2ban
 munin_courier_mta
-#munin_apache
+munin_apache
 munin_loadtime
 #munin_proftpd https://github.com/munin-monitoring/contrib/tree/master/plugins/ftp
 

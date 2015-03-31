@@ -21,7 +21,7 @@ cd /etc/sudoers.d/
 sudo -u $U -i -- ssh-keygen -t rsa
 cd /home/$U/.ssh
 cp -a id_rsa.pub authorized_keys2
-#7z a -p<PASS> $U.zip id_rsa*
+zip --encrypt $U.zip id_rsa*
 
 cd /home/$U/
 mkdir public_html && cd public_html
@@ -47,11 +47,15 @@ find -name settings.php -exec chmod -v 400 \{\} \;
 find -name .htaccess -exec chmod -v 640 \{\} \;
 
 # WordPress wp-config.php
+# https://api.wordpress.org/secret-key/1.1/salt/
 # WordPress fail2ban
 
 # migrate database NOW
 
 # create WordPress database from wp-config, see: mysql/wp-createdb.sh
+
+# set wp-cli url, debug, user, skip-plugins
+e wp-cli.yml
 
 # add own WP user
 suwp user create viktor viktor@szepe.net --role=administrator --user_pass=<PASSWORD> --display_name=v
@@ -74,6 +78,7 @@ cd /etc/apache2/sites-available
 sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > $D.conf
 # SSL
 sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > $D.conf
+# on "www..." set ServerAlias
 a2ensite $D
 # see: webrestart.sh
 # logrotate

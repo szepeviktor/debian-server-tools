@@ -9,5 +9,17 @@ egrep -i "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|d
 ### Courier log analyizer
 
 ```bash
-courier-analogue --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof --imapnet --imaptime --imapbyuser --imapbylength --imapbyxfer --noisy --title="text" /var/log/mail.log
+courier-analogue --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof \
+    --imapnet --imaptime --imapbyuser --imapbylength --imapbyxfer \
+    --noisy --title="text" /var/log/mail.log
+```
+
+### Remove server from Munin monitoring
+
+```bash
+editor /etc/munin/munin.conf
+ls /var/lib/munin/
+# rm -rf /var/lib/munin/${DOMAIN}
+ls /var/cache/munin/www/
+# rm -rf /var/cache/munin/www/${DOMAIN}
 ```

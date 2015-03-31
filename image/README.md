@@ -27,3 +27,14 @@
 ### Super-Resolution demo
 
 - [Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
+
+### Archiving
+
+- packJPG (already in pcompress)
+
+### Invalited objects on Amazon CloudFront
+
+```bash
+alias encodeURIComponent='perl -pe '\''s/([^a-zA-Z0-9_.!~*()'\''\'\'''\''-])/sprintf("%%%02X",ord($1))/ge'\'
+cat URL_LIST|while read URL;do echo -n "$URL"|encodeURIComponent;echo;done|sed 's/%2F/\//g'
+```

@@ -401,6 +401,9 @@ e config.inc.php
 # $cfg['DefaultLang'] = 'en';
 # $cfg['PmaNoRelation_DisableWarning'] = true;
 # $cfg['SuhosinDisableWarning'] = true;
+# $cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin>';
+# $cfg['CaptchaLoginPrivateKey'] = '<Secret key>';
+
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"

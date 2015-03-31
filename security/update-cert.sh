@@ -1,15 +1,18 @@
 #!/bin/bash
 #
 # Generate certificate files for courier-mta, proftpd and apache2.
+# Also for Webmin and Dovecot.
 #
-# VERSION       :0.3
-# DATE          :2015-01-24
+# VERSION       :0.4
+# DATE          :2015-02-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install openssl
+# DEPENDS       :apt-get install openssl ca-certificates
 
+# Various root certificates
+#
 # StartSSL: https://www.startssl.com/certs/
 #   wget https://www.startssl.com/certs/ca.pem
 #   wget https://www.startssl.com/certs/sub.class1.server.ca.pem
@@ -17,10 +20,12 @@
 # CAcert: http://www.cacert.org/index.php?id=3
 # NetLock: https://www.netlock.hu/html/cacrl.html
 
-# Certificates from the issuer.
-# e priv-key-$(date +%Y%m%d)-enc.key
-# openssl rsa -in priv-key-$(date +%Y%m%d)-encrypted.key -out priv-key-$(date +%Y%m%d).key
-# e pub-key-$(date +%Y%m%d).key
+# Saving certificate from the issuer
+#
+# e "priv-key-$(date +%Y%m%d)-encrypted.key"
+# openssl rsa -in "priv-key-$(date +%Y%m%d)-encrypted.key" -out "priv-key-$(date +%Y%m%d).key"
+# e "pub-key-$(date +%Y%m%d).key"
+
 TODAY="$(date +%Y%m%d)"
 CA="ca.pem"
 SUB="sub.class1.server.ca.pem"
@@ -36,11 +41,12 @@ COURIER_SSL="/etc/courier/ssl-comb3.pem"
 #PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
 #PROFTPD_SUB="/etc/proftpd/sub.class1.server.ca.pem"
 
-# apache2: public + intermediate + ca
+# apache2: public + intermediate
 # "include intermediate CA certificates, sorted from leaf to root"
-APACHE_PUB="/etc/apache2/ssl/apache.pem"
-APACHE_PRIV="/etc/apache2/ssl/priv-key.key"
-APACHE_SSL_CONFIG="/etc/apache2/sites-available/default-ssl"
+APACHE_DOMAIN="domain.tld"
+APACHE_SSL_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
+APACHE_PUB="/etc/apache2/ssl/${APACHE_DOMAIN}-public.pem"
+APACHE_PRIV="/etc/apache2/ssl/${APACHE_DOMAIN}-private.key"
 
 # dovecot: public + intermediate
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
@@ -157,7 +163,7 @@ Apache2() {
     [ -z "$APACHE_PRIV" ] && return 1
     [ -z "$APACHE_SSL_CONFIG" ] && return 1
 
-    cat "$PUB" "$SUB" "$CA" > "$APACHE_PUB" || Die 20 "apache cert creation"
+    cat "$PUB" "$SUB" > "$APACHE_PUB" || Die 20 "apache cert creation"
     cp "$PRIV" "$APACHE_PRIV" || Die 21 "apache private"
     chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 23 "apache owner"
     chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 24 "apache perms"
@@ -165,7 +171,7 @@ Apache2() {
     # check config
     if  grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}\$" "$APACHE_SSL_CONFIG" \
         && grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}\$" "$APACHE_SSL_CONFIG" \
-        && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs/\$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs\$" "$APACHE_SSL_CONFIG" \
         && grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}\$" "$APACHE_SSL_CONFIG"; then
 
         service apache2 restart

@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# Execute drushas the current directory's owner.
+# Execute wp-cli as the current directory's owner.
 #
 # VERSION       :0.1
-# DATE          :2015-02-12
+# DATE          :2014-12-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/sbin/sudrush
+# LOCATION      :/usr/local/sbin/uwp
 
 THIS_OWNER="$(stat . -c %U)"
 
-sudo -u "$THIS_OWNER" --  drush --root="$PWD" "$@"
+sudo -u "$THIS_OWNER" --  wp --path="$PWD" "$@"

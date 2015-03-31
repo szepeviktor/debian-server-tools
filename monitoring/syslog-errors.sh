@@ -21,7 +21,8 @@ PREVDATE="$(date --date="@${PREV17SEC}" "+%Y-%m-%d %H:%M:%S")"
 
 # see: monitoring/README.md
 dategrep --format rsyslog --multiline --from "$PREVDATE" --to "$THIS17DATE" /var/log/syslog \
-    | egrep -i "crit|err|warn|fail[^2]|unkn|miss|except|disable|invalid|cannot|denied" | grep -vi "intERRupt"
+    | egrep -i "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|denied" \
+    | grep -v -i "intERRupt"
     #| grep -v "554 Mail rejected\|535 Authentication failed"
 
 exit 0

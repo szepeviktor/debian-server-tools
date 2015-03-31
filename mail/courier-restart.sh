@@ -2,8 +2,8 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.2
-# DATE          :2015-01-25
+# VERSION       :0.3
+# DATE          :2015-02-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -17,7 +17,8 @@ Error() {
 }
 
 makesmtpaccess || Error $? "smtpaccess/*"
-grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa || makesmtpaccess-msa || Error $? "esmtpd-msa"
+#grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa || makesmtpaccess-msa || Error $? "esmtpd-msa"
+grep -q '^ESMTPDSTART=YES$' /etc/courier/esmtpd-msa || makesmtpaccess-msa || Error $? "esmtpd-msa"
 ! [ -d /etc/courier/esmtpacceptmailfor.dir ] || makeacceptmailfor || Error $? "esmtpacceptmailfor.dir/*"
 ! [ -e /etc/courier/hosteddomains ] || makehosteddomains || Error $? "hosteddomains"
 ! [ -f /etc/courier/userdb ] || makeuserdb || Error $? "userdb"

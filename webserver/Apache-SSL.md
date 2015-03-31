@@ -17,33 +17,23 @@ SSLStaplingReturnResponderErrors Off
 SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
 ```
 
+### SPDY support
 
+https://github.com/eousphoros/mod-spdy - does not support spdy/3.1
+Proxy: https://github.com/tatsuhiro-t/nghttp2
 
-### 'unknown protocol' error
-
-In `/etc/apache2/ports.conf` put `Listen 80` last. Error:
-
-```
-SSL Library Error: error:140760FC:SSL routines:SSL23_GET_CLIENT_HELLO:unknown protocol -- speaking not SSL to HTTPS port!?
-```
-
-### CDN-s
-
-Set CDN to HTTP/HTTPS
-
-### SPDY
-
-https://github.com/eousphoros/mod-spdy
-Test: https://github.com/tatsuhiro-t/spdylay
-
-### Final tests
+### Tests
 
 SNI https://sni.velox.ch/
 SSL https://www.ssllabs.com/ssltest/
 HSTS https://hstspreload.appspot.com/
+SPDY CLI https://github.com/tatsuhiro-t/spdylay
 SPDY https://spdycheck.org/
 
-### Search&Replace URL-s
+### Search & Replace URL-s
 
-And external links.
+Set CDN to HTTP/HTTPS.
+Database.
+Local files.
+And links on other websites pointing to this one.
 Analytics does not detect referer on redirection.

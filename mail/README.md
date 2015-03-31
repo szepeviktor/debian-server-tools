@@ -100,4 +100,4 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 
 ### Scan Class C network
 
-`for I in `seq 1 255`; do host -t A 1.2.3.${I}; done`
+`for I in $(seq 1 255); do host -t A  1.2.3.${I}; done`
