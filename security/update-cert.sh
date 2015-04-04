@@ -22,9 +22,9 @@
 
 # Saving certificate from the issuer
 #
-# e "priv-key-$(date +%Y%m%d)-encrypted.key"
+# editor "priv-key-$(date +%Y%m%d)-encrypted.key"
 # openssl rsa -in "priv-key-$(date +%Y%m%d)-encrypted.key" -out "priv-key-$(date +%Y%m%d).key"
-# e "pub-key-$(date +%Y%m%d).key"
+# editor "pub-key-$(date +%Y%m%d).pem"
 
 TODAY="$(date +%Y%m%d)"
 CA="ca.pem"
@@ -33,14 +33,6 @@ PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 
-# courier-mta: public + intermediate + private
-COURIER_SSL="/etc/courier/ssl-comb3.pem"
-
-# proftpd
-#PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
-#PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
-#PROFTPD_SUB="/etc/proftpd/sub.class1.server.ca.pem"
-
 # apache2: public + intermediate
 # "include intermediate CA certificates, sorted from leaf to root"
 APACHE_DOMAIN="domain.tld"
@@ -48,14 +40,22 @@ APACHE_SSL_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 APACHE_PUB="/etc/apache2/ssl/${APACHE_DOMAIN}-public.pem"
 APACHE_PRIV="/etc/apache2/ssl/${APACHE_DOMAIN}-private.key"
 
+# courier-mta: public + intermediate + private
+#COURIER_COMBINED="/etc/courier/ssl-comb3.pem"
+
 # dovecot: public + intermediate
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
 #DOVECOT_PUB="/etc/dovecot/dovecot.pem"
 #DOVECOT_PRIV="/etc/dovecot/private/dovecot.key"
 
+# proftpd
+#PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
+#PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
+#PROFTPD_SUB="/etc/proftpd/sub.class1.server.ca.pem"
+
 # webmin: private + public
 # SSL check: https://www.digicert.com/help/
-#WEBMIN_SSL="/etc/webmin/miniserv.pem"
+#WEBMIN_COMBINED="/etc/webmin/miniserv.pem"
 #WEBMIN_SUB="/etc/webmin/sub.class1.server.ca.pem"
 
 ########################################
@@ -99,16 +99,16 @@ Protect_certs() {
 }
 
 Courier_mta() {
-    [ -z "$COURIER_SSL" ] && return 1
+    [ -z "$COURIER_COMBINED" ] && return 1
 
-    cat "$PUB" "$SUB" "$PRIV" > "$COURIER_SSL" || Die 12 "courier cert creation"
-    chown root:daemon "$COURIER_SSL" || Die 13 "courier owner"
-    chmod 640 "$COURIER_SSL" || Die 14 "courier perms"
+    cat "$PUB" "$SUB" "$PRIV" > "$COURIER_COMBINED" || Die 20 "courier cert creation"
+    chown root:daemon "$COURIER_COMBINED" || Die 21 "courier owner"
+    chmod 640 "$COURIER_COMBINED" || Die 22 "courier perms"
 
     # check config files for STARTTLS, SMTPS, IMAP STARTTLS IMAPS
-    if grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd \
-        && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/esmtpd-ssl \
-        && grep -q "^TLS_CERTFILE=${COURIER_SSL}\$" /etc/courier/imapd-ssl; then
+    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
+        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
+        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl; then
 
         service courier-mta restart
         service courier-mta-ssl restart
@@ -128,7 +128,7 @@ Courier_mta() {
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
         echo "IMAPS result=$?"
     else
-        echo "Add 'TLS_CERTFILE=${COURIER_SSL}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
+        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
     fi
 }
 
@@ -137,11 +137,11 @@ Proftpd() {
     [ -z "$PROFTPD_PRIV" ] && return 1
     [ -z "$PROFTPD_SUB" ] && return 1
 
-    cp "$PUB" "$PROFTPD_PUB" || Die 15 "proftpd public"
-    cp "$PRIV" "$PROFTPD_PRIV" || Die 16 "proftpd private"
-    cp "$SUB" "$PROFTPD_SUB" || Die 17 "proftpd intermediate"
-    chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 18 "proftpd owner"
-    chmod 600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 19 "proftpd perms"
+    cp "$PUB" "$PROFTPD_PUB" || Die 30 "proftpd public"
+    cp "$PRIV" "$PROFTPD_PRIV" || Die 31 "proftpd private"
+    cp "$SUB" "$PROFTPD_SUB" || Die 32 "proftpd intermediate"
+    chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 33 "proftpd owner"
+    chmod 600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 34 "proftpd perms"
 
     # check config
     if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
@@ -163,10 +163,12 @@ Apache2() {
     [ -z "$APACHE_PRIV" ] && return 1
     [ -z "$APACHE_SSL_CONFIG" ] && return 1
 
-    cat "$PUB" "$SUB" > "$APACHE_PUB" || Die 20 "apache cert creation"
-    cp "$PRIV" "$APACHE_PRIV" || Die 21 "apache private"
-    chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 23 "apache owner"
-    chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 24 "apache perms"
+    [ -d "$(dirname "$APACHE_SSL_CONFIG")" ] || Die 40 "apache site config"
+
+    cat "$PUB" "$SUB" > "$APACHE_PUB" || Die 43 "apache cert creation"
+    cp "$PRIV" "$APACHE_PRIV" || Die 44 "apache private"
+    chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 45 "apache owner"
+    chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 46 "apache perms"
 
     # check config
     if  grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}\$" "$APACHE_SSL_CONFIG" \
@@ -190,10 +192,10 @@ Dovecot() {
     [ -z "$DOVECOT_PRIV" ] && return 1
 
     # dovecot: public + intermediate
-    cat "$PUB" "$SUB" > "$DOVECOT_PUB" || Die 26 "dovecot cert creation"
-    cat "$PRIV" > "$DOVECOT_PRIV" || Die 27 "dovecot private cert creation"
-    chown root:root "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 28 "dovecot owner"
-    chmod 600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 29 "dovecot perms"
+    cat "$PUB" "$SUB" > "$DOVECOT_PUB" || Die 50 "dovecot cert creation"
+    cat "$PRIV" > "$DOVECOT_PRIV" || Die 51 "dovecot private cert creation"
+    chown root:root "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 52 "dovecot owner"
+    chmod 600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 53 "dovecot perms"
 
     # check config files for ssl_cert, ssl_key
     if grep -q "^ssl_cert\s*=\s*<${DOVECOT_PUB}\$" /etc/dovecot/conf.d/10-ssl.conf \
@@ -219,18 +221,18 @@ Dovecot() {
 }
 
 Webmin() {
-    [ -z "$WEBMIN_SSL" ] && return 1
+    [ -z "$WEBMIN_COMBINED" ] && return 1
 #FIXME: could be a separate public key: "certfile="
     [ -z "$WEBMIN_SUB" ] && return 1
 
     # webmin: private + public
-    cat "$PRIV" "$PUB" > "$WEBMIN_SSL" || Die 30 "webmin public"
-    cp "$SUB" "$WEBMIN_SUB" || Die 31 "webmin intermediate"
-    chown root:root "$WEBMIN_SSL" "$WEBMIN_SUB" || Die 32 "webmin owner"
-    chmod 600 "$WEBMIN_SSL" "$WEBMIN_SUB" || Die 33 "webmin perms"
+    cat "$PRIV" "$PUB" > "$WEBMIN_COMBINED" || Die 60 "webmin public"
+    cp "$SUB" "$WEBMIN_SUB" || Die 61 "webmin intermediate"
+    chown root:root "$WEBMIN_COMBINED" "$WEBMIN_SUB" || Die 62 "webmin owner"
+    chmod 600 "$WEBMIN_COMBINED" "$WEBMIN_SUB" || Die 63 "webmin perms"
 
     # check config
-    if  grep -q "^keyfile=${WEBMIN_SSLL}\$" /etc/webmin/miniserv.conf \
+    if  grep -q "^keyfile=${WEBMIN_COMBINED}\$" /etc/webmin/miniserv.conf \
         && grep -q "^extracas=${WEBMIN_SUB}\$" /etc/webmin/miniserv.conf; then
 
         service webmin restart
@@ -255,6 +257,6 @@ Apache2 && Readkey
 Dovecot && Readkey
 
 Webmin
-# no ReadKey at last
+# no ReadKey here
 
 echo "Done."

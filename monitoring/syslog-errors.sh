@@ -1,28 +1,25 @@
 #!/bin/bash
 #
-# Cron job to email one hour of syslog up to the current hour 17 minutes.
-# Use for watching a production system after some changes.
+# Email interesting parts of the syslog (one hour up to the current hour 17 minutes).
 #
-# VERSION       :0.1
-# DATE          :2014-12-29
+# Mini logcheck.
+#
+# VERSION       :0.3
+# DATE          :2015-03-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install -y libdate-manip-perl
+# DEPENDS       :cpan App:datagrep
 # LOCATION      :/usr/local/sbin/syslog-errors.sh
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 
-# non-UTC
-THIS17DATE="$(date "+%Y-%m-%d %H:17:00")"
-declare -i THIS17SEC="$(date --date="$THIS17DATE" "+%s")"
-declare -i PREV17SEC="$(( THIS17SEC - 3600 ))"
-PREVDATE="$(date --date="@${PREV17SEC}" "+%Y-%m-%d %H:%M:%S")"
-
-# see: monitoring/README.md
-dategrep --format rsyslog --multiline --from "$PREVDATE" --to "$THIS17DATE" /var/log/syslog \
+# every hour 17 minutes as Debian cron.hourly, non-UTC, local time
+/usr/local/bin/dategrep --format rsyslog --multiline --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog \
     | egrep -i "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|denied" \
-    | grep -v -i "intERRupt"
+    | grep -v -i "intERRupt" \
+    | grep -v "/usr/local/sbin/syslog-errors\.sh"
     #| grep -v "554 Mail rejected\|535 Authentication failed"
 
 exit 0

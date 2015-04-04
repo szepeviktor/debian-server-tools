@@ -2,13 +2,13 @@
 #
 # Check Speedtest Mini script's expiration and update it.
 #
-# VERSION       :0.1
-# DATE          :2014-11-07
+# VERSION       :0.2
+# DATE          :2015-04-03
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install swfmill html2text
+# DEPENDS       :apt-get install swfmill
 # LOCATION      :/usr/local/bin/update-speedtest-mini.sh
 # CRON-WEEKLY   :/usr/local/bin/update-speedtest-mini.sh
 
@@ -29,32 +29,32 @@ Die() {
 
 Check_expiration() {
     local MODIFY_DATE
-    local -i MODIFY_SEC
+    local -i MODIFY_SECONDS
     local -i MONTH_AGO
 
     if [ -f "${MINI_PATH}/speedtest.swf" ] \
-        && which swfmill html2text &> /dev/null; then
-        MODIFY_DATE="$(swfmill swf2xml "${MINI_PATH}/speedtest.swf" 2> /dev/null \
-            | grep -o '<xmp:ModifyDate>.*</xmp:ModifyDate>' \
-            | html2text -nobs)"
+        && which swfmill &> /dev/null; then
+        MODIFY_DATE="$(swfmill -e latin1 swf2xml "${MINI_PATH}/speedtest.swf" 2> /dev/null \
+            |sed -n 's|^.*<xmp:ModifyDate>\(.*\)</xmp:ModifyDate>.*$|\1|p')"
+
         if [ -z "$MODIFY_DATE" ]; then
             #Die 1 "ModifyDate extraction failure."
-            MODIFY_SEC="0"
+            MODIFY_SECONDS="0"
         else
-            MODIFY_SEC="$(date --date "$EXPIRE" --utc +%s 2> /dev/null)"
+            MODIFY_SECONDS="$(date --date "$EXPIRE" --utc +%s 2> /dev/null)"
             if [ -z "$MODIFY_SEC" ]; then
                 #Die 2 "Invalid ModifyDate."
-                MODIFY_SEC="0"
+                MODIFY_SECONDS="0"
             fi
         fi
     else
         #Die 3 "Flash file is missing. / Missing dependencies."
-        MODIFY_SEC="0"
+        MODIFY_SECONDS="0"
     fi
 
     # older than MINI_EXPIRE
     MONTH_AGO="$(date --utc --date="$MINI_EXPIRE" +%s)"
-    if [ "$MODIFY_SEC" -lt "$MONTH_AGO" ]; then
+    if [ "$MODIFY_SECONDS" -lt "$MONTH_AGO" ]; then
         Update_mini
     fi
 }

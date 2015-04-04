@@ -48,6 +48,9 @@ deb <MIRROR> wheezy-backports main
 # disable apt languages
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 
+# thrrottle package downloads (1000 kB/s)
+echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
+
 # upgrade
 apt-get update
 apt-get dist-upgrade -y

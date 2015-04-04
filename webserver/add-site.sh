@@ -35,6 +35,7 @@ chmod 600 ./htpasswords
 cd /home/$U/
 
 # migrate files NOW
+# HTML-ize WordPress  https://gist.github.com/szepeviktor/4535c5f20572b77f1f52
 
 # repair permissions, line ends
 find -type f \( -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" \) -exec dos2unix --keepdate \{\} \;
