@@ -73,6 +73,25 @@ maxretry = 6
 #port     = smtp,465,submission,imap3,imaps,pop3,pop3s
 #logpath  = %(syslog_mail)s
 
+#[proftpd]
+# When the default locale for your system is not en_US.UTF-8
+# be sure to add this to /etc/default/proftpd
+# export LC_TIME="en_US.UTF-8"
+#enabled  = true
+#maxretry = 2
+
+#[proftpd-notif]
+# When the default locale for your system is not en_US.UTF-8
+# be sure to add this to /etc/default/proftpd
+# export LC_TIME="en_US.UTF-8"
+#enabled  = true
+#maxretry = 1
+#findtime = 10
+#bantime  = 1
+#filter   = proftpd-notif
+#logpath  = /var/log/proftpd/proftpd.log
+#action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s]
+
 [recidive]
 enabled  = true
 logpath  = /var/log/fail2ban.log

@@ -46,3 +46,11 @@ GH_USER="szepeviktor"
 wget -qO- "https://api.github.com/users/${GH_USER}/repos?per_page=100"|grep '"clone_url"'|cut -d'"' -f4 > github.repos
 cat github.repos|xargs -L 1 git clone
 ```
+
+### S3QL flush before umount
+
+```
+- synchronize: fsync(2)
+- upload: s3qlctrl flushcache
+- umount: umount.s3ql
+```

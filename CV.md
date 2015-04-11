@@ -26,6 +26,7 @@
 an english video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - make mistakes
 
+## Magyarul
 
 - webhely sebesség tervezés és optimalizálás (mobilon is)
 - feltételes erőforrás betöltés (Javascript, CSS, képek)
@@ -53,4 +54,3 @@ an english video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - proaktív szerver és webhely monitorozás
 - ügyfél támogató videók https://www.youtube.com/user/szepeviktor/videos
 - hibát vétek
-

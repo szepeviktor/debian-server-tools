@@ -2,8 +2,8 @@
 #
 # Send (pipe) files through a TCP socket AES256 encrypted.
 #
-# VERSION       :0.2
-# DATE          :2014-08-29
+# VERSION       :0.3
+# DATE          :2015-04-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,23 +14,27 @@
 
 ## Example ~/.pipe config
 #
-#  # host and port name of the receiver
+#  # host and port name of the sender
 #  PIPE_SERVER="domain.net"
 #  PIPE_PORT="12345"
 #  # tar compression type: z,j,J
 #  PIPE_COMPRESSION="z"
 #  # AES password $(pwgen -s -y 30 1)
-#  PIPE_PASSWORD="hD2wsRa^BYFh@=87xXQT{[f3QNKQlN"
+#  PIPE_PASSWORD='hD2wsRa^BYFh@=87xXQT{[f3QNKQlN'
 
 ## Usage
+#  Sender listens on the specified port,
+#  the receiver connects to the sender's open port.
 #
-#  Example #1: send files, receive files
-#  host1 $ pipe.sh put file1.jpg file2.zip
-#                               host2 $ pipe.sh get
+#  Example #1
+#  Send files from host1, receive files on host2.
+#  user@host1:~$ pipe.sh put file1.jpg file2.zip
+#                               user@host2:~$ pipe.sh get
 #
-#  Example #2: send stream, receive stream into a file
-#  host1 $ ls -lR | pipe.sh put
-#                               host2 $ pipe.sh get dir-list.txt
+#  Example #2
+#  Send stream from host1, receive stream into a file on host2.
+#  user@host1:~$ ls -lR | pipe.sh put
+#                               user@host2:~$ pipe.sh get dir-list.txt
 
 
 CONF=~/.pipe
@@ -53,26 +57,25 @@ pipe_get() {
 
     if [ -z "$OUTPUT" ]; then
         # receive files
-        nc -l -p "$PIPE_PORT" -vv | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-            | tar x"$PIPE_COMPRESSION"v
+        nc --recv-only -vv "$PIPE_SERVER" "$PIPE_PORT" \
+            | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" | tar x"$PIPE_COMPRESSION"v
     else
-        # receive stream and pipe to $OUTPUT
+        # receive stream and pipe to file
         [ -d "$OUTPUT" ] && exit 4
 
         case "$PIPE_COMPRESSION" in
             z)
-                nc -l -p "$PIPE_PORT" -vv | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-                    | gunzip > "$OUTPUT"
+                COMPRESS="gunzip"
                 ;;
             j)
-                nc -l -p "$PIPE_PORT" -vv | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-                    | bunzip2 > "$OUTPUT"
+                COMPRESS="bunzip2"
                 ;;
             J)
-                nc -l -p "$PIPE_PORT" -vv | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-                    | unxz > "$OUTPUT"
+                COMPRESS="unxz"
                 ;;
         esac
+        nc --recv-only -vv "$PIPE_SERVER" "$PIPE_PORT" \
+            | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" | "$COMPRESS"
     fi
 }
 
@@ -83,23 +86,23 @@ pipe_put() {
         # send stream
         case "$PIPE_COMPRESSION" in
             z)
-                gzip | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-                    | nc -q 1 -vv "$PIPE_SERVER" "$PIPE_PORT"
+                COMPRESS="gunzip"
                 ;;
             j)
-                bzip2 | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-                    | nc -q 1 -vv "$PIPE_SERVER" "$PIPE_PORT"
+                COMPRESS="bunzip2"
                 ;;
             J)
-                xz | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-                    | nc -q 1 -vv "$PIPE_SERVER" "$PIPE_PORT"
+                COMPRESS="unxz"
                 ;;
         esac
+        "$COMPRESS" | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
+            | nc -l -p "$PIPE_PORT" -q 1 --send-only -vv
     else
         # send files
         ls "$@" &> /dev/null || exit 12
         tar -c"$PIPE_COMPRESSION"v "$@" | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
-            | nc -q 1 -vv "$PIPE_SERVER" "$PIPE_PORT"
+            | nc -l -p "$PIPE_PORT" -q 1 --send-only -vv
+
     fi
 }
 
@@ -109,11 +112,11 @@ which nc aespipe xz gzip bzip2 > /dev/null || exit 99
 
 case "$CMD" in
     get)
-        # receive through TCP socket
+        # receive
         pipe_get "$1"
         ;;
     put)
-        # send through TCP socket
+        # send
         pipe_put "$@"
         ;;
     *)

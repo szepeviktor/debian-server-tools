@@ -66,7 +66,7 @@ update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
 # ### Markdown for mc ###
 # # cp /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
-# e ~/.config/mc/mc.ext
+# editor ~/.config/mc/mc.ext
 # regex/\.md(own)?$
 # 	View=pandoc -s -f markdown -t man %p | man -l -
 
@@ -137,16 +137,16 @@ ls -latr /boot/
 # https://gist.github.com/szepeviktor/cf6b60ac1b2515cb41c1
 # Linode Kernels
 # auto renew on reboot - https://www.linode.com/kernels/
-e /etc/modules
-e /etc/sysctl.conf
+editor /etc/modules
+editor /etc/sysctl.conf
 
 # misc. files
-e /etc/rc.local
-e /etc/profile
-e /etc/motd
+editor /etc/rc.local
+editor /etc/profile
+editor /etc/motd
 
 # network
-e /etc/network/interfaces
+editor /etc/network/interfaces
 # iface eth0 inet static
 #     address <IP>
 #     gateway <GW>
@@ -154,7 +154,7 @@ ifconfig -a
 route -n -4
 route -n -6
 netstat -antup
-e /etc/resolv.conf
+editor /etc/resolv.conf
 #nameserver 8.8.8.8
 #nameserver 8.8.4.4
 #nameserver <LOCAL_NS>
@@ -183,7 +183,7 @@ echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
 # add:
 # # <ORIG-REVERSE-DNS>
-e /etc/hosts
+editor /etc/hosts
 
 # locale, timezone
 locale
@@ -194,10 +194,10 @@ dpkg-reconfigure tzdata
 
 # comment out getty[2-6], not /etc/init.d/rc !
 # consider agetty
-e /etc/inittab
+editor /etc/inittab
 # sanitize users
-e /etc/passwd
-e /etc/shadow
+editor /etc/passwd
+editor /etc/shadow
 
 # sanitize packages (-hardware-related +monitoring -daemons)
 # delete not installed packages
@@ -222,7 +222,7 @@ apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debs
     iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze mtr-tiny
 apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
-# e /etc/rsyslog.conf
+# editor /etc/rsyslog.conf
 # $ModLoad immark
 # $MarkMessagePeriod 1800
 cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
@@ -239,7 +239,7 @@ cp -v monitoring/ntpdated /usr/local/sbin/
 # NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 # NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
 # NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
-e /etc/default/ntpdate
+editor /etc/default/ntpdate
 # OVH
 # NTPSERVERS="ntp.ovh.net"
 
@@ -249,7 +249,7 @@ e /etc/default/ntpdate
 # backported unscd
 wget -O unscd_amd64.deb http://szepeviktor.github.io/debian/pool/main/u/unscd/unscd_0.51-1~bpo70+1_amd64.deb
 dpkg -i unscd_amd64.deb
-e /etc/nscd.conf
+editor /etc/nscd.conf
 # enable-cache            hosts   yes
 # positive-time-to-live   hosts   60
 # negative-time-to-live   hosts   20
@@ -296,11 +296,11 @@ wget -O fail2ban_all.deb http://szepeviktor.github.io/debian/pool/main/f/fail2ba
 dpkg -i fail2ban_all.deb
 # filter: apache-combined, apache-asap
 # action: sendmail-geoip-lines.local
-e /etc/fail2ban/jail.local
-e /etc/fail2ban/fail2ban.local
+editor /etc/fail2ban/jail.local
+editor /etc/fail2ban/fail2ban.local
 
 # apt repositories for these softwares, see package/README.md
-e /etc/apt/sources.list.d/others.list
+editor /etc/apt/sources.list.d/others.list
 eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f 2-)"
 apt-get update
 
@@ -313,16 +313,18 @@ a2enmod deflate
 a2enmod expires
 a2enconf php-fpm
 a2enconf h5bp
-e /etc/apache2/conf-enabled/security.conf
+editor /etc/apache2/conf-enabled/security.conf
 # ServerTokens Prod
-e /etc/apache2/apache2.conf
+editor /etc/apache2/apache2.conf
 # LogLevel info
 #TODO: fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/server
 
 # for poorly written themes/plugins
 apt-get install -y mod-pagespeed-stable
 # comment out mod-pagespeed/deb
-e /etc/apt/sources.list.d/others.list
+editor /etc/apt/sources.list.d/others.list
+
+# adding a website see: webserver/Add-site.md
 
 # PHP 5.5 from DotDeb
 apt-get install -y php-pear php5-apcu php5-cli php5-curl php5-dev php5-fpm php5-gd \
@@ -394,19 +396,19 @@ php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
 # HTTP/AUTH
 htpasswd -c ../htpasswords <USERNAME>
 
-# PHPMyAdmin see: package/phpmyadmin-get-sf.sh
+# PHPMyAdmin
+# see: package/phpmyadmin-get-sf.sh
 cd <PHPMYADMIN_DIR>
 cp config.sample.inc.php config.inc.php
 pwgen -y 30 1
 # http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
-e config.inc.php
+editor config.inc.php
 # $cfg['blowfish_secret'] = '<RANDOM-STRING>';
 # $cfg['DefaultLang'] = 'en';
 # $cfg['PmaNoRelation_DisableWarning'] = true;
 # $cfg['SuhosinDisableWarning'] = true;
 # $cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin>';
 # $cfg['CaptchaLoginPrivateKey'] = '<Secret key>';
-
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
@@ -432,25 +434,25 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 #sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_temporary_path "<TEMP_DIRECTORY>"
 #sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes cron_safe_threshold 0
 
-# Courier MTA - deliver all mail to a smart host
+# Courier MTA - deliver all mail to a smarthost
 apt-get install -y courier-mta courier-ssl
 # SMTPS: apt-get install -y courier-mta courier-mta-ssl
 dpkg -l|egrep "postfix|exim"
 apt-get purge exim4 exim4-base exim4-config exim4-daemon-light
 # hostname
-e /etc/courier/me
+editor /etc/courier/me
 mx $(cat /etc/courier/me)
-e /etc/courier/defaultdomain
-e /etc/courier/dsnfrom
-e /etc/courier/aliases/system
-e /etc/courier/esmtproutes
+editor /etc/courier/defaultdomain
+editor /etc/courier/dsnfrom
+editor /etc/courier/aliases/system
+editor /etc/courier/esmtproutes
 # TODO in jessie: ": <SMART-HOST>,465 /SECURITY=SMTPS" - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 # : <SMART-HOST>,587 /SECURITY=REQUIRED
 # SMTP listen only on localhost?
-e /etc/courier/esmtpd
+editor /etc/courier/esmtpd
 # ESMTPAUTH=""
 # ESMTPAUTH_TLS="LOGIN PLAIN"
-e /etc/courier/esmtpd-ssl
+editor /etc/courier/esmtpd-ssl
 # SSLADDRESS=127.0.0.1
 makealiases
 makesmtpaccess
@@ -465,14 +467,16 @@ echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADD
 #wget -O spamassassin_all.deb "$SA_URL"
 #dpkg -i spamassassin_all.deb
 
-# adding a website see: webserver/Add-site.md
-
-# SSL for web/mail/etc.
-# set up certificates
+# SSL for web, mail etc.
 # see: security/new-ssl-cert.sh
 # test TLS connections: security/README.md
 
-# monit-oring
+# ProFTPD
+# When the default locale for your system is not en_US.UTF-8
+# be sure to add this to /etc/default/proftpd for fail2ban to understand dates.
+# export LC_TIME="en_US.UTF-8"
+
+# monit - monitoring
 # https://mmonit.com/monit/documentation/monit.html
 #apt-get install -t wheezy-backports -y monit
 # backported from sid: https://packages.debian.org/sid/amd64/monit/download
@@ -499,7 +503,7 @@ ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERR
     elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
 # allow munin server IP in node config
 # regexp IP address: ^1\.2\.3\.4$
-e /etc/munin/munin-node.conf
+editor /etc/munin/munin-node.conf
 service munin-node restart
 
 # clean up
