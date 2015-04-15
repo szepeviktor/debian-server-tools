@@ -13,6 +13,10 @@ https://toolbox.googleapps.com/apps/checkmx/
 
 see: mail/imapsync
 
+### Send messages in an mbox file to an email address
+
+see: mail/mbox_send2.py
+
 ### Email sending and receiving
 
 - SSL?
@@ -21,6 +25,11 @@ see: mail/imapsync
 ### Courier catchall address
 
 http://www.courier-mta.org/makehosteddomains.html
+http://www.courier-mta.org/dot-courier.html
+
+```bash
+echo "|pipe/command" > /var/mail/domain.net/user/.courier-foo-default
+```
 
 ### Online email tests
 
@@ -29,11 +38,22 @@ http://www.courier-mta.org/makehosteddomains.html
 - checkmyauth@auth.returnpath.net http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://winning.email/checkup/<DOMAIN>
 
-### Spamassassin test
+### Email forwarding (srs)
+
+https://couriersrs.com/ https://github.com/szepeviktor/couriersrs
+see: http://szepeviktor.github.io/
+Create users SRS0 and SRS1.
+
+```bash
+echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS0-default
+echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-default
+```
+
+### Spamassassin test and DKIM test
 
 ```bash
 spamassassin --test-mode -D < msg.eml
-# specific test, see: man spamassassin-run
+# For specific tests see: man spamassassin-run
 spamassassin --test-mode -D dkim < msg-signed.eml
 opendkim -vvv -t msg-signed.eml
 ```
@@ -53,7 +73,7 @@ https://support.google.com/mail/answer/81126?hl=en
 
 - setup
 - check
-- monitor
+- monitor `host -t TXT <domain>`
 
 #### DKIM
 
@@ -64,6 +84,7 @@ https://support.google.com/mail/answer/81126?hl=en
 
 #### ADSP
 
+An optional extension to the DKIM E-mail authentication scheme.
 
 #### DMARC
 
@@ -80,11 +101,11 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - Return-Path:, Reply-to:, From:, To:, Subject:
 - SMTP "MAIL FORM: <from@addre.ss>"
 
-#### Content
+#### Bulk mail musts
 
-- online version
+- link to online version
 - who (email address) is subscribed
-- contact
+- sender's contact details
 - unsubscribe link
 - HTML and plain payload
 
@@ -93,11 +114,17 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - https://www.dnswl.org/?page_id=87
 - .
 
-### Courier kitchen sink
+### Kitchen sink
 
 - `echo > /etc/courier/aliasdir/.courier-kitchensink`
 - alias: `any.address@any-domain.net:  kitchensink@localhost`
 
 ### Scan Class C network
 
-`for I in $(seq 1 255); do host -t A  1.2.3.${I}; done`
+```bash
+for I in $(seq 1 255); do host -t A 1.2.3.${I}; done
+```
+
+### Email templates
+
+https://www.klaviyo.com/

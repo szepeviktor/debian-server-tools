@@ -2,8 +2,8 @@
 #
 # Measure disk access time
 #
-# VERSION       :0.3
-# DATE          :2014-11-28
+# VERSION       :0.5
+# DATE          :2015-04-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -102,7 +102,7 @@ hdparm -T "$DEVICE"
 echo ------------------------------------
 
 # ioping
-if ! which hdparm &> /dev/null; then
+if ! which ioping &> /dev/null; then
     echo "to install ioping on a Debian-based system:"
     echo "apt-get install -y ioping"
     echo "ioping -q -i 0 -w 5 -S 64m ${DEVICE}"

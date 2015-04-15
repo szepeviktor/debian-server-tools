@@ -6,4 +6,4 @@ webmaster@@@DOMAIN@@:         admin@@@DOMAIN@@
 postmaster@@@DOMAIN@@:        admin@@@DOMAIN@@
 hostmaster@@@DOMAIN@@:        admin@@@DOMAIN@@
 
-@@APACHEUSER@@@szepe.net:     webmaster@@@DOMAIN@@
+@@SITE_USER@@@szepe.net:     webmaster@@@DOMAIN@@

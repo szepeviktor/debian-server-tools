@@ -3,7 +3,9 @@
 # Debian server setup - wheezy amd64
 # Not a script but a manual.
 #
-# OVH VPS data: /etc/ovhrc
+# OVH /etc/ovhrc
+#     cdns.ovh.net.
+#     ntp.ovh.net
 
 # How to choose VPS provider?
 # disk access time
@@ -15,6 +17,11 @@
 
 
 exit 0
+
+# Whitelist outgoing SMTP server sending notifications.
+# /etc/courier/smtpaccess/default
+1.2.3.4	allow,RELAYCLIENT
+
 
 # download this repo
 git clone https://github.com/szepeviktor/debian-server-tools.git
@@ -30,7 +37,6 @@ apt-get autoremove --purge -y
 
 # packages sources
 nano /etc/apt/sources.list
-
 # Linode: http://mirrors.linode.com/debian
 # OVH: http://debian.mirrors.ovh.net/debian
 # server4you: http://debian.intergenia.de/debian
@@ -48,12 +54,11 @@ deb <MIRROR> wheezy-backports main
 # disable apt languages
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 
-# thrrottle package downloads (1000 kB/s)
+# throttle package downloads (1000 kB/s)
 echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
 # upgrade
-apt-get update
-apt-get dist-upgrade -y
+apt-get update && apt-get dist-upgrade -y
 apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
@@ -61,7 +66,6 @@ ln -sv /usr/bin/host /usr/local/bin/mx
 echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
 sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
-echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
 # ### Markdown for mc ###
@@ -70,40 +74,42 @@ update-alternatives --set editor /usr/bin/mcedit
 # regex/\.md(own)?$
 # 	View=pandoc -s -f markdown -t man %p | man -l -
 
-# bash as default shell
+# bash
 echo "dash dash/sh boolean false"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
-
-# bashrc
 nano /root/.bashrc
 export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\
 \w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
-# ls -1 /usr/share/mc/skins/
 export GREP_OPTIONS="--color"
 alias grep='grep $GREP_OPTIONS'
 alias iotop='iotop -d 0.1 -qqq -o'
 alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 # putty / Connection / Data / Terminal-type string: putty-256color
+# ls -1 /usr/share/mc/skins/
 export MC_SKIN="modarin256root-defbg"
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
 
+# wget defaults.
+echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 
-# user
+# Username.
 U="viktor"
 adduser $U
-# enter password...
+# Enter password twice.
 K="<PUBLIC-KEY>"
 S="/home/$U/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R $U:$U "$S"
 adduser $U sudo
 
-# remove root password
+# Remove root etc. passwords.
 nano /etc/shadow
-# sshd on another port
+# sshd on another port.
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
-# disable password login for sudoers
+# Disable root login.
+sed 's/^PermitRootLogin yes$/#PermitRootLogin yes/' -i /etc/ssh/sshd_config
+# Disable password login for sudoers.
 echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
-# add IP blocking
+# Add IP blocking.
 # see: security/README.md
 nano /etc/hosts.deny
 service ssh restart
@@ -124,6 +130,10 @@ cat /proc/mdstat
 cat /proc/partitions
 cat /proc/mounts
 cat /proc/swaps
+# dd if=/dev/zero of=/swap0 bs=1M count=768
+# chmod 0600 /swap0
+# echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
+
 grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
 
 # kernel
@@ -149,17 +159,17 @@ editor /etc/motd
 editor /etc/network/interfaces
 # iface eth0 inet static
 #     address <IP>
-#     gateway <GW>
+#     gateway <GATEWAY>
 ifconfig -a
 route -n -4
 route -n -6
 netstat -antup
 editor /etc/resolv.conf
-#nameserver 8.8.8.8
-#nameserver 8.8.4.4
-#nameserver <LOCAL_NS>
-#options timeout:2
-##options rotate
+# nameserver 8.8.8.8
+# nameserver 8.8.4.4
+# nameserver <LOCAL_NS>
+# options timeout:2
+# #options rotate
 ping6 -c 4 ipv6.google.com
 # should be A 93.184.216.119
 host -v -t A example.com
@@ -225,7 +235,7 @@ apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # editor /etc/rsyslog.conf
 # $ModLoad immark
 # $MarkMessagePeriod 1800
-cd /root/; git clone https://github.com/szepeviktor/debian-server-tools.git
+cd /root/src/ && git clone https://github.com/szepeviktor/debian-server-tools.git
 cd debian-server-tools/ && git submodule init && git submodule update
 
 # IRQ balance
@@ -238,10 +248,11 @@ cp -v monitoring/ntpdated /usr/local/sbin/
 # set nearest time server: http://www.pool.ntp.org/en/
 # NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 # NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
+# NTPSERVERS="0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org"
 # NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
-editor /etc/default/ntpdate
 # OVH
 # NTPSERVERS="ntp.ovh.net"
+editor /etc/default/ntpdate
 
 #TODO  measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
 # https://github.com/mgutz/vpsbench/blob/master/vpsbench
@@ -253,6 +264,7 @@ editor /etc/nscd.conf
 # enable-cache            hosts   yes
 # positive-time-to-live   hosts   60
 # negative-time-to-live   hosts   20
+chown unscd:unscd socket /var/run/nscd/socket
 service unscd restart
 
 # sanitize files

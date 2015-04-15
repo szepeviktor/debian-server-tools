@@ -142,7 +142,7 @@ which openssl &> /dev/null || exit 99
 
 while getopts ":aplch:u:P:" opt; do
     case $opt in
-        a) # AUTH support
+        a) # Test AUTH support
             MODE="auth"
             ;;
         p) # AUTH PLAIN
@@ -154,13 +154,13 @@ while getopts ":aplch:u:P:" opt; do
         c) # AUTH CRAM-MD5
             MODE="md5"
             ;;
-        h) # host
+        h) # Host
             SMTP_HOST="$OPTARG"
             ;;
-        u) # user name
+        u) # User name
             SMTP_USER="$OPTARG"
             ;;
-        P) # password
+        P) # Password
             SMTP_PASS="$OPTARG"
             ;;
         \?)
