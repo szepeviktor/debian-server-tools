@@ -1,0 +1,33 @@
+#!/bin/sh -e
+#
+# Remove old sessions in all FPM pools.
+# Made from version 5.5 and 5.6 of /usr/lib/php5/sessionclean
+#
+# VERSION       :0.1
+# DATE          :2015-04-17
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/lib/php5/sessionclean5.5
+# DEPENDS       :apt-get install php5-fpm lsof
+
+# FPM SAPI's gc_maxlifetime
+gc_maxlifetime="1440"
+# Get all session variables once so we don't need to start PHP to get each config option
+session_config=$(php5 -c /etc/php5/fpm/php.ini -d "error_reporting='~E_ALL'" \
+    -r 'foreach(ini_get_all("session") as $k => $v) echo "$k=".$v["local_value"]."\n";')
+gc_maxlifetime=$(($(echo "$session_config" | sed -ne 's/^session\.gc_maxlifetime=\(.*\)$/\1/p')/60))
+
+# All pool's session.save_path
+for pool_conf in /etc/php5/fpm/pool.d/*.conf; do
+    save_path=$(grep '^\s*php\(_admin\)\?_value\s*\[\s*session\.save_path\s*\]\s*=' "$pool_conf" | tail -n 1 | cut -d"=" -f2-)
+    [ -z "$save_path" ] && continue
+
+    # First find all used files and touch them (hope it's not massive amount of files)
+    /usr/bin/lsof -w -l +d "$save_path" | awk -- '{ if (NR > 1) { print $9; } }' | xargs -i touch -c {}
+    # Find all files older then gc_maxlifetime and delete them
+    find -O3 "$save_path" -depth -mindepth 1 -name 'sess_*' -ignore_readdir_race -type f -cmin "+${gc_maxlifetime}" -delete
+done
+
+exit 0

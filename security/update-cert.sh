@@ -3,8 +3,8 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.4
-# DATE          :2015-02-16
+# VERSION       :0.5
+# DATE          :2015-04-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,9 +16,11 @@
 # StartSSL: https://www.startssl.com/certs/
 #   wget https://www.startssl.com/certs/ca.pem
 #   wget https://www.startssl.com/certs/sub.class1.server.ca.pem
+# Comodo PositiveSSL: https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
 # CAcert: http://www.cacert.org/index.php?id=3
 # NetLock: https://www.netlock.hu/html/cacrl.html
+# Microsec: https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
 
 # Saving certificate from the issuer
 #
@@ -27,15 +29,15 @@
 # editor "pub-key-$(date +%Y%m%d).pem"
 
 TODAY="$(date +%Y%m%d)"
-CA="ca.pem"
-SUB="sub.class1.server.ca.pem"
+CA="ca.crt"
+SUB="sub.class1.server.ca.crt"
 PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 
 # apache2: public + intermediate
 # "include intermediate CA certificates, sorted from leaf to root"
-APACHE_DOMAIN="domain.tld"
+APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -n 's/^.*CN=\(.*\)\/.*$/\1/p'||echo "ERROR")"
 APACHE_SSL_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 APACHE_PUB="/etc/apache2/ssl/${APACHE_DOMAIN}-public.pem"
 APACHE_PRIV="/etc/apache2/ssl/${APACHE_DOMAIN}-private.key"
@@ -163,7 +165,7 @@ Apache2() {
     [ -z "$APACHE_PRIV" ] && return 1
     [ -z "$APACHE_SSL_CONFIG" ] && return 1
 
-    [ -d "$(dirname "$APACHE_SSL_CONFIG")" ] || Die 40 "apache site config"
+    [ -d "$(dirname "$APACHE_PUB")" ] || Die 40 "apache ssl dir"
 
     cat "$PUB" "$SUB" > "$APACHE_PUB" || Die 43 "apache cert creation"
     cp "$PRIV" "$APACHE_PRIV" || Die 44 "apache private"

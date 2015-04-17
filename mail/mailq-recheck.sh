@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Recheck the messages in Courier mail queue.
+# Recheck messages in Courier mail queue.
 #
-# VERSION       :0.1
-# DATE          :2015-01-10
+# VERSION       :0.2
+# DATE          :2015-04-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -19,73 +19,80 @@ WORKS="./ok-emails.txt"
 BAD="./bad-emails.txt"
 
 dnsquery() {
-    # dnsquery() ver 1.3
-    # error 1:  empty host
-    # error 2:  invalid answer
-    # error 3:  invalid query type
-    # error 4:  not found
+    # dnsquery() ver 1.5
+    # error 1:  Empty host/IP
+    # error 2:  Invalid answer
+    # error 3:  Invalid query type
+    # error 4:  Not found
 
     local TYPE="$1"
     local HOST="$2"
-    local ANSWER
+    local RR_SORT
     local IP
+    local ANSWER
+    local IP_REGEX='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
+    local HOST_REGEX='^[a-z0-9A-Z.-]+$'
 
-    # empty host
+    # Empty host/IP
     [ -z "$HOST" ] && return 1
 
-    # sort MX records
+    # Sort MX records
     if [ "$TYPE" == "MX" ]; then
         RR_SORT="sort -k 6 -n -r"
     else
         RR_SORT="cat"
     fi
-    # last record only, first may be a CNAME
+
+    # Last record only, first may be a CNAME
     IP="$(LC_ALL=C host -W 2 -t "$TYPE" "$HOST" 2> /dev/null | ${RR_SORT} | tail -n 1)"
 
-    # not found
-    if [ -z "$IP" ] || ! [ "$IP" = "${IP/ not found:/}" ] || ! [ "$IP" = "${IP/ has no /}" ]; then
+    # Not found
+    if [ -z "$IP" ] || [ "$IP" != "${IP/ not found:/}" ] || [ "$IP" != "${IP/ has no /}" ]; then
         return 4
     fi
 
     case "$TYPE" in
         A)
             ANSWER="${IP#* has address }"
-            if grep -q "^\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\$" <<< "$ANSWER"; then
+            ANSWER="${ANSWER#* has IPv4 address }"
+            if grep -qE "$IP_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid IP
+                # Invalid IP
                 return 2
             fi
         ;;
         MX)
             ANSWER="${IP#* mail is handled by *[0-9] }"
-            if grep -q "^[a-z0-9A-Z.-]\+\$" <<< "$ANSWER"; then
+            if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid hostname
+                # Invalid mail exchanger
                 return 2
             fi
         ;;
         PTR)
             ANSWER="${IP#* domain name pointer }"
-            if grep -q "^[a-z0-9A-Z.-]\+\$" <<< "$ANSWER"; then
+            ANSWER="${ANSWER#* points to }"
+            if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid hostname
+                # Invalid hostname
                 return 2
             fi
         ;;
         TXT)
             ANSWER="${IP#* domain name pointer }"
-            if grep -q "^[a-z0-9A-Z.-]\+\$" <<< "$ANSWER"; then
+            ANSWER="${ANSWER#* description is }"
+            if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid hostname
+                # Invalid descriptive text
                 return 2
             fi
         ;;
         *)
-            # unknown type
+            # Unknown type
             return 3
         ;;
     esac

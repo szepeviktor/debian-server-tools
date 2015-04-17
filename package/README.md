@@ -33,7 +33,7 @@ Allowed origins are: ["('Debian', 'oldstable')", "('Debian', 'squeeze-security')
 
 ```bash
 # Spamassassin
-deb http://ppa.launchpad.net/spamassassin/spamassassin-monthly/ubuntu/ natty main
+#deb http://ppa.launchpad.net/spamassassin/spamassassin-monthly/ubuntu/ natty main
 #K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 28889276
 #M: https://launchpad.net/~spamassassin/+archive/ubuntu/spamassassin-monthly
 

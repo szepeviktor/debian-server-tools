@@ -94,3 +94,25 @@ sshd: 222.0.0.0/8
 sshd: 223.0.0.0/8
 ```
 
+### Sign a certificate
+
+```bash
+cd /root/ssl/szepe.net-ca/
+./CAszepenet.sh -newreq
+./CAszepenet.sh -sign
+C=$(dirname $(pwd))/$(date +%Y%m%d)-HOSTNAME
+mkdir $C
+openssl rsa -in ./newkey.pem -out $C/priv-key-$(date +%Y%m%d).key
+mv ./newkey.pem $C/priv-key-$(date +%Y%m%d)-encrypted.key
+sed -n '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > $C/pub-key-$(date +%Y%m%d).pem
+rm newcert.pem newreq.pem
+```
+
+### Install a ca
+
+```bash
+mkdir /usr/local/share/ca-certificates/<CA-NAME>
+#wget -O PositiveSSL_CA_2.crt https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30
+cp ./ca.crt /usr/local/share/ca-certificates/<CA-NAME>/
+update-ca-certificates -v -f
+```

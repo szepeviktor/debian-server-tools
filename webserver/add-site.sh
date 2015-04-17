@@ -7,7 +7,7 @@ exit 0
 
 
 U=<USER>
-D=<DOMAIN>
+DOMAIN=<DOMAIN>
 
 adduser --disabled-password $U
 
@@ -28,7 +28,7 @@ mkdir public_html && cd public_html
 mkdir {session,tmp,server,pagespeed,backup}
 
 # HTTP authentication
-htpasswd -c ./htpasswords <USERNAME>
+htpasswd -c ./htpasswords <HTTP-USER>
 chmod 600 ./htpasswords
 
 # existing WP install
@@ -56,34 +56,40 @@ find -name .htaccess -exec chmod -v 640 \{\} \;
 # create WordPress database from wp-config, see: mysql/wp-createdb.sh
 
 # set wp-cli url, debug, user, skip-plugins
-e wp-cli.yml
+editor wp-cli.yml
 
 # add own WP user
-suwp user create viktor viktor@szepe.net --role=administrator --user_pass=<PASSWORD> --display_name=v
+uwp user create viktor viktor@szepe.net --role=administrator --user_pass=<PASSWORD> --display_name=v
 
 # clean up old data
-suwp transient delete-all
-suwp w3-total-cache flush
-suwp search-replace --dry-run --precise /oldhome/path /home/path
+uwp transient delete-all
+uwp w3-total-cache flush
+uwp search-replace --dry-run --precise /oldhome/path /home/path
 
 # PHP
 cd /etc/php5/fpm/pool.d/
 sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > $U.conf
 # purge old sessions
-e /etc/cron.d/php5-user
+editor /etc/cron.d/php5-user
 # minutes from 15-
 # 15 *  * * *  $U  [ -d /home/$U/public_html/session ] && /usr/lib/php5/sessionclean /home/$U/public_html/session $(/usr/lib/php5/maxlifetime)
+#
+# PHP 5.6+
+# 15 *  * * *  root [ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5
 
 # Apache
 cd /etc/apache2/sites-available
-sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > $D.conf
+sed -e "s/@@SITE_DOMAIN@@/$DDOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > ${DOMAIN}.conf
 # SSL
-sed -e "s/@@SITE_DOMAIN@@/$D/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > $D.conf
+sed -e "s/@@SITE_DOMAIN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+# Development
+sed -e "s/@@REVERSE_HIDDEN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # on "www..." set ServerAlias
-a2ensite $D
+editor ${DOMAIN}.conf
+a2ensite $DOMAIN
 # see: webrestart.sh
 # logrotate
-e /etc/logrotate.d/apache2-$D
+editor /etc/logrotate.d/apache2-${DOMAIN}
 # prerotate & postrotate
 
 # add cron jobs

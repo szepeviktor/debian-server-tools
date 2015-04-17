@@ -18,7 +18,8 @@
 - * valós oldal betöltési idő alacsonyan tartása
 - böngésző gyorsítótárazás beállítása
 - SEO kimutatás a Google keresőben való helyezésről grafikonon és emailben naponta
-- alapvető SEO hiányosságokról javaslat emailben
+- kritikus SEO hibákról összefoglaló jelentés
+- * keresőben (Google találti oldal) való megjelenés ellenőrzése
 
 ### Kód karbantartás
 
@@ -27,5 +28,6 @@
 - * HTML hibák javítása (amelyekhez nem kell újraírni a honlapot)
 - * Google Analytics és más követő kódok, beágyazott mérőkódok beállítása és ellenőrzése
 - * újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
+- * képek optimalizálása (méret csökkentés, szebb betöltődés)
 
 A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.

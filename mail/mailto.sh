@@ -1,9 +1,17 @@
 #!/bin/bash
 #
-# Test ESMTP communication
-# mailto.sh EMAIL [MX]
+# Test ESMTP communication.
+# Usage: mailto.sh <EMAIL> [<MX>]
 #
-# DEPENDS: telnet bind9-host
+# VERSION       :0.2
+# DATE          :2015-04-17
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/mailto.sh
+# DEPENDS       :apt-get install telnet bind9-host
+# DEPENDS       :apt-get install telnet knot-host
 
 pwgen16() {
     local PASSWORD=""
@@ -33,11 +41,11 @@ pwgen16() {
 }
 
 dnsquery() {
-    # dnsquery() ver 1.4
-    # error 1:  empty host
-    # error 2:  invalid answer
-    # error 3:  invalid query type
-    # error 4:  not found
+    # dnsquery() ver 1.5
+    # error 1:  Empty host/IP
+    # error 2:  Invalid answer
+    # error 3:  Invalid query type
+    # error 4:  Not found
 
     local TYPE="$1"
     local HOST="$2"
@@ -47,31 +55,32 @@ dnsquery() {
     local IP_REGEX='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
     local HOST_REGEX='^[a-z0-9A-Z.-]+$'
 
-    # empty host
+    # Empty host/IP
     [ -z "$HOST" ] && return 1
 
-    # sort MX records
+    # Sort MX records
     if [ "$TYPE" == "MX" ]; then
         RR_SORT="sort -k 6 -n -r"
     else
         RR_SORT="cat"
     fi
 
-    # last record only, first may be a CNAME
+    # Last record only, first may be a CNAME
     IP="$(LC_ALL=C host -W 2 -t "$TYPE" "$HOST" 2> /dev/null | ${RR_SORT} | tail -n 1)"
 
-    # not found
-    if [ -z "$IP" ] || ! [ "$IP" == "${IP/ not found:/}" ] || ! [ "$IP" == "${IP/ has no /}" ]; then
+    # Not found
+    if [ -z "$IP" ] || [ "$IP" != "${IP/ not found:/}" ] || [ "$IP" != "${IP/ has no /}" ]; then
         return 4
     fi
 
     case "$TYPE" in
         A)
             ANSWER="${IP#* has address }"
+            ANSWER="${ANSWER#* has IPv4 address }"
             if grep -qE "$IP_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid IP
+                # Invalid IP
                 return 2
             fi
         ;;
@@ -80,30 +89,32 @@ dnsquery() {
             if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid hostname
+                # Invalid mail exchanger
                 return 2
             fi
         ;;
         PTR)
             ANSWER="${IP#* domain name pointer }"
+            ANSWER="${ANSWER#* points to }"
             if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid hostname
+                # Invalid hostname
                 return 2
             fi
         ;;
         TXT)
             ANSWER="${IP#* domain name pointer }"
+            ANSWER="${ANSWER#* description is }"
             if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
             else
-                # invalid hostname
+                # Invalid descriptive text
                 return 2
             fi
         ;;
         *)
-            # unknown type
+            # Unknown type
             return 3
         ;;
     esac
@@ -113,24 +124,27 @@ dnsquery() {
 
 [ $# == 0 ] && exit 1
 
-# email address
+# Email address
 RCPT="$1"
 [ "$RCPT" == "${RCPT%@*}" ] && exit 2
 
 MYIP="$(/sbin/ifconfig | grep -m1 -w -o 'inet addr:[0-9.]*' | cut -d':' -f2)"
 ME="$(dnsquery PTR "$MYIP")"
+ME="${ME%.}"
+[ -z "$ME" ] && exit 3
 
-# mail exchanger
+# Mail exchanger
 if [ -z "$2" ]; then
         DOMAIN="${RCPT#*@}"
-        echo -n "*"; host -t MX "$DOMAIN" | sort -k 6 -n
+        echo -n "*"; LC_ALL=C host -W 2 -t MX "$DOMAIN" | sort -k 6 -n
         MX_REC="$(dnsquery MX "$DOMAIN")"
+        [ -z "$MX_REC" ] && exit 4
 else
         MX_REC="$2"
 fi
 
 echo "-------------------------------------------------------------------------------"
-echo "EHLO $ME"
+echo "EHLO ${ME}"
 echo "MAIL FROM: <postmaster@${ME}>"
 echo "RCPT TO: <${RCPT}>"
 echo "DATA"
@@ -154,6 +168,6 @@ echo "--------------------------------------------------------------------------
 echo "STARTTLS:  openssl s_client -crlf -connect ${MX_REC}:25 -starttls smtp"
 echo "smtps:     openssl s_client -crlf -connect ${MX_REC}:465"
 
-# only CRLF
+# Only CRLF
 #nc -C "${MX_REC}" 25
 telnet "$MX_REC" 25

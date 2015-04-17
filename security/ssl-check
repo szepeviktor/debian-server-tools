@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Check SSL secured service.
+# Check SSL secured services.
 #
 # VERSION       :0.1
 # DATE          :2014-09-25

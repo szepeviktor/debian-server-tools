@@ -1,0 +1,34 @@
+--- CA.sh	2015-01-08 22:15:50.000000000 +0100
++++ CAszepenet.sh	2015-02-07 21:20:20.194355611 +0100
+@@ -61,17 +61,17 @@
+ if [ -z "$OPENSSL" ]; then OPENSSL=openssl; fi
+ 
+ if [ -z "$DAYS" ] ; then DAYS="-days 365" ; fi	# 1 year
+-CADAYS="-days 1095"	# 3 years
++CADAYS="-days 10950"    # 30 years
+ REQ="$OPENSSL req $SSLEAY_CONFIG"
+ CA="$OPENSSL ca $SSLEAY_CONFIG"
+ VERIFY="$OPENSSL verify"
+ X509="$OPENSSL x509"
+ PKCS12="openssl pkcs12"
+ 
+-if [ -z "$CATOP" ] ; then CATOP=./demoCA ; fi
+-CAKEY=./cakey.pem
+-CAREQ=./careq.pem
+-CACERT=./cacert.pem
++if [ -z "$CATOP" ] ; then CATOP=/root/ssl/szepe.net-ca ; fi
++CAKEY=./szepenet-cakey.pem
++CAREQ=./szepenet-careq.pem
++CACERT=./szepenet-cacert.pem
+ 
+ RET=0
+ 
+@@ -127,7 +127,7 @@
+ 	    fi
+ 	else
+ 	    echo "Making CA certificate ..."
+-	    $REQ -new -keyout ${CATOP}/private/$CAKEY \
++        $REQ -utf8 -newkey rsa:2048 -keyout ${CATOP}/private/$CAKEY \
+ 			   -out ${CATOP}/$CAREQ
+ 	    $CA -create_serial -out ${CATOP}/$CACERT $CADAYS -batch \
+ 			   -keyfile ${CATOP}/private/$CAKEY -selfsign \

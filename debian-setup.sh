@@ -24,9 +24,10 @@ exit 0
 
 
 # download this repo
+mkdir ~/src && cd ~/src
 git clone https://github.com/szepeviktor/debian-server-tools.git
 cd debian-server-tools/ && git submodule init && git submodule update
-
+D="$(pwd)"
 
 # identify distribution
 lsb_release -a
@@ -68,11 +69,14 @@ sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: h
 sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
-# ### Markdown for mc ###
-# # cp /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
+# Markdown for mc
+# cp /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
 # editor ~/.config/mc/mc.ext
 # regex/\.md(own)?$
 # 	View=pandoc -s -f markdown -t man %p | man -l -
+cp /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
+editor ~/.config/mc/mcedit/Syntax
+sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
 
 # bash
 echo "dash dash/sh boolean false"|debconf-set-selections -v
@@ -110,7 +114,7 @@ sed 's/^PermitRootLogin yes$/#PermitRootLogin yes/' -i /etc/ssh/sshd_config
 # Disable password login for sudoers.
 echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 # Add IP blocking.
-# see: security/README.md
+# see: $D/security/README.md
 nano /etc/hosts.deny
 service ssh restart
 netstat -antup|grep sshd
@@ -179,7 +183,7 @@ host -v -t A example.com
 iptables -N MYATTACKERS
 iptables -I INPUT -j MYATTACKERS
 iptables -A MYATTACKERS -j RETURN
-# for management scripts see: tools/deny-ip.sh
+# for management scripts see: $D/tools/deny-ip.sh
 
 # hostname
 # set A record and PTR record
@@ -229,7 +233,8 @@ apt-get autoremove --purge
 
 # essential packages
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
-    iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix strace ccze mtr-tiny
+    iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix \
+    strace ccze mtr-tiny apt-transport-https
 apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
 # editor /etc/rsyslog.conf
@@ -243,8 +248,8 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
 
 # time
-cp -v monitoring/ntpdated /usr/local/sbin/
-./install-cron.sh monitoring/ntpdated
+cp -v $D/monitoring/ntpdated /usr/local/sbin/
+./install-cron.sh $D/monitoring/ntpdated
 # set nearest time server: http://www.pool.ntp.org/en/
 # NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 # NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
@@ -284,12 +289,11 @@ dpkg-reconfigure -f noninteractive unattended-upgrades
 # detect whether your container is running under a hypervisor
 wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
 unzip slabbed-or-not.zip && rm slabbed-or-not.zip
-cd slabbed-or-not-master/
-make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
+cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
 
 # VPS check
 #FIXME install.sh ...
-cp -v monitoring/vpscheck.sh /usr/local/sbin/
+cp -v $D/monitoring/vpscheck.sh /usr/local/sbin/
 vpscheck.sh -gen
 ./install-cron.sh /usr/local/sbin/vpscheck.sh
 
@@ -323,6 +327,8 @@ a2enmod rewrite
 a2enmod headers
 a2enmod deflate
 a2enmod expires
+cp -v $D/webserver/apache-conf-available/* /etc/apache2/conf-available/
+cp -vf $D/webserver/apache-sites-available/* /etc/apache2/sites-available/
 a2enconf php-fpm
 a2enconf h5bp
 editor /etc/apache2/conf-enabled/security.conf
@@ -341,7 +347,7 @@ editor /etc/apt/sources.list.d/others.list
 # PHP 5.5 from DotDeb
 apt-get install -y php-pear php5-apcu php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
-# ??? pkg-php-tools
+# FIXME ??? pkg-php-tools
 PHP_TZ="$(head -n 1 /etc/timezone)"
 sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
@@ -351,14 +357,21 @@ sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
-# timeouts
+# disable "www" pool
+sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
+cp -v $D/webserver/php5fpm-pools/* /etc/php5/fpm/
+# PHP 5.6+ session cleaning
+mkdir -p /usr/local/lib/php5
+cp $D/webserver/sessionclean5.5 /usr/local/lib/php5/
+
+# FIXME timeouts
 # - PHP max_execution_time
 # - PHP max_input_time
 # - FastCGI -idle-timeout
 # - PHP-FPM pool request_terminate_timeout
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
-SUHOSIN_URL="<RELEASE-TAR-GZ>"
+#SUHOSIN_URL="<RELEASE-TAR-GZ>"
 # version 0.9.37.1
 SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.37.1.tar.gz"
 wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-*
@@ -389,7 +402,7 @@ apt-get install -y mariadb-server-10.0 mariadb-client-10.0
 echo -e "[mysql]\nuser=root\npass=<PASSWORD>\ndefault-character-set=utf8" >> /root/.my.cnf && chmod 600 /root/.my.cnf
 
 # control panel for opcache and APC
-TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
+#TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
 TOOLS_DOCUMENT_ROOT=/home/web/public_html/server/
 # favicon, robots.txt
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
@@ -407,19 +420,20 @@ php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
 # HTTP/AUTH
 htpasswd -c ../htpasswords <USERNAME>
+chmod 600 ../htpasswords
 
 # PHPMyAdmin
-# see: package/phpmyadmin-get-sf.sh
-cd <PHPMYADMIN_DIR>
+# see: $D/package/phpmyadmin-get-sf.sh
+cd phpMyAdmin-*-english
 cp config.sample.inc.php config.inc.php
 pwgen -y 30 1
 # http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
 editor config.inc.php
-# $cfg['blowfish_secret'] = '<RANDOM-STRING>';
+# $cfg['blowfish_secret'] = '$(pwgen -y 30 1)';
 # $cfg['DefaultLang'] = 'en';
 # $cfg['PmaNoRelation_DisableWarning'] = true;
 # $cfg['SuhosinDisableWarning'] = true;
-# $cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin>';
+# $cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin >';
 # $cfg['CaptchaLoginPrivateKey'] = '<Secret key>';
 
 # wp-cli
@@ -431,20 +445,23 @@ wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli c
 #grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/*suhosin*.ini || echo "Please enable phar in suhosin!"
 
 # drush - https://github.com/drush-ops/drush/releases
-wget -qO "getcomposer.php" https://getcomposer.org/installer
-php "getcomposer.php" --install-dir=/usr/local/bin --filename=composer
+wget -qO getcomposer.php https://getcomposer.org/installer
+php getcomposer.php --install-dir=/usr/local/bin --filename=composer
 mkdir -p /opt/drush && cd /opt/drush
 composer require drush/drush:6.*
 ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 # set up Drupal site
-#sudo -u <SITE-USER> -i -- drush dl drupal --drupal-project-rename=<SITE_DIR>
-#sudo -u <SITE-USER> -i -- cd <SITE_DIR>
-#sudo -u <SITE-USER> -i -- drush site-install standard \
-#    --db-url='mysql://[db_user]:[db_pass]@localhost/[db_name]' --site-name=<SITE_NAME> \
-#    --account-name=<USERNAME> --account-pass=<USERPASS>
-#sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_private_path "<PRIVATE-PATH>"
-#sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes file_temporary_path "<TEMP_DIRECTORY>"
-#sudo -u <SITE-USER> -i -- drush --root=<DOCUMENT_ROOT> vset --yes cron_safe_threshold 0
+# sudo -u <SITE-USER> -i
+# cd public_html/
+# drush dl drupal --drupal-project-rename=server
+# cd server/
+# drush site-install standard \
+#    --db-url='mysql://<DB-USER>:<DB-PASS>@localhost/<DB_NAME>' \
+#    --site-name=<SITE-NAME> --account-name=<USERNAME> --account-pass=<USERPASS>
+# drush --root=<DOCUMENT-ROOT> vset --yes file_private_path "<PRIVATE-PATH>"
+# drush --root=<DOCUMENT-ROOT> vset --yes file_temporary_path "<UPLOAD-DIRECTORY>"
+# drush --root=<DOCUMENT-ROOT> vset --yes cron_safe_threshold 0
+# see: $D/webserver/preload-cache.sh
 
 # Courier MTA - deliver all mail to a smarthost
 apt-get install -y courier-mta courier-ssl
@@ -463,7 +480,7 @@ editor /etc/courier/esmtproutes
 # SMTP listen only on localhost?
 editor /etc/courier/esmtpd
 # ESMTPAUTH=""
-# ESMTPAUTH_TLS="LOGIN PLAIN"
+# ESMTPAUTH_TLS=""
 editor /etc/courier/esmtpd-ssl
 # SSLADDRESS=127.0.0.1
 makealiases
