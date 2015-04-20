@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Show disk usage by file extension.
+
+find -type f -printf "%f\n"|grep -o "\.[^.]\+$"|sort|uniq| \
+    ( while read E; do
+        echo -n "$E "
+        du -ck $(find -type f -name "*${E}" -printf "%p ")|tail -n1|cut -f1
+    done
+    # extensionless files
+    EXTLESS="$(find -type f -not -name "*.*" -printf "%p ")"
+    [ -z "$EXTLESS" ] || (echo -n "N/A "; du -ck "$EXTLESS"|tail -n1|cut -f1)
+    )|sort -k2 -n

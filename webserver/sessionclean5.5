@@ -21,7 +21,7 @@ gc_maxlifetime=$(($(echo "$session_config" | sed -ne 's/^session\.gc_maxlifetime
 
 # All pool's session.save_path
 for pool_conf in /etc/php5/fpm/pool.d/*.conf; do
-    save_path=$(grep '^\s*php\(_admin\)\?_value\s*\[\s*session\.save_path\s*\]\s*=' "$pool_conf" | tail -n 1 | cut -d"=" -f2-)
+    save_path=$(grep '^\s*php\(_admin\)\?_value\s*\[\s*session\.save_path\s*\]\s*=' "$pool_conf"|tail -n1|cut -d"=" -f2-|xargs)
     [ -z "$save_path" ] && continue
 
     # First find all used files and touch them (hope it's not massive amount of files)

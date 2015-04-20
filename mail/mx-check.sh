@@ -2,7 +2,7 @@
 #
 # Clean up an email list.
 #
-# VERSION       :0.1
+# VERSION       :0.2
 # DATE          :2015-04-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -14,14 +14,13 @@
 # Assumed MTA user
 MAIL_GROUP="daemon"
 
-EMAIL_REGEXP='\b[a-zA-Z0-9._-]\+@[a-zA-Z][a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,6\}\b'
 ORIG_LIST="$1"
+EMAIL_REGEXP='\b[a-zA-Z0-9._-]\+@[a-zA-Z][a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,6\}\b'
 CLEAN_LIST="${ORIG_LIST}.0-clean.txt"
 LINES_FAILED="${ORIG_LIST}.0-FAILED-lines.txt"
 DOMAIN_LIST="${ORIG_LIST}.1-domains.txt"
 SMTP_OK_LIST="${ORIG_LIST}.2-smtp-ok.txt"
 SMTP_FAIL_LIST="${ORIG_LIST}.2-FAILED-smtp.txt"
-SMTP_RETEST_LIST="${ORIG_LIST}.3-retest-smtp.txt"
 
 Die() {
     local RET="$1"
@@ -42,7 +41,7 @@ Email_cleanup() {
     cat "$LIST" | grep -o "$EMAIL_REGEXP"
 
     # failed lines
-    grep -v "$EMAIL_REGEXP" "$LIST" >&2
+    grep -v "$EMAIL_REGEXP" "$LIST" | grep -v "^\s*$" >&2
 }
 
 # Converts an address-per-line files to unique domain list.
@@ -85,7 +84,7 @@ Smtp_probe() {
 # Ping and smtp-probe MX-s
 Mx_test() {
     local DOMAIN="$1"
-    local RESULT="FAIL.mx"
+    local RESULT="NO.mx"
     local MX
     local MXS
     local COUNT="0"
@@ -133,13 +132,15 @@ Cancel_mailq() {
                 sudo -u ${ID_USER#*;} -g "$MAIL_GROUP" -- cancelmsg ${ID_USER%;*}
             done
     done < "$FAILED"
+
+    rm "$MAILQ"
 }
 
 # empty list
-[ -s "$ORIG_LIST" ] || Die 1 "No addresses in the list."
+[ -s "$ORIG_LIST" ] || Die 10 "No addresses in the list."
 
 # Clean up the list
-Email_cleanup "$ORIG_LIST" 1> "$CLEAN_LIST" 2> "$LINES_FAILED"
+[ -f "$CLEAN_LIST" ] || Email_cleanup "$ORIG_LIST" 1> "$CLEAN_LIST" 2> "$LINES_FAILED"
 [ -s "$CLEAN_LIST" ] || Die 1 "No addresses in the list after cleanup."
 
 # Extract unique domain names
@@ -161,13 +162,15 @@ done < "$DOMAIN_LIST"
 if [ -s "$SMTP_FAIL_LIST" ]; then
     while read FAILED; do
         D="${FAILED%%:*}"
+        Progress
         if RESULT="$(Mx_test "$D")"; then
-            echo "$D" >> "$SMTP_RETEST_LIST"
+            echo "$D" >> "$SMTP_OK_LIST"
+            sed -i "/^${D}:/d" "$SMTP_FAIL_LIST"
         else
-            # Remove addresses with failed domains
-            sed -i "/@${D}\b/d" "$CLEAN_LIST"
+            # Remove addresses with 2 times failed domains
+            sed -i "/@${D}$/Id" "$CLEAN_LIST"
         fi
     done < "$SMTP_FAIL_LIST"
 
-    Cancel_mailq "$SMTP_FAIL_LIST"
+    [ "$(id --user)" == 0 ] && Cancel_mailq "$SMTP_FAIL_LIST"
 fi

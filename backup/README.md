@@ -1,43 +1,44 @@
 ## Backup criteria list
 
-- overall time it takes to finish
-- compression (CPU usage, efficiency)
-- encryption (passphrase, public&private key, usage of CPU instructions)
-- deduplication: file level, block level, rolling hash (sliding window), soft (hash) collision, over multiple backup sources
-- source file modification detection (file meta data, file content) on incremental backups (disk read throughput)
-- error, interruption, network failure handling, retries
-- exclusion support (file list/glob/regexp)
-- backup/no-backup [tag files](http://www.brynosaurus.com/cachedir/spec.html) for directories
-- one filesystem restriction
-- integrity checking (verify backups)
-- recovery record (damaged backups)
-- backup target handling on incremental backups (read-and-create-only or updating also), uploading to cold storage
-- remote source, remote target support
-- network traffic
-- network protocols (S3, Glacier, swift, hubiC, S/FTP, SMTP, Dropbox)
-- keep policy (days, weeks, months, years), deleting old increments
-- list backups, backup contents, mount as fuse
-- logging, debugging
-- responsive support forum
+- Overall **time** it takes to finish
+- **Compression** (CPU usage, efficiency)
+- **Encryption** (passphrase, public&private key, usage of CPU instructions)
+- **Deduplication** file level, block level, rolling hash (sliding window), soft (hash) collision, over multiple backup sources
+- Detection of **modified source** files (meta data, content) on incremental backups (save disk reads)
+- Upload only modified source files (save **bandwidth**)
+- Software error, interruption, network **failure handling**, retries
+- **Recovery** record (damaged backups)
+- **Integrity** checking (verify backups)
+- **Exclusion** support (file list, glob, regexp)
+- Backup/no-backup **[tag files](http://www.brynosaurus.com/cachedir/spec.html)** for directories
+- **One filesystem** restriction
+- Backup target handling on incremental backups ( **read and create only** or updating also), uploading to cold storage
+- **Remote** source, remote target support
+- **Low network traffic**
+- Network **protocols** (S3, Glacier, swift, hubiC, S/FTP, SMTP, Dropbox)
+- **Keep policy** (days, weeks, months, years), deletion of old versions
+- **List** backups, backup contents, mount as fuse
+- **Logging**, debugging
+- Responsive **support forum**
 
 ### Options
 
-- separate backups (per volume, etc, homes, databases, mail accounts, websites)
-- excludes (VCS, DB, cache, spool, tmp)
-- logging, reporting success/failure
-- monitoring
-- nice, ionice, bandwidth throttling
+- Separate backups (per volume, /etc, homes, databases, mail, websites)
+- Excludes (VCS, known files (WordPress core), DB, cache, spool, tmp)
+- Logging, reporting success and failure
+- Monitoring
+- `nice`, `ionice`, bandwidth throttling
 
 ### Programs
 
-- http://duplicity.nongnu.org/
 - http://obnam.org/
+- http://duplicity.nongnu.org/
 - https://github.com/jborg/attic
 - https://github.com/zbackup/zbackup
 - https://github.com/bup/bup
 - http://mattmahoney.net/dc/zpaq.html
 - http://moinakg.github.io/pcompress/
-- http://nanozip.net/
+- compression: http://nanozip.net/
 
 ### Backup all GitHub repos
 
