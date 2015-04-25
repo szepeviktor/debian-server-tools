@@ -16,9 +16,12 @@ OBNAM_DEFAULTS+=" --keep=${OBNAM_KEEP_POLICY} --repository=${OBNAM_REPO} ${OBNAM
 # quiet on cron
 tty --quiet || OBNAM_DEFAULTS="--quiet ${OBNAM_DEFAULTS}"
 
+# umount on every exit
+trap "umount "$MOUNT_POINT" &> /dev/null" EXIT
+
 error() {
     echo "ERROR: $*" >&2
-    umount "$MOUNT_POINT" &> /dev/null
+    ##umount "$MOUNT_POINT" &> /dev/null
     exit $1
 }
 
@@ -35,8 +38,7 @@ for VOLUME in ${VOLUMES[*]}; do
         --client-name=${VOLUME%:*} backup ${VOLUME#*:} || error 1 "obname failure in ${VOLUME#*:}, exit code: $?, SEE syslog"
 done
 
-# umount
-umount "$MOUNT_POINT" || error 3 "Cannot umount (${MOUNT_POINT})"
+##umount "$MOUNT_POINT" || error 3 "Cannot umount (${MOUNT_POINT})"
 
 exit 0
 

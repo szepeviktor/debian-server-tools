@@ -155,3 +155,10 @@ grep -v -f all.pkgs debian-wheezy-base.pkgs
 wget -O- https://bootstrap.pypa.io/get-pip.py | python2
 wget -O- https://bootstrap.pypa.io/get-pip.py | python3
 ```
+
+### Python package locations ???
+
+- Debian Python packages `/usr/lib/python2.7/dist-packages`
+- Debian easy_install & pip packages `/usr/local/lib/python2.7/dist-packages`
+- Python packages installed from source `/usr/lib/python2.7/site-packages`
+- Python packages installed from source by easy_install and pip `/usr/local/lib/python2.7/site-packages`

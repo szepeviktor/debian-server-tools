@@ -58,10 +58,6 @@ spamassassin --test-mode -D dkim < msg-signed.eml
 opendkim -vvv -t msg-signed.eml
 ```
 
-### Bulk email
-
-https://support.google.com/mail/answer/81126?hl=en
-
 #### Sender ID
 
 - http://en.wikipedia.org/wiki/Sender_ID
@@ -108,6 +104,8 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - sender's contact details
 - unsubscribe link
 - HTML and plain payload
+- `Precedence: bulk` header
+- https://support.google.com/mail/answer/81126
 
 ### White lists
 
@@ -125,6 +123,13 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 for I in $(seq 1 255); do host -t A 1.2.3.${I}; done
 ```
 
+### Email tests
+
+- http://www.mail-tester.com/ by Mailpoet
+- mailtest@unlocktheinbox.com
+- https://www.unlocktheinbox.com/bulkemailvalidator/
+
 ### Email templates
 
-https://www.klaviyo.com/
+- https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
+- https://www.klaviyo.com/

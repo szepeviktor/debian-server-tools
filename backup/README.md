@@ -7,8 +7,8 @@
 - Detection of **modified source** files (meta data, content) on incremental backups (save disk reads)
 - Upload only modified source files (save **bandwidth**)
 - Software error, interruption, network **failure handling**, retries
+- **Integrity** checking (checksum for verifying backups)
 - **Recovery** record (damaged backups)
-- **Integrity** checking (verify backups)
 - **Exclusion** support (file list, glob, regexp)
 - Backup/no-backup **[tag files](http://www.brynosaurus.com/cachedir/spec.html)** for directories
 - **One filesystem** restriction
