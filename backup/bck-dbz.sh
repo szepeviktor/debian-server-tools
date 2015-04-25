@@ -3,6 +3,7 @@
 # Archive database dumps.
 #
 
+#TODO: sqlite3 in ~/glacier/
 # site ID, swift container, export-one-db URL, secret key, user agent
 DBS=(
 # Fill in website details
@@ -86,7 +87,7 @@ for DB in ${DBS[*]}; do
     rm "${ID}.sql" "${ID}.headers"
 
     # Upload archive
-    for ZPAQ in "$ID"-*.zpaq; do
+    for ZPAQ in "$ID"-?????.zpaq; do
         if ! "$HUBIC" --swift -- -q upload --object-name "${ID}/${ZPAQ}" "$CONTAINER" "$ZPAQ"; then
             echo "Archive upload failed ${ID}/${ZPAQ}." >&2
         fi

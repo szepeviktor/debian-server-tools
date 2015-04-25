@@ -2,10 +2,15 @@
 
 ### mods-enabled/ssl.conf
 
-```
-"Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
+```apache
+# "Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
+# dpkg -l|grep apache2; dpkg -l|grep openssl
+
 SSLHonorCipherOrder On
-SSLProtocol all -SSLv2 -SSLv3
+
+#SSLProtocol all -SSLv2 -SSLv3
+SSLProtocol all -SSLv3
+
 SSLStrictSNIVHostCheck Off
 
 SSLCompression Off
@@ -15,7 +20,12 @@ SSLUseStapling On
 SSLStaplingResponderTimeout 5
 SSLStaplingReturnResponderErrors Off
 SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
+
+# Uncomment in conf-available/h5bp.conf
+# Header always set Strict-Transport-Security
 ```
+Adding CA see: security/README.md
+
 
 ### SPDY support
 

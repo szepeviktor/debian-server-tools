@@ -15,3 +15,10 @@
 
 cp /usr/lib/ssl/misc/CA.sh ./CAszepenet.sh \
     && patch < ./CAszepenet.patch
+
+# Usage
+#
+#./CAszepenet.sh -newreq
+#./CAszepenet.sh -sign
+#
+# Adding CA see: security/README.md

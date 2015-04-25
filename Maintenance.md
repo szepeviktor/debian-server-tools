@@ -2,6 +2,7 @@
 
 - betörés (malware fertőzés) esetén takarítás
 - * biztonsági mentés fájlokról, adatbázisról naponta (5 GB-ig)
+- biztonsági mentés fájlokról, adatbázisról havonta (5 GB-ig)
 - magas fokú honlap biztonság, fájl változás jelentés 30 percenként
 - domain név lejárat figyelés, új regisztráció, módosítás
 - DNS (domain név kiszolgáló) beállítás, óránkénti monitorozás
@@ -9,7 +10,7 @@
 - honlap elérhetőség monitorozás 1 percenként
 - * PHP és MySQL futás monitorozás óránként
 - WMT (Google Webmestereszközök) teljes rendberakása hetente
-- * nem létező tartalomra mutató linkek (404) javítása naponta
+- * nem létező tartalomra mutató linkek (404) javítása naponta (hibanapló szűréssel)
 
 ### Honlap gyorsítás SEO-hoz
 

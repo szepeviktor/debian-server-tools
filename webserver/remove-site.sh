@@ -3,10 +3,34 @@
 # Apache remove a site.
 # Not a script but a manual.
 
+# Archive
+#
+# - readme.txt: siteurl, docroot, email accounts
+# - email aliases file, apache site config, PHP-FPM pool config
+# - compress website files
+# - dump and compress db
+# - compress emails accounts
+# - upload to long-term archive
+#
+# Remove
+#
+# - database
+# - db user
+# - website files
+# - cron job
+# - system user
+# - apache site
+# - PHP-FPM pool
+# - email accounts
+# - email aliases
+# - email domain
+
+
 exit 0
 
 
 U=<USER>
+D=<DOMAIN>
 
 # backup
 tar -vcJf /root/$U_$(date "+%Y-%m-%d").tar.xz /home/$U
@@ -15,16 +39,19 @@ tar -vcJf /root/$U_$(date "+%Y-%m-%d").tar.xz /home/$U
 # remove user and user's home
 del --remove-home $U
 
-# delette system mail alias
+# revoke sudo permissions
+cd /etc/sudoers.d/
+
+# delete system mail alias
 cd /etc/courier/aliases
 makealiases
 # also courier hosteddomains, esmtpacceptmailfor
 
-# revoke sudo permissions
-cd /etc/sudoers.d/
+# delete email accounts
+cd /var/mail/
 
 # drop database and database user
-echo 'DROP DATABASE `<DB_NAME>`; DROP USER `<DB_USER>`@localhost;' | mysql
+echo 'DROP DATABASE `<DB-NAME>`; DROP USER `<DB-USER>`@localhost;' | mysql
 
 # remove PHP pool
 rm /etc/php5/fpm/pool.d/$U.conf
@@ -32,7 +59,6 @@ rm /etc/php5/fpm/pool.d/$U.conf
 e /etc/cron.d/php5-user
 
 # Apache config
-D=<DOMAIN>
 a2dissite $D
 rm /etc/apache2/sites-available/$D.conf
 # see: webrestart.sh

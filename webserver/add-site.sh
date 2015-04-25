@@ -80,7 +80,7 @@ editor /etc/cron.d/php5-user
 # Apache
 cd /etc/apache2/sites-available
 sed -e "s/@@SITE_DOMAIN@@/$DDOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > ${DOMAIN}.conf
-# SSL
+# SSL see: webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # Development
 sed -e "s/@@REVERSE_HIDDEN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf

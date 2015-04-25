@@ -25,8 +25,7 @@ exit 0
 
 # download this repo
 mkdir ~/src && cd ~/src
-git clone https://github.com/szepeviktor/debian-server-tools.git
-cd debian-server-tools/ && git submodule init && git submodule update
+git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
 D="$(pwd)"
 
 # identify distribution
@@ -240,8 +239,7 @@ apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # editor /etc/rsyslog.conf
 # $ModLoad immark
 # $MarkMessagePeriod 1800
-cd /root/src/ && git clone https://github.com/szepeviktor/debian-server-tools.git
-cd debian-server-tools/ && git submodule init && git submodule update
+cd /root/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
 
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
