@@ -18,7 +18,7 @@
 	url = https://github.com/szepeviktor/FladischerMichael.monit.git
 [submodule "image/packjpg"]
 	path = image/packjpg
-	url = git@github.com:szepeviktor/packJPG.git
+	url = https://github.com/packjpg/packJPG.git
 [submodule "image/jpegrescan"]
 	path = image/jpegrescan
 	url = https://github.com/kud/jpegrescan.git
