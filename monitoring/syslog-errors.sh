@@ -15,6 +15,11 @@
 # LOCATION      :/usr/local/sbin/syslog-errors.sh
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 
+# Or you can install directly from GitHub without package management
+#
+#wget -O /usr/local/bin/dategrep https://mdom.github.io/dategrep/dategrep-standalone-small.pl
+#chmod +x /usr/local/bin/dategrep
+
 # every hour 17 minutes as Debian cron.hourly, non-UTC, local time
 /usr/local/bin/dategrep --format rsyslog --multiline --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog \
     | egrep -i "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|denied" \

@@ -2,8 +2,8 @@
 #
 # Smart search Apache logs.
 #
-# VERSION       :0.5
-# DATE          :2014-09-15
+# VERSION       :0.6
+# DATE          :2015-04-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -194,7 +194,7 @@ else
     FIELDS="${FIELDS//\\X/\4}"
 
     #             log path:1,2          date:4                        IP:3               message:5
-    grep "${SEARCH}" ${ERROR_LOGS} \
+    grep -- "${SEARCH}" ${ERROR_LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\(\[.*\]\) \[error\] \[client \([0-9a-f:\.]*\)\] \(.*\)$/'"$FIELDS"'/' \
         | eval "${PIPE}"
 fi

@@ -51,6 +51,6 @@ an english video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - levél szerver installálás
 - szerver karbantartás
 - karbantartáshoz használt eszközök fejlesztése https://github.com/szepeviktor/debian-server-tools/
-- proaktív szerver és webhely monitorozás
+- proaktív szerver és webhely monitorozás https://github.com/szepeviktor/debian-server-tools/blob/master/Maintenance.md
 - ügyfél támogató videók https://www.youtube.com/user/szepeviktor/videos
 - hibát vétek

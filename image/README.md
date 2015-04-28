@@ -2,6 +2,7 @@
 
 ### Lossy minification
 
+- https://github.com/danielgtaylor/jpeg-archive
 - https://github.com/rflynn/imgmin
 
 ### Lossless compression
@@ -23,6 +24,7 @@
 ### Scaling
 
 - [GIMP Liquid rescale](http://liquidrescale.wikidot.com/)
+- [Photoshop Content-Aware Scale](https://helpx.adobe.com/photoshop/using/content-aware-scaling.html)
 
 ### Super-Resolution demo
 

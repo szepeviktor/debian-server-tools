@@ -6,14 +6,17 @@
 # OVH /etc/ovhrc
 #     cdns.ovh.net.
 #     ntp.ovh.net
+# aruba
+#     dns.aruba.it. dns2.aruba.it.
 
 # How to choose VPS provider?
-# disk access time
-# CPU speed
-# worldwide/local bandwidth
-# nightime technical support: network or hardware failure response time
-# daytime technical and billing support
-# DoS mitigation
+#
+# - Disk access time
+# - CPU speed
+# - Worldwide and local bandwidth
+# - Nightime technical support: network or hardware failure response time
+# - Daytime technical and billing support
+# - DoS mitigation
 
 
 exit 0
@@ -25,7 +28,8 @@ exit 0
 
 # download this repo
 mkdir ~/src && cd ~/src
-git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
+wget https://github.com/szepeviktor/debian-server-tools/archive/master.zip
+unzip master.zip && cd debian-server-tools-master/
 D="$(pwd)"
 
 # identify distribution
@@ -62,6 +66,11 @@ apt-get update && apt-get dist-upgrade -y
 apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
+# remove systemd
+apt-get install sysvinit-core sysvinit sysvinit-utils
+apt-get remove --purge --auto-remove systemd
+echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
+
 # input
 echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
@@ -74,8 +83,8 @@ update-alternatives --set editor /usr/bin/mcedit
 # regex/\.md(own)?$
 # 	View=pandoc -s -f markdown -t man %p | man -l -
 cp /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
-editor ~/.config/mc/mcedit/Syntax
 sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
+nano ~/.config/mc/mcedit/Syntax
 
 # bash
 echo "dash dash/sh boolean false"|debconf-set-selections -v
@@ -131,6 +140,7 @@ lspci
 # disk configuration
 cat /proc/mdstat
 cat /proc/partitions
+pvdisplay && vgdisplay && lvdisplay
 cat /proc/mounts
 cat /proc/swaps
 # dd if=/dev/zero of=/swap0 bs=1M count=768
@@ -194,8 +204,8 @@ grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
-# add:
 # # <ORIG-REVERSE-DNS>
+# 127.0.1.1 host host.domain.tld
 editor /etc/hosts
 
 # locale, timezone
@@ -226,13 +236,13 @@ aptitude search '?obsolete'
 # vps monitoring
 ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
 # see: package/vmware-tools-wheezy.sh
-dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils"
+dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
 dpkg -l|most
 apt-get autoremove --purge
 
 # essential packages
 apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
-    iptables-persistent bootlogd ntpdate gcc make colordiff pwgen dos2unix \
+    iptables-persistent bootlogd ntpdate gcc make time colordiff pwgen dos2unix \
     strace ccze mtr-tiny apt-transport-https
 apt-get install -t wheezy-backports -y rsyslog whois git goaccess
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
@@ -247,7 +257,7 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 
 # time
 cp -v $D/monitoring/ntpdated /usr/local/sbin/
-./install-cron.sh $D/monitoring/ntpdated
+$D/install-cron.sh $D/monitoring/ntpdated
 # set nearest time server: http://www.pool.ntp.org/en/
 # NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 # NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
@@ -267,8 +277,7 @@ editor /etc/nscd.conf
 # enable-cache            hosts   yes
 # positive-time-to-live   hosts   60
 # negative-time-to-live   hosts   20
-chown unscd:unscd socket /var/run/nscd/socket
-service unscd restart
+service unscd stop && service unscd start
 
 # sanitize files
 HOSTING_COMPANY="<HOSTING-COMPANY>"
@@ -277,7 +286,7 @@ grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l|grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev/|tee cruft.log
 # find broken symlinks
-find / -type l -xtype l
+find / -type l -xtype l -not -path "/proc/*"
 debsums -c
 
 # updates
@@ -292,8 +301,11 @@ cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log 
 # VPS check
 #FIXME install.sh ...
 cp -v $D/monitoring/vpscheck.sh /usr/local/sbin/
+editor /usr/local/sbin/vpscheck.sh
 vpscheck.sh -gen
-./install-cron.sh /usr/local/sbin/vpscheck.sh
+editor /root/.config/vpscheck/configuration
+vpscheck.sh
+$D/install-cron.sh /usr/local/sbin/vpscheck.sh
 
 # fail2ban latest version's .dsc: https://tracker.debian.org/pkg/fail2ban
 apt-get install -y geoip-bin recode python3-pyinotify
@@ -315,7 +327,7 @@ editor /etc/fail2ban/fail2ban.local
 
 # apt repositories for these softwares, see package/README.md
 editor /etc/apt/sources.list.d/others.list
-eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f 2-)"
+eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f2-)"
 apt-get update
 
 # Apache 2.4.x (jessie backport)
@@ -379,34 +391,37 @@ make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
 sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini || echo "ERROR: enabling suhosin"
 
 #TODO: ini-handler, Search for it!
+
+# PHP secure directives
 assert.active
 mail.add_x_header
-
 suhosin.executor.disable_emodifier = On
 suhosin.disable.display_errors = 1
 suhosin.session.cryptkey = `apg -m 32`
 
-# Drupal
+# PHP directives for Drupal
 suhosin.get.max_array_index_length = 128
 suhosin.post.max_array_index_length = 128
 suhosin.request.max_array_index_length = 128
 
-# security check
+# PHP security check
 git clone https://github.com/sektioneins/pcc.git
-# pool config: env[PCC_ALLOW_IP] = 123.45.67.*
+# pool config: env[PCC_ALLOW_IP] = 1.2.3.*
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
-echo -e "[mysql]\nuser=root\npass=<PASSWORD>\ndefault-character-set=utf8" >> /root/.my.cnf && chmod 600 /root/.my.cnf
+echo -e "[mysql]\nuser=root\npass=*\ndefault-character-set=utf8" >> /root/.my.cnf && chmod 600 /root/.my.cnf
+editor /root/.my.cnf
 
 # control panel for opcache and APC
+# add "web" user, see: webserver/add-site.sh
 #TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
 TOOLS_DOCUMENT_ROOT=/home/web/public_html/server/
 # favicon, robots.txt
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
 echo -e "User-agent: *\nDisallow: /" > "${TOOLS_DOCUMENT_ROOT}/robots.txt"
 # kabel / ocp.php
-cp -v webserver/ocp.php "$TOOLS_DOCUMENT_ROOT"
+cp -v $D/webserver/ocp.php "$TOOLS_DOCUMENT_ROOT"
 # old apc/PECL
 #APC_URL="http://pecl.php.net/get/APC-3.1.13.tgz"
 #wget -qO- "$APC_URL" | tar xz --no-anchored apc.php && mv APC*/apc.php "$TOOLS_DOCUMENT_ROOT" && rmdir APC*
@@ -462,7 +477,7 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 # see: $D/webserver/preload-cache.sh
 
 # Courier MTA - deliver all mail to a smarthost
-apt-get install -y courier-mta courier-ssl
+apt-get install -y courier-mta courier-mta-ssl
 # SMTPS: apt-get install -y courier-mta courier-mta-ssl
 dpkg -l|egrep "postfix|exim"
 apt-get purge exim4 exim4-base exim4-config exim4-daemon-light
@@ -473,10 +488,10 @@ editor /etc/courier/defaultdomain
 editor /etc/courier/dsnfrom
 editor /etc/courier/aliases/system
 editor /etc/courier/esmtproutes
-# TODO in jessie: ": <SMART-HOST>,465 /SECURITY=SMTPS" - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
+# from jessie on: ": <SMART-HOST>,465 /SECURITY=SMTPS" - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 # : <SMART-HOST>,587 /SECURITY=REQUIRED
-# SMTP listen only on localhost?
 editor /etc/courier/esmtpd
+# ADDRESS=127.0.0.1
 # ESMTPAUTH=""
 # ESMTPAUTH_TLS=""
 editor /etc/courier/esmtpd-ssl
