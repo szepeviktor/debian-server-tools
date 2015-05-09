@@ -24,8 +24,8 @@ cp -a id_rsa.pub authorized_keys2
 zip --encrypt $U.zip id_rsa*
 
 cd /home/$U/
-mkdir public_html && cd public_html
-mkdir {session,tmp,server,pagespeed,backup}
+mkdir website && cd website
+mkdir {session,tmp,html,pagespeed,backup}
 
 # HTTP authentication
 htpasswd -c ./htpasswords <HTTP-USER>

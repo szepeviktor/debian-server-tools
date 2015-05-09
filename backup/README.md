@@ -39,6 +39,7 @@
 - http://mattmahoney.net/dc/zpaq.html
 - http://moinakg.github.io/pcompress/
 - compression: http://nanozip.net/
+- http://www.byronknoll.com/cmix.html
 
 ### Backup all GitHub repos
 

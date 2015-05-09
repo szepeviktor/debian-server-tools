@@ -12,4 +12,4 @@
 
 THIS_OWNER="$(stat . -c %U)"
 
-sudo -u "$THIS_OWNER" --  wp --path="$PWD" "$@"
+sudo -u "$THIS_OWNER" --  wp --path="$(pwd)" "$@"

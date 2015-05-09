@@ -12,6 +12,8 @@ https://toolbox.googleapps.com/apps/checkmx/
 ### Mail account migration
 
 see: mail/imapsync
+[OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
+[OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
 ### Send messages in an mbox file to an email address
 
@@ -58,14 +60,14 @@ spamassassin --test-mode -D dkim < msg-signed.eml
 opendkim -vvv -t msg-signed.eml
 ```
 
-#### Sender ID
+#### Sender ID (From:)
 
 - http://en.wikipedia.org/wiki/Sender_ID
 - http://tools.ietf.org/html/rfc4407#section-2
 - PRA: Resent-Sender > Resent-From > Sender > From > ill-formed
 - http://www.appmaildev.com/
 
-#### SPF (MAIL FROM:)
+#### SPF (HELO, MAIL FROM:)
 
 - setup
 - check
@@ -82,6 +84,14 @@ opendkim -vvv -t msg-signed.eml
 
 An optional extension to the DKIM E-mail authentication scheme.
 
+#### Domain Keys
+
+?
+
+#### SenderID
+
+?
+
 #### DMARC
 
 Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text=1
@@ -97,15 +107,27 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - Return-Path:, Reply-to:, From:, To:, Subject:
 - SMTP "MAIL FORM: <from@addre.ss>"
 
-#### Bulk mail musts
+#### Bulk mail
 
-- link to online version
-- who (email address) is subscribed
-- sender's contact details
+##### Musts
+
+- link to online version (newsletter archive)
+- who (name and email address) is subscribed
+- sender's contact details (postal address, phone number)
 - unsubscribe link
 - HTML and plain payload
 - `Precedence: bulk` header
 - https://support.google.com/mail/answer/81126
+
+##### Elements
+
+- From: "Firstname from Company"
+- From address SPF: `include:servers.mcsv.net`
+- Subject: ...)
+- Short preview line on top of the message
+- Main hader line
+- Subheader line
+- Section: image + title + description + call2action  https://litmus.com/subscribe
 
 ### White lists
 

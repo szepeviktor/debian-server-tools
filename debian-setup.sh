@@ -72,7 +72,7 @@ apt-get remove --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
 # input
-echo "alias e='mcedit'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
+echo "alias e='editor'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
 sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
 update-alternatives --set pager /usr/bin/most
@@ -96,9 +96,21 @@ export GREP_OPTIONS="--color"
 alias grep='grep $GREP_OPTIONS'
 alias iotop='iotop -d 0.1 -qqq -o'
 alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
-# putty / Connection / Data / Terminal-type string: putty-256color
-# ls -1 /usr/share/mc/skins/
-export MC_SKIN="modarin256root-defbg"
+# putty Connection / Data / Terminal-type string: putty-256color
+# ls -1 /usr/share/mc/skins/|sed "s/\.ini$//g"
+if [ "${TERM/256/}" == "$TERM" ]; then
+    if [ "$(id -u)" == 0 ]; then
+        export MC_SKIN="modarcon16root-defbg-thin"
+    else
+        export MC_SKIN="modarcon16"
+    fi
+else
+    if [ "$(id -u)" == 0 ]; then
+        export MC_SKIN="modarin256root-defbg-thin"
+    else
+        export MC_SKIN="xoria256"
+    fi
+fi
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
 
@@ -289,7 +301,11 @@ cruft --ignore /dev/|tee cruft.log
 find / -type l -xtype l -not -path "/proc/*"
 debsums -c
 
-# updates
+# make cron log all failed jobs (exit status != 0)
+sed -i "s/^# \(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
+service cron restart
+
+# package updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
@@ -345,7 +361,7 @@ editor /etc/apache2/conf-enabled/security.conf
 # ServerTokens Prod
 editor /etc/apache2/apache2.conf
 # LogLevel info
-#TODO: fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/server
+#TODO: fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/html
 
 # for poorly written themes/plugins
 apt-get install -y mod-pagespeed-stable
@@ -416,7 +432,7 @@ editor /root/.my.cnf
 # control panel for opcache and APC
 # add "web" user, see: webserver/add-site.sh
 #TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
-TOOLS_DOCUMENT_ROOT=/home/web/public_html/server/
+TOOLS_DOCUMENT_ROOT=/home/web/website/html/
 # favicon, robots.txt
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
 echo -e "User-agent: *\nDisallow: /" > "${TOOLS_DOCUMENT_ROOT}/robots.txt"
@@ -466,8 +482,8 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 # set up Drupal site
 # sudo -u <SITE-USER> -i
 # cd public_html/
-# drush dl drupal --drupal-project-rename=server
-# cd server/
+# drush dl drupal --drupal-project-rename=html
+# cd html/
 # drush site-install standard \
 #    --db-url='mysql://<DB-USER>:<DB-PASS>@localhost/<DB_NAME>' \
 #    --site-name=<SITE-NAME> --account-name=<USERNAME> --account-pass=<USERPASS>

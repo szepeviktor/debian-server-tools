@@ -156,9 +156,9 @@ wget -O- https://bootstrap.pypa.io/get-pip.py | python2
 wget -O- https://bootstrap.pypa.io/get-pip.py | python3
 ```
 
-### Python package locations ???
+### Python package locations
 
-- Debian Python packages `/usr/lib/python2.7/dist-packages`
-- Debian easy_install & pip packages `/usr/local/lib/python2.7/dist-packages`
-- Python packages installed from source `/usr/lib/python2.7/site-packages`
-- Python packages installed from source by easy_install and pip `/usr/local/lib/python2.7/site-packages`
+- Debian Python packages `/usr/lib/python3.4/dist-packages`
+- pip (with system Python) packages `/usr/local/lib/python3.4/dist-packages`
+- From-source-Python built packages `/usr/lib/python3.4/site-packages`
+- ??? `/usr/local/lib/python3.4/site-packages`
