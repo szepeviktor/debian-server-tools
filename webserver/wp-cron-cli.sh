@@ -2,8 +2,8 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.5
-# DATE          :2015-05-01
+# VERSION       :0.6
+# DATE          :2015-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,6 +14,8 @@
 # Disable wp-cron in your wp-config.php
 #
 #     define( 'DISABLE_WP_CRON', true );
+
+# @TODO  drop $WPCRON_PATH
 
 WPCRON_LOCATION="$1"
 
@@ -37,23 +39,24 @@ Get_meta() {
     echo "$VALUE"
 }
 
+# Look for usual document root: /home/user/website/html
+if [ -z "$WPCRON_LOCATION" ] \
+    && [ -f "${HOME}/website/html/wp-cron.php" ]; then
+    WPCRON_DIR="${HOME}/website"
+    WPCRON_PATH="html/wp-cron.php"
 # Directly specified
-if [ "$(basename "$WPCRON_LOCATION")" == "wp-cron.php" && -f "$WPCRON_LOCATION" ]; then
+elif [ "$(basename "$WPCRON_LOCATION")" == "wp-cron.php" ] \
+    && [ -f "$WPCRON_LOCATION" ]; then
     WPCRON_DIR="$(dirname "$WPCRON_LOCATION")"
     WPCRON_PATH="wp-cron.php"
-# Document root
-elif [ -f "${WPCRON_LOCATION}/server/wp-cron.php" ]; then
+# "website" directory
+elif [ -f "${WPCRON_LOCATION}/html/wp-cron.php" ]; then
     WPCRON_DIR="$WPCRON_LOCATION"
-    WPCRON_PATH="server/wp-cron.php"
+    WPCRON_PATH="html/wp-cron.php"
 # WordPress root directory
 elif [ -f "${WPCRON_LOCATION}/wp-cron.php" ]; then
     WPCRON_DIR="$WPCRON_LOCATION"
     WPCRON_PATH="wp-cron.php"
-# Look for usual document root: /home/user/public_html/server
-elif [ -z "$WPCRON_LOCATION" ] \
-    && [ -f "${HOME}/public_html/server/wp-cron.php" ]; then
-    WPCRON_DIR="/home/$(id -nu)/public_html"
-    WPCRON_PATH="server/wp-cron.php"
 else
     Die 1 "wp-cron not found (${WPCRON_LOCATION})"
 fi
@@ -72,8 +75,8 @@ export REQUEST_METHOD="GET"
 #export HTTP_HOST="<DOMAIN>"
 export HTTP_USER_AGENT="Wp-cron/$(Get_meta) (php-cli; Linux)"
 
-pushd "$WPCRON_DIR" > /dev/null || Die 2 "Cannot change to directory ${WPCRON_DIR}"
-[ -r "$WPCRON_PATH" ] || Die 3 "File not found ${$WPCRON_PATH}"
+pushd "$WPCRON_DIR" > /dev/null || Die 2 "Cannot change to directory (${WPCRON_DIR})"
+[ -r "$WPCRON_PATH" ] || Die 3 "File not found (${$WPCRON_PATH})"
 
 if ! /usr/bin/php "$WPCRON_PATH"; then
     RET="$?"

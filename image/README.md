@@ -2,11 +2,12 @@
 
 ### Lossy minification
 
-- https://github.com/danielgtaylor/jpeg-archive
+- https://github.com/danielgtaylor/jpeg-archive (mozjpeg)
 - https://github.com/rflynn/imgmin
 
 ### Lossless compression
 
+- see: image/jpegrescan
 - http://packjpg.encode.ru/?page_id=17
 
 ### JPEG artifacts removal

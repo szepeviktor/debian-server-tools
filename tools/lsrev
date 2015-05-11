@@ -2,8 +2,11 @@
 #
 # Display every parent directories' owner and permissions.
 #
+# VERSION       :0.2
 
 ONE_PATH="$1"
+
+[ "${ONE_PATH:0:1}" == "/" ] || ONE_PATH="$(pwd)/${ONE_PATH}"
 
 while [ "$ONE_PATH" != / ]; do
     ls -ld "$ONE_PATH"

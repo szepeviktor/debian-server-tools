@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Show non-empty config file lines.
+
+
+CONFIG="$1"
+EMPTY_LINES='^\s*#|^\s*$'
+
+[ -f "$CONFIG" ] || exit 1
+
+grep -Ev "$EMPTY_LINES" "$CONFIG"

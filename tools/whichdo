@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Execute a command on the output of `which <FILE>`
+#
+# Usage: whichdo <FILE> <COMMAND>...
+
+[ $# -lt 2 ] && exit 1
+
+WHICH_FILE="$(which "$1")"
+
+if [ -r "$WHICH_FILE" ]; then
+    shift
+    "$@" "$WHICH_FILE"
+fi
