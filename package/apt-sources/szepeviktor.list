@@ -1,0 +1,5 @@
+# Modern webserver
+#deb http://szepeviktor.github.io/debian/ wheezy main
+deb http://szepeviktor.github.io/debian/ jessie main
+#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 451A4FBA
+#M: http://szepeviktor.github.io/debian/

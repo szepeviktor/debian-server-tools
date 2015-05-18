@@ -1,0 +1,22 @@
+# NO readme-s (site-wide) http://perldoc.perl.org/perlre.html#Extended-Patterns
+<FilesMatch "^.*(?i)readme\.txt$">
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+        Order Allow,Deny
+        Deny from all
+        Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# Frontend
+# BEGIN WordPress
+RewriteEngine On
+RewriteRule ^/index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.php [L]
+# END WordPress

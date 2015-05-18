@@ -12,7 +12,8 @@
 
 ### JPEG artifacts removal
 
-- http://www.vicman.net/jpegenhancer/
+- http://www.vicman.net/jpegenhancer/ http://mirror.szepe.net/software/jpeginst.exe
+- http://enhance.pho.to/
 - http://www.topazlabs.com/dejpeg
 - Photoshop / Ps Elements: Filter > Noise > Reduce Noise  [x] Remove JPEG Artifacts
 
@@ -30,6 +31,15 @@
 ### Super-Resolution demo
 
 - [Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
+
+### Face retouch
+
+http://makeup.pho.to/
+
+### Edit
+
+- http://editor.pho.to/edit/
+- http://apps.pixlr.com/editor/
 
 ### Archiving
 

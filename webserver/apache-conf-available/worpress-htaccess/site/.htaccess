@@ -1,0 +1,13 @@
+# NO root files (EN, HU)
+<FilesMatch "^(licenc\.txt|olvasdel\.html|license\.txt|readme\.html|wp-config\.php|wp-config-sample\.php)$">
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+        Order Allow,Deny
+        Deny from all
+        Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>

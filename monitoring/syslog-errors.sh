@@ -4,8 +4,8 @@
 #
 # Mini logcheck.
 #
-# VERSION       :0.3
-# DATE          :2015-03-31
+# VERSION       :0.4
+# DATE          :2015-05-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -20,11 +20,12 @@
 #wget -O /usr/local/bin/dategrep https://mdom.github.io/dategrep/dategrep-standalone-small.pl
 #chmod +x /usr/local/bin/dategrep
 
-# every hour 17 minutes as Debian cron.hourly, non-UTC, local time
-/usr/local/bin/dategrep --format rsyslog --multiline --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog \
-    | egrep -i "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|denied" \
+# every hour 17 minutes as in Debian cron.hourly, non-UTC, local time
+/usr/local/bin/dategrep --format rsyslog --multiline \
+    --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog \
+    | grep -E -i "crit|err|warn|fail[^2]|alert|unkn|unable|miss|except|disable|invalid|cannot|denied" \
     | grep -v -i "intERRupt" \
-    | grep -v "/usr/local/sbin/syslog-errors\.sh"
+    | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
     #| grep -v "554 Mail rejected\|535 Authentication failed"
 
 exit 0

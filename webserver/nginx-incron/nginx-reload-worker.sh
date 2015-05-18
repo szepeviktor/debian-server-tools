@@ -10,6 +10,7 @@ Die() {
     exit "$RET"
 }
 
+# Hold other calls.
 sleep 5
-service nginx reload || Die 1 "nginx reload error"
 
+service nginx reload || Die 1 "nginx reload error"

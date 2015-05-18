@@ -1,0 +1,25 @@
+# NO wp-includes PHP
+<Files wp-mce-help.php>
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+        Order Deny,Allow
+        Allow from all
+        Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</Files>
+<Files wp-tinymce.php>
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+        Order Deny,Allow
+        Allow from all
+        Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</Files>

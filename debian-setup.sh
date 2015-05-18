@@ -26,52 +26,54 @@ exit 0
 1.2.3.4	allow,RELAYCLIENT
 
 
-# download this repo
+# Download this repo
 mkdir ~/src && cd ~/src
 wget https://github.com/szepeviktor/debian-server-tools/archive/master.zip
 unzip master.zip && cd debian-server-tools-master/
 D="$(pwd)"
 
-# identify distribution
+# Identify distribution
 lsb_release -a
 
-# clean packages
+# Clean packages
 apt-get clean
 apt-get autoremove --purge -y
 
-# packages sources
+# Packages sources
+sed -i 's/%MIRROR%/http:\/\/http.debian.net\/debian/g' sources.list
 nano /etc/apt/sources.list
+
 # Linode: http://mirrors.linode.com/debian
 # OVH: http://debian.mirrors.ovh.net/debian
 # server4you: http://debian.intergenia.de/debian
 # closest mirror http://http.debian.net/debian
 # national mirror: http://ftp.<COUNTRY-CODE>.debian.org/debian
 deb <MIRROR> wheezy main contrib non-free
-# security
+# Security
 deb http://security.debian.org/ wheezy/updates main contrib non-free
-# updates (previously known as 'volatile')
+# Updates (previously known as 'volatile')
 deb <MIRROR> wheezy-updates main
-# backports
+# Backports
 # http://backports.debian.org/changes/wheezy-backports.html
 deb <MIRROR> wheezy-backports main
 
-# disable apt languages
+# Disable apt languages
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 
-# throttle package downloads (1000 kB/s)
+# Throttle package downloads (1000 kB/s)
 echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
-# upgrade
+# Upgrade
 apt-get update && apt-get dist-upgrade -y
 apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
-# remove systemd
+# Remove systemd
 apt-get install sysvinit-core sysvinit sysvinit-utils
 apt-get remove --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
-# input
+# Input
 echo "alias e='editor'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
 sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
@@ -114,42 +116,42 @@ fi
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
 
-# wget defaults.
+# wget defaults
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 
-# Username.
+# Username
 U="viktor"
 adduser $U
-# Enter password twice.
+# Enter password twice
 K="<PUBLIC-KEY>"
 S="/home/$U/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R $U:$U "$S"
 adduser $U sudo
 
-# Remove root etc. passwords.
+# Remove root and other passwords
 nano /etc/shadow
-# sshd on another port.
+# sshd on another port
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
-# Disable root login.
+# Disable root login
 sed 's/^PermitRootLogin yes$/#PermitRootLogin yes/' -i /etc/ssh/sshd_config
-# Disable password login for sudoers.
+# Disable password login for sudoers
 echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
-# Add IP blocking.
+# Add IP blocking
 # see: $D/security/README.md
 nano /etc/hosts.deny
 service ssh restart
 netstat -antup|grep sshd
 
-# log out as root
+# Log out as root
 logout
 
-# log in
+# Log in
 sudo su - || exit
 
-# hardware
+# Hardware
 lspci
 [ -f /proc/modules ] && lsmod || echo "WARNING: monolithic kernel"
 
-# disk configuration
+# Disk configuration
 cat /proc/mdstat
 cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
@@ -161,9 +163,9 @@ cat /proc/swaps
 
 grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
 
-# kernel
+# Kernel
 uname -a
-# list kernels
+# List kernels
 apt-cache policy linux-image-amd64
 apt-get install linux-image-amd64=<KERNEL-VERSION>
 dpkg -l|grep "grub"
@@ -171,16 +173,16 @@ ls -latr /boot/
 # OVH Kernel
 # https://gist.github.com/szepeviktor/cf6b60ac1b2515cb41c1
 # Linode Kernels
-# auto renew on reboot - https://www.linode.com/kernels/
+# Auto renew on reboot - https://www.linode.com/kernels/
 editor /etc/modules
 editor /etc/sysctl.conf
 
-# misc. files
+# Miscellaneous files
 editor /etc/rc.local
 editor /etc/profile
 editor /etc/motd
 
-# network
+# Networking
 editor /etc/network/interfaces
 # iface eth0 inet static
 #     address <IP>
@@ -189,29 +191,31 @@ ifconfig -a
 route -n -4
 route -n -6
 netstat -antup
+
 editor /etc/resolv.conf
 # nameserver 8.8.8.8
 # nameserver 8.8.4.4
 # nameserver <LOCAL_NS>
 # options timeout:2
 # #options rotate
-ping6 -c 4 ipv6.google.com
-# should be A 93.184.216.119
-host -v -t A example.com
-# view network graph: http://bgp.he.net/ip/<IP>
 
-# MYATTACKERS chain
+ping6 -c 4 ipv6.google.com
+# Should be: A 93.184.216.119
+host -v -t A example.com
+# View network graph: http://bgp.he.net/ip/<IP>
+
+# Set up MYATTACKERS chain
 iptables -N MYATTACKERS
 iptables -I INPUT -j MYATTACKERS
 iptables -A MYATTACKERS -j RETURN
-# for management scripts see: $D/tools/deny-ip.sh
+# For management scripts see: $D/tools/deny-ip.sh
 
-# hostname
-# set A record and PTR record
-# consider: http://www.iata.org/publications/Pages/code-search.aspx
+# Hostname
+# Set A record and PTR record
+# Consider: http://www.iata.org/publications/Pages/code-search.aspx
 #           http://www.world-airport-codes.com/
 H="<HOST-NAME>"
-# search for the old hostname
+# Search for the old hostname
 grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
@@ -220,54 +224,89 @@ echo "$H" > /etc/mailname
 # 127.0.1.1 host host.domain.tld
 editor /etc/hosts
 
-# locale, timezone
+# Locale and timezone
 locale
 locale -a
 dpkg-reconfigure locales
 cat /etc/timezone
 dpkg-reconfigure tzdata
 
-# comment out getty[2-6], not /etc/init.d/rc !
-# consider agetty
+# Comment out getty[2-6], NOT /etc/init.d/rc !
+# Consider agetty
 editor /etc/inittab
-# sanitize users
+# Sanitize users
 editor /etc/passwd
 editor /etc/shadow
 
-# sanitize packages (-hardware-related +monitoring -daemons)
-# delete not installed packages
+# Sanitize packages (-hardware-related +monitoring -daemons)
+# Delete not-installed packages
 dpkg -l|grep -v "^ii"
 # apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common
-# non-stable packages
+# Non-stable packages
 dpkg -l|grep "~[a-z]\+"|sort|uniq -c|sort -n
 dpkg -l|egrep "~squeeze|python2\.6"
-# non-Debian packages
+# Non-Debian packages
 aptitude search '?narrow(?installed, !?origin(Debian))'
-# obsolete pacakages
+# Manually installed, not "required" and not "important" packages
+aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p"|most
+# Obsolete pacakages
 aptitude search '?obsolete'
-# vps monitoring
+# VPS monitoring
 ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
-# see: package/vmware-tools-wheezy.sh
-dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
+# See: package/vmware-tools-wheezy.sh
+dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
 dpkg -l|most
 apt-get autoremove --purge
 
-# essential packages
-apt-get install -y heirloom-mailx unattended-upgrades apt-listchanges cruft debsums \
-    iptables-persistent bootlogd ntpdate gcc make time colordiff pwgen dos2unix \
-    strace ccze mtr-tiny apt-transport-https
-apt-get install -t wheezy-backports -y rsyslog whois git goaccess
+# Essential packages
+apt-get install -y apt-transport-https localepurge unattended-upgrades \
+    apt-listchanges cruft debsums heirloom-mailx iptables-persistent bootlogd \
+    ntpdate pwgen dos2unix strace ccze mtr-tiny gcc make time colordiff
+apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
+
+# debsums cron
+editor /etc/default/debsums
+# CRON_CHECK=weekly
+
+# Sanitize files
+HOSTING_COMPANY="<HOSTING-COMPANY>"
+find / -iname "*${HOSTING_COMPANY}*"
+grep -ir "${HOSTING_COMPANY}" /etc/
+dpkg -l|grep -i "${HOSTING_COMPANY}"
+cruft --ignore /dev | tee cruft.log
+# Find broken symlinks
+find / -type l -xtype l -not -path "/proc/*"
+debsums -c
+
+# APT repositories for non-Debian packages, see: package/apt-sources/
+editor /etc/apt/sources.list.d/others.list
+eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f2-)"
+apt-get update
+
+#@TODO  measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
+# https://github.com/mgutz/vpsbench/blob/master/vpsbench
+# See: monitoring/cpu-speed/image-speed.sh
+
+# Detect whether your container is running under a hypervisor
+wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
+unzip slabbed-or-not.zip && rm slabbed-or-not.zip
+cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
+
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
-# editor /etc/rsyslog.conf
+editor /etc/rsyslog.conf
 # $ModLoad immark
 # $MarkMessagePeriod 1800
 cd /root/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
+
+# Make cron log all failed jobs (exit status != 0)
+sed -i "s/^# \(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
+service cron restart
 
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
 
-# time
+# Time synchronization
 cp -v $D/monitoring/ntpdated /usr/local/sbin/
 $D/install-cron.sh $D/monitoring/ntpdated
 # set nearest time server: http://www.pool.ntp.org/en/
@@ -279,10 +318,7 @@ $D/install-cron.sh $D/monitoring/ntpdated
 # NTPSERVERS="ntp.ovh.net"
 editor /etc/default/ntpdate
 
-#TODO  measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
-# https://github.com/mgutz/vpsbench/blob/master/vpsbench
-
-# backported unscd
+# µnscd
 wget -O unscd_amd64.deb http://szepeviktor.github.io/debian/pool/main/u/unscd/unscd_0.51-1~bpo70+1_amd64.deb
 dpkg -i unscd_amd64.deb
 editor /etc/nscd.conf
@@ -291,31 +327,12 @@ editor /etc/nscd.conf
 # negative-time-to-live   hosts   20
 service unscd stop && service unscd start
 
-# sanitize files
-HOSTING_COMPANY="<HOSTING-COMPANY>"
-find / -iname "*${HOSTING_COMPANY}*"
-grep -ir "${HOSTING_COMPANY}" /etc/
-dpkg -l|grep -i "${HOSTING_COMPANY}"
-cruft --ignore /dev/|tee cruft.log
-# find broken symlinks
-find / -type l -xtype l -not -path "/proc/*"
-debsums -c
-
-# make cron log all failed jobs (exit status != 0)
-sed -i "s/^# \(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
-service cron restart
-
-# package updates
+# Automatic package updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
-# detect whether your container is running under a hypervisor
-wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
-unzip slabbed-or-not.zip && rm slabbed-or-not.zip
-cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
-
 # VPS check
-#FIXME install.sh ...
+#@FIXME install.sh ...
 cp -v $D/monitoring/vpscheck.sh /usr/local/sbin/
 editor /usr/local/sbin/vpscheck.sh
 vpscheck.sh -gen
@@ -323,30 +340,24 @@ editor /root/.config/vpscheck/configuration
 vpscheck.sh
 $D/install-cron.sh /usr/local/sbin/vpscheck.sh
 
-# fail2ban latest version's .dsc: https://tracker.debian.org/pkg/fail2ban
+# fail2ban
 apt-get install -y geoip-bin recode python3-pyinotify
-apt-get install -t wheezy-backports -y init-system-helpers
-# latest geoip-database-contrib version
+# Latest: https://packages.qa.debian.org/f/fail2ban.html
+FAIL2BAN=$(wget -qO- https://packages.debian.org/sid/all/fail2ban/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
+wget -O fail2ban_all.deb "$FAIL2BAN"
+# Version 0.9.1
+#wget -O fail2ban_all.deb http://szepeviktor.github.io/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
+dpkg -i fail2ban_all.deb
+# geoip-database-contrib
 GEOIP=$(wget -qO- https://packages.debian.org/sid/all/geoip-database-contrib/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
 wget -O geoip-database-contrib_all.deb "$GEOIP"
 dpkg -i geoip-database-contrib_all.deb
-# .dsc from sid:  https://packages.debian.org/sid/fail2ban
-#dget -ux <DSC-URL>
-#dpkg-checkbuilddeps && dpkg-buildpackage -b -us -uc
-# packaged 0.9.1
-wget -O fail2ban_all.deb http://szepeviktor.github.io/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
-dpkg -i fail2ban_all.deb
-# filter: apache-combined, apache-asap
-# action: sendmail-geoip-lines.local
 editor /etc/fail2ban/jail.local
 editor /etc/fail2ban/fail2ban.local
+# Filters: apache-combined.local, apache-asap.local
+# Actions: sendmail-geoip-lines.local
 
-# apt repositories for these softwares, see package/README.md
-editor /etc/apt/sources.list.d/others.list
-eval "$(grep "^#K:" /etc/apt/sources.list.d/others.list | cut -d' ' -f2-)"
-apt-get update
-
-# Apache 2.4.x (jessie backport)
+# apache 2.4
 apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
 a2enmod actions
 a2enmod rewrite
@@ -363,14 +374,14 @@ editor /etc/apache2/apache2.conf
 # LogLevel info
 #TODO: fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/html
 
-# for poorly written themes/plugins
+# For poorly written themes and plugins
 apt-get install -y mod-pagespeed-stable
-# comment out mod-pagespeed/deb
+# Comment out mod-pagespeed/deb
 editor /etc/apt/sources.list.d/others.list
 
-# adding a website see: webserver/Add-site.md
+# Adding a website see: webserver/Add-site.md
 
-# PHP 5.5 from DotDeb
+# PHP 5.6 from DotDeb
 apt-get install -y php-pear php5-apcu php5-cli php5-curl php5-dev php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-sqlite
 # FIXME ??? pkg-php-tools
@@ -383,14 +394,14 @@ sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 grep -v "^#\|^;\|^$" /etc/php5/fpm/php.ini|most
-# disable "www" pool
+# Disable "www" pool
 sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
 cp -v $D/webserver/php5fpm-pools/* /etc/php5/fpm/
 # PHP 5.6+ session cleaning
 mkdir -p /usr/local/lib/php5
 cp $D/webserver/sessionclean5.5 /usr/local/lib/php5/
 
-# FIXME timeouts
+#@FIXME timeouts
 # - PHP max_execution_time
 # - PHP max_input_time
 # - FastCGI -idle-timeout
@@ -565,10 +576,16 @@ editor /etc/munin/munin-node.conf
 service munin-node restart
 
 # clean up
+# ??? python-xapian
+apt-get purge manpages
 apt-get autoremove --purge
 
 # backup /etc
 tar cJf "/root/etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
+
+# clients and services
+editor /root/clients.list
+editor /root/services.list
 
 # colorized man with less
 man() {

@@ -32,87 +32,8 @@ Allowed origins are: ["('Debian', 'oldstable')", "('Debian', 'squeeze-security')
 /etc/apt/sources.list.d/other-sources.list
 
 ```bash
-# Spamassassin
-#deb http://ppa.launchpad.net/spamassassin/spamassassin-monthly/ubuntu/ natty main
-#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 28889276
-#M: https://launchpad.net/~spamassassin/+archive/ubuntu/spamassassin-monthly
-
-# Tom Geißler's Apache
-deb http://www.d7031.de/debian/ wheezy-experimental main
-#K: apt-key adv --keyserver pgp.mit.edu --recv-keys DF17D0B3
-#M: https://www.d7031.de/content/apache-24-backports-debian-wheezy-and-squeeze
-
-# Dotdeb (is in FR)
-deb http://packages.dotdeb.org/ wheezy all
-deb http://packages.dotdeb.org/ wheezy-php55 all
-#K: wget -qO- http://www.dotdeb.org/dotdeb.gpg | apt-key add -
-#M: http://www.dotdeb.org/mirrors/
-
-# MariaDB
-deb http://mariadb.mirror.nucleus.be/repo/10.0/debian/ wheezy main
-#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xcbcb082a1bb943db
-#M: https://downloads.mariadb.org/mariadb/repositories/#distro=Debian
-
-# mod_pagespeed
-deb http://dl.google.com/linux/mod-pagespeed/deb/ stable main
-#K: wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-#M: https://developers.google.com/speed/pagespeed/module/download
-
-# NewRelic
-#deb http://apt.newrelic.com/debian/ newrelic non-free
-#K: wget -qO- https://download.newrelic.com/548C16BF.gpg | apt-key add -
-#M: https://docs.newrelic.com/docs/agents/php-agent/installation/php-agent-installation-ubuntu-debian
-
-# Glacier.pl
-#deb http://dl.mt-aws.com/debian/current/ wheezy main
-#K: wget -qO- http://mt-aws.com/vsespb.gpg.key | apt-key add -
-#M: https://github.com/vsespb/mt-aws-glacier#installation-via-os-package-manager
-
-# Multimedia
-#deb http://www.deb-multimedia.org/ wheezy main non-free
-#deb http://www.deb-multimedia.org/ wheezy-backports main
-#K: apt-get install -y deb-multimedia-keyring
-
-# Percona
-#deb http://repo.percona.com/apt/ wheezy main
-#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 1C4CBDCDCD2EFD2A
-#M: http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html
-
-# Modern webserver (szepe.net)
-deb http://szepeviktor.github.io/debian/ wheezy main
-#deb http://mirror.szepe.net/debian/ wheezy main
-#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 451A4FBA
-#M: http://mirror.szepe.net/debian/
-
-# Oracle JDK 8
-#deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
-# Oracle JDK 7
-#deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ precise main
-#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
-#M: https://launchpad.net/~webupd8team/+archive/ubuntu/java
-
-# PostgreSQL
-#deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main
-#K: wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-#M: http://www.postgresql.org/download/linux/debian/
-
-# Varnish is a web application accelerator
-#deb https://repo.varnish-cache.org/debian/ wheezy varnish-4.0
-#K: wget -qO- https://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
-#M: https://www.varnish-cache.org/installation/debian
-
-# NGINX stable
-#deb http://nginx.org/packages/debian/ wheezy nginx
-#K: wget -qO- http://nginx.org/keys/nginx_signing.key | apt-key add -
-#M: http://nginx.org/en/linux_packages.html
-
-# Node JS
-#deb https://deb.nodesource.com/node wheezy main
-#K: wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-#M: https://github.com/joyent/node/wiki/installing-node.js-via-package-manager
-
-## import all signing keys ##
-# eval "$(grep "^#K: " <SOURCES-FILE> | cut -d' ' -f 2-)"
+# Import all signing keys
+eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d' ' -f 2-)"
 ```
 
 ### Disable apt language
@@ -137,6 +58,8 @@ dpkg -S <FILE-PATTERN>
 
 ### List not required and not important packages (package priority)
 
+http://algebraicthunk.net/~dburrows/projects/aptitude/doc/en/ch02s03s05.html
+
 ```bash
 aptitude search '?and(?installed, ?not(?priority(required)), ?not(?priority(important)))' -F"%p" | cut -d' ' -f 1
 ```
@@ -148,6 +71,53 @@ aptitude search '?installed' -F"%p" | cut -d' ' -f 1 > all.pkgs
 grep -v -f debian-wheezy-base.pkgs all.pkgs
 grep -v -f all.pkgs debian-wheezy-base.pkgs
 ```
+
+### Query runlevel information for system services (init scripts)
+
+```bash
+chkconfig --list
+```
+
+### Clone a server
+
+```bash
+# Save
+apt-get install debconf-utils
+debconf-get-selections > debconf.selections
+dpkg --get-selections > packages.selection
+# Restore
+apt-get install -y dselect && dselect update
+debconf-set-selections < debconf.selections
+dpkg --clear-selections && dpkg --set-selections < packages.selection
+apt-get dselect-upgrade -y
+```
+
+See: services.list
+
+Data dirs:
+
+- /etc
+- /boot
+- /opt
+- /root
+- /srv
+- /usr/local
+- /var -/var/lib/mysql -/var/cache -/var/mail -/var/spool -/var/tmp (recreate dirs ???owner,perms)
+
+Changes in /etc:
+
+- networking
+- hostname
+- disk configuration
+- apt mirror
+- mail settings
+
+Special handling:
+
+- /home
+- /var/mail
+- /var/lib/mysql
+- /media/backup
 
 ### Install pip (Python package manager)
 

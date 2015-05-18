@@ -1,0 +1,4 @@
+# MariaDB
+deb http://mariadb.mirror.nucleus.be/repo/10.0/debian/ wheezy main
+#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xcbcb082a1bb943db
+#M: https://downloads.mariadb.org/mariadb/repositories/#distro=Debian

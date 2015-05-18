@@ -20,4 +20,5 @@ RunAbove labs  |        215
 
 ### JPEG minification
 
-- imgmin + default set of images
+- imgmin + https://github.com/rflynn/imgmin/tree/e64807bc613ef0310910a5030ed4e5bd8bfeeefc/examples
+- jpeg-recompress + https://www.dropbox.com/s/hb3ah7p5hcjvhc1/jpeg-archive-test-files.zip

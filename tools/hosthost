@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Resolve IPv4 or hostname vice-versa.
+# Resolve IPv4 and hostname vice-versa.
 # PTR -> A -> PTR
 # A -> PTR -> A
 #
@@ -33,7 +33,7 @@ else
     A="$(host -t A "$ARG")"
     if [ $? == 0 ]; then
         echo "$A"
-        # resolve only the first one
+        # Resolve only the first one
         A="$(head -n 1 <<< "$A")"
         host -t PTR "${A##* has address }"
     else

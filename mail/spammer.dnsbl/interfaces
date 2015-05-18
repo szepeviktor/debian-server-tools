@@ -1,6 +1,7 @@
 # /etc/network/interfaces
 
 # rbldnsd must not listen on localhost
+auto eth0:1
 iface eth0:1 inet static
     address 10.0.0.1
     netmask 255.255.255.0

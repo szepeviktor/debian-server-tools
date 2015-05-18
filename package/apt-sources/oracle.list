@@ -1,0 +1,6 @@
+# Oracle JDK 8
+deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
+# Oracle JDK 7
+#deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ precise main
+#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+#M: https://launchpad.net/~webupd8team/+archive/ubuntu/java

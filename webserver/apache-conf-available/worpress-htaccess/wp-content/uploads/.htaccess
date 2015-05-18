@@ -1,0 +1,13 @@
+# NO uploads PHP
+<Files "*.php">
+    # Apache < 2.3
+    <IfModule !mod_authz_core.c>
+        Order Allow,Deny
+        Deny from all
+        Satisfy All
+    </IfModule>
+    # Apache ≥ 2.3
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</Files>

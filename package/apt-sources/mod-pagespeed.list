@@ -1,0 +1,5 @@
+# mod_pagespeed
+deb http://dl.google.com/linux/mod-pagespeed/deb/ stable main
+#deb http://dl.google.com/linux/mod-pagespeed/deb/ beta main
+#K: wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#M: https://developers.google.com/speed/pagespeed/module/download

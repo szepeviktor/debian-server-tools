@@ -1,0 +1,5 @@
+# Dotdeb (is in FR)
+deb http://packages.dotdeb.org/ wheezy all
+deb http://packages.dotdeb.org/ wheezy-php56 all
+#K: wget -qO- http://www.dotdeb.org/dotdeb.gpg | apt-key add -
+#M: http://www.dotdeb.org/mirrors/

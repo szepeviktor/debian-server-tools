@@ -1,0 +1,4 @@
+# Tom Geißler's Apache
+deb http://www.d7031.de/debian/ wheezy-experimental main
+#K: apt-key adv --keyserver pgp.mit.edu --recv-keys DF17D0B3
+#M: https://www.d7031.de/content/apache-24-backports-debian-wheezy-and-squeeze

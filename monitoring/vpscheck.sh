@@ -2,10 +2,9 @@
 #
 # Check your VPS' resources daily.
 # CPU, memory, disks, swap, clock source, console, nameserver, IP address, gateway, nearest hop
-# Config file location: XDG Base Directory.
 #
-# VERSION       :0.2
-# DATE          :2014-11-12
+# VERSION       :0.3
+# DATE          :2015-05-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -83,45 +82,47 @@ Check_vps() {
     local CURRENT
 
     for C in ${!CHECKS[*]}; do
-        # set current variable name
+        # Variable name for this check
         CURRENT="CURRENT_${C}"
-        # give it a value, thus run check
+        # Assign value by running check
         eval "${CURRENT}=\"\$(${CHECKS[$C]})\""
 
-        # user-friendly variable name
+        # User-friendly variable name in email
         if [ "$GENERATE_DEFAULTS" == 1 ]; then
             TR="$C"
         else
             TR="$(Translate "$C")"
         fi
-        # append email content
+        # Append to email contents
         eval "MAIL_CONTENT+=\"${TR}=${!CURRENT}\"\$'\n'"
 
-        # if current value differs from given constant value
+        # Compare current value with config constant
         if [ "${!CURRENT}" != "${!C}" ]; then
             DIFF+="${TR} "
         fi
     done
 }
 
-# system tools
+# Add system tools' path
 PATH+=":/sbin:/usr/sbin"
 
-# check user and dependencies
+# Check current user and dependencies
 Needs_root_commands
 
-eval "VPS_CONFIG=~/.config/vpscheck/configuration"
+VPS_CONFIG="${HOME}/.config/vpscheck/configuration"
 
-declare -A CHECKS=()
-unset DIFF
-unset MAIL_CONTENT
+# Globals
+declare -A CHECKS=( )
+declare DIFF=""
+declare MAIL_CONTENT=""
+declare GENERATE_DEFAULTS=""
 
 if [ "$1" == "-gen" ]; then
     GENERATE_DEFAULTS="1"
     HOP_TO="$(Nearest_rootserver)"
     echo "HOP_TO=${HOP_TO}"
 else
-    # source config
+    # Include config
     source "$VPS_CONFIG"
 fi
 
@@ -161,20 +162,22 @@ Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
 # first hop towards the nearest root server
 Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
 
+
 Check_vps
 
 if [ "$GENERATE_DEFAULTS" == 1 ]; then
     mkdir -p "$(dirname "$VPS_CONFIG")"
     echo "$MAIL_CONTENT"
-    echo "config: ${VPS_CONFIG}"
+    echo "Create config:  editor ${VPS_CONFIG}"
     exit
 fi
 
 [ -z "$DIFF" ] && exit 0
 
-# on terminal
+# Echo on terminal
 if tty --quiet; then
     echo "DIFF=${DIFF}" >&2
 else
-    echo "$MAIL_CONTENT" | mailx -s "[vpscheck] WARNING!!! ${DIFF}changed" root
+    echo "$MAIL_CONTENT" | mailx -s "[vpscheck] WARNING - ${DIFF}changed" root
+    exit 100
 fi

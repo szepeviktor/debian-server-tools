@@ -1,0 +1,31 @@
+example-service:TCP/UDP port,non-package install,custom-package,data dirs,settings...
+# /usr/local: python packages,
+# reinstalling nodejs(/usr/lib/node_modules) etc. packages???
+
+# Add services to: monit !!!
+- unattended-upgrades
+- irqbalance
+- vmware-tools
+- spamassassin
+
+
+ntpdated:cron job
+vpscheck:cron job
+syslog-errors:cron job
+blocklist-de-add.sh:cron job,iptables
+
+vmware-tools:official deb / open-vm-tools???
+ca-certificates:/usr/local/share/ca-certificates
+unscd:-
+irqbalance:-
+fail2ban:-
+apache2:-
+php5-fpm:uds, ???data/pecl, data/pear
+suhosin:/usr/lib/php5/20121212
+mod-pagespeed:-
+mariadb:/var/lib/mysql
+drush:/opt/drush
+courier:-
+spamassassin:/var/mail/.spamassassin
+monit:-
+munin-node:port 4949

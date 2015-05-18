@@ -13,7 +13,7 @@ Match display sizes in "Media Settings" `wp-admin/options-media.php`.
 
 ### Image dimensions
 
-- Minimum = smallest display size, enlarge if necessary.
+- Minimum = smallest display size, [enlarge smaller images](https://github.com/szepeviktor/debian-server-tools/tree/master/image#enlarging).
 - Maximum = largest display size.
 - Display width in a lighbox: 1200 pixel or 1920 pixel.
 
@@ -33,5 +33,5 @@ Save images as JPEG 100% ("10" in Photoshop) then optimize images.
 ### Image file name
 
 Rename image file `categoryprefix-nice descriptive and SEO friendly may include spaces.jpg`.
-Use dashed `-` or spaces ` ` as separator.
+Use dashes `-` or spaces ` ` as separator.
 Avoid underscores `_`.

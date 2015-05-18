@@ -2,8 +2,8 @@
 #
 # Optimize images in WordPress Media Library cron job.
 #
-# VERSION       :0.1
-# DATE          :2015-05-11
+# VERSION       :0.3
+# DATE          :2015-05-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,13 +13,14 @@
 # DEPENDS       :http://wp-cli.org/#install
 # LOCATION      :/usr/local/bin/wp-media-optimize.sh
 
-# Example cron job
+# Example system crontab line
 # */5 *  * * *  <USER>  /usr/local/bin/wp-media-optimize.sh <WP-ROOT>
 
 WP_ROOT="$1"
 JPEG_RECOMPRESS="/usr/local/bin/jpeg-recompress --target 0.9995 --accurate --strip"
 WP_CLI="/usr/local/bin/wp --quiet"
 META_NAME="optimized"
+LOGGER_TAG="$(basename --suffix=.sh "$0")"
 
 Handle_error() {
     local MSG
@@ -64,7 +65,7 @@ Optimize_image() {
 
     # JPEG
     if [ "$IMG" != "${IMG%.jpg}" ] || [ "$IMG" != "${IMG%.jpeg}" ]; then
-        logger -t "image-optimize" "JPEG:${IMG}"
+        logger -t "$LOGGER_TAG" "JPEG:${IMG}"
         jpeginfo --check "$IMG" > /dev/null || return 1
         TMPIMG="$(tempfile)"
         if ! nice ${JPEG_RECOMPRESS} --quiet "$IMG" "$TMPIMG"; then
@@ -80,7 +81,7 @@ Optimize_image() {
 
     # PNG
     if [ "$IMG" != "${IMG%.png}" ]; then
-        logger -t "image-optimize" "PNG:${IMG}"
+        logger -t "$LOGGER_TAG" "PNG:${IMG}"
         nice optipng -clobber -strip all -o7 "$IMG" || return 10
     fi
 
@@ -100,14 +101,20 @@ UPLOADS="$(${WP_CLI} eval '$u=wp_upload_dir(); echo $u["basedir"];')"
 # Loop through all attachments without "optimized" metadata
 for ATTACHMENT_ID in $(${WP_CLI} post list --format=ids --post_type=attachment --post_status=inherit --meta_key="$META_NAME" --meta_compare="NOT EXISTS"); do
     ATTACHMENT_PATH="$(${WP_CLI} post meta get "$ATTACHMENT_ID" _wp_attached_file)"
+    ATTACHMENT_FILE="$(basename "$ATTACHMENT_PATH")"
 
     tty --quiet && echo "${ATTACHMENT_ID} ..."
 
-    if Optimize_image "${UPLOADS}/${ATTACHMENT_PATH}"; then
-        ${WP_CLI} post meta set "$ATTACHMENT_ID" "$META_NAME" 1
-    else
-        Handle_error $? "${UPLOADS}/${ATTACHMENT_PATH}"
-    fi
+    # Find the image and all resized variations
+    find "${UPLOADS}/$(dirname "${ATTACHMENT_PATH}")" \
+        -regex ".*/${ATTACHMENT_FILE%.*}-\([0-9]+x[0-9]+\)?\.${ATTACHMENT_FILE##*.}" -print0 \
+        | while read -d $'\0' -r ATTACHMENT; do
+            if Optimize_image "$ATTACHMENT"; then
+                ${WP_CLI} post meta set "$ATTACHMENT_ID" "$META_NAME" 1
+            else
+                Handle_error $? "$ATTACHMENT"
+            fi
+        done
 done
 
 exit 0

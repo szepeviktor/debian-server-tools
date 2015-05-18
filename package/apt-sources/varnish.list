@@ -1,0 +1,4 @@
+# Varnish is a web application accelerator
+deb https://repo.varnish-cache.org/debian/ jessie varnish-4.0
+#K: wget -qO- https://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
+#M: https://www.varnish-cache.org/installation/debian

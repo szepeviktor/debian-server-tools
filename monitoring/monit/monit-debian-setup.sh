@@ -6,6 +6,10 @@
 # DOCUMENTATION  :http://mmonit.com/wiki/Monit/ConfigurationExamples
 # VERSION        :0.2
 
+# Tests: init.d,  pid,  bin,  conf,  output age
+
+############## ADD cONDITIONS+++++++++++++++++!!!!!!!!!!!!!!!!!!!
+
 MONIT_BOOT_DELAY="120"
 # hostname in alert address: root@
 MONIT_EMAIL_HOST=""
@@ -28,15 +32,18 @@ Monit_enable() {
 
 # INSTALL
 #
-# https://mmonit.com/monit/documentation/monit.html
+# Doc: https://mmonit.com/monit/documentation/monit.html
 #apt-get install -t wheezy-backports -y monit
-# backported from sid: https://packages.debian.org/sid/amd64/monit/download
+#
+# Backported from sid: https://packages.debian.org/sid/amd64/monit/download
 #wget http://mirror.szepe.net/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
 #dpkg -i monit_*_amd64.deb
-# - configuration -
+#
+# Configuration...
+#
 #service monit restart
-# wait for start
-#monit summary
+# Wait for start
+#sleep 120 && monit summary
 #lynx 127.0.0.1:2812
 
 [ -d /etc/monit/monitrc.d ] || exit 1
@@ -46,10 +53,10 @@ Monit_enable() {
 [ -z "$MONIT_SSH_PORT" ] && exit 2
 [ -z "$MONIT_PHPFPM_SOCKET" ] && exit 2
 
-# filename only
+# Filename only
 MONIT_PHPFPM_SOCKET="$(basename "$MONIT_PHPFPM_SOCKET")"
 
-## main configuration file
+# Main configuration file
 cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
 # https://wiki.debian.org/monit
 # https://mmonit.com/monit/documentation/monit.html
@@ -57,19 +64,19 @@ cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
 set daemon ${MONIT_BOOT_DELAY}
     with start delay ${MONIT_BOOT_DELAY}
 
-# alert emails
+# Alert emails
 set mailserver localhost port 25
 set mail-format { from: root@${MONIT_EMAIL_HOST} }
 set alert root@${MONIT_EMAIL_HOST}
 
-# web interface
+# Web interface
 set httpd port 2812 and
     use address localhost
     allow localhost
 MONITMAIN
 #########
 
-## system
+# System
 cat > "/etc/monit/monitrc.d/01_${MONIT_FULL_HOSTNAME}" <<MONITSYSTEM
 check system ${MONIT_FULL_HOSTNAME//[^0-9A-Za-z]/_}
     if loadavg (1min) > 4 then alert
@@ -82,14 +89,13 @@ check system ${MONIT_FULL_HOSTNAME//[^0-9A-Za-z]/_}
 MONITSYSTEM
 ###########
 
-## sshd
+# sshd
 sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
 
-## rsyslog
-#FIXME --MARK--
-sed -i 's|check file rsyslog_file with path /var/log/messages|check file rsyslog_file with path /var/log/syslog|' /etc/monit/monitrc.d/rsyslog
+# rsyslog
+# --MARK--
 
-## unscd
+# unscd
 cat > "/etc/monit/monitrc.d/unscd" <<MONITUNSCD
 # µNameservice caching daemon (unscd)
 check process nscd with pidfile /var/run/nscd/nscd.pid
@@ -114,7 +120,7 @@ check file nscd_rc with path /etc/init.d/unscd
 MONITUNSCD
 ##########
 
-## fail2ban
+# Fail2ban
 cat > "/etc/monit/monitrc.d/fail2ban" <<MONITFAIL2BAN
 check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
     group services
@@ -129,13 +135,13 @@ MONITFAIL2BAN
 #############
 
 
-## enable custom plugins
+# Enable custom plugins
 Monit_enable 00_monitrc
 Monit_enable "01_${MONIT_FULL_HOSTNAME}"
 Monit_enable unscd
 Monit_enable fail2ban
 
-## enable contributed plugins
+# Enable contributed plugins
 # https://github.com/perusio/monit-miscellaneous
 wget -O /etc/monit/monitrc.d/php-fpm-unix \
     "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
@@ -169,19 +175,19 @@ if [ -x /usr/bin/imapd ]; then
 fi
 # more: https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
 
-## enable built-in plugins
+# Enable built-in plugins
 Monit_enable apache2
 Monit_enable cron
 Monit_enable mysql
 Monit_enable openssh-server
 Monit_enable rsyslog
 
-## enable built-in plugins - hardware related
+# Enable built-in plugins - hardware related
 #Monit_enable acpid
 #Monit_enable smartmontools
 #Monit_enable mdadm
 
-## enable built-in plugins - others
+# Enable built-in plugins - others
 #Monit_enable at
 #Monit_enable memcached
 #Monit_enable nginx
@@ -190,6 +196,6 @@ Monit_enable rsyslog
 #Monit_enable postfix
 #Monit_enable snmpd
 
-## mail
+# Mail
 #Monit_enable spamassassin
 #Monit_enable courier-imap

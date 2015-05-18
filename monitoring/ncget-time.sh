@@ -10,7 +10,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/ncget-time.sh
-# DEPENDS       :apt-get install netcat-traditional
+# DEPENDS       :apt-get install time netcat-traditional
 
 
 # User-Agent

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if ! getent group watcher > /dev/null; then
+    addgroup --system watcher > /dev/null
+fi
+
+if ! getent passwd watcher > /dev/null; then
+    adduser \
+      --system \
+      --disabled-login \
+      --ingroup watcher \
+      --no-create-home \
+      --home /nonexistent \
+      --gecos "Watcher" \
+      --shell /bin/false \
+      watcher > /dev/null
+fi

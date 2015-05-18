@@ -9,11 +9,12 @@ Echo() {
     return 0
 }
 
-Echo /etc
+Echo "/etc"
 nice tar --one-file-system -cPzf "./etc-backup_${TODAY}.tar.gz" /etc/ || echo "fail: /etc" >&2
 Echo --$?--
 
 # --exclude=
+# /etc
 # /home
 # /var/cache/apt
 # /var/lib/mysql
@@ -22,25 +23,25 @@ Echo --$?--
 # /var/cache/???
 # /var/spool/???
 
-Echo / (root)
-nice tar --one-file-system --exclude=/run --exclude=/var/cache/apt --exclude=/var/lib/mysql \
+Echo "/ (root)"
+nice tar --one-file-system --exclude=/etc --exclude=/run --exclude=/var/cache/apt --exclude=/var/lib/mysql \
     -czPf "./fsroot-backup_${TODAY}.tar.gz" / || echo "fail: /" >&2
 Echo --$?--
 
-Echo /var/mail
+Echo "/var/mail"
 nice tar --one-file-system -czPf "./email_${TODAY}.tar.gz" /var/mail/ || echo "fail: mail" >&2
 Echo --$?--
 
-Echo MySQL
+Echo "MySQL"
 if which innobackupex &> /dev/null; then
     # full backup
     #innobackupex ./sql
-    INNOBCK_BASE="mysql-All_<FULL-BCKUP-DATE>"
+    INNOBCK_BASE="mysql-All_<FULL-BACKUP-DATE>"
     nice innobackupex --incremental ./sql --incremental-basedir="./sql/${INNOBCK_BASE}" \
         || echo "fail: SQL" >&2
 else
     /usr/bin/mysqldump --all-databases --single-transaction --events \
-        | ionice -c 3 nice gzip -1 > "./mysql-All_${TODAY}.sql.sz" || echo "fail: SQL" >&2
+        | nice gzip -1 > "./mysql-All_${TODAY}.sql.sz" || echo "fail: SQL" >&2
 fi
 Echo --$?--
 

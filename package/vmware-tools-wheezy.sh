@@ -1,16 +1,15 @@
 #!/bin/sh
 #
 # Install VMware tools Tools for virtual machines hosted on VMware (CLI)
-# This is NOT A SHELL SCRIPT but manual.
+# This is NOT A SHELL SCRIPT but a manual.
 #
-# VERSION       :0.3
-# DATE          :2014-08-01
+# VERSION       :0.4
+# DATE          :2015-05-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/sbin/vmware-tools-wheezy.sh
-
+# DOCS          :http://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php
 
 exit 0
 
@@ -25,23 +24,25 @@ vmtoolsd --version
 vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
 
 # Add VMware tools Debian repository
-# info: http://packages.vmware.com/tools/versions
-echo "deb http://packages.vmware.com/tools/esx/latest/ubuntu precise main" > /etc/apt/sources.list.d/vmware-tools.list
-apt-get update
+# http://packages.vmware.com/tools/versions
+echo "deb http://packages.vmware.com/tools/esx/latest/ubuntu precise main" \
+    > /etc/apt/sources.list.d/vmware-tools.list
 # https://help.ubuntu.com/community/VMware/Tools
-wget -qO- http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub|apt-key add -
+wget -qO- http://packages.vmware.com/tools/keys/VMWARE-PACKAGING-GPG-RSA-KEY.pub | apt-key add -
+apt-get update
 
-# fake upstart
+# Fake upstart
 dpkg-divert --local --rename --add /sbin/initctl
 ln -vs /bin/true /sbin/initctl
 
-apt-get install vmware-tools-services vmware-tools-user
+# Install vmware-tools
+apt-get install -y vmware-tools-services vmware-tools-user
 
-# start on boot
+# Symlink init script
 ln -sv /etc/vmware-tools/init/vmware-tools-services /etc/init.d/vmware-tools-services
 
-# prepend this to
-# /etc/vmware-tools/init/vmware-tools-services
+# Prepend this to
+editor /etc/vmware-tools/init/vmware-tools-services
 # and on every update
 
 
@@ -49,8 +50,6 @@ ln -sv /etc/vmware-tools/init/vmware-tools-services /etc/init.d/vmware-tools-ser
 # Provides:          vmware-tools-services
 # Required-Start:    $local_fs $remote_fs
 # Required-Stop:     $local_fs $remote_fs
-# X-Start-Before:
-# X-Stop-After:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Description: The VMware Tools Daemon service enables fundamental host/guest functionality between a VM and its host.
@@ -58,18 +57,16 @@ ln -sv /etc/vmware-tools/init/vmware-tools-services /etc/init.d/vmware-tools-ser
 ### END INIT INFO
 
 
-# enable init script
-insserv -vf vmware-tools-services
+# Enable init script
+# without start and stop https://lists.debian.org/debian-devel/2013/05/msg01109.html
+update-rc.d vmware-tools-services defaults
 
-# update
-update-rc.d vmware-tools-services start 20 2 3 4 5 . stop 20 0 1 6 .
-
-# start
+# Start service
 service vmware-tools-services start
 
-# test
+# Tests
 service vmware-tools status
-ps aux|grep -v "grep"|egrep "vmtoolsd"
+ps aux | grep -v "grep" | egrep "vmtoolsd"
 vmtoolsd --version
 # http://www.firetooth.net/confluence/display/public/VMware+Tools+for+Linux
 /usr/lib/vmware-tools/sbin/vmware-checkvm -p

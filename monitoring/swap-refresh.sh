@@ -2,8 +2,8 @@
 #
 # Prevent increasing swap usage by turning swap off and on.
 #
-# VERSION       :0.2
-# DATE          :2014-10-18
+# VERSION       :0.3
+# DATE          :2015-05-68
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,8 +16,9 @@
 SWAP_MAX=256000
 
 # first swap only, in kB
+# in bytes: SWAP_USAGE="$(/sbin/swapon --show=SIZE --bytes --noheadings | head -n 1)"
 SWAP_USAGE="$(tail -n +2 /proc/swaps | head -n 1 | sed 's/\s\+/ /g' | cut -d' ' -f 4)"
-FREE_MEM="$(free -k | grep '^Mem' | sed 's/\s\+/ /g' | cut -d' ' -f 3)"
+FREE_MEM="$(free -k | grep '^Mem' | sed 's/\s\+/ /g' | cut -d' ' -f 4)"
 
 if [ "$SWAP_USAGE" -ge "$SWAP_MAX" ]; then
     echo "Swap usage is over maximum! (${SWAP_USAGE} kB)" >&2
@@ -31,7 +32,7 @@ fi
 logger -t "swap-refresh" "Swap OFF"
 /sbin/swapoff -a || echo "swapoff: ERROR $?" >&2
 
-logger -t "swap-refresh" "reactivating swap"
+logger -t "swap-refresh" "Reactivating swap"
 /sbin/swapon -a || echo "swapon: ERROR $?" >&2
 
-logger -t "swap-refresh" "Swap refresh done."
+logger -t "swap-refresh" "Swap refresh done"
