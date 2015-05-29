@@ -3,7 +3,7 @@
 # Install cron jobs from the script header.
 #
 # E.g. "# CRON-HOURLY    :/usr/local/bin/example.sh"
-# Cron syntax: "# CRON-D         :09,39 *  * * *  root  /usr/local/bin/example.sh"
+# Cron syntax: "# CRON-D         :09,39 *	* * *	root	/usr/local/bin/example.sh"
 # See: man 5 crontab
 #
 # VERSION       :0.2
@@ -33,12 +33,15 @@ Valid_cron_interval() {
     return 1
 }
 
-#########################################################
-
-[ "$(id --user)" = 0 ] || Die 1 "Only root is allowed to install cron jobs."
-
 SCRIPT="$1"
-[ -f "$SCRIPT" ] || Die 2 "Please specify a script."
+
+if [ "$(id --user)" -ne 0 ]; then
+    Die 1 "Only root is allowed to install cron jobs."
+fi
+
+if ! [ -f "$SCRIPT" ]; then
+    Die 2 "Please specify an existing script."
+fi
 
 #TODO rewrite: loop through valid crons and `head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE"`
 CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i "^# CRON-")"
@@ -54,7 +57,8 @@ while read -r JOB; do
 
     if Valid_cron_interval "$CRON_INTERVAL"; then
         CRON_FILE="/etc/${CRON_INTERVAL}/$(basename "${SCRIPT%.*}")$(( ++JOB_ID ))"
-        ( echo "#!/bin/bash"; echo "${JOB}" | cut -d':' -f 2 ) >> "$CRON_FILE"
+        echo "#!/bin/bash" > "$CRON_FILE"
+        echo "$JOB" | cut -d ":" -f 2 >> "$CRON_FILE"
         chmod 755 "$CRON_FILE"
         echo "[cron] ${SCRIPT} -> ${CRON_FILE}"
     elif [ "$CRON_INTERVAL" == cron.d ]; then

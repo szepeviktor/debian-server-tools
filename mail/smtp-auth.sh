@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Test SMTPS authentication on port 465.
+# Test SMTPS authentication.
 #
-# VERSION       :0.3
-# DATE          :2014-12-16
+# VERSION       :0.4
+# DATE          :2015-05-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,6 +13,8 @@
 INITIAL_WAIT="2"
 CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 MODE="auth"
+SMTP_PORT="465"
+STARTTLS=""
 
 Get_version() {
     local FILE="$1"
@@ -35,6 +37,7 @@ Test SMTPS authentication.
   -l                LOGIN authentication
   -c                CRAM-MD5 authentication
   -h <HOST>         the SMTP server
+  -r <PORTT>        the SMTP port (default: 465)
   -u <USER>         the SMTP username
   -P <PASS>         the SMTP password
 USAGE
@@ -63,7 +66,7 @@ Smtp_auth() {
     (sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
         echo "QUIT") \
-        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null \
+        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null \
         | grep "^250-AUTH"
 }
 
@@ -78,7 +81,7 @@ Smtp_plain() {
         echo "EHLO $(hostname -f)"; sleep 2
         echo "AUTH PLAIN $(echo -ne "\x00${SMTP_USER}\x00${SMTP_PASS}" | base64 --wrap=0)"; sleep 2
         echo "QUIT") \
-        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null \
+        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null \
         | grep "^235 "
 }
 
@@ -94,7 +97,7 @@ Smtp_login() {
         echo "AUTH LOGIN $(echo -n "$SMTP_USER" | base64 --wrap=0)"; sleep 2
         echo "$(echo -n "$SMTP_PASS" | base64 --wrap=0)"; sleep 2
         echo "QUIT") \
-        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null \
+        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null \
         | grep "^235 "
 }
 
@@ -132,7 +135,7 @@ exit 100
         echo "AUTH LOGIN CRAM-MD5"; sleep 2
         Python_cram_md5 "$SMTP_USER" "$SMTP_PASS" "${FIXME_PREVIOUS_ANWSER}"; sleep 2
         echo "QUIT") \
-        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:465" 2> /dev/null
+        | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null
 }
 
 
@@ -140,7 +143,7 @@ which openssl &> /dev/null || exit 99
 
 [ -z "$*" ] && Usage
 
-while getopts ":aplch:u:P:" opt; do
+while getopts ":aplch:r:u:P:" opt; do
     case $opt in
         a) # Test AUTH support
             MODE="auth"
@@ -156,6 +159,10 @@ while getopts ":aplch:u:P:" opt; do
             ;;
         h) # Host
             SMTP_HOST="$OPTARG"
+            ;;
+        r) # Port
+            SMTP_PORT="$OPTARG"
+            [ "$SMTP_PORT" == 465 ] || STARTTLS="-starttls smtp"
             ;;
         u) # User name
             SMTP_USER="$OPTARG"

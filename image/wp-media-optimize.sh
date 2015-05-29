@@ -2,8 +2,8 @@
 #
 # Optimize images in WordPress Media Library cron job.
 #
-# VERSION       :0.3
-# DATE          :2015-05-16
+# VERSION       :0.4
+# DATE          :2015-05-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,10 +14,11 @@
 # LOCATION      :/usr/local/bin/wp-media-optimize.sh
 
 # Example system crontab line
-# */5 *  * * *  <USER>  /usr/local/bin/wp-media-optimize.sh <WP-ROOT>
+#
+# */5 *	* * *	USER	/usr/local/bin/wp-media-optimize.sh WP-ROOT
 
 WP_ROOT="$1"
-JPEG_RECOMPRESS="/usr/local/bin/jpeg-recompress --target 0.9995 --accurate --strip"
+JPEG_RECOMPRESS="/usr/bin/jpeg-recompress --target 0.9995 --accurate --strip"
 WP_CLI="/usr/local/bin/wp --quiet"
 META_NAME="optimized"
 LOGGER_TAG="$(basename --suffix=.sh "$0")"

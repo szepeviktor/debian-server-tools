@@ -72,6 +72,12 @@ grep -v -f debian-wheezy-base.pkgs all.pkgs
 grep -v -f all.pkgs debian-wheezy-base.pkgs
 ```
 
+### Remove development packages
+
+```bash
+aptitude search '?and(?installed, \S*-dev\b)' -F'%p' | xargs apt-get purge
+```
+
 ### Query runlevel information for system services (init scripts)
 
 ```bash
@@ -85,6 +91,7 @@ chkconfig --list
 apt-get install debconf-utils
 debconf-get-selections > debconf.selections
 dpkg --get-selections > packages.selection
+
 # Restore
 apt-get install -y dselect && dselect update
 debconf-set-selections < debconf.selections
@@ -97,7 +104,6 @@ See: services.list
 Data dirs:
 
 - /etc
-- /boot
 - /opt
 - /root
 - /srv

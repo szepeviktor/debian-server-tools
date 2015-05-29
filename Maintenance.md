@@ -27,7 +27,7 @@
 - WordPress (honlap motor) frissítés
 - WordPress bővítmények frissítése
 - * HTML hibák javítása (amelyekhez nem kell újraírni a honlapot)
-- * Google Analytics és más követő kódok, beágyazott mérőkódok beállítása és ellenőrzése
+- * Google Analytics, Facebook és más követő vagy megosztó kódok, beágyazott mérőkódok beállítása és ellenőrzése
 - * újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
 - * képek optimalizálása (méret csökkentés, szebb betöltődés)
 

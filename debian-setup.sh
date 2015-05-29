@@ -41,21 +41,21 @@ apt-get autoremove --purge -y
 
 # Packages sources
 sed -i 's/%MIRROR%/http:\/\/http.debian.net\/debian/g' sources.list
-nano /etc/apt/sources.list
+editor /etc/apt/sources.list
 
 # Linode: http://mirrors.linode.com/debian
 # OVH: http://debian.mirrors.ovh.net/debian
 # server4you: http://debian.intergenia.de/debian
 # closest mirror http://http.debian.net/debian
 # national mirror: http://ftp.<COUNTRY-CODE>.debian.org/debian
-deb <MIRROR> wheezy main contrib non-free
+deb %MIRROR% %DIST% main contrib non-free
 # Security
-deb http://security.debian.org/ wheezy/updates main contrib non-free
+deb http://security.debian.org/ %DIST%/updates main contrib non-free
 # Updates (previously known as 'volatile')
-deb <MIRROR> wheezy-updates main
+deb %MIRROR% %DIST%-updates main
 # Backports
-# http://backports.debian.org/changes/wheezy-backports.html
-deb <MIRROR> wheezy-backports main
+# http://backports.debian.org/changes/jessie-backports.html
+deb %MIRROR% %DIST%-backports main
 
 # Disable apt languages
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
@@ -65,7 +65,7 @@ echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/
 
 # Upgrade
 apt-get update && apt-get dist-upgrade -y
-apt-get install -y ssh sudo ca-certificates most lftp bash-completion htop bind9-host mc lynx ncurses-term
+apt-get install -y ssh sudo ca-certificates most less lftp bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
 # Remove systemd
@@ -74,9 +74,9 @@ apt-get remove --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
 # Input
-echo "alias e='editor'" > /etc/profile.d/editor.sh || echo "ERROR: alias 'e'"
+echo "alias e='editor'" > /etc/profile.d/e-editor.sh || echo "ERROR: alias 'e'"
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
-sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
+#sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
 # Markdown for mc
@@ -86,12 +86,15 @@ update-alternatives --set editor /usr/bin/mcedit
 # 	View=pandoc -s -f markdown -t man %p | man -l -
 cp /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
 sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
-nano ~/.config/mc/mcedit/Syntax
+editor ~/.config/mc/mcedit/Syntax
 
 # bash
 echo "dash dash/sh boolean false"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
-nano /root/.bashrc
+editor /root/.bashrc
+
+#export LANG=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
 export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\
 \w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
 export GREP_OPTIONS="--color"
@@ -115,6 +118,8 @@ else
 fi
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
+alias readmail='MAIL=/var/mail/<MAILDIR>/ mailx'
+#export IP="$(ip addr show dev eth0|grep -o -m1 "inet [0-9\.]*"|cut -d' ' -f2)"
 
 # wget defaults
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
@@ -128,7 +133,7 @@ S="/home/$U/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; 
 adduser $U sudo
 
 # Remove root and other passwords
-nano /etc/shadow
+editor /etc/shadow
 # sshd on another port
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
 # Disable root login
@@ -137,7 +142,7 @@ sed 's/^PermitRootLogin yes$/#PermitRootLogin yes/' -i /etc/ssh/sshd_config
 echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 # Add IP blocking
 # see: $D/security/README.md
-nano /etc/hosts.deny
+editor /etc/hosts.deny
 service ssh restart
 netstat -antup|grep sshd
 
@@ -239,22 +244,26 @@ editor /etc/passwd
 editor /etc/shadow
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
-# Delete not-installed packages
+# 1. Delete not-installed packages
 dpkg -l|grep -v "^ii"
-# apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common
-# Non-stable packages
-dpkg -l|grep "~[a-z]\+"|sort|uniq -c|sort -n
-dpkg -l|egrep "~squeeze|python2\.6"
-# Non-Debian packages
-aptitude search '?narrow(?installed, !?origin(Debian))'
-# Manually installed, not "required" and not "important" packages
-aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p"|most
-# Obsolete pacakages
-aptitude search '?obsolete'
-# VPS monitoring
-ps aux|grep -v "grep"|egrep "snmp|vmtools|xe-daemon"
+# 2. Usually unnecessary packages
+apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common
+# 3. VPS monitoring
 # See: package/vmware-tools-wheezy.sh
-dpkg -l|egrep "fancontrol|acpid|laptop-detect|eject|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
+ps aux|grep -v "grep"|grep -E "snmp|vmtools|xe-daemon"
+dpkg -l|grep -E "xe-guest-utilities"
+# 4. Hardware related
+dpkg -l|grep -E "fancontrol|acpid|laptop-detect|eject|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
+# 5. Non-stable packages
+dpkg -l|grep "~[a-z]\+"
+dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
+# 6. Non-Debian packages
+aptitude search '?narrow(?installed, !?origin(Debian))'
+# 7. Obsolete packages
+aptitude search '?obsolete'
+# 8. Manually installed, not "required" and not "important" packages
+aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p"|most
+
 dpkg -l|most
 apt-get autoremove --purge
 
@@ -262,7 +271,9 @@ apt-get autoremove --purge
 apt-get install -y apt-transport-https localepurge unattended-upgrades \
     apt-listchanges cruft debsums heirloom-mailx iptables-persistent bootlogd \
     ntpdate pwgen dos2unix strace ccze mtr-tiny gcc make time colordiff
-apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
+# Backports
+#@wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
+apt-get install -y goaccess
 
 # debsums cron
 editor /etc/default/debsums
@@ -581,7 +592,7 @@ apt-get purge manpages
 apt-get autoremove --purge
 
 # backup /etc
-tar cJf "/root/etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
+tar cJf "/root/${H//./-}_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
 
 # clients and services
 editor /root/clients.list

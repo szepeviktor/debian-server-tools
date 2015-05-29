@@ -48,6 +48,6 @@ $TTL 3600
 5.56.37.3        server14.megacp.com
 85.25.213.173    server15.megacp.com
 # Gyümölcs tárhely (Nobilitas Hungariae)
-# for i in `seq 1 255`; do host -t A 212.52.167.$i; done|grep lanten
+# for i in `seq 1 255`; do host -t PTR 212.52.167.$i; done|grep lanten
 212.52.167.89    szirmay.lanten.hu
 212.52.167.244   gyimothy.lanten.hu

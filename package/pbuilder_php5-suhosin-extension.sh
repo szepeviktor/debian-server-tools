@@ -25,7 +25,7 @@ RESULTS="/var/cache/pbuilder/result"
 # Prerequisites
 #sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list
 apt-get update && apt-get install -y build-essential git php5-dev fakeroot
-cd /usr/src/
+cd /usr/local/src/
 
 # Build suhosin
 git clone https://github.com/stefanesser/suhosin && cd suhosin/pkg/

@@ -34,4 +34,4 @@ failregex = ^%(_apache_error_client)s (AH(01797|01630): )?client denied by serve
             ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: error importing function definition for `HTTP_.*?'(, referer: \S+)?\s*$
             ^%(_apache_error_client)s (AH00128: )?File does not exist: .*(, referer: \S+)?\s*$
             ^%(_apache_error_client)s FastCGI: server "/\S*" stderr: (PHP message: )?File does not exist: .*(, referer: \S+)?\s*$
-            ^%(_apache_error_client)s FastCGI: server "/\S*" stderr: (PHP message: )?Malicious traffic detected by wpf2b: .*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s FastCGI: server "/\S*" stderr: (PHP message: )?Malicious traffic detected: .*(, referer: \S+)?\s*$

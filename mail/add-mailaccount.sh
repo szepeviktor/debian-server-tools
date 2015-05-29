@@ -86,7 +86,7 @@ sudo -u virtual -- maildirmake -f Drafts "$NEW_MAILDIR" && echo "Drafts OK." || 
 sudo -u virtual -- maildirmake -f Sent "$NEW_MAILDIR" && echo "Sent OK." || Error 21 "Cannot create Sent folder"
 sudo -u virtual -- maildirmake -f Trash "$NEW_MAILDIR" && echo "Trash OK." || Error 22 "Cannot create Trash folder"
 # removal instruction
-echo "Remove home:  rm -rf '${HOMEDIR}'"
+echo "Remove home command:  rm -rf '${HOMEDIR}'"
 
 # MySQL authentication
 if which mysql &> /dev/null \
@@ -98,8 +98,8 @@ INSERT INTO \`courier_horde\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, 
 ('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '${NEW_MAILDIR}', '', '', '', NULL, NULL, '', '', 'N');
 SQL
     # removal instruction
-    echo "Remove user:  -- USE ${COURIER_AUTH_DBNAME};"
-    echo "Remove user:  DELETE FROM \`courier_horde\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"
+    echo "Remove user command:  -- USE ${COURIER_AUTH_DBNAME};"
+    echo "Remove user command:  DELETE FROM \`courier_horde\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"
 fi
 
 # userdb authentication
@@ -116,7 +116,7 @@ if which userdb userdbpw &> /dev/null \
     [ -z "$DESC" ] || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
     makeuserdb || Error 37 "Failed to make userdb"
     # removal instruction
-    echo "Remove user:  userdb '$EMAIL' del"
+    echo "Remove user command:  userdb '$EMAIL' del"
 fi
 
 # SMTP authentication test

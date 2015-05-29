@@ -30,8 +30,14 @@ Save images as JPEG 100% ("10" in Photoshop) then optimize images.
 - [JPEGmini](http://www.jpegmini.com/)
 - [Smush.it uploader](http://www.imgopt.com/)
 
+### Extract images from Microsoft Office Word documents
+
+- .doc: Save as a webpage ...
+- .docx: Open with 7zip, or rename to document.zip, path: /word/media
+
 ### Image file name
 
 Rename image file `categoryprefix-nice descriptive and SEO friendly may include spaces.jpg`.
 Use dashes `-` or spaces ` ` as separator.
 Avoid underscores `_`.
+Rename `.jpeg` files to `.jpg`.

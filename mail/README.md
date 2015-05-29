@@ -15,7 +15,7 @@ see: mail/imapsync
 [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
 [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
-### Send messages in an mbox file to an email address
+### Send all messages in an mbox file to an email address
 
 see: mail/mbox_send2.py
 
@@ -32,6 +32,13 @@ http://www.courier-mta.org/dot-courier.html
 ```bash
 echo "|pipe/command" > /var/mail/domain.net/user/.courier-foo-default
 ```
+
+### IMAP PLAIN authentication
+
+D0 CAPABILITY
+D1 AUTHENTICATE PLAIN
+`echo -en "\0USERNAME\0PASSWORD" | base64`
+D2 LOGOUT
 
 ### Online email tests
 

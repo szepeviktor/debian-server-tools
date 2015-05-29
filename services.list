@@ -1,8 +1,10 @@
 example-service:TCP/UDP port,non-package install,custom-package,data dirs,settings...
 # /usr/local: python packages,
 # reinstalling nodejs(/usr/lib/node_modules) etc. packages???
+# login-logger@atw/autorent
 
 # Add services to: monit !!!
+
 - unattended-upgrades
 - irqbalance
 - vmware-tools

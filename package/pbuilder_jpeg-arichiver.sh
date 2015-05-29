@@ -26,7 +26,7 @@ MAINTAINER="viktor@szepe.net"
 # Prerequisites
 #sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list
 apt-get update && apt-get install -y build-essential git autoconf pkg-config nasm libtool checkinstall
-cd /usr/src/
+cd /usr/local/src/
 
 # Build mozjpeg
 git clone https://github.com/mozilla/mozjpeg.git && cd mozjpeg/

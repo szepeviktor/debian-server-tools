@@ -72,10 +72,11 @@ sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > $U.conf
 # purge old sessions
 editor /etc/cron.d/php5-user
 # minutes from 15-
-# 15 *  * * *  $U  [ -d /home/$U/public_html/session ] && /usr/lib/php5/sessionclean /home/$U/public_html/session $(/usr/lib/php5/maxlifetime)
+# PHP -5.5
+# 15 *	* * *	$U	[ -d /home/$U/public_html/session ] && /usr/lib/php5/sessionclean /home/$U/public_html/session $(/usr/lib/php5/maxlifetime)
 #
 # PHP 5.6+
-# 15 *  * * *  root [ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5
+# 15 *	* * *	root	[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5
 
 # Apache
 cd /etc/apache2/sites-available

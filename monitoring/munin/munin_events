@@ -96,7 +96,7 @@ values() {
 
 # Print the munin config
 config() {
-    echo 'graph_title Update events groupped by log levels'
+    echo 'graph_title Munin update events groupped by log levels'
     echo 'graph_info This graph shows INFO, WARNING, ERROR and FATAL events'
     echo 'graph_category munin'
     echo 'graph_vlabel Number of events'

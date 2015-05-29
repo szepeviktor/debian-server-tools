@@ -2,6 +2,7 @@
 #
 # Very simple obnam script (without LVM or BTRFS snapshot)
 #
+# VERSION       :0.2
 
 declare -a VOLUMES=( fsroot:/ boot:/boot/ homes:/home/ shared:/storage/ )
 MOUNT_POINT="/media/backup"
@@ -11,16 +12,16 @@ OBNAM_REPO="${MOUNT_POINT}/.obnam"
 OBNAM_KEEP_POLICY="14d,5m,2y"
 OBNAM_EXCLUDES="--exclude=/var/run --exclude=/var/spool --exclude=/var/backups --exclude=/var/cache/apt --exclude=/var/spool/squid"
 
-OBNAM_DEFAULTS="--one-file-system --compress-with=deflate --log=syslog --log-level=info"
+OBNAM_DEFAULTS="--one-file-system --compress-with=deflate --log-level=info"
 OBNAM_DEFAULTS+=" --repository=${OBNAM_REPO} ${OBNAM_EXCLUDES}"
 
 # Quiet on cron
-tty --quiet || OBNAM_DEFAULTS+=" --quiet"
+tty --quiet || OBNAM_DEFAULTS+=" --quiet --log=syslog"
 
 # Umount on every exit
 trap "umount "$MOUNT_POINT" &> /dev/null" EXIT
 
-error() {
+Error() {
     echo "ERROR: $*" >&2
     exit $1
 }
@@ -33,7 +34,7 @@ for DISK in ${DISK_UUID[*]}; do
     fi
 done
 if [ "$MOUNT_SUCCESS" == 0 ]; then
-    error 3 "Failed to mount backup disk"
+    Error 3 "Failed to mount backup disk"
 fi
 
 # 7:1 probability
@@ -43,11 +44,11 @@ DO_FORGET="$((RANDOM / 4682))"
 for VOLUME in ${VOLUMES[*]}; do
     nice /usr/bin/obnam ${OBNAM_DEFAULTS} \
         --client-name=${VOLUME%:*} backup ${VOLUME#*:} \
-        || error 1 "obnam failure in ${VOLUME#*:}, exit code: $?, SEE syslog"
+        || Error 1 "obnam failure in ${VOLUME#*:}, exit code: $?, SEE syslog"
     if [ "$DO_FORGET" == 0 ]; then
         nice /usr/bin/obnam ${OBNAM_DEFAULTS} \
             --client-name=${VOLUME%:*} --keep=${OBNAM_KEEP_POLICY} forget \
-            || error 2 "obnam forget failure in ${VOLUME%:*}, exit code: $?, SEE syslog"
+            || Error 2 "obnam forget failure in ${VOLUME%:*}, exit code: $?, SEE syslog"
     fi
 done
 

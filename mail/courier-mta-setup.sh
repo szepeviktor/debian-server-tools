@@ -9,6 +9,13 @@ exit 0
 
 # gamin for courier-imap
 
+# authmodulelist="authuserdb"
+
+# echo hosted-domain.hu > /etc/courier/hosteddomains
+# mkdir mkdir /etc/courier/esmtpacceptmailfor.dir
+# echo accepted-domain.hu > /etc/courier/esmtpacceptmailfor.dir/esmtpacceptmailfor
+# touch /etc/courier/userdb && chmod 600 /etc/courier/userdb
+
 # authmysqlrc
 DEFAULT_DOMAIN  szepe.net
 MYSQL_SERVER            localhost

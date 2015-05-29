@@ -1,0 +1,21 @@
+#!/bin/bash
+
+Reverse_string() {
+    local IP="$1"
+    local DELIM="$2"
+    local REV
+
+    REV="$(
+    while read -d "$DELIM" PART; do
+        echo "$PART"
+    done <<< "${IP}${DELIM}" \
+    | tac \
+    | while read LINE; do
+        echo -n "${LINE}${DELIM}"
+    done
+    )"
+
+    echo "${REV%$DELIM}"
+}
+
+Reverse_string "$1" "."
