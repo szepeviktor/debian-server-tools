@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Backports a package from Debian jessie to wheezy
+# Backport a Debian package to stable.
 #
 # VERSION       :0.1
 # DATE          :2014-08-01
@@ -9,19 +9,21 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/debackport.sh
-# DOC           :https://wiki.debian.org/SimpleBackportCreation
+# REFS          :http://backports.debian.org/Contribute/#index6h3
+# DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
 
 PKG="$1"
 SUITE="jessie"
-BPOREV="~bpo70+"
+# ${upstream_version}[-${debian_revision}]~bpo${debian_release}+${build_int}
+BPOREV="~bpo8+"
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
 
-# comment out SHORTBUILD to run debian/rules before building
+# Comment out SHORTBUILD to run debian/rules before building
 SHORTBUILD="yes"
-# upon "gpg: Can't check signature: public key not found" use --allow-unauthenticated
+# Upon "gpg: Can't check signature: public key not found" use --allow-unauthenticated
 ALLOW_UNAUTH="--allow-unauthenticated"
-# you may add special backport instructions
+# Add special backport instructions to changelog
 #SPECIAL_BACKPORT="yes"
 
 die() {
@@ -62,21 +64,21 @@ dch_msg() {
     fi
 }
 
-# build packages as a user (tests won't fail)
+# Build packages as a user (tests won't fail)
 [ "$(id --user)" = 0 ] && die 1 "not recommended to run debackport with root privileges!"
 
 TEMP="$(tempfile)"
 [ -z "$SHORTBUILD" ] || SHORTBUILD="yes"
 
-# check for necessary packages
+# Check for necessary packages
 which make rmadison dget lintian &> /dev/null \
     || die 99 "apt-get -y install build-essential devscripts lintian dpkg-sig reprepro"
 
-# get Debian release
+# Get current Debian release
 CURRENTSUITE="$(lsb_release --codename | cut -f2)"
 [ -z "$CURRENTSUITE" ] && die 9 "cannot detect current suite"
 
-# get package name from parent dir's name
+# Get package name from parent dir's name
 msg "check pkg"
 [ -z "$PKG" ] && PKG="$(basename "$PWD")"
 
@@ -94,7 +96,7 @@ DSCURL="$(wget -qO- "https://packages.debian.org/${SUITE}/${PKG}" | grep -o 'htt
 [ -z "$DSCURL" ] && die 2 "no .dsc"
 
 dget ${ALLOW_UNAUTH} -x "$DSCURL" 2> "$TEMP" || get_key
-# manual unpack:  dpkg-source -x *.dsc
+# Manual unpack:  dpkg-source -x *.dsc
 
 msg "Find and Install missing build dependencies"
 SOURCES="$(grep -m1 "^Source: " *.dsc | cut -d' ' -f2)"
@@ -147,7 +149,7 @@ ls *.deb | while read P; do
 done
 
 echo
-# my GPG key
+# My GPG key
 echo "dpkg-sig -k 451A4FBA --sign builder *.deb"
 echo "cd /var/www/mirror/server/debian"
 echo "reprepro remove ${CURRENTSUITE} ${PKG}"

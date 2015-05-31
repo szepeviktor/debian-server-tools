@@ -1,6 +1,9 @@
 #!/bin/bash
+#
+# Install all tools from debian-server-tools.
+#
 
-echo "debian-server-tools installer"
+echo "Debian-server-tools installer"
 
 # Directories
 ./install.sh ./backup

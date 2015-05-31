@@ -5,6 +5,14 @@
 after account setup
 - (Outlook 2007) empty folder subscription, see: mail/courier-outlook-subscribe-bug.sh
 
+### Open winmail.dat
+
+https://github.com/Yeraze/ytnef
+
+See: repo/ytnef.deb
+
+MIME: application/ms-tnef
+
 ### Set up Google Apps mailing
 
 https://toolbox.googleapps.com/apps/checkmx/

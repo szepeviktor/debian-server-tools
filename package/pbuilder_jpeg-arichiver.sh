@@ -32,7 +32,7 @@ cd /usr/local/src/
 git clone https://github.com/mozilla/mozjpeg.git && cd mozjpeg/
 autoreconf -fiv && ./configure --with-jpeg8 && make && make install
 #make deb
-cd ..
+cd ../
 [ -f /opt/mozjpeg/lib64/libjpeg.so ] || exit 1
 
 # Build jpeg-archive

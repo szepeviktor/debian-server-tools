@@ -10,7 +10,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/deb-pack.sh
-# DEPENDS:      :apt-get install binutils xz-utils gzip file
+# DEPENDS       :apt-get install binutils xz-utils gzip file
 
 
 function deb_unpack() {

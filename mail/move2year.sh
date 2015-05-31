@@ -10,10 +10,35 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/move2year.sh
 
+# Create maildir folders for last year
+#
+# sudo -u virtual -- maildirmake -f archive.inbox-2014 /var/mail/user/Maildir
+# sudo -u virtual -- maildirmake -f archive.sent-2014 /var/mail/user/Maildir
+#
+# Usage example
+#
+# ./move2year.sh 2014 /var/mail/user/Maildir/cur /var/mail/user/Maildir/archive.inbox-2014/cur
+#
+# Inbox message count
+#
+# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;ls {}/Maildir/cur|wc -l"
+#
+# Last five messages in the inbox
+#
+# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo {}:;ls -lt --full-time {}/Maildir/cur|tail -n5|cut -c1-100"
+#
+# This year's messages in the inbox
+#
+# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;find {}/Maildir/cur -type f -mtime -365|wc -l"
+#
+# 1 year old messages in the inbox
+#
+# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;find {}/Maildir/cur -type f -mtime -730 -mtime +365|wc -l"
+#
+# 2+ years old messages in the inbox
+#
+# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;find {}/Maildir/cur -type f -mtime +730|wc -l"
 
-# Create maildir folder
-# sudo -u <MAILUSER> -- maildirmake -f archive.inbox-2014 /var/mail/<MAILDIR>
-# sudo -u <MAILUSER> -- maildirmake -f archive.sent-2014 /var/mail/<MAILDIR>
 
 YEAR="$1"
 FROM_FOLDER="$2"

@@ -9,7 +9,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install openssl
-# HOWTO         :https://www.debian-administration.org/article/618/Certificate_Authority_CA_with_OpenSSL
+# DOCS          :https://www.debian-administration.org/article/618/Certificate_Authority_CA_with_OpenSSL
 
 [ -f ./CAszepenet.patch ] || exit 1
 

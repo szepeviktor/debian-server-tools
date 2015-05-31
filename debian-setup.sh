@@ -263,6 +263,8 @@ aptitude search '?narrow(?installed, !?origin(Debian))'
 aptitude search '?obsolete'
 # 8. Manually installed, not "required" and not "important" packages
 aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p"|most
+# List by section
+aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%s %p"|sort
 
 dpkg -l|most
 apt-get autoremove --purge

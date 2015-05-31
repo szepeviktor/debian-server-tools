@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Install all tools from debian-server-tools.
+# Install a tool from debian-server-tools.
 #
 # VERSION       :0.4
 # DATE          :2015-05-29
@@ -45,6 +45,7 @@ Do_install() {
     local FILE="$1"
     local OWNER
     local PERMS
+    local SYMLINK
     local SCRIPT
 
     if ! [ -f "$FILE" ]; then
@@ -66,23 +67,32 @@ Do_install() {
 
     # Check for existence
     if [ -f "$SCRIPT" ]; then
-        echo -n "Replacing ${SCRIPT}"
-
         if diff -q "$FILE" "$SCRIPT" &> /dev/null; then
             echo "Already up-to-date ${SCRIPT}"
             return
         fi
+
+        echo "Replacing ${SCRIPT}"
     else
         echo "Installing ${FILE} to ${SCRIPT}"
     fi
 
+    # Install
     install -v -D --no-target-directory --preserve-timestamps \
         --owner="${OWNER%:*}" --group="${OWNER#*:}" --mode "$PERMS" \
         "$FILE" "$SCRIPT" \
         || Die 11 "Installation failure (${FILE})"
 
+    # Symlink
+    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d':' -f 2- \
+        | while read SYMLINK; do
+            echo -n "Symlinking "
+            ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
+        done
+
+    # Cron
     if head -n 30 "$FILE" | grep -qi "^# CRON-"; then
-        ./install-cron.sh "$FILE" || Die 12 "Cron installation failulre (${FILE})"
+        ./install-cron.sh "$FILE" || Die 13 "Cron installation failulre (${FILE})"
     fi
 }
 

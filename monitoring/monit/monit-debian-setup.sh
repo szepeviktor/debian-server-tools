@@ -3,8 +3,8 @@
 # Configure monit plugins
 # These MONIT_* variables need to be filled in.
 #
-# DOCUMENTATION  :http://mmonit.com/wiki/Monit/ConfigurationExamples
-# VERSION        :0.2
+# VERSION       :0.2
+# DOCS          :http://mmonit.com/wiki/Monit/ConfigurationExamples
 
 # Tests: init.d,  pid,  bin,  conf,  output age
 

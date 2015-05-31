@@ -3,7 +3,7 @@
 #
 #### LOCATION       :/var/lib/rbldns/spammer/spammer.dnsbl.zone
 #### DOMAIN         :spammer.dnsbl
-#### DOCUMENTATION  :http://www.corpit.ru/mjt/rbldnsd.html
+#### DOCS           :http://www.corpit.ru/mjt/rbldnsd.html
 #### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone
 #### TEST Class C   :for FOURTH in $(seq 0 255);do host -t PTR <FIRST-3-OCTETS>.${FOURTH};done
 

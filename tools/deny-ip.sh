@@ -9,9 +9,9 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/deny-ip.sh
-# SYMLINK       :ln -vs /usr/local/sbin/deny-ip.sh /usr/local/sbin/deny-http.sh
-# SYMLINK       :ln -vs /usr/local/sbin/deny-ip.sh /usr/local/sbin/deny-smtp.sh
-# SYMLINK       :ln -vs /usr/local/sbin/deny-ip.sh /usr/local/sbin/deny-ssh.sh
+# SYMLINK       :/usr/local/sbin/deny-http.sh
+# SYMLINK       :/usr/local/sbin/deny-smtp.sh
+# SYMLINK       :/usr/local/sbin/deny-ssh.sh
 
 
 # detect IPv4 address

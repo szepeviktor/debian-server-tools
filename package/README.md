@@ -1,4 +1,42 @@
-# Debian repository infos
+# Packaging related informations
+
+### Script meta
+
+Colon at column :16
+
+```
+#!/bin/bash
+#
+# One-line descrption.
+#
+# VERSION       :semver
+# DATE          :2015-12-31
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install package
+# REFS          :url
+# DOCS          :url
+# SOURCE        :url
+# UPSTREAM      :url
+# LOCATION      :/usr/local/sbin/deny-ip.sh
+# OWNER         :root:root
+# PERMISSION    :755
+# SYMLINK       :/usr/local/sbin/deny-http.sh
+# CRON-HOURLY   :/usr/local/sbin/command
+# CRON-DAILY    :/usr/local/bin/command
+# CRON-WEEKLY   :/usr/local/bin/command
+# CRON-MONTHLY  :/usr/local/sbin/script.sh | mailx -s "subject" root
+# CRON.D        :2 2	* * *	root	/usr/local/sbin/script.sh
+# CONFIG        :~/.config/vpscheck/configuration
+
+# Usage/Remarks
+#
+# How to use, examples, remarks.
+```
+
+### APT repository concepts
 
 -   a,archive,suite (eg, "stable")
 -   c,component     (eg, "main", "crontrib", "non-free")
