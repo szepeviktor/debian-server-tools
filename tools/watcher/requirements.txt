@@ -1,4 +1,0 @@
-configparser
-pyinotify
-lockfile
-python-daemon-3K
