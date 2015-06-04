@@ -1,3 +1,8 @@
+# BGP image format
+
+- http://xooyoozoo.github.io/yolo-octo-bugfixes/#camel&bpg=s&jpg=s
+- https://github.com/mirrorer/libbpg/tree/master/html
+
 # JPEG manipulations
 
 ### Lossy minification

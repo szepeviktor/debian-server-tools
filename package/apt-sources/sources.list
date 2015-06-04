@@ -1,16 +1,16 @@
-# Linode: http://mirrors.linode.com/debian
-# OVH: http://debian.mirrors.ovh.net/debian
-# server4you: http://debian.intergenia.de/debian
-# closest mirror http://http.debian.net/debian
-# national mirror: http://ftp.<COUNTRY-CODE>.debian.org/debian
+# Linode:           http://mirrors.linode.com/debian
+# OVH:              http://debian.mirrors.ovh.net/debian
+# server4you:       http://debian.intergenia.de/debian
+# Closest mirror    http://http.debian.net/debian
+# National mirror:  http://ftp.COUNTRY-CODE.debian.org/debian
 deb %MIRROR% jessie main contrib non-free
 
-# security
+# Security
 deb http://security.debian.org/ jessie/updates main contrib non-free
 
-# updates (previously known as 'volatile')
+# Updates (previously known as 'volatile')
 deb %MIRROR% jessie-updates main
 
-# backports
+# Backports
 # http://backports.debian.org/changes/wheezy-backports.html
 deb %MIRROR% jessie-backports main

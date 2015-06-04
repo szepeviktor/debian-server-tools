@@ -7,16 +7,20 @@
 - https://www.linode.com/
 - vps.me/Hostinger free, IPv6 only
 
+Benchmark: sysbench, seekmark, image compress
+
 ## Shared hosting
 
 - [OVH](https://www.ovh.ie/web-hosting/)  100GB, PHP-FPM, mini CDN
 - [gandi](https://www.gandi.net/hosting/simple) varnish cache
-- http://www.hostinger.co.uk/ free, latest hardware, Apache 2.4
-- https://byethost.com/ 24 CPU-s, grid MySQL
 - https://www.nearlyfreespeech.net/signup/ Florida
 - https://www.feralhosting.com/pricing 10Gbps, 500GB
 - https://www.gandi.net/hosting/simple Varnish
 - https://timmehosting.de/ nginx, pagespeed
+
+- https://blazingfast.io/ fast, free (DDoS page)
+- http://www.hostinger.co.uk/ free, latest hardware, Apache 2.4
+- https://ifastnet.com/portal/sharedhosting.php 24 CPU-s
 
 ## Shared hosting in Hungary
 

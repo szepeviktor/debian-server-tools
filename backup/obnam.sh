@@ -42,6 +42,7 @@ DO_FORGET="$((RANDOM / 4682))"
 
 # Loop through volumes
 for VOLUME in ${VOLUMES[*]}; do
+    logger -t "obnam" "Backing up: ${VOLUME} ..."
     nice /usr/bin/obnam ${OBNAM_DEFAULTS} \
         --client-name=${VOLUME%:*} backup ${VOLUME#*:} \
         || Error 1 "obnam failure in ${VOLUME#*:}, exit code: $?, SEE syslog"

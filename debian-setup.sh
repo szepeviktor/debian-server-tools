@@ -21,41 +21,43 @@
 
 exit 0
 
-# Whitelist outgoing SMTP server sending notifications.
-# /etc/courier/smtpaccess/default
-1.2.3.4	allow,RELAYCLIENT
 
+# Whitelist outgoing SMTP server on smarthost
+#
+# editor /etc/courier/smtpaccess/default
+#1.2.3.4	allow,RELAYCLIENT
+
+set -e -x
+
+# Variables
+DS_MIRROR="http://http.debian.net/debian"
+#DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
+DS_REPOS="dotdeb nginx nodejs-iojs percona szepeviktor"
+#DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \
+#    newrelic nginx nodejs-iojs oracle percona postgre szepeviktor varnish"
+
+Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2; }
 
 # Download this repo
 mkdir ~/src && cd ~/src
-wget https://github.com/szepeviktor/debian-server-tools/archive/master.zip
-unzip master.zip && cd debian-server-tools-master/
+wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz \
+    | tar xz && cd debian-server-tools-master/
 D="$(pwd)"
 
 # Identify distribution
-lsb_release -a
+lsb_release -a && sleep 5
 
 # Clean packages
 apt-get clean
 apt-get autoremove --purge -y
 
 # Packages sources
-sed -i 's/%MIRROR%/http:\/\/http.debian.net\/debian/g' sources.list
-editor /etc/apt/sources.list
-
-# Linode: http://mirrors.linode.com/debian
-# OVH: http://debian.mirrors.ovh.net/debian
-# server4you: http://debian.intergenia.de/debian
-# closest mirror http://http.debian.net/debian
-# national mirror: http://ftp.<COUNTRY-CODE>.debian.org/debian
-deb %MIRROR% %DIST% main contrib non-free
-# Security
-deb http://security.debian.org/ %DIST%/updates main contrib non-free
-# Updates (previously known as 'volatile')
-deb %MIRROR% %DIST%-updates main
-# Backports
-# http://backports.debian.org/changes/jessie-backports.html
-deb %MIRROR% %DIST%-backports main
+mv -vf /etc/apt/sources.list "/etc/apt/sources.list~"
+cp -v ${D}/package/apt-sources/sources.list /etc/apt/
+sed -i "s/%MIRROR%/${DS_MIRROR//\//\\/}/g" /etc/apt/sources.list
+for R in ${DS_REPOS};do cp -v ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
+eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
+#editor /etc/apt/sources.list
 
 # Disable apt languages
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
@@ -63,34 +65,35 @@ echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 # Throttle package downloads (1000 kB/s)
 echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
-# Upgrade
+# Package upgrade
 apt-get update && apt-get dist-upgrade -y
 apt-get install -y ssh sudo ca-certificates most less lftp bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
+# Input
+. /etc/profile.d/bash_completion.sh
+echo "alias e='editor'" > /etc/profile.d/e-editor.sh
+sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc
+update-alternatives --set pager /usr/bin/most
+update-alternatives --set editor /usr/bin/mcedit
+
+# Bash
+#sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc
+echo "dash dash/sh boolean false"|debconf-set-selections -v
+dpkg-reconfigure -f noninteractive dash
+
+# ---------- Automated --------------- >8 ------------- >8 ------------
+
 # Remove systemd
 apt-get install sysvinit-core sysvinit sysvinit-utils
+read -s -p 'Ctrl + D to reboot ' || reboot
 apt-get remove --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
-# Input
-echo "alias e='editor'" > /etc/profile.d/e-editor.sh || echo "ERROR: alias 'e'"
-sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc || echo "ERROR: history-search-backward"
-#sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc || echo "ERROR: bash completion"
-update-alternatives --set pager /usr/bin/most
-update-alternatives --set editor /usr/bin/mcedit
-# Markdown for mc
-# cp /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
-# editor ~/.config/mc/mc.ext
-# regex/\.md(own)?$
-# 	View=pandoc -s -f markdown -t man %p | man -l -
-cp /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
-sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
-editor ~/.config/mc/mcedit/Syntax
+# Wget defaults
+echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 
-# bash
-echo "dash dash/sh boolean false"|debconf-set-selections -v
-dpkg-reconfigure -f noninteractive dash
+# User settings
 editor /root/.bashrc
 
 #export LANG=en_US.UTF-8
@@ -121,8 +124,16 @@ alias transit-receive='base64 -d|xz -d'
 alias readmail='MAIL=/var/mail/<MAILDIR>/ mailx'
 #export IP="$(ip addr show dev eth0|grep -o -m1 "inet [0-9\.]*"|cut -d' ' -f2)"
 
-# wget defaults
-echo -e "\ncontent_disposition = on" >> /etc/wgetrc
+# Markdown for mc
+#cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
+#editor ~/.config/mc/mc.ext
+#regex/\.md(own)?$
+#	View=pandoc -s -f markdown -t man %p | man -l -
+
+# Add INI extensions for mc
+cp -v /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
+sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
+editor ~/.config/mc/mcedit/Syntax
 
 # Username
 U="viktor"

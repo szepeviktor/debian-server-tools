@@ -67,7 +67,7 @@ Allowed origins are: ["('Debian', 'oldstable')", "('Debian', 'squeeze-security')
 
 ##### Debian contributed
 
-/etc/apt/sources.list.d/other-sources.list
+/etc/apt/sources.list.d/
 
 ```bash
 # Import all signing keys
