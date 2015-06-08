@@ -67,7 +67,7 @@ set daemon ${MONIT_BOOT_DELAY}
 # Alert emails
 set mailserver localhost port 25
 set mail-format { from: root@${MONIT_EMAIL_HOST} }
-set alert root@${MONIT_EMAIL_HOST}
+set alert root@${MONIT_EMAIL_HOST} with reminder on 2 cycle
 
 # Web interface
 set httpd port 2812 and
@@ -102,7 +102,7 @@ check process nscd with pidfile /var/run/nscd/nscd.pid
     group system
     start program = "/etc/init.d/unscd start"
     stop  program = "/etc/init.d/unscd stop"
-    if 5 restarts within 5 cycles then timeout
+    if 5 restarts within 5 cycles then unmonitor
     depends on nscd_bin
     depends on nscd_rc
 
@@ -127,7 +127,7 @@ check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
     start program = "/etc/init.d/fail2ban force-start"
     stop  program = "/etc/init.d/fail2ban stop || :"
     if failed unixsocket /var/run/fail2ban/fail2ban.sock then restart
-    if 5 restarts within 5 cycles then timeout
+    if 5 restarts within 5 cycles then unmonitor
 
 check file fail2ban_log with path /var/log/fail2ban.log
     if match "ERROR|WARNING" then alert
@@ -145,17 +145,17 @@ Monit_enable fail2ban
 # https://github.com/perusio/monit-miscellaneous
 wget -O /etc/monit/monitrc.d/php-fpm-unix \
     "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
-#has a bug    "https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix"
+# @FIXME Has a bug: https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix
 sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
     /etc/monit/monitrc.d/php-fpm-unix
-sed -i "s|alert root@localhost only on {timeout}$|alert root@${MONIT_EMAIL_HOST} only on {timeout}|g" \
-    /etc/monit/monitrc.d/php-fpm-unix
-sed -i "s|alert root@localhost$||g" \
-    /etc/monit/monitrc.d/php-fpm-unix
+#sed -i "s|alert root@localhost only on {timeout}$|alert root@${MONIT_EMAIL_HOST} only on {timeout}|g" \
+#    /etc/monit/monitrc.d/php-fpm-unix
+sed -i "s|alert root@localhost only on {timeout}$||g" /etc/monit/monitrc.d/php-fpm-unix
+sed -i "s|alert root@localhost$||g" /etc/monit/monitrc.d/php-fpm-unix
 Monit_enable php-fpm-unix
 
 # http://storage.fladi.at/~FladischerMichael/monit/
-# mirror: https://github.com/szepeviktor/FladischerMichael.monit
+# Mirror: https://github.com/szepeviktor/FladischerMichael.monit
 if [ -x /usr/sbin/courieresmtpd ]; then
     wget -O /etc/monit/monitrc.d/courier \
         "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
@@ -173,7 +173,7 @@ if [ -x /usr/bin/imapd ]; then
         "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-imap.test"
     Monit_enable courier-imap
 fi
-# more: https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
+# See: https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
 
 # Enable built-in plugins
 Monit_enable apache2
@@ -199,3 +199,10 @@ Monit_enable rsyslog
 # Mail
 #Monit_enable spamassassin
 #Monit_enable courier-imap
+
+# Wake up monit
+echo '#!/bin/bash
+/usr/bin/monit summary|tail -n +3|grep -v "\sRunning$\|\sAccessible$" && /usr/bin/monit monitor all
+exit 0
+' > /etc/cron.hourly/monit-wake
+chmod +x /etc/cron.hourly/monit-wake

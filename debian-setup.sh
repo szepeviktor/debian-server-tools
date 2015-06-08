@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #
 # Debian server setup - jessie amd64
@@ -13,8 +14,9 @@
 # How to choose VPS provider?
 #
 # - Disk access time
-# - CPU speed
+# - CPU speed (2000+ PassMark - CPU Mark)
 # - Worldwide and local bandwidth
+# - Spammer neighbours? https://www.projecthoneypot.org/ip_1.2.3.4
 # - Nightime technical support: network or hardware failure response time
 # - Daytime technical and billing support
 # - DoS mitigation
@@ -26,7 +28,7 @@
 
 # Autorun from a gist
 #
-# wget -qO ds.dh http://git.io/vImMa && . ds.dh
+# wget -qO ds.dh http://git.io/vIlCB && . ds.dh
 #
 # wget -qO ds.sh https://raw.githubusercontent.com/szepeviktor/debian-server-tools/master/debian-setup.sh && . ds.sh
 
@@ -40,6 +42,8 @@ DS_REPOS="dotdeb nginx nodejs-iojs percona szepeviktor"
 set -e -x
 
 Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2; }
+
+[ "$(id -u)" == 0 ] || exit 1
 
 # Identify distribution
 lsb_release -a && sleep 5
@@ -90,7 +94,7 @@ set +e +x
 exit 0
 
 # Remove systemd
-dpkg -s systemd &> /dev/null||apt-get install sysvinit-core sysvinit sysvinit-utils
+dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit sysvinit-utils
 read -s -p 'Ctrl + D to reboot ' || reboot
 apt-get remove --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
@@ -156,11 +160,11 @@ editor ~/.config/mc/mcedit/Syntax
 
 # Username
 U="viktor"
-adduser $U
-# Enter password twice
+adduser ${U}
+# <<< Enter password twice
 K="PUBLIC-KEY"
-S="/home/$U/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R $U:$U "$S"
-adduser $U sudo
+S="/home/${U}/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R ${U}:${U} "$S"
+adduser ${U} sudo
 
 # Remove root and other passwords
 editor /etc/shadow
@@ -260,8 +264,7 @@ echo "$H" > /etc/mailname
 editor /etc/hosts
 
 # Locale and timezone
-locale
-locale -a
+locale && locale -a
 dpkg-reconfigure locales
 cat /etc/timezone
 dpkg-reconfigure tzdata
@@ -277,14 +280,14 @@ editor /etc/shadow
 # 1. Delete not-installed packages
 dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
-apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common acpi
+apt-get purge acpi at dbus python2.6-minimal python2.6 rpcbind nfs-common isc-dhcp-client isc-dhcp-common
 # 3. VPS monitoring
 # See: package/vmware-tools-wheezy.sh
 ps aux|grep -v "grep"|grep -E "snmp|vmtools|xe-daemon"
-dpkg -l|grep -E "xe-guest-utilities"
+dpkg -l|grep -E "xe-guest-utilities|dkms"
 # 4. Hardware related
 dpkg -l|grep -E "fancontrol|acpi-support-base|acpid|laptop-detect|eject\
-|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
+    |hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
 # 5. Non-stable packages
 dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
@@ -320,7 +323,7 @@ dpkg -l|grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev | tee cruft.log
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
-debsums -c
+debsums --all --config | tee debsums-changed.log
 
 # APT repositories for non-Debian packages, see: package/apt-sources/
 editor /etc/apt/sources.list.d/others.list

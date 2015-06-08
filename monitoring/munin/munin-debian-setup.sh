@@ -11,19 +11,32 @@ ENABLED_PLUGIN_PATH="/etc/munin/plugins"
 
 # All installation steps
 #
-#apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl
-#apt-get install -t wheezy-backports -y munin-node
-## enable plugins by hand
-#munin-node-configure --shell
-## review plugins
-#ls -l /etc/munin/plugins
-## check plugins
-#ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4;
-#    elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
-## allow munin server IP in node config
-## regexp IP address: ^1\.2\.3\.4$
-#e /etc/munin/munin-node.conf
-#service munin-node restart
+#    apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl munin-node
+# Enable plugins by hand
+#    munin-node-configure --shell
+# Review plugins
+#    ls -l /etc/munin/plugins
+# Check plugins
+#    ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4
+#        elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
+# Allow munin server IP in node config
+#    [name.domain.net]
+#        address 1\.2\.3\.4
+#        use_node_name yes
+#        contacts sms
+#        #contacts email
+#        monit_parser.monit_php5fpmunix_total_memory.warning 1:
+#        monit_parser.monit_sshd_total_memory.warning 1:
+#        monit_parser.monit_couriermta_total_memory.warning 1:
+#        monit_parser.monit_mysqld_total_memory.warning 1:
+#        monit_parser.monit_fail2ban_total_memory.warning 1:
+#        monit_parser.monit_nscd_total_memory.warning 1:
+#        monit_parser.monit_apache_total_memory.warning 1:
+#        monit_parser.monit_crond_total_memory.warning 1:
+#        monit_parser.monit_courierauthdaemon_total_memory.warning 1:
+#        monit_parser.monit_rsyslogd_total_memory.warning 1:
+# Restart munin-node
+#    service munin-node restart
 
 Install_plugin() {
     local PLUGIN_URL="$1"
@@ -68,6 +81,10 @@ munin_events() {
     fi
 
     Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/munin_events"
+    echo '            if stat == "total_memory":
+                print "monit_%s_%s.warning 1:" % (process, stat)
+    '
+    sleep 5
 }
 
 munin_monit() {
