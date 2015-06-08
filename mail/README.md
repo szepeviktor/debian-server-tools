@@ -5,6 +5,10 @@
 after account setup
 - (Outlook 2007) empty folder subscription, see: mail/courier-outlook-subscribe-bug.sh
 
+### MacOS Mail.app
+
+Advanced/"IMAP Path Prefix" = INBOX
+
 ### Open winmail.dat
 
 https://github.com/Yeraze/ytnef

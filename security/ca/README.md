@@ -5,7 +5,8 @@ cd /root/ssl/szepe.net-ca/
 export SSLEAY_CONFIG="-config /root/ssl/szepe.net-ca/config/openssl.cnf"
 ./CAszepenet.sh -newreq
 ./CAszepenet.sh -sign
-# <CA-PASSWORD>
+# CA-PASSWORD
+
 C=$(dirname $(pwd))/$(date +%Y%m%d)-HOSTNAME
 mkdir $C
 openssl rsa -in ./newkey.pem -out $C/priv-key-$(date +%Y%m%d).key
@@ -14,7 +15,7 @@ sed -n '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > $C/pub-key-$(date +%Y%
 rm newcert.pem newreq.pem
 ```
 
-### Install a ca
+### Install a CA
 
 ```bash
 mkdir /usr/local/share/ca-certificates/<CA-NAME>

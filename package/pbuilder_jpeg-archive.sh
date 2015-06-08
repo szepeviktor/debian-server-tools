@@ -25,12 +25,12 @@ MAINTAINER="viktor@szepe.net"
 
 # Prerequisites
 #sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list
-apt-get update && apt-get install -y build-essential git autoconf pkg-config nasm libtool checkinstall
+apt-get update && apt-get install -y build-essential git autoconf automake1.11 pkg-config nasm libtool checkinstall
 cd /usr/local/src/
 
 # Build mozjpeg
 git clone https://github.com/mozilla/mozjpeg.git && cd mozjpeg/
-autoreconf -fiv && ./configure --with-jpeg8 && make && make install
+autoreconf -fiv && ./configure --with-jpeg8 && make && make install; echo $?
 #make deb
 cd ../
 [ -f /opt/mozjpeg/lib64/libjpeg.so ] || exit 1

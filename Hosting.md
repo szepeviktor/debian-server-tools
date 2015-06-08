@@ -28,3 +28,5 @@ Benchmark: sysbench, seekmark, image compress
 - https://maxer.hu/ modern CPU-s
 - https://megacp.com/hosting.php?spt=3 cluster server
 - https://online.spaceweb.hu/order/main/packages/ssd-premium/?group_id=12 Litespeed
+
+Benchmark: wp-benchmark, hosting-check

@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Debian server setup - wheezy amd64
+# Debian server setup - jessie amd64
 # Not a script but a manual.
 #
-# OVH /etc/ovhrc
+# OVH
+#     /etc/ovhrc
 #     cdns.ovh.net.
 #     ntp.ovh.net
 # aruba
@@ -18,16 +19,16 @@
 # - Daytime technical and billing support
 # - DoS mitigation
 
-
-exit 0
-
-
 # Whitelist outgoing SMTP server on smarthost
 #
 # editor /etc/courier/smtpaccess/default
-#1.2.3.4	allow,RELAYCLIENT
+#1.2.3.4<TAB>allow,RELAYCLIENT
 
-set -e -x
+# Autorun from a gist
+#
+# wget -qO ds.dh http://git.io/vImMa && . ds.dh
+#
+# wget -qO ds.sh https://raw.githubusercontent.com/szepeviktor/debian-server-tools/master/debian-setup.sh && . ds.sh
 
 # Variables
 DS_MIRROR="http://http.debian.net/debian"
@@ -36,16 +37,18 @@ DS_REPOS="dotdeb nginx nodejs-iojs percona szepeviktor"
 #DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \
 #    newrelic nginx nodejs-iojs oracle percona postgre szepeviktor varnish"
 
+set -e -x
+
 Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2; }
+
+# Identify distribution
+lsb_release -a && sleep 5
 
 # Download this repo
 mkdir ~/src && cd ~/src
 wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz \
     | tar xz && cd debian-server-tools-master/
 D="$(pwd)"
-
-# Identify distribution
-lsb_release -a && sleep 5
 
 # Clean packages
 apt-get clean
@@ -55,6 +58,8 @@ apt-get autoremove --purge -y
 mv -vf /etc/apt/sources.list "/etc/apt/sources.list~"
 cp -v ${D}/package/apt-sources/sources.list /etc/apt/
 sed -i "s/%MIRROR%/${DS_MIRROR//\//\\/}/g" /etc/apt/sources.list
+# Install HTTPS transport
+apt-get update && apt-get install -y apt-transport-https
 for R in ${DS_REPOS};do cp -v ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
 eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
 #editor /etc/apt/sources.list
@@ -62,16 +67,13 @@ eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' 
 # Disable apt languages
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 
-# Throttle package downloads (1000 kB/s)
-echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
-
-# Package upgrade
+# Upgrade
 apt-get update && apt-get dist-upgrade -y
 apt-get install -y ssh sudo ca-certificates most less lftp bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
 # Input
-. /etc/profile.d/bash_completion.sh
+. /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
 echo "alias e='editor'" > /etc/profile.d/e-editor.sh
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc
 update-alternatives --set pager /usr/bin/most
@@ -83,9 +85,12 @@ echo "dash dash/sh boolean false"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
 
 # ---------- Automated --------------- >8 ------------- >8 ------------
+set +e +x
+
+exit 0
 
 # Remove systemd
-apt-get install sysvinit-core sysvinit sysvinit-utils
+dpkg -s systemd &> /dev/null||apt-get install sysvinit-core sysvinit sysvinit-utils
 read -s -p 'Ctrl + D to reboot ' || reboot
 apt-get remove --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
@@ -98,8 +103,10 @@ editor /root/.bashrc
 
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
-export PS1="[\[$(tput setaf 3)\]\u\[\033[1;31m\]@\h\[$(tput sgr0)\]:\[$(tput setaf 8)\]\[$(tput setab 4)\]\
-\w\[$(tput sgr0)\]:\t:\[$(tput setaf 0)\]\!\[$(tput sgr0)\]]\n"
+PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo "$(tput setab 3;tput setaf 0)$RET$(tput sgr0)";fi; }
+export PS1="[\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@\h\[$(tput sgr0)\]:\
+\[$(tput setaf 8)\]\[$(tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
+\[$(tput bold;tput setaf 0)\]\!\[$(tput sgr0)\]]\$(PS1exitstatus)\n"
 export GREP_OPTIONS="--color"
 alias grep='grep $GREP_OPTIONS'
 alias iotop='iotop -d 0.1 -qqq -o'
@@ -121,8 +128,20 @@ else
 fi
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
-alias readmail='MAIL=/var/mail/<MAILDIR>/ mailx'
+alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
 #export IP="$(ip addr show dev eth0|grep -o -m1 "inet [0-9\.]*"|cut -d' ' -f2)"
+# Colorized man pages with less
+man() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+        LESS_TERMCAP_md=$(printf "\e[1;31m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+            man "$@"
+}
 
 # Markdown for mc
 #cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
@@ -139,7 +158,7 @@ editor ~/.config/mc/mcedit/Syntax
 U="viktor"
 adduser $U
 # Enter password twice
-K="<PUBLIC-KEY>"
+K="PUBLIC-KEY"
 S="/home/$U/.ssh"; mkdir --mode 700 "$S"; echo "$K" >> "${S}/authorized_keys2"; chown -R $U:$U "$S"
 adduser $U sudo
 
@@ -183,7 +202,7 @@ grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
 uname -a
 # List kernels
 apt-cache policy linux-image-amd64
-apt-get install linux-image-amd64=<KERNEL-VERSION>
+apt-get install linux-image-amd64=KERNEL-VERSION
 dpkg -l|grep "grub"
 ls -latr /boot/
 # OVH Kernel
@@ -201,8 +220,8 @@ editor /etc/motd
 # Networking
 editor /etc/network/interfaces
 # iface eth0 inet static
-#     address <IP>
-#     gateway <GATEWAY>
+#     address IP
+#     gateway GATEWAY
 ifconfig -a
 route -n -4
 route -n -6
@@ -211,14 +230,14 @@ netstat -antup
 editor /etc/resolv.conf
 # nameserver 8.8.8.8
 # nameserver 8.8.4.4
-# nameserver <LOCAL_NS>
+# nameserver LOCAL-NS
 # options timeout:2
 # #options rotate
 
 ping6 -c 4 ipv6.google.com
 # Should be: A 93.184.216.119
 host -v -t A example.com
-# View network graph: http://bgp.he.net/ip/<IP>
+# View network graph: http://bgp.he.net/ip/IP
 
 # Set up MYATTACKERS chain
 iptables -N MYATTACKERS
@@ -230,13 +249,13 @@ iptables -A MYATTACKERS -j RETURN
 # Set A record and PTR record
 # Consider: http://www.iata.org/publications/Pages/code-search.aspx
 #           http://www.world-airport-codes.com/
-H="<HOST-NAME>"
+H="HOST-NAME"
 # Search for the old hostname
 grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
-# # <ORIG-REVERSE-DNS>
+# # ORIGINAL-REVERSE-DNS
 # 127.0.1.1 host host.domain.tld
 editor /etc/hosts
 
@@ -258,13 +277,14 @@ editor /etc/shadow
 # 1. Delete not-installed packages
 dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
-apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common
+apt-get purge isc-dhcp-client isc-dhcp-common python2.6-minimal python2.6 rpcbind nfs-common acpi
 # 3. VPS monitoring
 # See: package/vmware-tools-wheezy.sh
 ps aux|grep -v "grep"|grep -E "snmp|vmtools|xe-daemon"
 dpkg -l|grep -E "xe-guest-utilities"
 # 4. Hardware related
-dpkg -l|grep -E "fancontrol|acpid|laptop-detect|eject|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
+dpkg -l|grep -E "fancontrol|acpi-support-base|acpid|laptop-detect|eject\
+|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
 # 5. Non-stable packages
 dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
@@ -281,7 +301,7 @@ dpkg -l|most
 apt-get autoremove --purge
 
 # Essential packages
-apt-get install -y apt-transport-https localepurge unattended-upgrades \
+apt-get install -y localepurge unattended-upgrades \
     apt-listchanges cruft debsums heirloom-mailx iptables-persistent bootlogd \
     ntpdate pwgen dos2unix strace ccze mtr-tiny gcc make time colordiff
 # Backports
@@ -293,7 +313,7 @@ editor /etc/default/debsums
 # CRON_CHECK=weekly
 
 # Sanitize files
-HOSTING_COMPANY="<HOSTING-COMPANY>"
+HOSTING_COMPANY="HOSTING-COMPANY"
 find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l|grep -i "${HOSTING_COMPANY}"
@@ -390,7 +410,7 @@ a2enmod deflate
 a2enmod expires
 cp -v $D/webserver/apache-conf-available/* /etc/apache2/conf-available/
 cp -vf $D/webserver/apache-sites-available/* /etc/apache2/sites-available/
-a2enconf php-fpm
+# Use php-fpm.conf per site
 a2enconf h5bp
 editor /etc/apache2/conf-enabled/security.conf
 # ServerTokens Prod
@@ -432,7 +452,7 @@ cp $D/webserver/sessionclean5.5 /usr/local/lib/php5/
 # - PHP-FPM pool request_terminate_timeout
 
 # suhosin: https://github.com/stefanesser/suhosin/releases
-#SUHOSIN_URL="<RELEASE-TAR-GZ>"
+#SUHOSIN_URL="RELEASE-TAR"
 # version 0.9.37.1
 SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.37.1.tar.gz"
 wget -qO- "$SUHOSIN_URL"|tar xz && cd suhosin-*
@@ -466,7 +486,7 @@ editor /root/.my.cnf
 
 # control panel for opcache and APC
 # add "web" user, see: webserver/add-site.sh
-#TOOLS_DOCUMENT_ROOT="<TOOLS-DOCUMENT-ROOT>"
+#TOOLS_DOCUMENT_ROOT="TOOLS-DOCUMENT-ROOT"
 TOOLS_DOCUMENT_ROOT=/home/web/website/html/
 # favicon, robots.txt
 wget -P "$TOOLS_DOCUMENT_ROOT" https://www.debian.org/favicon.ico
@@ -483,7 +503,7 @@ php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -O "${TOOLS_DOCUMENT_ROOT}/apc.php" "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
 # HTTP/AUTH
-htpasswd -c ../htpasswords <USERNAME>
+htpasswd -c ../htpasswords USERNAME
 chmod 600 ../htpasswords
 
 # PHPMyAdmin
@@ -515,32 +535,33 @@ mkdir -p /opt/drush && cd /opt/drush
 composer require drush/drush:6.*
 ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 # set up Drupal site
-# sudo -u <SITE-USER> -i
+# sudo -u SITE-USER -i
 # cd public_html/
 # drush dl drupal --drupal-project-rename=html
 # cd html/
 # drush site-install standard \
-#    --db-url='mysql://<DB-USER>:<DB-PASS>@localhost/<DB_NAME>' \
-#    --site-name=<SITE-NAME> --account-name=<USERNAME> --account-pass=<USERPASS>
-# drush --root=<DOCUMENT-ROOT> vset --yes file_private_path "<PRIVATE-PATH>"
-# drush --root=<DOCUMENT-ROOT> vset --yes file_temporary_path "<UPLOAD-DIRECTORY>"
-# drush --root=<DOCUMENT-ROOT> vset --yes cron_safe_threshold 0
-# see: $D/webserver/preload-cache.sh
+#    --db-url='mysql://DB-USER:DB-PASS@localhost/DB-NAME' \
+#    --site-name=SITE-NAME --account-name=USER-NAME --account-pass=USER-PASS
+# drush --root=DOCUMENT-ROOT vset --yes file_private_path "PRIVATE-PATH"
+# drush --root=DOCUMENT-ROOT vset --yes file_temporary_path "UPLOAD-DIRECTORY"
+# drush --root=DOCUMENT-ROOT vset --yes cron_safe_threshold 0
+#
+# See: $D/webserver/preload-cache.sh
 
 # Courier MTA - deliver all mail to a smarthost
 apt-get install -y courier-mta courier-mta-ssl
 # SMTPS: apt-get install -y courier-mta courier-mta-ssl
 dpkg -l|egrep "postfix|exim"
 apt-get purge exim4 exim4-base exim4-config exim4-daemon-light
-# hostname
+# Host name
 editor /etc/courier/me
 mx $(cat /etc/courier/me)
 editor /etc/courier/defaultdomain
 editor /etc/courier/dsnfrom
 editor /etc/courier/aliases/system
 editor /etc/courier/esmtproutes
-# from jessie on: ": <SMART-HOST>,465 /SECURITY=SMTPS" - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
-# : <SMART-HOST>,587 /SECURITY=REQUIRED
+# from jessie on: ": %SMART-HOST%,465 /SECURITY=SMTPS" - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
+# : %SMART-HOST%,587 /SECURITY=REQUIRED
 editor /etc/courier/esmtpd
 # ADDRESS=127.0.0.1
 # ESMTPAUTH=""
@@ -551,9 +572,9 @@ makealiases
 makesmtpaccess
 service courier-mta restart
 service courier-mta-ssl restart
-echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADDRESS>
+echo "This is a test mail." | mailx -s "[first] subject of the first email" ADDRESS
 # on the smarthost add:
-# <IP><TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
+# %IP%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
 
 # latest Spamassassin version
 #SA_URL=$(wget -qO- https://packages.debian.org/sid/all/spamassassin/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
@@ -561,65 +582,58 @@ echo "This is a test mail." | mailx -s "[first] subject of the first email" <ADD
 #dpkg -i spamassassin_all.deb
 
 # SSL for web, mail etc.
-# see: security/new-ssl-cert.sh
-# test TLS connections: security/README.md
+# See: security/new-ssl-cert.sh
+
+# Test TLS connections: security/README.md
 
 # ProFTPD
 # When the default locale for your system is not en_US.UTF-8
 # be sure to add this to /etc/default/proftpd for fail2ban to understand dates.
+#
 # export LC_TIME="en_US.UTF-8"
 
-# monit - monitoring
+# Monit - monitoring
 # https://mmonit.com/monit/documentation/monit.html
-#apt-get install -t wheezy-backports -y monit
-# backported from sid: https://packages.debian.org/sid/amd64/monit/download
+#
+# apt-get install -t wheezy-backports -y monit
+#
+# Backported from sid: https://packages.debian.org/sid/amd64/monit/download
 wget -O monit_amd64.deb http://szepeviktor.github.io/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
 dpkg -i monit_amd64.deb
-# for configuration see: monitoring/monit
+# For configuration see: monitoring/monit/
 service monit restart
-# wait for start
+# Wait for start
 tail -f /var/log/monit.log
 monit summary
 lynx 127.0.0.1:2812
 
-# munin - network-wide graphing
+# Munin - network-wide graphing
 apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl
 apt-get install -t wheezy-backports -y munin-node
-# for configuration see: monitoring/munin
-# enable plugins by hand
+# For configuration see: monitoring/munin
+# Enable plugins by hand
 munin-node-configure --shell
-# review plugins
+# Review plugins
 ps aux
 ls -l /etc/munin/plugins
-# check plugins
+# Check plugins
 ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4;
     elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
-# allow munin server IP in node config
-# regexp IP address: ^1\.2\.3\.4$
+# Allow munin server IP in node config
+# Regexp IP address like: ^1\.2\.3\.4$
 editor /etc/munin/munin-node.conf
 service munin-node restart
 
-# clean up
-# ??? python-xapian
-apt-get purge manpages
+# Clean up
+apt-get purge -y manpages
 apt-get autoremove --purge
 
-# backup /etc
+# Throttle package downloads (1000 kB/s)
+echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
+
+# Backup /etc
 tar cJf "/root/${H//./-}_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
 
-# clients and services
+# Clients and services
 editor /root/clients.list
 editor /root/services.list
-
-# colorized man with less
-man() {
-    env \
-        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m") \
-        LESS_TERMCAP_me=$(printf "\e[0m") \
-        LESS_TERMCAP_se=$(printf "\e[0m") \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-        LESS_TERMCAP_ue=$(printf "\e[0m") \
-        LESS_TERMCAP_us=$(printf "\e[1;32m") \
-            man "$@"
-}
