@@ -2,8 +2,8 @@
 #
 # Add blocklist.de's list for very abusive IP-s to iptables.
 #
-# VERSION       :0.2
-# DATE          :2015-02-19
+# VERSION       :0.3
+# DATE          :2015-06-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,20 +22,20 @@ isIP() {
     [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
 }
 
-# check iptables executable
+# Check iptables executable
 if ! [ -x "$IPTABLES" ]; then
     echo "iptables executable not found (${IPTABLES})" >&2
     exit 1
 fi
 
-# check list integrity
+# Check list integrity
 A5K_MD5="$(wget -qO- "${A5K_URL}.md5")"
 A5K_TMP="$(tempfile)"
+trap "rm '$A5K_TMP' &> /dev/null" EXIT
 
 wget -qO "$A5K_TMP" "$A5K_URL"
 if ! [ -s "$A5K_TMP" ]; then
     echo "blocklist.de's strongips list download failed." >&2
-    rm "$A5K_TMP"
     exit 2
 fi
 
@@ -44,14 +44,13 @@ A5K_LIST_MD5="${A5K_LIST_MD5%% *}"
 if [ "$A5K_LIST_MD5" != "$A5K_MD5" ]; then
     echo "blocklist.de's strongips list integrity failed." >&2
     echo "Downloaded MD5 (${A5K_MD5}), calculated MD5 (${A5K_LIST_MD5}), list length in bytes ($(wc -c < "$A5K_TMP"))." >&2
-    rm "$A5K_TMP"
     exit 3
 fi
 
-# remove from INPUT for now
+# Remove from INPUT chain for now
 "$IPTABLES" -D INPUT -j "$A5K_CHAIN" &> /dev/null
 
-# set up chain and rules
+# Set up chain and rules
 "$IPTABLES" -N "$A5K_CHAIN" &> /dev/null
 "$IPTABLES" -F "$A5K_CHAIN"
 while read A5K; do
@@ -59,9 +58,9 @@ while read A5K; do
 done < "$A5K_TMP"
 "$IPTABLES" -A "$A5K_CHAIN" -j RETURN
 
-# add back to INPUT
+# Add back to INPUT
 "$IPTABLES" -C INPUT -j "$A5K_CHAIN" &> /dev/null || "$IPTABLES" -I INPUT -j "$A5K_CHAIN"
 
-rm "$A5K_TMP"
-
 tty --quiet && "$IPTABLES" -n -L "$A5K_CHAIN" | grep -w "^DROP" | wc -l
+
+exit 0

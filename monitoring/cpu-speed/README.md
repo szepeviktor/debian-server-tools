@@ -9,9 +9,18 @@ time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$((4 * $(grep 
 ```
 
 https://www.cpubenchmark.net/singleThread.html
+- date
+- CPU model
 - UnixBench
 - seekmark us
 - sysbench ms
+- network speeds
+
+# @TODO measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
+# https://github.com/mgutz/vpsbench/blob/master/vpsbench
+# See: monitoring/cpu-speed/image-speed.sh
+
+- hosting results (http ms, ping ms)
 
 ```
 system         | result (s)

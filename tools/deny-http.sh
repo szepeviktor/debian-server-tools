@@ -1,1 +1,0 @@
-deny-ip.sh

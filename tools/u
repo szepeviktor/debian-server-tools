@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Show non-empty config file lines.
+# Execute a command as the current directory's owner.
 #
 # VERSION       :0.1
 # DATE          :2015-06-13
@@ -8,11 +8,8 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/catconf
+# LOCATION      :/usr/local/sbin/u
 
-CONFIG="$1"
-EMPTY_LINES='^\s*#|^\s*$'
+THIS_OWNER="$(stat . -c %U)"
 
-[ -f "$CONFIG" ] || exit 1
-
-grep -Ev "$EMPTY_LINES" "$CONFIG"
+sudo -u "$THIS_OWNER" --  "$@"

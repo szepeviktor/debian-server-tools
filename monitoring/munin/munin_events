@@ -22,10 +22,10 @@ The following is the default configuration
 You could trigger alert on updatefailure
 
   [munin_events]
-  env.munin_fatal_critical 1
-  env.munin_error_critical 1
-  env.munin_warning_warning 1
-  env.munin_warning_critical 10
+  env.munin_fatal_critical 0
+  env.munin_error_critical 0
+  env.munin_warning_warning 0
+  env.munin_warning_critical 5
 
 =head1 INTERPRETATION
 

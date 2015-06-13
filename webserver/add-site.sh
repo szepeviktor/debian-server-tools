@@ -5,33 +5,34 @@
 
 exit 0
 
-
-U=<USER>
-DOMAIN=<DOMAIN>
+U=USER
+DOMAIN=DOMAIN
 
 adduser --disabled-password $U
 
-# add system mail alias for <USER>
+# Add system mail alias for the user
 cd /etc/courier/aliases
 makealiases
 
-# add sudo permissions for real users
+# Add sudo permissions to real users
 cd /etc/sudoers.d/
-# set up SSH key
+
+# Set up SSH key
 sudo -u $U -i -- ssh-keygen -t rsa
 cd /home/$U/.ssh
 cp -a id_rsa.pub authorized_keys2
 zip --encrypt $U.zip id_rsa*
 
+# Website directories
 cd /home/$U/
 mkdir website && cd website
-mkdir {session,tmp,html,pagespeed,backup}
+mkdir {session,tmp,html,pagespeed,backup,fastcgicache}
 
 # HTTP authentication
-htpasswd -c ./htpasswords <HTTP-USER>
+htpasswd -c ./htpasswords HTTP-USER
 chmod 600 ./htpasswords
 
-# existing WP install
+# Install WordPress
 cd /home/$U/
 
 # migrate files NOW

@@ -21,7 +21,7 @@ ENABLED_PLUGIN_PATH="/etc/munin/plugins"
 #        elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
 # Allow munin server IP in node config
 #    [name.domain.net]
-#        address 1\.2\.3\.4
+#        address ^1\.2\.3\.4$
 #        use_node_name yes
 #        contacts sms
 #        #contacts email
@@ -72,29 +72,38 @@ Enable_manual_plugin() {
 }
 
 munin_events() {
-    # for munin master only
+    # For munin master only
     [ -x /usr/bin/munin-cron ] || return 1
 
     if ! which logtail2 &> /dev/null; then
-        echo "ERROR: logtail2 is missing apt-get install -y logtail"
+        echo "ERROR: logtail2 is missing  apt-get install -y logtail"
         return 1
     fi
 
     Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/munin_events"
-    echo '            if stat == "total_memory":
-                print "monit_%s_%s.warning 1:" % (process, stat)
-    '
-    sleep 5
+    cat > "${PLUGIN_CONF_DIR}/munin_events" <<MUNIN_EVENTS_CONF
+[munin_events]
+user munin
+env.munin_fatal_critical 0
+env.munin_error_critical 0
+env.munin_warning_warning 0
+env.munin_warning_critical 5
+MUNIN_EVENTS_CONF
 }
 
 munin_monit() {
-    which monit &> /dev/null || return 1
+    [ -x /usr/bin/monit ] || return 1
 
     Install_plugin "https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser"
-    cat > "${PLUGIN_CONF_DIR}/monit" <<MONIT_CONF
+    cat > "${PLUGIN_CONF_DIR}/monit_parser" <<MONIT_CONF
 [monit_parser]
 user root
 MONIT_CONF
+    echo '# Add:
+            if stat == "total_memory":
+                print "monit_%s_%s.warning 1:" % (process, stat)
+    '
+    sleep 5
 
     Enable_manual_plugin "monit_parser"
 }

@@ -19,7 +19,7 @@ OBNAM_DEFAULTS+=" --repository=${OBNAM_REPO} ${OBNAM_EXCLUDES}"
 tty --quiet || OBNAM_DEFAULTS+=" --quiet --log=syslog"
 
 # Umount on every exit
-trap "umount "$MOUNT_POINT" &> /dev/null" EXIT
+trap "umount '$MOUNT_POINT' &> /dev/null" EXIT
 
 Error() {
     echo "ERROR: $*" >&2

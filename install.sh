@@ -91,8 +91,8 @@ Do_install() {
         done
 
     # Cron
-    if head -n 30 "$FILE" | grep -qi "^# CRON-"; then
-        ./install-cron.sh "$FILE" || Die 13 "Cron installation failulre (${FILE})"
+    if head -n 30 "$FILE" | grep -qi "^# CRON"; then
+        $(dirname $0)/install-cron.sh "$FILE" || Die 13 "Cron installation failulre (${FILE})"
     fi
 }
 

@@ -44,7 +44,7 @@ if ! [ -f "$SCRIPT" ]; then
 fi
 
 #TODO rewrite: loop through valid crons and `head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE"`
-CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i "^# CRON-")"
+CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i "^# CRON")"
 
 [ -z "$CRON_JOBS" ] && Die 3 "No cron job in script."
 

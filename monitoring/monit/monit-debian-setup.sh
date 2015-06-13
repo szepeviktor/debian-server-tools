@@ -3,14 +3,14 @@
 # Configure monit plugins
 # These MONIT_* variables need to be filled in.
 #
-# VERSION       :0.2
+# VERSION       :0.3
 # DOCS          :http://mmonit.com/wiki/Monit/ConfigurationExamples
 
 # Tests: init.d,  pid,  bin,  conf,  output age
 
-############## ADD cONDITIONS+++++++++++++++++!!!!!!!!!!!!!!!!!!!
+############## @TODO ADD CONDITIONS+++++++++++++++++!!!!!!!!!!!!!!!!!!!
 
-MONIT_BOOT_DELAY="120"
+MONIT_BOOT_DELAY="40"
 # hostname in alert address: root@
 MONIT_EMAIL_HOST=""
 # for system monitoring file name
@@ -136,25 +136,29 @@ MONITFAIL2BAN
 
 
 # Enable custom plugins
+
 Monit_enable 00_monitrc
 Monit_enable "01_${MONIT_FULL_HOSTNAME}"
-Monit_enable unscd
-Monit_enable fail2ban
+[ -x /usr/sbin/nscd ] && Monit_enable unscd
+[ -x /usr/bin/fail2ban-server ] && Monit_enable fail2ban
 
 # Enable contributed plugins
-# https://github.com/perusio/monit-miscellaneous
-wget -O /etc/monit/monitrc.d/php-fpm-unix \
-    "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
-# @FIXME Has a bug: https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix
-sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
-    /etc/monit/monitrc.d/php-fpm-unix
-#sed -i "s|alert root@localhost only on {timeout}$|alert root@${MONIT_EMAIL_HOST} only on {timeout}|g" \
-#    /etc/monit/monitrc.d/php-fpm-unix
-sed -i "s|alert root@localhost only on {timeout}$||g" /etc/monit/monitrc.d/php-fpm-unix
-sed -i "s|alert root@localhost$||g" /etc/monit/monitrc.d/php-fpm-unix
-Monit_enable php-fpm-unix
 
-# http://storage.fladi.at/~FladischerMichael/monit/
+if [ -x /usr/sbin/php5-fpm ]; then
+    #     https://github.com/perusio/monit-miscellaneous
+    wget -O /etc/monit/monitrc.d/php-fpm-unix \
+        "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
+    # @FIXME Has a bug: https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix
+    sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
+        /etc/monit/monitrc.d/php-fpm-unix
+    #sed -i "s|alert root@localhost only on {timeout}$|alert root@${MONIT_EMAIL_HOST} only on {timeout}|g" \
+    #    /etc/monit/monitrc.d/php-fpm-unix
+    sed -i "s|alert root@localhost only on {timeout}$||g" /etc/monit/monitrc.d/php-fpm-unix
+    sed -i "s|alert root@localhost$||g" /etc/monit/monitrc.d/php-fpm-unix
+    Monit_enable php-fpm-unix
+fi
+
+#     http://storage.fladi.at/~FladischerMichael/monit/
 # Mirror: https://github.com/szepeviktor/FladischerMichael.monit
 if [ -x /usr/sbin/courieresmtpd ]; then
     wget -O /etc/monit/monitrc.d/courier \
@@ -176,18 +180,21 @@ fi
 # See: https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
 
 # Enable built-in plugins
-Monit_enable apache2
+
 Monit_enable cron
-Monit_enable mysql
 Monit_enable openssh-server
 Monit_enable rsyslog
+[ -x /usr/sbin/apache2 ] && Monit_enable apache2
+[ -x /usr/sbin/mysqld ] && Monit_enable mysql
 
 # Enable built-in plugins - hardware related
+
 #Monit_enable acpid
 #Monit_enable smartmontools
 #Monit_enable mdadm
 
 # Enable built-in plugins - others
+
 #Monit_enable at
 #Monit_enable memcached
 #Monit_enable nginx
@@ -197,6 +204,7 @@ Monit_enable rsyslog
 #Monit_enable snmpd
 
 # Mail
+
 #Monit_enable spamassassin
 #Monit_enable courier-imap
 

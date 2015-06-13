@@ -147,7 +147,7 @@ Add_check SWAP 'tail -n +2 /proc/swaps | cut -f 2 | paste -s -d", "'
 Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocksource'
 
 # virtual console
-Add_check CONSOLE 'ls /dev/hvc0'
+#Add_check CONSOLE 'ls /dev/hvc0'
 
 # first nameserver (IPv4 only)
 Add_check DNS1 'grep -m 1 "^\s*[^#]*nameserver" /etc/resolv.conf | grep -o "[0-9.]*"'

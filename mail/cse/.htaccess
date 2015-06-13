@@ -1,0 +1,19 @@
+<IfModule mod_setenvif.c>
+    # @@SERVER-NAME@@
+    SetEnvIf Remote_Addr "^@@IP-REGEXP@@$" allowed_ip
+    # User agent string
+    SetEnvIf User-Agent "^Can-send-email" allowed_ua
+    SetEnvIf Request_Method "^GET$" allowed_method
+    Order Allow,Deny
+    Allow from all
+    Deny from env=!allowed_ip
+    Deny from env=!allowed_ua
+    Deny from env=!allowed_method
+</IfModule>
+
+<IfModule !mod_setenvif.c>
+    Order Deny,Allow
+    Deny from all
+    # @@SERVER-NAME@@
+    Allow from @@IP@@
+</IfModule>
