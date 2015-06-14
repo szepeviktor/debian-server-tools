@@ -10,11 +10,12 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
-# CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --trigger
-# CRON.D        :50 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --check
+# CRON.D        :40 */6	* * *	root	/usr/local/sbin/can-send-email.sh --trigger
+# CRON.D        :60 */6	* * *	root	/usr/local/sbin/can-send-email.sh --check
 
 ALERT_ADDRESS="viktor@szepe.net"
 WORK_DIR="/var/lib/can-send-email"
+CSE_ADDRESS="cse@worker.szepe.net"
 # 6 hours in seconds
 FAILURE_INTERVAL="$((6 * 3600))"
 
@@ -95,6 +96,26 @@ Update_last() {
     Sql 'UPDATE host SET "last" = "%s" WHERE "hostname" = "%s";' \
         "$LAST" "$HOSTNAME" \
         || logger -t "can-send-email" "Update failed for host: '${HOSTNAME}'"
+    logger -t "can-send-email" "Updated: '${HOSTNAME}' @${LAST}"
+}
+
+# pipe: list of URL-s
+Trigger() {
+    while read URL; do
+        case "${URL:0:4}" in
+            "http")
+                wget -q -O- --max-redirect=0 --tries=1 --timeout=5 --user-agent="$HTTP_USER_AGENT" "$URL"
+                ;;
+            "mail")
+                ADDRESS="${URL#mailto:}"
+                # Hack to pass from address to sendmail
+                #     mailx -- RECIPIENT -f SENDER
+                echo -e "Ennek az emailnek vissza kéne pattannia.\nThis email should bounce back.\n" \
+                    | mailx -s "[cse] bounce message / Email kézbesítés monitorozás" \
+                    -S "from=${CSE_ADDRESS}" -- "$ADDRESS" "-f${CSE_ADDRESS}"
+                ;;
+        esac
+    done
 }
 
 Get_urls() {
@@ -131,9 +152,7 @@ case "$1" in
 
     # Trigger emails cron job
     "--trigger")
-        Get_urls \
-            | wget -q -O- --max-redirect=0 --tries=1 --timeout=5 --user-agent="$HTTP_USER_AGENT" \
-                -i - 1>&2
+        Get_urls | Trigger 1>&2
         ;;
 
     # Check failures cron job
@@ -153,11 +172,33 @@ case "$1" in
 
         cat > "$MSG_TMP"
 
+        # From http:
         HOSTNAME="$(grep -m1 -x "X-Host: \S\+" "$MSG_TMP")"
-
         if grep -q "^Subject: \[cse\]" "$MSG_TMP" \
             && [ -n "$HOSTNAME" ]; then
             HOSTNAME="${HOSTNAME#X-Host: }"
+            Update_last "$HOSTNAME" "$NOW"
+            exit
+        fi
+
+        # Bounce message (DSN)
+        HOSTNAME="$(grep -m1 -i '^From: \S\+' "$MSG_TMP" | sed 's/^From: .*@\([^>]\+\).*$/\1/I')"
+        if grep -q "^Subject: \[cse\]" "$MSG_TMP" \
+            && [ -n "$HOSTNAME" ] \
+            && ( grep -q -i '^From: .*mailer-daemon' "$MSG_TMP" \
+                || grep -q -i '^Subject: .*mail delivery' "$MSG_TMP" \
+                || grep -q -i '^Content-Type: .*\(report\|delivery\|status\)' "$MSG_TMP" \
+                || grep -q -i '^X-Failed-Recipients: \S\+' "$MSG_TMP" \
+            ); then
+            Update_last "$HOSTNAME" "$NOW"
+            exit
+        fi
+
+        # Forwarded message back to CSE_ADDRESS
+        HOSTNAME="$(grep -m1 -i "^To: -f${CSE_ADDRESS}" "$MSG_TMP" | sed "s/^To: -f${CSE_ADDRESS}, \(.*\)$/\1/I")"
+        if grep -q "^Subject: \[cse\]" "$MSG_TMP" \
+            && [ -n "$HOSTNAME" ] \
+            && grep -q -i -x "From: ${CSE_ADDRESS}" "$MSG_TMP"; then
             Update_last "$HOSTNAME" "$NOW"
             exit
         fi
