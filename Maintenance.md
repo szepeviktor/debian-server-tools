@@ -4,7 +4,7 @@
 - **honlap sebesség növelése**
 - **sokféle honlap monitorozás**
 - **kapcsolat űrlap és email forgalom monitorozás**
-- **biztonsági óvintézkedések**
+- **biztonsági óvintézkedések és honlap tűzfal**
 
 ## Kinek ajánlott
 
@@ -17,7 +17,8 @@
 
 - tárhely biztosítása a honlaphoz (2 GB-ig, email fiókokat nem tartalmaz)
 - betörés (malware fertőzés) esetén takarítás
-- * biztonsági mentés fájlokról, adatbázisról naponta (5 GB-ig)
+- tamadók, biztonsági réseket kereső robotok kitiltása (tűzfal)
+- * biztonsági mentés fájlokról, adatbázisról **naponta** (5 GB-ig)
 - biztonsági mentés fájlokról, adatbázisról havonta (5 GB-ig)
 - magas fokú honlap biztonság, fájl változás jelentés 30 percenként
 - domain név lejárat figyelés, új regisztráció, módosítás
@@ -27,6 +28,7 @@
 - * PHP és MySQL futás monitorozás óránként
 - WMT (Google Webmestereszközök) teljes rendberakása hetente
 - * nem létező tartalomra mutató linkek (404) javítása naponta (hibanapló szűréssel)
+- jelszó és felhasználói fiók menedzsment, technikai segítség belépési problémáknál
 
 ### Honlap gyorsítás SEO-hoz
 
@@ -52,6 +54,11 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 
 ## Más szolgáltatások egyedi megállapodás szerint
 
+- WordPress honlap tervezés és kivitelezés
 - módosítás a honlap szerkezetén (programozás, sitebuild)
 - tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
 - domain regisztráció intézése (csak az Ön vagy cége nevére)
+- PageSpeed 100 (vagy 99) ponton tartása
+- betörés utáni takarítás egy alkalommal
+- szerver (VPS vagy fizikai gép) üzemben tartás
+- prémium levelezés személyes technikai támogatással és kézbesítés monitorozás
