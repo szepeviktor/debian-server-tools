@@ -2,18 +2,26 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.6
-# DATE          :2015-05-10
+# VERSION       :0.7
+# DATE          :2015-06-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/wp-cron-http.sh
+# LOCATION      :/usr/local/bin/wp-cron-cli.sh
 # DEPENDS       :apt-get install php5-cli
 
 # Disable wp-cron in your wp-config.php
 #
 #     define( 'DISABLE_WP_CRON', true );
+#
+# Reasons for WP-Cron to fail could be due to:
+#  - DNS issue in the server.
+#  - Plugins conflict
+#  - Heavy load in the server which results in WP-Cron not executed fully
+#  - WordPress bug
+#  - Using of cache plugins that prevent the WP-Cron from loading
+#  - And many other reasons
 
 # @TODO  drop $WPCRON_PATH
 

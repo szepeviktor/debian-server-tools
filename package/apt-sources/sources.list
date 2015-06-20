@@ -12,5 +12,5 @@ deb http://security.debian.org/ jessie/updates main contrib non-free
 deb %MIRROR% jessie-updates main
 
 # Backports
-# http://backports.debian.org/changes/wheezy-backports.html
+#     http://backports.debian.org/changes/jessie-backports.html
 deb %MIRROR% jessie-backports main

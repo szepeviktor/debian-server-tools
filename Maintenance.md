@@ -1,5 +1,21 @@
+#### Röviden a honlap üzemeltetésről
+
+- **tárhely SSD alapú VPS-eken**
+- **honlap sebesség növelése**
+- **sokféle honlap monitorozás**
+- **kapcsolat űrlap és email forgalom monitorozás**
+- **biztonsági óvintézkedések**
+
+## Kinek ajánlott
+
+- üzeletileg tényleg kritikus honlaphoz és webes szolgáltatáshoz
+- közepes (10 000/hó) és nagy forgalmú honlaphoz
+- marketing cégeknek kiegészítő szolgáltatásként
+- prémium tárhelyszolgáltatóknak extraként
+
 ## Honlap karbantartás a részleges és teljes leállások megelőzésére
 
+- tárhely biztosítása a honlaphoz (2 GB-ig, email fiókokat nem tartalmaz)
 - betörés (malware fertőzés) esetén takarítás
 - * biztonsági mentés fájlokról, adatbázisról naponta (5 GB-ig)
 - biztonsági mentés fájlokról, adatbázisról havonta (5 GB-ig)
@@ -28,7 +44,14 @@
 - WordPress bővítmények frissítése
 - * HTML hibák javítása (amelyekhez nem kell újraírni a honlapot)
 - * Google Analytics, Facebook és más követő vagy megosztó kódok, beágyazott mérőkódok beállítása és ellenőrzése
+- * [kattintási hőtérkép](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png) készítés
 - * újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
 - * képek optimalizálása (méret csökkentés, szebb betöltődés)
 
 A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
+
+## Más szolgáltatások egyedi megállapodás szerint
+
+- módosítás a honlap szerkezetén (programozás, sitebuild)
+- tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
+- domain regisztráció intézése (csak az Ön vagy cége nevére)

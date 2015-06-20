@@ -7,6 +7,7 @@ lsusb
 ntpdate + hwclock --systohc
 
 smatmontools + alert
+?hddtemp
 
 sensors volt, fan, ... + alert
 

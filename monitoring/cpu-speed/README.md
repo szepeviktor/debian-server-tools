@@ -2,8 +2,9 @@
 
 ```bash
 # One thread, all threads, 4 times overload
-#apt-get install -y time sysbench
-time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1 #--max-requests=1000
+apt-get install -y time sysbench
+time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1 --max-requests=1000
+time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1
 time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$(grep -c "^processor" /proc/cpuinfo)
 time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$((4 * $(grep -c "^processor" /proc/cpuinfo)))
 ```

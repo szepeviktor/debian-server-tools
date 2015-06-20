@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #
 # Debian server setup - jessie amd64
@@ -9,12 +8,13 @@
 #     cdns.ovh.net.
 #     ntp.ovh.net
 # aruba
-#     dns.aruba.it. dns2.aruba.it.
+#     DC1-IT 62.149.128.4 62.149.132.4
+#     DC3-CZ 81.2.192.131 81.2.193.227
 
 # How to choose VPS provider?
 #
 # - Disk access time
-# - CPU speed (2000+ PassMark - CPU Mark)
+# - CPU speed (~2000 PassMark CPU Mark, ~20 ms sysbench)
 # - Worldwide and local bandwidth
 # - Spammer neighbours? https://www.projecthoneypot.org/ip_1.2.3.4
 # - Nightime technical support: network or hardware failure response time
@@ -28,9 +28,9 @@
 
 # Autorun from a gist
 #
-# wget -qO ds.dh http://git.io/vIlCB && . ds.dh
+# wget -O ds.dh http://git.io/vIlCB && . ds.dh
 #
-# wget -qO ds.sh https://raw.githubusercontent.com/szepeviktor/debian-server-tools/master/debian-setup.sh && . ds.sh
+# wget -O ds.sh https://raw.githubusercontent.com/szepeviktor/debian-server-tools/master/debian-setup.sh && . ds.sh
 
 # Variables
 DS_MIRROR="http://http.debian.net/debian"
@@ -42,6 +42,11 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 set -e -x
 
 Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2; }
+
+# Download architecture-independent packages
+Getpkg() { local P="$1"; local R="${2-sid}"; local WEB="https://packages.debian.org/${R}/all/${P}/download";
+    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')";
+    [ -z "$URL" ] && return 1; wget -qO "${P}.deb" "$URL" && dpkg -i "${P}.deb"; echo "Ret=$?"; }
 
 [ "$(id -u)" == 0 ] || exit 1
 
@@ -72,8 +77,9 @@ for R in ${DS_REPOS};do cp -v ${D}/package/apt-sources/${R}.list /etc/apt/source
 eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
 #editor /etc/apt/sources.list
 
-# Disable apt languages
+# APT settings
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
+echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/20download-upgrade
 
 # Upgrade
 apt-get update
@@ -96,11 +102,12 @@ dpkg-reconfigure -f noninteractive dash
 # ---------- Automated --------------- >8 ------------- >8 ------------
 set +e +x
 
-exit 0
+return 0
 
 # Remove systemd
 dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit sysvinit-utils
 read -s -p 'Ctrl + D to reboot ' || reboot
+
 apt-get remove -y --purge --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
@@ -139,8 +146,8 @@ else
 fi
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
-alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
-#export IP="$(ip addr show dev eth0|grep -o -m1 "inet [0-9\.]*"|cut -d' ' -f2)"
+#alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
+export IP="$(ip addr show dev eth0|grep -o -m1 "inet [0-9\.]*"|cut -d' ' -f2)"
 # Colorized man pages with less
 man() {
     env \
@@ -159,8 +166,8 @@ man() {
 # Markdown for mc
 #cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
 #editor ~/.config/mc/mc.ext
-#regex/\.md(own)?$
-#	View=pandoc -s -f markdown -t man %p | man -l -
+#    regex/\.md(own)?$
+#    	View=pandoc -s -f markdown -t man %p | man -l -
 
 # Add INI extensions for mc
 cp -v /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
@@ -170,18 +177,19 @@ sed -i 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\
 
 # Username
 U="viktor"
-adduser ${U}
+# GECOS: Full name,Room number,Work phone,Home phone
+adduser --gecos "" ${U}
 # <<< Enter password twice
 K="PUBLIC-KEY"
 S="/home/${U}/.ssh";mkdir --mode 700 "$S";echo "$K" >> "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 adduser ${U} sudo
 
-# Remove root and other passwords
+# Change root and other passwords to "*"
 editor /etc/shadow
 # sshd on another port
 sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
 # Disable root login
-sed 's/^PermitRootLogin yes$/#PermitRootLogin yes/' -i /etc/ssh/sshd_config
+sed 's/^PermitRootLogin yes$/PermitRootLogin no/' -i /etc/ssh/sshd_config
 # Disable password login for sudoers
 echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 # Add IP blocking
@@ -195,18 +203,17 @@ logout
 
 # Log in
 sudo su - || exit
+D="$(pwd)"
 
 # Hardware
 lspci
 [ -f /proc/modules ] && lsmod || echo "WARNING: monolithic kernel"
 
 # Disk configuration
-cat /proc/mdstat
-cat /proc/partitions
+clear; cat /proc/mdstat; cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
 cat /proc/mounts
-swapoff -a; swapon -a
-cat /proc/swaps
+swapoff -a; swapon -a; cat /proc/swaps
 # Create swap file
 #     dd if=/dev/zero of=/swap0 bs=1M count=768
 #     chmod 0600 /swap0
@@ -218,8 +225,9 @@ grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
 uname -a
 # List kernels
 apt-cache policy "linux-image-3.*"
-apt-get install linux-image-amd64=KERNEL-VERSION
-dpkg -l|grep "grub"
+#apt-get install linux-image-amd64=KERNEL-VERSION
+ls -l /lib/modules/
+dpkg -l | grep "grub"
 ls -latr /boot/
 # OVH Kernel "made-in-ovh"
 #     https://gist.github.com/szepeviktor/cf6b60ac1b2515cb41c1
@@ -228,7 +236,7 @@ ls -latr /boot/
 editor /etc/modules
 editor /etc/sysctl.conf
 
-# Miscellaneous files
+# Miscellaneous configuration
 editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
@@ -238,6 +246,7 @@ editor /etc/motd
 editor /etc/network/interfaces
 #     iface eth0 inet static
 #         address IP
+#         netmask 255.255.255.0
 #         gateway GATEWAY
 ifconfig -a
 route -n -4
@@ -246,8 +255,8 @@ netstat -antup
 
 editor /etc/resolv.conf
 #     nameserver 8.8.8.8
-#     nameserver 8.8.4.4
 #     nameserver LOCAL-NS
+#     nameserver 8.8.4.4
 #     options timeout:2
 #     #options rotate
 
@@ -272,8 +281,16 @@ grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
-# # ORIGINAL-REVERSE-DNS
-# 127.0.1.1 host host.domain.tld
+#     127.0.0.1 localhost
+#     127.0.1.1 localhost
+#     ::1     ip6-localhost ip6-loopback
+#     fe00::0 ip6-localnet
+#     ff00::0 ip6-mcastprefix
+#     ff02::1 ip6-allnodes
+#     ff02::2 ip6-allrouters
+#
+#     # ORIGINAL-PTR $(host "$IP")
+#     IP.IP.IP.IP HOST.DOMAIN HOST
 editor /etc/hosts
 
 # Locale and timezone
@@ -283,7 +300,7 @@ cat /etc/timezone
 dpkg-reconfigure tzdata
 
 # Comment out getty[2-6], NOT /etc/init.d/rc !
-# Consider agetty
+# Consider /sbin/agetty
 editor /etc/inittab
 # Sanitize users
 editor /etc/passwd
@@ -294,7 +311,7 @@ editor /etc/shadow
 dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
 apt-get purge acpi at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
-    manpages rpcbind nfs-common w3m isc-dhcp-client isc-dhcp-common
+    manpages man-db rpcbind nfs-common w3m tex-common isc-dhcp-client isc-dhcp-common
 deluser Debian-exim
 deluser messagebus
 # 3. VPS monitoring
@@ -312,14 +329,15 @@ dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
 aptitude search '?narrow(?installed, !?origin(Debian))'
 # 7. Obsolete packages
 aptitude search '?obsolete'
-# 8. Manually installed, not "required" and not "important" packages
-aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p"|most
+# 8. Manually installed, not "required" and not "important" packages minus known ones
+aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p" \
+    | grep -v -f ${D}/package/debian-jessie-not-req-imp.pkgs | xargs echo
 # 9. Development packages
 dpkg -l|grep -- "-dev"
 # List by section
 aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%s %p"|sort
 
-dpkg -l|most
+dpkg -l | most
 apt-get autoremove --purge
 
 # Essential packages
@@ -349,12 +367,11 @@ find / -type l -xtype l -not -path "/proc/*"
 debsums --all --changed | tee debsums-changed.log
 
 # Custom APT repositories
-editor /etc/apt/sources.list.d/others.list
-apt-get update
+#editor /etc/apt/sources.list.d/others.list && apt-get update
 
 # Detect whether your container is running under a hypervisor
 wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
-unzip slabbed-or-not.zip && rm slabbed-or-not.zip
+unzip slabbed-or-not.zip && rm -f slabbed-or-not.zip
 cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
 
 # rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
@@ -364,7 +381,8 @@ editor /etc/rsyslog.conf
 
 # Debian tools
 cd /usr/local/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
-D="$(pwd)"
+D="$(pwd)/debian-server-tools"
+rm -rf /root/src/debian-server-tools-master/
 
 # Make cron log all failed jobs (exit status != 0)
 sed -i "s/^# \(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
@@ -375,12 +393,12 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
 
 # Time synchronization
-cd ${D}
-./install.sh monitoring/ntpdated
+cd ${D}; ./install.sh monitoring/ntpdated
 # Set nearest time server: http://www.pool.ntp.org/en/
 #     NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 #     NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
 #     NTPSERVERS="0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org"
+#     NTPSERVERS="0.cz.pool.ntp.org 1.cz.pool.ntp.org 2.cz.pool.ntp.org 3.cz.pool.ntp.org"
 #     NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
 # OVH
 #     NTPSERVERS="ntp.ovh.net"
@@ -388,8 +406,6 @@ editor /etc/default/ntpdate
 
 # µnscd
 apt-get install -y unscd
-# @wheezy wget -O unscd_amd64.deb http://szepeviktor.github.io/debian/pool/main/u/unscd/unscd_0.51-1~bpo70+1_amd64.deb
-# @wheezy dpkg -i unscd_amd64.deb
 editor /etc/nscd.conf
 #     enable-cache            hosts   yes
 #     positive-time-to-live   hosts   60
@@ -397,40 +413,57 @@ editor /etc/nscd.conf
 service unscd stop && service unscd start
 
 # VPS check
-cd ${D}
-./install.sh monitoring/vpscheck.sh
+cd ${D}; ./install.sh monitoring/vpscheck.sh
 editor /usr/local/sbin/vpscheck.sh
 vpscheck.sh -gen
 editor /root/.config/vpscheck/configuration
 # Test run
 vpscheck.sh
 
-# Fail2ban
-apt-get install -y geoip-bin recode python3-pyinotify
-# Latest: https://packages.qa.debian.org/f/fail2ban.html
-FAIL2BAN=$(wget -qO- https://packages.debian.org/sid/all/fail2ban/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
-wget -O fail2ban_all.deb "$FAIL2BAN"
-# Version 0.9.1
-#     wget -O fail2ban_all.deb http://szepeviktor.github.io/debian/pool/main/f/fail2ban/fail2ban_0.9.1-1_all.deb
-dpkg -i fail2ban_all.deb
-# geoip-database-contrib
-GEOIP=$(wget -qO- https://packages.debian.org/sid/all/geoip-database-contrib/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')
-wget -O geoip-database-contrib_all.deb "$GEOIP"
-dpkg -i geoip-database-contrib_all.deb
+# Courier MTA - deliver all mail to a smarthost
+apt-get install -y courier-mta courier-mta-ssl
+dpkg -l | grep -E "postfix|exim"
+# Host name
+editor /etc/courier/me
+mx $(cat /etc/courier/me) || Error "no MX for me"
+editor /etc/courier/defaultdomain
+editor /etc/courier/dsnfrom
+editor /etc/courier/aliases/system
+editor /etc/courier/esmtproutes
+#     : %SMART-HOST%,587 /SECURITY=REQUIRED
+# From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
+#     : %SMART-HOST%,465 /SECURITY=SMTPS
+editor /etc/courier/esmtpd
+# ADDRESS=127.0.0.1
+# ESMTPAUTH=""
+# ESMTPAUTH_TLS=""
+editor /etc/courier/esmtpd-ssl
+# SSLADDRESS=127.0.0.1
+makealiases
+makesmtpaccess
+service courier-mta restart
+service courier-mta-ssl restart
+echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
+# On the smarthost add:
+#     %IP%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
 
-editor /etc/fail2ban/jail.local
-editor /etc/fail2ban/fail2ban.local
-# Filters: apache-combined.local, apache-asap.local
-# Actions: sendmail-geoip-lines.local
+# Fail2ban
+#     https://packages.qa.debian.org/f/fail2ban.html
+Getpkg geoip-database-contrib
+apt-get install -y geoip-bin recode python3-pyinotify
+#     apt-get install -y fail2ban
+Getpkg fail2ban
+mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
+# Config:    fail2ban.local
+# Jails:     jail.local
+# /filter.d: apache-combined.local, apache-asap.local
+# /action.d: sendmail-geoip-lines.local
+service fail2ban restart
 
 # Apache 2.4
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
 apt-get install -y apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
-a2enmod actions
-a2enmod rewrite
-a2enmod headers
-a2enmod deflate
-a2enmod expires
+a2enmod actions rewrite headers deflate expires
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
 cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
 # Use php-fpm.conf settings per site
@@ -444,9 +477,14 @@ editor /etc/apache2/apache2.conf
 # For poorly written themes and plugins
 apt-get install -y mod-pagespeed-stable
 # Remove duplicate
-rm -v /etc/apt/sources.list.d/mod-pagespeed.list
+ls -l /etc/apt/sources.list.d/*pagespeed*
+#rm -v /etc/apt/sources.list.d/mod-pagespeed.list
 
-# Adding a website see: webserver/Add-site.md
+# Add the development website
+# See: ${D}/webserver/add-dev-site.sh
+
+# Add a website
+# See: ${D}/webserver/add-site.sh
 
 # Nginx 1.8
 apt-get install -y nginx-lite
@@ -480,13 +518,16 @@ sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/p
 sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
-grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini|most
+
+# @TODO realpath_cache* -> measure
+
+grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini | most
 # Disable "www" pool
 sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
 cp -v ${D}/webserver/php5fpm-pools/* /etc/php5/fpm/
 # PHP 5.6+ session cleaning
 mkdir -p /usr/local/lib/php5
-cp ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
+cp -v ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
 
 # @FIXME Timeouts
 # - PHP max_execution_time
@@ -497,31 +538,35 @@ cp ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
 # Suhosin
 #     https://github.com/stefanesser/suhosin/releases
 #     SUHOSIN_URL="RELEASE-TAR"
-# Version 0.9.38
-SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.38.tar.gz"
-wget -O- "$SUHOSIN_URL"|tar xz && cd suhosin-*
-phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
-make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
+# Build version 0.9.38
+#SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.38.tar.gz"
+#wget -O- "$SUHOSIN_URL" | tar xz && cd suhosin-*
+#phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
+#make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
 # Enable suhosin
-sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini || echo "ERROR: enabling suhosin"
+#sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini || echo "ERROR: enabling suhosin"
+apt-get install -y php5-suhosin-extension
+#sed -i '1i; priority=99' /etc/php5/mods-available/suhosin.ini
+php5enmod -s fpm suhosin
 
-# @TODO .ini-handler, Search for it!
+# @TODO .ini-handler, Search for it! ?ucf
 
-# PHP secure directives
-assert.active
-mail.add_x_header
-suhosin.executor.disable_emodifier = On
-suhosin.disable.display_errors = 1
-suhosin.session.cryptkey = `apg -m 32`
+# PHP security directives
+#     assert.active
+#     mail.add_x_header
+#     suhosin.executor.disable_emodifier = On
+#     suhosin.disable.display_errors = 1
+#     suhosin.session.cryptkey = $(apg -m 32)
 
 # PHP directives for Drupal
-suhosin.get.max_array_index_length = 128
-suhosin.post.max_array_index_length = 128
-suhosin.request.max_array_index_length = 128
+#     suhosin.get.max_array_index_length = 128
+#     suhosin.post.max_array_index_length = 128
+#     suhosin.request.max_array_index_length = 128
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
-echo -e "[mysql]\nuser=root\npass=?\ndefault-character-set=utf8" >> /root/.my.cnf && chmod 600 /root/.my.cnf
+echo -e "[mysql]\nuser=root\npass=?\ndefault-character-set=utf8" >> /root/.my.cnf
+chmod 600 /root/.my.cnf
 editor /root/.my.cnf
 
 # Control panel for opcache and APC
@@ -592,39 +637,10 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 #
 # See: ${D}/webserver/preload-cache.sh
 
-# Courier MTA - deliver all mail to a smarthost
-apt-get install -y courier-mta courier-mta-ssl
-dpkg -l | grep -E "postfix|exim"
-# Host name
-editor /etc/courier/me
-mx $(cat /etc/courier/me) || Error "no MX for me"
-editor /etc/courier/defaultdomain
-editor /etc/courier/dsnfrom
-editor /etc/courier/aliases/system
-editor /etc/courier/esmtproutes
-#     : %SMART-HOST%,587 /SECURITY=REQUIRED
-# From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
-#     : %SMART-HOST%,465 /SECURITY=SMTPS
-editor /etc/courier/esmtpd
-# ADDRESS=127.0.0.1
-# ESMTPAUTH=""
-# ESMTPAUTH_TLS=""
-editor /etc/courier/esmtpd-ssl
-# SSLADDRESS=127.0.0.1
-makealiases
-makesmtpaccess
-service courier-mta restart
-service courier-mta-ssl restart
-echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
-# On the smarthost add:
-#     %IP%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
+# Spamassassin
+Getpkg spamassassin
 
-# Latest Spamassassin version
-SA_URL="$(wget -O- https://packages.debian.org/sid/all/spamassassin/download|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')"
-wget -O spamassassin_all.deb "$SA_URL"
-dpkg -i spamassassin_all.deb
-
-# SSL for web, mail etc.
+# SSL certificate for web, mail etc.
 # See: ${D}/security/new-ssl-cert.sh
 
 # Test TLS connections
@@ -640,17 +656,13 @@ apt-get install -y libdate-manip-perl
 # Version 0.50
 wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/0.50/dategrep-standalone-small
 chmod +x /usr/local/bin/dategrep
-# See: ${D}/monitoring/syslog-errors.sh
+cd ${D}; ./install.sh monitoring/syslog-errors.sh
 
 # Monit - monitoring
-#     https://mmonit.com/monit/documentation/monit.html
-apt-get install monit
-# Backported from sid
 #     https://packages.debian.org/sid/amd64/monit/download
-wget -O monit_amd64.deb http://szepeviktor.github.io/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
-dpkg -i monit_amd64.deb
-# Configuration
+apt-get install -y monit
 # See: ${D}/monitoring/monit/
+#     https://mmonit.com/monit/documentation/monit.html
 service monit restart
 # Wait for start
 tail -f /var/log/monit.log

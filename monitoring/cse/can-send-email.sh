@@ -11,7 +11,7 @@
 # DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
 # CRON.D        :40 */6	* * *	root	/usr/local/sbin/can-send-email.sh --trigger
-# CRON.D        :60 */6	* * *	root	/usr/local/sbin/can-send-email.sh --check
+# CRON.D        :50 *	* * *	root	/usr/local/sbin/can-send-email.sh --check
 
 ALERT_ADDRESS="viktor@szepe.net"
 WORK_DIR="/var/lib/can-send-email"
@@ -110,7 +110,7 @@ Trigger() {
                 ADDRESS="${URL#mailto:}"
                 # Hack to pass from address to sendmail
                 #     mailx -- RECIPIENT -f SENDER
-                echo -e "Ennek az emailnek vissza kéne pattannia.\nThis email should bounce back.\n" \
+                echo -e "Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n" \
                     | mailx -s "[cse] bounce message / Email kézbesítés monitorozás" \
                     -S "from=${CSE_ADDRESS}" -- "$ADDRESS" "-f${CSE_ADDRESS}"
                 ;;

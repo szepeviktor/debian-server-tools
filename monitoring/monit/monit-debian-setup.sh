@@ -1,22 +1,35 @@
 #!/bin/bash
 #
 # Configure monit plugins
-# These MONIT_* variables need to be filled in.
 #
-# VERSION       :0.3
-# DOCS          :http://mmonit.com/wiki/Monit/ConfigurationExamples
+# VERSION       :0.4.0
+# DATE          :2015-06-20
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install monit
+# DOCS          :https://mmonit.com/wiki/Monit/ConfigurationExamples
+# DOCS          :https://mmonit.com/monit/documentation/monit.html
 
-# Tests: init.d,  pid,  bin,  conf,  output age
+# Usage
+#
+#     editor ./monit-debian-setup.sh
+#     ./monit-debian-setup.sh
+#     service monit restart
+#     sleep 40 && monit summary
+#     lynx 127.0.0.1:2812
 
-############## @TODO ADD CONDITIONS+++++++++++++++++!!!!!!!!!!!!!!!!!!!
-
+# These variables need to be FILLED IN!
 MONIT_BOOT_DELAY="40"
-# hostname in alert address: root@
+# Hostname in alert address: root@
 MONIT_EMAIL_HOST=""
-# for system monitoring file name
+# Name for system monitoring file
 MONIT_FULL_HOSTNAME=""
 MONIT_SSH_PORT=""
 MONIT_PHPFPM_SOCKET=""
+
+# @TODO tests: init.d,  pid,  bin,  conf,  output age
 
 Monit_enable() {
     local PLUGIN="$1"
@@ -30,38 +43,9 @@ Monit_enable() {
         || echo "Cannot create symlink" >&2
 }
 
-# INSTALL
-#
-# Doc: https://mmonit.com/monit/documentation/monit.html
-#apt-get install -t wheezy-backports -y monit
-#
-# Backported from sid: https://packages.debian.org/sid/amd64/monit/download
-#wget http://mirror.szepe.net/debian/pool/main/m/monit/monit_5.10-1_amd64.deb
-#dpkg -i monit_*_amd64.deb
-#
-# Configuration...
-#
-#service monit restart
-# Wait for start
-#sleep 120 && monit summary
-#lynx 127.0.0.1:2812
-
-[ -d /etc/monit/monitrc.d ] || exit 1
-[ -z "$MONIT_BOOT_DELAY" ] && exit 2
-[ -z "$MONIT_EMAIL_HOST" ] && exit 2
-[ -z "$MONIT_FULL_HOSTNAME" ] && exit 2
-[ -z "$MONIT_SSH_PORT" ] && exit 2
-[ -z "$MONIT_PHPFPM_SOCKET" ] && exit 2
-
-# Filename only
-MONIT_PHPFPM_SOCKET="$(basename "$MONIT_PHPFPM_SOCKET")"
-
-# Main configuration file
-cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
-# https://wiki.debian.org/monit
-# https://mmonit.com/monit/documentation/monit.html
-
-set daemon ${MONIT_BOOT_DELAY}
+Monit_monit() {
+    cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
+set daemon 120
     with start delay ${MONIT_BOOT_DELAY}
 
 # Alert emails
@@ -74,10 +58,11 @@ set httpd port 2812 and
     use address localhost
     allow localhost
 MONITMAIN
-#########
+    Monit_enable 00_monitrc
+}
 
-# System
-cat > "/etc/monit/monitrc.d/01_${MONIT_FULL_HOSTNAME}" <<MONITSYSTEM
+Monit_system() {
+    cat > "/etc/monit/monitrc.d/01_${MONIT_FULL_HOSTNAME}" <<MONITSYSTEM
 check system ${MONIT_FULL_HOSTNAME//[^0-9A-Za-z]/_}
     if loadavg (1min) > 4 then alert
     if loadavg (5min) > 2 then alert
@@ -86,17 +71,19 @@ check system ${MONIT_FULL_HOSTNAME//[^0-9A-Za-z]/_}
     if cpu usage (user) > 70% then alert
     if cpu usage (system) > 30% then alert
     if cpu usage (wait) > 20% then alert
+check filesystem rootfs with path /
+    if space usage > 90% then alert
 MONITSYSTEM
-###########
+    Monit_enable "01_${MONIT_FULL_HOSTNAME}"
+}
 
-# sshd
-sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
+Monit_ssh() {
+    sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
+    Monit_enable openssh-server
+}
 
-# rsyslog
-# --MARK--
-
-# unscd
-cat > "/etc/monit/monitrc.d/unscd" <<MONITUNSCD
+Monit_unscd() {
+    cat > "/etc/monit/monitrc.d/unscd" <<MONITUNSCD
 # µNameservice caching daemon (unscd)
 check process nscd with pidfile /var/run/nscd/nscd.pid
     group system
@@ -118,10 +105,11 @@ check file nscd_rc with path /etc/init.d/unscd
     if failed uid root then unmonitor
     if failed gid root then unmonitor
 MONITUNSCD
-##########
+    Monit_enable unscd
+}
 
-# Fail2ban
-cat > "/etc/monit/monitrc.d/fail2ban" <<MONITFAIL2BAN
+Monit_fail2ban() {
+    cat > "/etc/monit/monitrc.d/fail2ban" <<MONITFAIL2BAN
 check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
     group services
     start program = "/etc/init.d/fail2ban force-start"
@@ -132,19 +120,19 @@ check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
 check file fail2ban_log with path /var/log/fail2ban.log
     if match "ERROR|WARNING" then alert
 MONITFAIL2BAN
-#############
+    Monit_enable fail2ban
+}
 
+Monit_rsyslog(){
+    # @TODO --MARK--
+    Monit_enable rsyslog
+}
 
-# Enable custom plugins
+Monit_cron() {
+    Monit_enable cron
+}
 
-Monit_enable 00_monitrc
-Monit_enable "01_${MONIT_FULL_HOSTNAME}"
-[ -x /usr/sbin/nscd ] && Monit_enable unscd
-[ -x /usr/bin/fail2ban-server ] && Monit_enable fail2ban
-
-# Enable contributed plugins
-
-if [ -x /usr/sbin/php5-fpm ]; then
+Monit_phpfpm() {
     #     https://github.com/perusio/monit-miscellaneous
     wget -O /etc/monit/monitrc.d/php-fpm-unix \
         "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
@@ -156,44 +144,62 @@ if [ -x /usr/sbin/php5-fpm ]; then
     sed -i "s|alert root@localhost only on {timeout}$||g" /etc/monit/monitrc.d/php-fpm-unix
     sed -i "s|alert root@localhost$||g" /etc/monit/monitrc.d/php-fpm-unix
     Monit_enable php-fpm-unix
-fi
+}
 
-#     http://storage.fladi.at/~FladischerMichael/monit/
-# Mirror: https://github.com/szepeviktor/FladischerMichael.monit
-if [ -x /usr/sbin/courieresmtpd ]; then
+Monit_couriersmtp() {
     wget -O /etc/monit/monitrc.d/courier \
         "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
     Monit_enable courier
-fi
+}
 
-if [ -x /usr/lib/courier/courier-authlib/authdaemond ]; then
+Monit_courierauth() {
     wget -O /etc/monit/monitrc.d/courier-auth \
         "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-auth.test"
     Monit_enable courier-auth
-fi
+}
 
-if [ -x /usr/bin/imapd ]; then
+Monit_courierimap() {
     wget -O /etc/monit/monitrc.d/courier-imap \
         "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-imap.test"
     Monit_enable courier-imap
-fi
-# See: https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
+}
 
-# Enable built-in plugins
+Monit_apache() {
+    Monit_enable apache2
+}
 
-Monit_enable cron
-Monit_enable openssh-server
-Monit_enable rsyslog
-[ -x /usr/sbin/apache2 ] && Monit_enable apache2
-[ -x /usr/sbin/mysqld ] && Monit_enable mysql
+Monit_mysql() {
+    Monit_enable mysql
+}
 
-# Enable built-in plugins - hardware related
+[ -d /etc/monit/monitrc.d ] || exit 1
+[ -z "$MONIT_BOOT_DELAY" ] && exit 2
+[ -z "$MONIT_EMAIL_HOST" ] && exit 2
+[ -z "$MONIT_FULL_HOSTNAME" ] && exit 2
+[ -z "$MONIT_SSH_PORT" ] && exit 2
+[ -z "$MONIT_PHPFPM_SOCKET" ] && exit 2
 
-#Monit_enable acpid
-#Monit_enable smartmontools
-#Monit_enable mdadm
+# Filename only
+MONIT_PHPFPM_SOCKET="$(basename "$MONIT_PHPFPM_SOCKET")"
 
-# Enable built-in plugins - others
+# Plugins
+#     http://storage.fladi.at/~FladischerMichael/monit/
+# Mirror: https://github.com/szepeviktor/FladischerMichael.monit
+Monit_monit
+Monit_system
+[ -x /usr/sbin/sshd ] && Monit_ssh
+[ -x /usr/sbin/nscd ] && Monit_unscd
+[ -x /usr/sbin/rsyslogd ] && Monit_rsyslog
+[ -x /usr/sbin/cron ] && Monit_cron
+[ -x /usr/bin/fail2ban-server ] && Monit_fail2ban
+[ -x /usr/sbin/php5-fpm ] && Monit_phpfpm
+[ -x /usr/sbin/courieresmtpd ] && Monit_couriersmtp
+[ -x /usr/lib/courier/courier-authlib/authdaemond ] && Monit_courierauth
+[ -x /usr/bin/imapd ] && Monit_courierimap
+[ -x /usr/sbin/apache2 ] && Monit_apache
+[ -x /usr/sbin/mysqld ] && Monit_mysql
+
+# @TODO https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
 
 #Monit_enable at
 #Monit_enable memcached
@@ -203,14 +209,23 @@ Monit_enable rsyslog
 #Monit_enable postfix
 #Monit_enable snmpd
 
-# Mail
+# Hardware related
+#Monit_enable acpid
+#Monit_enable smartmontools
+#Monit_enable mdadm
 
+# Mail related
 #Monit_enable spamassassin
-#Monit_enable courier-imap
 
-# Wake up monit
-echo '#!/bin/bash
-/usr/bin/monit summary|tail -n +3|grep -v "\sRunning$\|\sAccessible$" && /usr/bin/monit monitor all
+# Wake up monit cron job
+# @TODO remove "unmonitor"-s
+cat > /etc/cron.hourly/monit-wake <<MONITCRON
+#!/bin/bash
+
+/usr/bin/monit summary | tail -n +3 \
+    | grep -v "\sRunning$\|\sAccessible$" \
+    && /usr/bin/monit monitor all
+
 exit 0
-' > /etc/cron.hourly/monit-wake
+MONITCRON
 chmod +x /etc/cron.hourly/monit-wake

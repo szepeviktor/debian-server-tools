@@ -168,8 +168,8 @@ munin_courier_mta() {
 munin_multiping() {
     cat > "${PLUGIN_CONF_DIR}/multiping" <<MULTIPING
 [multiping]
-# one hop away from BIX
-#        telekom,     upc,          digi,      invitel
+# One hop away from BIX
+#        Telekom,     UPC,          DIGI,      Invitel
 env.host 81.183.0.151 89.135.214.78 94.21.3.57 217.113.63.72
 MULTIPING
 

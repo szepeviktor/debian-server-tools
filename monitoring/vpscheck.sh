@@ -138,7 +138,7 @@ Add_check MEM 'grep "^MemTotal:" /proc/meminfo | sed "s/\s\+/ /g" | cut -d" " -f
 # - XEN /dev/xvd*
 # - KVM dev/vd*
 # - OpenVZ: no disk devices, delete this check
-Add_check PART 'ls -1 /dev/xvd* | paste -s -d","'
+Add_check PART 'ls -1 /dev/sd* | paste -s -d","'
 
 # swap sizes (kB)
 Add_check SWAP 'tail -n +2 /proc/swaps | cut -f 2 | paste -s -d", "'

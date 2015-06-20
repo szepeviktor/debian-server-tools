@@ -56,3 +56,8 @@ cat github.repos|xargs -L 1 git clone
 - upload: s3qlctrl flushcache
 - umount: umount.s3ql
 ```
+
+### Storage
+
+[KS-1 server](https://www.kimsufi.com/en/) 500 GB €5
+https://hosthatch.com/storage-vps

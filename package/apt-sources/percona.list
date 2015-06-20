@@ -1,4 +1,4 @@
 # Percona
-deb http://repo.percona.com/apt/ wheezy main
+deb http://repo.percona.com/apt/ jessie main
 #K: apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
 #M: http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html
