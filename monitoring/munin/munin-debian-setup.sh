@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Install munin.
 
 LOADTIME_URL="http://www.site.net/login"
 PHPFPM_POOL="web"
@@ -7,67 +9,44 @@ APACHE_STATUS="http://www.site.net:%d/server-status?auto"
 
 PLUGIN_CONF_DIR="/etc/munin/plugin-conf.d"
 PLUGIN_PATH="/usr/share/munin/plugins"
+PLUGIN_PATH_LOCAL="/usr/local/share/munin/plugins"
 ENABLED_PLUGIN_PATH="/etc/munin/plugins"
-
-# All installation steps
-#
-#    apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl munin-node
-# Enable plugins by hand
-#    munin-node-configure --shell
-# Review plugins
-#    ls -l /etc/munin/plugins
-# Check plugins
-#    ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4
-#        elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
-# Allow munin server IP in node config
-#    [name.domain.net]
-#        address ^1\.2\.3\.4$
-#        use_node_name yes
-#        contacts sms
-#        #contacts email
-#        monit_parser.monit_php5fpmunix_total_memory.warning 1:
-#        monit_parser.monit_sshd_total_memory.warning 1:
-#        monit_parser.monit_couriermta_total_memory.warning 1:
-#        monit_parser.monit_mysqld_total_memory.warning 1:
-#        monit_parser.monit_fail2ban_total_memory.warning 1:
-#        monit_parser.monit_nscd_total_memory.warning 1:
-#        monit_parser.monit_apache_total_memory.warning 1:
-#        monit_parser.monit_crond_total_memory.warning 1:
-#        monit_parser.monit_courierauthdaemon_total_memory.warning 1:
-#        monit_parser.monit_rsyslogd_total_memory.warning 1:
-# Restart munin-node
-#    service munin-node restart
 
 Install_plugin() {
     local PLUGIN_URL="$1"
     local PLUGIN_NAME="$(basename "$PLUGIN_URL")"
-    local LOCAL_PLUGIN_PATH="/usr/local/share/munin/plugins"
 
-    [ -d "$LOCAL_PLUGIN_PATH" ] || mkdir -p "$LOCAL_PLUGIN_PATH"
+    [ -d "$PLUGIN_PATH_LOCAL" ] || mkdir -p "$PLUGIN_PATH_LOCAL"
 
-    if ! wget -nv -O "${LOCAL_PLUGIN_PATH}/${PLUGIN_NAME}" "$PLUGIN_URL"; then
+    if ! wget -nv -O "${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}" "$PLUGIN_URL"; then
         echo "ERROR: plugin ${PLUGIN_NAME} download failure" >&2
         return 1
     fi
-    chmod 755 "${LOCAL_PLUGIN_PATH}/${PLUGIN_NAME}"
-    if ! ln -sfv "${LOCAL_PLUGIN_PATH}/${PLUGIN_NAME}" "${PLUGIN_PATH}/"; then
-        echo "ERROR: local plugin ${PLUGIN_NAME} symlinking error" >&2
-        return 2
-    fi
+    chmod 755 "${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}"
 
-    # separator
+    # Separator
     echo
 }
 
-Enable_manual_plugin() {
+Enable_plugin() {
     local PLUGIN_NAME="$1"
     local PLUGIN_ALIAS="$2"
+    local ACTUAL_PATH
 
     [ -z "$PLUGIN_ALIAS" ] && PLUGIN_ALIAS="$PLUGIN_NAME"
 
-    if ! ln -sfv "${PLUGIN_PATH}/${PLUGIN_NAME}" "${ENABLED_PLUGIN_PATH}/${PLUGIN_ALIAS}"; then
-        echo "ERROR: plugin enabling error, alias: ${PLUGIN_ALIAS}" >&2
+    if [ -f "${PLUGIN_PATH}/${PLUGIN_NAME}" ]; then
+        ACTUAL_PATH="${PLUGIN_PATH}/${PLUGIN_NAME}"
+    elif [ -f "${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}" ]; then
+        ACTUAL_PATH="${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}"
+    else
+        echo "ERROR: plugin does not exist: ${PLUGIN_NAME}" >&2
         return 1
+    fi
+
+    if ! ln -sfv "$ACTUAL_PATH" "${ENABLED_PLUGIN_PATH}/${PLUGIN_ALIAS}"; then
+        echo "ERROR: plugin enabling error, alias: ${PLUGIN_ALIAS}" >&2
+        return 2
     fi
 }
 
@@ -105,7 +84,7 @@ MONIT_CONF
     '
     sleep 5
 
-    Enable_manual_plugin "monit_parser"
+    Enable_plugin "monit_parser"
 }
 
 
@@ -173,12 +152,12 @@ munin_multiping() {
 env.host 81.183.0.151 89.135.214.78 94.21.3.57 217.113.63.72
 MULTIPING
 
-    Enable_manual_plugin "multiping"
+    Enable_plugin "multiping"
 }
 
 munin_bix() {
     # BIX/HE
-    Enable_manual_plugin "ping_" "ping_193.188.137.175"
+    Enable_plugin "ping_" "ping_193.188.137.175"
 }
 
 munin_phpfpm() {
@@ -217,7 +196,7 @@ env.url ${PHPFPM_STATUS}
 PHP_FPM
 
     cat >&2 <<APACHE_CNF
-# terminate rewrite processing for php-fpm status
+# Terminate rewrite processing for PHP-FPM status
 <Location /status>
     SetHandler application/x-httpd-php
     Require local
@@ -226,12 +205,8 @@ PHP_FPM
 </Location>
 APACHE_CNF
 
-    Enable_manual_plugin "phpfpm_average"
-    # phpfpm_connections has autoconf
-    Enable_manual_plugin "phpfpm_memory"
-    Enable_manual_plugin "phpfpm_processes"
-    # phpfpm_status has autoconf
-    #TODO: rewrite 5 plugins: add autoconf
+    Enable_plugin "phpfpm_memory"
+    # @TODO Rewrite PHP plugins: add autoconf
 }
 
 munin_apache() {
@@ -253,46 +228,98 @@ APACHE
 APACHE_CONF
 }
 
-#https://www.monitis.com/monitoring-plan-builder
-#uptime
-#URL hit
-#load
-#SMS
 
+# ------------------------------- main -------------------------------
+
+
+# @TODO https://www.monitis.com/monitoring-plan-builder
+# ideas: URL hit, load, SMS
+
+# Unconfigured
+[ "$PHPFPM_STATUS" == "http://www.site.net/status" ] && exit 99
+
+apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl munin-node
+
+# Dependency
 which munin-node-configure &> /dev/null || exit 99
 
-# monitor monitoring
+# Monitor monitoring
 munin_events
 munin_monit
 
-# hardware
-# https://github.com/munin-monitoring/contrib/tree/master/plugins/sensors
-#TODO https://github.com/munin-monitoring/contrib/raw/master/plugins/sensors/hwmon
+# Hardware
+#     https://github.com/munin-monitoring/contrib/tree/master/plugins/sensors
+# @TODO https://github.com/munin-monitoring/contrib/raw/master/plugins/sensors/hwmon
 #munin_hwmon
 munin_ipmi
-#TODO virtual machines: KVM, Xen, VZ, VMware
+# @TODO virtual machines: KVM, Xen, VZ, VMware
 
-# daemons
+# Daemons
 munin_mysql
 munin_fail2ban
 munin_courier_mta
 munin_apache
 munin_loadtime
 #munin_proftpd https://github.com/munin-monitoring/contrib/tree/master/plugins/ftp
-
 munin_phpfpm
 #https://github.com/munin-monitoring/contrib/tree/master/plugins/php
-    #munin_phpapc
-    #munin_phpopcache
+# munin_phpapc
+# munin_phpopcache
 
+# Network
 munin_multiping
 munin_bix
 
 #https://github.com/munin-monitoring/munin/tree/devel/plugins/node.d.linux
 #munin_fw_conntrack
-    #tcp
-    #traffic: ip_ 1 address 8.8.8.8??, ntp
-    #port_ udp 53
+# tcp
+# traffic: ip_ 1 address 8.8.8.8??, ntp
+# port_ udp 53
 
+# Separator
 echo
-munin-node-configure --shell
+
+munin-node-configure --families auto,manual --shell
+echo
+# Custom plugins
+munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,manual --shell
+
+echo '# Enable plugins by hand'
+echo "Hit Ctrl+D to continue setup"
+bash
+
+echo '# Review services to mintor'
+ps aux
+ls -l /etc/munin/plugins
+echo "Hit Ctrl+D to continue setup"
+bash
+
+# Check plugins
+ls /etc/munin/plugins/ \
+    | while read P; do
+        if ! munin-run "$P" config; then
+            echo "ERROR ${P} config status=$?"
+            sleep 4
+        elif ! munin-run "$P"; then
+            echo "ERROR ${P} fetch status=$?"
+            sleep 4
+        fi
+    done
+
+# Allow munin server access
+ip addr show dev eth0 \
+    | sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/allow ^\1$/' -e 's/\./\\./gp' \
+    >> /etc/munin/munin-node.conf
+service munin-node restart
+
+# Add node to the **server**
+cat <<EOF
+[$(hostname -f)]
+    address ^$(ip addr show dev eth0|sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/' -e 's/\./\\./gp')\$
+    use_node_name yes
+    contacts sms
+    #contacts email
+
+# Execute on munin server
+editor /etc/munin/munin.conf
+EOF

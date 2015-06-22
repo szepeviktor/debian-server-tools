@@ -84,7 +84,8 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 # Upgrade
 apt-get update
 apt-get dist-upgrade -y
-apt-get install -y ssh sudo ca-certificates most less lftp bash-completion htop bind9-host mc lynx ncurses-term
+apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
+    time bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
 
 # Input
@@ -212,6 +213,8 @@ lspci
 # Disk configuration
 clear; cat /proc/mdstat; cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
+# <file system> <mount point>             <type>          <options>                               <dump> <pass>
+editor /etc/fstab
 cat /proc/mounts
 swapoff -a; swapon -a; cat /proc/swaps
 # Create swap file
@@ -219,7 +222,7 @@ swapoff -a; swapon -a; cat /proc/swaps
 #     chmod 0600 /swap0
 #     echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
 
-grep "relatime" /proc/mounts || echo "ERROR: no relAtime"
+grep "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
 
 # Kernel
 uname -a
@@ -310,7 +313,8 @@ editor /etc/shadow
 # 1. Delete not-installed packages
 dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
-apt-get purge acpi at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
+apt-get purge  \
+    at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
     manpages man-db rpcbind nfs-common w3m tex-common isc-dhcp-client isc-dhcp-common
 deluser Debian-exim
 deluser messagebus
@@ -320,8 +324,8 @@ dpkg -l|grep -E "xe-guest-utilities|dkms"
 # See: ${D}/package/vmware-tools-wheezy.sh
 vmware-toolbox-cmd stat sessionid
 # 4. Hardware related
-dpkg -l|grep -E "fancontrol|acpi-support-base|acpid|laptop-detect|eject\
-    |hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm|usbutils|dmidecode"
+dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup-linux\
+|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm2"
 # 5. Non-stable packages
 dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
@@ -331,7 +335,7 @@ aptitude search '?narrow(?installed, !?origin(Debian))'
 aptitude search '?obsolete'
 # 8. Manually installed, not "required" and not "important" packages minus known ones
 aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p" \
-    | grep -v -f ${D}/package/debian-jessie-not-req-imp.pkgs | xargs echo
+    | grep -v -x -f ${D}/package/debian-jessie-not-req-imp.pkg | xargs echo
 # 9. Development packages
 dpkg -l|grep -- "-dev"
 # List by section
@@ -343,7 +347,7 @@ apt-get autoremove --purge
 # Essential packages
 apt-get install -y localepurge unattended-upgrades \
     apt-listchanges cruft debsums heirloom-mailx iptables-persistent bootlogd \
-    ntpdate pwgen dos2unix strace ccze mtr-tiny gcc make time colordiff
+    ntpdate pwgen dos2unix strace ccze mtr-tiny gcc make colordiff
 # Backports
 # @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
 apt-get install -y goaccess git

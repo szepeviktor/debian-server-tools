@@ -17,15 +17,23 @@
 # type: SMTP - broken pipe, ?HTTP commands in SMTP
 217.113.54.0/24
 
-# RU/NL HOSTKEY-NET http://bgp.he.net/AS57043#_prefixes
+# NL/RU HOSTKEY-NET http://bgp.he.net/AS57043#_prefixes
 # DC: Serverius
 # aliases: Mir Telematiki
 5.39.216.0/21
-141.105.64.0/21
+#31.192.109.0/24
+#31.192.110.0/24
+#46.17.96.0/21
+#46.249.38.0/24
 146.0.72.0/21
-158.255.0.0/21
+#185.70.184.0/22
 193.109.68.0/23
 195.162.68.0/23
+# Mir Telematiki Ltd. http://bgp.he.net/AS49335#_prefixes
+# 8 prefixes: 141.105.64.0 - 141.105.71.255
+141.105.64.0/21
+# 8 prefixes: 158.255.0.0 - 158.255.7.255
+158.255.0.0/21
 
 # OVH dedicated servers http://bgp.he.net/AS16276#_prefixes
 5.135.160.0/19
@@ -39,14 +47,14 @@
 
 # FR ONLINE S.A.S. http://bgp.he.net/AS12876#_prefixes
 # DC: Iliad Entreprises
-# aliases: poneytelecom.eu / scaleway cloud
+# aliases: poneytelecom.eu, scaleway cloud
 # IE-POOL-BUSINESS-HOSTING
 62.210.0.0/16
 # FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.0.0/17
 
 # NL Ecatel http://bgp.he.net/AS29073#_prefixes
-80.82.64.0/20
+80.82.64.0/21
 
 # CHINANET-SH
 50.200.243.136

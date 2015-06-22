@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#
 # Test image conversion speed.
 #
 # DEPENDS: apt-get install unzip imgmin jpeg-archive
@@ -10,18 +10,19 @@ Download() {
 
     # MagickWand-config location: https://github.com/rflynn/imgmin/issues/51
     mkdir imgmin
-    wget -qO- "$IMGMIN_API_CONTENT_URL" \
+    wget -q -O- "$IMGMIN_API_CONTENT_URL" \
         | grep '    "download_url":' | grep -v -- '-after\.' | cut -d'"' -f4 \
-        | wget -nv -N -P imgmin -i -
+        | wget -nv --content-disposition -N -P imgmin -i -
 
     mkdir jpeg-archive
-    wget -nv -N -P jpeg-archive "$JPEG_ARC_URL"
+    wget -nv --content-disposition -N -P jpeg-archive "$JPEG_ARC_URL"
     unzip jpeg-archive/jpeg-archive-test-files*.zip -d jpeg-archive
 }
 
-Download
-
-mkdir results
+if ! [ -d jpeg-archive/test-files ] || ! [ -d imgmin ]; then
+    Download
+    mkdir results
+fi
 
 # imgmin
 time for IMG in imgmin/*.jpg jpeg-archive/test-files/*.jpg; do
@@ -39,3 +40,4 @@ done
 
 du -ck results/imgmin-*
 du -ck results/jpeg-archive-*
+rm -rf results/*

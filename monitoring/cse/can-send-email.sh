@@ -2,7 +2,7 @@
 #
 # Can-send-email triggers and checks in one.
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.1
 # DATE          :2015-06-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -10,8 +10,8 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
-# CRON.D        :40 */6	* * *	root	/usr/local/sbin/can-send-email.sh --trigger
-# CRON.D        :50 *	* * *	root	/usr/local/sbin/can-send-email.sh --check
+# CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --trigger
+# CRON.D        :50 *	* * *	daemon	/usr/local/sbin/can-send-email.sh --check
 
 ALERT_ADDRESS="viktor@szepe.net"
 WORK_DIR="/var/lib/can-send-email"
@@ -33,7 +33,7 @@ Error() {
 }
 
 Sql() {
-    sqlite3 "${WORK_DIR}/cse.sqlite3" "$(printf "$@")"
+    sqlite3 "${WORK_DIR}/cse.sqlite3" "$(printf ".timeout 1000\n""$@")"
 }
 
 Init() {
@@ -93,10 +93,11 @@ Update_last() {
         echo "501 Syntax error in parameters or arguments"
         return 0
     fi
-    Sql 'UPDATE host SET "last" = "%s" WHERE "hostname" = "%s";' \
-        "$LAST" "$HOSTNAME" \
-        || logger -t "can-send-email" "Update failed for host: '${HOSTNAME}'"
-    logger -t "can-send-email" "Updated: '${HOSTNAME}' @${LAST}"
+    if Sql 'UPDATE host SET "last" = "%s" WHERE "hostname" = "%s";' "$LAST" "$HOSTNAME"; then
+        logger -t "can-send-email" "Updated: '${HOSTNAME}' @${LAST}"
+    else
+        logger -t "can-send-email" "Update failed ($?) for host: '${HOSTNAME}'"
+    fi
 }
 
 # pipe: list of URL-s
@@ -127,7 +128,32 @@ Get_failures() {
         "$NOW" "$FAILURE_INTERVAL"
 }
 
+Help() {
+cat <<HELP
+Usage: $0 <OPTION> [ARGUMENT]
+
+Can-send-email triggers and checks in one.
+
+Options:
+    --init                  Initialize database
+    --list                  List host names, URL-s and last successful update timestamps
+    --add <HOSTNAME> <URL>  Add a new host
+    --remove <HOSTNAME>     Remove a host
+    --trigger               Trigger email sending for all hosts
+    --trigger-url <URL>     Trigger email sending for a host
+    --check                 Check last update timestamp
+    --help                  display this help message
+
+Without parameters receive message through a pipe.
+HELP
+}
+
 case "$1" in
+    # Initialize
+    "--help")
+        Help
+        ;;
+
     # Initialize
     "--init")
         Init
@@ -153,6 +179,11 @@ case "$1" in
     # Trigger emails cron job
     "--trigger")
         Get_urls | Trigger 1>&2
+        ;;
+
+    # Trigger emails cron job
+    "--trigger-url")
+        echo "$2" | Trigger 1>&2
         ;;
 
     # Check failures cron job
