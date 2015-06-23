@@ -16,3 +16,5 @@ ipmitool + alert
 ups + alert
 
 router watch + alert
+
+bash_rc: /monitoring/hdd-temps.sh

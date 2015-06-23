@@ -83,7 +83,7 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 
 # Upgrade
 apt-get update
-apt-get dist-upgrade -y
+apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
     time bash-completion htop bind9-host mc lynx ncurses-term
 ln -sv /usr/bin/host /usr/local/bin/mx
@@ -103,7 +103,7 @@ dpkg-reconfigure -f noninteractive dash
 # ---------- Automated --------------- >8 ------------- >8 ------------
 set +e +x
 
-return 0
+read -s -p "END of automated part. Hit Ctrl+C!"
 
 # Remove systemd
 dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit sysvinit-utils
@@ -122,14 +122,14 @@ editor /root/.bashrc
 
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
-PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo "$(tput setab 3;tput setaf 0)$RET$(tput sgr0)";fi; }
-export PS1="[\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@\h\[$(tput sgr0)\]:\
-\[$(tput setaf 8)\]\[$(tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
-\[$(tput bold;tput setaf 0)\]\!\[$(tput sgr0)\]]\$(PS1exitstatus)\n"
-export GREP_OPTIONS="--color"
-alias grep='grep $GREP_OPTIONS'
-alias iotop='iotop -d 0.1 -qqq -o'
-alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
+
+export IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+
+PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 0;tput setab 1)"'!'"$RET";fi; }
+export PS1="\[$(tput sgr0)\][\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@\h\[$(tput sgr0)\]:\
+\[$(tput setaf 8;tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
+\[$(tput bold)\]\!\[\$(PS1exitstatus;tput sgr0)\]]\n"
+
 # putty Connection / Data / Terminal-type string: putty-256color
 # ls -1 /usr/share/mc/skins/|sed "s/\.ini$//g"
 if [ "${TERM/256/}" == "$TERM" ]; then
@@ -145,21 +145,33 @@ else
         export MC_SKIN="xoria256"
     fi
 fi
+
+export GREP_OPTIONS="--color"
+alias grep='grep $GREP_OPTIONS'
+alias iotop='iotop -d 0.1 -qqq -o'
+alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
 #alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
-export IP="$(ip addr show dev eth0|grep -o -m1 "inet [0-9\.]*"|cut -d' ' -f2)"
+
 # Colorized man pages with less
+#     man termcap # String Capabilities
 man() {
+    #
+    #     so   Start standout mode (search)
+    #     se   End standout mode
+    #     us   Start underlining (italic)
+    #     ue   End underlining
+    #     md   Start bold mode (highlight)
+    #     me   End all mode like so, us, mb, md and mr
     env \
-        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m") \
-        LESS_TERMCAP_me=$(printf "\e[0m") \
-        LESS_TERMCAP_se=$(printf "\e[0m") \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-        LESS_TERMCAP_ue=$(printf "\e[0m") \
-        LESS_TERMCAP_us=$(printf "\e[1;32m") \
-            man "$@"
+        LESS_TERMCAP_so=$(tput setab 230) \
+        LESS_TERMCAP_se=$(tput sgr0) \
+        LESS_TERMCAP_us=$(tput setaf 2) \
+        LESS_TERMCAP_ue=$(tput sgr0) \
+        LESS_TERMCAP_md=$(tput bold) \
+        LESS_TERMCAP_me=$(tput sgr0) \
+        man "$@"
 }
 
 # ---------------------------------------------------------------------
@@ -213,6 +225,9 @@ lspci
 # Disk configuration
 clear; cat /proc/mdstat; cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
+# ls -1 /etc/default/*
+TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
+[ "$TOTAL_MEM" -gt $((2047 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
 editor /etc/fstab
 cat /proc/mounts
@@ -230,6 +245,8 @@ uname -a
 apt-cache policy "linux-image-3.*"
 #apt-get install linux-image-amd64=KERNEL-VERSION
 ls -l /lib/modules/
+# Verbose boot
+sed -i 's/^##VERBOSE=no$/#VERBOSE=yes/' /etc/default/rcS
 dpkg -l | grep "grub"
 ls -latr /boot/
 # OVH Kernel "made-in-ovh"
@@ -389,7 +406,7 @@ D="$(pwd)/debian-server-tools"
 rm -rf /root/src/debian-server-tools-master/
 
 # Make cron log all failed jobs (exit status != 0)
-sed -i "s/^# \(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
+sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
 service cron restart
 
 # IRQ balance
@@ -674,20 +691,7 @@ monit summary
 lynx 127.0.0.1:2812
 
 # Munin - network-wide graphing
-apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl munin-node
-# For configuration see: ${D}/monitoring/munin
-# Enable plugins by hand
-munin-node-configure --shell
-# Review plugins
-ps aux
-ls -l /etc/munin/plugins
-# Check plugins
-ls /etc/munin/plugins/|while read P;do if ! munin-run "$P" config;then echo "ERROR ${P} config status=$?";sleep 4
-    elif ! munin-run "$P";then echo "ERROR ${P} fetch status=$?";sleep 4;fi;done
-# Allow munin server IP in node config
-# Regexp IP address like: ^1\.2\.3\.4$
-editor /etc/munin/munin-node.conf
-service munin-node restart
+# See: ${D}/monitoring/munin/munin-debian-setup.sh
 
 # Clean up
 apt-get autoremove --purge

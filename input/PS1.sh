@@ -12,8 +12,8 @@
 # - .git status
 
 ps1_elements() {
-    B="\["
-    E="\]"
+    nonprinting="\["
+    nonprintingend="\]"
 
     bell="\a"
     usdate="\d"

@@ -2,7 +2,7 @@
 #
 # Test image conversion speed.
 #
-# DEPENDS: apt-get install unzip imgmin jpeg-archive
+# DEPENDS: apt-get install unzip jpeg-archive libmagickwand-6.q16-2 imgmin
 
 Download() {
     IMGMIN_API_CONTENT_URL="https://api.github.com/repos/rflynn/imgmin/contents/examples"
@@ -30,6 +30,8 @@ time for IMG in imgmin/*.jpg jpeg-archive/test-files/*.jpg; do
     imgmin "$IMG" "results/imgmin-$(basename "$IMG")"
     echo
 done
+
+sleep 4
 
 # jpeg-archive
 time for IMG in imgmin/*.jpg jpeg-archive/test-files/*.jpg; do

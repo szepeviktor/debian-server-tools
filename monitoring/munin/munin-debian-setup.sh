@@ -258,13 +258,8 @@ munin_ipmi
 munin_mysql
 munin_fail2ban
 munin_courier_mta
-munin_apache
 munin_loadtime
 #munin_proftpd https://github.com/munin-monitoring/contrib/tree/master/plugins/ftp
-munin_phpfpm
-#https://github.com/munin-monitoring/contrib/tree/master/plugins/php
-# munin_phpapc
-# munin_phpopcache
 
 # Network
 munin_multiping
@@ -275,6 +270,13 @@ munin_bix
 # tcp
 # traffic: ip_ 1 address 8.8.8.8??, ntp
 # port_ udp 53
+
+# Manual action needed
+munin_apache
+munin_phpfpm
+#https://github.com/munin-monitoring/contrib/tree/master/plugins/php
+# munin_phpapc
+# munin_phpopcache
 
 # Separator
 echo

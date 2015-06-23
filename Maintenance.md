@@ -8,16 +8,16 @@
 
 ## Kinek ajánlott
 
-- üzeletileg tényleg kritikus honlaphoz és webes szolgáltatáshoz
+- üzletileg tényleg kritikus honlaphoz és webes szolgáltatáshoz
 - közepes (10 000/hó) és nagy forgalmú honlaphoz
 - marketing cégeknek kiegészítő szolgáltatásként
-- prémium tárhelyszolgáltatóknak extraként
+- prémium tárhely szolgáltatóknak extraként
 
 ## Honlap karbantartás a részleges és teljes leállások megelőzésére
 
 - tárhely biztosítása a honlaphoz (2 GB-ig, email fiókokat nem tartalmaz)
 - betörés (malware fertőzés) esetén takarítás
-- tamadók, biztonsági réseket kereső robotok kitiltása (tűzfal)
+- támadók, biztonsági réseket kereső robotok kitiltása (tűzfal)
 - * biztonsági mentés fájlokról, adatbázisról **naponta** (5 GB-ig)
 - biztonsági mentés fájlokról, adatbázisról havonta (5 GB-ig)
 - magas fokú honlap biztonság, fájl változás jelentés 30 percenként
@@ -38,9 +38,9 @@
 - böngésző gyorsítótárazás beállítása
 - SEO kimutatás a Google keresőben való helyezésről grafikonon és emailben naponta
 - kritikus SEO hibákról összefoglaló jelentés
-- * keresőben (Google találti oldal) való megjelenés ellenőrzése
+- * keresőben (Google találati oldal) való megjelenés ellenőrzése
 
-### Kód karbantartás
+### WordPress kód karbantartás
 
 - WordPress (honlap motor) frissítés
 - WordPress bővítmények frissítése
@@ -54,7 +54,7 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 
 ## Más szolgáltatások egyedi megállapodás szerint
 
-- WordPress honlap tervezés és kivitelezés
+- honlap tervezés és kivitelezés WordPress motorral
 - módosítás a honlap szerkezetén (programozás, sitebuild)
 - tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
 - domain regisztráció intézése (csak az Ön vagy cége nevére)

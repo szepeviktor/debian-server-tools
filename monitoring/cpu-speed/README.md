@@ -3,13 +3,31 @@
 ```bash
 # One thread, all threads, 4 times overload
 apt-get install -y time sysbench
-time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1 --max-requests=1000
+time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1 --max-requests=100
 time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1
 time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$(grep -c "^processor" /proc/cpuinfo)
 time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$((4 * $(grep -c "^processor" /proc/cpuinfo)))
 ```
 
+### WordPress speedtest
+
+```bash
+apt-get clean; apt-get update
+apt-get install -y php5-cli php5-sqlite
+wget -qO- https://github.com/szepeviktor/wordpress-speedtest/releases/download/v0.1.0/wordpress-speedtest.tar.gz|tar xzv
+cd wordpress-speedtest
+time php index.php | grep -q 'Hello world.</a></h2>' || echo "WordPress error." >&2
+# 10×
+time for R in {1..10}; do php index.php > /dev/null; done
+# Stability
+while :; do { time php index.php > /dev/null; sleep 0.2; } 2>&1|grep "^real"; done
+```
+
+### Compariosion table
+
 https://www.cpubenchmark.net/singleThread.html
+
+@TODO tabel columns:
 - date
 - CPU model
 - UnixBench
