@@ -1,43 +1,37 @@
 #!/bin/bash
 #
-# Debian server setup - jessie amd64
-# Not a script but a manual.
+# Debian jessie server setup.
 #
-# OVH
-#     /etc/ovhrc
-#     cdns.ovh.net.
-#     ntp.ovh.net
-# aruba
-#     DC1-IT 62.149.128.4 62.149.132.4
-#     DC3-CZ 81.2.192.131 81.2.193.227
+# AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
+# GIST-AUTORUN  :wget -O ds.dh http://git.io/vIlCB && . ds.dh
 
 # How to choose VPS provider?
 #
 # - Disk access time
 # - CPU speed (~2000 PassMark CPU Mark, ~20 ms sysbench)
-# - Worldwide and local bandwidth
-# - Spammer neighbours? https://www.projecthoneypot.org/ip_1.2.3.4
-# - Nightime technical support: network or hardware failure response time
+# - Worldwide and regional bandwidth, port speed
+# - Spammer neighbours https://www.projecthoneypot.org/ip_1.2.3.4
+# - Nightime technical support network or hardware failure response time
 # - Daytime technical and billing support
-# - DoS mitigation
+# - (D)DoS mitigation
 
-# Whitelist outgoing SMTP server on smarthost
-#
-# editor /etc/courier/smtpaccess/default
-#1.2.3.4<TAB>allow,RELAYCLIENT
-
-# Autorun from a gist
-#
-# wget -O ds.dh http://git.io/vIlCB && . ds.dh
-#
-# wget -O ds.sh https://raw.githubusercontent.com/szepeviktor/debian-server-tools/master/debian-setup.sh && . ds.sh
-
-# Variables
+# Packages sources
 DS_MIRROR="http://http.debian.net/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
 DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \
 #    newrelic nginx nodejs-iojs oracle percona postgre szepeviktor varnish"
+
+# OVH configuration
+#
+#     /etc/ovhrc
+#     cdns.ovh.net.
+#     ntp.ovh.net.
+#
+# Aruba configuration
+#
+#     DC1-IT 62.149.128.4 62.149.132.4
+#     DC3-CZ 81.2.192.131 81.2.193.227
 
 set -e -x
 
@@ -100,10 +94,10 @@ update-alternatives --set editor /usr/bin/mcedit
 echo "dash dash/sh boolean false"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
 
-# ---------- Automated --------------- >8 ------------- >8 ------------
+# --- Automated --------------- >8 ------------- >8 ------------
+#grep -B1000 "# -\+ Automated -\+" debian-setup.sh
 set +e +x
-
-read -s -p "END of automated part. Hit Ctrl+C!"
+kill -SIGINT $$
 
 # Remove systemd
 dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit sysvinit-utils
@@ -125,7 +119,7 @@ editor /root/.bashrc
 
 export IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 
-PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 0;tput setab 1)"'!'"$RET";fi; }
+PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
 export PS1="\[$(tput sgr0)\][\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@\h\[$(tput sgr0)\]:\
 \[$(tput setaf 8;tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
 \[$(tput bold)\]\!\[\$(PS1exitstatus;tput sgr0)\]]\n"
@@ -464,9 +458,10 @@ makealiases
 makesmtpaccess
 service courier-mta restart
 service courier-mta-ssl restart
+# Allow unauthenticated SMTP traffic from this server on the smarthost
+#     editor /etc/courier/smtpaccess/default
+#     %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
-# On the smarthost add:
-#     %IP%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
 
 # Fail2ban
 #     https://packages.qa.debian.org/f/fail2ban.html

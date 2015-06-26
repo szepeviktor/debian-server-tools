@@ -1,5 +1,5 @@
 # Fail2Ban filter to block relay attempts though a Courier smtp server
-#
+# Added failregex: unsupported AUTH type, three variants of HTTP on SMTP.
 #
 
 [INCLUDES]
@@ -14,7 +14,10 @@ _daemon = courieresmtpd
 
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
             ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?$
-            ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: \S+$
+            ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
+            ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: GET \S+ \S+$
+            ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: HOST: \S+$
+            ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
 
 ignoreregex = 
 

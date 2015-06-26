@@ -31,12 +31,12 @@
 
 ### Programs
 
+- http://mattmahoney.net/dc/zpaq.html
 - http://obnam.org/
 - http://duplicity.nongnu.org/
 - https://github.com/jborg/attic
 - https://github.com/zbackup/zbackup
 - https://github.com/bup/bup
-- http://mattmahoney.net/dc/zpaq.html
 - http://moinakg.github.io/pcompress/
 - compression: http://nanozip.net/
 - http://www.byronknoll.com/cmix.html
@@ -51,13 +51,17 @@ cat github.repos|xargs -L 1 git clone
 
 ### S3QL flush before umount
 
-```
 - synchronize: fsync(2)
 - upload: s3qlctrl flushcache
-- umount: umount.s3ql
-```
+- unmount: umount.s3ql
 
 ### Storage
 
-[KS-1 server](https://www.kimsufi.com/en/) 500 GB €5
-https://hosthatch.com/storage-vps
+[OVH/KS-1 server](https://www.kimsufi.com/en/) 500 GB €5/m
+https://hosthatch.com/storage-vps 250 GB €5/m
+[OVH/RunAbove object storage](https://www.runabove.com/storage/object-storage.xml)
+[OVH/hubiC object storage](https://hubic.com/en/offers/)
+
+### mega.co.nz CLI
+
+https://packages.debian.org/unstable/megatools

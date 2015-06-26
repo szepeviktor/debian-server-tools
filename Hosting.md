@@ -1,13 +1,14 @@
-## VPS
+# Hosting
 
+## VPS, cloud VPS
+
+- [OVH Public Cloud](http://www.ovh.com/fr/cloud/instances/cpu.xml)
 - Runabove (OpenStack) hourly, Power8, 3+GHz, SSD
 - HostHatch (KVM) storage VPS
-- OVH [OpenVZ](http://www.ovh.ie/vps/vps-classic.xml) [VMware](http://www.ovh.ie/vps/vps-cloud.xml)
+- [OVH OpenVZ](http://www.ovh.ie/vps/vps-classic.xml) [OVH VMware](http://www.ovh.ie/vps/vps-cloud.xml)
 - [Vultr](https://www.vultr.com/) hourly, 3+GHz, SSD, storage VPS
 - https://www.linode.com/
 - vps.me/Hostinger free, IPv6 only
-
-Benchmark: sysbench, seekmark, image compress
 
 ## Shared hosting
 
@@ -28,5 +29,4 @@ Benchmark: sysbench, seekmark, image compress
 - https://maxer.hu/ modern CPU-s
 - https://megacp.com/hosting.php?spt=3 cluster server
 - https://online.spaceweb.hu/order/main/packages/ssd-premium/?group_id=12 Litespeed
-
-Benchmark: wp-benchmark, hosting-check
+- http://www.profitarhely.hu/webtarhely fast CPU

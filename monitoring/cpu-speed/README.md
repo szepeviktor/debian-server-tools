@@ -16,6 +16,7 @@ apt-get clean; apt-get update
 apt-get install -y php5-cli php5-sqlite
 wget -qO- https://github.com/szepeviktor/wordpress-speedtest/releases/download/v0.1.0/wordpress-speedtest.tar.gz|tar xzv
 cd wordpress-speedtest
+
 time php index.php | grep -q 'Hello world.</a></h2>' || echo "WordPress error." >&2
 # 10×
 time for R in {1..10}; do php index.php > /dev/null; done
@@ -34,12 +35,14 @@ https://www.cpubenchmark.net/singleThread.html
 - seekmark us
 - sysbench ms
 - network speeds
+- WP speed
+- image speed
 
-# @TODO measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
-# https://github.com/mgutz/vpsbench/blob/master/vpsbench
-# See: monitoring/cpu-speed/image-speed.sh
+@TODO measure CPU speed bz2 25MB, disk access time and throughput hdd-, network speed multiple connections
+https://github.com/mgutz/vpsbench/blob/master/vpsbench
+See: monitoring/cpu-speed/image-benchmark.sh
 
-- hosting results (http ms, ping ms)
+- VPS hosting results (http ms, ping ms)
 
 ```
 system         | result (s)
@@ -51,8 +54,10 @@ vps5 X3440×2   |         89
 RunAbove labs  |        215
 ```
 
+- Shared hosting results (???)
+
 
 ### JPEG minification
 
-- imgmin + https://github.com/rflynn/imgmin/tree/e64807bc613ef0310910a5030ed4e5bd8bfeeefc/examples
-- jpeg-recompress + https://www.dropbox.com/s/hb3ah7p5hcjvhc1/jpeg-archive-test-files.zip
+- imgmin https://github.com/rflynn/imgmin/tree/e64807bc613ef0310910a5030ed4e5bd8bfeeefc/examples
+- jpeg-recompress https://www.dropbox.com/s/hb3ah7p5hcjvhc1/jpeg-archive-test-files.zip
