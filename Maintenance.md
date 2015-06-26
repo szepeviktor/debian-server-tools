@@ -1,4 +1,4 @@
-#### Main component of advanced maintenance
+#### Main components of advanced maintenance
 
 - **high website speed**
 - **many types of monitoring**
@@ -17,7 +17,7 @@
 
 - * offsite backup of all files and the database **daily** (up to 5 GB)
 - offsite backup of all files and the database weekly (up to 5 GB)
-- high grade website security, file change notificaation every 30 minutes
+- high grade website security, file change notification every 30 minutes
 - block vulnerability probes and attacks (firewall)
 - malware infection cleanup
 - domian expiry monitoring, new registration, modification
@@ -34,7 +34,7 @@
 
 - keeping PageSpeed score above 80 (also on mobile view, not on mobile version)
 - * integrating advanced CDN [Amazon CloudFront](http://aws.amazon.com/cloudfront/pricing/) (up to 20 GB/month)
-- * minmizing actual page load times (removing blocking resources)
+- * minimizing actual page load times (removing blocking resources)
 - set up browser caching
 - SEO ranking chart of Google Search (daily)
 - mini SEO audit of coding defects
@@ -44,24 +44,24 @@
 
 - WordPress (engine) upgrades
 - WordPress plugin upgrades (based on changelogs and plugin audit)
-- * correction HTML defects (which do not need a rewrite of the whole site)
+- * correction of HTML defects (which do not need a rewrite of the whole site)
 - * Google Analytics, Facebook and other tracking and sharing code setup and monitoring
 - * enabling [click heatmap](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png)
 - * supervision of new content weekly (typograhy and HTML usage)
 - * image optimization (smaller file size and nicer loading)
 
-Items marked with an asterisk ( * ) are available in the bigger plan and only on a VPS with root access.
+Items marked with an asterisk ( * ) are available in the bigger plan and only on a VPS (with root access).
 
 ## Other (not listed above) service
 
 - design and coding of a small/medium WordPress website (in a company: marketer, graphic designer, sitebuilder, developer)
 - modifying an existing website (development, sitebuild)
-- conten upload with typography (HTML typesetting), optionally with a graphic designer
+- content upload with typography (HTML typesetting), optionally with a graphic designer
 - domain registration (only for you or your company)
 - reaching PageSpeed score 100 (or 99)
 - one time malware cleanup and full backup
 - VPS or bare metal server maintenance and monitoring
-- premium emailaccounts with personal support and delivery monitoring
+- premium email accounts with personal support and delivery monitoring
 
 # Magyarul
 
