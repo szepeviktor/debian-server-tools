@@ -88,9 +88,9 @@ opendkim -vvv -t msg-signed.eml
 
 #### SPF (HELO, MAIL FROM:)
 
-- setup
-- check
-- monitor `host -t TXT <domain>`
+- setup http://www.spfwizard.net/
+- check http://www.kitterman.com/spf/validate.html
+- monitor `host -t TXT <domain>; pyspf`
 
 #### DKIM
 
@@ -174,3 +174,70 @@ for I in $(seq 1 255); do host -t A 1.2.3.${I}; done
 
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
 - https://www.klaviyo.com/
+
+### RBL-s (DNSBL)
+
+Source: http://www.anti-abuse.org/
+
+bl.spamcop.net
+cbl.abuseat.org
+b.barracudacentral.org
+dnsbl.sorbs.net
+http.dnsbl.sorbs.net
+dul.dnsbl.sorbs.net
+misc.dnsbl.sorbs.net
+smtp.dnsbl.sorbs.net
+socks.dnsbl.sorbs.net
+spam.dnsbl.sorbs.net
+web.dnsbl.sorbs.net
+zombie.dnsbl.sorbs.net
+dnsbl-1.uceprotect.net
+dnsbl-2.uceprotect.net
+dnsbl-3.uceprotect.net
+pbl.spamhaus.org
+sbl.spamhaus.org
+xbl.spamhaus.org
+zen.spamhaus.org
+bl.spamcannibal.org
+psbl.surriel.com
+ubl.unsubscore.com
+rbl.spamlab.com
+dyna.spamrats.com
+noptr.spamrats.com
+spam.spamrats.com
+cbl.anti-spam.org.cn
+cdl.anti-spam.org.cn
+dnsbl.inps.de
+drone.abuse.ch
+httpbl.abuse.ch
+korea.services.net
+short.rbl.jp
+virus.rbl.jp
+spamrbl.imp.ch
+wormrbl.imp.ch
+virbl.bit.nl
+rbl.suresupport.com
+dsn.rfc-ignorant.org
+ips.backscatterer.org
+spamguard.leadmon.net
+opm.tornevall.org
+netblock.pedantic.org
+multi.surbl.org
+ix.dnsbl.manitu.net
+tor.dan.me.uk
+rbl.efnetrbl.org
+dnsbl.dronebl.org
+access.redhawk.org
+db.wpbl.info
+rbl.interserver.net
+query.senderbase.org
+bogons.cymru.com
+csi.cloudmark.com
+
+Check:
+`cat rbls.list|xargs -I%% host -tA $(revip ${IP}).%% 2>&1|grep -v 'not found: 3(NXDOMAIN)'`
+
+Trendmicro ERS:
+`wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
+    | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
+response: "IP Unlisted in the spam sender list None"

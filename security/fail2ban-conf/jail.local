@@ -27,11 +27,13 @@ destemail = viktor@szepe.net
 
 sender = @@SENDER@@
 
-# ban & send an e-mail with GEOIP data and relevant log lines
+# Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-             %(mta)s-geoip[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+             %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 action = %(action_mgl)s
-
+# Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
+action_cf_mgl = cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
+                %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 
 #
 # JAILS
@@ -52,8 +54,33 @@ logpath = %(sshd_log)s
 enabled  = true
 port     = http,https
 logpath  = %(apache_error_log)s
-bantime  = 172800 ; 48h
+bantime  = 86400 ; 24h
 maxretry = 6
+
+[apache-asap]
+enabled  = true
+maxretry = 1
+port     = http,https
+logpath  = %(apache_error_log)s
+bantime  = 86400 ; 24h
+
+[apache-cf]
+enabled  = false
+logpath  = %(apache_error_log)s
+bantime  = 86400 ; 24h
+maxretry = 6
+action   = %(action_cf_mgl)s
+cfemail  = 
+cfapikey = 
+
+[apache-cf-asap]
+enabled  = false
+maxretry = 1
+logpath  = %(apache_error_log)s
+bantime  = 86400 ; 24h
+action   = %(action_cf_mgl)s
+cfemail  = 
+cfapikey = 
 
 #[suhosin]
 #port    = http,https

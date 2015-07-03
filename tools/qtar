@@ -1,6 +1,0 @@
-#!/bin/bash
-#
-# Compress tar with QuickLZ.
-#
-
-tar -I /usr/bin/qzip "$@"

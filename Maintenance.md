@@ -2,18 +2,18 @@
 
 - **high website speed**
 - **many types of monitoring**
-- **safety precautions and website firewall**
+- **security precautions and website firewall**
 - **contact form and email traffic monitoring**
 - **SSD based VPS-s**
 
 ## Who it is for?
 
-- really critical business websites and webapps
-- mid-to-high (10k+/month) traffic websites
-- for marketing companies as an additional service
-- for premium hosting companies as an extra
+- profitable website and webapp
+- mid-to-high (10k+/month) traffic website
+- for marketing companies
+- for premium hosting companies
 
-## Website maintenancae to prevent partial or full outage
+## Website maintenance to prevent partial or full outage
 
 - * offsite backup of all files and the database **daily** (up to 5 GB)
 - offsite backup of all files and the database weekly (up to 5 GB)
@@ -23,7 +23,7 @@
 - domian expiry monitoring, new registration, modification
 - DNS setup, hourly monitoring
 - frontpage content monitoring and failure detection
-- website uptime mintoring every minute
+- website uptime monitoring every minute
 - * PHP and MySQL engine monitoring hourly
 - tidy up WMT (Google's Webmaster Tools) weekly
 - * fix broken links (404) daily (by filtering access logs)
@@ -52,7 +52,7 @@
 
 Items marked with an asterisk ( * ) are available in the bigger plan and only on a VPS (with root access).
 
-## Other (not listed above) service
+## Other services (not listed above)
 
 - design and coding of a small/medium WordPress website (in a company: marketer, graphic designer, sitebuilder, developer)
 - modifying an existing website (development, sitebuild)
@@ -75,10 +75,10 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 
 ## Kinek ajánlott
 
-- üzletileg tényleg kritikus honlaphoz és webes szolgáltatáshoz
+- jövedelmező honlaphoz és webes szolgáltatáshoz
 - közepes (10 000/hó) és nagy forgalmú honlaphoz
-- marketing cégeknek kiegészítő szolgáltatásként
-- prémium tárhely szolgáltatóknak extraként
+- marketing cégeknek
+- prémium tárhely szolgáltatóknak
 
 ## Honlap karbantartás a részleges és teljes leállások megelőzésére
 

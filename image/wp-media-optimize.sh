@@ -2,14 +2,13 @@
 #
 # Optimize images in WordPress Media Library cron job.
 #
-# VERSION       :0.4
-# DATE          :2015-05-19
+# VERSION       :0.5.1
+# DATE          :2015-06-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install jpeginfo optipng
-# DEPENDS       :https://github.com/danielgtaylor/jpeg-archive
+# DEPENDS       :apt-get install jpeginfo jpeg-archive optipng
 # DEPENDS       :http://wp-cli.org/#install
 # LOCATION      :/usr/local/bin/wp-media-optimize.sh
 
@@ -83,7 +82,7 @@ Optimize_image() {
     # PNG
     if [ "$IMG" != "${IMG%.png}" ]; then
         logger -t "$LOGGER_TAG" "PNG:${IMG}"
-        nice optipng -clobber -strip all -o7 "$IMG" || return 10
+        nice optipng -quiet -clobber -strip all -o7 "$IMG" || return 10
     fi
 
     # Optimized OK or other type of image.
@@ -100,7 +99,8 @@ fi
 UPLOADS="$(${WP_CLI} eval '$u=wp_upload_dir(); echo $u["basedir"];')"
 
 # Loop through all attachments without "optimized" metadata
-for ATTACHMENT_ID in $(${WP_CLI} post list --format=ids --post_type=attachment --post_status=inherit --meta_key="$META_NAME" --meta_compare="NOT EXISTS"); do
+for ATTACHMENT_ID in $(${WP_CLI} post list --format=ids --post_type=attachment \
+        --post_status=inherit --meta_key="$META_NAME" --meta_compare="NOT EXISTS"); do
     ATTACHMENT_PATH="$(${WP_CLI} post meta get "$ATTACHMENT_ID" _wp_attached_file)"
     ATTACHMENT_FILE="$(basename "$ATTACHMENT_PATH")"
 
@@ -108,7 +108,7 @@ for ATTACHMENT_ID in $(${WP_CLI} post list --format=ids --post_type=attachment -
 
     # Find the image and all resized variations
     find "${UPLOADS}/$(dirname "${ATTACHMENT_PATH}")" \
-        -regex ".*/${ATTACHMENT_FILE%.*}-\([0-9]+x[0-9]+\)?\.${ATTACHMENT_FILE##*.}" -print0 \
+        -regex ".*/${ATTACHMENT_FILE%.*}\(-[0-9]+x[0-9]+\)?\.${ATTACHMENT_FILE##*.}" -print0 \
         | while read -d $'\0' -r ATTACHMENT; do
             if Optimize_image "$ATTACHMENT"; then
                 ${WP_CLI} post meta set "$ATTACHMENT_ID" "$META_NAME" 1

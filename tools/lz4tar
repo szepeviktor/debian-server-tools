@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Compress tar with LZ4.
+#
+
+tar -I /usr/bin/lz4 "$@"

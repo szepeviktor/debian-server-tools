@@ -1,10 +1,9 @@
 #!/bin/bash
 #
 # Check your VPS' resources daily.
-# CPU, memory, disks, swap, clock source, console, nameserver, IP address, gateway, nearest hop
 #
-# VERSION       :0.3
-# DATE          :2015-05-13
+# VERSION       :0.4
+# DATE          :2015-06-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,8 +13,21 @@
 # CONFIG        :~/.config/vpscheck/configuration
 # CRON-DAILY    :/usr/local/sbin/vpscheck.sh
 
-
-# Generate config:  vpscheck.sh -gen
+# Checks
+# - CPU
+# - memory
+# - disks
+# - swap
+# - clock source
+# - console
+# - nameserver
+# - IP address
+# - gateway
+# - nearest hop
+# - MX
+#
+# Generate config
+#     vpscheck.sh -gen
 #
 # PROC=1
 # MEM=1048576
@@ -29,10 +41,12 @@
 # HOP=95.140.33.252
 # # k.root-servers.net.
 # HOP_TO=193.0.14.129
+# MX=mail.szepe.net
 #
-# Examine the checks below (many Add_check() calls)
+# Examine the checks below: the `Add_check()` calls.
 # Write your own checks!
-# Report issues: https://github.com/szepeviktor/debian-server-tools/issues/new
+# Report issues
+#     https://github.com/szepeviktor/debian-server-tools/issues/new
 
 Needs_root_commands() {
     [ "$(id --user)" == 0 ] || exit 1
@@ -51,7 +65,7 @@ Nearest_rootserver() {
         HOPS="$(traceroute -4 -n -m 10 -w 2 "${R}.root-servers.net." 2>&1 \
             | tail -n +2 | wc -l; echo ${PIPESTATUS[0]})"
 
-        # traceroute is OK AND less hops than before
+        # Traceroute is OK AND less hops than before
         if [ "${HOPS#*[^0-9]}" == 0 ] && [ "${HOPS%[^0-9]*}" -lt "$MIN_HOPS" ]; then
             NEAREST="${R}.root-servers.net."
             MIN_HOPS="${HOPS%[^0-9]*}"
@@ -62,7 +76,7 @@ Nearest_rootserver() {
 }
 
 Add_check() {
-    #FIXME keep orignal order
+    # FIXME keep original order
     CHECKS["$1"]="$2"
 }
 
@@ -127,41 +141,43 @@ else
 fi
 
 
-# number of CPU-s
+# Number of CPU-s
 Add_check PROC 'grep -c "^processor" /proc/cpuinfo'
 
-# total memory (kB)
+# Total memory (kB)
 Add_check MEM 'grep "^MemTotal:" /proc/meminfo | sed "s/\s\+/ /g" | cut -d" " -f 2'
 
-# available disk partitions
+# Disk partitions
 # - VMware /dev/sd*
 # - XEN /dev/xvd*
 # - KVM dev/vd*
-# - OpenVZ: no disk devices, delete this check
+# - OpenVZ: no disk devices, comment out this check
 Add_check PART 'ls -1 /dev/sd* | paste -s -d","'
 
-# swap sizes (kB)
+# Swap sizes (kB)
 Add_check SWAP 'tail -n +2 /proc/swaps | cut -f 2 | paste -s -d", "'
 
-# kernel clock source
+# Kernel clock source
 Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocksource'
 
-# virtual console
+# Virtual console on Xen
 #Add_check CONSOLE 'ls /dev/hvc0'
 
-# first nameserver (IPv4 only)
+# First nameserver (IPv4 only)
 Add_check DNS1 'grep -m 1 "^\s*[^#]*nameserver" /etc/resolv.conf | grep -o "[0-9.]*"'
 
-# first IPv4 address
-Add_check IP 'ip addr show | grep -o "inet [0-9.]*" | grep -v -m 1 "127\.0\.0\." | cut -d" " -f 2'
+# First IPv4 address
+Add_check IP 'ip addr show|sed -n "s/^\s*inet \([0-9\.]\+\)\b.*$/\1/p"|grep -F -v -m 1 "127.0.0."'
 
-# default gateway (IPv4 only)
+# Default gateway (IPv4 only)
 Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
-#FIME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
+# FIXME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
 
-# first hop towards the nearest root server
+# First hop towards the nearest root server
 Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
 
+# First mail exchanger
+Add_check MX 'host -t MX $(hostname -f)|sed -n "0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s;;\1;p"'
 
 Check_vps
 

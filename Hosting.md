@@ -2,11 +2,14 @@
 
 ## VPS, cloud VPS
 
+- [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
+- [Linode](https://www.linode.com/?r=66de78b7ac99f79ec3a8e89a60c6c825dd107df1)
 - [OVH Public Cloud](http://www.ovh.com/fr/cloud/instances/cpu.xml)
 - Runabove (OpenStack) hourly, Power8, 3+GHz, SSD
+- [OVH OpenVZ](http://www.ovh.ie/vps/vps-classic.xml)
+- [OVH VMware](http://www.ovh.ie/vps/vps-cloud.xml)
 - HostHatch (KVM) storage VPS
-- [OVH OpenVZ](http://www.ovh.ie/vps/vps-classic.xml) [OVH VMware](http://www.ovh.ie/vps/vps-cloud.xml)
-- [Vultr](https://www.vultr.com/) hourly, 3+GHz, SSD, storage VPS
+- [Vultr](http://www.vultr.com/?ref=6815796) hourly, 3+GHz, SSD, storage VPS
 - https://www.linode.com/
 - vps.me/Hostinger free, IPv6 only
 
@@ -22,6 +25,11 @@
 - https://blazingfast.io/ fast, free (DDoS page)
 - http://www.hostinger.co.uk/ free, latest hardware, Apache 2.4
 - https://ifastnet.com/portal/sharedhosting.php 24 CPU-s
+
+## VPS in Hungary
+
+- http://servira.com/
+- https://www.cloudvps.hu/ssd-vps
 
 ## Shared hosting in Hungary
 

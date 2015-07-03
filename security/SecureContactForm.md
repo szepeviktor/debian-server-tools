@@ -7,7 +7,7 @@
 // inline js, css
 
 
-//TWO parts: nonce generator; form action
+//TWO parts: nonce generator; form action; nonce_gen HTTP req. on form.focus()
 //let it be a class
 
 ### Security

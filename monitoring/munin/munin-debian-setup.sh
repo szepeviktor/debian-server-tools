@@ -89,12 +89,7 @@ MONIT_CONF
 
 
 munin_mysql() {
-    # upstream: "https://github.com/munin-monitoring/munin/raw/devel/plugins/node.d/mysql_.in"
-    # sed -i 's|^#!@@PERL@@$|#!/usr/bin/env perl|' mysql_
-    # mv mysql_ mysql2_
-    # {name => 'Qcache_queries_in_cache', label => 'Queries in cache', type  => 'GAUGE'},
-    # {name => 'Qcache_queries_in_cache', label => 'Queries in cache(k)', type  => 'GAUGE', cdef => 'Qcache_queries_in_cache,1024,/'},
-
+    # Upstream: https://github.com/kjellm/munin-mysql
     Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/mysql2_"
 }
 

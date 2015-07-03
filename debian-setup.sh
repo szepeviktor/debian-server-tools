@@ -435,6 +435,15 @@ editor /root/.config/vpscheck/configuration
 # Test run
 vpscheck.sh
 
+# msmtp
+apt-get install -y msmtp-mta
+# /usr/share/doc/msmtp/examples/msmtprc-system.example
+cp -vf ${D}/mail/msmtprc /etc/
+# Configure Mandrill
+#     https://www.mandrill.com/signup/
+#     http://msmtp.sourceforge.net/doc/msmtp.html
+echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
+
 # Courier MTA - deliver all mail to a smarthost
 apt-get install -y courier-mta courier-mta-ssl
 dpkg -l | grep -E "postfix|exim"
@@ -461,6 +470,11 @@ service courier-mta-ssl restart
 # Allow unauthenticated SMTP traffic from this server on the smarthost
 #     editor /etc/courier/smtpaccess/default
 #     %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
+# Receive bounce messages on the smarthost
+#     editor /etc/courier/aliases/system
+#     @HOSTNAME.TLD: USER
+#     editor /var/mail/DOMAIN/USER/.courier-default
+#     USER
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
 # Fail2ban

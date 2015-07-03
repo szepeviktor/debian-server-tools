@@ -3,9 +3,10 @@
 #
 #### LOCATION       :/var/lib/rbldns/spammer/spammer.dnsbl.zone
 #### DOMAIN         :spammer.dnsbl
-#### DOCS           :http://www.corpit.ru/mjt/rbldnsd.html
+#### DOCUMENTATION  :http://www.corpit.ru/mjt/rbldnsd.html
 #### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone
-#### TEST Class C   :for FOURTH in $(seq 0 255);do host -t PTR <FIRST-3-OCTETS>.${FOURTH};done
+#### TEST Class C   :for FOURTH in $(seq 0 255);do host -t PTR 1.2.3.${FOURTH};done
+#### TEST DNSBL     :host $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
 
 ####  1 - spammer
 ####  2 - neighbour
@@ -17,13 +18,16 @@ $TTL 60
 
 # ---------------------------------------
 
-# ATTACKERS
+# SMTP AUTHENTICATION ATTACKERS
 :127.0.0.4:An attacker
 
+# lcfoot.fr
 109.239.112.0/23 :2:Neighbour of lcfoot.fr
 109.239.113.16   FR_lcfoot.nvlasp.fr@COVAGE NETWORKS SASU/AS44902
 109.239.116.0/24 :2:Neighbour of lcfoot.fr
 109.239.117.0/24 :2:Neighbour of lcfoot.fr
+# Artur Grabowski
+193.189.116.0/23 PL_*.host.e-ring.pl@DELORIAN Artur Grabowski/AS201451
 
 # ---------------------------------------
 
@@ -37,6 +41,7 @@ $TTL 60
 79.172.239.117   HU_server1.bestofmarket.hu@TARHELYEU-NET/AS29278
 82.165.194.195   DE_ns2.ilovebroadband.net@SCHLUND-CUSTOMERS/AS8560
 91.82.226.172    HU_penzaramlas.smtp.hu@Invitel-pool/@AS12301
+162.220.12.113   HU_mail.webaruhaz-pelda.info@CRISSIC/AS62639
 178.238.222.94   HU_server2.bestofmarket.hu@FREEMIUM-NET/AS29278
 198.143.96.181   HU_arctic.gytcre.com@HOSTWINDS-17-5/AS54290
 199.59.62.53     HU_aback.gytcre.com@HOSTWINDS-17-5/AS54290
@@ -50,6 +55,7 @@ $TTL 60
 91.82.84-85      :2:Neighbour of smtp*.mindenalove.hu
 91.82.84.143-152 HU_SYSTECH-GLOBAL/AS12301@Invitel smtp*.mindenalove.hu
 91.82.84.203-204 HU_SYSTECH-GLOBAL/AS12301@Invitel vps.*-ad.com
+91.82.85.139     HU_SYSTECH-GLOBAL/AS12301@Invitel ex smtp7.mindenalove.hu
 
 # Hostkey / Mir Telematiki
 5.39.216.0/21    HOSTKEY-NET/AS57043
@@ -68,11 +74,14 @@ $TTL 60
 # Tigernet Kft
 193.9.29-31      HU_TigerNet/AS47381
 
-# smpt*.topszallasok.hu, smtp.wellness4youmail.hu
+# smtp*.topszallasok.hu, smtp.wellness4youmail.hu
+91.83.236         :2:Neighbour of topszallasok
 91.83.236.239-250 smtp*.topszallasok.hu@Invitel/AS12301
+91.83.93          :2:Neighbour of topszallasok
+91.83.93.129-137  relocate--smtp*.topszallasok.hu@Invitel/AS12301
 
 # FR-ILIAD-ENTREPRISES-CUSTOMERS
-195.154.0-127    :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
+195.154          :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 
 # Peter Krozser
@@ -81,3 +90,18 @@ $TTL 60
 # Electris Ltd
 83.143.176-183   :2:Neighbour of Electris Ltd
 83.143.178.104   BG_brandsvirals.net@IXTLAN-SYSTEMS/AS200002
+
+# ROAD MARKETING SRL
+86.106.89        RO_only-mta-s@ROAD-MARKETING-SRL/AS48336
+37.156.226       RO_nagyonhasznos.eu-valamihasznosat.eu@ROAD-MARKETING-SRL/AS59854
+
+# ?
+199.217.114.69-73 HU_m*.cutersfood.com@HSI-6/AS30083
+
+# Flipora forced signup
+#74.86.42.161-169 mail*.flipmailer.com@SOFTLAYER-74.86.32.0/AS36351
+
+# Black Fox Limited @VolumeDrive
+107.182.16.0/20    :2:Neighbour of Black Fox Limited
+107.182.16.0/26    *.getlatestnews.biz@BFL-22/AS46664
+107.182.17.198-208 *.getlatestnews.biz@BFL-22/AS46664

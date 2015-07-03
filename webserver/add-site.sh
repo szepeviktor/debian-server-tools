@@ -8,16 +8,16 @@ exit 0
 U=USER
 DOMAIN=DOMAIN
 
-adduser --disabled-password $U
+adduser --disabled-password --gecos "" $U
 
 # Add system mail alias for the user
-cd /etc/courier/aliases
+editor /etc/courier/aliases/system-user
 makealiases
 
-# Add sudo permissions to real users
+# Add sudo permissions for real users
 cd /etc/sudoers.d/
 
-# Set up SSH key
+# Set up SSH key to log in
 sudo -u $U -i -- ssh-keygen -t rsa
 cd /home/$U/.ssh
 cp -a id_rsa.pub authorized_keys2
@@ -81,19 +81,22 @@ editor /etc/cron.d/php5-user
 
 # Apache
 cd /etc/apache2/sites-available
-sed -e "s/@@SITE_DOMAIN@@/$DDOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > ${DOMAIN}.conf
+sed -e "s/@@SITE_DOMAIN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > ${DOMAIN}.conf
 # SSL see: webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # Development
-sed -e "s/@@REVERSE_HIDDEN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+sed -e "s/@@REVERSE_HIDDEN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Dev-site.conf > ${DOMAIN}.conf
 # on "www..." set ServerAlias
 editor ${DOMAIN}.conf
 a2ensite $DOMAIN
-# see: webrestart.sh
-# logrotate
-editor /etc/logrotate.d/apache2-${DOMAIN}
-# prerotate & postrotate
 
-# add cron jobs
+# Restart
+# See: webserver/webrestart.sh
+
+# Logrotate
+editor /etc/logrotate.d/apache2-${DOMAIN}
+# Prerotate & postrotate
+
+# Add cron jobs
 cd /etc/cron.d/
-# webserver/preload-cache.sh
+# See: webserver/preload-cache.sh

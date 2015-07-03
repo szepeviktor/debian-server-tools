@@ -1,0 +1,21 @@
+[DEFAULT]
+
+_nginx_fastcgi_error = \[error\] \d+#\d+: \*\d+ FastCGI sent in stderr:
+_nginx_fastcgi_error_end = while reading response header from upstream,
+
+[Definition]
+
+ignoreregex = 
+
+# @FIXME combined + instant
+
+# @TODO list of nginx error messages
+
+#failregex = ^ \[error\] \d+#\d+: \*\d+ FastCGI sent in stderr: \"PHP message:( \[\S+\] \[client [0-9.]+:\])? Malicious traffic detected: .*\" while reading response header from upstream, client: <HOST>, server: \S+, request: \".*\", upstream: \"fastcgi://.*\", host: \"\S+\"(, referrer: \"\S+\")?$
+failregex = ^ %(_nginx_fastcgi_error)s \"PHP message:( \[\S+\] \[client [0-9.]+:\])? Malicious traffic detected: .*\" %(_nginx_fastcgi_error_end)s client: <HOST>, server: \S+, request: \".*\", upstream: \"fastcgi://.*\", host: \"\S+\"(, referrer: \"\S+\")?$
+            403/deny
+            http auth failure
+            404
+            incalid HTTP method
+            invalid URI/invalid character in URI
+            naxsi block

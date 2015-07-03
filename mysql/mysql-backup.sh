@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 # Complete MySQL backup daily.
-# Needs ~/.my.cnf [mysqldump] section.
 #
 # VERSION       :0.1
 # DATE          :2014-10-22
@@ -11,7 +10,8 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install util-linux
 # LOCATION      :/usr/local/sbin/mysql-backup.sh
-# CRON.D        :2 2 * * *  root  /usr/local/sbin/mysql-backup.sh
+# CRON.D        :2 2	* * *	root	/usr/local/sbin/mysql-backup.sh
+# CONFIG        :~/.my.cnf [mysqldump] section
 
 BACKUP_TARGET="/root/backup/mysql-today.sql.gz"
 

@@ -147,6 +147,8 @@ Courier_mta() {
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
     fi
+
+    echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
 }
 
 Proftpd() {
@@ -225,7 +227,7 @@ Nginx() {
         service nginx restart
 
         # Test HTTPS
-        SERVER_NAME="$(sed -n '0,/RE/s/^\s*server_name\s\+\(\S\+\);.*$/\1/p' "$NGINX_SSL_CONFIG")"
+        SERVER_NAME="$(sed -n '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_SSL_CONFIG")"
         timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
         echo "HTTPS result=$?"
     else

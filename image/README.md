@@ -12,7 +12,7 @@
 
 ### Lossless compression
 
-- see: image/jpegrescan
+- See: image/jpegrescan
 - http://packjpg.encode.ru/?page_id=17
 
 ### JPEG artifacts removal
@@ -35,7 +35,7 @@
 
 ### Super-Resolution demo
 
-- [Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
+[Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
 
 ### Face retouch
 
@@ -48,7 +48,7 @@ http://makeup.pho.to/
 
 ### Archiving
 
-- packJPG (already in pcompress)
+packJPG (already in pcompress)
 
 ### Invalited objects on Amazon CloudFront
 

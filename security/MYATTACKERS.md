@@ -3,7 +3,7 @@
 ## Attacker types
 
 - HTTP Known vulnerability scanners
-- HTTP "nofollow" violators
+- HTTP "nofollow" and hidden form field violators
 - HTTP WordPress login attackers (brute force)
 - SMTP Authentication attackers (dictionary attack)
 - SMTP Spammers see: ${D}/mail/spammer.dnsbl/

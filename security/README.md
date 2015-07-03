@@ -93,3 +93,33 @@ sshd: 221.0.0.0/8
 sshd: 222.0.0.0/8
 sshd: 223.0.0.0/8
 ```
+
+### CloudFlare IP ranges
+
+- https://www.cloudflare.com/ips-v4
+- https://www.cloudflare.com/ips-v6
+
+### CloudFlare IP banning
+
+mode:   block / challenge / whitelist
+target: country / ip
+Value would be an IP, /16 /24 or a 2-letter country code.
+The notes field can be left empty or removed if you don't want to add any.
+To block for a specific zone only, just change the API URL to:
+`https://api.cloudflare.com/client/v4/zones/YOUR-ZONE-ID/firewall/packages/access_rules/rules`
+Replace YOUR-ZONE-ID with the zone identifier for the zone
+retrieved via an API GET to `https://api.cloudflare.com/client/v4/zones/` with your API details.
+
+```
+curl 'https://api.cloudflare.com/client/v4/user/firewall/packages/access_rules/rules' \
+    --data-binary '{"mode":"block","notes":"","configuration":{"value":"1.2.3.4","target":"ip"}}' \
+    --compressed -H 'content-type: application/json' \
+    --header "X-Auth-Key: YOUR-API-KEY" --header "X-Auth-Email: YOUR-EMAIL-ADDRESS" --verbose
+```
+
+### Incapsula IP ranges
+
+https://incapsula.zendesk.com/hc/en-us/articles/200627570-Restricting-direct-access-to-your-website-Incapsula-s-IP-addresses-
+
+resp_format: json | apache | nginx | iptables | text
+`curl -k -s --data "resp_format=apache" https://my.incapsula.com/api/integration/v1/ips`

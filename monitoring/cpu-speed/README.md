@@ -47,6 +47,8 @@ See: monitoring/cpu-speed/image-benchmark.sh
 ```
 system         | result (s)
 ---------------|-----------
+DO             |        314
+Li             |        303
 power8 ×176    |          9
 power8 small×8 |         57
 FORPSI Smart   |        325

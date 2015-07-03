@@ -126,7 +126,7 @@ chkconfig --list
 
 ```bash
 # Save
-apt-get install debconf-utils
+apt-get install -y debconf-utils
 debconf-get-selections > debconf.selections
 dpkg --get-selections > packages.selection
 
