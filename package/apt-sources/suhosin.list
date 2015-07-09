@@ -1,0 +1,4 @@
+# suhosin
+deb http://repo.suhosin.org/ debian-jessie main
+#K: wget -qO- https://sektioneins.de/files/repository.asc | apt-key add
+#M: http://suhosin.org/stories/install.html

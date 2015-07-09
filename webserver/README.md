@@ -6,7 +6,7 @@ location ~* ^(.+)\.\d\d+\.(js|css|png|jpg|jpeg|gif|ico)$ {
 }
 ```
 
-### Remove all comments and indentation from a PFP script
+### Remove all comments and indentation (compact) from a PHP script
 
 ```bash
 php -w SCRIPT.php | sed 's/;/;\n/g'

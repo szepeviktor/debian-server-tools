@@ -122,7 +122,7 @@ FAIL2BAN_PLG
 }
 
 munin_loadtime() {
-    [ "$LOADTIME_URL" == "http://..." ] && return 1
+    [ "$LOADTIME_URL" == "http://www.site.net/login" ] && return 1
     [ -z "$LOADTIME_URL" ] && return 1
 
     cat > "${PLUGIN_CONF_DIR}/http_loadtime" <<LOADTIME_PLG
@@ -205,6 +205,9 @@ APACHE_CNF
 }
 
 munin_apache() {
+
+    [ -x /usr/sbin/apache2 ] || return 1
+
     cat > "${PLUGIN_CONF_DIR}/apache" <<APACHE
 [apache_*]
 env.url ${APACHE_STATUS}
@@ -228,10 +231,7 @@ APACHE_CONF
 
 
 # @TODO https://www.monitis.com/monitoring-plan-builder
-# ideas: URL hit, load, SMS
-
-# Unconfigured
-[ "$PHPFPM_STATUS" == "http://www.site.net/status" ] && exit 99
+# Ideas: URL hit, load, SMS
 
 apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl munin-node
 
@@ -247,7 +247,11 @@ munin_monit
 # @TODO https://github.com/munin-monitoring/contrib/raw/master/plugins/sensors/hwmon
 #munin_hwmon
 munin_ipmi
-# @TODO virtual machines: KVM, Xen, VZ, VMware
+ln -svf /usr/local/share/munin/plugins/ipmi_sensor2_ /etc/munin/plugins/ipmi_sensors2_u_degrees_c
+ln -svf /usr/local/share/munin/plugins/ipmi_sensor2_ /etc/munin/plugins/ipmi_sensors2_u_volts
+ln -svf /usr/local/share/munin/plugins/ipmi_sensor2_ /etc/munin/plugins/ipmi_sensors2_u_rpm
+
+# @TODO virtual machine speed (sysbench*100) test: KVM, Xen, VZ, VMware
 
 # Daemons
 munin_mysql
@@ -279,8 +283,9 @@ echo
 munin-node-configure --families auto,manual --shell
 echo
 # Custom plugins
-munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,manual --shell
+munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,manual,contrib --shell
 
+echo "munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,manual,contrib --shell --debug 2>&1|most"
 echo '# Enable plugins by hand'
 echo "Hit Ctrl+D to continue setup"
 bash
@@ -304,9 +309,7 @@ ls /etc/munin/plugins/ \
     done
 
 # Allow munin server access
-ip addr show dev eth0 \
-    | sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/allow ^\1$/' -e 's/\./\\./gp' \
-    >> /etc/munin/munin-node.conf
+echo -e "\nallow MUNIN-MASTER-IP" >> /etc/munin/munin-node.conf
 service munin-node restart
 
 # Add node to the **server**

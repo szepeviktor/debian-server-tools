@@ -2,28 +2,32 @@
 #
 # Report filtered Apache error logs from yesturday.
 #
-# VERSION       :1.0.0
-# DATE          :2015-07-03
+# VERSION       :1.1.2
+# DATE          :2015-07-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install mail-transport-agent apache2 ccze recode
 # LOCATION      :/usr/local/sbin/apache-errorlog-report.sh
-# CRON.D        :02 0	* * *	root	/usr/local/sbin/apache-errorlog-report.sh
+# CRON-DAILY    :/usr/local/sbin/apache-errorlog-report.sh
 
 # Installation
 #
-# - Set filter regexp below
-# - Rename this script
-# - Copy to /usr/local/sbin/
-# - Add cron job
+# Download the dategrep binary directly from GitHub (without package management)
+#
+#     apt-get install -y libdate-manip-perl
+#     R="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/s//\1/p')"
+#     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
+#     chmod +x /usr/local/bin/dategrep
+#
+# - Set filter regexp in `grep` (line 36)
+# - Copy to /usr/local/sbin/apache-errorlog-CUSTOM-NAME.sh
+# - And add cron job
 
-
-EMAIL_ADDREDD="webmaster@szepe.net"
+EMAIL_ADDRESS="webmaster@szepe.net"
 EMAIL_SUBJECT="[ad.min] HTTP error log from $(hostname -f)"
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
-YESTURDAY="$(LC_ALL=C date --date="1 day ago" "+%a %b %d [0-9:.]\\+ %Y")"
 
 if [ -z "$APACHE_CONFIGS" ]; then
     echo "Apace log files could not be found." >&2
@@ -41,10 +45,11 @@ while read CONFIG_FILE; do
     ERROR_LOG="$(echo "$ERROR_LOG"|sed -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
 
-    # Filter regexp
+    # Filter error log with regexp for 1 day from cron.daily
     # [Sat Jun 27 19:20:10.050619 2015] [:error] [pid 123] [client 1.2.3.4:61234]
-    grep "^\[${YESTURDAY}\] \[.\?error\]\( \[pid [0-9]\+\]\)\? \[client [0-9:.]\+\] .*Permission denied" \
-        "$ERROR_LOG" "${ERROR_LOG}.1"
-
+    ionice -c 3 /usr/local/bin/dategrep --format '%a %b %d %T(\.[0-9]+)? %Y' --multiline \
+        --from "1 day ago at 06:25:00" --to "06:25:00" "${ERROR_LOG}.1" "$ERROR_LOG" \
+        | grep "\[client [0-9:.]\+\] .*Permission denied" \
+        | sed "s;^;$(basename "$ERROR_LOG" .log): ;g"
 done <<< "$APACHE_CONFIGS" \
-    | mailx -E -s "$EMAIL_SUBJECT" "$EMAIL_ADDREDD"
+    | mailx -E -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"

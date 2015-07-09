@@ -1,0 +1,74 @@
+#!/bin/bash
+#
+# Draws a line as long as the execution time in miliseconds.
+#
+# VERSION       :0.2.0
+# DATE          :2015-07-07
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install bc
+# LOCATION      :/usr/local/bin/msec
+
+# Usage
+#
+#     msec COMMAND COMMAND-ARGUMENTS ...
+#
+# Press Ctrl+C to exit.
+#
+# Set delay between runs in seconds.
+#
+#     MSEC_DELAY=0.5 msec calc --primes
+#
+# Compress/expand lines.
+#
+#     MSEC_DIVIDER=5 msec make -j 2
+#
+# Draw lines with another character.
+#
+#     MSEC_DOT=_ msec php index.php
+#
+# Display increase/decrease of execution time as percentage.
+#
+#     MSEC_PERC=1 msec ls -R /var
+
+DELAY="${MSEC_DELAY:-0.2}"
+DIVIDER="${MSEC_DIVIDER:-1}"
+DOT="${MSEC_DOT:--}"
+
+MAX_COLUMN="$(($(tput cols) - 4))"
+PREV_VALUE="N/A"
+
+while :; do
+    # Format: "0.123"
+    WALLTIME="$(TIMEFORMAT="%3R" bash -c -- "time \"\$@\" &> /dev/null" time "$@" 2>&1)"
+    MSEC="$(echo "${WALLTIME} * 1000 / 1" | bc)"
+    DOTS="$(echo "${WALLTIME} * 1000 / ${DIVIDER}" | bc)"
+
+    if [ "$DOTS" -gt "$MAX_COLUMN" ]; then
+        DOTS="$MAX_COLUMN"
+        MAX_REACHED="1"
+    else
+        MAX_REACHED="0"
+    fi
+
+    printf -v TIMELINE "%*s" "$DOTS"
+    # Replace spaces with $DOT
+    TIMELINE="${TIMELINE// /${DOT}}"
+    if [ "$MAX_REACHED" == 1 ]; then
+        TIMELINE="${TIMELINE%?}>"
+    fi
+
+    if [ -z "$MSEC_PERC" ]; then
+        printf "%4d%s\n" "$MSEC" "$TIMELINE"
+    else
+        if [ "$PREV_VALUE" == N/A ]; then
+            PREV_VALUE="$MSEC"
+        fi
+        printf "%3d%%%s\n" "$(echo "(${MSEC} * 100 / ${PREV_VALUE} - 100) / 1" | bc)" "$TIMELINE"
+        PREV_VALUE="$MSEC"
+    fi
+
+    [ "$DELAY" == 0 ] || sleep "$DELAY"
+done

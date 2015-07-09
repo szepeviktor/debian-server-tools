@@ -27,6 +27,8 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #     /etc/ovhrc
 #     cdns.ovh.net.
 #     ntp.ovh.net.
+#     http://help.ovh.com/InstallOvhKey
+#     http://help.ovh.com/RealTimeMonitoring
 #
 # Aruba configuration
 #
@@ -117,6 +119,7 @@ editor /root/.bashrc
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
 
+#export IP="$(ip addr show dev xenbr0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 export IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 
 PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
@@ -317,8 +320,13 @@ dpkg-reconfigure tzdata
 # Consider /sbin/agetty
 editor /etc/inittab
 # Sanitize users
+#     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
+#     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
+# mcview /usr/share/doc/base-passwd/users-and-groups.html
+tabs 20,+3,+8,+8,+20,+8,+8,+8,+8,+8,+8,+8;sort -t':' -k3 -g /etc/passwd|tr ':' '\t';tabs -8
 editor /etc/passwd
 editor /etc/shadow
+update-passwd -v --dry-run
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
 # 1. Delete not-installed packages
@@ -403,6 +411,11 @@ rm -rf /root/src/debian-server-tools-master/
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
 service cron restart
 
+# CPU
+grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+# Performance mode
+#     for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance">$SG;done
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
@@ -445,36 +458,45 @@ cp -vf ${D}/mail/msmtprc /etc/
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
 # Courier MTA - deliver all mail to a smarthost
+#     Send-only servers don't receive emails.
+#     Send-only servers don't have local domain names.
+#     They should have an MX record pointing to the smarthost.
+#     Smarthost should receive all emails with send-only server's domain name.
 apt-get install -y courier-mta courier-mta-ssl
 dpkg -l | grep -E "postfix|exim"
 # Host name
-editor /etc/courier/me
-mx $(cat /etc/courier/me) || Error "no MX for me"
-editor /etc/courier/defaultdomain
-editor /etc/courier/dsnfrom
-editor /etc/courier/aliases/system
 editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,587 /SECURITY=REQUIRED
 # From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
 editor /etc/courier/esmtpd
-# ADDRESS=127.0.0.1
-# ESMTPAUTH=""
-# ESMTPAUTH_TLS=""
+#     ADDRESS=127.0.0.1
+#     ESMTPAUTH=""
+#     ESMTPAUTH_TLS=""
 editor /etc/courier/esmtpd-ssl
-# SSLADDRESS=127.0.0.1
-makealiases
+#     SSLADDRESS=127.0.0.1
+editor /etc/courier/smtpaccess/default
+#     127.0.0.1	allow,RELAYCLIENT
+#     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
 makesmtpaccess
+editor /etc/courier/me
+mx $(cat /etc/courier/me) || Error "no MX for me"
+editor /etc/courier/defaultdomain
+editor /etc/courier/dsnfrom
+editor /etc/courier/locals
+#     localhost
+editor /etc/courier/aliases/system
+makealiases
 service courier-mta restart
 service courier-mta-ssl restart
 # Allow unauthenticated SMTP traffic from this server on the smarthost
 #     editor /etc/courier/smtpaccess/default
-#     %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
+#         %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
 # Receive bounce messages on the smarthost
 #     editor /etc/courier/aliases/system
-#     @HOSTNAME.TLD: USER
+#         @HOSTNAME.TLD: LOCAL-USER
 #     editor /var/mail/DOMAIN/USER/.courier-default
-#     USER
+#         LOCAL-USER
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
 # Fail2ban
@@ -681,12 +703,12 @@ Getpkg spamassassin
 # be sure to add this to /etc/default/proftpd for fail2ban to understand dates.
 #     export LC_TIME="en_US.UTF-8"
 
-# Simple syslog monitoring
+# Simple syslog monitoring8
 apt-get install -y libdate-manip-perl
-# Version 0.50
-wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/0.50/dategrep-standalone-small
+DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/s//\1/p')" #'
+wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${DGR}/dategrep-standalone-small
 chmod +x /usr/local/bin/dategrep
-cd ${D}; ./install.sh monitoring/syslog-errors.sh
+${D}/install.sh ${D}/monitoring/syslog-errors.sh
 
 # Monit - monitoring
 #     https://packages.debian.org/sid/amd64/monit/download
@@ -701,6 +723,11 @@ lynx 127.0.0.1:2812
 
 # Munin - network-wide graphing
 # See: ${D}/monitoring/munin/munin-debian-setup.sh
+
+# node.js
+apt-get install -y nodejs
+# Install packaged under /usr/local/
+npm config set prefix=/usr/local/
 
 # Clean up
 apt-get autoremove --purge

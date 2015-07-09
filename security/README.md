@@ -1,6 +1,7 @@
 ### Custom certificate installation
 
 /usr/local/share/ca-certificates/<CA-NAME>/
+`update-ca-certificates --fresh`
 
 ### Store secret data in shares
 
@@ -99,7 +100,7 @@ sshd: 223.0.0.0/8
 - https://www.cloudflare.com/ips-v4
 - https://www.cloudflare.com/ips-v6
 
-### CloudFlare IP banning
+### CloudFlare API IP banning
 
 mode:   block / challenge / whitelist
 target: country / ip

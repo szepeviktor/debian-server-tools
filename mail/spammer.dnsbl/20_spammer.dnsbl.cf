@@ -34,10 +34,10 @@ header   RCVD_IN_BL_SPAMMER_ATTACKER eval:check_rbl_sub('spammer', '127.0.0.4')
 describe RCVD_IN_BL_SPAMMER_ATTACKER SMTP attacker
 tflags   RCVD_IN_BL_SPAMMER_ATTACKER net
 
-endif
-
 score RCVD_IN_BL_SPAMMER_NEIGH     3.0
 score RCVD_IN_BL_SPAMMER_IS       10.0
 score RCVD_IN_BL_SPAMMER_ATTACKER 20.0
+
+endif
 
 # Check: sudo -u daemon -- spamassassin --lint

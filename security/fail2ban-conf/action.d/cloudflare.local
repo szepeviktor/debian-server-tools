@@ -8,6 +8,8 @@
 # To get your CloudFlare API Key: https://www.cloudflare.com/a/account/my-account
 #
 
+################## https://github.com/szepeviktor/fail2ban/blob/patch-5/config/action.d/cloudflare.conf
+
 [Definition]
 
 # Option:  actionstart
@@ -46,3 +48,9 @@ actionban = curl -s -o /dev/null https://www.cloudflare.com/api_json.html -d 'a=
 # Values:  CMD
 #
 actionunban = curl -s -o /dev/null https://www.cloudflare.com/api_json.html -d 'a=nul' -d 'tkn=<cfapikey>' -d 'email=<cfemail>' -d 'key=<ip>'
+
+[Init]
+
+cfemail =
+
+cfapikey =

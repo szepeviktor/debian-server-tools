@@ -105,3 +105,10 @@ $TTL 60
 107.182.16.0/20    :2:Neighbour of Black Fox Limited
 107.182.16.0/26    *.getlatestnews.biz@BFL-22/AS46664
 107.182.17.198-208 *.getlatestnews.biz@BFL-22/AS46664
+
+# *.globalplaza.hu
+188.227.227.181-186 HU_*.globalplaza.hu@DOCLERWEB/AS47381
+
+# euve77344.serverprofi24.net @PlusServer AG
+62.75.142        :2:Neighbour of euve77344.serverprofi24.net
+62.75.142.67     euve77344.serverprofi24.net@BSB-SERVICE-1/AS8972

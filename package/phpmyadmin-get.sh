@@ -1,38 +1,38 @@
 #!/bin/bash
 #
-# Download and extract latest phpMyAdmin from GitHub
+# Download and extract latest english-only phpMyAdmin.
 #
-# VERSION       :0.1
-# DATE          :2014-08-01
+# VERSION       :0.2.0
+# DATE          :2015-07-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/phpmyadmin-get.sh
-# SOURCE        :https://github.com/phpmyadmin/phpmyadmin
 
+# Parse homepage
+#HOMEPAGE_URL="https://www.phpmyadmin.net/downloads/"
+#wget -qO- "$HOMEPAGE_URL" \
+#    | grep -m1 -o 'href="https://files.phpmyadmin.net/phpMyAdmin/.*/phpMyAdmin-.*-english.tar.xz"' \
+#    | cut -d'"' -f2 \
+#    | wget -nv -N --content-disposition -i-
 
-# Older version compatible with PHP 5.2 and MySQL 5
-#wget 'https://github.com/phpmyadmin/phpmyadmin/archive/RELEASE_4_0_10_4.tar.gz'
+JSON_URL="https://www.phpmyadmin.net/home_page/version.json"
 
-TAGSAPI="https://api.github.com/repos/phpmyadmin/phpmyadmin/tags"
+LATEST_VERSION="$(wget -q -O- "$JSON_URL"|sed -n '0,/^.*"version":\s*"\([^"]\+\)".*$/s//\1/p')" #'
 
-# Tags API JSON response / first non-beta-alpha release / tarball URL
-wget -q -O- "$TAGSAPI" \
-    | grep -m1 -A6 '"name": "RELEASE_[0-9_]\+",' \
-    | grep -m1 '"tarball_url":' | cut -d'"' -f4 \
-    | wget -nv --content-disposition -i-
+wget -nv -N --content-disposition \
+    "https://files.phpmyadmin.net/phpMyAdmin/${LATEST_VERSION}/phpMyAdmin-${LATEST_VERSION}-english.tar.xz"
 
-#FIXME  could always use this URL: https://github.com/phpmyadmin/phpmyadmin/archive/STABLE.zip
-#FIXME  includes ALL languages
+# Freshest tarball in the current directory
+TARBALL="$(ls -t phpMyAdmin-*-english.tar.xz | tail -n 1)"
 
-# latest tarball
-TARBALL="$(ls phpmyadmin-phpmyadmin-*tar* | sort -n | tail -n 1)"
-
-# extract
+# Extract tarball
 tar --exclude=doc \
+    --exclude=.scrutinizer.yml \
     --exclude=.coveralls.yml \
     --exclude=setup \
+    --exclude=examples \
     --exclude=ChangeLog \
     --exclude=composer.json \
     --exclude=CONTRIBUTING.md \
@@ -41,13 +41,5 @@ tar --exclude=doc \
     --exclude=phpunit.xml.hhvm \
     --exclude=phpunit.xml.nocoverage \
     --exclude=README \
-    --exclude=PMAStandard \
-    --exclude=po \
-    --exclude=scripts \
-    --exclude=test \
-    --exclude=README.rst \
-    --exclude=.gitignore \
-    --exclude=.jshintrc \
-    --exclude=.travis.yml \
-    --exclude=build.xml \
+    --exclude=RELEASE-DATE-* \
     -xf "$TARBALL" && echo "OK." || echo 'NOT ok!'

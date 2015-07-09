@@ -83,14 +83,14 @@ Do_install() {
         "$FILE" "$SCRIPT" \
         || Die 11 "Installation failure (${FILE})"
 
-    # Symlink
+    # Create symlink
     head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d':' -f 2- \
         | while read SYMLINK; do
             echo -n "Symlinking "
             ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
         done
 
-    # Cron
+    # Cron jobs
     if head -n 30 "$FILE" | grep -qi "^# CRON"; then
         $(dirname $0)/install-cron.sh "$FILE" || Die 13 "Cron installation failulre (${FILE})"
     fi

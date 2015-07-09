@@ -24,7 +24,7 @@ time for R in {1..10}; do php index.php > /dev/null; done
 while :; do { time php index.php > /dev/null; sleep 0.2; } 2>&1|grep "^real"; done
 ```
 
-### Compariosion table
+### Comparision table
 
 https://www.cpubenchmark.net/singleThread.html
 
@@ -43,6 +43,11 @@ https://github.com/mgutz/vpsbench/blob/master/vpsbench
 See: monitoring/cpu-speed/image-benchmark.sh
 
 - VPS hosting results (http ms, ping ms)
+
+SoYouStart by OVH / E3-SSD-3 JPEG 1:20, 0:10 sysbench 20 ms
+ovh cloud vps rbx2 sysbench 45ms
+OVH Public Cloud / CPU instance E312xx (Sandy Bridge) sysbench 23 ms
+
 
 ```
 system         | result (s)

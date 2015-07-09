@@ -3,8 +3,8 @@
 # Test ESMTP communication.
 # Usage: mailto.sh <EMAIL> [<MX>]
 #
-# VERSION       :0.2
-# DATE          :2015-04-17
+# VERSION       :0.3.0
+# DATE          :2015-07-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -128,7 +128,7 @@ dnsquery() {
 RCPT="$1"
 [ "$RCPT" == "${RCPT%@*}" ] && exit 2
 
-MYIP="$(/sbin/ifconfig | grep -m1 -w -o 'inet addr:[0-9.]*' | cut -d':' -f2)"
+MYIP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 ME="$(dnsquery PTR "$MYIP")"
 ME="${ME%.}"
 [ -z "$ME" ] && exit 3
@@ -143,30 +143,35 @@ else
         MX_REC="$2"
 fi
 
-echo "-------------------------------------------------------------------------------"
-echo "EHLO ${ME}"
-echo "MAIL FROM: <postmaster@${ME}>"
-echo "RCPT TO: <${RCPT}>"
-echo "DATA"
-echo "-------------------------------------------------------------------------------"
-echo "Message-ID: <$(date '+%Y%m%d%H%M%S').$(pwgen16)@${ME}>"
-echo "MIME-Version: 1.0"
-echo "Content-Type: text/plain; charset=UTF-8;"
-echo "Content-Disposition: inline"
-echo "Content-Transfer-Encoding: 8bit"
-echo "Date: `date -R`"
-echo "From: =?utf-8?b?$(echo -n "Szépe Viktor"|base64)?= <postmaster@${ME}>"
-echo "To: ${RCPT}"
-echo "Subject: mail test, Sorry!"
-echo
-echo "Mail test."
-echo "Sorry! $MYIP"
-echo "."
-echo "-------------------------------------------------------------------------------"
-echo "QUIT"
-echo "-------------------------------------------------------------------------------"
-echo "STARTTLS:  openssl s_client -crlf -connect ${MX_REC}:25 -starttls smtp"
-echo "smtps:     openssl s_client -crlf -connect ${MX_REC}:465"
+# man s_client
+#     the session will be renegotiated if the line begins with an R
+#     if the line begins with a Q the connection will be closed down
+cat <<EOF
+-------------------------------------------------------------------------------
+EHLO ${ME}
+MAIL FROM: <postmaster@${ME}>
+rCPT TO: <${RCPT}>
+DATA
+-------------------------------------------------------------------------------
+Message-ID: <$(date '+%Y%m%d%H%M%S').$(pwgen16)@${ME}>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Date: `date -R`
+From: =?utf-8?b?$(echo -n "Szépe Viktor"|base64)?= <postmaster@${ME}>
+To: ${RCPT}
+Subject: mail test, Sorry!
+
+Mail test.
+Sorry! ${MYIP}
+.
+-------------------------------------------------------------------------------
+qUIT
+-------------------------------------------------------------------------------
+STARTTLS:  openssl s_client -crlf -connect ${MX_REC}:25 -starttls smtp
+smtps:     openssl s_client -crlf -connect ${MX_REC}:465
+EOF
 
 # Only CRLF
 #nc -C "${MX_REC}" 25

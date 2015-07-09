@@ -1,18 +1,28 @@
 #!/bin/bash
+#
+# Reverse octets in an IPv4 address.
+#
+# VERSION       :1.0.0
+# DATE          :2015-07-01
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/revip
 
 Reverse_string() {
-    local IP="$1"
+    local STRING="$1"
     local DELIM="$2"
     local REV
 
     REV="$(
-    while read -d "$DELIM" PART; do
-        echo "$PART"
-    done <<< "${IP}${DELIM}" \
-    | tac \
-    | while read LINE; do
-        echo -n "${LINE}${DELIM}"
-    done
+        while read -d "$DELIM" PART; do
+            echo "$PART"
+        done <<< "${STRING}${DELIM}" \
+        | tac \
+        | while read PART; do
+            echo -n "${PART}${DELIM}"
+        done
     )"
 
     echo "${REV%$DELIM}"

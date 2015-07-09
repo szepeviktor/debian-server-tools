@@ -47,53 +47,56 @@ pip3 install html2text
 pip3 install courier-pythonfilter
 # custom python filters
 git clone https://github.com/szepeviktor/courier-pythonfilter-custom
-# /usr/local/lib/python3.4 for jessie
-ln -sv email-correct.py /usr/local/lib/python3.2/dist-packages/pythonfilter/
-ln -sv spamassassin3.py /usr/local/lib/python3.2/dist-packages/pythonfilter/
+# /usr/local/lib/pythonVERSION
+ln -sv email-correct.py /usr/local/lib/python3.4/dist-packages/pythonfilter/
+ln -sv spamassassin3.py /usr/local/lib/python3.4/dist-packages/pythonfilter/
 # whitelist_replayclient dependency
 apt-get install -y python3-gdbm
 ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
 filterctl start pythonfilter
 
 # DKIM support
-# build deps
+# Build dependencies
 #apt-get install -y -t wheezy-backports libopendkim-dev libopendbx1-dev nettle-dev
 #apt-get install -y libc6-dev pkg-config libtool
-# runtim deps
+# Runtime deps
 apt-get install -y libopendkim7
 apt-get install -y -t wheezy-backports libopendbx1 libnettle4
-# source
+# Source
 wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
 ./configure && make check && make install
 
 # Spamassassin
-# trunk: http://svn.apache.org/repos/asf/spamassassin/trunk/
+#     http://svn.apache.org/repos/asf/spamassassin/trunk/
 # DKIM check
 apt-get install -y libmail-dkim-perl
-# rule compile
+# Compile rules
 mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
-#cd /etc/cron.hourly
-#patch -p0 < spamassassin34.patch
+# Patch for being quiet
+cd /etc/cron.hourly
+patch -p0 < spamassassin34.patch
+# Pyzor
 pip3 install pyzor
 
-# e /etc/courier/smtpaccess/default
-# :::1<-->allow,RELAYCLIENT
+editor /etc/courier/smtpaccess/default
+# :::1	allow,RELAYCLIENT
 
-# document message way SMTP, courier C, courier filters (spamassassin, pyzor), aliases, .courier
+# Document: message way SMTP, courier C, courier filters (spamassassin, pyzor), aliases, .courier
 
-#TODO Where to whitelist: courier domain,IP; sa domain; dnsbl known_hosts;
-#     What: own IP, servers, (smtp.timeweb.ru), broken SMTP servers
-#     providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare)
-#     subscriptions, account (ifttt, linkedin, hubiC)
-#     freemail?? (gmail, freemail, citromail, indamail)
+# @TODO Where to whitelist: courier domain,IP; sa domain; dnsbl known_hosts;
+#       What: own IP, servers, (smtp.timeweb.ru), broken SMTP servers
+#       providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare)
+#       subscriptions, account (ifttt, linkedin, hubiC)
+#       freemail?? (gmail, freemail, citromail, indamail)
 
 
 # MISSING_MID monitoring
 
 # maildrop: https://help.ubuntu.com/community/MailServerCourierSpamAssassin
 
-# scores
-#TODO add descriptions
+# Scores
+# @TODO Add descriptions
+
 score RDNS_NONE                  3.0 -> spamassassin3.py rejects
 score RDNS_DYNAMIC               2.0
 score DYN_RDNS_AND_INLINE_IMAGE  3.0
@@ -104,6 +107,7 @@ score FM_FAKE_HELO_HOTMAIL       2.0
 
 score T_DKIM_INVALID             1.0
 whitelist_from *@domain.tld
+
 # sagrey.pm
 
 # Monitoring
@@ -113,3 +117,30 @@ whitelist_from *@domain.tld
 # - weekly: grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554"
 # - yearly: archive
 # - monthly: maildir-top10-message-count & -folder-size (du -sk "$FULLPATH")
+
+# DNSBL (Spamassassin configuration)
+
+# http://wiki.junkemailfilter.com/index.php/Spam_DNS_Lists#Spam_Assassin_Examples
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+header __RCVD_IN_HOSTKARMA eval:check_rbl('HOSTKARMA-lastexternal','hostkarma.junkemailfilter.com.')
+describe __RCVD_IN_HOSTKARMA Sender listed in JunkEmailFilter
+tflags __RCVD_IN_HOSTKARMA net
+
+header RCVD_IN_HOSTKARMA_W eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.1')
+describe RCVD_IN_HOSTKARMA_W Sender listed in HOSTKARMA-WHITE
+tflags RCVD_IN_HOSTKARMA_W net nice
+
+header RCVD_IN_HOSTKARMA_BL eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.2')
+describe RCVD_IN_HOSTKARMA_BL Sender listed in HOSTKARMA-BLACK
+tflags RCVD_IN_HOSTKARMA_BL net
+
+header RCVD_IN_HOSTKARMA_BR eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.4')
+describe RCVD_IN_HOSTKARMA_BR Sender listed in HOSTKARMA-BROWN
+tflags RCVD_IN_HOSTKARMA_BR net
+
+score RCVD_IN_HOSTKARMA_W -5
+score RCVD_IN_HOSTKARMA_BL 3.0
+score RCVD_IN_HOSTKARMA_BR 1.0
+
+endif

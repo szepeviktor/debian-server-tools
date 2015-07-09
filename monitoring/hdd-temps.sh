@@ -1,5 +1,11 @@
-# Include in .bashrc
-#DEPENDS       :apt-get install smartmontools
+#
+# Display hard disk tepratures on login.
+#
+# DEPENDS       :apt-get install smartmontools
+
+# Usage
+#
+# Include in .bashrc.
 
 Hddtemp() {
     local DRIVE="$1"
@@ -21,7 +27,8 @@ All_hdd_temps() {
 
     # UTF-8
     if [ "$LANG" != "${LANG/UTF-8/}" ]; then
-        GRAD="°C"
+        # °C
+        printf -v GRAD "\xC2\xB0C"
     fi
 
     for HARDDISK in /dev/sd? /dev/hd?; do

@@ -54,7 +54,9 @@
 195.154.0.0/17
 
 # NL Ecatel http://bgp.he.net/AS29073#_prefixes
-80.82.64.0/21
+# type: SSH
+# type: HTTP
+80.82.64.0/20
 
 # CHINANET-SH
 50.200.243.136

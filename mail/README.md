@@ -73,9 +73,9 @@ echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-defa
 ### Spamassassin test and DKIM test
 
 ```bash
-spamassassin --test-mode -D < msg.eml
+sudo -u daemon -- spamassassin --test-mode -D < msg.eml
 # For specific tests see: man spamassassin-run
-spamassassin --test-mode -D dkim < msg-signed.eml
+sudo -u daemon -- spamassassin --test-mode -D dkim < msg-signed.eml
 opendkim -vvv -t msg-signed.eml
 ```
 
@@ -148,21 +148,12 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - Subheader line
 - Section: image + title + description + call2action  https://litmus.com/subscribe
 
-### White lists
+### Kitchen sink (drop incoming messages)
 
-- https://www.dnswl.org/?page_id=87
-- .
+See the description of /etc/courier/aliasdir in `man dot-courier` DELIVERY INSTRUCTIONS
 
-### Kitchen sink
-
-- `echo > /etc/courier/aliasdir/.courier-kitchensink`
-- alias: `any.address@any-domain.net:  kitchensink@localhost`
-
-### Scan Class C network
-
-```bash
-for I in $(seq 1 255); do host -t A 1.2.3.${I}; done
-```
+`echo > /etc/courier/aliasdir/.courier-kitchensink`
+Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 ### Email tests
 
@@ -175,9 +166,14 @@ for I in $(seq 1 255); do host -t A 1.2.3.${I}; done
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
 - https://www.klaviyo.com/
 
+### White lists
+
+- https://www.dnswl.org/?page_id=87
+- .
+
 ### RBL-s (DNSBL)
 
-Source: http://www.anti-abuse.org/
+Original list: http://www.anti-abuse.org/
 
 bl.spamcop.net
 cbl.abuseat.org
@@ -234,10 +230,11 @@ query.senderbase.org
 bogons.cymru.com
 csi.cloudmark.com
 
-Check:
-`cat rbls.list|xargs -I%% host -tA $(revip ${IP}).%% 2>&1|grep -v 'not found: 3(NXDOMAIN)'`
+Check RBL-s:
+`cat anti-abuse.org.rbl|xargs -I%% host -tA $(revip ${IP}).%% 2>&1|grep -v "not found: 3(NXDOMAIN)"`
 
 Trendmicro ERS:
 `wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
     | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
-response: "IP Unlisted in the spam sender list None"
+Response:
+"IP Unlisted in the spam sender list None"

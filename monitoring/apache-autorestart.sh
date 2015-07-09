@@ -15,7 +15,7 @@
 # CRON.D        :* *	* * *	root	/usr/local/sbin/apache-autorestart.sh
 
 # Excel function: =JOBB("0" & ÓRA(SOR(A2)/24/60); 2) & ":" & JOBB("0" & PERC(SOR(A2)/24/60);2)
-# Find cause:     grep "05/Jan/2014:13:0[0-6]:" /home/*/log/access*.log /var/log/apache2/access*.log | sort -k4 -t' ' | most
+# Find cause:     grep "05/Jan/2014:13:0[0-6]:" /home/*/log/access*.log /var/log/apache2/access*.log|sort -k4 -t' '|most
 
 
 # notification email address

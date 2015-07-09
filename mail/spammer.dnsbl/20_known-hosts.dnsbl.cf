@@ -19,17 +19,14 @@ ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
 header   __RCVD_IN_WL_KNOWN_HOST eval:check_rbl('known-hosts-lastexternal', 'known-hosts.dnsbl.')
 describe __RCVD_IN_WL_KNOWN_HOST Known host
-tflags   __RCVD_IN_WL_KNOWN_HOST nice
-
-# ---------------------------------------------------------------------------
-# Scores for known-hosts.dnsbl
+tflags   __RCVD_IN_WL_KNOWN_HOST net nice
 
 header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts-lastexternal', '127.0.0.128')
 describe RCVD_IN_WL_KNOWN_HOST Known host
-tflags   RCVD_IN_WL_KNOWN_HOST nice
-
-endif
+tflags   RCVD_IN_WL_KNOWN_HOST net nice
 
 score RCVD_IN_WL_KNOWN_HOST -20.0
+
+endif
 
 # Check: sudo -u daemon -- spamassassin --lint

@@ -10,7 +10,11 @@ DOMAIN=DOMAIN
 
 adduser --disabled-password --gecos "" $U
 
-# Add system mail alias for the user
+# Add system mail alias to group bounces
+#     USER@HOSTNAME:   VIRTUAL-USERGROUP
+# Set recipient on the smarthost
+#     echo "RECIPIENT@DOMAIN.COM" > .courier-VIRTUAL-USERGROUP
+
 editor /etc/courier/aliases/system-user
 makealiases
 
@@ -80,6 +84,7 @@ editor /etc/cron.d/php5-user
 # 15 *	* * *	root	[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5
 
 # Apache
+# CloudFlase, Incapsula: a2enmod remoteip
 cd /etc/apache2/sites-available
 sed -e "s/@@SITE_DOMAIN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Skeleton-site.conf > ${DOMAIN}.conf
 # SSL see: webserver/Apache-SSL.md
@@ -89,6 +94,7 @@ sed -e "s/@@REVERSE_HIDDEN@@/$DOMAIN/g" -e "s/@@SITE_USER@@/$U/g" < Dev-site.con
 # on "www..." set ServerAlias
 editor ${DOMAIN}.conf
 a2ensite $DOMAIN
+apache-resolve-hostnames.sh
 
 # Restart
 # See: webserver/webrestart.sh

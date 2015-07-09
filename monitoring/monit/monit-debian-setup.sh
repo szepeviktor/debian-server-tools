@@ -219,13 +219,14 @@ Monit_system
 
 # Wake up monit cron job
 # @TODO remove "unmonitor"-s
-cat > /etc/cron.hourly/monit-wake <<MONITCRON
+cat > /etc/cron.hourly/monit-wake <<EOF
 #!/bin/bash
 
 /usr/bin/monit summary | tail -n +3 \
     | grep -v "\sRunning$\|\sAccessible$" \
-    && /usr/bin/monit monitor all
+    | sed -n "s;^.*'\(\S\+\)'.*$;\1;p" \
+    | xargs -L1 -r /usr/bin/monit monitor
 
 exit 0
-MONITCRON
+EOF
 chmod +x /etc/cron.hourly/monit-wake

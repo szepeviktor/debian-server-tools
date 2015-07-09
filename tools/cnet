@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Retrieve PTR record for a /24 subnetwork.
+# Retrieve PTR record for a /24 (Class C) subnetwork.
 #
 # VERSION       :1.0.0
 # DATE          :2015-07-01
@@ -15,8 +15,8 @@ OCTETS="$1"
 
 [ -z "$OCTETS" ] && echo "Usage: $0 1.2.3.4" >&2
 
-for IP in $(seq 0 255); do
-    CURRENT_IP="${OCTETS%.*}.${IP}"
+for LAST_OCTET in $(seq 0 255); do
+    CURRENT_IP="${OCTETS%.*}.${LAST_OCTET}"
 
     host -t PTR "$CURRENT_IP"
     if [ "$CURRENT_IP" == "$OCTETS" ]; then

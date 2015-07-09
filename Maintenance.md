@@ -9,7 +9,7 @@
 ## Who it is for?
 
 - profitable website and webapp
-- mid-to-high (10k+/month) traffic website
+- busy (10k+/month) traffic website
 - for marketing companies
 - for premium hosting companies
 
@@ -76,7 +76,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 ## Kinek ajánlott
 
 - jövedelmező honlaphoz és webes szolgáltatáshoz
-- közepes (10 000/hó) és nagy forgalmú honlaphoz
+- forgalmas (10 000+ látogató/hó) honlaphoz
 - marketing cégeknek
 - prémium tárhely szolgáltatóknak
 

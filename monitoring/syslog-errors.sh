@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Simple logcheck, email interesting parts of syslog in the last hour.
+# Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.5
+# VERSION       :0.5.0
 # DATE          :2015-06-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -13,9 +13,11 @@
 # LOCATION      :/usr/local/sbin/syslog-errors.sh
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 
-# You can install `dategrep` directly from GitHub without package management
+# Download the dategrep binary directly from GitHub (without package management)
 #
-#     wget -O /usr/local/bin/dategrep https://mdom.github.io/dategrep/dategrep-standalone-small.pl
+#     apt-get install -y libdate-manip-perl
+#     R="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/s//\1/p')"
+#     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
 #     chmod +x /usr/local/bin/dategrep
 
 Failures() {

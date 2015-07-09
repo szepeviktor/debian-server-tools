@@ -2,8 +2,8 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.7
-# DATE          :2015-06-18
+# VERSION       :0.7.1
+# DATE          :2015-07-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -86,7 +86,7 @@ export HTTP_USER_AGENT="Wp-cron/$(Get_meta) (php-cli; Linux)"
 pushd "$WPCRON_DIR" > /dev/null || Die 2 "Cannot change to directory (${WPCRON_DIR})"
 [ -r "$WPCRON_PATH" ] || Die 3 "File not found (${$WPCRON_PATH})"
 
-if ! /usr/bin/php "$WPCRON_PATH"; then
+if ! nice /usr/bin/php "$WPCRON_PATH"; then
     RET="$?"
     Die 4 "PHP exit status ${RET} in ${WPCRON_DIR}/${WPCRON_PATH}"
 fi

@@ -2,8 +2,8 @@
 #
 # Can-send-email triggers and checks in one.
 #
-# VERSION       :1.0.1
-# DATE          :2015-06-13
+# VERSION       :1.1.0
+# DATE          :2015-07-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -13,14 +13,17 @@
 # CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --trigger
 # CRON.D        :50 *	* * *	daemon	/usr/local/sbin/can-send-email.sh --check
 
+# Fill in these variables.
+
+ALERT_MOBILE=""
 ALERT_ADDRESS="viktor@szepe.net"
-WORK_DIR="/var/lib/can-send-email"
 CSE_ADDRESS="cse@worker.szepe.net"
+WORK_DIR="/var/lib/can-send-email"
 # 6 hours in seconds
 FAILURE_INTERVAL="$((6 * 3600))"
 
-HTTP_USER_AGENT="Can-send-email/1.0 (bash; Linux)"
-# UTC
+HTTP_USER_AGENT="Can-send-email/1.1.0 (bash; Linux)"
+# In UTC
 NOW="$(date "+%s")"
 
 # stderr goes to SMTP
@@ -190,6 +193,9 @@ case "$1" in
     "--check")
         FAILURES="$(Get_failures)"
         if [ -n "$FAILURES" ]; then
+            SMSOK="$(/usr/local/bin/txtlocal.py "$ALERT_MOBILE" "Can-send-email failures: ${FAILURES}")"
+            RET="$?"
+            [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" >&2
             echo "Failures: ${FAILURES}" | mailx -s "Can-send-email failure" "$ALERT_ADDRESS"
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"
             Error 10 "Failures: ${FAILURES}"
