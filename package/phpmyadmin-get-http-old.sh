@@ -12,13 +12,22 @@
 
 HOMEPAGE_URL="https://www.phpmyadmin.net/downloads/"
 
-wget -qO- "$HOMEPAGE_URL" \
+if ! wget -qO- "$HOMEPAGE_URL" \
     | grep -m1 -o 'href="https://files.phpmyadmin.net/phpMyAdmin/4\.0..*/phpMyAdmin-4\.0\..*-english\.tar\.xz"' \
     | cut -d'"' -f2 \
-    | wget -nv -N --content-disposition -i-
+    | wget -nv -N --content-disposition -i-; then
+
+    echo "Download error $?" >&2
+    exit 1
+fi
 
 # Latest tarball
 TARBALL="$(ls phpMyAdmin-*-english.tar.xz | sort -g | tail -n 1)"
+
+if [ -z "$TARBALL" ]; then
+    echo "No tarball found." >&2
+    exit 2
+fi
 
 # Extract tarball
 tar --exclude=doc \

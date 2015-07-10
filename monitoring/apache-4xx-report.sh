@@ -29,6 +29,11 @@ Content-Transfer-Encoding: quoted-printable
 "
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
 
+Filter_client_error() {
+    # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
+    grep "\" 4\(0[0-9]\|1[0-7]\) [0-9]\+ \""
+}
+
 Color_html() {
     ccze --plugin httpd --html --options "cssfile=${CCZE_CSS_URL}" -c "cssbody=${CCZE_BODY_BG}" \
         | recode -f UTF-8..UTF-8/QP
@@ -61,11 +66,11 @@ while read CONFIG_FILE; do
     ACCESS_LOG="$(echo "$ACCESS_LOG"|sed -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
 
-    # Client errors 400-417 for 1 day from cron.daily
+    # Client errors (400-417) for 1 day from cron.daily
     #     http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
-    # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     ionice -c 3 /usr/local/bin/dategrep --format apache --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "${ACCESS_LOG}.1" "$ACCESS_LOG" \
-        | grep "\" 4\(0[0-9]\|1[0-7]\) [0-9]\+ \"" \
+        | Filter_client_error \
         | sed "s;^;$(basename "$ACCESS_LOG" .log): ;g"
+
 done <<< "$APACHE_CONFIGS" | Maybe_sendmail

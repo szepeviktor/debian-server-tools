@@ -5,7 +5,7 @@
 - [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
 - [Linode](https://www.linode.com/?r=66de78b7ac99f79ec3a8e89a60c6c825dd107df1)
 - [OVH Public Cloud](http://www.ovh.com/fr/cloud/instances/cpu.xml)
-- Runabove (OpenStack) hourly, Power8, 3+GHz, SSD
+- [Runabove OpenStack](http://runabove.me/HAR2) hourly, Power8, 3+GHz, SSD
 - [OVH OpenVZ](http://www.ovh.ie/vps/vps-classic.xml)
 - [OVH VMware](http://www.ovh.ie/vps/vps-cloud.xml)
 - HostHatch (KVM) storage VPS

@@ -8,6 +8,8 @@ It is possible to send the trigger message in three ways.
 
 See: cse-add-client.sh
 
+`can-send-email.sh --add HOSTNAME http://HOSTNAME/SECRET-DIR/cse.php`
+
 ### Bounce message of a non-existent address
 
 `can-send-email.sh --add BOUNCE-HOSTNAME mailto:DOESNT-EXIST@DOMAIN`

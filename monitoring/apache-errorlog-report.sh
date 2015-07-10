@@ -2,8 +2,8 @@
 #
 # Report filtered Apache error logs from yesturday.
 #
-# VERSION       :1.1.2
-# DATE          :2015-07-06
+# VERSION       :1.1.3
+# DATE          :2015-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -21,13 +21,18 @@
 #     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
 #     chmod +x /usr/local/bin/dategrep
 #
-# - Set filter regexp in `grep` (line 36)
+# - Set filter regexp in Filter_log()
+# - Set email recipient and subject
 # - Copy to /usr/local/sbin/apache-errorlog-CUSTOM-NAME.sh
 # - And add cron job
 
 EMAIL_ADDRESS="webmaster@szepe.net"
 EMAIL_SUBJECT="[ad.min] HTTP error log from $(hostname -f)"
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
+
+Filter_log() {
+    grep "\[client [0-9:.]\+\] .*Permission denied"
+}
 
 if [ -z "$APACHE_CONFIGS" ]; then
     echo "Apace log files could not be found." >&2
@@ -49,7 +54,8 @@ while read CONFIG_FILE; do
     # [Sat Jun 27 19:20:10.050619 2015] [:error] [pid 123] [client 1.2.3.4:61234]
     ionice -c 3 /usr/local/bin/dategrep --format '%a %b %d %T(\.[0-9]+)? %Y' --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "${ERROR_LOG}.1" "$ERROR_LOG" \
-        | grep "\[client [0-9:.]\+\] .*Permission denied" \
+        | Filter_log \
         | sed "s;^;$(basename "$ERROR_LOG" .log): ;g"
+
 done <<< "$APACHE_CONFIGS" \
     | mailx -E -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"

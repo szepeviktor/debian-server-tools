@@ -12,6 +12,10 @@ before = common.conf
 
 _daemon = courieresmtpd
 
+#           courier-smtp.conf
+#               1. Trying an authentication method that it not advertised.
+#               2. HTTP commands on SMTP, and the "message complete dot" outside the DATA command.
+#               3. Hang up during HTTP on SMTP.
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
             ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$

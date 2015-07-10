@@ -2,8 +2,8 @@
 #
 # Can-send-email triggers and checks in one.
 #
-# VERSION       :1.1.0
-# DATE          :2015-07-06
+# VERSION       :1.2.0
+# DATE          :2015-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -13,7 +13,7 @@
 # CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --trigger
 # CRON.D        :50 *	* * *	daemon	/usr/local/sbin/can-send-email.sh --check
 
-# Fill in these variables.
+# Adjust these variables.
 
 ALERT_MOBILE=""
 ALERT_ADDRESS="viktor@szepe.net"
@@ -94,8 +94,9 @@ Update_last() {
     if [ -z "$(Is_host "$HOSTNAME")" ]; then
         logger -t "can-send-email" "Host not found '${HOSTNAME}'"
         echo "501 Syntax error in parameters or arguments"
-        return 0
+        return
     fi
+
     if Sql 'UPDATE host SET "last" = "%s" WHERE "hostname" = "%s";' "$LAST" "$HOSTNAME"; then
         logger -t "can-send-email" "Updated: '${HOSTNAME}' @${LAST}"
     else
@@ -132,7 +133,7 @@ Get_failures() {
 }
 
 Help() {
-cat <<HELP
+cat <<EOF
 Usage: $0 <OPTION> [ARGUMENT]
 
 Can-send-email triggers and checks in one.
@@ -145,10 +146,11 @@ Options:
     --trigger               Trigger email sending for all hosts
     --trigger-url <URL>     Trigger email sending for a host
     --check                 Check last update timestamp
+    --syslog                Watch syslog for can-send-email messages
     --help                  display this help message
 
 Without parameters receive message through a pipe.
-HELP
+EOF
 }
 
 case "$1" in
@@ -174,7 +176,7 @@ case "$1" in
         ;;
 
     # Remove host
-    "--remove")
+    "--remove|--delete")
         shift
         Remove_host "$@"
         ;;
@@ -193,13 +195,22 @@ case "$1" in
     "--check")
         FAILURES="$(Get_failures)"
         if [ -n "$FAILURES" ]; then
+            # 1. SMS
             SMSOK="$(/usr/local/bin/txtlocal.py "$ALERT_MOBILE" "Can-send-email failures: ${FAILURES}")"
             RET="$?"
             [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" >&2
+            # 2. E-mail
             echo "Failures: ${FAILURES}" | mailx -s "Can-send-email failure" "$ALERT_ADDRESS"
+            # 3. Syslog
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"
+            # 4. Cron job output
             Error 10 "Failures: ${FAILURES}"
         fi
+        ;;
+
+    # Watch syslog for can-send-email messages
+    "--syslog")
+        tail -n 100 -f /var/log/syslog | grep "can-send-email"
         ;;
 
     # Receive message
@@ -215,7 +226,7 @@ case "$1" in
             && [ -n "$HOSTNAME" ]; then
             HOSTNAME="${HOSTNAME#X-Host: }"
             Update_last "$HOSTNAME" "$NOW"
-            exit
+            exit 0
         fi
 
         # Bounce message (DSN)
@@ -228,7 +239,7 @@ case "$1" in
                 || grep -q -i '^X-Failed-Recipients: \S\+' "$MSG_TMP" \
             ); then
             Update_last "$HOSTNAME" "$NOW"
-            exit
+            exit 0
         fi
 
         # Forwarded message back to CSE_ADDRESS
@@ -237,10 +248,10 @@ case "$1" in
             && [ -n "$HOSTNAME" ] \
             && grep -q -i -x "From: ${CSE_ADDRESS}" "$MSG_TMP"; then
             Update_last "$HOSTNAME" "$NOW"
-            exit
+            exit 0
         fi
 
-        # Invalid email, spam?
+        # Invalid email or spam
         MSG_PATH="${WORK_DIR}/$(date --utc "+%Y%m%d-%H%M%S")_${RANDOM}.eml"
         cp "$MSG_TMP" "$MSG_PATH"
         echo -e "\nX-SMTP-Recipient: ${RECIPIENT}\nX-SMTP-Sender: ${SENDER}\n" >> "$MSG_PATH"

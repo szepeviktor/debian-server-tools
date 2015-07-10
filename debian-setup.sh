@@ -643,7 +643,7 @@ chmod 600 $(dirname ${TOOLS_DOCUMENT_ROOT})/htpasswords
 # @TODO extract Dev site setup to a script
 
 # PHPMyAdmin
-# See: ${D}/package/phpmyadmin-get-sf.sh
+# See: ${D}/package/phpmyadmin-get.sh
 cd phpMyAdmin-*-english
 cp -v config.sample.inc.php config.inc.php
 pwgen -y 30 1

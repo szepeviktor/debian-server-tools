@@ -11,23 +11,32 @@
 # LOCATION      :/usr/local/bin/phpmyadmin-get.sh
 # SOURCE        :https://github.com/phpmyadmin/phpmyadmin
 
-TAGSAPI="https://api.github.com/repos/phpmyadmin/phpmyadmin/tags"
+# FIXME Could always use this URL: https://github.com/phpmyadmin/phpmyadmin/archive/STABLE.zip
+# FIXME Include only English language
+
+TAGS_API="https://api.github.com/repos/phpmyadmin/phpmyadmin/tags"
 
 # Tags API JSON response
 #     first non-beta-alpha release
 #     tarball URL
-wget -q -O- "$TAGSAPI" \
+if ! wget -q -O- "$TAGS_API" \
     | grep -m1 -A6 '"name":\s*"RELEASE_[0-9_]\+"' \
     | grep -m1 '"tarball_url":' | cut -d'"' -f4 \
-    | wget -nv --content-disposition -i-
+    | wget -nv --content-disposition -i-; then
 
-# FIXME Could always use this URL: https://github.com/phpmyadmin/phpmyadmin/archive/STABLE.zip
-# FIXME Include only English language
+    echo "Download error $?" >&2
+    exit 1
+fi
 
 # Latest tarball
 TARBALL="$(ls phpmyadmin-phpmyadmin-*tar* | sort -n | tail -n 1)"
 
-# extract
+if [ -z "$TARBALL" ]; then
+    echo "No tarball found." >&2
+    exit 2
+fi
+
+# Extract
 tar --exclude=doc \
     --exclude=.coveralls.yml \
     --exclude=setup \
