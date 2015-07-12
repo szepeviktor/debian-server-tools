@@ -7,8 +7,8 @@
 - I am a WordPress expert
 - wp-cli contribution
 - malware infection (hacked website) cleanup
-- WordPress security https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/wordpress-fail2ban
-- WordPress plugin auditing https://profiles.wordpress.org/szepeviktor#content-plugins
+- WordPress security https://github.com/szepeviktor/wordpress-fail2ban
+- WordPress plugin audit https://profiles.wordpress.org/szepeviktor#content-plugins
 - PHP code styling
 - code debugging
 - error reporting https://github.com/szepeviktor
@@ -23,7 +23,7 @@
 - maintenance tool development https://github.com/szepeviktor/debian-server-tools/
 - proactive server and website monitoring
 - client support videos https://www.youtube.com/user/szepeviktor/videos
-an english video: https://www.youtube.com/watch?v=8o3g85SeDQ8
+  an English video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - make mistakes
 
 ## Magyarul
@@ -31,12 +31,12 @@ an english video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - webhely sebesség tervezés és optimalizálás (mobilon is)
 - feltételes erőforrás betöltés (Javascript, CSS, képek)
 - erőforrások optimalizálása
-- általános usability audit (pl. FOUC)
+- általános usability (használhatósági) audit (pl. [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content))
 - webhely látogatók viselkedésének mérése
 - WordPress szakértő vagyok
 - fertőzött (vírusos) honlap takarítás
-- WordPress biztonság https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/wordpress-fail2ban
-- wp-cli "contributor", a WordPress parancssori eszközéhez írok részeket
+- WordPress biztonság https://github.com/szepeviktor/wordpress-fail2ban
+- wp-cli "contributor" (közreműködő) vagyok, a WordPress parancssori felületéhez írok részeket
 - WordPress bővítmény audit https://profiles.wordpress.org/szepeviktor#content-plugins
 - webes applikáció optimalizálás
 - PHP "code styling" - a kód egyöntetűsége, és alapvető hibák kiküszöbölése

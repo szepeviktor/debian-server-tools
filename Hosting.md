@@ -8,9 +8,8 @@
 - [Runabove OpenStack](http://runabove.me/HAR2) hourly, Power8, 3+GHz, SSD
 - [OVH OpenVZ](http://www.ovh.ie/vps/vps-classic.xml)
 - [OVH VMware](http://www.ovh.ie/vps/vps-cloud.xml)
-- HostHatch (KVM) storage VPS
+- [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage VPS
 - [Vultr](http://www.vultr.com/?ref=6815796) hourly, 3+GHz, SSD, storage VPS
-- https://www.linode.com/
 - vps.me/Hostinger free, IPv6 only
 
 ## Shared hosting

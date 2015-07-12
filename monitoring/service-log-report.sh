@@ -48,6 +48,7 @@ fi
 # - Syslog: --format syslog
 # - Courier SMTP: "Dec  1 23:59:59 server courieresmtpd:" '%b %e %T'
 # - fail2ban: "2015-07-03 02:54:07,143 fail2ban.filter : ERROR  Unable to open" '%Y-%m-%d %T(,[0-9]+)?'
+# - boot log: "Thu Jun  4 23:00:15 2015: Starting Courier SMTP/SSL server: done." '%a %b %e %H:%M:%S %Y'
 # https://metacpan.org/pod/distribution/Date-Manip/lib/Date/Manip/Date.pod#PRINTF-DIRECTIVES
 
 ionice -c 3 /usr/local/bin/dategrep --format '%b %e %T' --multiline \

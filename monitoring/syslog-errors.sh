@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.5.0
-# DATE          :2015-06-08
+# VERSION       :0.5.1
+# DATE          :2015-07-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,15 +21,15 @@
 #     chmod +x /usr/local/bin/dategrep
 
 Failures() {
-    grep -E -i "crit|err|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied"
+    # -intERRupt, -fail2ban
+    grep -E -i "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied|broken"
 }
 
-# Every hour 17 minutes as in Debian cron.hourly, non-UTC, local time
+# Every hour 17 minutes as in Debian cron.hourly, local time (non-UTC)
 /usr/local/bin/dategrep --format rsyslog --multiline \
     --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog \
     | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
     | Failures \
-    | grep -F -v -i "intERRupt" \
     #| grep -v "554 Mail rejected\|535 Authentication failed"
 
 # Process boot log
