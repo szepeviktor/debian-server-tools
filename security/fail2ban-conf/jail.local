@@ -57,7 +57,7 @@ logpath  = %(apache_error_log)s
 bantime  = 86400 ; 24h
 maxretry = 6
 
-[apache-asap]
+[apache-instant]
 enabled  = true
 maxretry = 1
 port     = http,https

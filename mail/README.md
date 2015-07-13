@@ -61,14 +61,35 @@ D2 LOGOUT
 
 ### Email forwarding (srs)
 
-https://couriersrs.com/ https://github.com/szepeviktor/couriersrs
-see: http://szepeviktor.github.io/
+Build Courier SRS
+
+```bash
+apt-get install -y build-essential libsrs2-dev libpopt0
+git clone https://github.com/szepeviktor/couriersrs
+cd couriersrs
+./configure --sysconfdir=/etc
+make
+make install
+```
+
+See package: http://szepeviktor.github.io/
 Create users SRS0 and SRS1.
 
 ```bash
 echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS0-default
 echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-default
 ```
+
+Set up SRS secret
+
+```bash
+./couriersrs -v
+pwgen 30 1 > /etc/srs_secret
+```
+
+Add forwarding alias
+
+`user:  |/usr/bin/couriersrs username@external-domain.net`
 
 ### Spamassassin test and DKIM test
 
