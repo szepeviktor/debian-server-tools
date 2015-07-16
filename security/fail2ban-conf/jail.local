@@ -64,26 +64,26 @@ port     = http,https
 logpath  = %(apache_error_log)s
 bantime  = 86400 ; 24h
 
-[apache-cf1]
-#[apache-cf2]
-#[apache-cf3]
+[apache-cf1-combined]
+#[apache-cf2-combined]
+#[apache-cf3-combined]
 enabled  = false
+filter   = apache-combined
 logpath  = /var/log/apache2/CF*error.log
 bantime  = 86400 ; 24h
 maxretry = 6
-filter   = apache-combined
 action   = %(action_cf_mgl)s
 cfemail  = 
 cfapikey = 
 
-[apache-cf1-asap]
-#[apache-cf2-asap]
-#[apache-cf3-asap]
+[apache-cf1-instant]
+#[apache-cf2-instant]
+#[apache-cf3-instant]
 enabled  = false
+filter   = apache-instant
 maxretry = 1
 logpath  = /var/log/apache2/CF*error.log
 bantime  = 86400 ; 24h
-filter   = apache-asap
 action   = %(action_cf_mgl)s
 cfemail  = 
 cfapikey = 

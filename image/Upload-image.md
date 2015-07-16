@@ -27,6 +27,7 @@ Save images as JPEG 100% ("10" in Photoshop) then optimize images.
 
 ##### Online tools
 
+- [SHORTPIXEL](https://shortpixel.com/free-demo)
 - [JPEGmini](http://www.jpegmini.com/)
 - [Smush.it uploader](http://www.imgopt.com/)
 
