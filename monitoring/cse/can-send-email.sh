@@ -2,8 +2,8 @@
 #
 # Can-send-email triggers and checks in one.
 #
-# VERSION       :1.2.1
-# DATE          :2015-07-10
+# VERSION       :1.2.2
+# DATE          :2015-07-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -37,7 +37,7 @@ Error() {
 }
 
 Sql() {
-    sqlite3 "${WORK_DIR}/cse.sqlite3" "$(printf ".timeout 1000\n""$@")"
+    sqlite3 -batch -init <(echo ".timeout 1000") "${WORK_DIR}/cse.sqlite3" "$(printf "$@")"
 }
 
 Init() {

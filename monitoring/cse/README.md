@@ -17,3 +17,7 @@ See: cse-add-client.sh
 ### Forwarded email address
 
 `can-send-email.sh --add FORWARDED@ADDRESS mailto:FORWARDED@ADDRESS`
+
+## Whitelist sender IP-s
+
+It is very important to whitelist all sender IP-s on CSE server.
