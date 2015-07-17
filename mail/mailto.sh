@@ -3,7 +3,7 @@
 # Test ESMTP communication.
 # Usage: mailto.sh <EMAIL> [<MX>]
 #
-# VERSION       :0.3.0
+# VERSION       :0.3.1
 # DATE          :2015-07-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -128,7 +128,7 @@ dnsquery() {
 RCPT="$1"
 [ "$RCPT" == "${RCPT%@*}" ] && exit 2
 
-MYIP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+MYIP="$(ip addr show dev eth0|sed -n '0,/^\s*inet \([0-9\.]\+\)\b.*$/s//\1/p')"
 ME="$(dnsquery PTR "$MYIP")"
 ME="${ME%.}"
 [ -z "$ME" ] && exit 3

@@ -2,12 +2,13 @@
 #
 # Can-send-email triggers and checks in one.
 #
-# VERSION       :1.2.0
+# VERSION       :1.2.1
 # DATE          :2015-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
+# DEPENDS       :/usr/local/bin/txtlocal.py
 # DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
 # CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --trigger

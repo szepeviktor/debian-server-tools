@@ -1,8 +1,18 @@
 <?php
+/*
+Snippet Name: Can-send-email slave
+Snippet URI: https://github.com/szepeviktor/debian-server-tools
+Description: Send a trigger email.
+Version: 0.1.1
+License: The MIT License (MIT)
+Author: Viktor Szépe
+Author URI: http://www.online1.hu/webdesign/
+*/
 
+// Set the CSE address here.
 $to = "cse@worker.szepe.net";
 
-define( MAIL_EOL, "\r\n" );
+define( 'MAIL_EOL', "\r\n" );
 $server = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
 $headers = "X-Mailer: PHP/" . phpversion();
 $headers .= MAIL_EOL . "X-Host: {$server}";
@@ -29,6 +39,7 @@ Cringed apart complete bat knitted impulsively domestic behind jokingly a far
 jeepers folded blubbered wildebeest lighthearted much exultingly yikes yawned
 well winced swept far slowly decorously.
 ';
+
 // Shuffle text
 $message_words = explode( ' ', $message );
 shuffle( $message_words );
@@ -38,5 +49,6 @@ $message = implode( ' ' , $message_words );
 
 $mail = mail( $to, $subject, $message, $headers );
 
-if ( true !== $mail )
+if ( true !== $mail ) {
     print "mail() returned: " . var_export( $mail, true );
+}
