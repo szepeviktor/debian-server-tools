@@ -82,7 +82,7 @@ apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
     time bash-completion htop bind9-host mc lynx ncurses-term
-ln -sv /usr/bin/host /usr/local/bin/mx
+ln -svf /usr/bin/host /usr/local/bin/mx
 
 # Input
 . /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
@@ -222,9 +222,14 @@ lspci
 # Disk configuration
 clear; cat /proc/mdstat; cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
-# ls -1 /etc/default/*
+ls -1 /etc/default/*
+head -n1000 /etc/default/* | grep -v "^#\|^$" | grep --color -A1000 "^==> "
+
+# /tmp in RAM
 TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
 [ "$TOTAL_MEM" -gt $((2047 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
+
+# Mount points
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
 editor /etc/fstab
 cat /proc/mounts
@@ -243,7 +248,7 @@ apt-cache policy "linux-image-3.*"
 #apt-get install linux-image-amd64=KERNEL-VERSION
 ls -l /lib/modules/
 # Verbose boot
-sed -i 's/^##VERBOSE=no$/#VERBOSE=yes/' /etc/default/rcS
+sed -i 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
 dpkg -l | grep "grub"
 ls -latr /boot/
 # OVH Kernel "made-in-ovh"
@@ -251,6 +256,7 @@ ls -latr /boot/
 # Linode Kernels: auto renew on reboot
 #     https://www.linode.com/kernels/
 editor /etc/modules
+ls -1 /etc/sysctl.d/ | grep -v README.sysctl
 editor /etc/sysctl.conf
 
 # Miscellaneous configuration
@@ -278,15 +284,14 @@ editor /etc/resolv.conf
 #     #options rotate
 
 ping6 -c 4 ipv6.google.com
-host -v -t A example.com
-# Should be: A 93.184.216.34
+host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
 # View network Graph v4/v6: http://bgp.he.net/ip/IP
 
 # Set up MYATTACKERS chain
 iptables -N MYATTACKERS
 iptables -I INPUT -j MYATTACKERS
 iptables -A MYATTACKERS -j RETURN
-# For management scripts see: $D/tools/deny-ip.sh
+# For management scripts see: ${D}/tools/deny-ip.sh
 
 # Hostname
 # Set A record and PTR record
@@ -323,10 +328,11 @@ editor /etc/inittab
 #     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
 #     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
 # mcview /usr/share/doc/base-passwd/users-and-groups.html
-tabs 20,+3,+8,+8,+20,+8,+8,+8,+8,+8,+8,+8;sort -t':' -k3 -g /etc/passwd|tr ':' '\t';tabs -8
+tabs 20,+3,+8,+8,+20,+20,+8,+8,+8;sort -t':' -k3 -g /etc/passwd|tr ':' '\t';tabs -8
 editor /etc/passwd
 editor /etc/shadow
 update-passwd -v --dry-run
+#update-passwd -v
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
 # 1. Delete not-installed packages
@@ -366,7 +372,7 @@ apt-get autoremove --purge
 # Essential packages
 apt-get install -y localepurge unattended-upgrades \
     apt-listchanges cruft debsums heirloom-mailx iptables-persistent bootlogd \
-    ntpdate pwgen dos2unix strace ccze mtr-tiny gcc make colordiff
+    ntpdate apg dos2unix strace ccze mtr-tiny gcc make colordiff
 # Backports
 # @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
 apt-get install -y goaccess git
@@ -374,6 +380,9 @@ apt-get install -y goaccess git
 # debsums cron
 editor /etc/default/debsums
 #     CRON_CHECK=weekly
+
+# Check user cron jobs
+${D}/tools/catconf /var/spool/cron/crontabs/*
 
 # Automatic package updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
@@ -385,12 +394,18 @@ find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev | tee cruft.log
+#rm -rfv /var/lib/clamav /var/log/clamav
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
 debsums --all --changed | tee debsums-changed.log
 
 # Custom APT repositories
 #editor /etc/apt/sources.list.d/others.list && apt-get update
+
+# Get pip
+wget https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
+python2 get-pip.py
 
 # Detect whether your container is running under a hypervisor
 wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
@@ -406,6 +421,7 @@ editor /etc/rsyslog.conf
 cd /usr/local/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
 D="$(pwd)/debian-server-tools"
 rm -rf /root/src/debian-server-tools-master/
+ls ${D}/tools/ | xargs -I%% ./install.sh ${D}/tools/%%
 
 # Make cron log all failed jobs (exit status != 0)
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
@@ -464,6 +480,7 @@ echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRES
 #     Smarthost should receive all emails with send-only server's domain name.
 apt-get install -y courier-mta courier-mta-ssl
 dpkg -l | grep -E "postfix|exim"
+cp -v ${D}/mail/courier-restart.sh /usr/local/sbin/
 # Host name
 editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,587 /SECURITY=REQUIRED
@@ -514,8 +531,10 @@ service fail2ban restart
 
 # Apache 2.4
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
-apt-get install -y apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
-a2enmod actions rewrite headers deflate expires
+apt-get install -y apache2-mpm-itk apache2-utils
+a2enmod actions rewrite headers deflate expires proxy_fcgi
+mkdir /etc/apache2/ssl
+chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
 cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
 # Use php-fpm.conf settings per site
@@ -580,32 +599,26 @@ cp -v ${D}/webserver/php5fpm-pools/* /etc/php5/fpm/
 # PHP 5.6+ session cleaning
 mkdir -p /usr/local/lib/php5
 cp -v ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
+# PHP 5.6+
+echo "15 *	* * *	root	[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5" \
+    > /etc/cron.d/php5-user
 
-# @FIXME Timeouts
+# @FIXME PHP timeouts
 # - PHP max_execution_time
 # - PHP max_input_time
 # - FastCGI -idle-timeout
 # - PHP-FPM pool request_terminate_timeout
 
-# Suhosin
-#     https://github.com/stefanesser/suhosin/releases
-#     SUHOSIN_URL="RELEASE-TAR"
-# Build version 0.9.38
-#SUHOSIN_URL="https://github.com/stefanesser/suhosin/archive/0.9.38.tar.gz"
-#wget -O- "$SUHOSIN_URL" | tar xz && cd suhosin-*
-#phpize && ./configure && make && make test || echo "ERROR: suhosin build failed."
-#make install && cp -v suhosin.ini /etc/php5/fpm/conf.d/00-suhosin.ini && cd ..
-# Enable suhosin
-#sed -i 's/^;\(extension=suhosin.so\)$/\1/' /etc/php5/fpm/conf.d/00-suhosin.ini || echo "ERROR: enabling suhosin"
+# Suhosin extension
 apt-get install -y php5-suhosin-extension
-#sed -i '1i; priority=99' /etc/php5/mods-available/suhosin.ini
+grep "^; priority=" /etc/php5/mods-available/suhosin.ini||sed -i '1i; priority=70' /etc/php5/mods-available/suhosin.ini
 php5enmod -s fpm suhosin
 
 # @TODO .ini-handler, Search for it! ?ucf
 
 # PHP security directives
-#     assert.active
 #     mail.add_x_header
+#     assert.active
 #     suhosin.executor.disable_emodifier = On
 #     suhosin.disable.display_errors = 1
 #     suhosin.session.cryptkey = $(apg -m 32)
@@ -624,7 +637,7 @@ editor /root/.my.cnf
 # Control panel for opcache and APC
 # Add "web" user, see: ${D}/webserver/add-site.sh
 #TOOLS_DOCUMENT_ROOT="TOOLS-DOCUMENT-ROOT"
-TOOLS_DOCUMENT_ROOT=/home/web/website/html
+TOOLS_DOCUMENT_ROOT=/home/prg/website/html
 # Favicon and robots.txt
 wget -P ${TOOLS_DOCUMENT_ROOT} "https://www.debian.org/favicon.ico"
 echo -e "User-agent: *\nDisallow: /" > ${TOOLS_DOCUMENT_ROOT}/robots.txt
@@ -636,20 +649,18 @@ cp -v ${D}/webserver/ocp.php ${TOOLS_DOCUMENT_ROOT}
 # apc.php from APCu master for PHP 5.5+
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -O ${TOOLS_DOCUMENT_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
-# HTTP/AUTH
-htpasswd -c $(dirname ${TOOLS_DOCUMENT_ROOT})/htpasswords USERNAME
-chmod 600 $(dirname ${TOOLS_DOCUMENT_ROOT})/htpasswords
-
-# @TODO extract Dev site setup to a script
+echo "<?php define('ADMIN_USERNAME','${HTTP_USER}'); define('ADMIN_PASSWORD','${HTTP_PASSWORD}');" > apc.conf.php
+chown prg:root apc.conf.php
+chmod 640 apc.conf.php
 
 # PHPMyAdmin
 # See: ${D}/package/phpmyadmin-get.sh
 cd phpMyAdmin-*-english
 cp -v config.sample.inc.php config.inc.php
-pwgen -y 30 1
+apg -n 1 -m 30
 #     http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
 editor config.inc.php
-#     $cfg['blowfish_secret'] = '$(pwgen -y 30 1)';
+#     $cfg['blowfish_secret'] = '$(apg -m 30)';
 #     $cfg['DefaultLang'] = 'en';
 #     $cfg['PmaNoRelation_DisableWarning'] = true;
 #     $cfg['SuhosinDisableWarning'] = true;
@@ -659,6 +670,9 @@ editor config.inc.php
 # PHP security check
 git clone https://github.com/sektioneins/pcc.git
 # Pool config: env[PCC_ALLOW_IP] = 1.2.3.*
+
+
+# @TODO extract Dev site setup to a separate script
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
@@ -673,7 +687,7 @@ wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli c
 wget -qO getcomposer.php https://getcomposer.org/installer
 php getcomposer.php --install-dir=/usr/local/bin --filename=composer
 mkdir -p /opt/drush && cd /opt/drush
-composer require drush/drush:6.*
+composer require drush/drush:7.*
 ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 # Set up Drupal site
 #     sudo -u SITE-USER -i
@@ -703,9 +717,9 @@ Getpkg spamassassin
 # be sure to add this to /etc/default/proftpd for fail2ban to understand dates.
 #     export LC_TIME="en_US.UTF-8"
 
-# Simple syslog monitoring8
+# Simple syslog monitoring
 apt-get install -y libdate-manip-perl
-DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/s//\1/p')" #'
+DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')" #'
 wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${DGR}/dategrep-standalone-small
 chmod +x /usr/local/bin/dategrep
 ${D}/install.sh ${D}/monitoring/syslog-errors.sh

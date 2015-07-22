@@ -2,18 +2,19 @@
 #
 # Add a virtual mail account to courier-mta.
 #
-# VERSION       :0.3
-# DATE          :2015-01-30
+# VERSION       :0.4.0
+# DATE          :2015-07-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/add-mailaccount.sh
 # DEPENDS       :apt-get install courier-authdaemon courier-mta-ssl pwgen
-# DEPENDS       :security/password2remember.sh
+# DEPENDS       :${D}/security/password2remember.sh
 
 VIRTUAL_UID="1999"
 COURIER_AUTH_DBNAME="horde4"
+COURIER_AUTH_DBTABLE="courier_horde"
 
 Error() {
     echo "ERROR: $*"
@@ -35,6 +36,7 @@ for V in EMAIL PASS DESC HOMEDIR; do
             DEFAULT="$ACCOUNT"
             ;;
         PASS)
+            # @TODO Use apg
             DEFAULT="$(pwgen 8 1)$((RANDOM % 10))"
             # xkcd-style password
             WORDLIST_HU="/usr/local/share/password2remember/password2remember_hu.txt"
@@ -56,7 +58,7 @@ done
 if ! getent passwd "$VIRTUAL_UID" &> /dev/null; then
     echo "Creating virtual user ..."
     addgroup --gid "$VIRTUAL_UID" virtual
-    adduser --disabled-login --shell /usr/sbin/nologin --no-create-home --home /nonexistent \
+    adduser --gecos "" --disabled-login --shell /usr/sbin/nologin --no-create-home --home /nonexistent \
         --gid "$VIRTUAL_UID" --uid "$VIRTUAL_UID" virtual
     getent passwd "$VIRTUAL_UID"
 fi
@@ -93,13 +95,13 @@ if which mysql &> /dev/null \
     && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
     mysql "$COURIER_AUTH_DBNAME" <<SQL && echo "User inserted into database. OK."
 -- USE ${COURIER_AUTH_DBNAME};
-INSERT INTO \`courier_horde\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
+REPLACE INTO \`${COURIER_AUTH_DBTABLE}\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
     \`defaultdelivery\`, \`quota\`, \`options\`, \`user_soft_expiration_date\`, \`user_hard_expiration_date\`, \`vac_msg\`, \`vac_subject\`, \`vac_stat\`) VALUES
 ('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '${NEW_MAILDIR}', '', '', '', NULL, NULL, '', '', 'N');
 SQL
     # removal instruction
     echo "Remove user command:  -- USE ${COURIER_AUTH_DBNAME};"
-    echo "Remove user command:  DELETE FROM \`courier_horde\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"
+    echo "                      DELETE FROM \`${COURIER_AUTH_DBTABLE}\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"
 fi
 
 # userdb authentication

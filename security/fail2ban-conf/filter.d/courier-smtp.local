@@ -1,27 +1,17 @@
 # Fail2Ban filter to block relay attempts though a Courier smtp server
-# Added failregex: unsupported AUTH type, three variants of HTTP on SMTP.
+# Added failregex: unsupported AUTH type, three variants of HTTP on SMTP, Mail rejected.
 #
 
-[INCLUDES]
-
-# Read common prefixes. If any customizations available -- read them from
-# common.local
-before = common.conf
-
 [Definition]
-
-_daemon = courieresmtpd
 
 #           courier-smtp.conf
 #               1. Trying an authentication method that it not advertised.
 #               2. HTTP commands on SMTP, and the "message complete dot" outside the DATA command.
 #               3. Hang up during HTTP on SMTP.
+#           Mail rejected by spamassassin3.py
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
             ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: (HOST: \S+|GET \S+ \S+|\.)$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
-
-ignoreregex = 
-
-# Author: Cyril Jaquier
+            ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: 554 Mail rejected - (reverse DNS lookup failure|spam detected).*$

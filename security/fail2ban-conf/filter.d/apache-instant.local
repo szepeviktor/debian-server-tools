@@ -1,3 +1,4 @@
+# INCLUDES setion is necessary: there is no apache-instant.conf
 [INCLUDES]
 
 before = apache-common.conf
@@ -5,19 +6,41 @@ before = apache-common.conf
 [Definition]
 
 # https://wiki.apache.org/httpd/ListOfErrors
+
 #           apache-overflows
 #               apache-shellshock
 #           wordpress-fail2ban/instant
 #               apache-botsearch-custom
+
+# TODO 404 /wp*
+
 #               @TODO https://github.com/fail2ban/fail2ban/blob/master/config/filter.d/botsearch-common.conf
 # block = \/?(<webmail>|<phpmyadmin>|<wordpress>|cgi-bin|mysqladmin)[^,]*
 # webmail roundcube|(ext)?mail|horde|(v-?)?webmail
 # cms     (cms|section|blog|old|test|wordpress|wp|)/wp-admin node/add user/register
 # tools   (typo3/|xampp/|admin/|)(pma|(php)?[Mm]y[Aa]dmin)
 # 1, Apache messages 2, wpf2b messages
+
+# /muieblackcat
+# /nyet\.gif
+# " ", "'" "\?.*\.\."
+
+# /dbadmin/scripts/setup.php
+# /myadmin/scripts/setup.php
+# /MyAdmin/scripts/setup.php
+# /mysql/scripts/setup.php
+# /mysqladmin/scripts/setup.php
+# /phpadmin/scripts/setup.php
+# /phpmyadmin/scripts/setup.php
+# /phpMyAdmin/scripts/setup.php
+# /pma/scripts/setup.php
+# /sqladmin/scripts/setup.php
+
 failregex = ^%(_apache_error_client)s ((AH0013[456]: )?Invalid (method|URI) in request .*( - possible attempt to establish SSL connection on non-SSL port)?|(AH00565: )?request failed: URI too long \(longer than \d+\)|request failed: erroneous characters after protocol string: .*|AH00566: request failed: invalid characters in URI)(, referer: \S+)?$
                 ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: warning: HTTP_.*?: ignoring function definition attempt(, referer: \S+)?\s*$
                 ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: error importing function definition for `HTTP_.*?'(, referer: \S+)?\s*$
-            ^%(_apache_error_client)s FastCGI: server "/\S*" stderr:( PHP message:)? Break-in attempt detected: .*(, referer: \S+)?\s*$
+            ^%(_apache_error_client)s (FastCGI: server "/\S*" stderr: |AH01071: Got error ')(PHP message: )?Break-in attempt detected: .*(, referer: \S+)?\s*$
 
 ignoreregex = 
+
+# Author: Viktor Szépe

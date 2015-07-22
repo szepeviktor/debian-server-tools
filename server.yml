@@ -1,0 +1,139 @@
+# Clients using this server
+clients:
+
+  #Client Name:
+  #  type: user account|empty domain|email account|cron job|SeoPanel|Piwik|OWA|website|mailman|mirror
+  #  services:
+  #      - service 1
+  #      - service 2
+
+  #Client Other:
+  #  type: user account
+  #  services:
+  #      - service 2
+  #      - service 3
+
+# Services provided by this server
+services:
+
+  private:
+
+    #service name 1:
+    #  type: daemon|login script|cron job
+    #  transport: tcp/123|php-ext|vhost|uds|name service
+    #  source: non-packaged|non-repo
+    #  location: /path/dir
+    #  description: text
+    #service name 2:
+    #  type: tcp/123
+    #  description: vhost.name
+    irqbalance:
+      type: daemon
+    fail2ban:
+      type: daemon
+      transport: uds
+    suhosin:
+      type: php-ext
+      source: non-packaged
+      description: /usr/lib/php5/20121212
+    mod-pagespeed:
+      #daemon, apache module?
+    drush:
+      source: non-packaged
+      location: /opt/drush
+    courier-mta:
+      type: daemon
+      transport: [ tcp/25, tcp/465, tcp/587 ]
+    spamassassin:
+      type: daemon
+      transport: tcp/783
+    monit:
+      type: daemon
+      transport: tcp/28??
+    VMware Tools:
+      transport: VMCI socket
+      description: ATW/autorent
+    unattended-upgrades:
+      type: cron job
+    unscd:
+      type: daemon
+      transport: name service
+    mariadb:
+      type: daemon
+      transport: [ tcp/3306, uds ]
+    php5-fpm:
+      type: daemon
+      transport: uds
+    ntpdate:
+      type: cron job
+    vpscheck:
+      type: cron job
+    syslog-errors:
+      type: cron job
+
+  public:
+
+    munin-node:
+      type: daemon
+      transport: tcp/4949
+    apache2:
+      type: daemon
+      transport: [ tcp/80, tcp/443 ]
+    antivirus mirror:
+        type: vhost
+        description: vhost.name
+    can-send-email:
+        type:vhost
+        description: PHP script
+
+# Consumed remote services
+dependencies:
+
+  #dependency name 1:
+  #    host: remote.host.fqdn.
+  #    transport: tcp/123
+  #    identify: $IP
+  dns resolver:
+      host: worker.szepe.net.
+      transport: tcp/53
+      transport: udp/53
+      identify: $IP
+
+# Custom data directories
+data:
+
+  directory name: /path/to/dir
+  configuration files: /etc
+  local data: /usr/local
+  variable files: /var
+
+# Installed systems
+packaging:
+
+  #name:
+  #  list: command to list installed packages
+  #  location: package location
+  apt:
+    list: dpkg -l
+    location: /
+  pip2:
+    list: pip2 freeze
+    location: /usr/local/lib/python2.7
+  pip3:
+    list: pip3 freeze
+    location: /usr/local/lib/python3.4
+  # Also pecl
+  pear:
+    list: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
+    location: /usr/share/php
+  node:
+    list: npm -g list
+    location: /usr/lib/node_modules
+  ruby:
+    list: gem list
+    location: /usr/lib/ruby/vendor_ruby
+
+
+#YAML editor: http://yaml-online-parser.appspot.com/
+#php -r 'var_export(yaml_parse(file_get_contents("server.yml")));'
+...

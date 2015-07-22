@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Send interesting parts of syslog of the last hour. Simple logcheck.
+# Send cron grandchild failures report.
 #
-# VERSION       :0.5.3
+# VERSION       :0.1.0
 # DATE          :2015-07-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,8 +10,8 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install -y libdate-manip-perl
 # DEPENDS       :cpan App:datagrep
-# LOCATION      :/usr/local/sbin/syslog-errors.sh
-# CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
+# LOCATION      :/usr/local/sbin/cron-grandchild.sh
+# CRON-HOURLY   :/usr/local/sbin/cron-grandchild.sh
 
 # Download the dategrep binary directly from GitHub (without package management)
 #
@@ -20,28 +20,18 @@
 #     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
 #     chmod +x /usr/local/bin/dategrep
 
-Failures() {
-    # -intERRupt, -fail2ban
-    grep -E -i "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied|broken"
+Grandchild_pid() {
+    sed -n "s/^\S\+ [0-9]\+ [0-9:]\+ \S\+ \(\/USR\/SBIN\/\)\?CRON\[[0-9]\+\]: (CRON) error (grandchild #\([0-9]\+\) failed with exit status [0-9]\+)$/\1/p"
 }
 
 # Every hour 17 minutes as in Debian cron.hourly, local time (non-UTC)
 /usr/local/bin/dategrep --format rsyslog --multiline \
     --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog.1 /var/log/syslog \
     | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
-    | Failures \
-    #| grep -v "554 Mail rejected\|535 Authentication failed"
-
-# Run every three hours
-#
-#    --from "3 hour ago from -17:00" --to "-17:00" /var/log/syslog \
-#
-# CRON.D        :17 */3	* * *	root	/usr/local/sbin/syslog-errors.sh
-
-# Process boot log
-/usr/local/bin/dategrep --format "%a %b %e %H:%M:%S %Y" --multiline \
-    --from "1 hour ago from -17:00" --to "-17:00" /var/log/boot \
-    | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
-    | Failures
+    | Grandchild_pid \
+    | while read GC_PID; do
+        grep -C3 "^\S\+ [0-9]\+ [0-9:]\+ \S\+ \(/USR/SBIN/\)\?CRON\[${GC_PID}\]: (\S\+) CMD (.\+)$" \
+            /var/log/syslog.1 /var/log/syslog
+    done
 
 exit 0

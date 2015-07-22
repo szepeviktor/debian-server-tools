@@ -3,8 +3,8 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.5
-# DATE          :2015-04-17
+# VERSION       :0.6.0
+# DATE          :2015-07-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -54,6 +54,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 #NGINX_PRIV="/etc/nginx/ssl/${NGINX_DOMAIN}-private.key"
 
 # Courier MTA: public + intermediate + private
+# From Debian jessie on: private + public + intermediate
 #
 #COURIER_COMBINED="/etc/courier/ssl-comb3.pem"
 
@@ -118,7 +119,9 @@ Courier_mta() {
 
     [ -d "$(dirname "$COURIER_COMBINED")" ] || Die 20 "courier ssl dir"
 
-    cat "$PUB" "$SUB" "$PRIV" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
+    #cat "$PUB" "$SUB" "$PRIV" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
+    # From Debian jessie on: private + public + intermediate
+    cat "$PRIV" "$PUB" "$SUB" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     chown root:daemon "$COURIER_COMBINED" || Die 22 "courier owner"
     chmod 640 "$COURIER_COMBINED" || Die 23 "courier perms"
 

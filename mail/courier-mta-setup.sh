@@ -1,6 +1,43 @@
 
 exit 0
 
+# RECEIVING MAIL
+#
+# - transport: SMTP, SMTP-TLS, SMTP-MSA, SMTPS
+# - smtpaccess deny
+#       BIG mail spammers
+#       AUTH attackers
+#       AUTH attackers on SMTPS
+#       HTTP over SMTP
+# - smtpaccess allow
+#       own IP, known servers, relay clients (smtp.timeweb.ru)
+#       broken SMTP servers (missing PTR, allow,RELAYCLIENT/allow,BOFHCHECKDNS)
+#       providers (ISP, bank, shared hosting, VPS, server, DNS, WAF, CDN)
+#       subscriptions (ifttt, linkedin, hubiC)
+#       freemail?? (gmail, freemail, citromail, indamail)
+# - esmtproutes: servers with broken STARTTLS (advertised but unavailable)
+# - esmtpacceptmailfor.dir, hosteddomains, aliases
+# - courier-filters: python-filter, ?zdkim-filter (send-only)
+# - spamassassin: spammer.dnsbl, pyzor
+# - fetchmail
+# - SSL cert, settings
+# - SMTP AUTH methods (CRAM-* needs clear passwords)
+#
+# SENDING MAIL (esmtp)
+#
+# - SSL cert, settings
+#
+# READING MAIL (imap)
+#
+# - authmodulelist="..."
+# - IMAP AUTH methods
+# - SSL cert, settings
+# - IMAP folder names, IMAP_EMPTYTRASH=Trash:0
+
+
+# !!! config-compare.sh
+
+
 # Courier-mta message processing order
 # 1. SMTP communication
 # 2. NOADD*, "opt MIME=none"
@@ -8,6 +45,14 @@ exit 0
 # 4. DEFAULTDELIVERY
 
 # gamin for courier-imap
+
+# IMAP only on localhost
+# https://github.com/svarshavchik/courier/blob/master/courier/courier/module.esmtp/esmtpd-ssl.dist.in.git
+editor imapd
+#     ADDRESS=127.0.0.1
+#     IMAP_CAPABILITY = add: AUTH=PLAIN
+#     #IMAP_CAPABILITY_TLS=
+#     #IMAP_EMPTYTRASH
 
 # authmodulelist="authuserdb"
 
@@ -38,30 +83,45 @@ MYSQL_OPT               0
 MYSQL_QUOTA_FIELD       quota
 MYSQL_UID_FIELD         uid
 
+CREATE TABLE IF NOT EXISTS `passwords` (
+  `id` char(128) CHARACTER SET latin1 NOT NULL,
+  `crypt` char(128) CHARACTER SET latin1 NOT NULL,
+  `clear` char(128) CHARACTER SET latin1 NOT NULL,
+  `name` char(128) CHARACTER SET latin1 NOT NULL,
+  `uid` int(10) unsigned NOT NULL DEFAULT '1',
+  `gid` int(10) unsigned NOT NULL DEFAULT '1',
+  `home` char(255) CHARACTER SET latin1 NOT NULL,
+  `maildir` char(255) CHARACTER SET latin1 NOT NULL,
+  `defaultdelivery` char(255) CHARACTER SET latin1 NOT NULL,
+  `quota` char(255) CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `passwords`
+  ADD UNIQUE KEY `id` (`id`);
 
-# python filters (python3)
-# lxml dependencies
-apt-get install -y libxml2-dev libxslt-dev cython3
+
+# Privileges for `courierauthu`@`localhost`
+GRANT USAGE ON *.* TO 'courierauthu'@'localhost' IDENTIFIED BY PASSWORD '*CA4FD4F77E14F2B60398B882C1020544D0CA9D9C';
+GRANT SELECT ON `mail`.`passwords` TO 'courierauthu'@'localhost';
+
+
+# Python Courier filters (python3)
+apt-get install -y libxml2-dev libxslt-dev cython3 python3-gdbm
 pip3 install lxml
 pip3 install html2text
 pip3 install courier-pythonfilter
-# custom python filters
+# Custom Python filters
 git clone https://github.com/szepeviktor/courier-pythonfilter-custom
-# /usr/local/lib/pythonVERSION
+# /usr/local/lib/python${VERSION}
 ln -sv email-correct.py /usr/local/lib/python3.4/dist-packages/pythonfilter/
 ln -sv spamassassin3.py /usr/local/lib/python3.4/dist-packages/pythonfilter/
-# whitelist_replayclient dependency
-apt-get install -y python3-gdbm
 ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
 filterctl start pythonfilter
 
 # DKIM support
 # Build dependencies
-#apt-get install -y -t wheezy-backports libopendkim-dev libopendbx1-dev nettle-dev
-#apt-get install -y libc6-dev pkg-config libtool
+#apt-get install -y libc6-dev pkg-config libtool libopendkim-dev libopendbx1-dev nettle-dev
 # Runtime deps
-apt-get install -y libopendkim7
-apt-get install -y -t wheezy-backports libopendbx1 libnettle4
+apt-get install -y libopendkim7 libopendbx1 libnettle4
 # Source
 wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
 ./configure && make check && make install
@@ -85,9 +145,9 @@ editor /etc/courier/smtpaccess/default
 
 # @TODO Where to whitelist: courier domain,IP; sa domain; dnsbl known_hosts;
 #       What: own IP, servers, (smtp.timeweb.ru), broken SMTP servers
-#       providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare)
-#       subscriptions, account (ifttt, linkedin, hubiC)
-#       freemail?? (gmail, freemail, citromail, indamail)
+#             providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare)
+#             subscriptions, account (ifttt, linkedin, hubiC)
+#             freemail?? (gmail, freemail, citromail, indamail)
 
 
 # MISSING_MID monitoring

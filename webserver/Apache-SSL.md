@@ -3,29 +3,34 @@
 ### mods-enabled/ssl.conf
 
 ```apache
-# "Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
-# dpkg -l|grep apache2; dpkg -l|grep openssl
+    # "Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
+    #     dpkg -l|grep apache2; dpkg -l|grep openssl
 
-SSLHonorCipherOrder On
+    SSLHonorCipherOrder On
 
-#SSLProtocol all -SSLv2 -SSLv3
-SSLProtocol all -SSLv3
+    SSLProtocol all -SSLv3
 
-SSLStrictSNIVHostCheck Off
+    SSLStrictSNIVHostCheck Off
 
-SSLCompression Off
+    SSLCompression Off
 
-# OCSP Stapling (could also be in every virtual host)
-SSLUseStapling On
-SSLStaplingResponderTimeout 5
-SSLStaplingReturnResponderErrors Off
-SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
+    # OCSP Stapling (could also be in every virtual host)
+    SSLUseStapling On
+    SSLStaplingResponderTimeout 5
+    SSLStaplingReturnResponderErrors Off
+    SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
 
-# Uncomment in conf-available/h5bp.conf
-# Header always set Strict-Transport-Security
+    # Root certificates
+    SSLCACertificatePath /etc/ssl/certs
+    SSLCACertificateFile /etc/ssl/certs/ca-certificates.crt
+
+    # Uncomment in conf-available/h5bp.conf
+    #Header always set Strict-Transport-Security "max-age=16070400; includeSubDomains"
 ```
-Adding CA see: security/README.md
 
+### Installing CA on a server
+
+See: ${D}/security/ca/README.md
 
 ### SPDY support
 

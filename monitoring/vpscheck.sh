@@ -177,7 +177,7 @@ Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
 Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
 
 # First mail exchanger
-Add_check MX 'host -t MX $(hostname -f)|sed -n "0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s;;\1;p"'
+Add_check MX 'host -t MX $(hostname -f)|sed -n "0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/{s//\1/p}"'
 
 Check_vps
 

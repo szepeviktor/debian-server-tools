@@ -5,6 +5,9 @@
 
 exec 200<$0
 
+# Wait for other processes to finish
+#     flock 200 || exit 200
+
 flock --nonblock 200 || exit 200
 
 # Example

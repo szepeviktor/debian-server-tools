@@ -2,8 +2,8 @@
 #
 # Can-send-email triggers and checks in one.
 #
-# VERSION       :1.2.2
-# DATE          :2015-07-17
+# VERSION       :1.2.4
+# DATE          :2015-07-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -147,6 +147,7 @@ Options:
     --trigger               Trigger email sending for all hosts
     --trigger-url <URL>     Trigger email sending for a host
     --check                 Check last update timestamp
+    --force-update          Update a host manually
     --syslog                Watch syslog for can-send-email messages
     --help                  display this help message
 
@@ -156,44 +157,44 @@ EOF
 
 case "$1" in
     # Initialize
-    "--help")
+    --help)
         Help
         ;;
 
     # Initialize
-    "--init")
+    --init)
         Init
         ;;
 
     # List hosts
-    "--list")
+    --list)
         List_hosts
         ;;
 
     # Add new host
-    "--add")
+    --add)
         shift
         Add_host "$@"
         ;;
 
     # Remove host
-    "--remove|--delete")
+    --remove|--delete)
         shift
         Remove_host "$@"
         ;;
 
     # Trigger emails cron job
-    "--trigger")
+    --trigger)
         Get_urls | Trigger 1>&2
         ;;
 
     # Trigger emails cron job
-    "--trigger-url")
+    --trigger-url)
         echo "$2" | Trigger 1>&2
         ;;
 
     # Check failures cron job
-    "--check")
+    --check)
         FAILURES="$(Get_failures)"
         if [ -n "$FAILURES" ]; then
             # 1. SMS
@@ -209,8 +210,13 @@ case "$1" in
         fi
         ;;
 
+    # Update a host manually
+    --force-update)
+        Update_last "$2" "$NOW"
+        ;;
+
     # Watch syslog for can-send-email messages
-    "--syslog")
+    --syslog)
         tail -n 100 -f /var/log/syslog | grep "can-send-email"
         ;;
 

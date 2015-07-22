@@ -19,6 +19,7 @@
 #  PIPE_PORT="12345"
 #  # tar compression type: z,j,J
 #  PIPE_COMPRESSION="z"
+#  @TODO Use apg
 #  # AES password $(pwgen -s -y 30 1)
 #  PIPE_PASSWORD='hD2wsRa^BYFh@=87xXQT{[f3QNKQlN'
 

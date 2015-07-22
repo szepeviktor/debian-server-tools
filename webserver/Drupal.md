@@ -5,9 +5,9 @@ http://drushcommands.com/
 ## Prerequisites
 
 - drush, see: /debian-setup.sh
-- `sites/default/drushrc.php`: `$options['uri'] = "http://<DOMAIN.TLD>/";`
-- more config: https://github.com/drush-ops/drush/blob/master/examples/example.drushrc.php
-- PHP-FPM pool config: `php_admin_value[allow_url_fopen] = On`
+- `sites/default/drushrc.php`: `<?php $options['uri'] = "http://DOMAIN.TLD/";`
+- Configuration: https://github.com/drush-ops/drush/blob/master/examples/example.drushrc.php
+- PHP-FPM pool: `php_admin_value[allow_url_fopen] = On`
 - first run: `udrush status`
 
 ## Modules
@@ -34,7 +34,7 @@ $conf['cache_default_class'] = 'DrupalAPCCache';
 //$conf['apc_show_debug'] = TRUE;  // Remove the slashes to use debug mode.
 ```
 
-#### Object cache.
+#### Object cache
 
 `udrush en entitycache -y`
 
@@ -42,11 +42,11 @@ Entity caching is supported in Drupal 8.
 
 #### Preload page cache
 
-see: webserver/preload-cache.sh
+See: ${D}/webserver/preload-cache.sh
 
 ### Fail2ban
 
-https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/wordpress-fail2ban/non-wp-projects/drupal-fail2ban/fail2ban_404
+https://github.com/szepeviktor/wordpress-fail2ban
 
 ### Mollom
 
@@ -56,7 +56,7 @@ suhosin.post.max_array_index_length = 128
 suhosin.request.max_array_index_length = 128
 ```
 
-### Translation updates
+### Automatic translation updates
 
 `udrush en l10n_update -y`
 
@@ -82,3 +82,9 @@ Enable inclusion per content type.
 - logging/tmp/upload/session + gc
 - mail from
 - root files
+
+### Cron
+
+- http://cgit.drupalcode.org/drush/plain/docs/cron.html
+- /usr/local/bin/drush --quiet --root=/home/webuser/website/html core-cron
+- /usr/bin/wget -qO- "http://www.website.net/cron.php?cron_key=AAAAAAAAAAAAAAAAAA1111111111111111111111111"

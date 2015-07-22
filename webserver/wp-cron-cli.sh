@@ -22,6 +22,10 @@
 #  - WordPress bug
 #  - Using of cache plugins that prevent the WP-Cron from loading
 #  - And many other reasons
+#
+# Create cron job
+#
+#     01,31 *	* * *	webuser	/usr/local/bin/wp-cron-cli.sh /home/webuser/website/html
 
 # @TODO  drop $WPCRON_PATH
 

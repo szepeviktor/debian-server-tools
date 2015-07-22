@@ -1,9 +1,3 @@
-### Custom certificate installation
-
-/usr/local/share/ca-certificates/<CA-NAME>/
-
-`update-ca-certificates --fresh`
-
 ### Store secret data in shares
 
 #### gfshare
@@ -130,3 +124,7 @@ https://incapsula.zendesk.com/hc/en-us/articles/200627570-Restricting-direct-acc
 resp_format: json | apache | nginx | iptables | text
 
 `curl -k -s --data "resp_format=apache" https://my.incapsula.com/api/integration/v1/ips`
+
+### Difference between “BEGIN RSA PRIVATE KEY” and “BEGIN PRIVATE KEY”
+
+http://stackoverflow.com/questions/20065304/what-is-the-differences-between-begin-rsa-private-key-and-begin-private-key/20065522#20065522

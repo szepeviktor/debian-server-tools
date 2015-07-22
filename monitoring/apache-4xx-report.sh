@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Report Apache client errors of the last 24 hours.
+# Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.1.2
-# DATE          :2015-07-06
+# VERSION       :1.2.0
+# DATE          :2015-07-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -15,7 +15,7 @@
 # Download the dategrep binary directly from GitHub (without package management)
 #
 #     apt-get install -y libdate-manip-perl
-#     R="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/s//\1/p')"
+#     R="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')"
 #     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
 #     chmod +x /usr/local/bin/dategrep
 
@@ -29,9 +29,10 @@ Content-Transfer-Encoding: quoted-printable
 "
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
 
-Filter_client_error() {
+Filter_client_server_error() {
+    # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
-    grep "\" 4\(0[0-9]\|1[0-7]\) [0-9]\+ \""
+    grep "\" \(4\(0[0-9]\|1[0-7]\)\|50[0-5]\) [0-9]\+ \""
 }
 
 Color_html() {
@@ -66,11 +67,10 @@ while read CONFIG_FILE; do
     ACCESS_LOG="$(echo "$ACCESS_LOG"|sed -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
 
-    # Client errors (400-417) for 1 day from cron.daily
-    #     http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
+    # Log lines for 1 day from cron.daily
     ionice -c 3 /usr/local/bin/dategrep --format apache --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "${ACCESS_LOG}.1" "$ACCESS_LOG" \
-        | Filter_client_error \
+        | Filter_client_server_error \
         | sed "s;^;$(basename "$ACCESS_LOG" .log): ;g"
 
 done <<< "$APACHE_CONFIGS" | Maybe_sendmail

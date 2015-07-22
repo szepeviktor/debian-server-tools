@@ -2,7 +2,7 @@
 #
 # Recheck messages in Courier mail queue.
 #
-# VERSION       :0.2
+# VERSION       :0.2.1
 # DATE          :2015-04-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -82,7 +82,7 @@ dnsquery() {
             fi
         ;;
         TXT)
-            ANSWER="${IP#* domain name pointer }"
+            ANSWER="${IP#* descriptive text }"
             ANSWER="${ANSWER#* description is }"
             if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
                 echo "$ANSWER"
