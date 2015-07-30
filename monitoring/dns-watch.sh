@@ -2,7 +2,7 @@
 #
 # Check DNS resource records.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.2
 # DATE          :2015-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -15,31 +15,39 @@
 
 # Usage
 #
-# Basic syntax ( ":" and "=" )
+# Generate configuration
+#
+#     dns-watch.sh -d szepe.net
+#
+# Display RR-s
+#
+#     dns-watch.sh www.szepe.net
+#
+# Configuration syntax - ":" and "="
 #
 #     DNS_WATCH=(
 #       domain.net:TYPE=value
 #       szepe.net:A=95.140.33.67
 #     )
 #
-# Multiple RR-s ( "," )
-# Double-quotes and spaces escaped or single-quoted
+# Multiple RR-s - ","
+# Double-quotes and spaces must be escaped or single-quoted
 #
 #     szepe.net:A=95.140.33.67,TXT=\"value\ here\"
 #     'szepe.net:A=95.140.33.67,TXT="value here"'
 #
-# Multiple values ( ";" ) escaped
+# Multiple values - ";" escaped
 # WARNING! Values must be in `sort`-ed order.
 #
 #     szepe.net:NS=mark.ns.cloudflare.com.\;sue.ns.cloudflare.com.
 
 ALERT_ADDRESS="admin@szepe.net"
-RETRY_TIME="40"
-DAEMON="dns-watch"
 # bix.he.net.
 #     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
 ALWAYS_ONLINE="193.188.137.175"
+RETRY_TIME="40"
 
+DAEMON="dns-watch"
 DNS_WATCH_RC="/etc/dnswatchrc"
 DNS_WATCH=( )
 source "$DNS_WATCH_RC"
@@ -166,8 +174,19 @@ Dnsquery_multi() {
 #Dnsquery_multi "$@"; echo "$?" >&2; exit
 #DBG() { echo "> |${*}|" >&2; }
 
+Log() {
+    local MESSAGE="$1"
+
+    if tty --quiet; then
+        echo "$MESSAGE" >&2
+    else
+        logger -t "${DAEMON}[$$]" "$MESSAGE"
+    fi
+}
+
 Is_online() {
     if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ", 0% packet loss,"; then
+        Log "Server is OFFLINE."
         Alert "Not online" "pocket loss on pinging ${ALWAYS_ONLINE}"
         exit 100
     fi
@@ -175,8 +194,10 @@ Is_online() {
 
 Alert() {
     #DBG "E: $*"; return
-    logger -t "$DAEMON" "$1 is DOWN"
-    echo "$*" | mailx -s "[${DAEMON}] DNS failure: $1" "$ALERT_ADDRESS"
+    local SUBJECT="$1"
+
+    Log "${SUBJECT} is DOWN"
+    echo "$*" | mailx -s "[${DAEMON}] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Generate_rr() {
@@ -188,6 +209,8 @@ Generate_rr() {
     RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort | paste -s -d";")"
     [ $? == 0 ] && [ -n "$RR" ] && echo "${TYPE}=${RR}"
 }
+
+Is_online
 
 # Display answers
 if [ $# == 1 ]; then
@@ -250,10 +273,11 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
     exit 0
 fi
 
-# Check RR-s
+# Check all domains
 for DOMAIN in "${DNS_WATCH[@]}"; do
     DNAME="${DOMAIN%%:*}"
     RRS="${DOMAIN#*:}"
+    declare -i DRETRY="0"
     declare -i RETRY="0"
 
     # May fail once
@@ -273,6 +297,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         continue
     fi
 
+    # Check RR-s
     while read -d"," RR; do
         #DBG "$RR"
         if [ -z "$RR" ]; then
@@ -282,14 +307,20 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         RRTYPE="${RR%%=*}"
         RRVALUES="${RR#*=}"
         RRVALUES_SORTED="$(sort <<< "$RRVALUES")"
+
+        # All nameservers
         while read NS; do
+
             # UDP and TCP lookup
             for PROTO in "" "T/"; do
-                declare -i RETRY="$DRETRY"
-                while :; do
+
+                # Retry at most once
+                RETRY="$DRETRY"
+                while true; do
                     ANSWERS="$(Dnsquery_multi "${PROTO}${RRTYPE}" "$DNAME" "$NS")"
                     QUERY_RET="$?"
                     #DBG "${DNAME}/${RRTYPE}/${NS}/${PROTO}: $ANSWERS"
+
                     # Exit loop on successful query or no more retries
                     if [ "$QUERY_RET" == 0 ] || [ "$RETRY" == 0 ]; then
                         break
@@ -313,7 +344,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         done <<< "$NSS"
     done <<< "${RRS},"
 
-    logger -t "$DAEMON" "${DNAME} OK"
+    Log "${DNAME} OK"
     # Pause DNS queries
     sleep 1
 done
