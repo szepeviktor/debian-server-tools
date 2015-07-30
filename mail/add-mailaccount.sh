@@ -2,8 +2,8 @@
 #
 # Add a virtual mail account to courier-mta.
 #
-# VERSION       :0.4.0
-# DATE          :2015-07-18
+# VERSION       :0.4.1
+# DATE          :2015-07-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -58,7 +58,7 @@ done
 if ! getent passwd "$VIRTUAL_UID" &> /dev/null; then
     echo "Creating virtual user ..."
     addgroup --gid "$VIRTUAL_UID" virtual
-    adduser --gecos "" --disabled-login --shell /usr/sbin/nologin --no-create-home --home /nonexistent \
+    adduser --gecos "" --disabled-login --shell /usr/sbin/nologin --no-create-home --home "$MAILROOT" \
         --gid "$VIRTUAL_UID" --uid "$VIRTUAL_UID" virtual
     getent passwd "$VIRTUAL_UID"
 fi

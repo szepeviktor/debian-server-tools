@@ -14,8 +14,8 @@
 # Various root certificates
 #
 # StartSSL: https://www.startssl.com/certs/
-#   wget https://www.startssl.com/certs/ca.pem
-#   wget https://www.startssl.com/certs/sub.class1.server.ca.pem
+#     wget https://www.startssl.com/certs/ca.pem
+#     wget https://www.startssl.com/certs/sub.class1.server.ca.pem
 # Comodo PositiveSSL: https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
 # CAcert: http://www.cacert.org/index.php?id=3

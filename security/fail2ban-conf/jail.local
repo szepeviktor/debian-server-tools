@@ -67,7 +67,7 @@ bantime  = 86400 ; 24h
 [apache-cf1-combined]
 #[apache-cf2-combined]
 #[apache-cf3-combined]
-enabled  = false
+#enabled  = true
 filter   = apache-combined
 logpath  = /var/log/apache2/CF*error.log
 bantime  = 86400 ; 24h
@@ -79,7 +79,7 @@ cfapikey =
 [apache-cf1-instant]
 #[apache-cf2-instant]
 #[apache-cf3-instant]
-enabled  = false
+#enabled  = true
 filter   = apache-instant
 maxretry = 1
 logpath  = /var/log/apache2/CF*error.log
@@ -88,42 +88,44 @@ action   = %(action_cf_mgl)s
 cfemail  = 
 cfapikey = 
 
-#[suhosin]
-#port    = http,https
-#logpath = %(suhosin_log)s
-
-#[horde]
-#port     = http,https
-#logpath  = /var/log/horde/horde.log
-
-#[courier-smtp]
+[suhosin]
 #enabled  = true
-#port     = smtp,465,submission
-#logpath  = %(syslog_mail)s
+port    = http,https
+logpath = %(suhosin_log)s
 
-#[courier-auth]
+[horde]
 #enabled  = true
-#port     = smtp,465,submission,imap3,imaps,pop3,pop3s
-#logpath  = %(syslog_mail)s
+port     = http,https
+logpath  = /var/log/horde/horde.log
 
-#[proftpd]
+[courier-smtp]
+#enabled  = true
+port     = smtp,465,submission
+logpath  = %(syslog_mail)s
+
+[courier-auth]
+#enabled  = true
+port     = smtp,465,submission,imap3,imaps,pop3,pop3s
+logpath  = %(syslog_mail)s
+
+[proftpd]
 # When the default locale for your system is not en_US.UTF-8
 # be sure to add this to /etc/default/proftpd
 # export LC_TIME="en_US.UTF-8"
 #enabled  = true
-#maxretry = 2
+maxretry = 2
 
-#[proftpd-notif]
+[proftpd-notif]
 # When the default locale for your system is not en_US.UTF-8
 # be sure to add this to /etc/default/proftpd
 # export LC_TIME="en_US.UTF-8"
 #enabled  = true
-#maxretry = 1
-#findtime = 10
-#bantime  = 1
-#filter   = proftpd-notif
-#logpath  = /var/log/proftpd/proftpd.log
-#action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s]
+maxretry = 1
+findtime = 10
+bantime  = 1
+filter   = proftpd-notif
+logpath  = /var/log/proftpd/proftpd.log
+action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s]
 
 [recidive]
 enabled  = true

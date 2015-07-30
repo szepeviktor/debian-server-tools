@@ -34,7 +34,7 @@
 - általános usability (használhatósági) audit (pl. [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content))
 - webhely látogatók viselkedésének mérése
 - WordPress szakértő vagyok
-- fertőzött (vírusos) honlap takarítás
+- fertőzött (vírusos) honlap kitakarítás
 - WordPress biztonság https://github.com/szepeviktor/wordpress-fail2ban
 - wp-cli "contributor" (közreműködő) vagyok, a WordPress parancssori felületéhez írok részeket
 - WordPress bővítmény audit https://profiles.wordpress.org/szepeviktor#content-plugins

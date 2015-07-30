@@ -128,4 +128,4 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 - PageSpeed 100 (vagy 99) ponton tartása
 - betörés utáni takarítás egy alkalommal
 - szerver (VPS vagy fizikai gép) üzemben tartás és megfigyelés
-- prémium levelezés személyes technikai támogatással és kézbesítés megfigyeléssel
+- prémium levelezés személyes technikai támogatással és kézbesítés-megfigyeléssel

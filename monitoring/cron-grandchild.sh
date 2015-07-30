@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Send cron grandchild failures report.
+# Report cron "grandchild failed" details.
 #
-# VERSION       :0.1.0
-# DATE          :2015-07-22
+# VERSION       :0.1.1
+# DATE          :2015-07-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -30,8 +30,11 @@ Grandchild_pid() {
     | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
     | Grandchild_pid \
     | while read GC_PID; do
+        # Search for the log line
+        # Add marks around it
         grep -C3 "^\S\+ [0-9]\+ [0-9:]\+ \S\+ \(/USR/SBIN/\)\?CRON\[${GC_PID}\]: (\S\+) CMD (.\+)$" \
-            /var/log/syslog.1 /var/log/syslog
+            /var/log/syslog.1 /var/log/syslog \
+        | sed "s;^\(\S\+ [0-9]\+ [0-9:]\+ \S\+ \(/USR/SBIN/\)\?CRON\[${GC_PID}\]: (\S\+) CMD (.\+)\)$;----\n\1\n----;"
     done
 
 exit 0

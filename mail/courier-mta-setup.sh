@@ -38,7 +38,8 @@ exit 0
 # !!! config-compare.sh
 
 
-# Courier-mta message processing order
+# Courier-mta message processing order on reception
+#
 # 1. SMTP communication
 # 2. NOADD*, "opt MIME=none"
 # 3. filters
@@ -98,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `passwords` (
 ALTER TABLE `passwords`
   ADD UNIQUE KEY `id` (`id`);
 
+# @TODO Test utf8.
 
 # Privileges for `courierauthu`@`localhost`
 GRANT USAGE ON *.* TO 'courierauthu'@'localhost' IDENTIFIED BY PASSWORD '*CA4FD4F77E14F2B60398B882C1020544D0CA9D9C';
@@ -105,22 +107,30 @@ GRANT SELECT ON `mail`.`passwords` TO 'courierauthu'@'localhost';
 
 
 # Python Courier filters (python3)
-apt-get install -y libxml2-dev libxslt-dev cython3 python3-gdbm
-pip3 install lxml
-pip3 install html2text
-pip3 install courier-pythonfilter
+apt-get install -y libpython2.7-dev libxml2-dev libxslt1-dev cython python-gdbm
+pip2 install lxml html2text
+#pip2 install courier-pythonfilter
+# http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/
+
 # Custom Python filters
 git clone https://github.com/szepeviktor/courier-pythonfilter-custom
 # /usr/local/lib/python${VERSION}
-ln -sv email-correct.py /usr/local/lib/python3.4/dist-packages/pythonfilter/
-ln -sv spamassassin3.py /usr/local/lib/python3.4/dist-packages/pythonfilter/
+ln -sv email-correct.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
+ln -sv spamassassin3.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
+editor /etc/pythonfilter.conf
+# log_mailfrom_rcptto
+# noduplicates
+# whitelist_auth
+# whitelist_relayclients
+# spamassassin3
+# email-correct
 ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
 filterctl start pythonfilter
 
 # DKIM support
-# Build dependencies
-#apt-get install -y libc6-dev pkg-config libtool libopendkim-dev libopendbx1-dev nettle-dev
-# Runtime deps
+#     apt-get install -y libc6-dev pkg-config libtool libopendkim-dev \
+#     libopendbx1-dev nettle-dev libidn2-0-dev libunistring-dev zlib1g-dev \
+#     
 apt-get install -y libopendkim7 libopendbx1 libnettle4
 # Source
 wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
@@ -128,15 +138,19 @@ wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
 
 # Spamassassin
 #     http://svn.apache.org/repos/asf/spamassassin/trunk/
-# DKIM check
+editor /etc/default/spamassassin
+#    OPTIONS="--create-prefs --max-children 2 --helper-home-dir --ipv4 --allow-tell --username=virtual --groupname=virtual --nouser-config --virtual-config-dir=/var/mail/.spamassassin"
+
+# For DKIM check
 apt-get install -y libmail-dkim-perl
-# Compile rules
-mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
-# Patch for being quiet
-cd /etc/cron.hourly
-patch -p0 < spamassassin34.patch
 # Pyzor
 pip3 install pyzor
+
+## Compile rules
+#mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
+## Patch for being quiet
+#cd /etc/cron.hourly
+#patch -p0 < spamassassin34.patch
 
 editor /etc/courier/smtpaccess/default
 # :::1	allow,RELAYCLIENT
@@ -149,6 +163,13 @@ editor /etc/courier/smtpaccess/default
 #             subscriptions, account (ifttt, linkedin, hubiC)
 #             freemail?? (gmail, freemail, citromail, indamail)
 
+editor /etc/spamassassin/local.cf
+# host -t A worker.szepe.net
+dns_server              81.2.236.171
+
+# spammer.dnsbl, knownhosts.dnsbl
+
+# Mail::SpamAssassin::Plugin::SAGrey
 
 # MISSING_MID monitoring
 

@@ -2,8 +2,8 @@
 #
 # Check your VPS' resources daily.
 #
-# VERSION       :0.4
-# DATE          :2015-06-28
+# VERSION       :0.4.1
+# DATE          :2015-07-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -29,22 +29,10 @@
 # Generate config
 #     vpscheck.sh -gen
 #
-# PROC=1
-# MEM=1048576
-# PART="/dev/xvda,/dev/xvda1"
-# SWAP=2097144
-# CLOCK=xen
-# CONSOLE=/dev/hvc0
-# DNS1=8.8.8.8
-# IP=95.140.33.67
-# GW=95.140.33.1
-# HOP=95.140.33.252
-# # k.root-servers.net.
-# HOP_TO=193.0.14.129
-# MX=mail.szepe.net
+# Examine the checks below ( `Add_check()` calls )
 #
-# Examine the checks below: the `Add_check()` calls.
 # Write your own checks!
+#
 # Report issues
 #     https://github.com/szepeviktor/debian-server-tools/issues/new
 
@@ -54,21 +42,21 @@ Needs_root_commands() {
     which ifconfig ip traceroute mailx &> /dev/null || exit 2
 }
 
-# http://www.root-servers.org/
 Nearest_rootserver() {
     local NEAREST
     local MIN_HOPS="10"
     local HOPS
 
+    # http://www.root-servers.org/
     for R in {a..z}; do
-        # ICMP pings, maximun 10 hops, 2 seconds timeout
+        # ICMP pings, maximum 10 hops, 2 seconds timeout
         HOPS="$(traceroute -4 -n -m 10 -w 2 "${R}.root-servers.net." 2>&1 \
             | tail -n +2 | wc -l; echo ${PIPESTATUS[0]})"
 
         # Traceroute is OK AND less hops than before
         if [ "${HOPS#*[^0-9]}" == 0 ] && [ "${HOPS%[^0-9]*}" -lt "$MIN_HOPS" ]; then
-            NEAREST="${R}.root-servers.net."
             MIN_HOPS="${HOPS%[^0-9]*}"
+            NEAREST="${R}.root-servers.net."
         fi
     done
 
@@ -76,7 +64,7 @@ Nearest_rootserver() {
 }
 
 Add_check() {
-    # FIXME keep original order
+    # @FIXME keep original order
     CHECKS["$1"]="$2"
 }
 
@@ -155,7 +143,8 @@ Add_check MEM 'grep "^MemTotal:" /proc/meminfo | sed "s/\s\+/ /g" | cut -d" " -f
 Add_check PART 'ls -1 /dev/sd* | paste -s -d","'
 
 # Swap sizes (kB)
-Add_check SWAP 'tail -n +2 /proc/swaps | cut -f 2 | paste -s -d", "'
+#Add_check SWAP 'tail -n +2 /proc/swaps | sed "s;\s\+;\t;g" | cut -f 3 | paste -s -d", "'
+Add_check SWAP '"1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g" /proc/swaps | paste -s -d", "'
 
 # Kernel clock source
 Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocksource'

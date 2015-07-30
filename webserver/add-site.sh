@@ -5,8 +5,8 @@
 
 exit 0
 
-read -p "user name: (without WWW) " U
-read -p "domain name: " DOMAIN
+read -p "user name: " U
+read -p "domain name: (without WWW) " DOMAIN
 
 adduser --disabled-password --gecos "" ${U}
 
