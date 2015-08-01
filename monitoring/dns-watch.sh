@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Check DNS resource records.
+# Check foreign DNS resource records.
 #
 # VERSION       :0.2.2
 # DATE          :2015-07-30
@@ -243,7 +243,8 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
         FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
     fi
 
-    DOMAIN_CONFIG="$(Generate_rr NS "$DNAME" "$FIRST_NS"
+    DOMAIN_CONFIG="$(
+        Generate_rr NS "$DNAME" "$FIRST_NS"
         Generate_rr A "$DNAME" "$FIRST_NS"
         Generate_rr AAAA "$DNAME" "$FIRST_NS"
         Generate_rr MX "$DNAME" "$FIRST_NS"
@@ -256,11 +257,9 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
         exit 2
     fi
 
-    # Spaces
+    # Escape spaces, double-quotes and semi-colons
     DOMAIN_CONFIG="${DOMAIN_CONFIG// /\\ }"
-    # Double-quotes
     DOMAIN_CONFIG="${DOMAIN_CONFIG//\"/\\\"}"
-    # Semi-colons
     DOMAIN_CONFIG="${DOMAIN_CONFIG//;/\\;}"
 
     echo -e "DNS_WATCH+=(\n  ${DNAME}:$(paste -s -d"," <<< "${DOMAIN_CONFIG}")\n)" >> "$DNS_WATCH_RC"
@@ -321,7 +320,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                     QUERY_RET="$?"
                     #DBG "${DNAME}/${RRTYPE}/${NS}/${PROTO}: $ANSWERS"
 
-                    # Exit loop on successful query or no more retries
+                    # Exit the loop on successful query or no more retries
                     if [ "$QUERY_RET" == 0 ] || [ "$RETRY" == 0 ]; then
                         break
                     fi
@@ -348,3 +347,5 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
     # Pause DNS queries
     sleep 1
 done
+
+exit 0

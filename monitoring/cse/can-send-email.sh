@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Can-send-email triggers and checks in one.
+# Can-send-email triggers and checks.
 #
-# VERSION       :1.2.4
-# DATE          :2015-07-22
+# VERSION       :1.2.5
+# DATE          :2015-08-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -11,11 +11,11 @@
 # DEPENDS       :/usr/local/bin/txtlocal.py
 # DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
-# CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh --trigger
-# CRON.D        :50 *	* * *	daemon	/usr/local/sbin/can-send-email.sh --check
+# CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh trigger
+# CRON.D        :50 *	* * *	daemon	/usr/local/sbin/can-send-email.sh check
 
 # Adjust these variables.
-
+#
 ALERT_MOBILE=""
 ALERT_ADDRESS="viktor@szepe.net"
 CSE_ADDRESS="cse@worker.szepe.net"
@@ -60,7 +60,7 @@ Add_host() {
     local URL="$2"
 
     if [ -z "$HOSTNAME" ] || [ -z "$URL" ]; then
-        Error 3 "Usage: $0 --add SERVERNAME URL"
+        Error 3 "Usage: $0 add SERVERNAME URL"
     fi
     if [ -n "$(Is_host "$HOSTNAME")" ]; then
         Error 4 "Host already exists!"
@@ -74,7 +74,7 @@ Remove_host() {
     local HOSTNAME="$1"
 
     if [ -z "$HOSTNAME" ]; then
-        Error 5 "Usage: $0 --remove HOSTNAME"
+        Error 5 "Usage: $0 remove HOSTNAME"
     fi
     if [ -z "$(Is_host "$HOSTNAME")" ]; then
         Error 6 "Host does not exist!"
@@ -110,15 +110,17 @@ Trigger() {
     while read URL; do
         case "${URL:0:4}" in
             "http")
-                wget -q -O- --max-redirect=0 --tries=1 --timeout=5 --user-agent="$HTTP_USER_AGENT" "$URL"
+                wget -q -O- --max-redirect=0 --tries=1 --timeout=5 --user-agent="$HTTP_USER_AGENT" "$URL" \
+                    || echo "Trigger failed ($?) for ${URL}"
                 ;;
             "mail")
-                ADDRESS="${URL#mailto:}"
+                RECIPIENT="${URL#mailto:}"
                 # Hack to pass from address to sendmail
-                #     mailx -- RECIPIENT -f SENDER
+                #     mailx -- RECIPIENT -fSENDER
                 echo -e "Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n" \
                     | mailx -s "[cse] bounce message / Email kézbesítés monitorozás" \
-                    -S "from=${CSE_ADDRESS}" -- "$ADDRESS" "-f${CSE_ADDRESS}"
+                    -S "from=${CSE_ADDRESS}" -- "$RECIPIENT" "-f${CSE_ADDRESS}" \
+                    || echo "Trigger failed ($?) for ${URL}"
                 ;;
         esac
     done
@@ -135,66 +137,66 @@ Get_failures() {
 
 Help() {
 cat <<EOF
-Usage: $0 <OPTION> [ARGUMENT]
+Usage: $0 COMMAND [ARGUMENT]
 
 Can-send-email triggers and checks in one.
 
-Options:
-    --init                  Initialize database
-    --list                  List host names, URL-s and last successful update timestamps
-    --add <HOSTNAME> <URL>  Add a new host
-    --remove <HOSTNAME>     Remove a host
-    --trigger               Trigger email sending for all hosts
-    --trigger-url <URL>     Trigger email sending for a host
-    --check                 Check last update timestamp
-    --force-update          Update a host manually
-    --syslog                Watch syslog for can-send-email messages
-    --help                  display this help message
+Commands:
+    init                  Initialize database
+    list                  List host names, URL-s and last successful update timestamps
+    add HOSTNAME URL      Add a new host
+    remove HOSTNAME       Remove a host
+    trigger               Trigger email sending for all hosts
+    trigger-url URL       Trigger email sending for a host
+    check                 Check last update timestamp
+    force-update          Update a host manually
+    syslog                Watch syslog for can-send-email messages
+    help                  display this help message
 
-Without parameters receive message through a pipe.
+Without parameters receive message source from stdin.
 EOF
 }
 
 case "$1" in
     # Initialize
-    --help)
+    help)
         Help
         ;;
 
     # Initialize
-    --init)
+    init)
         Init
         ;;
 
     # List hosts
-    --list)
+    list)
         List_hosts
         ;;
 
     # Add new host
-    --add)
+    add)
         shift
         Add_host "$@"
         ;;
 
     # Remove host
-    --remove|--delete)
+    remove|delete|del)
         shift
         Remove_host "$@"
         ;;
 
     # Trigger emails cron job
-    --trigger)
+    trigger)
         Get_urls | Trigger 1>&2
         ;;
 
     # Trigger emails cron job
-    --trigger-url)
+    trigger-url|triggerurl)
         echo "$2" | Trigger 1>&2
         ;;
 
     # Check failures cron job
-    --check)
+    check)
         FAILURES="$(Get_failures)"
         if [ -n "$FAILURES" ]; then
             # 1. SMS
@@ -211,12 +213,12 @@ case "$1" in
         ;;
 
     # Update a host manually
-    --force-update)
+    force-update)
         Update_last "$2" "$NOW"
         ;;
 
     # Watch syslog for can-send-email messages
-    --syslog)
+    syslog)
         tail -n 100 -f /var/log/syslog | grep "can-send-email"
         ;;
 

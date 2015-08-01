@@ -12,6 +12,12 @@
 - [Vultr](http://www.vultr.com/?ref=6815796) hourly, 3+GHz, SSD, storage VPS
 - vps.me/Hostinger free, IPv6 only
 
+## PaaS
+
+- Pagodabox
+- Jelastic
+
+
 ## Shared hosting
 
 - [OVH](https://www.ovh.ie/web-hosting/)  100GB, PHP-FPM, mini CDN

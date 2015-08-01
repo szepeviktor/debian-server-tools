@@ -2,7 +2,7 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.2
 # DATE          :2015-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -27,6 +27,7 @@
 SKIP_HOST="qss.qupdate.net"
 SKIP_UNTIL="2015-07-31 10:00"
 ALERT_ADDRESS="admin@szepe.net"
+INTERNET_IF="eth0"
 # bix.he.net.
 #     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
 ALWAYS_ONLINE="193.188.137.175"
@@ -82,7 +83,7 @@ for HOST in "${SSH_WATCH[@]}"; do
         && [ $(date "+%s") -lt $(date --date="$SKIP_UNTIL" "+%s") ] \
         && continue
 
-    if LC_ALL=C host -W 2 -t A "$HNAME" 2>&1 | grep -qv " has address "; then
+    if LC_ALL=C host -W 2 -t A "$HNAME" 2>&1 | grep -qv " has\( IPv4\)\? address "; then
         Alert "${HNAME}/A" \
             "Failed to get address of ${HNAME}"
         continue
@@ -91,7 +92,7 @@ for HOST in "${SSH_WATCH[@]}"; do
     declare -i RETRY="$HRETRY"
     # Retry at most once
     while true; do
-        scanssh -n "$PORT" "$HNAME" 2>&1 | grep -q "^[0-9.]\+:${PORT} SSH-2\.0-OpenSSH_"
+        scanssh -i "$INTERNET_IF" -n "$PORT" "$HNAME" 2>&1 | grep -q "^[0-9.]\+:${PORT} SSH-2\.0-OpenSSH_"
         SCAN_RET="$?"
         # Exit loop on successful scan or no more retries
         if [ "$SCAN_RET" == 0 ] || [ "$RETRY" == 0 ]; then
@@ -110,3 +111,5 @@ for HOST in "${SSH_WATCH[@]}"; do
     # Pause scans
     sleep 1
 done
+
+exit 0

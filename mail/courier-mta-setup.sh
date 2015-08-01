@@ -55,6 +55,8 @@ editor imapd
 #     #IMAP_CAPABILITY_TLS=
 #     #IMAP_EMPTYTRASH
 
+DH_BITS=2048 mkdhparams
+
 # authmodulelist="authuserdb"
 
 # echo hosted-domain.hu > /etc/courier/hosteddomains
