@@ -9,8 +9,8 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install heirloom-mailx
-# LOCATION      :/usr/local/sbin/top10-folders.sh
-# CRON-MONTHLY  :/usr/local/sbin/top10-folders.sh
+# LOCATION      :/usr/local/sbin/top10-mailfolders.sh
+# CRON-MONTHLY  :/usr/local/sbin/top10-mailfolders.sh
 
 # This script expects the following mail structure:
 #

@@ -17,6 +17,14 @@
 #
 # Configuration syntax
 #
+#     SKIP_HOST="qss.qupdate.net"
+#     SKIP_UNTIL="2015-07-31 10:00"
+#     ALERT_ADDRESS="admin@szepe.net"
+#     # bix.he.net.
+#     #     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
+#     ALWAYS_ONLINE="193.188.137.175"
+#     INTERNET_IF="eth0"
+#     RETRY_TIME="40"
 #     SSH_WATCH=(
 #       hostname:port
 #       szepe.net:22
@@ -24,17 +32,14 @@
 #
 # Host names should have only DNS A records.
 
-SKIP_HOST="qss.qupdate.net"
-SKIP_UNTIL="2015-07-31 10:00"
-ALERT_ADDRESS="admin@szepe.net"
-INTERNET_IF="eth0"
-# bix.he.net.
-#     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
-ALWAYS_ONLINE="193.188.137.175"
-RETRY_TIME="40"
-
 DAEMON="ssh-watch"
 SSH_WATCH_RC="/etc/sshwatchrc"
+SKIP_HOST=""
+SKIP_UNTIL=""
+ALERT_ADDRESS="admin@szepe.net"
+ALWAYS_ONLINE="8.8.8.8"
+INTERNET_IF="eth0"
+RETRY_TIME="40"
 SSH_WATCH=( )
 source "$SSH_WATCH_RC"
 
