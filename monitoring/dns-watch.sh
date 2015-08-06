@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.2
-# DATE          :2015-07-30
+# VERSION       :0.2.3
+# DATE          :2015-08-03
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -310,15 +310,17 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         # All nameservers
         while read NS; do
 
+            # Actual IP address of nameserver
+            NS_IP="$(getent ahostsv4 "$NS" | sed -n '0,/^\(\S\+\)\s\+RAW\b/s//\1/p')"
             # UDP and TCP lookup
             for PROTO in "" "T/"; do
 
                 # Retry at most once
                 RETRY="$DRETRY"
                 while true; do
-                    ANSWERS="$(Dnsquery_multi "${PROTO}${RRTYPE}" "$DNAME" "$NS")"
+                    ANSWERS="$(Dnsquery_multi "${PROTO}${RRTYPE}" "$DNAME" "$NS_IP")"
                     QUERY_RET="$?"
-                    #DBG "${DNAME}/${RRTYPE}/${NS}/${PROTO}: $ANSWERS"
+                    #DBG "${DNAME}/${RRTYPE}/${NS}=${NS_IP}/${PROTO}: $ANSWERS"
 
                     # Exit the loop on successful query or no more retries
                     if [ "$QUERY_RET" == 0 ] || [ "$RETRY" == 0 ]; then
@@ -329,14 +331,14 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                 done
                 if [ "$QUERY_RET" != 0 ]; then
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
-                        "Failed to query type ${RRTYPE} of ${DNAME} from ${NS} on protocol (${PROTO:0:1})"
+                        "Failed to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO:0:1})"
                     continue
                 fi
                 ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d";")"
                 if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
                     #DBG "$ANSWERS_SORTED||$RRVALUES_SORTED"
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
-                        "Changed answer to query type ${RRTYPE} of ${DNAME} from ${NS} on protocol (${PROTO:0:1})"
+                        "CHANGED answer to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO:0:1})"
                     continue
                 fi
             done

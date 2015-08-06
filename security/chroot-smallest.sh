@@ -9,7 +9,9 @@ CHROOT="/opt/www3debchroot"
 TARGET="jessie"
 
 debootstrap --arch=amd64 --variant=minbase \
-    --exclude= cpio,cron,dmidecode,ifupdown,init-system-helpers,iproute2,iptables,isc-dhcp-client,isc-dhcp-common,kmod,logrotate,man-db,manpages,net-tools,netcat-traditional,nfacct,rsyslog,tasksel,tasksel-data,vim-common,vim-tiny \
+    --exclude=cpio,cron,dmidecode,ifupdown,init-system-helpers,iproute2,iptables,\
+isc-dhcp-client,isc-dhcp-common,kmod,logrotate,man-db,manpages,net-tools,\
+netcat-traditional,nfacct,rsyslog,tasksel,tasksel-data,vim-common,vim-tiny \
     ${TARGET} ${CHROOT} http://http.debian.net/debian
 
 cp -v /etc/hosts ${CHROOT}/etc/hosts

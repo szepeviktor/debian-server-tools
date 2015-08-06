@@ -94,6 +94,9 @@ Do_install() {
     if head -n 30 "$FILE" | grep -qi "^# CRON"; then
         $(dirname $0)/install-cron.sh "$FILE" || Die 13 "Cron installation failulre (${FILE})"
     fi
+
+    # Display dependencies
+    Get_meta "$FILE" DEPENDS
 }
 
 #####################################################

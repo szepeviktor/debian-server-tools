@@ -227,3 +227,12 @@ score RCVD_IN_HOSTKARMA_BL 3.0
 score RCVD_IN_HOSTKARMA_BR 1.0
 
 endif
+
+# add-domain.sh
+info@%DOMAIN%:        admin@%DOMAIN%
+abuse@%DOMAIN%:       admin@%DOMAIN%
+spam@%DOMAIN%:        admin@%DOMAIN%
+admin@%DOMAIN%:       admin@szepe.net
+webmaster@%DOMAIN%:   admin@%DOMAIN%
+postmaster@%DOMAIN%:  admin@%DOMAIN%
+hostmaster@%DOMAIN%:  admin@%DOMAIN%

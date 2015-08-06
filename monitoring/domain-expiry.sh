@@ -2,8 +2,8 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.0
-# DATE          :2015-08-02
+# VERSION       :0.1.3
+# DATE          :2015-08-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -111,10 +111,13 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
 
     if [ $? != 0 ] || [ -z "$EXPIRY_SEC" ] || [ -n "${EXPIRY_SEC//[0-9]/}" ]; then
         echo "Domain ${DOMAIN} has invalid expiry date (${EXPIRY})" >&2
+        continue
     fi
 
     if [ "$EXPIRY_SEC" -lt "$ALERT_SEC" ]; then
-        echo "Domain ${DOMAIN} is about to expire at ${DATE}."
+        echo "Domain ${DOMAIN} is about to expire at ${EXPIRY}."
+        printf "\nhttp://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\nhttp://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n" \
+            "${DOMAIN%.hu}" "$DOMAIN" "$DOMAIN"
     fi
 done | mailx -E -s "[ad.min] Domain expiry alert" -S from="Domain expiry <root>" root
 

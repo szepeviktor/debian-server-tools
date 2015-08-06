@@ -12,6 +12,7 @@
         Require all denied
     </IfModule>
 </Files>
+# Whitelist ms-files.php
 <Files ms-files.php>
     # Apache < 2.3
     <IfModule !mod_authz_core.c>

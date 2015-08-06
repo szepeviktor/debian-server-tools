@@ -12,11 +12,12 @@ adduser --disabled-password --gecos "" ${U}
 
 # Add system mail alias to direct bounces to one address
 # E.g. VIRTUAL-USERGROUP could be one client
-#     USER@HOSTNAME:   VIRTUAL-USERGROUP@HOSTNAME
+#     USER@HOSTNAME:       VIRTUAL-USERGROUP@HOSTNAME
+#     wordpress@HOSTNAME:  VIRTUAL-USERGROUP@HOSTNAME
 # Set forwarding address on the smarthost
 #     echo "RECIPIENT@DOMAIN.COM" > .courier-VIRTUAL-USERGROUP
 
-editor /etc/courier/aliases/system-user
+editor /etc/courier/aliases/system-users
 makealiases
 
 # Add sudo permissions for real users to become this user
@@ -108,6 +109,13 @@ apache-resolve-hostnames.sh
 # Logrotate
 editor /etc/logrotate.d/apache2-${DOMAIN}
 # Prerotate & postrotate
+
+# Add to fail2ban
+fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-error.log
+fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
+# SSL
+fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-ssl-error.log
+fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.log
 
 # Add cron jobs
 cd /etc/cron.d/

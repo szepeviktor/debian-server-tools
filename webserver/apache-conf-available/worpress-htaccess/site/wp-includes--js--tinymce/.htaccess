@@ -1,4 +1,4 @@
-# NO wp-includes PHP
+# Whitelist wp-mce-help.php and wp-tinymce.php
 <Files wp-mce-help.php>
     # Apache < 2.3
     <IfModule !mod_authz_core.c>

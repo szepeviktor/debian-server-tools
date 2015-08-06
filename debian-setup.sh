@@ -743,6 +743,12 @@ apt-get install -y nodejs
 # Install packaged under /usr/local/
 npm config set prefix=/usr/local/
 
+# Logrotate periods
+#
+#     syslog - /week*15
+#     apache - /day*90
+#     mail   - /week*15
+
 # Clean up
 apt-get autoremove --purge
 
