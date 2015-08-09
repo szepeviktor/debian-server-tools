@@ -41,7 +41,7 @@ Check_expiration() {
             #Die 1 "ModifyDate extraction failure."
             MODIFY_SECONDS="0"
         else
-            MODIFY_SECONDS="$(date --date "$EXPIRE" --utc +%s 2> /dev/null)"
+            MODIFY_SECONDS="$(date --date "$MODIFY_DATE" --utc +%s 2> /dev/null)"
             if [ -z "$MODIFY_SEC" ]; then
                 #Die 2 "Invalid ModifyDate."
                 MODIFY_SECONDS="0"
