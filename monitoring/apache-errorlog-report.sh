@@ -58,4 +58,4 @@ while read CONFIG_FILE; do
         | sed "s;^;$(basename "$ERROR_LOG" .log): ;g"
 
 done <<< "$APACHE_CONFIGS" \
-    | mailx -E -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
+    | mailx -E -S from="Webserver <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"

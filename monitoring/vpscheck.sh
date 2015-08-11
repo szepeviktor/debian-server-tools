@@ -2,8 +2,8 @@
 #
 # Check your VPS' resources daily.
 #
-# VERSION       :0.4.1
-# DATE          :2015-07-28
+# VERSION       :0.4.2
+# DATE          :2015-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -174,15 +174,16 @@ if [ "$GENERATE_DEFAULTS" == 1 ]; then
     mkdir -p "$(dirname "$VPS_CONFIG")"
     echo "$MAIL_CONTENT"
     echo "Create config:  editor ${VPS_CONFIG}"
-    exit
+    exit 0
 fi
 
 [ -z "$DIFF" ] && exit 0
 
-# Echo on terminal
+# Echo on terminal, mail otherwise
 if tty --quiet; then
     echo "DIFF=${DIFF}" >&2
 else
-    echo "$MAIL_CONTENT" | mailx -s "[vpscheck] WARNING - ${DIFF}changed" root
-    exit 100
+    echo "$MAIL_CONTENT" \
+        | mailx -S from="vpscheck <root>" -s "[ad.min] WARNING - ${DIFF}changed on $(hostname -f)" root
 fi
+exit 100

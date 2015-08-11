@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.3
-# DATE          :2015-08-03
+# VERSION       :0.2.4
+# DATE          :2015-08-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -45,7 +45,7 @@ ALERT_ADDRESS="admin@szepe.net"
 # bix.he.net.
 #     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
 ALWAYS_ONLINE="193.188.137.175"
-RETRY_TIME="40"
+RETRY_DELAY="40"
 
 DAEMON="dns-watch"
 DNS_WATCH_RC="/etc/dnswatchrc"
@@ -197,7 +197,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | mailx -s "[${DAEMON}] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | mailx -S from="${DAEMON} <root>" -s "[ad.min] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Generate_rr() {
@@ -315,30 +315,39 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
             # UDP and TCP lookup
             for PROTO in "" "T/"; do
 
+                case "$PROTO" in
+                    T/)
+                        PROTO_TEXT="TCP"
+                    ;;
+                    "")
+                        PROTO_TEXT="UDP"
+                    ;;
+                esac
+
                 # Retry at most once
                 RETRY="$DRETRY"
                 while true; do
                     ANSWERS="$(Dnsquery_multi "${PROTO}${RRTYPE}" "$DNAME" "$NS_IP")"
                     QUERY_RET="$?"
-                    #DBG "${DNAME}/${RRTYPE}/${NS}=${NS_IP}/${PROTO}: $ANSWERS"
+                    #DBG "${DNAME}/${RRTYPE}/${NS}=${NS_IP}/${PROTO}@${RETRY}: $ANSWERS"
 
                     # Exit the loop on successful query or no more retries
                     if [ "$QUERY_RET" == 0 ] || [ "$RETRY" == 0 ]; then
                         break
                     fi
                     RETRY+="-1"
-                    sleep "$RETRY_TIME"
+                    sleep "$RETRY_DELAY"
                 done
                 if [ "$QUERY_RET" != 0 ]; then
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
-                        "Failed to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO:0:1})"
+                        "Failed to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT}) at $((DRETRY - RETRY + 1)). retry"
                     continue
                 fi
                 ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d";")"
                 if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
                     #DBG "$ANSWERS_SORTED||$RRVALUES_SORTED"
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
-                        "CHANGED answer to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO:0:1})"
+                        "CHANGED answer to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT})"
                     continue
                 fi
             done

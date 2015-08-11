@@ -55,4 +55,4 @@ done <<< "$APACHE_CONFIGS" \
     | Filter_ua \
     | Digest_ua \
     | sed 's;^;|;' \
-    | mailx -E -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
+    | mailx -E -S from="robots unknown <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Add a virtual mail account to courier-mta.
+# Add a virtual mail account to Courier.
 #
 # VERSION       :0.4.1
 # DATE          :2015-07-25
@@ -8,9 +8,9 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/sbin/add-mailaccount.sh
-# DEPENDS       :apt-get install courier-authdaemon courier-mta-ssl pwgen
+# DEPENDS       :apt-get install courier-authdaemon courier-mta-ssl apg
 # DEPENDS       :${D}/security/password2remember.sh
+# LOCATION      :/usr/local/sbin/add-mailaccount.sh
 
 VIRTUAL_UID="1999"
 COURIER_AUTH_DBNAME="horde4"
@@ -36,11 +36,11 @@ for V in EMAIL PASS DESC HOMEDIR; do
             DEFAULT="$ACCOUNT"
             ;;
         PASS)
-            # @TODO Use apg
-            DEFAULT="$(pwgen 8 1)$((RANDOM % 10))"
+            DEFAULT="$(apg -n 1 -M NC)"
             # xkcd-style password
             WORDLIST_HU="/usr/local/share/password2remember/password2remember_hu.txt"
             [ -f "$WORDLIST_HU" ] \
+                && which xkcdpass &> /dev/null \
                 && DEFAULT="$(xkcdpass -d . -w "$WORDLIST_HU" -n 4)"
             ;;
         HOMEDIR)
@@ -93,12 +93,12 @@ echo "Remove home command:  rm -rf '${HOMEDIR}'"
 # MySQL authentication
 if which mysql &> /dev/null \
     && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
-    mysql "$COURIER_AUTH_DBNAME" <<SQL && echo "User inserted into database. OK."
+    mysql "$COURIER_AUTH_DBNAME" <<EOF || Error 23 "Failed to insert into database"
 -- USE ${COURIER_AUTH_DBNAME};
 REPLACE INTO \`${COURIER_AUTH_DBTABLE}\` (\`id\`, \`crypt\`, \`clear\`, \`name\`, \`uid\`, \`gid\`, \`home\`, \`maildir\`,
     \`defaultdelivery\`, \`quota\`, \`options\`, \`user_soft_expiration_date\`, \`user_hard_expiration_date\`, \`vac_msg\`, \`vac_subject\`, \`vac_stat\`) VALUES
 ('${EMAIL}', ENCRYPT('${PASS}'), '', '${DESC}', ${VIRTUAL_UID}, ${VIRTUAL_UID}, '${HOMEDIR}', '${NEW_MAILDIR}', '', '', '', NULL, NULL, '', '', 'N');
-SQL
+EOF
     # removal instruction
     echo "Remove user command:  -- USE ${COURIER_AUTH_DBNAME};"
     echo "                      DELETE FROM \`${COURIER_AUTH_DBTABLE}\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Report TOP 10 folders by message cound and by size.
+# Report TOP 10 mail folders by message cound and by size.
 #
 # VERSION       :0.1.0
 # DATE          :2015-08-01
@@ -41,6 +41,6 @@ Top_579() {
     Exec_on_folders "echo -n '{}/'; du -s -BM '{}'|cut -f1" ";" \
         | Top_579
 
-} | mailx -s "[admin] TOP 10 mail folders on $(hostname -f)" root
+} | mailx -S from="TOP 10 mail folders" -s "[admin] TOP 10 mail folders on $(hostname -f)" root
 
 exit 0

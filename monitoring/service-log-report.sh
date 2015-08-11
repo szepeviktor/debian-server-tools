@@ -55,4 +55,4 @@ ionice -c 3 /usr/local/bin/dategrep --format '%b %e %T' --multiline \
     --from "1 day ago at 06:25:00" --to "06:25:00" "${SERVICE_LOG}.1" "$SERVICE_LOG" \
     | Filter_log \
     | sed "s;^;$(basename "$SERVICE_LOG" .log): ;g" \
-    | mailx -E -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
+    | mailx -E -S from="service log <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"

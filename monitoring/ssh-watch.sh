@@ -65,7 +65,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-#    echo "$*" | mailx -s "[${DAEMON}] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | mailx -S from="${DAEMON}" -s "[ad.min] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Is_online

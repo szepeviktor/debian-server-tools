@@ -5,6 +5,7 @@
 - **security precautions and website firewall**
 - **contact form and email traffic monitoring**
 - **SSD based VPS-s**
+- **personal support**
 
 ## Who it is for?
 
@@ -72,6 +73,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - **biztonsági óvintézkedések és honlap tűzfal**
 - **kapcsolat űrlap és email forgalom megfigyelés**
 - **tárhely SSD alapú VPS-eken**
+- **személyes technikai támogatás (support)**
 
 ## Kinek ajánlott
 

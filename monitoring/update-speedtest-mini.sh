@@ -1,68 +1,58 @@
 #!/bin/bash
 #
-# Check Speedtest Mini script's expiration and update it.
+# Check Speedtest Mini expiration time and update it.
 #
-# VERSION       :0.2
-# DATE          :2015-04-03
+# VERSION       :0.2.1
+# DATE          :2015-08-09
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install swfmill
+# DEPENDS       :apt-get install swfmill unzip
 # LOCATION      :/usr/local/bin/update-speedtest-mini.sh
 # CRON-WEEKLY   :/usr/local/bin/update-speedtest-mini.sh
 
-# Set your web root here:
-MINI_PATH="/var/www/subdirwp/server/speed"
+# Set your document root
+MINI_PATH="/home/web/website/html/speed"
+# Date-style expiration time
+MINI_EXPIRE="2 months ago"
 
 # http://www.speedtest.net/mini.php
 MINI_URL="http://c.speedtest.net/mini/mini.zip"
-# date-style expiration
-MINI_EXPIRE="2 months ago"
 
 Die() {
     local RET="$1"
+
     shift
-    echo -e $@ >&2
+    echo -e "$@" >&2
     exit "$RET"
 }
 
 Check_expiration() {
     local MODIFY_DATE
-    local -i MODIFY_SECONDS
-    local -i MONTH_AGO
+    local -i MODIFY_SECONDS="0"
+    local -i MONTH_AGO_SECONDS
 
-    if [ -f "${MINI_PATH}/speedtest.swf" ] \
-        && which swfmill &> /dev/null; then
+    if which swfmill &> /dev/null \
+        && [ -f "${MINI_PATH}/speedtest.swf" ]; then
         MODIFY_DATE="$(swfmill -e latin1 swf2xml "${MINI_PATH}/speedtest.swf" 2> /dev/null \
-            |sed -n 's|^.*<xmp:ModifyDate>\(.*\)</xmp:ModifyDate>.*$|\1|p')"
+            | sed -n 's|^.*<xmp:ModifyDate>\(.*\)</xmp:ModifyDate>.*$|\1|p')"
 
-        if [ -z "$MODIFY_DATE" ]; then
-            #Die 1 "ModifyDate extraction failure."
-            MODIFY_SECONDS="0"
-        else
-            MODIFY_SECONDS="$(date --date "$MODIFY_DATE" --utc +%s 2> /dev/null)"
-            if [ -z "$MODIFY_SEC" ]; then
-                #Die 2 "Invalid ModifyDate."
-                MODIFY_SECONDS="0"
-            fi
+        if [ -n "$MODIFY_DATE" ]; then
+            MODIFY_SECONDS="$(date --date "$MODIFY_DATE" "+%s" 2> /dev/null || echo "0")"
         fi
-    else
-        #Die 3 "Flash file is missing. / Missing dependencies."
-        MODIFY_SECONDS="0"
     fi
 
-    # older than MINI_EXPIRE
-    MONTH_AGO="$(date --utc --date="$MINI_EXPIRE" +%s)"
-    if [ "$MODIFY_SECONDS" -lt "$MONTH_AGO" ]; then
-        Update_mini
-    fi
+    MONTH_AGO_SECONDS="$(date --date="$MINI_EXPIRE" "+%s")"
+    # Expired, return with the exit code
+    [ "$MODIFY_SECONDS" -lt "$MONTH_AGO_SECONDS" ]
 }
 
 Update_mini() {
     local ZIP="$(basename "$MINI_URL")"
 
-    wget -q --limit-rate=10m -O "${MINI_PATH}/${ZIP}" "$MINI_URL" || Die 1 "ZIP download"
+    # Limit the download speed (2 MB/s)
+    wget -q --limit-rate=2m -O "${MINI_PATH}/${ZIP}" "$MINI_URL" || Die 1 "ZIP download"
 
     if [ -d "${MINI_PATH}/mini" ]; then
         rm -r "${MINI_PATH}/mini" || Die 2 "Failed to remove old files: ./mini"
@@ -80,7 +70,9 @@ Update_mini() {
     mv "${MINI_PATH}/mini/index-php.html" "${MINI_PATH}/index.php" || Die 9 "Index file cannot be moved in place."
 
     rm -r "${MINI_PATH}/mini" || Die 10 "Failed to remove unnecassary files."
-    find "${MINI_PATH}" -type f -exec chmod -x \{\} \; || Die 11 "Failed to turn off execution bit."
+    find "${MINI_PATH}" -type f -exec chmod -x "{}" ";" || Die 11 "Failed to turn off execution bit."
 }
 
-Check_expiration
+Check_expiration && Update_mini
+
+exit 0

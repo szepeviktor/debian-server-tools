@@ -233,7 +233,7 @@ log LOG_DEBUG "expires on $NOD_EXPIRE"
 if [ $EXPIRE_DAYS -lt $EXPIRE_WARN_DAYS ]; then
     log LOG_INFO "+ATTENTION+ licence is about to expire on ${NOD_EXPIRE}"
 
-    cat <<EOF | mailx -S from="nod32mirror <root>" -s "[nod32mirror] ESET licenc exipres" root
+    cat <<EOF | mailx -S from="nod32mirror <root>" -s "[ad.min] ESET licenc exipres" root
 ${NOD_USER} licenc expires on ${NOD_EXPIRE}
 
 https://www.eset.hu/vasarlas/hosszabbitas

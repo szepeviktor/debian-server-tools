@@ -2,50 +2,41 @@
 #
 # Generate an Apache config file to allow access only from Hungary
 #
-# VERSION       :0.2
-# DATE          :2014-08-01
+# VERSION       :0.3.0
+# DATE          :2015-08-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/GeoIP-whois-hu.sh
-# DEPENDS       :apt-get install wget unzip
+# DEPENDS       :apt-get install unzip
 # DEPENDS       :/usr/local/bin/range2cidr.awk
+# LOCATION      :/usr/local/bin/GeoIP-whois-hu.sh
 
+MAXMIND="./GeoIPhuWhois.txt"
+LUDOST="./ip.ludost.txt"
 
-OUT="./GeoIPhuWhois.txt"
-OUT2="./ip.ludost.txt"
-
-
-######### Maxmind ###############
-
-if ! [ -f GeoIPCountryWhois.csv ]; then
-    wget -q http://geolite.maxmind.com/download/geoip/database/GeoIPCountryCSV.zip
-    unzip GeoIPCountryCSV.zip > /dev/null
+# Maxmind
+if ! [ -f ./GeoIPCountryWhois.csv ]; then
+    wget -nv http://geolite.maxmind.com/download/geoip/database/GeoIPCountryCSV.zip
+    unzip -q GeoIPCountryCSV.zip
 fi
 
-echo '<Files wp-login.php>
-# GeoLite data created by MaxMind
-# http://dev.maxmind.com/geoip/legacy/geolite/
-  order deny,allow
-  deny from all' > "$OUT"
+{
+    echo "<Files wp-login.php>"
+    echo "  # GeoLite data created by MaxMind"
+    echo "  # http://dev.maxmind.com/geoip/legacy/geolite/"
+    cat GeoIPCountryWhois.csv \
+        | sed -n 's/^"\([0-9.]\+\)","\([0-9.]\+\)","[0-9]\+","[0-9]\+","HU",".*"$/\1 - \2/p' \
+        | xargs -r -L 1 /usr/local/bin/range2cidr.awk \
+        | sed -e 's/^/  Require ip /'
+    echo "</Files>"
+} > "$MAXMIND"
 
-grep ',"HU",' GeoIPCountryWhois.csv \
-    | cut -d"," -f1,2 | sed 's|^"\(.*\)","\(.*\)"$|\1 \2|' \
-    | while read range; do
-        range2cidr.awk $range | while read r2; do
-            echo "  Allow from $r2" >> "$OUT"
-        done
-     done
-
-######### ludost ###############
-
-echo '<Files wp-login.php>' > "$OUT2"
-
-wget -qO - --post-data="country=1&country_list=hu&format_template=apache-allow&format_name=&format_target=&format_default=" \
-    https://ip.ludost.net/cgi/process >> "$OUT2"
-
-########## both ############
-
-echo '</Files>' | tee -a "$OUT2" >> "$OUT"
-
+# ludost - seems more up-to-date
+{
+    echo "<Files wp-login.php>"
+    wget -qO- --post-data="country=1&country_list=hu&format_template=apache-allow&format_name=&format_target=&format_default=" \
+        https://ip.ludost.net/cgi/process \
+        | sed -e 's/  allow from /  Require ip /' -e '/^  order deny,allow$/d' -e '/^  deny from all$/d'
+    echo '</Files>'
+} > "$LUDOST"

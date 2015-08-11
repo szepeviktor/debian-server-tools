@@ -119,6 +119,6 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
         printf "\nhttp://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\nhttp://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n" \
             "${DOMAIN%.hu}" "$DOMAIN" "$DOMAIN"
     fi
-done | mailx -E -s "[ad.min] Domain expiry alert" -S from="Domain expiry <root>" root
+done | mailx -E -S from="${DAEMON} <root>" -s "[ad.min] Domain expiry alert" root
 
 exit 0

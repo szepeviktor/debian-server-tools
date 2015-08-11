@@ -2,8 +2,8 @@
 #
 # Can-send-email triggers and checks.
 #
-# VERSION       :1.2.5
-# DATE          :2015-08-01
+# VERSION       :1.3.0
+# DATE          :2015-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -126,6 +126,13 @@ Trigger() {
     done
 }
 
+Get_url_by_host() {
+    local HOSTNAME="$1"
+
+    Sql 'SELECT "url" FROM host WHERE "hostname" = "%s" LIMIT 1;' \
+        "$HOSTNAME"
+}
+
 Get_urls() {
     Sql 'SELECT "url" FROM host;'
 }
@@ -147,7 +154,7 @@ Commands:
     add HOSTNAME URL      Add a new host
     remove HOSTNAME       Remove a host
     trigger               Trigger email sending for all hosts
-    trigger-url URL       Trigger email sending for a host
+    trigger-url URL       Trigger email sending for one host
     check                 Check last update timestamp
     force-update          Update a host manually
     syslog                Watch syslog for can-send-email messages
@@ -204,10 +211,14 @@ case "$1" in
             RET="$?"
             [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" >&2
             # 2. E-mail
-            echo "Failures: ${FAILURES}" | mailx -s "Can-send-email failure" "$ALERT_ADDRESS"
+            echo "Failures: ${FAILURES}" | mailx -S from="Can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
             # 3. Syslog
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"
-            # 4. Cron job output
+
+            # 4. Try to correct the failure
+            echo "$FAILURES" | xargs -L 1 Get_url_by_host | Trigger 1>&2
+
+            # 5. Cron job output
             Error 10 "Failures: ${FAILURES}"
         fi
         ;;
