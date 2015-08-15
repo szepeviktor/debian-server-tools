@@ -2,4 +2,5 @@
 
 loglevel = NOTICE
 
-dbpurgeage = 604800
+dbpurgeage = 648000
+

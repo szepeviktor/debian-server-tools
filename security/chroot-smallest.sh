@@ -16,13 +16,14 @@ netcat-traditional,nfacct,rsyslog,tasksel,tasksel-data,vim-common,vim-tiny \
 
 cp -v /etc/hosts ${CHROOT}/etc/hosts
 
-cat > ${CHROOT}/etc/apt/sources.list << APT
+cat > ${CHROOT}/etc/apt/sources.list <<EOF
 deb http://http.debian.net/debian ${TARGET} main contrib non-free
 
 deb http://security.debian.org/ ${TARGET}/updates main contrib non-free
-APT
+EOF
 
-echo "alias aptclean='apt-get clean && rm -rf /var/lib/apt/lists/http* /usr/share/man/* /usr/share/doc/* /usr/share/locale/*'" \
+echo "alias aptclean='apt-get clean && rm -rf \
+    /var/lib/apt/lists/http* /usr/share/man/* /usr/share/doc/* /usr/share/locale/*'" \
     >> ${CHROOT}/root/.bashrc
 
 mount --bind /proc ${CHROOT}/proc && mount --bind /sys ${CHROOT}/sys && TERM=xterm chroot "$CHROOT"

@@ -2,5 +2,12 @@
 #
 # Sort IPv4 addresses.
 #
+# VERSION       :0.1.0
+# DATE          :2015-05-01
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/sortip
 
 sort -t "." -k 1,1n -k 2,2n -k 3,3n -k 4,4n

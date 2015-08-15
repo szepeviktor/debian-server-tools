@@ -537,6 +537,8 @@ mkdir /etc/apache2/ssl
 chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
 cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
+echo -e "User-agent: *\nDisallow: /\n" > /var/www/html/robots.txt
+
 # Use php-fpm.conf settings per site
 a2enconf h5bp
 editor /etc/apache2/conf-enabled/security.conf

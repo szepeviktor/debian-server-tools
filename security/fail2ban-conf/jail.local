@@ -8,8 +8,13 @@
 
 
 [DEFAULT]
-#                      googlebot      CF                        own IP
-ignoreip = 127.0.0.1/8 66.249.64.0/19 54.72.0.0/13 54.80.0.0/12 @@IP@@
+#          localhost   own IP
+#          Googlebot
+#          Amazon CloudFront
+ignoreip = 127.0.0.0/8 @@IP@@
+           66.249.64.0/19
+           54.72.0.0/13 54.80.0.0/12
+
 # ignorecommand = /path/to/command <ip>
 ignorecommand =
 
@@ -23,14 +28,15 @@ backend = pyinotify
 
 usedns = no
 
-destemail = viktor@szepe.net
-
 sender = @@SENDER@@
+
+destemail = admin@szepe.net
 
 # Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
              %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 action = %(action_mgl)s
+
 # Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
 action_cf_mgl = cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
                 %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
@@ -90,8 +96,9 @@ cfapikey =
 
 [suhosin]
 #enabled  = true
-port    = http,https
-logpath = %(suhosin_log)s
+port     = http,https
+logpath  = %(suhosin_log)s
+bantime  = 604800  ; 1 week
 
 [horde]
 #enabled  = true
@@ -131,6 +138,6 @@ action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpa
 enabled  = true
 logpath  = /var/log/fail2ban.log
 bantime  = 604800  ; 1 week
-findtime = 86400   ; 1 day
+findtime = 604800  ; 1 week
 maxretry = 3
 action   = iptables-allports[name=recidive]

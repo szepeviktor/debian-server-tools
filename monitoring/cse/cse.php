@@ -1,24 +1,28 @@
 <?php
 /*
 Snippet Name: Can-send-email slave
-Snippet URI: https://github.com/szepeviktor/debian-server-tools
+Version: 0.2.0
 Description: Send a trigger email.
-Version: 0.1.1
+Snippet URI: https://github.com/szepeviktor/debian-server-tools
 License: The MIT License (MIT)
 Author: Viktor Szépe
 Author URI: http://www.online1.hu/webdesign/
 */
 
-// Set the CSE address here.
+// CSE address
 $to = "cse@worker.szepe.net";
 
 define( 'MAIL_EOL', "\r\n" );
 $server = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-$headers = "X-Mailer: PHP/" . phpversion();
-$headers .= MAIL_EOL . "X-Host: {$server}";
-$subject = "[cse] ping from {$server}";
+$headers = sprintf( 'X-Mailer: PHP/%s%sX-Host: %s',
+    phpversion(),
+    MAIL_EOL,
+    $server
+);
+$subject = sprintf( '[cse] ping from %s', $server );
+
 // http://www.randomtext.me/download/txt/gibberish/p-5/20-35
-$message = '
+$message_template = '
 Much bowed when mammoth for lusciously lost a dear whooped some ouch
 insufferably one indefatigably contemplated manifestly therefore much
 mongoose and llama far feeble a cocky.
@@ -41,14 +45,14 @@ well winced swept far slowly decorously.
 ';
 
 // Shuffle text
-$message_words = explode( ' ', $message );
+$message_words = explode( ' ', $message_template );
 shuffle( $message_words );
 $message = implode( ' ' , $message_words );
 
-// @TODO rewrite mu-smtp-uri/smtp-uri.php for phpmailer
+// @TODO Rewrite mu-smtp-uri/smtp-uri.php for PHPMailer
 
 $mail = mail( $to, $subject, $message, $headers );
 
 if ( true !== $mail ) {
-    print "mail() returned: " . var_export( $mail, true );
+    printf( "mail() returned: %s", var_export( $mail, true ) );
 }

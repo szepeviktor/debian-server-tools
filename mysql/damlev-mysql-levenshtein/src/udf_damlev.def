@@ -1,0 +1,11 @@
+LIBRARY damlev
+EXPORTS
+	damlev_init
+	damlev_deinit
+	damlev
+	damlevlim_init
+	damlevlim_deinit
+	damlevlim
+	damlevlim256_init
+	damlevlim256_deinit
+	damlevlim256
