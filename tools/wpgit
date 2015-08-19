@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+# Check out a common git repository of WordPress
+#
+# VERSION       :0.2.0
+# DATE          :2015-08-17
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# DOCS          :https://git-scm.com/blog/2011/07/11/reset.html
+# DEPENDS       :apt-get install git
+# ORIGIN        :https://github.com/WordPress/WordPress.git
+# LOCATION      :/usr/local/bin/wpgit
+
+# Usage
+#
+# Check out tag 4.2.4
+#
+#     wpgit 4.2.4
+#
+# Display current status (like `wp core verify-checksums`)
+#
+#     wpgit
+
+export GIT_DIR="/usr/local/src/wordpress/.git"
+
+if [ $# == 1 ]; then
+    TAG="$1"
+
+    # Update HEAD and index only
+    git fetch origin master
+    ORIGIN_LATEST_COMMIT="$(git rev-list origin/master | head -n 1)"
+    git reset "$ORIGIN_LATEST_COMMIT"
+
+    # Check tag
+    if ! git rev-parse --verify --quiet "$TAG" > /dev/null; then
+        echo "ERROR: $?, last 20 tags: $(git tag | tail -n 20 | paste -s -d " ")" >&2
+        exit 1
+    fi
+
+    # Update working tree
+    git checkout "$TAG" -- .
+fi
+
+# WIP
+# Show differences from a given tag
+#TAG_COMMIT="$(git rev-list "$TAG" | head -n 1)"
+#git diff "${TAG_COMMIT}^1" -- .
+# Show untracked files
+#git status --short | grep "^? "

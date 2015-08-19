@@ -29,11 +29,6 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #     ntp.ovh.net.
 #     http://help.ovh.com/InstallOvhKey
 #     http://help.ovh.com/RealTimeMonitoring
-#
-# Aruba configuration
-#
-#     DC1-IT 62.149.128.4 62.149.132.4
-#     DC3-CZ 81.2.192.131 81.2.193.227
 
 set -e -x
 
@@ -143,6 +138,16 @@ else
     fi
 fi
 
+export LS_OPTIONS='--color=auto'
+eval "$(dircolors)"
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
 export GREP_OPTIONS="--color"
 alias grep='grep $GREP_OPTIONS'
 alias iotop='iotop -d 0.1 -qqq -o'
@@ -193,6 +198,8 @@ adduser --gecos "" ${U}
 K="PUBLIC-KEY"
 S="/home/${U}/.ssh";mkdir --mode 700 "$S";echo "$K" >> "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 adduser ${U} sudo
+# Expire pass
+#     passwd -e ${U}
 
 # Change root and other passwords to "*"
 editor /etc/shadow
@@ -213,7 +220,7 @@ logout
 
 # Log in
 sudo su - || exit
-D="$(pwd)"
+D="/root/src/debian-server-tools-master"
 
 # Hardware
 lspci
@@ -232,9 +239,10 @@ TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space
 # Mount points
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
 editor /etc/fstab
-cat /proc/mounts
+clear; cat /proc/mounts
 swapoff -a; swapon -a; cat /proc/swaps
-# Create swap file
+
+# Create a swap file
 #     dd if=/dev/zero of=/swap0 bs=1M count=768
 #     chmod 0600 /swap0
 #     echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
@@ -260,6 +268,7 @@ ls -1 /etc/sysctl.d/ | grep -v README.sysctl
 editor /etc/sysctl.conf
 
 # Miscellaneous configuration
+# Aruba needs arping package in /etc/rc.local
 editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
@@ -279,13 +288,20 @@ netstat -antup
 editor /etc/resolv.conf
 #     nameserver 8.8.8.8
 #     nameserver LOCAL-NS
+#     nameserver LOCAL-NS2
 #     nameserver 8.8.4.4
 #     options timeout:2
 #     #options rotate
 
+# Aruba resolvers
+#
+#     DC1-IT 62.149.128.4 62.149.132.4
+#     DC3-CZ 81.2.192.131 81.2.193.227
+
 ping6 -c 4 ipv6.google.com
 host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
-# View network Graph v4/v6: http://bgp.he.net/ip/IP
+# View network Graph v4/v6
+#     http://bgp.he.net/ip/${IP}
 
 # Set up MYATTACKERS chain
 iptables -N MYATTACKERS
@@ -340,7 +356,9 @@ dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
 apt-get purge  \
     at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
-    manpages man-db rpcbind nfs-common w3m tex-common isc-dhcp-client isc-dhcp-common
+    lrzsz mlocate rpcbind nfs-common w3m vim-runtime vim-common \
+    installation-report debian-faq info install-info manpages man-db texinfo tex-common \
+    isc-dhcp-client isc-dhcp-common
 deluser Debian-exim
 deluser messagebus
 # 3. VPS monitoring
@@ -350,7 +368,7 @@ dpkg -l|grep -E "xe-guest-utilities|dkms"
 vmware-toolbox-cmd stat sessionid
 # 4. Hardware related
 dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup-linux\
-|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|lvm2"
+|acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm"
 # 5. Non-stable packages
 dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
@@ -377,9 +395,8 @@ apt-get install -y localepurge unattended-upgrades \
 # @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
 apt-get install -y goaccess git
 
-# debsums cron
-editor /etc/default/debsums
-#     CRON_CHECK=weekly
+# debsums cron weekly
+sed -i 's/^CRON_CHECK=never/CRON_CHECK=weekly/' /etc/default/debsums
 
 # Check user cron jobs
 ${D}/tools/catconf /var/spool/cron/crontabs/*
@@ -394,13 +411,13 @@ find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev | tee cruft.log
-#rm -rfv /var/lib/clamav /var/log/clamav
+rm -vrf /var/lib/clamav /var/log/clamav
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
 debsums --all --changed | tee debsums-changed.log
 
 # Custom APT repositories
-#editor /etc/apt/sources.list.d/others.list && apt-get update
+editor /etc/apt/sources.list.d/others.list && apt-get update
 
 # Get pip
 wget https://bootstrap.pypa.io/get-pip.py
@@ -412,16 +429,18 @@ wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/mas
 unzip slabbed-or-not.zip && rm -f slabbed-or-not.zip
 cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
 
-# rsyslogd immark plugin: http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
+# rsyslogd immark plugin
+#     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
 editor /etc/rsyslog.conf
 #     $ModLoad immark
 #     $MarkMessagePeriod 1800
+service rsyslog restart
 
 # Debian tools
 cd /usr/local/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
 D="$(pwd)/debian-server-tools"
-rm -rf /root/src/debian-server-tools-master/
-ls ${D}/tools/ | xargs -I%% ./install.sh ${D}/tools/%%
+rm -vrf /root/src/debian-server-tools-master/
+cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
 
 # Make cron log all failed jobs (exit status != 0)
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
@@ -432,6 +451,7 @@ grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # Performance mode
 #     for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance">$SG;done
+
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
@@ -479,13 +499,20 @@ echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRES
 #     They should have an MX record pointing to the smarthost.
 #     Smarthost should receive all emails with send-only server's domain name.
 apt-get install -y courier-mta courier-mta-ssl
+# Fix dependency on courier-authdaemon
+sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta
+update-rc.d courier-mta defaults
+# Check for other MTA-s
 dpkg -l | grep -E "postfix|exim"
-cp -v ${D}/mail/courier-restart.sh /usr/local/sbin/
+cd ${D}; ./install.sh mail/courier-restart.sh
 # Host name
 editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,587 /SECURITY=REQUIRED
+#     : smtp.mandrillapp.com,587 /SECURITY=REQUIRED
 # From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
+editor /etc/courier/esmtproutes
+#     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
 #     ESMTPAUTH=""
@@ -495,17 +522,15 @@ editor /etc/courier/esmtpd-ssl
 editor /etc/courier/smtpaccess/default
 #     127.0.0.1	allow,RELAYCLIENT
 #     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
-makesmtpaccess
 editor /etc/courier/me
-mx $(cat /etc/courier/me) || Error "no MX for me"
+# Check MX record
+host -tMX $(cat /etc/courier/me)
 editor /etc/courier/defaultdomain
 editor /etc/courier/dsnfrom
 editor /etc/courier/locals
 #     localhost
 editor /etc/courier/aliases/system
-makealiases
-service courier-mta restart
-service courier-mta-ssl restart
+courier-restart.sh
 # Allow unauthenticated SMTP traffic from this server on the smarthost
 #     editor /etc/courier/smtpaccess/default
 #         %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
@@ -533,8 +558,7 @@ service fail2ban restart
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
 apt-get install -y apache2-mpm-itk apache2-utils
 a2enmod actions rewrite headers deflate expires proxy_fcgi
-mkdir /etc/apache2/ssl
-chmod 750 /etc/apache2/ssl
+mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
 cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
 echo -e "User-agent: *\nDisallow: /\n" > /var/www/html/robots.txt
@@ -547,14 +571,14 @@ editor /etc/apache2/apache2.conf
 #     LogLevel info
 # @TODO fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/html
 
-# For poorly written themes and plugins
+# mod_pagespeed for poorly written themes and plugins
 apt-get install -y mod-pagespeed-stable
 # Remove duplicate
 ls -l /etc/apt/sources.list.d/*pagespeed*
 #rm -v /etc/apt/sources.list.d/mod-pagespeed.list
 
 # Add the development website
-# See: ${D}/webserver/add-dev-site.sh
+# See: ${D}/webserver/add-prg-site.sh
 
 # Add a website
 # See: ${D}/webserver/add-site.sh
@@ -587,8 +611,8 @@ PHP_TZ="$(head -n 1 /etc/timezone)"
 sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
-sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
+sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 
@@ -613,7 +637,6 @@ echo "15 *	* * *	root	[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/l
 
 # Suhosin extension
 apt-get install -y php5-suhosin-extension
-grep "^; priority=" /etc/php5/mods-available/suhosin.ini||sed -i '1i; priority=70' /etc/php5/mods-available/suhosin.ini
 php5enmod -s fpm suhosin
 
 # @TODO .ini-handler, Search for it! ?ucf
@@ -632,7 +655,8 @@ php5enmod -s fpm suhosin
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
-echo -e "[mysql]\nuser=root\npass=?\ndefault-character-set=utf8" >> /root/.my.cnf
+read -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
+echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf
 editor /root/.my.cnf
 
@@ -640,20 +664,28 @@ editor /root/.my.cnf
 # Add "web" user, see: ${D}/webserver/add-site.sh
 #TOOLS_DOCUMENT_ROOT="TOOLS-DOCUMENT-ROOT"
 TOOLS_DOCUMENT_ROOT=/home/prg/website/html
+
 # Favicon and robots.txt
 wget -P ${TOOLS_DOCUMENT_ROOT} "https://www.debian.org/favicon.ico"
 echo -e "User-agent: *\nDisallow: /" > ${TOOLS_DOCUMENT_ROOT}/robots.txt
+
 # kabel / ocp.php
 cp -v ${D}/webserver/ocp.php ${TOOLS_DOCUMENT_ROOT}
+
 # apc.php from APC trunk for PHP 5.4-
 #     php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
 #         && wget -O ${TOOLS_DOCUMENT_ROOT}/apc.php "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
 # apc.php from APCu master for PHP 5.5+
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -O ${TOOLS_DOCUMENT_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
+read -e -p "HTTP_USER? " HTTP_USER
+read -e -p "HTTP_PASSWORD? " HTTP_PASSWORD
 echo "<?php define('ADMIN_USERNAME','${HTTP_USER}'); define('ADMIN_PASSWORD','${HTTP_PASSWORD}');" > apc.conf.php
 chown prg:root apc.conf.php
 chmod 640 apc.conf.php
+
+# PHP info
+echo "<?php phpinfo();" > pif.php
 
 # PHPMyAdmin
 # See: ${D}/package/phpmyadmin-get.sh
@@ -673,8 +705,8 @@ editor config.inc.php
 git clone https://github.com/sektioneins/pcc.git
 # Pool config: env[PCC_ALLOW_IP] = 1.2.3.*
 
+# @TODO extract PRG site setup to add-prg-site.sh
 
-# @TODO extract Dev site setup to a separate script
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
@@ -723,8 +755,8 @@ Getpkg spamassassin
 apt-get install -y libdate-manip-perl
 DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')" #'
 wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${DGR}/dategrep-standalone-small
-chmod +x /usr/local/bin/dategrep
-${D}/install.sh ${D}/monitoring/syslog-errors.sh
+chmod -c +x /usr/local/bin/dategrep
+cd ${D}; ./install.sh monitoring/syslog-errors.sh
 
 # Monit - monitoring
 #     https://packages.debian.org/sid/amd64/monit/download
@@ -741,9 +773,11 @@ lynx 127.0.0.1:2812
 # See: ${D}/monitoring/munin/munin-debian-setup.sh
 
 # node.js
-apt-get install -y nodejs
+apt-get install -y iojs
 # Install packaged under /usr/local/
 npm config set prefix=/usr/local/
+npm install -g less
+npm install -g less-plugin-clean-css
 
 # Logrotate periods
 #

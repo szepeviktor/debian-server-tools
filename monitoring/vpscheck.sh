@@ -2,8 +2,8 @@
 #
 # Check your VPS' resources daily.
 #
-# VERSION       :0.4.2
-# DATE          :2015-08-11
+# VERSION       :0.4.3
+# DATE          :2015-08-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -144,7 +144,7 @@ Add_check PART 'ls -1 /dev/sd* | paste -s -d","'
 
 # Swap sizes (kB)
 #Add_check SWAP 'tail -n +2 /proc/swaps | sed "s;\s\+;\t;g" | cut -f 3 | paste -s -d", "'
-Add_check SWAP '"1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g" /proc/swaps | paste -s -d", "'
+Add_check SWAP 'sed "1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g" /proc/swaps | paste -s -d", "'
 
 # Kernel clock source
 Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocksource'

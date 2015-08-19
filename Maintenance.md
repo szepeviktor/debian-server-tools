@@ -1,4 +1,4 @@
-#### Main components of advanced maintenance
+#### Main components of managed hosting
 
 - **high website speed**
 - **many types of monitoring**
@@ -12,7 +12,6 @@
 - profitable website and webapp
 - busy (10k+/month) traffic website
 - for marketing companies
-- for premium hosting companies
 
 ## Website maintenance to prevent partial or full outage
 
@@ -66,7 +65,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 
 # Magyarul
 
-#### Röviden a honlap üzemeltetésről
+#### Röviden a menedzselt tárhelyről (honlap üzemben tartás + tárhely)
 
 - **honlap sebesség növelése**
 - **sokféle honlap megfigyelés**
@@ -80,7 +79,6 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - jövedelmező honlaphoz és webes szolgáltatáshoz
 - forgalmas (10 000+ látogató/hó) honlaphoz
 - marketing cégeknek
-- prémium tárhely szolgáltatóknak
 
 ## Honlap karbantartás a részleges és teljes leállások megelőzésére
 

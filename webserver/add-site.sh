@@ -5,6 +5,11 @@
 
 exit 0
 
+# Domain and DNS checks
+#
+# See: ${D}/monitoring/domain-expiry.sh
+# See: ${D}/monitoring/dns-watch.sh
+
 read -p "user name: " U
 read -p "domain name: (without WWW) " DOMAIN
 
@@ -20,10 +25,10 @@ adduser --disabled-password --gecos "" ${U}
 editor /etc/courier/aliases/system-users
 makealiases
 
-# Add sudo permissions for real users to become this user
+# * Add sudo permissions for real users to become this user
 cd /etc/sudoers.d/
 
-# Optionally set up SSH key for logging in
+# * Set up SSH key for logging in
 sudo -u ${U} -i -- ssh-keygen -t rsa
 cd /home/${U}/.ssh/
 cp -a id_rsa.pub authorized_keys2
@@ -33,13 +38,13 @@ zip --encrypt ${U}.zip id_rsa*
 cd /home/${U}/ && mkdir -v website && cd website
 mkdir -v {session,tmp,html,pagespeed,backup,fastcgicache}
 
-# HTTP authentication
+# * HTTP authentication
 read -p "HTTP/auth user: " HTTP_USER
 htpasswd -c ./htpasswords ${HTTP_USER}
 chmod 600 ./htpasswords
 
 # Install WordPress
-cd /home/${U}/
+cd /home/${U}/website/html/
 
 # Migrate files **NOW**
 #

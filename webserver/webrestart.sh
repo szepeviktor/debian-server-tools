@@ -2,26 +2,28 @@
 #
 # Restart PHP-FPM and Apache dependently
 #
-# VERSION       :0.1
-# DATE          :2014-12-12
+# VERSION       :0.2.0
+# DATE          :2015-08-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/sbin/webrestart.sh
 # DEPENDS       :apt-get install php5-fpm apache2
+# LOCATION      :/usr/local/sbin/webrestart.sh
 
-error() {
-    echo "ERROR: $1"
+Error() {
+    echo "ERROR: $1" >&2
     exit 1
 }
 
-php5-fpm -t || error "php-fpm config"
-echo ----
-apache2ctl configtest || error "apache config"
-echo ----
+php5-fpm -t || Error "PHP-FPM configuration test"
+echo "-----"
 
-service php5-fpm restart || error "php-fpm restart !!!"
-service apache2 reload || error "apache restart !!!"
+apache2ctl configtest || Error "Apache configuration test"
+echo "-----"
+
+service php5-fpm reload || Error 'PHP-FPM reload failed, ACT NOW!'
+
+service apache2 reload || Error 'Apache reload failed, ACT NOW!'
 
 echo "Webserver restart OK."
