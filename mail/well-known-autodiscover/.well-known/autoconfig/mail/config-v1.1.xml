@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!-- https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat -->
+
+<clientConfig version="1.1">
+    <emailProvider id="szepe.net">
+      <domain>@@DOMAIN@@</domain>
+
+      <displayName>szepe.net email</displayName>
+      <displayShortName>szepenet</displayShortName>
+
+      <incomingServer type="imap">
+         <hostname>mail.szepe.net</hostname>
+         <port>993</port>
+         <socketType>SSL</socketType>
+           <!-- "plain": no encryption
+                "SSL": SSL 3 or TLS 1 on SSL-specific port
+                "STARTTLS": on normal plain port and mandatory upgrade to TLS via STARTTLS
+                -->
+         <username>%EMAILADDRESS%</username>
+            <!-- "password-cleartext",
+                 "plain" (deprecated):
+                          Send password in the clear
+                          (dangerous, if SSL isn't used either).
+                          AUTH PLAIN, LOGIN or protocol-native login.
+                 "password-encrypted",
+                 "secure" (deprecated):
+                           A secure encrypted password mechanism.
+                           Can be CRAM-MD5 or DIGEST-MD5. Not NTLM.
+                 "NTLM":
+                           Use NTLM (or NTLMv2 or successors),
+                           the Windows login mechanism.
+                 "GSSAPI":
+                           Use Kerberos / GSSAPI,
+                           a single-signon mechanism used for big sites.
+                 "client-IP-address":
+                           The server recognizes this user based on the IP address.
+                           No authentication needed, the server will require no username nor password.
+                 "TLS-client-cert":
+                           On the SSL/TLS layer, the server requests a client certificate and the client sends one (possibly after letting the user select/confirm one), if available. (Not yet supported by Thunderbird)
+                 "none":
+                           No authentication
+                  Compatibility note: Thunderbird 3.0 accepts only "plain" and "secure". It will ignore the whole XML file, if other values are given. -->
+         <authentication>password-cleartext</authentication>
+      </incomingServer>
+
+      <outgoingServer type="smtp">
+         <hostname>mail.szepe.net</hostname>
+         <port>465</port>
+         <socketType>SSL</socketType> <!-- see above -->
+         <username>%EMAILADDRESS%</username> <!-- if smtp-auth -->
+            <!-- smtp-auth (RFC 2554, 4954) or other auth mechanism.
+                 For values, see incoming.
+                 Additional options here:
+                 "SMTP-after-POP":
+                     authenticate to incoming mail server first
+                     before contacting the smtp server.
+                  Compatibility note: Thunderbird 3.0 accepts only "plain",
+                  "secure", "none", and "smtp-after-pop".
+                  It will ignore the whole XML file, if other values are given.
+            -->
+         <authentication>password-cleartext</authentication>
+         <!-- remove the following and leave to client/user? -->
+         <addThisServer>true</addThisServer>
+         <useGlobalPreferredServer>false</useGlobalPreferredServer>
+      </outgoingServer>
+
+    </emailProvider>
+
+</clientConfig>

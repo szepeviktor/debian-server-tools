@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.5.4
-# DATE          :2015-08-03
+# VERSION       :0.5.6
+# DATE          :2015-08-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -27,21 +27,23 @@ Failures() {
 
 # Every hour 17 minutes as in Debian cron.hourly, local time (non-UTC)
 /usr/local/bin/dategrep --format rsyslog --multiline \
-    --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog.1 /var/log/syslog \
+    --from "1 hour ago from -17:00" --to "-17:00" $(ls -tr /var/log/syslog* | tail -n 2) \
     | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
     | Failures \
     #| grep -v "554 Mail rejected\|535 Authentication failed"
 
 # Run every three hours
 #
-#    --from "3 hour ago from -17:00" --to "-17:00" /var/log/syslog \
+#    --from "3 hour ago from -17:00" --to "-17:00" $(ls -tr /var/log/syslog* | tail -n 2) \
+#    --from "3 hour ago from -17:00" --to "-17:00" /var/log/boot \
 #
 # CRON.D        :17 */3	* * *	root	/usr/local/sbin/syslog-errors.sh
 
 # Process boot log
-/usr/local/bin/dategrep --format "%a %b %e %H:%M:%S %Y" --multiline \
-    --from "1 hour ago from -17:00" --to "-17:00" /var/log/boot \
-    | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
-    | Failures
+if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then
+    /usr/local/bin/dategrep --format "%a %b %e %H:%M:%S %Y" --multiline \
+        --from "1 hour ago from -17:00" --to "-17:00" /var/log/boot \
+        | Failures
+fi
 
 exit 0

@@ -28,11 +28,11 @@ makealiases
 # * Add sudo permissions for real users to become this user
 cd /etc/sudoers.d/
 
-# * Set up SSH key for logging in
-sudo -u ${U} -i -- ssh-keygen -t rsa
+# * Allow SSH key
+mkdir /home/${U}/.ssh/
 cd /home/${U}/.ssh/
-cp -a id_rsa.pub authorized_keys2
-zip --encrypt ${U}.zip id_rsa*
+editor authorized_keys2
+chmod -c 600 authorized_keys2
 
 # Website directories
 cd /home/${U}/ && mkdir -v website && cd website
@@ -64,7 +64,8 @@ find -name .htaccess -exec chmod -v 640 "{}" ";"
 chown -cR ${U}:${U} *
 
 # WordPress wp-config.php
-# https://api.wordpress.org/secret-key/1.1/salt/
+#     https://api.wordpress.org/secret-key/1.1/salt/
+
 # WordPress fail2ban
 
 # Migrate database NOW!
@@ -90,7 +91,7 @@ uwp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-ru
 
 # PHP
 cd /etc/php5/fpm/pool.d/
-sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > $U.conf
+sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > ${U}.conf
 
 # Apache
 # CloudFlase, Incapsula
@@ -98,10 +99,11 @@ sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > $U.conf
 cd /etc/apache2/sites-available
 # Non-SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
-# SSL
+# * SSL
 # Name main SSL site (non-SNI) "001-${DOMAIN}.conf"
 # See: webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+
 # In case of "www." set ServerAlias
 editor ${DOMAIN}.conf
 # Enable site
@@ -110,15 +112,16 @@ apache-resolve-hostnames.sh
 
 # Restart webserver + PHP
 # See: ${D}/webserver/webrestart.sh
+webrestart.sh
 
-# Logrotate
+# * Logrotate for log in $HOME
 editor /etc/logrotate.d/apache2-${DOMAIN}
 # Prerotate & postrotate
 
 # Add to fail2ban
 fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-error.log
 fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
-# SSL
+# * SSL
 fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-ssl-error.log
 fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.log
 
