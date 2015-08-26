@@ -5,7 +5,7 @@
 # JPEG: decrease quality, make it progressive, strip markers.
 # PNG: lossless recompression, strip metadata.
 #
-# VERSION       :0.4
+# VERSION       :0.4.1
 # DATE          :2015-05-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -67,7 +67,7 @@ Optimize_jpeg() {
 Optimize_png() {
     local PNG="$1"
 
-    nice optipng -clobber -strip all -o7 "$PNG" || return 1
+    nice optipng -clobber -preserve -strip all -o7 "$PNG" || return 1
 
     return 0
 }

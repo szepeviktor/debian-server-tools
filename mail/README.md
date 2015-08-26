@@ -145,34 +145,40 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - check
 - monitor `host -t TXT <domain>`
 
-#### Headers
-
-- List-Unsubscribe: <URL>
-- Precedence: bulk
-- Return-Path:, Reply-to:, From:, To:, Subject:
-- SMTP "MAIL FORM: <from@addre.ss>"
-
 #### Bulk mail
-
-##### Musts
-
-- link to online version (newsletter archive)
-- who (name and email address) is subscribed
-- sender's contact details (postal address, phone number)
-- unsubscribe link
-- HTML and plain payload
-- `Precedence: bulk` header
-- https://support.google.com/mail/answer/81126
 
 ##### Elements
 
-- From: "Firstname from Company"
+- Descriptive From name "Firstname from Company"
+- Descriptive subject line
+- Short preview line at top of the message
+- Link to online version (newsletter archive)
+- Short main header line
+- Subheader lines
+- Sections: image + title + description + call2action  https://litmus.com/subscribe
+
+##### Footer
+
+- Sender's contact details (postal address, phone number)
+- Who (name and email address) is subscribed
+- Unsubscribe link
+
+##### Headers
+
+- List-Unsubscribe: <URL>
+- Precedence: bulk
+- Return-Path:
+- Reply-to:
+- From:
+- To:
+- Subject:
+
+##### Others
+
+- SMTP "MAIL FORM: <from@addre.ss>"
+- HTML and plain payload
 - From address SPF: `include:servers.mcsv.net`
-- Subject: ...)
-- Short preview line on top of the message
-- Main hader line
-- Subheader line
-- Section: image + title + description + call2action  https://litmus.com/subscribe
+- https://support.google.com/mail/answer/81126
 
 ### Kitchen sink (drop incoming messages)
 

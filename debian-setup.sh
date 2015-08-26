@@ -517,8 +517,10 @@ editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
+#     TLS_DHPARAMS=/etc/courier/dhparams.pem
 editor /etc/courier/esmtpd-ssl
 #     SSLADDRESS=127.0.0.1
+#     TLS_DHPARAMS=/etc/courier/dhparams.pem
 editor /etc/courier/smtpaccess/default
 #     127.0.0.1	allow,RELAYCLIENT
 #     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT

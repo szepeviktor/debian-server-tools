@@ -12,7 +12,11 @@ Tools related to archiving.
 
 ### /image
 
-Tools related to image optimitazion.
+Tools related to image optimization.
+
+### /input
+
+Tools related to the terminal.
 
 ### /mail
 

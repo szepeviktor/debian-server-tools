@@ -24,10 +24,12 @@ $TTL 60
 # lcfoot.fr
 109.239.112.0/23 :2:Neighbour of lcfoot.fr
 109.239.113.16   FR_lcfoot.nvlasp.fr@COVAGE NETWORKS SASU/AS44902
-109.239.116.0/24 :2:Neighbour of lcfoot.fr
-109.239.117.0/24 :2:Neighbour of lcfoot.fr
+109.239.116      :2:Neighbour of lcfoot.fr
+109.239.117      :2:Neighbour of lcfoot.fr
 # Artur Grabowski
 193.189.116.0/23 PL_*.host.e-ring.pl@DELORIAN Artur Grabowski/AS201451
+# ECATEL
+80.82.65         NL_Ecatel@NL-ECATEL/AS29073
 
 # ---------------------------------------
 
@@ -38,9 +40,12 @@ $TTL 60
 23.88.228.135    HU_mail.onlinestoresample.info@ENZUINC/AS18978
 23.238.16.159    HU_smartingatlan.info@HOSTWINDS-17-5/AS54290
 23.238.56.218    HU_Laszlo Nagypal/ujfej.com@HOSTWINDS-17-5/AS54290
+46.101.59.151    HU_holdhegy.tk@EU-DIGITALOCEAN-L1/AS202109
 79.172.239.117   HU_server1.bestofmarket.hu@TARHELYEU-NET/AS29278
 82.165.194.195   DE_ns2.ilovebroadband.net@SCHLUND-CUSTOMERS/AS8560
-91.82.226.172    HU_penzaramlas.smtp.hu@Invitel-pool/@AS12301
+# 91.82.226 *.smtp.hu - spam tolerant
+91.82.226.172    HU_penzaramlas.smtp.hu@Invitel-pool/AS12301
+149.154.152.242  HU_lttclub.org@EDIS-GMBH/AS3549
 162.220.12.113   HU_mail.webaruhaz-pelda.info@CRISSIC/AS62639
 178.238.222.94   HU_server2.bestofmarket.hu@FREEMIUM-NET/AS29278
 198.143.96.181   HU_arctic.gytcre.com@HOSTWINDS-17-5/AS54290
@@ -95,7 +100,7 @@ $TTL 60
 86.106.89        RO_only-mta-s@ROAD-MARKETING-SRL/AS48336
 37.156.226       RO_nagyonhasznos.eu-valamihasznosat.eu@ROAD-MARKETING-SRL/AS59854
 
-# ?
+# m*.cutersfood.com
 199.217.114.69-73 HU_m*.cutersfood.com@HSI-6/AS30083
 
 # Flipora forced signup
@@ -107,8 +112,15 @@ $TTL 60
 107.182.17.198-208 *.getlatestnews.biz@BFL-22/AS46664
 
 # *.globalplaza.hu
+188.227.227         :2:Neighbour of HU_*.globalplaza.hu
 188.227.227.181-186 HU_*.globalplaza.hu@DOCLERWEB/AS47381
 
 # euve77344.serverprofi24.net @PlusServer AG
-62.75.142        :2:Neighbour of euve77344.serverprofi24.net
-62.75.142.67     euve77344.serverprofi24.net@BSB-SERVICE-1/AS8972
+62.75.142        :2:Neighbour of HU_euve77344.serverprofi24.net
+62.75.142.67     HU_euve77344.serverprofi24.net@BSB-SERVICE-1/AS8972
+
+# *news.info spammer block at SERVER DROID
+94.46.192-195      :2: Neighbour of mail.*news.info spammer block
+94.46.193.222-255  mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
+91.109.112.0/21    :2: Neighbour of *news.info spammer block
+91.109.119.199-255 pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598

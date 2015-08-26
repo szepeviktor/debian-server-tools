@@ -2,7 +2,7 @@
 #
 # Optimize images in WordPress Media Library cron job.
 #
-# VERSION       :0.5.1
+# VERSION       :0.5.2
 # DATE          :2015-06-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -82,7 +82,7 @@ Optimize_image() {
     # PNG
     if [ "$IMG" != "${IMG%.png}" ]; then
         logger -t "$LOGGER_TAG" "PNG:${IMG}"
-        nice optipng -quiet -clobber -strip all -o7 "$IMG" || return 10
+        nice optipng -quiet -preserve -clobber -strip all -o7 "$IMG" || return 10
     fi
 
     # Optimized OK or other type of image.

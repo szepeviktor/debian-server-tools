@@ -18,6 +18,7 @@ before = apache-common.conf
 # block = \/?(<webmail>|<phpmyadmin>|<wordpress>|cgi-bin|mysqladmin)[^,]*
 # webmail roundcube|(ext)?mail|horde|(v-?)?webmail
 # cms     (cms|section|blog|old|test|wordpress|wp|)/wp-admin node/add user/register
+# fengoffice feng office
 # tools   (typo3/|xampp/|admin/|)(pma|(php)?[Mm]y[Aa]dmin)
 # 1, Apache messages 2, wpf2b messages
 
