@@ -307,7 +307,7 @@ host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\
 iptables -N MYATTACKERS
 iptables -I INPUT -j MYATTACKERS
 iptables -A MYATTACKERS -j RETURN
-# For management scripts see: ${D}/tools/deny-ip.sh
+# For management scripts see: ${D}/security/myattackers.sh
 
 # Hostname
 # Set A record and PTR record

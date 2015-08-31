@@ -57,13 +57,6 @@ D1 AUTHENTICATE PLAIN
 `echo -en "\0USERNAME\0PASSWORD" | base64`
 D2 LOGOUT
 
-### Online email tests
-
-- https://www.mail-tester.com/
-- mailtest@unlocktheinbox.com https://unlocktheinbox.com/resources/adsp/
-- checkmyauth@auth.returnpath.net http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
-- https://winning.email/checkup/<DOMAIN>
-
 ### Email forwarding (srs)
 
 Build Courier SRS
@@ -97,12 +90,22 @@ Add forwarding alias
 
 `user:  |/usr/bin/couriersrs username@external-domain.net`
 
-### Spamassassin test and DKIM test
+### Kitchen sink (drop incoming messages)
+
+See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
+
+`echo > /etc/courier/aliasdir/.courier-kitchensink`
+
+Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
+
+### Spamassassin test and email authentication
 
 ```bash
 sudo -u daemon -- spamassassin --test-mode -D < msg.eml
+
 # For specific tests see: man spamassassin-run
 sudo -u daemon -- spamassassin --test-mode -D dkim < msg-signed.eml
+
 opendkim -vvv -t msg-signed.eml
 ```
 
@@ -130,6 +133,8 @@ opendkim -vvv -t msg-signed.eml
 
 An optional extension to the DKIM E-mail authentication scheme.
 
+https://unlocktheinbox.com/resources/adsp/
+
 #### Domain Keys
 
 Deprecated.
@@ -145,6 +150,8 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - setup https://unlocktheinbox.com/dmarcwizard/
 - check
 - monitor `host -t TXT <domain>`
+
+http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 #### Bulk mail
 
@@ -181,24 +188,18 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 
-### Kitchen sink (drop incoming messages)
-
-See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
-
-`echo > /etc/courier/aliasdir/.courier-kitchensink`
-
-Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
-
-### Email tests
-
-- http://www.mail-tester.com/ by Mailpoet
-- mailtest@unlocktheinbox.com
-- https://www.unlocktheinbox.com/bulkemailvalidator/
-
 ### Email templates
 
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
 - https://www.klaviyo.com/
+- https://litmus.com/subscribe
+
+### Email tests
+
+- https://www.mail-tester.com/ by Mailpoet
+- mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/bulkemailvalidator/
+- checkmyauth@auth.returnpath.net
+- https://winning.email/checkup/DOMAIN
 
 ### White lists
 
@@ -207,7 +208,9 @@ Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 ### RBL-s (DNSBL)
 
-Original list: http://www.anti-abuse.org/
+List of blacklists: https://mxtoolbox.com/problem/blacklist/
+
+Anti-abuse's list: http://www.anti-abuse.org/
 
 ```
 bl.spamcop.net
@@ -265,14 +268,13 @@ bogons.cymru.com
 csi.cloudmark.com
 ```
 
-Check RBL-s:
+Check RBL-s
+
 `cat anti-abuse.org.rbl|xargs -I%% host -tA $(revip "$IP").%% 2>&1|grep -v "not found: 3(NXDOMAIN)"`
 
-Trendmicro ERS:
+Trendmicro ERS
+
 `wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
     | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
 
-Response:
-"IP Unlisted in the spam sender list None"
-
-Another list of blacklists: https://mxtoolbox.com/problem/blacklist/
+Response: "IP Unlisted in the spam sender list None"

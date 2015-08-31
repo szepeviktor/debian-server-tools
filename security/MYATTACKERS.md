@@ -5,7 +5,7 @@
 - HTTP Known vulnerability scanners
 - HTTP "nofollow" and hidden form field violators
 - HTTP WordPress login attackers (brute force)
-- SMTP Authentication attackers (dictionary attack)
+- SMTP Authentication attackers (brute force)
 - SMTP Spammers see: ${D}/mail/spammer.dnsbl/
 - SSH  Authentication attackers
 - SSH  Known vulnerability scanners
@@ -82,20 +82,4 @@
 137.135.0.0/16
 ```
 
-### Set up MYATTACKERS chain
-
-```bash
-iptables -N MYATTACKERS
-iptables -I INPUT -j MYATTACKERS
-iptables -A MYATTACKERS -j RETURN
-```
-
-For management scripts see: $D/tools/deny-ip.sh
-
-#### HTTP on SMTP in syslog
-
-```
-courieresmtpd: error,relay=::ffff:1.2.3.4,msg="502 ESMTP command error",cmd: GET / HTTP/1.0
-courieresmtpd: error,relay=::ffff:1.2.3.4,msg="502 ESMTP command error",cmd: HOST: @@SERVER-IP@@
-courieresmtpd: error,relay=::ffff:1.2.3.4,msg="writev: Broken pipe",cmd: HOST: @@SERVER-IP@@
-```
+For management script see: ${D}/security/myattackers.sh
