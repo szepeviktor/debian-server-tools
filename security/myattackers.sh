@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.3.0
+# VERSION       :0.4.0
 # DATE          :2015-08-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -150,6 +150,7 @@ Get_rule_data() {
 # Unban expired addresses with zero traffic (hourly cron job)
 Unban_expired() {
     local -i NOW="$(date "+%s")"
+    local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
 
     Get_rule_data \
         | while read RULEDATA; do
@@ -157,8 +158,10 @@ Unban_expired() {
             PACKETS="${RULEDATA/*|0|*/Z}"
             declare -i EXPIRATION="${RULEDATA##*|}"
 
-            # Zero traffic and expired
-            if [ "$PACKETS" == "Z" ] && [ "$EXPIRATION" -le "$NOW" ]; then
+            # Had zero traffic and expired less than one month ago
+            if [ "$PACKETS" == "Z" ] \
+                && [ "$EXPIRATION" -le "$NOW" ] \
+                && [ "$EXPIRATION" -gt "$MONTH_AGO" ]; then
                 iptables -D "$CHAIN" "$NUMBER"
             fi
         done
