@@ -17,12 +17,14 @@ Error() {
 }
 
 php5-fpm -t || Error "PHP-FPM configuration test"
+#/usr/local/php7/sbin/php-fpm -t || Error "PHP-FPM configuration test"
 echo "-----"
 
 apache2ctl configtest || Error "Apache configuration test"
 echo "-----"
 
 service php5-fpm reload || Error 'PHP-FPM reload failed, ACT NOW!'
+#service php7-fpm reload || Error 'PHP-FPM reload failed, ACT NOW!'
 
 service apache2 reload || Error 'Apache reload failed, ACT NOW!'
 

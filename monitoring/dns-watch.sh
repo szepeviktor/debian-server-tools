@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.4
-# DATE          :2015-08-07
+# VERSION       :0.2.5
+# DATE          :2015-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -46,6 +46,8 @@ ALERT_ADDRESS="admin@szepe.net"
 #     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
 ALWAYS_ONLINE="193.188.137.175"
 RETRY_DELAY="40"
+# Don't send emails after a number of failures per nameserver
+MAX_FAILURES="5"
 
 DAEMON="dns-watch"
 DNS_WATCH_RC="/etc/dnswatchrc"
@@ -278,6 +280,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
     RRS="${DOMAIN#*:}"
     declare -i DRETRY="0"
     declare -i RETRY="0"
+    declare -A NS_FAILURES
 
     # May fail once
     if [ "${DNAME:0:2}" == "2/" ]; then
@@ -312,6 +315,10 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
 
             # Actual IP address of nameserver
             NS_IP="$(getent ahostsv4 "$NS" | sed -n '0,/^\(\S\+\)\s\+RAW\b/s//\1/p')"
+            # Failures per nameserver
+            if [ -z "${NS_FAILURES[$NS_IP]}" ]; then
+               declare -i NS_FAILURES[$NS_IP]="0"
+            fi
             # UDP and TCP lookup
             for PROTO in "" "T/"; do
 
@@ -339,6 +346,11 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                     sleep "$RETRY_DELAY"
                 done
                 if [ "$QUERY_RET" != 0 ]; then
+                    NS_FAILURES[$NS_IP]+="1"
+                    if [ "${NS_FAILURES[$NS_IP]}" -gt "$MAX_FAILURES" ]; then
+                        Log "Over max failures: ${DNAME}/${RRTYPE}/${NS}/${PROTO}"
+                        continue
+                    fi
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
                         "Failed to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT}) at $((DRETRY - RETRY + 1)). retry"
                     continue

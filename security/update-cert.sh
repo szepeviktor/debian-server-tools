@@ -21,6 +21,7 @@
 # CAcert: http://www.cacert.org/index.php?id=3
 # NetLock: https://www.netlock.hu/html/cacrl.html
 # Microsec: https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
+# szepenet: http://ca.szepe.net/szepenet-ca.pem
 
 # Saving certificate from the issuer
 #

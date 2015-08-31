@@ -28,13 +28,13 @@ https://toolbox.googleapps.com/apps/checkmx/
 
 ### Mail account migration
 
-see: mail/imapsync
-[OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
-[OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
+- see: mail/imapsync
+- [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
+- [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
 ### Send all messages in an mbox file to an email address
 
-see: mail/mbox_send2.py
+See: ${D}/mail/mbox_send2.py
 
 ### Email sending and receiving
 
@@ -78,6 +78,7 @@ make install
 ```
 
 See package: http://szepeviktor.github.io/
+
 Create users SRS0 and SRS1.
 
 ```bash
@@ -131,7 +132,7 @@ An optional extension to the DKIM E-mail authentication scheme.
 
 #### Domain Keys
 
-?
+Deprecated.
 
 #### SenderID
 
@@ -147,7 +148,7 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 
 #### Bulk mail
 
-##### Elements
+##### Body parts
 
 - Descriptive From name "Firstname from Company"
 - Descriptive subject line
@@ -160,7 +161,7 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 ##### Footer
 
 - Sender's contact details (postal address, phone number)
-- Who (name and email address) is subscribed
+- Who (name, email address, why) is subscribed
 - Unsubscribe link
 
 ##### Headers
@@ -175,16 +176,17 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 
 ##### Others
 
-- SMTP "MAIL FORM: <from@addre.ss>"
+- SMTP `MAIL FORM: <from@addre.ss>`
 - HTML and plain payload
-- From address SPF: `include:servers.mcsv.net`
-- https://support.google.com/mail/answer/81126
+- From address SPF `include:servers.mcsv.net`
+- [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 
 ### Kitchen sink (drop incoming messages)
 
-See the description of /etc/courier/aliasdir in `man dot-courier` DELIVERY INSTRUCTIONS
+See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
 
 `echo > /etc/courier/aliasdir/.courier-kitchensink`
+
 Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 ### Email tests
@@ -207,6 +209,7 @@ Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 Original list: http://www.anti-abuse.org/
 
+```
 bl.spamcop.net
 cbl.abuseat.org
 b.barracudacentral.org
@@ -249,7 +252,6 @@ dsn.rfc-ignorant.org
 ips.backscatterer.org
 spamguard.leadmon.net
 opm.tornevall.org
-netblock.pedantic.org
 multi.surbl.org
 ix.dnsbl.manitu.net
 tor.dan.me.uk
@@ -261,12 +263,16 @@ rbl.interserver.net
 query.senderbase.org
 bogons.cymru.com
 csi.cloudmark.com
+```
 
 Check RBL-s:
-`cat anti-abuse.org.rbl|xargs -I%% host -tA $(revip ${IP}).%% 2>&1|grep -v "not found: 3(NXDOMAIN)"`
+`cat anti-abuse.org.rbl|xargs -I%% host -tA $(revip "$IP").%% 2>&1|grep -v "not found: 3(NXDOMAIN)"`
 
 Trendmicro ERS:
 `wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
     | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
+
 Response:
 "IP Unlisted in the spam sender list None"
+
+Another list of blacklists: https://mxtoolbox.com/problem/blacklist/

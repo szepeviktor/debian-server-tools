@@ -513,6 +513,7 @@ editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
 editor /etc/courier/esmtproutes
 #     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
+openssl dhparam -out /etc/courier/dhparams.pem 2048
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
 #     ESMTPAUTH=""
@@ -661,54 +662,6 @@ read -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
 echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf
 editor /root/.my.cnf
-
-# Control panel for opcache and APC
-# Add "web" user, see: ${D}/webserver/add-site.sh
-#TOOLS_DOCUMENT_ROOT="TOOLS-DOCUMENT-ROOT"
-TOOLS_DOCUMENT_ROOT=/home/prg/website/html
-
-# Favicon and robots.txt
-wget -P ${TOOLS_DOCUMENT_ROOT} "https://www.debian.org/favicon.ico"
-echo -e "User-agent: *\nDisallow: /" > ${TOOLS_DOCUMENT_ROOT}/robots.txt
-
-# kabel / ocp.php
-cp -v ${D}/webserver/ocp.php ${TOOLS_DOCUMENT_ROOT}
-
-# apc.php from APC trunk for PHP 5.4-
-#     php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
-#         && wget -O ${TOOLS_DOCUMENT_ROOT}/apc.php "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
-# apc.php from APCu master for PHP 5.5+
-php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
-    && wget -O ${TOOLS_DOCUMENT_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
-read -e -p "HTTP_USER? " HTTP_USER
-read -e -p "HTTP_PASSWORD? " HTTP_PASSWORD
-echo "<?php define('ADMIN_USERNAME','${HTTP_USER}'); define('ADMIN_PASSWORD','${HTTP_PASSWORD}');" > apc.conf.php
-chown prg:root apc.conf.php
-chmod 640 apc.conf.php
-
-# PHP info
-echo "<?php phpinfo();" > pif.php
-
-# PHPMyAdmin
-# See: ${D}/package/phpmyadmin-get.sh
-cd phpMyAdmin-*-english
-cp -v config.sample.inc.php config.inc.php
-apg -n 1 -m 30
-#     http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
-editor config.inc.php
-#     $cfg['blowfish_secret'] = '$(apg -m 30)';
-#     $cfg['DefaultLang'] = 'en';
-#     $cfg['PmaNoRelation_DisableWarning'] = true;
-#     $cfg['SuhosinDisableWarning'] = true;
-#     $cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin >';
-#     $cfg['CaptchaLoginPrivateKey'] = '<Secret key>';
-
-# PHP security check
-git clone https://github.com/sektioneins/pcc.git
-# Pool config: env[PCC_ALLOW_IP] = 1.2.3.*
-
-# @TODO extract PRG site setup to add-prg-site.sh
-
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"

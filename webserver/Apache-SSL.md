@@ -4,7 +4,7 @@
 
 ```apache
     # "Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
-    #     dpkg -l|grep apache2; dpkg -l|grep openssl
+    #     dpkg -l|grep "apache2\|openssl"
 
     SSLHonorCipherOrder On
 
@@ -35,20 +35,26 @@ See: ${D}/security/ca/README.md
 ### SPDY support
 
 https://github.com/eousphoros/mod-spdy - does not support spdy/3.1
-Proxy: https://github.com/tatsuhiro-t/nghttp2
+
+Reverse proxy: https://github.com/tatsuhiro-t/nghttp2
 
 ### Tests
 
-SNI https://sni.velox.ch/
-SSL https://www.ssllabs.com/ssltest/
-HSTS https://hstspreload.appspot.com/
-SPDY CLI https://github.com/tatsuhiro-t/spdylay
-SPDY https://spdycheck.org/
+- SNI https://sni.velox.ch/
+- SSL https://www.ssllabs.com/ssltest/
+- HSTS https://hstspreload.appspot.com/
+- SPDY CLI https://github.com/tatsuhiro-t/spdylay
+- SPDY https://spdycheck.org/
 
 ### Search & Replace URL-s
 
-Set CDN to HTTP/HTTPS.
-Database.
-Local files.
-And links on other websites pointing to this one.
-Analytics does not detect referer on redirection.
+- Set CDN to HTTP/HTTPS
+- Database
+- Local files
+- Links on other websites pointing to this one
+- Analytics does not detect referer on redirection
+
+### DH parameters
+
+https://weakdh.org/sysadmin.html
+
