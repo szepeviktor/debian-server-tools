@@ -171,19 +171,18 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - Who (name, email address, why) is subscribed
 - Unsubscribe link
 
-##### Headers
+##### Email headers
 
-- List-Unsubscribe: <URL>
-- Precedence: bulk
-- Return-Path:
-- Reply-to:
-- From:
-- To:
-- Subject:
+- List-Unsubscribe: URL (invisible)
+- Precedence: bulk (invisible)
+- Return-Path: bounce@addre.ss (invisible)
+- Reply-to: reply@addre.ss (invisible)
+- From: sender@domain.net
+- To: recipients@addre.ss
 
 ##### Others
 
-- SMTP `MAIL FORM: <from@addre.ss>`
+- SMTP `MAIL FORM: <user@domain.net>`
 - HTML and plain payload
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)

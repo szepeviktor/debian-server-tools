@@ -10,7 +10,8 @@ before = apache-common.conf
 #           apache-overflows
 #               apache-shellshock
 #           wordpress-fail2ban/instant
-#               apache-botsearch-custom
+#               no directory index
+#           apache-botsearch-custom
 
 # TODO 404 /wp*
 
@@ -41,6 +42,8 @@ failregex = ^%(_apache_error_client)s ((AH0013[456]: )?Invalid (method|URI) in r
                 ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: warning: HTTP_.*?: ignoring function definition attempt(, referer: \S+)?\s*$
                 ^%(_apache_error_client)s (AH01215: )?/bin/(ba)?sh: error importing function definition for `HTTP_.*?'(, referer: \S+)?\s*$
             ^%(_apache_error_client)s (FastCGI: server "/\S*" stderr: |AH01071: Got error ')(PHP message: )?Break-in attempt detected: .*(, referer: \S+)?\s*$
+                ^%(_apache_error_client)s AH01276: Cannot serve directory /.+/: No matching DirectoryIndex \(\S+\) found, and server-generated directory index forbidden by Options directive\s*$
+
 
 ignoreregex = 
 

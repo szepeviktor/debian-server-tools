@@ -1,9 +1,11 @@
 #!/bin/bash
 #
-# Debian jessie server setup.
+# Debian jessie virtual server setup.
 #
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
 # AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
-# GIST-AUTORUN  :wget -O ds.dh http://git.io/vIlCB && . ds.dh
 
 # How to choose VPS provider?
 #
@@ -14,6 +16,8 @@
 # - Nightime technical support network or hardware failure response time
 # - Daytime technical and billing support
 # - (D)DoS mitigation
+#
+# See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
 
 # Packages sources
 DS_MIRROR="http://http.debian.net/debian"
@@ -33,11 +37,6 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 set -e -x
 
 Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2; }
-
-# Download architecture-independent packages
-Getpkg() { local P="$1"; local R="${2-sid}"; local WEB="https://packages.debian.org/${R}/all/${P}/download";
-    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')";
-    [ -z "$URL" ] && return 1; wget -qO "${P}.deb" "$URL" && dpkg -i "${P}.deb"; echo "Ret=$?"; }
 
 [ "$(id -u)" == 0 ] || exit 1
 
@@ -76,7 +75,7 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
-    time bash-completion htop bind9-host mc lynx ncurses-term
+    time bash-completion htop bind9-host mc lynx ncurses-term aptitude
 ln -svf /usr/bin/host /usr/local/bin/mx
 
 # Input
@@ -198,19 +197,20 @@ adduser --gecos "" ${U}
 K="PUBLIC-KEY"
 S="/home/${U}/.ssh";mkdir --mode 700 "$S";echo "$K" >> "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 adduser ${U} sudo
-# Expire pass
+# Expire password
 #     passwd -e ${U}
 
 # Change root and other passwords to "*"
 editor /etc/shadow
+read -s -p "SSH port? " SSH_PORT
 # sshd on another port
-sed 's/^Port 22$/#Port 22\nPort 3022/' -i /etc/ssh/sshd_config
+sed 's/^Port 22$/#Port 22\nPort ${SSH_PORT}/' -i /etc/ssh/sshd_config
 # Disable root login
 sed 's/^PermitRootLogin yes$/PermitRootLogin no/' -i /etc/ssh/sshd_config
 # Disable password login for sudoers
 echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 # Add IP blocking
-# See: $D/security/README.md
+# See: ${D}/security/README.md
 editor /etc/hosts.deny
 service ssh restart
 netstat -antup|grep sshd
@@ -222,6 +222,11 @@ logout
 sudo su - || exit
 D="/root/src/debian-server-tools-master"
 
+# Download architecture-independent packages
+Getpkg() { local P="$1"; local R="${2-sid}"; local WEB="https://packages.debian.org/${R}/all/${P}/download";
+    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')";
+    [ -z "$URL" ] && return 1; wget -qO "${P}.deb" "$URL" && dpkg -i "${P}.deb"; echo "Ret=$?"; }
+
 # Hardware
 lspci
 [ -f /proc/modules ] && lsmod || echo "WARNING: monolithic kernel"
@@ -230,22 +235,23 @@ lspci
 clear; cat /proc/mdstat; cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
 ls -1 /etc/default/*
-head -n1000 /etc/default/* | grep -v "^#\|^$" | grep --color -A1000 "^==> "
+head -n 1000 /etc/default/* | grep -v "^#\|^$" | grep --color -A1000 "^==> "
 
 # /tmp in RAM
 TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
-[ "$TOTAL_MEM" -gt $((2047 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
+[ "$TOTAL_MEM" -gt $((2049 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
 
 # Mount points
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
-editor /etc/fstab
+clear; editor /etc/fstab
 clear; cat /proc/mounts
 swapoff -a; swapon -a; cat /proc/swaps
 
 # Create a swap file
-#     dd if=/dev/zero of=/swap0 bs=1M count=768
-#     chmod 0600 /swap0
-#     echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
+dd if=/dev/zero of=/swap0 bs=1M count=768
+chmod 0600 /swap0
+mkswap /swap0
+echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
 
 grep "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
 
@@ -254,11 +260,11 @@ uname -a
 # List kernels
 apt-cache policy "linux-image-3.*"
 #apt-get install linux-image-amd64=KERNEL-VERSION
-ls -l /lib/modules/
+clear; ls -l /lib/modules/
+ls -latr /boot/
 # Verbose boot
 sed -i 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
 dpkg -l | grep "grub"
-ls -latr /boot/
 # OVH Kernel "made-in-ovh"
 #     https://gist.github.com/szepeviktor/cf6b60ac1b2515cb41c1
 # Linode Kernels: auto renew on reboot
@@ -276,9 +282,11 @@ editor /etc/motd
 
 # Networking
 editor /etc/network/interfaces
+#     auto eth0
 #     iface eth0 inet static
 #         address IP
 #         netmask 255.255.255.0
+#         #netmask 255.255.254.0
 #         gateway GATEWAY
 ifconfig -a
 route -n -4
@@ -297,28 +305,30 @@ editor /etc/resolv.conf
 #
 #     DC1-IT 62.149.128.4 62.149.132.4
 #     DC3-CZ 81.2.192.131 81.2.193.227
+#
+# Vultr resolvers
+#
+#     Frankfurt 108.61.10.10
 
 ping6 -c 4 ipv6.google.com
 host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
 # View network Graph v4/v6
 #     http://bgp.he.net/ip/${IP}
 
-# Set up MYATTACKERS chain
-iptables -N MYATTACKERS
-iptables -I INPUT -j MYATTACKERS
-iptables -A MYATTACKERS -j RETURN
-# For management scripts see: ${D}/security/myattackers.sh
+# MYATTACKERS chain
+# See: ${D}/security/myattackers.sh
 
 # Hostname
 # Set A record and PTR record
 # Consider: http://www.iata.org/publications/Pages/code-search.aspx
 #           http://www.world-airport-codes.com/
-H="HOST-NAME"
+read -r -p "Host name? " H
 # Search for the old hostname
 grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
+editor /etc/hosts
 #     127.0.0.1 localhost
 #     127.0.1.1 localhost
 #     ::1     ip6-localhost ip6-loopback
@@ -329,10 +339,9 @@ echo "$H" > /etc/mailname
 #
 #     # ORIGINAL-PTR $(host "$IP")
 #     IP.IP.IP.IP HOST.DOMAIN HOST
-editor /etc/hosts
 
 # Locale and timezone
-locale; locale -a
+clear; locale; locale -a
 dpkg-reconfigure locales
 cat /etc/timezone
 dpkg-reconfigure tzdata
@@ -352,7 +361,7 @@ update-passwd -v --dry-run
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
 # 1. Delete not-installed packages
-dpkg -l|grep -v "^ii"
+clear; dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
 apt-get purge  \
     at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
@@ -367,8 +376,8 @@ dpkg -l|grep -E "xe-guest-utilities|dkms"
 # See: ${D}/package/vmware-tools-wheezy.sh
 vmware-toolbox-cmd stat sessionid
 # 4. Hardware related
-dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup-linux\
-|acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm"
+dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup\
+|acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|popularity-contest"
 # 5. Non-stable packages
 dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
@@ -388,36 +397,38 @@ dpkg -l | most
 apt-get autoremove --purge
 
 # Essential packages
-apt-get install -y localepurge unattended-upgrades \
-    apt-listchanges cruft debsums heirloom-mailx iptables-persistent bootlogd \
-    ntpdate apg dos2unix strace ccze mtr-tiny gcc make colordiff
+apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
+    whois unzip heirloom-mailx iptables-persistent bootlogd goaccess\
+    ntpdate apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make
 # Backports
 # @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
-apt-get install -y goaccess git
 
 # debsums cron weekly
 sed -i 's/^CRON_CHECK=never/CRON_CHECK=weekly/' /etc/default/debsums
 
 # Check user cron jobs
-${D}/tools/catconf /var/spool/cron/crontabs/*
+clear; ${D}/tools/catconf /var/spool/cron/crontabs/*
 
 # Automatic package updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Sanitize files
-HOSTING_COMPANY="HOSTING-COMPANY"
+rm -vrf /var/lib/clamav /var/log/clamav
+read -r -p "Hosting company? " HOSTING_COMPANY
 find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
 cruft --ignore /dev | tee cruft.log
-rm -vrf /var/lib/clamav /var/log/clamav
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
 debsums --all --changed | tee debsums-changed.log
 
 # Custom APT repositories
 editor /etc/apt/sources.list.d/others.list && apt-get update
+
+cd /root/
+mkdir dist-mod && cd dist-mod/
 
 # Get pip
 wget https://bootstrap.pypa.io/get-pip.py
@@ -426,7 +437,7 @@ python2 get-pip.py
 
 # Detect whether your container is running under a hypervisor
 wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
-unzip slabbed-or-not.zip && rm -f slabbed-or-not.zip
+unzip slabbed-or-not.zip && rm -vf slabbed-or-not.zip
 cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
 
 # rsyslogd immark plugin
@@ -442,10 +453,6 @@ D="$(pwd)/debian-server-tools"
 rm -vrf /root/src/debian-server-tools-master/
 cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
 
-# Make cron log all failed jobs (exit status != 0)
-sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
-service cron restart
-
 # CPU
 grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -456,8 +463,13 @@ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 [ "$CPU_COUNT" -gt 1 ] && apt-get install -y irqbalance && cat /proc/interrupts
 
+# Make cron log all failed jobs (exit status != 0)
+sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
+service cron restart
+
 # Time synchronization
 cd ${D}; ./install.sh monitoring/ntpdated
+editor /etc/default/ntpdate
 # Set nearest time server: http://www.pool.ntp.org/en/
 #     NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 #     NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
@@ -466,7 +478,6 @@ cd ${D}; ./install.sh monitoring/ntpdated
 #     NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
 # OVH
 #     NTPSERVERS="ntp.ovh.net"
-editor /etc/default/ntpdate
 
 # µnscd
 apt-get install -y unscd
@@ -498,27 +509,27 @@ echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRES
 #     Send-only servers don't have local domain names.
 #     They should have an MX record pointing to the smarthost.
 #     Smarthost should receive all emails with send-only server's domain name.
-apt-get install -y courier-mta courier-mta-ssl
+clear; apt-get install -y courier-mta courier-mta-ssl
 # Fix dependency on courier-authdaemon
 sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta
 update-rc.d courier-mta defaults
 # Check for other MTA-s
 dpkg -l | grep -E "postfix|exim"
 cd ${D}; ./install.sh mail/courier-restart.sh
-# Host name
+# Smarthost
 editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,587 /SECURITY=REQUIRED
 #     : smtp.mandrillapp.com,587 /SECURITY=REQUIRED
 # From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
-editor /etc/courier/esmtproutes
+editor /etc/courier/esmtpauthclient
 #     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
 openssl dhparam -out /etc/courier/dhparams.pem 2048
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
+#     TLS_DHPARAMS=/etc/courier/dhparams.pem
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
-#     TLS_DHPARAMS=/etc/courier/dhparams.pem
 editor /etc/courier/esmtpd-ssl
 #     SSLADDRESS=127.0.0.1
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
@@ -527,43 +538,36 @@ editor /etc/courier/smtpaccess/default
 #     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
 editor /etc/courier/me
 # Check MX record
-host -tMX $(cat /etc/courier/me)
+host -t MX $(cat /etc/courier/me)
 editor /etc/courier/defaultdomain
 editor /etc/courier/dsnfrom
 editor /etc/courier/locals
 #     localhost
+#     # Remove own hostname!
 editor /etc/courier/aliases/system
 courier-restart.sh
 # Allow unauthenticated SMTP traffic from this server on the smarthost
+#
 #     editor /etc/courier/smtpaccess/default
 #         %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
+#
 # Receive bounce messages on the smarthost
+#
 #     editor /etc/courier/aliases/system
 #         @HOSTNAME.TLD: LOCAL-USER
 #     editor /var/mail/DOMAIN/USER/.courier-default
 #         LOCAL-USER
-echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
-
-# Fail2ban
-#     https://packages.qa.debian.org/f/fail2ban.html
-Getpkg geoip-database-contrib
-apt-get install -y geoip-bin recode python3-pyinotify
-#     apt-get install -y fail2ban
-Getpkg fail2ban
-mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
-# Config:    fail2ban.local
-# Jails:     jail.local
-# /filter.d: apache-combined.local, apache-asap.local
-# /action.d: sendmail-geoip-lines.local
-service fail2ban restart
+#     courier-restart.sh
+echo "This is a t3st mail."|mailx -s "[first] Subject of the 1st email" viktor@szepe.net
 
 # Apache 2.4
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
 apt-get install -y apache2-mpm-itk apache2-utils
 a2enmod actions rewrite headers deflate expires proxy_fcgi
+a2enmod ssl
 mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
-cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
+yes|cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
 echo -e "User-agent: *\nDisallow: /\n" > /var/www/html/robots.txt
 
 # Use php-fpm.conf settings per site
@@ -572,19 +576,13 @@ editor /etc/apache2/conf-enabled/security.conf
 #     ServerTokens Prod
 editor /etc/apache2/apache2.conf
 #     LogLevel info
-# @TODO fcgi://port,path?? ProxyPassMatch ^/.*\.php$ unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/html
+# @TODO fcgi://port,path?? ProxyPassMatch "^/.*\.php$" "unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/html"
 
-# mod_pagespeed for poorly written themes and plugins
+# mod_pagespeed for poorly written websites
 apt-get install -y mod-pagespeed-stable
 # Remove duplicate
 ls -l /etc/apt/sources.list.d/*pagespeed*
 #rm -v /etc/apt/sources.list.d/mod-pagespeed.list
-
-# Add the development website
-# See: ${D}/webserver/add-prg-site.sh
-
-# Add a website
-# See: ${D}/webserver/add-site.sh
 
 # Nginx 1.8
 apt-get install -y nginx-lite
@@ -606,6 +604,19 @@ cp -vf nginx.conf ${NGXC}
 ngx-conf --disable default
 cp -vf sites-available/no-default ${NGXC}/sites-available
 ngx-conf --enable no-default
+
+# Fail2ban
+#     https://packages.qa.debian.org/f/fail2ban.html
+Getpkg geoip-database-contrib
+apt-get install -y geoip-bin recode python3-pyinotify
+#     apt-get install -y fail2ban
+Getpkg fail2ban
+mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
+# Config:    fail2ban.local
+# Jails:     jail.local
+# /filter.d: apache-combined.local, apache-instant.local, courier-smtp.local, recidive.local
+# /action.d: cloudflare.local
+service fail2ban restart
 
 # PHP 5.6
 apt-get install -y php5-apcu php5-cli php5-curl php5-fpm php5-gd \
@@ -629,7 +640,7 @@ cp -v ${D}/webserver/php5fpm-pools/* /etc/php5/fpm/
 mkdir -p /usr/local/lib/php5
 cp -v ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
 # PHP 5.6+
-echo "15 *	* * *	root	[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5" \
+echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5" \
     > /etc/cron.d/php5-user
 
 # @FIXME PHP timeouts
@@ -656,12 +667,23 @@ php5enmod -s fpm suhosin
 #     suhosin.post.max_array_index_length = 128
 #     suhosin.request.max_array_index_length = 128
 
+# No FPM pools -> no restart
+
+cd ${D}; ./install.sh webserver/webrestart.sh
+
+# Add the development website
+# See: ${D}/webserver/add-prg-site.sh
+
+# Add a website
+# See: ${D}/webserver/add-site.sh
+
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
 read -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
 echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
+echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf
-editor /root/.my.cnf
+#editor /root/.my.cnf
 
 # wp-cli
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
@@ -727,6 +749,30 @@ lynx 127.0.0.1:2812
 # Munin - network-wide graphing
 # See: ${D}/monitoring/munin/munin-debian-setup.sh
 
+# Aruba ExtraControl (serclient)
+#     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx
+wget -nv http://admin.dc3.arubacloud.hu/Installers/debian/aruba-serclient_0.01-1_all.deb
+dpkg -i aruba-serclient_*_all.deb
+# Set log level
+echo -e "[LOG]\nlevel = 20" >> /opt/serclient/serclient.ini
+# Comment out "if getRestartGUID(remove=False) == None: rf.doRollover()"
+editor +159 /opt/serclient/tools.py
+# Add logrotate
+editor /etc/logrotate.d/serclient
+#     /var/log/serclient.log {
+#         weekly
+#         rotate 15
+#         compress
+#         delaycompress
+#         notifempty
+#         create 640 root root
+#         postrotate
+#                     if /etc/init.d/serclient status > /dev/null ; then \
+#                         /etc/init.d/serclient restart > /dev/null; \
+#                     fi;
+#         endscript
+#     }
+
 # node.js
 apt-get install -y iojs
 # Install packaged under /usr/local/
@@ -736,9 +782,15 @@ npm install -g less-plugin-clean-css
 
 # Logrotate periods
 #
-#     syslog - /week*15
-#     apache - /day*90
-#     mail   - /week*15
+editor /etc/logrotate.d/rsyslog
+#     weekly
+#     rotate 15
+#     # /var/log/mail.log
+#     weekly
+#     rotate 15
+editor /etc/logrotate.d/apache2
+#     daily
+#     rotate 90
 
 # Clean up
 apt-get autoremove --purge
@@ -750,5 +802,5 @@ echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/
 tar cJf "/root/${H//./-}_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
 
 # Clients and services
-editor /root/clients.list
-editor /root/services.list
+cp -v ${D}/server.yml /root/
+editor /root/server.yml

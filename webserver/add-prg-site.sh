@@ -1,21 +1,24 @@
 #!/bin/bash
-
+#
 # Apache add prg site.
+#
 # Not a script but a manual.
 
 exit 0
 
 U="web"
-read -e -i "prg.$(hostname -d)" -p "prg domain: " DOMAIN
+#read -e -i "prg.$(hostname -d)" -p "prg domain: " DOMAIN
+read -e -i "prg.$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io" -p "prg domain: " DOMAIN
 
 adduser --disabled-password --gecos "" $U
 
-echo "${U}@$(hostname -d):   admin@$(hostname -d)" >> /etc/courier/aliases/system-user
+echo "${U}@$(hostname -d): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user
 makealiases
 
 # Website directories
 cd /home/${U}/
 mkdir website
+chmod -v 750 website*
 cd website
 mkdir {session,tmp,html,pagespeed,backup,fastcgicache}
 
@@ -50,10 +53,11 @@ echo "<?php define('ADMIN_USERNAME','${HTTP_USER}');
 chmod 640 ${PRG_ROOT}/apc.conf.php
 
 # PHP info
-cp -v $(dirname ${D})/wordpress-plugin-construction/shared-hosting-aid/php-vars.php ${PRG_ROOT}/pif.php
-echo "<?php phpinfo();" > ${PRG_ROOT}/pif.php
+wget -nv -O ${PRG_ROOT}/pif.php \
+    https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/shared-hosting-aid/php-vars.php
 
 # PHPMyAdmin
+cd /home/${U}/website/html/
 ${D}/package/phpmyadmin-get.sh
 cd phpMyAdmin-*-english
 cp -v config.sample.inc.php config.inc.php
@@ -69,21 +73,26 @@ editor config.inc.php
 #     $cfg['CaptchaLoginPrivateKey'] = '<Secret key>';
 cd ../
 
-# PHP security check
+# PHP Secure Configuration Checker
 git clone https://github.com/sektioneins/pcc.git
-# Pool config
-#     env[PCC_ALLOW_IP] = 1.2.3.*
 
 # Set owner
-chown -cR ${U}:${U} *
+chown -cR ${U}:${U} cd /home/${U}/
 
 # PHP pool
 cd /etc/php5/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Dev-pool.conf > ${U}.conf
+# PHP Secure Configuration Checker allow IP address
+#     env[PCC_ALLOW_IP] = 1.2.3.*
+editor ${U}.conf
 
 # Apache site
 cd /etc/apache2/sites-available
 sed -e "s/@@PRG_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Prg-site.conf > ${DOMAIN}.conf
+
+# Generate SSL certificate
+mc /etc/apache2/ssl/
+
 a2ensite ${DOMAIN}
 ${D}/webserver/apache-resolve-hostnames.sh
 

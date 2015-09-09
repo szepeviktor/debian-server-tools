@@ -242,11 +242,11 @@ while getopts ":ip:t:l:uzh" OPT; do
             Usage
             ;;
         \?)
-            Error_msg "Invalid option: -$OPTARG"
+            Error_msg "Invalid option: -${OPTARG}"
             Usage
             ;;
         :)
-            Error_msg "Option -$OPTARG requires an argument."
+            Error_msg "Option -${OPTARG} requires an argument."
             Usage
             ;;
     esac
@@ -268,7 +268,7 @@ case "$PROTOCOL" in
         PROTOCOL_OPTION=""
         ;;
     *)
-        Error_msg "Invalid protocol: ($PROTOCOL)"
+        Error_msg "Invalid protocol: (${PROTOCOL})"
         Usage
         ;;
 esac

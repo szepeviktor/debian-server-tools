@@ -1,3 +1,8 @@
+# Server installation
+install:
+  date: 2015-MM-DD
+  operating-system: Debian jessie 8.1
+
 # Clients using this server
 clients:
 
@@ -83,7 +88,7 @@ services:
         type: vhost
         description: vhost.name
     can-send-email:
-        type:vhost
+        type: vhost
         description: PHP script
 
 # Consumed remote services
@@ -100,7 +105,7 @@ dependencies:
       identify: $IP
 
 # Custom data directories
-data:
+data dirs:
 
   directory name: /path/to/dir
   configuration files: /etc

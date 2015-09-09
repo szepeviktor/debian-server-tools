@@ -1,6 +1,7 @@
 #!/bin/bash
-
+#
 # Apache add new site.
+#
 # Not a script but a manual.
 
 exit 0
@@ -10,10 +11,13 @@ exit 0
 # See: ${D}/monitoring/domain-expiry.sh
 # See: ${D}/monitoring/dns-watch.sh
 
-read -p "user name: " U
-read -p "domain name: (without WWW) " DOMAIN
+read -r -p "user name: " U
+read -r -p "domain name: (without WWW) " DOMAIN
 
 adduser --disabled-password --gecos "" ${U}
+
+# Add webserver to this group
+adduser web ${U}
 
 # Add system mail alias to direct bounces to one address
 # E.g. VIRTUAL-USERGROUP could be one client
@@ -22,26 +26,22 @@ adduser --disabled-password --gecos "" ${U}
 # Set forwarding address on the smarthost
 #     echo "RECIPIENT@DOMAIN.COM" > .courier-VIRTUAL-USERGROUP
 
-editor /etc/courier/aliases/system-users
+editor /etc/courier/aliases/system-user
 makealiases
 
 # * Add sudo permissions for real users to become this user
 cd /etc/sudoers.d/
 
 # * Allow SSH key
-mkdir /home/${U}/.ssh/
-cd /home/${U}/.ssh/
-editor authorized_keys2
-chmod -c 600 authorized_keys2
+S="/home/${U}/.ssh";mkdir --mode 700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
+editor "${S}/authorized_keys2"
 
 # Website directories
-cd /home/${U}/ && mkdir -v website && cd website
+cd /home/${U}/
+mkdir -v website
+chmod -v 750 website*
+cd website
 mkdir -v {session,tmp,html,pagespeed,backup,fastcgicache}
-
-# * HTTP authentication
-read -p "HTTP/auth user: " HTTP_USER
-htpasswd -c ./htpasswords ${HTTP_USER}
-chmod 600 ./htpasswords
 
 # Install WordPress
 cd /home/${U}/website/html/
@@ -55,7 +55,6 @@ cd /home/${U}/website/html/
 find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
 find -type f -exec chmod --changes 644 "{}" ";"
 find -type d -exec chmod --changes 755 "{}" ";"
-chmod -v 750 website*
 find -name wp-config.php -exec chmod -v 400 "{}" ";"
 find -name settings.php -exec chmod -v 400 "{}" ";"
 find -name .htaccess -exec chmod -v 640 "{}" ";"

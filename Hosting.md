@@ -10,7 +10,7 @@
 - [OVH VMware](http://www.ovh.ie/vps/vps-cloud.xml) VMware
 - [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage VPS
 - [Vultr](http://www.vultr.com/?ref=6815796) hourly, 3+GHz, SSD, storage VPS
-- vps.me/Hostinger free, IPv6 only
+- [vps.me](http://www.vps.me/order/free-vps) by Hostinger IPv6 only, free
 
 ## PaaS
 

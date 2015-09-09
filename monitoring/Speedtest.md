@@ -1,9 +1,16 @@
-Global networking tools
+# Global networking tools
+
+### DNS propagation checker
+
+- https://www.whatsmydns.net/
+- https://dnschecker.org/
+- http://viewdns.info/propagation/
+- https://www.nexcess.net/resources/tools/global-dns-checker/
 
 ### DNS lookup
 
-- https://www.whatsmydns.net/
 - http://mxtoolbox.com/DNSLookup.aspx
+- http://bgp.he.net/
 
 ### Target country speedtest
 
@@ -33,13 +40,13 @@ Global networking tools
     1. syd-au-ping.vultr.com
     1. wa-us-ping.vultr.com
 
-- Cloud Monitor 50+ https://cloudmonitor.ca.com/en/ping.php PT
+- Cloud Monitor 50+ https://asm.ca.com/en/ping.php PT
 - gtt 40+ http://www.as3257.net/lg/ PTB
 - SdV 4 http://bgpmap.sdv.fr/index.php PTB
 - HE http://lg.he.net/ PTB
 - TATA (de) http://lg.as6453.net/bin/lg.cgi PTB
-- 10 http://www.locaping.com/ PT
-- pingdom  1×Sweden http://tools.pingdom.com/ping/ PT
+- LOCAPING 10 http://www.locaping.com/ PT
+- pingdom 1×Sweden http://tools.pingdom.com/ping/ PT
 - http://www.super-ping.com/ PT
 - http://startping.com/ P
 - RIPE https://stat.ripe.net/widget/bgplay B https://stat.ripe.net/widget/list
