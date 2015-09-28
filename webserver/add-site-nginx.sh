@@ -57,19 +57,16 @@ if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X
     $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
 ```
-TODO: move this to nginx
+TODO: move this to nginx config
+
+# ------------------------------------------------------
 
 
-git clone https://github.com/perusio/nginx_ensite.git
-git clone https://github.com/h5bp/server-configs-nginx.git
 
-https://codex.wordpress.org/Nginx
-http://wiki.nginx.org/WordPress
+# W3 Total, location { gzip_static on; }
 
-
-# >>> degenu
-
-# nginx log format
+# Nginx log format
+# http://goaccess.io/man#custom-log
 goaccess --agent-list --http-method \
     --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \
     --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u" "%^"' \

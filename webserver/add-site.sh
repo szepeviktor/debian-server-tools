@@ -32,16 +32,13 @@ makealiases
 # * Add sudo permissions for real users to become this user
 cd /etc/sudoers.d/
 
-# * Allow SSH key
+# * Allow SSH keys
 S="/home/${U}/.ssh";mkdir --mode 700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 editor "${S}/authorized_keys2"
 
 # Website directories
-cd /home/${U}/
-mkdir -v website
-chmod -v 750 website*
-cd website
-mkdir -v {session,tmp,html,pagespeed,backup,fastcgicache}
+mkdir -v --mode=750 /home/${U}/website
+mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
 
 # Install WordPress
 cd /home/${U}/website/html/
@@ -60,12 +57,11 @@ find -name settings.php -exec chmod -v 400 "{}" ";"
 find -name .htaccess -exec chmod -v 640 "{}" ";"
 
 # Set owner
-chown -cR ${U}:${U} *
+chown -cR ${U}:${U} cd /home/${U}/
 
-# WordPress wp-config.php
-#     https://api.wordpress.org/secret-key/1.1/salt/
+# WordPress wp-config.php skeleton
 
-# WordPress fail2ban
+# wordpress-fail2ban MU plugin
 
 # Migrate database NOW!
 
@@ -90,7 +86,8 @@ uwp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-ru
 
 # PHP
 cd /etc/php5/fpm/pool.d/
-sed "s/@@USER@@/$U/g" < ../Skeleton-pool.conf > ${U}.conf
+sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
+editor ${U}.conf
 
 # Apache
 # CloudFlase, Incapsula

@@ -1,8 +1,3 @@
-[DEFAULT]
-
-_nginx_fastcgi_error = \[error\] \d+#\d+: \*\d+ FastCGI sent in stderr:
-_nginx_fastcgi_error_end = while reading response header from upstream,
-
 [Definition]
 
 ignoreregex = 

@@ -2,9 +2,12 @@
 
 ### mods-enabled/ssl.conf
 
+https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
+
 ```apache
-    # "Intermediate" SSLCipherSuite from https://mozilla.github.io/server-side-tls/ssl-config-generator/
-    #     dpkg -l|grep "apache2\|openssl"
+    # "Intermediate" SSLCipherSuite from Mozilla SSL Configuration Generator
+    #     dpkg -l | grep "apache2\|openssl"
+    #     https://mozilla.github.io/server-side-tls/ssl-config-generator/
 
     SSLHonorCipherOrder On
 

@@ -2,11 +2,8 @@
 #
 # Optimize images in the current directory.
 #
-# JPEG: decrease quality, make it progressive, strip markers.
-# PNG: lossless recompression, strip metadata.
-#
-# VERSION       :0.4.1
-# DATE          :2015-05-11
+# VERSION       :0.4.2
+# DATE          :2015-09-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,9 +13,15 @@
 # DEPENDS       :https://github.com/danielgtaylor/jpeg-archive (jpeg-recompress)
 # DEPENDS       :https://github.com/mozilla/mozjpeg
 
+# For JPEG images: decrease quality, make it progressive, strip markers.
+#
+# For PNG images: lossless recompression, strip metadata.
+#
 # Usage:
-# imageopti.sh -build
-# find wp-content/uploads/ -type d '(' -print -a -exec bash -c 'cd {};imageopti.sh' ';' -o -quit ')'
+#
+#     imageopti.sh -build
+#
+#     find wp-content/uploads/ -type d '(' -print -a -exec bash -c 'cd "{}";imageopti.sh' ';' -o -quit ')'
 
 Build_tools() {
     local MOZJPEG_URL="https://github.com/mozilla/mozjpeg.git"
@@ -47,7 +50,7 @@ Optimize_jpeg() {
     local JPG="$1"
     local TMPIMG="$(tempfile).imageopti"
 
-    # Check JPEG for errors
+    # Check original JPEG for errors
     jpeginfo --check "$JPG" | grep "\[OK\]$" || return 1
 
     if ! nice "$JPEG_RECOMPRESS" --quiet --accurate --strip "$JPG" "$TMPIMG"; then
@@ -55,10 +58,12 @@ Optimize_jpeg() {
         echo "Minification error $? (${JPG})" >&2
         return 2
     fi
+
     if [ -f "$TMPIMG" ] && ! mv -f "$TMPIMG" "$JPG"; then
         rm -f "$TMPIMG"
         return 3
     fi
+
     jpeginfo --check "$JPG" > /dev/null || return 4
 
     return 0
@@ -72,17 +77,19 @@ Optimize_png() {
     return 0
 }
 
-# build and install tools
+# Build and install tools
 if [ "$1" == "-build" ]; then
     Build_tools
     exit
 fi
 
-JPEG_RECOMPRESS="$(which jpeg-recompress)"
+export JPEG_RECOMPRESS="$(which jpeg-recompress)"
 "$JPEG_RECOMPRESS" --version &> /dev/null || exit 99
 which optipng jpeginfo &> /dev/null || exit 99
 
 export -f Optimize_jpeg
 export -f Optimize_png
-find -maxdepth 1 -type f -iname "*.jpg" -o -iname "*.jpeg" -print0 | xargs -0 -I'{}' bash -c 'Optimize_jpeg {}'
-find -maxdepth 1 -type f -iname "*.png" -print0 | xargs -0 -I'{}' bash -c 'Optimize_png {}'
+find -maxdepth 1 '(' -iname "*.jpg" -o -iname "*.jpeg" ')' -type f -print0 \
+    | xargs -r -0 -I '{}' bash -c 'Optimize_jpeg "{}"'
+find -maxdepth 1 -iname "*.png" -type f -print0 \
+    | xargs -r -0 -I '{}' bash -c 'Optimize_png "{}"'

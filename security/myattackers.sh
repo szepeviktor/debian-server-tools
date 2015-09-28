@@ -2,8 +2,8 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.4.0
-# DATE          :2015-08-31
+# VERSION       :0.5.0
+# DATE          :2015-09-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -28,6 +28,7 @@ Ban malicious hosts manually.
 
 Without parameters runs cron job to unban expired addresses without traffic.
   -i                    set up iptables chain
+  -s                    show active rules
   -p <PROTOCOL>         ban only ports associated with this protocol
                           (ALL, SMTP, HTTP, SSH), default: ALL
   -t <BANTIME>          ban time (1d, 1m, p[ermanent]),
@@ -95,6 +96,10 @@ Init() {
 
     # All OK
     return 0
+}
+
+Show() {
+    iptables -v -n -L ${CHAIN}
 }
 
 Bantime_translate() {
@@ -214,10 +219,13 @@ MODE="ban"
 # Default ban time
 BANTIME_OPTION="$(Bantime_translate "$OPTARG")"
 LIST_FILE=""
-while getopts ":ip:t:l:uzh" OPT; do
+while getopts ":isp:t:l:uzh" OPT; do
     case "$OPT" in
         i) # Protocol
             MODE="setup"
+            ;;
+        s) # Show rules
+            MODE="show"
             ;;
         p) # Protocol
             PROTOCOL="$OPTARG"
@@ -289,6 +297,13 @@ if ! Check_chain; then
     Error_msg "Please set up ${CHAIN} chain.\nmyattackers.sh -i"
     exit 10
 fi
+
+case "$MODE" in
+    show)
+        Show
+        exit 0
+        ;;
+esac
 
 ADDRESS="$1"
 if [ -z "$LIST_FILE" ] && ! Check_address "$ADDRESS"; then

@@ -2,16 +2,20 @@
 #
 # Run ntpdate daily and on reboot to correct the system clock.
 #
-# VERSION       :0.3
-# DATE          :2014-12-26
+# VERSION       :0.4.2
+# DATE          :2015-09-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/ntpdated
-# CRON.D        :@reboot  root  /usr/local/sbin/ntpdated
-# CRON.D        :@hourly  root  /usr/local/sbin/ntpdated
+# CRON.D        :@reboot	root	/usr/local/sbin/ntpdated
+# CRON.D        :@hourly	root	/usr/local/sbin/ntpdated
 
-# Options in /etc/default/ntpdate
+# Options can be set in /etc/default/ntpdate
 
-/usr/sbin/ntpdate-debian -s
+# Execute ntpdate, mute the first DNS error
+/usr/sbin/ntpdate-debian -s 2>&1 \
+    | sed '1{/^Error resolving [0-9]\.[a-z]\+\.pool\.ntp\.org: Name or service not known (-2)$/d;}' 1>&2
+
+exit 0

@@ -277,3 +277,7 @@ Trendmicro ERS
     | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
 
 Response: "IP Unlisted in the spam sender list None"
+
+### Disposable email address
+
+http://nincsmail.hu/ (inbox and sending)

@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.5
-# DATE          :2015-08-26
+# VERSION       :0.2.6
+# DATE          :2015-09-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -15,7 +15,7 @@
 
 # Usage
 #
-# Generate configuration
+# Append a domain to configuration file
 #
 #     dns-watch.sh -d szepe.net
 #
@@ -36,7 +36,7 @@
 #     szepe.net:A=95.140.33.67,TXT=\"value\ here\"
 #     'szepe.net:A=95.140.33.67,TXT="value here"'
 #
-# Multiple values - ";" escaped
+# Multiple values - escaped ";"
 # WARNING! Values must be in `sort`-ed order.
 #
 #     szepe.net:NS=mark.ns.cloudflare.com.\;sue.ns.cloudflare.com.
@@ -46,7 +46,7 @@ ALERT_ADDRESS="admin@szepe.net"
 #     http://bix.hu/index.php?lang=en&op=full&page=stat&nodefilt=1
 ALWAYS_ONLINE="193.188.137.175"
 RETRY_DELAY="40"
-# Don't send emails after a number of failures per nameserver
+# Don't send emails after this number of failures per nameserver
 MAX_FAILURES="5"
 
 DAEMON="dns-watch"
@@ -186,7 +186,7 @@ Log() {
     fi
 }
 
-Is_online() {
+Check_online() {
     if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ", 0% packet loss,"; then
         Log "Server is OFFLINE."
         Alert "Not online" "pocket loss on pinging ${ALWAYS_ONLINE}"
@@ -212,7 +212,7 @@ Generate_rr() {
     [ $? == 0 ] && [ -n "$RR" ] && echo "${TYPE}=${RR}"
 }
 
-Is_online
+Check_online
 
 # Display answers
 if [ $# == 1 ]; then
@@ -314,7 +314,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         while read NS; do
 
             # Actual IP address of nameserver
-            NS_IP="$(getent ahostsv4 "$NS" | sed -n '0,/^\(\S\+\)\s\+RAW\b/s//\1/p')"
+            NS_IP="$(getent ahostsv4 "$NS" | sed -n '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
             # Failures per nameserver
             if [ -z "${NS_FAILURES[$NS_IP]}" ]; then
                declare -i NS_FAILURES[$NS_IP]="0"

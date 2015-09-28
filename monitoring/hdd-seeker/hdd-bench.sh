@@ -82,6 +82,9 @@ echo;echo "DIRECT benchmark"
 ./seeker "$DEVICE" 2
 echo ------------------------------------
 
+echo Disk access time problems?  apt-get install -y eatmydata
+echo ------------------------------------
+
 rm seeker seekmark test
 
 # hdparm

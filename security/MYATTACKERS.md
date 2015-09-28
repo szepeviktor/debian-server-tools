@@ -80,6 +80,13 @@
 # Microsoft
 # type: SSH
 137.135.0.0/16
+
+# Azar-A Kft./ServerAstra Kft. http://bgp.he.net/AS56322#_prefixes
+# type: HTTP
+91.219.236.0/22
+
+# PP SKS-LUGAN http://bgp.he.net/AS35804#_prefixes
+91.200.12.0/22
 ```
 
 For management script see: ${D}/security/myattackers.sh
