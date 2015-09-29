@@ -22,6 +22,7 @@
 - malware infection cleanup
 - domian expiry monitoring, new registration, modification
 - DNS setup, hourly monitoring
+- SSL certificate setup with A+ [Qualys](https://www.ssllabs.com/ssltest/) grade and expiry monitoring
 - frontpage content monitoring and failure detection
 - website uptime monitoring every minute
 - * PHP and MySQL engine monitoring hourly
@@ -89,6 +90,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - betörés (malware fertőzés) esetén takarítás
 - domain név lejárat figyelés, új regisztráció, módosítás
 - DNS (domain név kiszolgáló) beállítás, óránkénti megfigyelés
+- SSL tanúsítvány beállítás https-hez A+ [Qualys](https://www.ssllabs.com/ssltest/) minősítéssel, lejárat megfigyelés
 - főoldali tartalom óránkénti megfigyelés és hiba észlelés
 - honlap elérhetőség megfigyelése 1 percenként
 - * PHP és MySQL futás megfigyelése óránként
