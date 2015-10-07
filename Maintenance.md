@@ -46,7 +46,7 @@
 - WordPress (engine) upgrades
 - WordPress plugin upgrades (based on changelogs and plugin audit)
 - * correction of HTML defects (which do not need a rewrite of the whole site)
-- * Google Analytics, Facebook and other tracking and sharing code setup and monitoring
+- * Google Analytics, Facebook and other tracking code setup and monitoring
 - * enabling [click heatmap](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png)
 - * supervision of new content weekly (typograhy and HTML usage)
 - * image optimization (smaller file size and nicer loading)
@@ -114,7 +114,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - WordPress (honlap motor) frissítés
 - WordPress bővítmények frissítése
 - * HTML hibák javítása (amelyekhez nem kell újraírni a honlapot)
-- * Google Analytics, Facebook és más követő vagy megosztó kódok, beágyazott mérőkódok beállítása és ellenőrzése
+- * Google Analytics, Facebook és más követő, beágyazott mérőkódok beállítása és ellenőrzése
 - * [kattintási hőtérkép](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png) készítés
 - * újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
 - * képek optimalizálása (méret csökkentés, szebb betöltődés)

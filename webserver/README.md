@@ -32,8 +32,6 @@ https://github.com/tatsuhiro-t/nghttp2/graphs/contributors
 #### H2O
 
 https://h2o.github.io/
-https://github.com/h2o/h2o/issues/200 (FastCGI support)
-https://github.com/h2o/h2o/graphs/contributors
 
 #### LiteSpeed
 

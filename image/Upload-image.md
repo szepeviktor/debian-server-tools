@@ -42,3 +42,7 @@ Rename image file `categoryprefix-nice descriptive and SEO friendly name may inc
 Use dash `-` or space ` ` as separator.
 Avoid underscore `_` character.
 Use only `.jpg` and `.png` (lowercase) extensions.
+
+### Image attributes
+
+After uploading set image `title` and `alt` attributes.

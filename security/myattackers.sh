@@ -2,8 +2,8 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.5.0
-# DATE          :2015-09-25
+# VERSION       :0.5.1
+# DATE          :2015-10-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -100,6 +100,8 @@ Init() {
 
 Show() {
     iptables -v -n -L ${CHAIN}
+
+    exit 0
 }
 
 Bantime_translate() {
@@ -197,7 +199,7 @@ Reset_old_rule_counters() {
 PROTOCOL="ALL"
 case "$(basename $0)" in
     myattackers.sh)
-        # Cron
+        # Cron hourly (when called without parameters)
         [ $# == 0 ] && Unban_expired
         ;;
     deny-http.sh)
@@ -217,7 +219,7 @@ esac
 # Get options
 MODE="ban"
 # Default ban time
-BANTIME_OPTION="$(Bantime_translate "$OPTARG")"
+BANTIME_OPTION="$(Bantime_translate "")"
 LIST_FILE=""
 while getopts ":isp:t:l:uzh" OPT; do
     case "$OPT" in
@@ -236,7 +238,7 @@ while getopts ":isp:t:l:uzh" OPT; do
         l) # List file
             LIST_FILE="$OPTARG"
             if ! [ -r "$LIST_FILE" ]; then
-                echo "Read failure (${LIST_FILE})";
+                echo "List file read failure (${LIST_FILE})";
                 exit 4
             fi
             ;;
@@ -281,6 +283,7 @@ case "$PROTOCOL" in
         ;;
 esac
 
+# Modes before chain check
 case "$MODE" in
     setup)
         if Init; then
@@ -298,10 +301,13 @@ if ! Check_chain; then
     exit 10
 fi
 
+# Modes without a specific host
 case "$MODE" in
     show)
         Show
-        exit 0
+        ;;
+    reset)
+        Reset_old_rule_counters
         ;;
 esac
 
@@ -311,6 +317,7 @@ if [ -z "$LIST_FILE" ] && ! Check_address "$ADDRESS"; then
     Usage
 fi
 
+# Modes with a specific host
 case "$MODE" in
     ban)
         if [ -z "$LIST_FILE" ]; then
@@ -332,8 +339,5 @@ case "$MODE" in
                     Check_address "$ADDRESS" && Unban "$ADDRESS"
                 done < "$LIST_FILE"
         fi
-        ;;
-    reset)
-        Reset_old_rule_counters
         ;;
 esac

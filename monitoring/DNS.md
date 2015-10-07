@@ -1,11 +1,21 @@
 # DNS test tools
 
-- http://dnscheck.pingdom.com/?domain=DOMAIN
-- http://www.dnsinspect.com/DOMAIN
-- http://intodns.com/DOMAIN
-- http://www.solvedns.com/DOMAIN
+- http://www.domain.hu/domain/regcheck/ (on .hu TLD)
+- http://intodns.com/
+- http://www.dnsinspect.com/
+- http://dnscheck.pingdom.com/
+- http://www.solvedns.com/
 - https://www.ultratools.com/domainHealthReport
+
+- `http://www.domain.hu/domain/regcheck/?dname=DOMAIN` (on .hu TLD)
+- `http://intodns.com/DOMAIN`
+- `http://www.dnsinspect.com/DOMAIN`
+- `http://dnscheck.pingdom.com/?domain=DOMAIN`
+- `http://www.solvedns.com/DOMAIN`
+- `https://www.ultratools.com/domainHealthReport`
 
 [DNS Hosting Speed](https://www.ultratools.com/tools/dnsHostingSpeed)
 
 [Detailed recursive DNS query](https://dnsquery.org/)
+
+See for [Speedtest.md](./Speedtest.md) DNS propagation checkers

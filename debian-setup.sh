@@ -634,7 +634,8 @@ sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.in
 
 grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini | most
 # Disable "www" pool
-sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
+#sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
+mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf.default
 cp -v ${D}/webserver/php5fpm-pools/* /etc/php5/fpm/
 # PHP 5.6+ session cleaning
 mkdir -p /usr/local/lib/php5
@@ -653,6 +654,9 @@ echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/l
 apt-get install -y php5-suhosin-extension
 php5enmod -s fpm suhosin
 
+# PHP file modification time protection
+# https://ioncube24.com/signup
+
 # @TODO .ini-handler, Search for it! ?ucf
 
 # PHP security directives
@@ -668,6 +672,11 @@ php5enmod -s fpm suhosin
 #     suhosin.request.max_array_index_length = 128
 
 # No FPM pools -> no restart
+
+# ionCube Loader
+# https://www.ioncube.com/loaders.php
+#     zend_extension = ioncube_loader_lin_5.6.so
+#     ic24.enable = Off
 
 cd ${D}; ./install.sh webserver/webrestart.sh
 

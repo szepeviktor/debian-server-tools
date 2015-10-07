@@ -2,8 +2,8 @@
 #
 # Send (pipe) files through a TCP socket AES256 encrypted.
 #
-# VERSION       :0.3
-# DATE          :2015-04-06
+# VERSION       :0.3.0
+# DATE          :2015-10-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -19,8 +19,7 @@
 #  PIPE_PORT="12345"
 #  # tar compression type: z,j,J
 #  PIPE_COMPRESSION="z"
-#  @TODO Use apg
-#  # AES password $(pwgen -s -y 30 1)
+#  # AES password $(apg -a 1 -M LCNS -m 30 -n 1)
 #  PIPE_PASSWORD='hD2wsRa^BYFh@=87xXQT{[f3QNKQlN'
 
 ## Usage

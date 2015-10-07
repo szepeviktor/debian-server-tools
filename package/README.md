@@ -7,7 +7,7 @@ Colon at column :16
 ```
 #!/bin/bash
 #
-# One-line descrption.
+# One-line description.
 #
 # VERSION       :semver
 # DATE          :2015-12-31

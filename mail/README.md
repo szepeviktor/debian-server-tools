@@ -26,6 +26,10 @@ MIME type: application/ms-tnef
 
 https://toolbox.googleapps.com/apps/checkmx/
 
+### Disposable email address
+
+http://nincsmail.hu/ (inbox and sending)
+
 ### Mail account migration
 
 - see: mail/imapsync
@@ -52,10 +56,12 @@ echo "|pipe/command" > /var/mail/domain.net/user/.courier-foo-default
 
 ### IMAP PLAIN authentication
 
+```imap
 D0 CAPABILITY
 D1 AUTHENTICATE PLAIN
-`echo -en "\0USERNAME\0PASSWORD" | base64`
+$(echo -en "\0USERNAME\0PASSWORD" | base64)
 D2 LOGOUT
+```
 
 ### Email forwarding (srs)
 
@@ -70,9 +76,9 @@ make
 make install
 ```
 
-See package: http://szepeviktor.github.io/
+See `couriersrs` package: http://szepeviktor.github.io/
 
-Create users SRS0 and SRS1.
+Create system aliases `SRS0` and `SRS1`.
 
 ```bash
 echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS0-default
@@ -83,7 +89,7 @@ Set up SRS secret
 
 ```bash
 ./couriersrs -v
-pwgen 30 1 > /etc/srs_secret
+apg -a 1 -M LCNS -m 30 -n 1 > /etc/srs_secret
 ```
 
 Add forwarding alias
@@ -128,6 +134,19 @@ opendkim -vvv -t msg-signed.eml
 - setup http://www.tana.it/sw/zdkimfilter/
 - check
 - monitor
+
+##### DKIM tests
+
+- sa-test@sendmail.net
+- check-auth@verifier.port25.com
+- autorespond+dkim@dk.elandsys.com
+- test@dkimtest.jason.long.name
+- dktest@exhalus.net
+- dkim-test@altn.com
+- dktest@blackops.org
+- http://www.brandonchecketts.com/emailtest.php
+- http://www.appmaildev.com/en/dkim/
+- http://9vx.org/~dho/dkim_validate.php
 
 #### ADSP
 
@@ -187,6 +206,10 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 
+##### Feedback loop
+
+https://wordtothewise.com/isp-information/
+
 ### Email templates
 
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
@@ -207,9 +230,13 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 ### RBL-s (DNSBL)
 
-List of blacklists: https://mxtoolbox.com/problem/blacklist/
+##### List of blacklists
 
-Anti-abuse's list: http://www.anti-abuse.org/
+- https://mxtoolbox.com/problem/blacklist/
+- http://www.dnsbl-check.info/
+- http://bgp.he.net/ip/1.2.3.4#_rbl
+
+##### Anti-abuse's list: http://www.anti-abuse.org/
 
 ```
 bl.spamcop.net
@@ -267,17 +294,19 @@ bogons.cymru.com
 csi.cloudmark.com
 ```
 
-Check RBL-s
+##### Check RBL-s
 
 `cat anti-abuse.org.rbl|xargs -I%% host -tA $(revip "$IP").%% 2>&1|grep -v "not found: 3(NXDOMAIN)"`
 
-Trendmicro ERS
+##### Trendmicro ERS
 
 `wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
     | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
 
 Response: "IP Unlisted in the spam sender list None"
 
-### Disposable email address
+### Monitoring you server's IP reputation
 
-http://nincsmail.hu/ (inbox and sending)
+- https://www.rblmon.com/accounts/register/
+- https://www.projecthoneypot.org/monitor_settings.php
+- 
