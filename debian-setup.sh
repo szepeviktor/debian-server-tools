@@ -561,9 +561,17 @@ courier-restart.sh
 #     courier-restart.sh
 echo "This is a t3st mail."|mailx -s "[first] Subject of the 1st email" viktor@szepe.net
 
-# Apache 2.4
+# Apache 2.4 with ITK
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
 apt-get install -y apache2-mpm-itk apache2-utils
+
+# Apache with mpm_events
+apt-get install -y apache2 apache2-utils
+adduser --disabled-password --gecos "" web
+editor /etc/apache2/evvars
+#     export APACHE_RUN_USER=web
+#     export APACHE_RUN_GROUP=web
+
 a2enmod actions rewrite headers deflate expires proxy_fcgi
 a2enmod ssl
 mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
