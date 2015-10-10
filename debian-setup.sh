@@ -545,6 +545,7 @@ editor /etc/courier/locals
 #     localhost
 #     # Remove own hostname!
 editor /etc/courier/aliases/system
+#     postmaster: |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS admin@szepe.net
 courier-restart.sh
 # Allow unauthenticated SMTP traffic from this server on the smarthost
 #

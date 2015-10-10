@@ -14,14 +14,6 @@ after account setup
 
 Advanced/IMAP Path Prefix: "INBOX"
 
-### Open winmail.dat
-
-https://github.com/Yeraze/ytnef
-
-See: ${D}/repo/debian/pool/main/y/ytnef/
-
-MIME type: application/ms-tnef
-
 ### Set up Google Apps mailing
 
 https://toolbox.googleapps.com/apps/checkmx/
@@ -29,6 +21,25 @@ https://toolbox.googleapps.com/apps/checkmx/
 ### Disposable email address
 
 http://nincsmail.hu/ (inbox and sending)
+
+### Transactional email providers
+
+- https://aws.amazon.com/ses/
+- https://www.mandrill.com/
+- https://sendgrid.com/
+- https://www.mailgun.com/
+- https://postmarkapp.com/
+- https://www.sendinblue.com/
+- https://www.mailjet.com/
+- https://www.campaignmonitor.com/
+
+### Open winmail.dat
+
+https://github.com/Yeraze/ytnef
+
+See: ${D}/repo/debian/pool/main/y/ytnef/
+
+MIME type: application/ms-tnef
 
 ### Mail account migration
 
@@ -40,20 +51,6 @@ http://nincsmail.hu/ (inbox and sending)
 
 See: ${D}/mail/mbox_send2.py
 
-### Email sending and receiving
-
-- SSL?
-- headers: From, from name, To, Reply-to, Return-path, SMTP "MAIL FROM:"
-
-### Courier catchall address
-
-http://www.courier-mta.org/makehosteddomains.html
-http://www.courier-mta.org/dot-courier.html
-
-```bash
-echo "|pipe/command" > /var/mail/domain.net/user/.courier-foo-default
-```
-
 ### IMAP PLAIN authentication
 
 ```imap
@@ -62,6 +59,11 @@ D1 AUTHENTICATE PLAIN
 $(echo -en "\0USERNAME\0PASSWORD" | base64)
 D2 LOGOUT
 ```
+
+### Email sending and receiving
+
+- SSL?
+- headers: From, from name, To, Reply-to, Return-path, SMTP "MAIL FROM:"
 
 ### Email forwarding (srs)
 
@@ -78,6 +80,15 @@ make install
 
 See `couriersrs` package: http://szepeviktor.github.io/
 
+Set up SRS secret
+
+```bash
+./couriersrs -v
+apg -a 1 -M LCNS -m 30 -n 1 > /etc/srs_secret
+chown root:daemon /etc/srs_secret
+chmod 640 /etc/srs_secret
+```
+
 Create system aliases `SRS0` and `SRS1`.
 
 ```bash
@@ -85,22 +96,29 @@ echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS0-defa
 echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-default
 ```
 
-Set up SRS secret
-
-```bash
-./couriersrs -v
-apg -a 1 -M LCNS -m 30 -n 1 > /etc/srs_secret
-```
-
 Add forwarding alias
 
-`user:  |/usr/bin/couriersrs username@external-domain.net`
+`user:  |/usr/bin/couriersrs --srsdomain=domain.srs username@external-domain.net`
 
-### Kitchen sink (drop incoming messages)
+### Courier catchall address
+
+http://www.courier-mta.org/makehosteddomains.html
+
+http://www.courier-mta.org/dot-courier.html
+
+Add alias: `@target.tld:  foo`
+
+Delivery instructions:
+
+```bash
+echo "|/pipe/command" > /var/mail/localhost/user/.courier-foo-default
+```
+
+### Courier kitchen sink (drop incoming messages)
 
 See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
 
-`echo > /etc/courier/aliasdir/.courier-kitchensink`
+`echo "" > /etc/courier/aliasdir/.courier-kitchensink`
 
 Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 

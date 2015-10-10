@@ -92,7 +92,7 @@ services:
         type: vhost
         description: PHP script
 
-# Consumed remote services
+# Connected external services
 dependencies:
 
   #dependency name 1:
