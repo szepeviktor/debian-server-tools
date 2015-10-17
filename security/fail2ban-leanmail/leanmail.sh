@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.3
 # DATE          :2015-10-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install bind9-host
 # LOCATION      :/usr/local/sbin/leanmail.sh
-# CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh 127.0.0.2
+# CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh 10.0.0.2
 
 # Usage, remarks
 #
@@ -22,9 +22,11 @@
 # DNS blacklists
 
 # Private list of dangerous networks
+# See: ${D}/mail/spammer.dnsbl/dangerous.dnsbl.zone
 DNSBL1_DANGEROUS="%s.dangerous.dnsbl"
 # https://www.projecthoneypot.org/httpbl_api.php
-DNSBL1_HTTPBL="hsffbftuslgh.%s.dnsbl.httpbl.org"
+DNSBL1_HTTPBL_ACCESSKEY="hsffbftuslgh"
+DNSBL1_HTTPBL="%s.%s.dnsbl.httpbl.org"
 # https://www.spamhaus.org/xbl/
 DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
 # XBL includes CBL
@@ -33,8 +35,12 @@ DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
 
 # HTTP API-s
 
-#http://www.stopforumspam.com/usage
+# http://www.stopforumspam.com/usage
 HTTPAPI1_SFS="http://api.stopforumspam.org/api?ip=%s"
+# https://cleantalk.org/wiki/doku.php
+HTTPAPI2_CT_AUTHKEY="******"
+HTTPAPI2_CT="https://moderate.cleantalk.org/api2.0"
+#HTTPAPI2_CT="https://api.cleantalk.org/?method_name=spam_check&auth_key=${HTTPAPI2_CT_AUTHKEY}"
 
 # IP lists
 
@@ -49,7 +55,7 @@ LIST_BLDE="http://lists.blocklist.de/lists/all.txt"
 LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 
 # Set CACHE_UPDATE global to "1" to allow list updates
-#     CACHE_UPDATE="1" leanmail.sh 127.0.0.2
+#     CACHE_UPDATE="1" leanmail.sh 10.0.0.2
 
 # Full IP match or first three octets only (Class C)
 #CLASSC_MATCH="0"
@@ -138,9 +144,10 @@ Match_list() {
 Match_dnsbl1() {
     local DNSBL="$1"
     local IP="$2"
+    local ACCESSKEY="$3"
     local ANSWER
 
-    printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")"
+    printf -v HOSTNAME "$DNSBL" "$ACCESSKEY" "$(Reverse_ip "$IP")"
 
     ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
     ANSWER="${ANSWER#* has address }"
@@ -196,7 +203,38 @@ Match_http_api1() {
     return 10
 }
 
+Match_http_api2() {
+    local HTTPAPI="$1"
+    local IP="$2"
+    local AUTHKEY="$3"
+    local URL
+    local POST
+
+    printf -v URL "$HTTPAPI" "$IP"
+
+    # https://cleantalk.org/wiki/doku.php?id=spam_check
+    #curl -s "${HTTPAPI}" -d "data=${IP}"
+    # == '{"data":{"'"$IP"'":{"appears":1}}}'
+
+    printf -v POST '{"method_name":"check_newuser","auth_key":"%s","sender_email":"","sender_ip":"%s","js_on":1,"submit_time":15}' \
+        "$AUTHKEY" "$IP"
+
+    if wget -T "$TIMEOUT" --quiet -O- --post-data="$POST" "$HTTPAPI" 2> /dev/null \
+        | grep -q '"allow" : 1'; then
+        # IP is positive
+        return 0
+    fi
+
+    return 10
+}
+
 Match_any() {
+    # 1. - CT offered one more month trial
+    if Match_http_api2 "$HTTPAPI2_CT" "$IP" "$HTTPAPI2_CT_AUTHKEY"; then
+        Log_match "ct"
+        return 0
+    fi
+
     # Local
     if Match_list "$LIST_OPENBL" "$IP"; then
         Log_match "openbl"
@@ -228,7 +266,7 @@ Match_any() {
         Log_match "spamhaus"
         return 0
     fi
-    if Match_dnsbl1 "$DNSBL1_HTTPBL" "$IP"; then
+    if Match_dnsbl1 "$DNSBL1_HTTPBL" "$IP" "$DNSBL1_HTTPBL_ACCESSKEY"; then
         Log_match "httpbl"
         return 0
     fi
@@ -264,11 +302,14 @@ Match_all() {
     if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
         echo "spamhaus"
     fi
-    if Match_dnsbl1 "$DNSBL1_HTTPBL" "$IP"; then
+    if Match_dnsbl1 "$DNSBL1_HTTPBL" "$IP" "$DNSBL1_HTTPBL_ACCESSKEY"; then
         echo "httpbl"
     fi
     if Match_http_api1 "$HTTPAPI1_SFS" "$IP"; then
         echo "sfs"
+    fi
+    if Match_http_api2 "$HTTPAPI2_CT" "$IP" "$HTTPAPI2_CT_AUTHKEY"; then
+        echo "ct"
     fi
     exit
 }

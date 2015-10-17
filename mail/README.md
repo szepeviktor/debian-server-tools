@@ -236,6 +236,7 @@ https://wordtothewise.com/isp-information/
 ### Email tests
 
 - https://www.mail-tester.com/ by Mailpoet
+- http://spamcheck.postmarkapp.com/
 - mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/bulkemailvalidator/
 - checkmyauth@auth.returnpath.net
 - https://winning.email/checkup/DOMAIN

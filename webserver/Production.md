@@ -114,13 +114,14 @@ Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
 
 #### Typical design errors
 
-- Permissions for editors
 - Dynamically generated resources (`style.css.php`)
-- `<input type="file" />`
 - Extra server-side requests: HTTP, DNS
+- `$_GET` and `$_POST` sanitization
+- `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff, ttf, svg
 - Mobile views
+- Permissions for editors
 - Last one: basic site functionality, registration, contact forms
 
 ### 404 page
