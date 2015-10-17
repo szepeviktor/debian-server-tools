@@ -2,8 +2,8 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.2
-# DATE          :2015-07-30
+# VERSION       :0.1.3
+# DATE          :2015-10-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -65,7 +65,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | mailx -S from="${DAEMON}" -s "[ad.min] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | mailx -S from="${DAEMON} <root>" -s "[alert] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Is_online

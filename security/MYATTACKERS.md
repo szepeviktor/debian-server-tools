@@ -12,6 +12,10 @@
 - Mixed
 
 ```
+# Tor exit points
+# toreador.webenlet.hu. @AS29278/Deninet
+79.172.193.32
+
 # HU SpyderNet Kft. http://bgp.he.net/AS29278#_prefixes
 # type: HTTP - HDB2 bot
 # type: SMTP - broken pipe, ?HTTP commands in SMTP

@@ -15,6 +15,7 @@ Security + trust.
 
 1. Turn off debugging
 1. Set up database connection in `wp-config.php`
+1. Edit `wp-cli.yml`
 1. Define contants based of wp-config skeleton
 
 ### Search & replace various strings
@@ -30,7 +31,7 @@ Manual replace constants in `wp-config.php`.
 
 ### Install plugins
 
-`wp --allow-root plugin install --activate wp-clean-up classic-smilies`
+`wp --allow-root plugin install --activate classic-smilies`
 
 `wp --allow-root plugin install --activate wordpress-seo w3-total-cache contact-form-7`
 
@@ -46,9 +47,13 @@ Allow accents in URL-s? `mu-latin-accent-urls`
 
 See: `alter-table.sql`
 
+`wp --allow-root plugin install --activate classic-smilies`
+
 `wp --allow-root transient delete-all`
 
 `wp --allow-root w3-total-cache flush`
+
+`ls -l /home/${U}/website/html/static/cache/`
 
 ### Set up CDN
 
@@ -62,12 +67,15 @@ Consider transactional email service: Amazon SES.
 
 `wp --allow-root eval 'wp_mail("viktor@szepe.net","first outgoing",site_url());'`
 
+- encode email addresses `antispambot( 'e@ma.il' )`
 - shortest route of delivery
 - email `From:` name and address
 - subject
 - identifing email notifications in office (filtering)
 - SPF
 - DKIM
+
+Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Set up cron jobs
 
@@ -78,6 +86,13 @@ Consider transactional email service: Amazon SES.
 `wp --allow-root plugin install --activate safe-redirect-manager`
 
 `https://www.google.com/search?q=site:${DOMAIN}`
+
+### User management
+
+- 1 administrator
+- personal accounts for editors
+- modify post and page authors
+- enable/disable author sitemaps
 
 ## Check
 
@@ -90,17 +105,23 @@ Consider transactional email service: Amazon SES.
 
 1. theme meta, version in style.css
 1. `query-monitor`
+1. `theme-check`, http://themecheck.org/
+1. `vip-scanner`
+1. Frontend Debugger `?remove-scripts`
+1. `p3-profiler`
 1. https://validator.w3.org
 1. https://www.webpagetest.org/
-1. http://themecheck.org/
-1. Frontend Debugger `?remove-scripts`
-1. `wp --allow-root plugin install --activate theme-check`
-1. Dynamically generated resources (`style.css.php`)
-1. Extra server-side requests: HTTP, DNS
-1. Insufficient or excessive font character sets
-1. `@font-face` formats: eof, woff, ttf, svg
-1. Last: basic site functionality, regitrastion, contact forms
-1. Permissions for Editors
+
+#### Typical design errors
+
+- Permissions for editors
+- Dynamically generated resources (`style.css.php`)
+- `<input type="file" />`
+- Extra server-side requests: HTTP, DNS
+- Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
+- `@font-face` formats: eof, woff, ttf, svg
+- Mobile views
+- Last one: basic site functionality, registration, contact forms
 
 ### 404 page
 
@@ -135,7 +156,7 @@ Set up Analytics/Piwik/Clicktale/Facebook pixel/Remarketing.
 
 ## Monitor
 
-1. filter error log (alerts)
+1. filter error log `logsearch.sh -e|grep -Ev "AH00162|wpf2b_|bad_request_"`, `error-log-monitor`
 1. pingdom, `ping.php`
 1. file change: `Tripwire`
 1. connected services

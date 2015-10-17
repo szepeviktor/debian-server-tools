@@ -20,7 +20,8 @@
 # See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
 
 # Packages sources
-DS_MIRROR="http://http.debian.net/debian"
+DS_MIRROR="http://cloudfront.debian.net/debian"
+#DS_MIRROR="http://http.debian.net/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
 DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \

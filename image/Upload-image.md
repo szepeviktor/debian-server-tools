@@ -31,10 +31,16 @@ Save images as JPEG 100% ("10" in Photoshop) then optimize images.
 - [JPEGmini](http://www.jpegmini.com/)
 - [Smush.it uploader](http://www.imgopt.com/)
 
-### Extract images from Microsoft Office Word documents
+### Extract images
+
+#### From Microsoft Office Word documents
 
 - `.doc`: Save as a webpage ...
 - `.docx`: Open with 7zip, or rename to document.zip, extract and see path: /word/media
+
+#### From PDF files
+
+http://www.somepdf.com/downloads.html
 
 ### Image file name
 

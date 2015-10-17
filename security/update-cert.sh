@@ -3,8 +3,8 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.6.0
-# DATE          :2015-07-18
+# VERSION       :0.7.0
+# DATE          :2015-10-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,8 +14,7 @@
 # Various root certificates
 #
 # StartSSL: https://www.startssl.com/certs/
-#     wget https://www.startssl.com/certs/ca.pem
-#     wget https://www.startssl.com/certs/sub.class1.server.ca.pem
+#     wget -O sub.class1.server.ca.pem https://www.startssl.com/certs/sub.class1.server.ca.pem
 # Comodo PositiveSSL: https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
 # CAcert: http://www.cacert.org/index.php?id=3
@@ -29,8 +28,13 @@
 # openssl rsa -in "priv-key-$(date +%Y%m%d)-encrypted.key" -out "priv-key-$(date +%Y%m%d).key"
 # editor "pub-key-$(date +%Y%m%d).pem"
 
+# @TODO add apache, nginx:
+#       { openssl dhparam 1024;
+#       openssl dhparam 2048;
+#       openssl dhparam 4096; } > "/etc/apache2/ssl/${APACHE_DOMAIN}-dhparams3.pem"
+#       OpenSSL 1.0.2+
+
 TODAY="$(date +%Y%m%d)"
-CA="ca.crt"
 SUB="sub.class1.server.ca.crt"
 PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
@@ -97,7 +101,7 @@ Check_requirements() {
         || [ "$(stat --format=%u .)" != 0 ]; then
         Die 2 "This directory needs to be private (0700) and owned by root."
     fi
-    if ! [ -f "$CA" ] || ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
+    if ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
         Die 3 "Missing cert(s)."
     fi
 
@@ -111,8 +115,8 @@ Check_requirements() {
 
 Protect_certs() {
     # Is certificates are readable?
-    chown root:root "$CA" "$SUB" "$PRIV" "$PUB" || Die 10 "certs owner"
-    chmod 600 "$CA" "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
+    chown root:root "$SUB" "$PRIV" "$PUB" || Die 10 "certs owner"
+    chmod 600 "$SUB" "$PRIV" "$PUB" || Die 11 "certs perms"
 }
 
 Courier_mta() {

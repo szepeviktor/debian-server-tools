@@ -60,11 +60,6 @@ $(echo -en "\0USERNAME\0PASSWORD" | base64)
 D2 LOGOUT
 ```
 
-### Email sending and receiving
-
-- SSL?
-- headers: From, from name, To, Reply-to, Return-path, SMTP "MAIL FROM:"
-
 ### Email forwarding (srs)
 
 Build Courier SRS
@@ -99,6 +94,8 @@ echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-defa
 Add forwarding alias
 
 `user:  |/usr/bin/couriersrs --srsdomain=domain.srs username@external-domain.net`
+
+\* Note: SRS domain cannot be a virtual domain (`@virt.dom: an@account.net`).
 
 ### Courier catchall address
 
@@ -216,6 +213,8 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - Reply-to: reply@addre.ss (invisible)
 - From: sender@domain.net
 - To: recipients@addre.ss
+- X-Autoreply: yes
+- Auto-Submitted: auto-replied
 
 ##### Others
 

@@ -189,17 +189,22 @@ score SPF_HELO_FAIL              2.0
 score FM_FAKE_HELO_HOTMAIL       2.0
 
 score T_DKIM_INVALID             1.0
+
 whitelist_from *@domain.tld
 
-# sagrey.pm
+whitelist_to spamtrap@szepe.net
+#whitelist_to other.spamtrap@domain.tld
 
-# Monitoring
+# sagrey.pm?
+
+# Log monitoring
+#
 # - MAIL_RECEPTION='courieresmtpd: error.*534 SIZE=Message too big\|courieresmtpd: error.*523 Message length .* exceeds administrative limit'
 # - MAIL_FILER_EXCEPTION='courierfilter:.*xception'
 # - MAIL_BROKEN='4[0-9][0-9]\s*tls\|Broken pipe'
 # - weekly: grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554"
-# - yearly: archive
-# - monthly: maildir-top10-message-count & -folder-size (du -sk "$FULLPATH")
+# - yearly: archive inbox and sent folders
+# - monthly: top10-mailfolders.sh
 
 # DNSBL (Spamassassin configuration)
 
@@ -228,7 +233,7 @@ score RCVD_IN_HOSTKARMA_BR 1.0
 
 endif
 
-# add-domain.sh
+# @TODO add-domain.sh
 info@%DOMAIN%:        admin@%DOMAIN%
 abuse@%DOMAIN%:       admin@%DOMAIN%
 spam@%DOMAIN%:        admin@%DOMAIN%

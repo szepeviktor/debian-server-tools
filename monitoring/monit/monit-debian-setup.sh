@@ -2,8 +2,8 @@
 #
 # Configure monit plugins
 #
-# VERSION       :0.4.0
-# DATE          :2015-06-20
+# VERSION       :0.4.1
+# DATE          :2015-10-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -225,7 +225,7 @@ cat > /etc/cron.hourly/monit-wake <<EOF
 /usr/bin/monit summary | tail -n +3 \
     | grep -v "\sRunning$\|\sAccessible$" \
     | sed -n "s;^.*'\(\S\+\)'.*$;\1;p" \
-    | xargs -L1 -r /usr/bin/monit monitor
+    | xargs -L 1 -r /usr/bin/monit monitor # && /usr/local/sbin/swap-refresh.sh
 
 exit 0
 EOF

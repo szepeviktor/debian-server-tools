@@ -57,10 +57,10 @@ cat github.repos|xargs -L 1 git clone
 
 ### Storage
 
-[OVH/KS-1 server](https://www.kimsufi.com/en/) 500 GB €5/m
-https://hosthatch.com/storage-vps 250 GB €5/m
-[OVH/RunAbove object storage](https://www.runabove.com/storage/object-storage.xml)
+[OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
 [OVH/hubiC object storage](https://hubic.com/en/offers/)
+[OVH/KS-1 server](https://www.kimsufi.com/en/) 500 GB €5/m
+[HostHatch Storage VPS](https://hosthatch.com/storage-vps) 250 GB €5/m
 
 ### mega.co.nz CLI
 

@@ -2,8 +2,8 @@
 #
 # Test SMTPS authentication.
 #
-# VERSION       :0.4
-# DATE          :2015-05-25
+# VERSION       :0.4.1
+# DATE          :2015-10-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -37,7 +37,7 @@ Test SMTPS authentication.
   -l                LOGIN authentication
   -c                CRAM-MD5 authentication
   -h <HOST>         the SMTP server
-  -r <PORTT>        the SMTP port (default: 465)
+  -r <PORT>         the SMTP port (default: 465)
   -u <USER>         the SMTP username
   -P <PASS>         the SMTP password
 USAGE
