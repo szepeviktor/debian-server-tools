@@ -1,35 +1,18 @@
 #
 # Spammer rbldns zone file
 #
-#### LOCATION       :/var/lib/rbldns/spammer/spammer.dnsbl.zone
-#### DOMAIN         :spammer.dnsbl
-#### DOCUMENTATION  :http://www.corpit.ru/mjt/rbldnsd.html
-#### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone
-#### TEST Class C   :for FOURTH in $(seq 0 255);do host -t PTR 1.2.3.${FOURTH};done
-#### TEST DNSBL     :host $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
+#### DOMAIN        :spammer.dnsbl
+#### DOCS          :http://www.corpit.ru/mjt/rbldnsd.html
+#### DUMP          :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone 1> /dev/null
+#### TEST          :host -tANY $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
+#### LOCATION      :/var/lib/rbldns/spammer/spammer.dnsbl.zone
 
-####  1 - spammer
-####  2 - neighbour
-####  4 - attacker
+####  1 - Spammer
+####  2 - Neighbour
 
 $NS 3600 worker.szepe.net
 # one minute TTL
 $TTL 60
-
-# ---------------------------------------
-
-# SMTP AUTHENTICATION ATTACKERS
-:127.0.0.4:An attacker
-
-# lcfoot.fr
-109.239.112.0/23 :2:Neighbour of lcfoot.fr
-109.239.113.16   FR_lcfoot.nvlasp.fr@COVAGE NETWORKS SASU/AS44902
-109.239.116      :2:Neighbour of lcfoot.fr
-109.239.117      :2:Neighbour of lcfoot.fr
-# Artur Grabowski
-193.189.116.0/23 PL_*.host.e-ring.pl@DELORIAN Artur Grabowski/AS201451
-# ECATEL
-80.82.65         NL_Ecatel@NL-ECATEL/AS29073
 
 # ---------------------------------------
 
@@ -85,9 +68,14 @@ $TTL 60
 91.83.93          :2:Neighbour of topszallasok
 91.83.93.129-137  relocate--smtp*.topszallasok.hu@Invitel/AS12301
 
-# FR-ILIAD-ENTREPRISES-CUSTOMERS
+# Iliad (Online SAS, Dedibox servers)
 195.154          :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+212.129.59.1     friendly-vibes.com@FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+62.4.15          :2:Neighbour of *.hoverstyle.com
+62.4.15.221      *.hoverstyle.com@DEDIBOX-POOL-IPFO/AS12876
+212.129.32.0/19  :2:Neighbour of *.nyshkickball.com
+212.129.55.1     gutter.nyshkickball.com@FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 
 # Peter Krozser
 198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
@@ -101,26 +89,32 @@ $TTL 60
 37.156.226       RO_nagyonhasznos.eu-valamihasznosat.eu@ROAD-MARKETING-SRL/AS59854
 
 # m*.cutersfood.com
-199.217.114.69-73 HU_m*.cutersfood.com@HSI-6/AS30083
+199.217.114.69-73   HU_m*.cutersfood.com@HSI-6/AS30083
 
 # Flipora forced signup
 #74.86.42.161-169 mail*.flipmailer.com@SOFTLAYER-74.86.32.0/AS36351
 
 # Black Fox Limited @VolumeDrive
-107.182.16.0/20    :2:Neighbour of Black Fox Limited
-107.182.16.0/26    *.getlatestnews.biz@BFL-22/AS46664
-107.182.17.198-208 *.getlatestnews.biz@BFL-22/AS46664
+107.182.16.0/20     :2:Neighbour of Black Fox Limited
+107.182.16.0/26     *.getlatestnews.biz@BFL-22/AS46664
+107.182.17.198-208  *.getlatestnews.biz@BFL-22/AS46664
 
 # *.globalplaza.hu
 188.227.227         :2:Neighbour of HU_*.globalplaza.hu
 188.227.227.181-186 HU_*.globalplaza.hu@DOCLERWEB/AS47381
 
 # euve77344.serverprofi24.net @PlusServer AG
-62.75.142        :2:Neighbour of HU_euve77344.serverprofi24.net
-62.75.142.67     HU_euve77344.serverprofi24.net@BSB-SERVICE-1/AS8972
+62.75.142           :2:Neighbour of HU_euve77344.serverprofi24.net
+62.75.142.67        HU_euve77344.serverprofi24.net@BSB-SERVICE-1/AS8972
 
-# *news.info spammer block at SERVER DROID
-94.46.192-195      :2: Neighbour of mail.*news.info spammer block
-94.46.193.222-255  mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
-91.109.112.0/21    :2: Neighbour of *news.info spammer block
-91.109.119.199-255 pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598
+# *news.info spammer block at SERVERDROID
+94.46.192-195       :2: Neighbour of mail.*news.info spammer block
+94.46.193.222-255   mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
+91.109.112.0/21     :2: Neighbour of *news.info spammer block
+91.109.119.199-255  pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598
+185.109.169.1-148   :2: Neighbour of mail.*news.info spammer block
+185.109.169.171-255 :2: Neighbour of mail.*news.info spammer block
+185.109.169.149-170 mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
+
+# spammer: 93.158.206.23
+93.158.204.0/22     :2: Neighbour of intensdesign.com @Serverius/AS50673

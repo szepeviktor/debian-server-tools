@@ -3,7 +3,7 @@
 #
 #### LOCATION       :/var/lib/rbldns/spammer/known-hosts.dnsbl.zone
 #### DOMAIN         :spammer.dnsbl
-#### DOCS           :http://www.corpit.ru/mjt/rbldnsd.html
+#### DOCUMENTATION  :http://www.corpit.ru/mjt/rbldnsd.html
 #### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer known-hosts.dnsbl:ip4set:known-hosts.dnsbl.zone
 
 
@@ -25,9 +25,8 @@ $TTL 3600
 91.82.110.50     mail.qupdate.net
 # CB
 37.187.55.1      strass2.szepe.net
-# increst
+# Increst
 80.85.86.212     lhr.belmanetti.hu
-212.111.41.56    lgw.emineo.hu
 # OLM
 94.125.178.61    web.olmunkaido.hu
 87.229.24.89     fw1.olmunkaido.hu
@@ -48,6 +47,6 @@ $TTL 3600
 5.56.37.3        server14.megacp.com
 85.25.213.173    server15.megacp.com
 # Gyümölcs tárhely (Nobilitas Hungariae)
-# for i in `seq 1 255`; do host -t PTR 212.52.167.$i; done|grep lanten
+# for i in `seq 1 255`; do host -t A 212.52.167.$i; done|grep lanten
 212.52.167.89    szirmay.lanten.hu
 212.52.167.244   gyimothy.lanten.hu

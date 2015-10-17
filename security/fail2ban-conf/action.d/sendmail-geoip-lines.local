@@ -26,8 +26,8 @@ actionban = printf %%b "Subject: [Fail2Ban] <name>: banned <ip> from `uname -n`
             <failures> attempts against <name> - http://szepeviktor.github.io/ip-info/?<ip>\n\n
             Country:`geoiplookup -f /usr/share/GeoIP/GeoIP.dat "<ip>" | cut -d':' -f2-`
             AS:`geoiplookup -f /usr/share/GeoIP/GeoIPASNum.dat "<ip>" | cut -d':' -f2-`
-            hostname: `host -W 3 -t A <ip> 2>&1`\n\n
-            Lines containing IP:<ip> in <logpath>\n
+            hostname: `host -W 3 -t A <ip> 2>&1`\n
+            Lines containing IP <ip> in <logpath>\n
             `grep -E <grepopts> '(^|[^0-9])<ip>([^0-9]|$)' <logpath>`\n\n
             Regards,\n
             Fail2Ban" | /usr/sbin/sendmail -f <sender> <dest>

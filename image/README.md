@@ -37,22 +37,19 @@
 
 [Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
 
-### Face retouch
+### Online editors
 
-http://makeup.pho.to/
-
-### Edit
-
-- http://editor.pho.to/edit/
-- http://apps.pixlr.com/editor/
+- [Face retouch](http://makeup.pho.to/)
+- [Editor.Pho.to](http://editor.pho.to/edit/)
+- [Pixlr Editor](https://apps.pixlr.com/editor/)
 
 ### Archiving
 
-packJPG (already in pcompress)
+[packJPG](http://packjpg.encode.ru/?page_id=17) (already in pcompress)
 
 ### Invalited objects on Amazon CloudFront
 
 ```bash
 alias encodeURIComponent='perl -pe '\''s/([^a-zA-Z0-9_.!~*()'\''\'\'''\''-])/sprintf("%%%02X",ord($1))/ge'\'
-cat URL_LIST|while read URL;do echo -n "$URL"|encodeURIComponent;echo;done|sed 's/%2F/\//g'
+cat $URL_LIST|while read URL;do echo -n "$URL"|encodeURIComponent;echo;done|sed 's/%2F/\//g'
 ```

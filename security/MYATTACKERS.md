@@ -7,14 +7,18 @@
 - HTTP WordPress login attackers (brute force)
 - SMTP Authentication attackers (brute force)
 - SMTP Spammers see: ${D}/mail/spammer.dnsbl/
-- SSH  Authentication attackers
+- SSH  Authentication attackers (brute force)
 - SSH  Known vulnerability scanners
 - Mixed
 
 ```
 # Tor exit points
-# toreador.webenlet.hu. @AS29278/Deninet
+# AS29278/Deninet
 79.172.193.32
+# AS60781/LeaseWeb
+185.17.184.228
+# AS43350/NForce
+77.247.181.163
 
 # HU SpyderNet Kft. http://bgp.he.net/AS29278#_prefixes
 # type: HTTP - HDB2 bot

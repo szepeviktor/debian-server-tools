@@ -2,12 +2,27 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
+# VERSION       :0.1.1
+# DATE          :2015-10-17
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install bind9-host
+# LOCATION      :/usr/local/sbin/leanmail.sh
 # CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh 127.0.0.2
+
+# Usage, remarks
+#
+# Replace sendmail in Fail2ban action
+#     | /usr/local/sbin/leanmail.sh <ip> <sender> <dest>
 #
 # Serving a website over HTTPS reduces attacks!
 
 # DNS blacklists
 
+# Private list of dangerous networks
+DNSBL1_DANGEROUS="%s.dangerous.dnsbl"
 # https://www.projecthoneypot.org/httpbl_api.php
 DNSBL1_HTTPBL="hsffbftuslgh.%s.dnsbl.httpbl.org"
 # https://www.spamhaus.org/xbl/
@@ -34,23 +49,23 @@ LIST_BLDE="http://lists.blocklist.de/lists/all.txt"
 LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 
 # Set CACHE_UPDATE global to "1" to allow list updates
-#CACHE_UPDATE="1" leanmail.sh 127.0.0.2
+#     CACHE_UPDATE="1" leanmail.sh 127.0.0.2
 
 # Full IP match or first three octets only (Class C)
 #CLASSC_MATCH="0"
 CLASSC_MATCH="1"
 
 # DNS resolver
-NS1="208.67.220.123" # OpenDNS
-#NS1="81.2.236.171" # worker.szepe.net
+#NS1="208.67.220.123" # OpenDNS
+NS1="81.2.236.171" # worker.szepe.net
 
 # Timeout in seconds
 TIMEOUT="5"
 
-# Where to cache the lists
+# List cache path
 CACHE_DIR="/var/lib/fail2ban"
 
-# Fail2ban action sendmail-*.local
+# Fail2ban action in sendmail-*.local
 #     | /usr/local/sbin/leanmail.sh <ip> <sender> <dest>
 IP="$1"
 SENDER="$2"
@@ -94,7 +109,7 @@ Update_cache() {
 
     CACHE_FILE="$(Get_cache_file "$URL")"
 
-    wget -T "$TIMEOUT" --quiet -O "$CACHE_FILE" "$URL"
+    wget -T "$TIMEOUT" --quiet -O "$CACHE_FILE" "$URL" 2> /dev/null
 }
 
 Match_list() {
@@ -164,12 +179,7 @@ Match_dnsbl2() {
 
     # Illegal 3rd party exploits, including proxies, worms and trojan exploits
     # 127.0.0.4-7
-    if grep -q "^127.0.0.[4567]$" <<< "$ANSWER"; then
-        # IP is positive
-        return 0
-    else
-        return 1
-    fi
+    grep -q "^127.0.0.[4567]$" <<< "$ANSWER"
 }
 
 Match_http_api1() {
@@ -178,7 +188,7 @@ Match_http_api1() {
     local URL
 
     printf -v URL "$HTTPAPI" "$IP"
-    if wget -T "$TIMEOUT" --quiet -O- "$URL" | grep -q "<appears>yes</appears>"; then
+    if wget -T "$TIMEOUT" --quiet -O- "$URL" 2> /dev/null | grep -q "<appears>yes</appears>"; then
         # IP is positive
         return 0
     fi
@@ -187,6 +197,7 @@ Match_http_api1() {
 }
 
 Match_any() {
+    # Local
     if Match_list "$LIST_OPENBL" "$IP"; then
         Log_match "openbl"
         return 0
@@ -207,6 +218,12 @@ Match_any() {
         Log_match "blde1h"
         return 0
     fi
+
+    # DNS
+    if Match_dnsbl1 "$DNSBL1_DANGEROUS" "$IP"; then
+        Log_match "dangerous"
+        return 0
+    fi
     if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
         Log_match "spamhaus"
         return 0
@@ -215,6 +232,8 @@ Match_any() {
         Log_match "httpbl"
         return 0
     fi
+
+    # HTTP
     if Match_http_api1 "$HTTPAPI1_SFS" "$IP"; then
         Log_match "sfs"
         return 0
@@ -224,7 +243,6 @@ Match_any() {
 }
 
 Match_all() {
-    # Local
     if Match_list "$LIST_BLDE_1H" "$IP"; then
         echo "blde1h"
     fi
@@ -240,24 +258,24 @@ Match_all() {
     if Match_list "$LIST_CINSSCORE" "$IP"; then
         echo "cinsscore"
     fi
-
-    # DNS
+    if Match_dnsbl1 "$DNSBL1_DANGEROUS" "$IP"; then
+        echo "dangerous"
+    fi
     if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
         echo "spamhaus"
     fi
     if Match_dnsbl1 "$DNSBL1_HTTPBL" "$IP"; then
         echo "httpbl"
     fi
-
-    # HTTP
     if Match_http_api1 "$HTTPAPI1_SFS" "$IP"; then
         echo "sfs"
     fi
-
     exit
 }
 
-[ -z "$LEANMAIL_DEBUG" ] || Match_all
+[ -d "$CACHE_DIR" ] || exit 1
+
+[ -z "$LEANMAIL_DEBUG" ] || CACHE_UPDATE="1" Match_all
 
 if Match_any; then
     exit 0
