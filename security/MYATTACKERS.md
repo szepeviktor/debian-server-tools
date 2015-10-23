@@ -64,6 +64,7 @@
 # NL Ecatel http://bgp.he.net/AS29073#_prefixes
 # type: SSH
 # type: HTTP
+# type: SMTP
 80.82.64.0/20
 89.248.160.0/21
 89.248.168.0/22
@@ -95,6 +96,9 @@
 
 # PP SKS-LUGAN http://bgp.he.net/AS35804#_prefixes
 91.200.12.0/22
+
+# LeonLundberg-net shadow net
+188.143.232.0/24
 ```
 
 For management script see: ${D}/security/myattackers.sh

@@ -60,6 +60,7 @@ find -name .htaccess -exec chmod -v 640 "{}" ";"
 chown -cR ${U}:${U} cd /home/${U}/
 
 # WordPress wp-config.php skeleton
+#     define( 'ABSPATH', dirname( __FILE__ ) . '/html/' );
 
 # wordpress-fail2ban MU plugin
 

@@ -2,8 +2,8 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.1.3
-# DATE          :2015-10-17
+# VERSION       :0.1.4
+# DATE          :2015-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -38,9 +38,9 @@ DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
 # http://www.stopforumspam.com/usage
 HTTPAPI1_SFS="http://api.stopforumspam.org/api?ip=%s"
 # https://cleantalk.org/wiki/doku.php
-HTTPAPI2_CT_AUTHKEY="******"
+HTTPAPI2_CT_AUTHKEY="*****"
 HTTPAPI2_CT="https://moderate.cleantalk.org/api2.0"
-#HTTPAPI2_CT="https://api.cleantalk.org/?method_name=spam_check&auth_key=${HTTPAPI2_CT_AUTHKEY}"
+#HTTPAPI2_CT="https://api.cleantalk.org/?method_name=spam_check&auth_key=%s"
 
 # IP lists
 
@@ -55,7 +55,7 @@ LIST_BLDE="http://lists.blocklist.de/lists/all.txt"
 LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 
 # Set CACHE_UPDATE global to "1" to allow list updates
-#     CACHE_UPDATE="1" leanmail.sh 10.0.0.2
+#     CACHE_UPDATE="1" leanmail.sh 1.2.3.4
 
 # Full IP match or first three octets only (Class C)
 #CLASSC_MATCH="0"
@@ -112,10 +112,16 @@ Get_cache_file() {
 Update_cache() {
     local URL="$1"
     local CACHE_FILE
+    local CACHE_FILE_TEMP
 
     CACHE_FILE="$(Get_cache_file "$URL")"
+    CACHE_FILE_TEMP="${CACHE_FILE}.tmp"
 
-    wget -T "$TIMEOUT" --quiet -O "$CACHE_FILE" "$URL" 2> /dev/null
+    wget -T "$TIMEOUT" --quiet -O "$CACHE_FILE_TEMP" "$URL" 2> /dev/null
+    # Circumvent partially downloaded file
+    if [ -f "$CACHE_FILE_TEMP" ; then
+        mv -f "$CACHE_FILE_TEMP" "$CACHE_FILE"
+    fi
 }
 
 Match_list() {
@@ -125,10 +131,10 @@ Match_list() {
 
     CACHE_FILE="$(Get_cache_file "$LIST")"
 
+    if [ "$CACHE_UPDATE" == 1 ]; then
+        Update_cache "$LIST"
+    fi
     if ! [ -r "$CACHE_FILE" ]; then
-        if [ "$CACHE_UPDATE" == 1 ]; then
-            Update_cache "$LIST"
-        fi
         return 10
     fi
 
@@ -179,14 +185,14 @@ Match_dnsbl2() {
     ANSWER="${ANSWER#* has address }"
     ANSWER="${ANSWER#* has IPv4 address }"
 
-    if ! grep -q -E '^([0-9]{1,3}\.){3}[0-9]{1,3}$' <<< "$ANSWER"; then
+    if ! grep -q -E -x '([0-9]{1,3}\.){3}[0-9]{1,3}' <<< "$ANSWER"; then
         # NXDOMAIN, network error or invalid IP
         return 10
     fi
 
     # Illegal 3rd party exploits, including proxies, worms and trojan exploits
     # 127.0.0.4-7
-    grep -q "^127.0.0.[4567]$" <<< "$ANSWER"
+    grep -q -x "127.0.0.[4567]" <<< "$ANSWER"
 }
 
 Match_http_api1() {
@@ -220,7 +226,7 @@ Match_http_api2() {
         "$AUTHKEY" "$IP"
 
     if wget -T "$TIMEOUT" --quiet -O- --post-data="$POST" "$HTTPAPI" 2> /dev/null \
-        | grep -q '"allow" : 1'; then
+        | grep -q '"allow" : 0'; then
         # IP is positive
         return 0
     fi
@@ -229,63 +235,41 @@ Match_http_api2() {
 }
 
 Match_any() {
-    # 1. - CT offered one more month trial
-    if Match_http_api2 "$HTTPAPI2_CT" "$IP" "$HTTPAPI2_CT_AUTHKEY"; then
-        Log_match "ct"
-        return 0
-    fi
-
     # Local
-    if Match_list "$LIST_OPENBL" "$IP"; then
-        Log_match "openbl"
-        return 0
-    fi
-    if Match_list "$LIST_CINSSCORE" "$IP"; then
-        Log_match "cinsscore"
+    if Match_list "$LIST_BLDE" "$IP"; then
+        Log_match "blde"
         return 0
     fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         Log_match "greensnow"
         return 0
     fi
-    if Match_list "$LIST_BLDE" "$IP"; then
-        Log_match "blde"
-        return 0
-    fi
-    if Match_list "$LIST_BLDE_1H" "$IP"; then
-        Log_match "blde1h"
+    if Match_list "$LIST_OPENBL" "$IP"; then
+        Log_match "openbl"
         return 0
     fi
 
     # DNS
-    if Match_dnsbl1 "$DNSBL1_DANGEROUS" "$IP"; then
-        Log_match "dangerous"
-        return 0
-    fi
     if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
         Log_match "spamhaus"
         return 0
     fi
-    if Match_dnsbl1 "$DNSBL1_HTTPBL" "$IP" "$DNSBL1_HTTPBL_ACCESSKEY"; then
-        Log_match "httpbl"
+    if Match_dnsbl1 "$DNSBL1_DANGEROUS" "$IP"; then
+        Log_match "dangerous"
         return 0
     fi
 
     # HTTP
-    if Match_http_api1 "$HTTPAPI1_SFS" "$IP"; then
-        Log_match "sfs"
-        return 0
-    fi
 
     return 1
 }
 
 Match_all() {
-    if Match_list "$LIST_BLDE_1H" "$IP"; then
-        echo "blde1h"
-    fi
     if Match_list "$LIST_BLDE" "$IP"; then
         echo "blde"
+    fi
+    if Match_list "$LIST_BLDE_1H" "$IP"; then
+        echo "blde-1h"
     fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         echo "greensnow"
@@ -308,9 +292,6 @@ Match_all() {
     if Match_http_api1 "$HTTPAPI1_SFS" "$IP"; then
         echo "sfs"
     fi
-    if Match_http_api2 "$HTTPAPI2_CT" "$IP" "$HTTPAPI2_CT_AUTHKEY"; then
-        echo "ct"
-    fi
     exit
 }
 
@@ -322,4 +303,8 @@ if Match_any; then
     exit 0
 fi
 
-/usr/sbin/sendmail -f "$SENDER" "$DEST"
+# @TODO Report IP to: ??? custom.php?
+
+if [ "$IP" != 10.0.0.2 ]; then
+    /usr/sbin/sendmail -f "$SENDER" "$DEST"
+fi
