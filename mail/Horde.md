@@ -29,8 +29,12 @@ PHP configuration:
 php_admin_value[include_path] = .:/home/horde/website/pear/php
 ```
 
-### Upgade
+### Upgrade
 
+```bash
+pear list -c horde
+pear upgrade --nobuild --alldeps -c horde
+```
 
 ### Setup account defaults
 
@@ -47,6 +51,23 @@ php_admin_value[include_path] = .:/home/horde/website/pear/php
 /services/prefs.php?app=imp&group=mboxdisplay
 /services/prefs.php?app=imp&group=folderdisplay
 
+Customize login page title
+
+```po
+msgid ""
+msgstr ""
+"Project-Id-Version: Horde 5.2-git\n"
+"Language-Team: German <dev@lists.horde.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: login.php:291 templates/login/login.inc:70
+msgid "Log in"
+msgstr "Log in to szepe.net"
+```
 
 ```css
 /* Magnification */
@@ -79,6 +100,9 @@ div.vpRow {
 table.horde-table thead tr,
 table.horde-table th {
     background-size: 1px 25px;
+}
+form[action^="https://"] input.horde-default[type="submit"] {
+    background-size: auto auto, auto 100%;
 }
 /* -- Magnification */
 ```

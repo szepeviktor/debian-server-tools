@@ -2,8 +2,8 @@
 #
 # Can-send-email triggers and checks.
 #
-# VERSION       :1.3.0
-# DATE          :2015-08-11
+# VERSION       :1.3.1
+# DATE          :2015-10-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -206,17 +206,23 @@ case "$1" in
     check)
         FAILURES="$(Get_failures)"
         if [ -n "$FAILURES" ]; then
-            # 1. SMS
+
+            # 1. Send SMS
             SMSOK="$(/usr/local/bin/txtlocal.py "$ALERT_MOBILE" "Can-send-email failures: ${FAILURES}")"
             RET="$?"
-            [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" >&2
+            [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" 1>&2
+
             # 2. E-mail
             echo "Failures: ${FAILURES}" | mailx -S from="Can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
+
             # 3. Syslog
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"
 
             # 4. Try to correct the failure
-            echo "$FAILURES" | xargs -L 1 Get_url_by_host | Trigger 1>&2
+            echo "$FAILURES" \
+                | while read -r FAILED_HOST; do
+                    Get_url_by_host "$FAILED_HOST" | Trigger 1>&2
+                done
 
             # 5. Cron job output
             Error 10 "Failures: ${FAILURES}"

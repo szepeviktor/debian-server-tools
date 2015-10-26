@@ -41,6 +41,9 @@ action = %(action_mgl)s
 action_cf_mgl = cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
                 %(mta)s-geoip-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 
+# sendmail-geoip-lines = 2×geoip + host + grep log + sendmail
+timeout = 7
+
 #
 # JAILS
 #

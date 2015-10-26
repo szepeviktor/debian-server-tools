@@ -11,6 +11,8 @@
 - SSH  Known vulnerability scanners
 - Mixed
 
+## Attacker addresses
+
 ```
 # Tor exit points
 # AS29278/Deninet
@@ -19,6 +21,12 @@
 185.17.184.228
 # AS43350/NForce
 77.247.181.163
+# AS13213/UK2
+37.130.227.133
+# AS60118/FVDE
+176.126.252.8/29
+# AS14613/TOCICI
+199.127.226.150
 
 # HU SpyderNet Kft. http://bgp.he.net/AS29278#_prefixes
 # type: HTTP - HDB2 bot
@@ -71,6 +79,7 @@
 89.248.172.0/23
 89.248.174.0/24
 93.174.88.0/21
+94.102.48.0/20
 
 # CHINANET-SH
 50.200.243.136

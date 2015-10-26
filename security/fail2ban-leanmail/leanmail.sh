@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install bind9-host
+# DEPENDS       :apt-get install bind9-host dos2unix grepcidr
 # LOCATION      :/usr/local/sbin/leanmail.sh
 # CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh 10.0.0.2
 
@@ -41,6 +41,7 @@ HTTPAPI1_SFS="http://api.stopforumspam.org/api?ip=%s"
 HTTPAPI2_CT_AUTHKEY="*****"
 HTTPAPI2_CT="https://moderate.cleantalk.org/api2.0"
 #HTTPAPI2_CT="https://api.cleantalk.org/?method_name=spam_check&auth_key=%s"
+HTTPAPI3_DSHIELD="https://dshield.org/api/ip/%s"
 
 # IP lists
 
@@ -53,6 +54,22 @@ LIST_GREENSNOW="http://blocklist.greensnow.co/greensnow.txt"
 # https://www.blocklist.de/en/export.html
 LIST_BLDE="http://lists.blocklist.de/lists/all.txt"
 LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
+
+# https://ipsec.pl/files/ipsec/blacklist-ip.txt
+#
+# http://www.emergingthreats.net/open-source/etopen-ruleset
+NET_LIST_ET_RBN="http://doc.emergingthreats.net/pub/Main/RussianBusinessNetwork/RussianBusinessNetworkIPs.txt"
+# https://www.threatstop.com/index.php?page=instructions&policy_id=1299&pg=iptables
+# ftp://ftp.threatstop.com/pub/ts-iptables.tar.gz
+LIST_TS_BASIC="http://worker.szepe.net/ts/threatstop-basic.txt"
+# http://www.spamhaus.org/drop/
+NET_LIST_SPAMHAUS_DROP="http://www.spamhaus.org/drop/drop.txt"
+# Its main purpose is to block SSH bruteforce attacks via firewall.
+# http://danger.rulez.sk/index.php/bruteforceblocker/
+LIST_RDSK_BFB="http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
+LIST_ABUSE_FEODO="https://feodotracker.abuse.ch/blocklist/?download=ipblocklist"
+LIST_ABUSE_ZEUS="https://zeustracker.abuse.ch/blocklist.php?download=badips"
+
 
 # Set CACHE_UPDATE global to "1" to allow list updates
 #     CACHE_UPDATE="1" leanmail.sh 1.2.3.4
@@ -82,11 +99,11 @@ Reverse_ip() {
     local REV
 
     REV="$(
-        while read -d "." PART; do
+        while read -r -d "." PART; do
             echo "$PART"
         done <<< "${STRING}." \
             | tac \
-            | while read PART; do
+            | while read -r PART; do
                 echo -n "${PART}."
             done
     )"
@@ -118,8 +135,10 @@ Update_cache() {
     CACHE_FILE_TEMP="${CACHE_FILE}.tmp"
 
     wget -T "$TIMEOUT" --quiet -O "$CACHE_FILE_TEMP" "$URL" 2> /dev/null
-    # Circumvent partially downloaded file
-    if [ -f "$CACHE_FILE_TEMP" ; then
+    dos2unix --quiet "$CACHE_FILE_TEMP" 2> /dev/null
+
+    # Circumvent the case of partially downloaded file
+    if [ -f "$CACHE_FILE_TEMP" ]; then
         mv -f "$CACHE_FILE_TEMP" "$CACHE_FILE"
     fi
 }
@@ -145,6 +164,23 @@ Match_list() {
         # 24 bit match
         grep -q -E "^${IP%.*}\.[0-9]{1,3}$" "$CACHE_FILE"
     fi
+}
+
+Match_net_list() {
+    local LIST="$1"
+    local IP="$2"
+    local CACHE_FILE
+
+    CACHE_FILE="$(Get_cache_file "$LIST")"
+
+    if [ "$CACHE_UPDATE" == 1 ]; then
+        Update_cache "$LIST"
+    fi
+    if ! [ -r "$CACHE_FILE" ]; then
+        return 10
+    fi
+
+    grepcidr -f "$CACHE_FILE" <<< "$IP" &> /dev/null
 }
 
 Match_dnsbl1() {
@@ -234,6 +270,20 @@ Match_http_api2() {
     return 10
 }
 
+Match_http_api3() {
+    local HTTPAPI="$1"
+    local IP="$2"
+    local URL
+
+    printf -v URL "$HTTPAPI" "$IP"
+    if wget -T "$TIMEOUT" --quiet -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\+</attacks>"; then
+        # IP is positive
+        return 0
+    fi
+
+    return 10
+}
+
 Match_any() {
     # Local
     if Match_list "$LIST_BLDE" "$IP"; then
@@ -259,7 +309,36 @@ Match_any() {
         return 0
     fi
 
-    # HTTP
+    # labs :::::::::::::::::
+    if Match_net_list "$NET_LIST_ET_RBN" "$IP"; then
+        Log_match "et-rbn"
+        return 0
+    fi
+    if Match_list "$LIST_TS_BASIC" "$IP"; then
+        Log_match "ts-basic"
+        return 0
+    fi
+    if Match_net_list "$NET_LIST_SPAMHAUS_DROP" "$IP"; then
+        Log_match "spamhaus-drop"
+        return 0
+    fi
+    if Match_list "$LIST_RDSK_BFB" "$IP"; then
+        Log_match "rdsk-bfb"
+        return 0
+    fi
+    if Match_list "$LIST_ABUSE_FEODO" "$IP"; then
+        Log_match "abuse-feodo"
+        return 0
+    fi
+    if Match_list "$LIST_ABUSE_ZEUS" "$IP"; then
+        Log_match "abuse-zeus"
+        return 0
+    fi
+    # labs/remote ::::::::::
+    if Match_http_api3 "$HTTPAPI3_DSHIELD" "$IP"; then
+        Log_match "dshield"
+        return 0
+    fi
 
     return 1
 }
@@ -291,6 +370,27 @@ Match_all() {
     fi
     if Match_http_api1 "$HTTPAPI1_SFS" "$IP"; then
         echo "sfs"
+    fi
+    if Match_net_list "$NET_LIST_ET_RBN" "$IP"; then
+        echo "et-rbn"
+    fi
+    if Match_list "$LIST_TS_BASIC" "$IP"; then
+        echo "ts-basic"
+    fi
+    if Match_net_list "$NET_LIST_SPAMHAUS_DROP" "$IP"; then
+        echo "spamhaus-drop"
+    fi
+    if Match_list "$LIST_RDSK_BFB" "$IP"; then
+        echo "rdsk-bfb"
+    fi
+    if Match_list "$LIST_ABUSE_FEODO" "$IP"; then
+        echo "abuse-feodo"
+    fi
+    if Match_list "$LIST_ABUSE_ZEUS" "$IP"; then
+        echo "abuse-zeus"
+    fi
+    if Match_http_api3 "$HTTPAPI3_DSHIELD" "$IP"; then
+        echo "dshield"
     fi
     exit
 }

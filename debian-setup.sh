@@ -155,6 +155,8 @@ alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
 #alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
+#     apt-get install -y tcpdump tcpflow
+#alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 
 # Colorized man pages with less
 #     man termcap # String Capabilities

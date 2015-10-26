@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.6
-# DATE          :2015-09-22
+# VERSION       :0.2.7
+# DATE          :2015-10-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -359,7 +359,8 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                 if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
                     #DBG "$ANSWERS_SORTED||$RRVALUES_SORTED"
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
-                        "CHANGED answer to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT})"
+                        "CHANGED answer to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT})" \
+                        ", (${ANSWERS_SORTED}) <> (${RRVALUES_SORTED})"
                     continue
                 fi
             done
