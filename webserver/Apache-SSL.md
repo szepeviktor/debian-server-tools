@@ -1,5 +1,11 @@
 # Apache SSL
 
+### Available entropy
+
+```bash
+cat /proc/sys/kernel/random/entropy_avail
+```
+
 ### Edit mods-enabled/ssl.conf
 
 https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html

@@ -107,6 +107,7 @@ bantime  = 604800  ; 1 week
 #enabled  = true
 port     = http,https
 logpath  = /var/log/horde/horde.log
+#logpath  = %(syslog_ftp)s
 
 [courier-smtp]
 #enabled  = true

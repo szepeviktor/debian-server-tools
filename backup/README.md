@@ -52,7 +52,7 @@ cat github.repos|xargs -L 1 git clone
 ### S3QL flush before umount
 
 - synchronize: fsync(2)
-- upload: s3qlctrl flushcache
+- upload: sync && s3qlctrl flushcache
 - unmount: umount.s3ql
 
 ### Storage

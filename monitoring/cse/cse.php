@@ -6,7 +6,6 @@ Description: Send a trigger email.
 Snippet URI: https://github.com/szepeviktor/debian-server-tools
 License: The MIT License (MIT)
 Author: Viktor Szépe
-Author URI: http://www.online1.hu/webdesign/
 */
 
 // CSE address

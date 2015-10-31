@@ -434,6 +434,7 @@ cd /root/
 mkdir dist-mod && cd dist-mod/
 
 # Get pip
+apt-get install -y python3-dev
 wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python2 get-pip.py
@@ -461,6 +462,14 @@ grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # Performance mode
 #     for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance">$SG;done
+
+# Entropy - check virtio_rng on KVM
+cat /sys/devices/virtual/misc/hw_random/rng_available
+cat /sys/devices/virtual/misc/hw_random/rng_current
+[ -c /dev/hwrng ] && apt-get install -y rng-tools
+# Software based entropy source
+apt-get install -y haveged
+cat /proc/sys/kernel/random/entropy_avail
 
 # IRQ balance
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"

@@ -173,10 +173,6 @@ https://unlocktheinbox.com/resources/adsp/
 
 Deprecated.
 
-#### SenderID
-
-?
-
 #### DMARC
 
 Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text=1
@@ -232,6 +228,7 @@ https://wordtothewise.com/isp-information/
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
 - https://www.klaviyo.com/
 - https://litmus.com/subscribe
+- https://stamplia.com/
 
 ### Email tests
 
@@ -314,12 +311,17 @@ csi.cloudmark.com
 
 ##### Check RBL-s
 
-`cat anti-abuse.org.rbl|xargs -I%% host -tA $(revip "$IP").%% 2>&1|grep -v "not found: 3(NXDOMAIN)"`
+```bash
+cat anti-abuse.org.rbl | xargs -I %% host -tA $(revip "$IP").%% 2>&1 \
+    | grep -v "not found: 3(NXDOMAIN)"
+```
 
 ##### Trendmicro ERS
 
-`wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
-    | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '`
+```bash
+wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
+    | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '
+```
 
 Response: "IP Unlisted in the spam sender list None"
 
@@ -327,4 +329,4 @@ Response: "IP Unlisted in the spam sender list None"
 
 - https://www.rblmon.com/accounts/register/
 - https://www.projecthoneypot.org/monitor_settings.php
-- 
+

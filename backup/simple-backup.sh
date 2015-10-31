@@ -34,13 +34,13 @@ Echo --$?--
 
 Echo "MySQL"
 if which innobackupex &> /dev/null; then
-    # full backup
-    #innobackupex ./sql
+    # Full backup first
+    #     innobackupex ./sql
     INNOBCK_BASE="mysql-All_<FULL-BACKUP-DATE>"
     nice innobackupex --incremental ./sql --incremental-basedir="./sql/${INNOBCK_BASE}" \
         || echo "fail: SQL" >&2
 else
-    /usr/bin/mysqldump --all-databases --single-transaction --events \
+    nice /usr/bin/mysqldump --all-databases --single-transaction --events \
         | nice gzip -1 > "./mysql-All_${TODAY}.sql.sz" || echo "fail: SQL" >&2
 fi
 Echo --$?--

@@ -14,24 +14,14 @@
 ## Attacker addresses
 
 ```
-# Tor exit points
-# AS29278/Deninet
-79.172.193.32
-# AS60781/LeaseWeb
-185.17.184.228
-# AS43350/NForce
-77.247.181.163
-# AS13213/UK2
-37.130.227.133
-# AS60118/FVDE
-176.126.252.8/29
-# AS14613/TOCICI
-199.127.226.150
-
 # HU SpyderNet Kft. http://bgp.he.net/AS29278#_prefixes
 # type: HTTP - HDB2 bot
 # type: SMTP - broken pipe, ?HTTP commands in SMTP
 217.113.54.0/24
+
+# LU root SA - AS5577
+# type: HTTP
+94.242.192.0/18
 
 # NL/RU HOSTKEY-NET http://bgp.he.net/AS57043#_prefixes
 # DC: Serverius

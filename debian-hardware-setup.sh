@@ -14,6 +14,10 @@ editor /etc/smartd.conf
 
 cat ${D}/monitoring/hdd-temps.sh >> /root/.bashrc
 
+# Entropy from TPM
+modprobe tpm-rng
+echo tpm-rng >> /etc/modules
+
 # monit
 # - smartmontools
 # - xenstored, xenconsoled

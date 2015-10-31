@@ -2,6 +2,8 @@
 #
 # Install munin.
 
+MUNIN_MASTER_IP="1.2.3.4"
+
 LOADTIME_URL="http://www.site.net/login"
 PHPFPM_POOL="web"
 PHPFPM_STATUS="http://www.site.net/status"
@@ -89,8 +91,18 @@ MONIT_CONF
 
 
 munin_mysql() {
+    if ! dpkg -l libmodule-pluggable-perl libdbd-mysql-perl &> /dev/null; then
+        echo "ERROR: libmodule-pluggable-perl or libdbd-mysql-perl missing," 1>&2
+        echo "ERROR: apt-get install -y libmodule-pluggable-perl libdbd-mysql-perl" 1>&2
+        return 2
+    fi
+
     # Upstream: https://github.com/kjellm/munin-mysql
-    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/mysql2_"
+    wget https://github.com/kjellm/munin-mysql/archive/master.zip
+    unzip munin-mysql*.zip
+    cd munin-mysql-master/
+    touch "${PLUGIN_CONF_DIR}/mysql.conf"
+    make install
 }
 
 munin_ipmi() {
@@ -131,14 +143,6 @@ env.target ${LOADTIME_URL}
 LOADTIME_PLG
 }
 
-munin_courier_mta() {
-    [ -x /usr/sbin/courier ] || return 1
-
-    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/courier_mta_mailqueue"
-    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/courier_mta_mailstats"
-    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/courier_mta_mailvolume"
-}
-
 munin_multiping() {
     cat > "${PLUGIN_CONF_DIR}/multiping" <<MULTIPING
 [multiping]
@@ -151,8 +155,23 @@ MULTIPING
 }
 
 munin_bix() {
+    if ! ping -c 3 193.188.137.175; then
+        echo "ERROR: No BIX conncetion" 1>&2
+        return 1
+    fi
+
     # BIX/HE
     Enable_plugin "ping_" "ping_193.188.137.175"
+}
+
+munin_decix() {
+    if ! ping -c 3 80.81.193.28; then
+        echo "ERROR: No DE-CIX conncetion" 1>&2
+        return 1
+    fi
+
+    # DE-CIX/Backbone ehf
+    Enable_plugin "ping_" "ping_80.81.193.28"
 }
 
 munin_phpfpm() {
@@ -161,7 +180,7 @@ munin_phpfpm() {
     [ -x /usr/sbin/php5-fpm ] || return 1
 
     if ! dpkg -l libwww-perl &> /dev/null; then
-        echo "ERROR: libwww-perl missing,  apt-get install -y libwww-perl" >&2
+        echo "ERROR: libwww-perl missing,  apt-get install -y libwww-perl" 1>&2
         return 2
     fi
 
@@ -233,7 +252,9 @@ APACHE_CONF
 # @TODO https://www.monitis.com/monitoring-plan-builder
 # Ideas: URL hit, load, SMS
 
-apt-get install -y time liblwp-useragent-determined-perl libcache-cache-perl munin-node
+apt-get install -y liblwp-useragent-determined-perl libcache-cache-perl \
+    libmodule-pluggable-perl libdbd-mysql-perl libwww-perl libcrypt-ssleay-perl \
+    time logtail munin-node
 
 # Dependency
 which munin-node-configure &> /dev/null || exit 99
@@ -256,13 +277,13 @@ ln -svf /usr/local/share/munin/plugins/ipmi_sensor2_ /etc/munin/plugins/ipmi_sen
 # Daemons
 munin_mysql
 munin_fail2ban
-munin_courier_mta
 munin_loadtime
 #munin_proftpd https://github.com/munin-monitoring/contrib/tree/master/plugins/ftp
 
 # Network
 munin_multiping
 munin_bix
+munin_decix
 
 #https://github.com/munin-monitoring/munin/tree/devel/plugins/node.d.linux
 #munin_fw_conntrack
@@ -309,13 +330,13 @@ ls /etc/munin/plugins/ \
     done
 
 # Allow munin server access
-echo -e "\nallow MUNIN-MASTER-IP" >> /etc/munin/munin-node.conf
+echo -e "\nallow ^${MUNIN_MASTER_IP//./\\.}\$" >> /etc/munin/munin-node.conf
 service munin-node restart
 
 # Add node to the **server**
 cat <<EOF
 [$(hostname -f)]
-    address ^$(ip addr show dev eth0|sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/' -e 's/\./\\./gp')\$
+    address $(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')
     use_node_name yes
     contacts sms
     #contacts email
@@ -323,3 +344,6 @@ cat <<EOF
 # Execute on munin server
 editor /etc/munin/munin.conf
 EOF
+
+# Debug
+#     munin-run --servicedir /usr/local/share/munin/plugins --debug $PLUGIN_NAME
