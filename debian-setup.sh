@@ -540,6 +540,7 @@ openssl dhparam -out /etc/courier/dhparams.pem 2048
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
+#     TCPDOPTS=" ... ... -noidentlookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
 editor /etc/courier/esmtpd-ssl

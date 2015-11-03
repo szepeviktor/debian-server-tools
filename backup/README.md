@@ -55,6 +55,16 @@ cat github.repos|xargs -L 1 git clone
 - upload: sync && s3qlctrl flushcache
 - unmount: umount.s3ql
 
+### S3QL on OVH
+
+```
+[swift]
+backend-login: TENANT_NAME:USERNAME
+backend-password: PASSWORD
+storage-url: swiftks://auth.cloud.ovh.net/REGION_NAME:CT_NAME
+fs-passphrase: PASSPHRASE
+```
+
 ### Storage
 
 [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)

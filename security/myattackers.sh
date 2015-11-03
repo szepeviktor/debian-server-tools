@@ -2,8 +2,8 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.5.1
-# DATE          :2015-10-01
+# VERSION       :0.5.2
+# DATE          :2015-11-03
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -44,7 +44,7 @@ EOF
 
 # Output an error message
 Error_msg() {
-    echo -e "$(tput setaf 7;tput bold)$*$(tput sgr0)" >&2
+    echo -e "$(tput setaf 7;tput bold)${*}$(tput sgr0)" 1>&2
 }
 
 # Detect an IPv4 address
@@ -158,12 +158,15 @@ Get_rule_data() {
 Unban_expired() {
     local -i NOW="$(date "+%s")"
     local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
+    local NUMBER
+    local PACKETS
+    local -i EXPIRATION
 
     Get_rule_data \
         | while read RULEDATA; do
             NUMBER="${RULEDATA%%|*}"
             PACKETS="${RULEDATA/*|0|*/Z}"
-            declare -i EXPIRATION="${RULEDATA##*|}"
+            EXPIRATION="${RULEDATA##*|}"
 
             # Had zero traffic and expired less than one month ago
             if [ "$PACKETS" == "Z" ] \
@@ -179,16 +182,27 @@ Unban_expired() {
 # Zero out counters on rules expired at least one month ago (monthly cron job)
 Reset_old_rule_counters() {
     local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
+    local NUMBER
+    local PACKETS
+    local -i EXPIRATION
 
     Get_rule_data \
         | while read RULEDATA; do
             NUMBER="${RULEDATA%%|*}"
-            declare -i EXPIRATION="${RULEDATA##*|}"
+            PACKETS="${RULEDATA/*|0|*/Z}"
+            EXPIRATION="${RULEDATA##*|}"
 
-            # Expired one month ago
+            # Expired at least one month ago
+            # These survived the hourly deletion
             if [ "$EXPIRATION" -le "$MONTH_AGO" ]; then
-                # Zero the packet and byte counters
-                iptables -Z "$CHAIN" "$NUMBER"
+                if [ "$PACKETS" == "Z" ]; then
+                    # Remove rules with zero traffic
+                    # These must be at least 2 months old
+                    iptables -D "$CHAIN" "$NUMBER"
+                else
+                    # Reset the packet and byte counters
+                    iptables -Z "$CHAIN" "$NUMBER"
+                fi
             fi
         done
 
@@ -197,7 +211,7 @@ Reset_old_rule_counters() {
 
 # Script name specifies protocol
 PROTOCOL="ALL"
-case "$(basename $0)" in
+case "$(basename "$0")" in
     myattackers.sh)
         # Cron hourly (when called without parameters)
         [ $# == 0 ] && Unban_expired
@@ -337,7 +351,7 @@ case "$MODE" in
             grep -Ev "^\s*#|^\s*$" "$LIST_FILE" \
                 | while read ADDRESS; do
                     Check_address "$ADDRESS" && Unban "$ADDRESS"
-                done < "$LIST_FILE"
+                done
         fi
         ;;
 esac

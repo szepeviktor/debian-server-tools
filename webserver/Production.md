@@ -141,26 +141,36 @@ Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### PHP errors
 
-`tail -f /var/log/aapche2/${SITE_USER}-error.log`
+`tail -f /var/log/apache2/${SITE_USER}-error.log`
 
 ### SEO
 
 - title (blue in SERP)
 - permalink structure and slug optimization (green in SERP)
 - meta desc (grey in SERP)
-- `<h1>` `<h2>` / h3-h6
-- img alt-s
+- h1, h2 / h3-h6
+- img alt
+- structured data https://schema.org/ http://microformats.org/
+- [Google My Business](https://www.google.com/business/)
 
 ### Tracking
 
-Set up Analytics/Piwik/Clicktale/Facebook pixel/Remarketing.
+Set up and test
+
+- Analytics, Remarketing
+- Facebook pixel
+- Piwik
+- Clicktale
 
 ## Monitor
 
-1. filter error log `logsearch.sh -e|grep -Ev "AH00162|wpf2b_|bad_request_"`, `error-log-monitor`
+https://wiki.apache.org/httpd/ListOfErrors
+
+1. filter error log `logsearch.sh -e|grep -Ev "AH00162|wpf2b_|bad_request_|no_wp_here_"`
+1. watch error log `error-log-monitor` plugin
 1. pingdom, `ping.php`
 1. file change: `Tripwire`
-1. connected services
+1. connected services: API-s, CDN-s ...
 1. recipient account: `cse`
 1. recipient domain: expiry, DNS, blacklist
 

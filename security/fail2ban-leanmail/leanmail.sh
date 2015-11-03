@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # DATE          :2015-10-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,19 +22,20 @@
 
 # DNS blacklists
 
-# Private list of dangerous networks
-# See: ${D}/mail/spammer.dnsbl/dangerous.dnsbl.zone
-DNSBL3_DANGEROUS="%s.dangerous.dnsbl"
 # https://www.projecthoneypot.org/httpbl_api.php
 DNSBL1_HTTPBL_ACCESSKEY="hsffbftuslgh"
 DNSBL1_HTTPBL="${DNSBL1_HTTPBL_ACCESSKEY}.%s.dnsbl.httpbl.org"
+# Exploits Block List
 # https://www.spamhaus.org/xbl/
 DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
-# XBL includes CBL
-# # http://www.abuseat.org/faq.html
-# DNSBL3_ABUSEAT="%s.cbl.abuseat.org"
+# Private list of dangerous networks
+# See: ${D}/mail/spammer.dnsbl/dangerous.dnsbl.zone
+DNSBL3_DANGEROUS="%s.dangerous.dnsbl"
 # https://www.torproject.org/projects/tordnsel.html.en
 DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"
+# XBL includes CBL (result: 127.0.0.2)
+# http://www.abuseat.org/faq.html
+#DNSBL5_ABUSEAT="%s.cbl.abuseat.org"
 
 # HTTP API-s
 
@@ -69,9 +70,10 @@ LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 #LIST_TS_BASIC="http://worker.szepe.net/ts/threatstop-basic.txt"
 # http://www.spamhaus.org/drop/
 #NET_LIST_SPAMHAUS_DROP="http://www.spamhaus.org/drop/drop.txt"
+#NET_LIST_SPAMHAUS_EDROP="http://www.spamhaus.org/drop/edrop.txt"
 # Its main purpose is to block SSH bruteforce attacks via firewall.
 # http://danger.rulez.sk/index.php/bruteforceblocker/
-#LIST_RDSK_BFB="http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
+#COMMENTED_LIST_DRSK_BFB="http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
 #LIST_ABUSE_FEODO="https://feodotracker.abuse.ch/blocklist/?download=ipblocklist"
 #LIST_ABUSE_ZEUS="https://zeustracker.abuse.ch/blocklist.php?download=badips"
 
@@ -190,8 +192,25 @@ Match_list() {
         grep -q -F -x "$IP" "$CACHE_FILE"
     else
         # 24 bit match
-        grep -q -E "^${IP%.*}\.[0-9]{1,3}$" "$CACHE_FILE"
+        grep -q -E -x "${IP%.*}\.[0-9]{1,3}" "$CACHE_FILE"
     fi
+}
+
+Match_commented_list() {
+    local LIST="$1"
+    local IP="$2"
+    local CACHE_FILE
+
+    CACHE_FILE="$(Get_cache_file "$LIST")"
+
+    if [ "$CACHE_UPDATE" == 1 ]; then
+        Update_cache "$LIST"
+    fi
+    if ! [ -r "$CACHE_FILE" ]; then
+        return 10
+    fi
+
+    grepcidr -q -f "$CACHE_FILE" <<< "$IP"
 }
 
 Match_net_list() {

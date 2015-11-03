@@ -187,3 +187,18 @@ $ find /usr -type d -name dist-packages -o -name site-packages
 /usr/local/lib/python2.7/dist-packages
 /usr/local/lib/python3.4/dist-packages
 ```
+
+### Convert a Python package to Debian package
+
+```bash
+apt-get install -y python-stdeb
+pypi-install $PYPI_PKG
+```
+
+### Convert a PEAR package to Debian package
+
+```bash
+apt-get install -y debpear
+debpear $PEAR_PKG
+```
+

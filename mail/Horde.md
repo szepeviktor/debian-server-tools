@@ -11,6 +11,8 @@ chmod +x /home/horde/website/pear.sh
 /home/horde/website/pear.sh install horde/horde_role
 /home/horde/website/pear.sh run-scripts horde/Horde_Role
 /home/horde/website/pear.sh install -B horde/horde
+# Open TNEF
+/home/horde/website/pear.sh install -B horde/Horde_Mapi
 # Create database tables
 PHP_PEAR_SYSCONF_DIR=/home/horde/website php -d "include_path=.:/home/horde/website/pear/php" \
     /home/horde/website/pear/horde-db-migrate
