@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Ban malicious hosts manually.
+# Ban malicious hosts manually
 #
-# VERSION       :0.5.2
-# DATE          :2015-11-03
+# VERSION       :0.5.3
+# DATE          :2015-11-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -131,9 +131,9 @@ Ban() {
     local ADDRESS="$1"
 
     # Don't populate duplicates
-    if ! iptables -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j DROP &> /dev/null; then
+    if ! iptables -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &> /dev/null; then
         # Insert at the top
-        iptables -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j DROP
+        iptables -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
     fi
 }
 

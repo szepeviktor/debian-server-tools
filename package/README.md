@@ -202,3 +202,7 @@ apt-get install -y debpear
 debpear $PEAR_PKG
 ```
 
+### Backporting guide
+
+https://wiki.debian.org/BuildingFormalBackports
+

@@ -22,3 +22,10 @@ zgrep -Fv "[recidive]" /var/log/fail2ban.log | sed -n 's/^.* Ban \([0-9.]\+\)$/\
     | xargs -I %% bash -c "echo -n %%;geoiplookup -f ${AS_GEOIP} %%|recode -f l2..utf8|cut -d: -f2-" \
     | grep -w "$AS" | cut -d' ' -f1 | xargs -r -L1 host -tA
 }
+
+Attack_types() {
+logsearch.sh -e "Break-in attempt detected: " \
+    | sed -n 's;.*Break-in attempt detected: \(\S\+\).*;\1;p' \
+    | sort | uniq -c \
+    | sort -n
+}

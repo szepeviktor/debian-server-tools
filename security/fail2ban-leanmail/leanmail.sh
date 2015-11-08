@@ -46,6 +46,7 @@ DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"
 #HTTPAPI2_CT="https://moderate.cleantalk.org/api2.0"
 #HTTPAPI2_CT="https://api.cleantalk.org/?method_name=spam_check&auth_key=%s"
 # https://www.dshield.org/api/
+# handlers-a-t-isc.sans.edu
 HTTPAPI3_DSHIELD="https://dshield.org/api/ip/%s"
 
 # IP lists
@@ -79,19 +80,22 @@ LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 
 # Hosting only, no browsers
 declare -a AS_HOSTING=(
-AS14618 # Amazon.com, Inc.
-AS16276 # OVH SAS
-AS18978 # Enzu Inc.
-AS12876 # ONLINE S.A.S.
-AS5577  # root SA
-AS36352 # ColoCrossing
+    AS14618 # Amazon.com, Inc.
+    AS16276 # OVH SAS
+    AS18978 # Enzu Inc.
+    AS12876 # ONLINE S.A.S.
+    AS5577  # root SA
+    AS36352 # ColoCrossing
+    AS29073 # Ecatel LTD
 )
 
-# labs
+# Labs
+# wget -q -O- "http://api.abuseipdb.com/check/?ip=${IP}&cids=12,4,11,10,3,5,15,7,6,14,9,17,16,13&uid=${ABUSEIPDB_UID}&skey=${ABUSEIPDB_SKEY}&o=xml" \
+#     | grep -q '<report cid="[0-9]\+" total="[0-9]\+" />'
 # https://zeltser.com/malicious-ip-blocklists/
 # http://www.umbradata.com/solutions
-# # + https://www.dshield.org/xml.html
-# # + https://www.dshield.org/hpbinfo.html
+# # https://www.dshield.org/xml.html
+# # https://www.dshield.org/hpbinfo.html
 # # https://isc.sans.edu/diary/Reminder%3A+Proper+use+of+DShield+data/4483
 # https://www.dshield.org/ipsascii.html?limit=5000
 # https://www.cyveillance.com/home/security-solutions/data/
@@ -106,7 +110,7 @@ CLASSC_MATCH="1"
 
 # DNS resolver
 #NS1="208.67.220.123" # OpenDNS
-NS1="81.2.236.171" # worker.szepe.net
+NS1="81.2.236.171" # worker
 
 # Timeout in seconds
 TIMEOUT="5"
@@ -400,14 +404,6 @@ Match_multi_AS() {
 
 Match_any() {
     # Local
-#    if Match_country RU "$IP"; then
-#        Log_match "ru"
-#        return 0
-#    fi
-    if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then
-        Log_match "hosting"
-        return 0
-    fi
     if Match_list "$LIST_BLDE" "$IP"; then
         Log_match "blde"
         return 0
@@ -418,6 +414,14 @@ Match_any() {
     fi
     if Match_list "$LIST_OPENBL" "$IP"; then
         Log_match "openbl"
+        return 0
+    fi
+    if Match_country A1 "$IP"; then
+        Log_match "anonymous-proxy"
+        return 0
+    fi
+    if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then
+        Log_match "hosting"
         return 0
     fi
 
@@ -439,9 +443,9 @@ Match_any() {
         return 0
     fi
 
-    # labs :::::::::::::::::
+    # Labs :::::::::::::::::
 
-    # labs/network ::::::::::
+    # Labs/network ::::::::::
 
     return 1
 }
@@ -491,8 +495,12 @@ if Match_any; then
     exit 0
 fi
 
-# @TODO Report IP to: ??? custom.php?
-
 if [ "$IP" != 10.0.0.2 ]; then
+# @TODO Report IP
+# if sed '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'; then
+#     INSTANT_SECRET=""
+#     wget -q -O- --post-data="auth=$(echo -n "${IP}${INSTANT_SECRET}"|shasum -a 256|cut -d" " -f1)&ip=${IP}" \
+#         https://site/dnsbl.php &> /dev/null
+# fi |
     /usr/sbin/sendmail -f "$SENDER" "$DEST"
 fi

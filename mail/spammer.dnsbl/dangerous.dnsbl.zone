@@ -60,15 +60,6 @@ $TTL 60
 
 # ---------------------------------------
 
-# Tor
-:127.0.0.2:Tor exit node
-
-79.172.193.32   Tor@Deninet/AS29278
-185.17.184.228  Tor@LeaseWeb/AS60781
-77.247.181.163  Tor@NForce/AS43350
-
-# ---------------------------------------
-
 # Blocked
 :127.0.0.128:Blocked network
 
@@ -99,6 +90,7 @@ $TTL 60
 89.248.172.0/23 FR_Ecatel@Ecatel/AS29073
 89.248.174.0/24 FR_Ecatel@Ecatel/AS29073
 93.174.88.0/21  FR_Ecatel@Ecatel/AS29073
+94.102.48.0/20  FR_Ecatel@Ecatel/AS29073
 
 # AS35804 - PP SKS-LUGAN
 91.200.12.0/22  UA_SKS-LUGAN@PP SKS-LUGAN/AS35804

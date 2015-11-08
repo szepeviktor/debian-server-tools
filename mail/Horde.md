@@ -13,6 +13,8 @@ chmod +x /home/horde/website/pear.sh
 /home/horde/website/pear.sh install -B horde/horde
 # Open TNEF
 /home/horde/website/pear.sh install -B horde/Horde_Mapi
+# URL generation
+/home/horde/website/pear.sh install -B horde/Horde_Routes
 # Create database tables
 PHP_PEAR_SYSCONF_DIR=/home/horde/website php -d "include_path=.:/home/horde/website/pear/php" \
     /home/horde/website/pear/horde-db-migrate

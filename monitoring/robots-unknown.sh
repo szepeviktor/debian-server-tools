@@ -1,18 +1,26 @@
 #!/bin/bash
 #
-# Report traffic from unknown robots.
+# Report traffic from unknown robots
 #
+# VERSION       :0.1.1
+# DATE          :2015-11-08
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install heirloom-mailx
+# REFS          :http://smythies.com/robots.txt
+# LOCATION      :/usr/local/sbin/robots-unknown.sh
+# CRON-DAILY    :/usr/local/sbin/robots-unknown.sh
 
-# http://smythies.com/robots.txt
+# Authorized robots with 10+ visits
 #
-# Authorized robots 10+
-#
-#     grep "GET /robots\.txt" /home/*/log/access*.log /var/log/apache2/access*.log \
+#     grep -F "GET /robots.txt" /var/log/apache2/*access.log \
 #         |cut -d'"' -f6|sort|uniq -c|sort -n|grep "^\s*[0-9]\{2,\}"
 #
 # Robots without user agent
 #
-#     grep ' "-"$' /home/*/log/access*.log /var/log/apache2/access*.log|most
+#     grep ' "-"$' /var/log/apache2/*access.log|pager
 
 EMAIL_ADDRESS="webmaster@szepe.net"
 EMAIL_SUBJECT="[admin] Unknown robots from $(hostname -f)"
@@ -40,6 +48,9 @@ fi
 # APACHE_LOG_DIR is defined here
 source /etc/apache2/envvars
 
+# For non-existent previous log file
+shopt -s nullglob
+
 while read CONFIG_FILE; do
     ACCESS_LOG="$(sed -n '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
@@ -49,10 +60,12 @@ while read CONFIG_FILE; do
         -e "s;\${SITE_USER};${SITE_USER};g")"
 
     ionice -c 3 /usr/local/bin/dategrep --format apache --multiline \
-        --from "1 day ago at 06:25:00" --to "06:25:00" "${ACCESS_LOG}.1" "$ACCESS_LOG"
+        --from "1 day ago at 06:25:00" --to "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG"
 
 done <<< "$APACHE_CONFIGS" \
     | Filter_ua \
     | Digest_ua \
     | sed 's;^;|;' \
     | mailx -E -S from="robots unknown <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
+
+exit 0

@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Add blocklist.de's list for very abusive IP-s to iptables.
+# Block traffic from very abusive IP-s of blocklist.de
 #
-# VERSION       :0.3
-# DATE          :2015-06-08
+# VERSION       :0.3.1
+# DATE          :2015-11-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -54,7 +54,7 @@ fi
 "$IPTABLES" -N "$A5K_CHAIN" &> /dev/null
 "$IPTABLES" -F "$A5K_CHAIN"
 while read A5K; do
-    isIP "$A5K" && "$IPTABLES" -A "$A5K_CHAIN" -s "$A5K" -j DROP
+    isIP "$A5K" && "$IPTABLES" -A "$A5K_CHAIN" -s "$A5K" -j REJECT
 done < "$A5K_TMP"
 "$IPTABLES" -A "$A5K_CHAIN" -j RETURN
 

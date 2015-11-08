@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.2.0
-# DATE          :2015-07-17
+# VERSION       :1.2.1
+# DATE          :2015-11-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -59,6 +59,9 @@ fi
 # APACHE_LOG_DIR is defined here
 source /etc/apache2/envvars
 
+# For non-existent previous log file
+shopt -s nullglob
+
 while read CONFIG_FILE; do
     ACCESS_LOG="$(sed -n '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
@@ -69,8 +72,10 @@ while read CONFIG_FILE; do
 
     # Log lines for 1 day from cron.daily
     ionice -c 3 /usr/local/bin/dategrep --format apache --multiline \
-        --from "1 day ago at 06:25:00" --to "06:25:00" "${ACCESS_LOG}.1" "$ACCESS_LOG" \
+        --from "1 day ago at 06:25:00" --to "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
-        | sed "s;^;$(basename "$ACCESS_LOG" .log): ;g"
+        | sed "s;^;$(basename "$ACCESS_LOG" .log): ;"
 
 done <<< "$APACHE_CONFIGS" | Maybe_sendmail
+
+exit 0

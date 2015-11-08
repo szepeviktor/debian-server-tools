@@ -130,6 +130,10 @@ sudo -u daemon -- spamassassin --test-mode -D dkim < msg-signed.eml
 opendkim -vvv -t msg-signed.eml
 ```
 
+### Mailserver SSL test
+
+https://ssl-tools.net/
+
 #### Sender ID (From:)
 
 - http://en.wikipedia.org/wiki/Sender_ID
