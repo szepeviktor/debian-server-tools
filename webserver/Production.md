@@ -1,10 +1,10 @@
-# Setting up a production website
+# Setting up a production WordPress website
 
 ## Setup
 
 ### SSL certificate
 
-Security + trust.
+For security + trust.
 
 1. Apache-SSL.md
 1. https://www.ssllabs.com/ssltest/
@@ -16,7 +16,7 @@ Security + trust.
 1. Turn off debugging
 1. Set up database connection in `wp-config.php`
 1. Edit `wp-cli.yml`
-1. Define contants based of wp-config skeleton
+1. Define contants based on `wp-config.php` skeleton
 
 ### Search & replace various strings
 
@@ -47,13 +47,21 @@ Allow accents in URL-s? `mu-latin-accent-urls`
 
 See: `alter-table.sql`
 
-`wp --allow-root plugin install --activate classic-smilies`
+`wp --allow-root plugin install --activate wp-clean-up`
 
 `wp --allow-root transient delete-all`
 
 `wp --allow-root w3-total-cache flush`
 
 `ls -l /home/${U}/website/html/static/cache/`
+
+### Create root files
+
+- robots.txt
+- favicon.ico
+- apple-touch-icon.png
+- browserconfig.xml
+- etc.
 
 ### Set up CDN
 
@@ -75,7 +83,7 @@ Consider transactional email service: Amazon SES.
 - SPF
 - DKIM
 
-Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
+Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Set up cron jobs
 
@@ -90,7 +98,7 @@ Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
 ### User management
 
 - 1 administrator
-- personal accounts for editors
+- personal accounts for editors and authors
 - modify post and page authors
 - enable/disable author sitemaps
 
@@ -100,6 +108,7 @@ Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
 
 - line ends
 - indentation
+- trailing spaces `sed -i 's;\s\+$;;' file.ext`
 
 ### Theme and plugin check
 
@@ -128,7 +137,7 @@ Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
 
 - informative
 - cooperative
-- attracktive
+- attractive
 
 ### Resource optimization
 
@@ -166,13 +175,15 @@ Set up and test
 
 https://wiki.apache.org/httpd/ListOfErrors
 
-1. filter error log `logsearch.sh -e|grep -Ev "AH00162|wpf2b_|bad_request_|no_wp_here_"`
-1. watch error log `error-log-monitor` plugin
+1. DNS watch
+1. domain expiry watch
 1. pingdom, `ping.php`
 1. file change: `Tripwire`
+1. filter error log `logsearch.sh -e|grep -Ev "AH00162|wpf2b_|bad_request_|no_wp_here_"`
+1. watch error log `error-log-monitor` plugin
 1. connected services: API-s, CDN-s ...
 1. recipient account: `cse`
-1. recipient domain: expiry, DNS, blacklist
+1. recipient domain: domain expiry, DNS, blacklist
 
 ## Backup
 

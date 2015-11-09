@@ -165,13 +165,13 @@ munin_bix() {
 }
 
 munin_decix() {
-    if ! ping -c 3 80.81.193.28; then
+    if ! ping -c 3 80.81.194.180; then
         echo "ERROR: No DE-CIX conncetion" 1>&2
         return 1
     fi
 
-    # DE-CIX/Backbone ehf
-    Enable_plugin "ping_" "ping_80.81.193.28"
+    # DE-CIX/CloudFlare
+    Enable_plugin "ping_" "ping_80.81.194.180"
 }
 
 munin_phpfpm() {

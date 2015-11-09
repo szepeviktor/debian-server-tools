@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.5.6
-# DATE          :2015-08-20
+# VERSION       :0.6.0
+# DATE          :2015-11-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -43,6 +43,13 @@ Failures() {
 if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then
     /usr/local/bin/dategrep --format "%a %b %e %H:%M:%S %Y" --multiline \
         --from "1 hour ago from -17:00" --to "-17:00" /var/log/boot \
+        | Failures
+fi
+
+# Process Apache main error log
+if [ -s /var/log/apache2/error.log ]; then
+    /usr/local/bin/dategrep --format "[%a %b %e %H:%M:%S %Y]" --multiline \
+        --from "1 hour ago from -17:00" --to "-17:00" /var/log/apache2/error.log \
         | Failures
 fi
 

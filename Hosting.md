@@ -38,8 +38,8 @@
 
 ## Shared hosting in Hungary
 
-- https://www.mhosting.hu/tarhely/evo-ssd-tarhely managed VPS
+- [mobilx Cloud Tárhely](http://mobilxcloud.hu/ugyfelkapu/?affid=204)
 - https://maxer.hu/ modern CPU-s
 - https://online.spaceweb.hu/order/main/packages/ssd-premium/?group_id=12 Litespeed
-- http://mobilxcloud.hu/ugyfelkapu/cart/cloud-tarhely/
+- https://www.mhosting.hu/tarhely/evo-ssd-tarhely **managed VPS**
 - http://www.profitarhely.hu/webtarhely fast CPU

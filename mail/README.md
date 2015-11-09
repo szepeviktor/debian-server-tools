@@ -191,13 +191,13 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 ##### Body parts
 
-- Descriptive From name "Firstname from Company"
-- Descriptive subject line
-- Short preview line at top of the message
+- :sunny: :sunny: :sunny: Descriptive From name "Firstname from Company"
+- :sunny: :sunny: Descriptive subject line
+- :sunny: Short preview line at top of the message
 - Link to online version (newsletter archive)
 - Short main header line
 - Subheader lines
-- Sections: image + title + description + call2action  https://litmus.com/subscribe
+- :bulb: Sections: image + title + description + call2action  https://litmus.com/subscribe
 
 ##### Footer
 
