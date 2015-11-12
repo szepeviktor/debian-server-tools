@@ -2,16 +2,16 @@
 #
 # Check your VPS' resources daily.
 #
-# VERSION       :0.4.3
-# DATE          :2015-08-19
+# VERSION       :0.4.4
+# DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install iproute heirloom-mailx
 # LOCATION      :/usr/local/sbin/vpscheck.sh
-# CONFIG        :~/.config/vpscheck/configuration
 # CRON-DAILY    :/usr/local/sbin/vpscheck.sh
+# CONFIG        :~/.config/vpscheck/configuration
 
 # Checks
 # - CPU
@@ -133,14 +133,14 @@ fi
 Add_check PROC 'grep -c "^processor" /proc/cpuinfo'
 
 # Total memory (kB)
-Add_check MEM 'grep "^MemTotal:" /proc/meminfo | sed "s/\s\+/ /g" | cut -d" " -f 2'
+Add_check MEM 'sed -n "s/^MemTotal:\s\+\(\S\+\).*$/\1/p" /proc/meminfo'
 
 # Disk partitions
 # - VMware /dev/sd*
 # - XEN /dev/xvd*
 # - KVM dev/vd*
 # - OpenVZ: no disk devices, comment out this check
-Add_check PART 'ls -1 /dev/sd* | paste -s -d","'
+Add_check PART 'ls /dev/sd* | paste -s -d","'
 
 # Swap sizes (kB)
 #Add_check SWAP 'tail -n +2 /proc/swaps | sed "s;\s\+;\t;g" | cut -f 3 | paste -s -d", "'
@@ -153,7 +153,7 @@ Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocks
 #Add_check CONSOLE 'ls /dev/hvc0'
 
 # First nameserver (IPv4 only)
-Add_check DNS1 'grep -m 1 "^\s*[^#]*nameserver" /etc/resolv.conf | grep -o "[0-9.]*"'
+Add_check DNS1 'grep -m 1 "^nameserver" /etc/resolv.conf | grep -o "[0-9.]\+"'
 
 # First IPv4 address
 Add_check IP 'ip addr show|sed -n "s/^\s*inet \([0-9\.]\+\)\b.*$/\1/p"|grep -F -v -m 1 "127.0.0."'
@@ -163,6 +163,7 @@ Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
 # FIXME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
 
 # First hop towards the nearest root server
+# There could be more than one routers!
 Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
 
 # First mail exchanger

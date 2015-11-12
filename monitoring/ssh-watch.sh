@@ -2,8 +2,8 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.3
-# DATE          :2015-10-16
+# VERSION       :0.1.4
+# DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -26,7 +26,7 @@
 #     INTERNET_IF="eth0"
 #     RETRY_TIME="40"
 #     SSH_WATCH=(
-#       hostname:port
+#       HOSTNAME:PORT
 #       szepe.net:22
 #     )
 #
@@ -89,7 +89,7 @@ for HOST in "${SSH_WATCH[@]}"; do
         && continue
 
     if LC_ALL=C host -W 2 -t A "$HNAME" 2>&1 | grep -qv " has\( IPv4\)\? address "; then
-        Alert "${HNAME}/A" \
+        Alert "${HNAME}/DNS" \
             "Failed to get address of ${HNAME}"
         continue
     fi

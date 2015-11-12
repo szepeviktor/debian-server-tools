@@ -222,6 +222,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - HTML and plain payload
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
+- :cloud: CDN for images
 
 ##### Feedback loop
 

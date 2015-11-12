@@ -1,6 +1,15 @@
 # Setting up a production WordPress website
 
-## Setup
+1. [Installation](#installation)
+1. [Migration](#migration)
+1. [Check](#check)
+1. [Monitor](#monitor)
+1. [Backup](#backup)
+1. [Marketing](#marketing)
+
+
+## Installation
+
 
 ### SSL certificate
 
@@ -9,7 +18,7 @@ For security + trust.
 1. Apache-SSL.md
 1. https://www.ssllabs.com/ssltest/
 
-### WordPress core, theme, uploads
+### WordPress core, theme
 
 `git clone --recursive ssh://user@server:port/path/to/git`
 
@@ -17,17 +26,6 @@ For security + trust.
 1. Set up database connection in `wp-config.php`
 1. Edit `wp-cli.yml`
 1. Define contants based on `wp-config.php` skeleton
-
-### Search & replace various strings
-
-Manual replace constants in `wp-config.php`.
-
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix ${OLD} ${NEW}`
-
-1. `http://DOMAIN.TLD` or `https://` (no trailing slash)
-1. `/home/PATH/TO/SITE` (no trailing slash)
-1. `EMAIL@ADDRESS.ES` (all addresses)
-1. `DOMAIN.TLD` (now without protocol)
 
 ### Install plugins
 
@@ -42,18 +40,6 @@ Security: `wordpress-fail2ban`
 Disable comments? `mu-disable-comments`
 
 Allow accents in URL-s? `mu-latin-accent-urls`
-
-### Clean up database
-
-See: `alter-table.sql`
-
-`wp --allow-root plugin install --activate wp-clean-up`
-
-`wp --allow-root transient delete-all`
-
-`wp --allow-root w3-total-cache flush`
-
-`ls -l /home/${U}/website/html/static/cache/`
 
 ### Create root files
 
@@ -89,12 +75,6 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 `wp-cron-cli.sh`
 
-### Redirect old URL-s
-
-`wp --allow-root plugin install --activate safe-redirect-manager`
-
-`https://www.google.com/search?q=site:${DOMAIN}`
-
 ### User management
 
 - 1 administrator
@@ -102,7 +82,46 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - modify post and page authors
 - enable/disable author sitemaps
 
+
+## Migration
+
+
+### Search & replace URL and installation path
+
+Manual replace constants in `wp-config.php`.
+
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix ${OLD} ${NEW}`
+
+1. `http://DOMAIN.TLD` or `https://` (no trailing slash)
+1. `/home/PATH/TO/SITE` (no trailing slash)
+1. `EMAIL@ADDRESS.ES` (all addresses)
+1. `DOMAIN.TLD` (now without protocol)
+
+### Uploads, media
+
+`wp media regenerate --yes`
+
+### Clean up database
+
+See: `alter-table.sql`
+
+`wp --allow-root plugin install --activate wp-clean-up`
+
+`wp --allow-root transient delete-all`
+
+`wp --allow-root w3-total-cache flush`
+
+`ls -l /home/${U}/website/html/static/cache/`
+
+### Redirect old URL-s
+
+`wp --allow-root plugin install --activate safe-redirect-manager`
+
+`https://www.google.com/search?q=site:${DOMAIN}`
+
+
 ## Check
+
 
 ### Code styling
 
@@ -154,12 +173,13 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### SEO
 
-- title (blue in SERP)
+- page title (blue in SERP)
 - permalink structure and slug optimization (green in SERP)
-- meta desc (grey in SERP)
-- h1, h2 / h3-h6
-- img alt
-- structured data https://schema.org/ http://microformats.org/
+- page meta desc (grey in SERP)
+- headings: h1, h2 / h3-h6
+- images: alt
+- breadcrumbs
+- structured data: https://schema.org/ http://microformats.org/
 - [Google My Business](https://www.google.com/business/)
 
 ### Tracking
@@ -171,7 +191,9 @@ Set up and test
 - Piwik
 - Clicktale
 
+
 ## Monitor
+
 
 https://wiki.apache.org/httpd/ListOfErrors
 
@@ -185,9 +207,19 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. recipient account: `cse`
 1. recipient domain: domain expiry, DNS, blacklist
 
+
 ## Backup
+
 
 1. DB
 1. files
 1. settings (connected services)
 1. auth
+
+
+## Marketing
+
+
+- Newsletter subscribe
+- Email address for free download
+- Exit modal: coupon, free download etc.

@@ -31,7 +31,7 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #
 #     /etc/ovhrc
 #     cdns.ovh.net.
-#     ntp.ovh.net.
+#     ntp.ovh.net. (id-co.in. ntp.cornuwel.net. ntp.syari.net. fry.helpfulhosting.net.)
 #     http://help.ovh.com/InstallOvhKey
 #     http://help.ovh.com/RealTimeMonitoring
 
@@ -482,6 +482,7 @@ service cron restart
 # Time synchronization
 cd ${D}; ./install.sh monitoring/ntpdated
 editor /etc/default/ntpdate
+# http://support.ntp.org/bin/view/Servers/StratumTwoTimeServers
 # Set nearest time server: http://www.pool.ntp.org/en/
 #     NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
 #     NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"

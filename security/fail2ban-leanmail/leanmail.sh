@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.3
+# VERSION       :0.2.4
 # DATE          :2015-10-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -81,6 +81,7 @@ LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 # Hosting only, no browsers
 declare -a AS_HOSTING=(
     AS14618 # Amazon.com, Inc.
+    AS16509 # Amazon.com, Inc.
     AS16276 # OVH SAS
     AS18978 # Enzu Inc.
     AS12876 # ONLINE S.A.S.
