@@ -1,0 +1,14 @@
+#!/usr/bin/expect -f
+
+set verbose_flag 1
+
+set host "mail30.indamail.hu."
+
+set timeout 9
+
+spawn nc $host 25
+
+expect {
+    timeout { send_user "no 220"; exit 1 }
+    -re "220*" { send "QUIT\r"; send_user "OK"; exit }
+}

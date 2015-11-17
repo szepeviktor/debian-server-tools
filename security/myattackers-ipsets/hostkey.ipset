@@ -1,0 +1,15 @@
+# AS57043 - HOSTKEY-NET, DC: Serverius, aliases: Mir Telematiki
+# ipset -exist restore < hostkey.ipset
+# iptables -A INPUT -m set --match-set hostkey src -j REJECT
+create hostkey hash:net family inet hashsize 256 maxelem 32
+flush hostkey
+add hostkey 5.39.216.0/21
+#add hostkey 31.192.109.0/24
+#add hostkey 31.192.110.0/24
+#add hostkey 46.17.96.0/21
+#add hostkey 46.249.38.0/24
+add hostkey 146.0.72.0/21
+#add hostkey 185.70.184.0/22
+add hostkey 193.109.68.0/23
+add hostkey 195.162.68.0/23
+# Also in -> dangerous.dnsbl.zone

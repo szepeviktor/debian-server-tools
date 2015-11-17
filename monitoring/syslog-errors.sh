@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.6.0
-# DATE          :2015-11-08
+# VERSION       :0.6.1
+# DATE          :2015-11-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,7 +22,7 @@
 
 Failures() {
     # -intERRupt, -fail2ban
-    grep -E -i "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied|broken|exceed"
+    grep -E -i "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied|broken|exceed|unsafe"
 }
 
 # Every hour 17 minutes as in Debian cron.hourly, local time (non-UTC)

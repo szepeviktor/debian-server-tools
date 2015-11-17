@@ -2,8 +2,8 @@
 #
 # Block traffic from very abusive IP-s of blocklist.de
 #
-# VERSION       :0.3.1
-# DATE          :2015-11-07
+# VERSION       :0.3.2
+# DATE          :2015-11-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -61,6 +61,6 @@ done < "$A5K_TMP"
 # Add back to INPUT
 "$IPTABLES" -C INPUT -j "$A5K_CHAIN" &> /dev/null || "$IPTABLES" -I INPUT -j "$A5K_CHAIN"
 
-tty --quiet && "$IPTABLES" -n -L "$A5K_CHAIN" | grep -w "^DROP" | wc -l
+tty --quiet && "$IPTABLES" -n -L "$A5K_CHAIN" | grep -w "REJECT" | wc -l
 
 exit 0

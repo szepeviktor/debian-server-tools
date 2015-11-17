@@ -1,0 +1,76 @@
+diff --git a/nginx.conf b/nginx.conf
+--- a/nginx.conf
++++ b/nginx.conf
+@@ -1,8 +1,11 @@
++# Compare changes on GitHub
++# https://github.com/h5bp/server-configs-nginx/compare/8e361ed61a505dcbfd925728f82096a845f2a1f4...master
++
+ # nginx Configuration File
+ # http://wiki.nginx.org/Configuration
+ 
+ # Run as a less privileged user for security reasons.
+-user www www;
++user @@SITE_USER@@ @@SITE_USER@@;
+ 
+ # How many worker threads to run;
+ # "auto" sets it to the number of CPU cores available in the system, and
+@@ -11,6 +14,7 @@ user www www;
+ 
+ # The maximum number of connections for Nginx is calculated by:
+ # max_clients = worker_processes * worker_connections
++#worker_processes auto;
+ worker_processes 2;
+ 
+ # Maximum open file descriptors per process;
+@@ -26,8 +30,8 @@ events {
+ 
+ # Default error log file
+ # (this is only used when you don't override error_log on a server{} level)
+-error_log  logs/error.log warn;
+-pid        /var/run/nginx.pid;
++error_log  /var/log/nginx/error.log warn;
++pid        /run/nginx.pid;
+ 
+ http {
+ 
+@@ -35,7 +39,7 @@ http {
+   server_tokens off;
+ 
+   # Define the MIME types for files.
+-  include       mime.types;
++  include       /etc/nginx/mime.types;
+   default_type  application/octet-stream;
+ 
+   # Update charset_types due to updated mime.types
+@@ -48,7 +52,7 @@ http {
+ 
+   # Default log file
+   # (this is only used when you don't override access_log on a server{} level)
+-  access_log logs/access.log main;
++  access_log /var/log/nginx/access.log main;
+ 
+   # How long to allow each connection to stay idle; longer values are better
+   # for each individual client, particularly for SSL, but means that worker
+@@ -62,12 +66,14 @@ http {
+   # Tell Nginx not to send out partial frames; this increases throughput
+   # since TCP frames are filled up before being sent out. (adds TCP_CORK)
+   tcp_nopush      on;
+-
++  tcp_nodelay         on;
++  types_hash_max_size 2048;
+ 
+   # Compression
+ 
+   # Enable Gzip compressed.
+   gzip on;
++  gzip_disable "msie6";
+ 
+   # Compression level (1-9).
+   # 5 is a perfect compromise between size and cpu usage, offering about
+@@ -130,5 +136,6 @@ http {
+   # a specific directory, or on an individual server{} level.
+   # gzip_static on;
+ 
++  include /etc/nginx/conf.d/*.conf;
+   include sites-enabled/*;
+ }

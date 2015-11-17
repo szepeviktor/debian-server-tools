@@ -28,7 +28,7 @@ read -e -p "prg HTTP/auth password? " HTTP_PASSWORD
 htpasswd -bc ./htpasswords "$HTTP_USER" "$HTTP_PASSWORD"
 chmod 640 ./htpasswords
 
-# Control panel for opcache and APC
+# Control panel for OPcache and APC
 PRG_ROOT="/home/${U}/website/html"
 
 # Favicon and robots.txt
@@ -48,8 +48,8 @@ cp -v ${D}/webserver/ocp.php ${PRG_ROOT}
 # apc.php from APCu master for PHP 5.5+
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -nv -O ${PRG_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
-echo "<?php define('ADMIN_USERNAME','${HTTP_USER}');
-    define('ADMIN_PASSWORD','${HTTP_PASSWORD}');" > ${PRG_ROOT}/apc.conf.php
+echo "<?php define('ADMIN_USERNAME', '${HTTP_USER}');
+    define('ADMIN_PASSWORD', '${HTTP_PASSWORD}');" > ${PRG_ROOT}/apc.conf.php
 chmod 640 ${PRG_ROOT}/apc.conf.php
 
 # PHP info
@@ -81,7 +81,7 @@ chown -cR ${U}:${U} cd /home/${U}/
 
 # PHP pool
 cd /etc/php5/fpm/pool.d/
-sed "s/@@USER@@/${U}/g" < ../Dev-pool.conf > ${U}.conf
+sed "s/@@USER@@/${U}/g" < ../Prg-pool.conf > ${U}.conf
 # PHP Secure Configuration Checker allow IP address
 #     env[PCC_ALLOW_IP] = 1.2.3.*
 editor ${U}.conf

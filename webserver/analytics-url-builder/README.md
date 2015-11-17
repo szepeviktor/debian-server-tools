@@ -1,17 +1,17 @@
-# Go - Analytics URL builder
+# Analytics URL builder
 
 Kötelező mezők:
 
-`https://go.url-builder.tld/cél-honlap/forrás/médium/kampány`
+`https://utm.url-builder.tld/cél-honlap/forrás/médium/kampány`
 
 Lehetséges bővítmények:
 
-`https://go.url-builder.tld/célhonlap/forrás/médium/kampány/tartalom/keresőszó`
-`https://go.url-builder.tld/célhonlap/forrás/médium/kampány//keresőszó`
+`https://utm.url-builder.tld/célhonlap/forrás/médium/kampány/tartalom/keresőszó`
+`https://utm.url-builder.tld/célhonlap/forrás/médium/kampány//keresőszó`
 
 Példa:
 
-`https://go.url-builder.tld/start-reg/partner-hirlevel/email/ajándék-SBE/kep`
+`https://utm.url-builder.tld/start-reg/partner-hirlevel/email/ajándék-SBE/kep`
 
 Lehet a mezőkben ékezetes betű és szóköz is.
 
@@ -30,12 +30,12 @@ Ezt A/B teszteknél az A és a B változat megkülönböztetésére kell haszná
 - `utm_term` Fizetett kereséseknél (Google Adwords) ebben a mezőbe kerül a keresőszó, ha kézzel tag-eljük a kampányokat.
 
 Hibánál az `error` nevű site-ra irányít át az alábbi festett linkkel, és naplózza a hibás linket:
-`go/honlap/festett-link-hiba`
+`utm/honlap/festett-link-hiba`
 
 #### Szükséges Apache (.htaccess) beállítás:
 
 ```htaccess
-# Go
+# UTM
 RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f

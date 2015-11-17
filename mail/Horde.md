@@ -33,6 +33,8 @@ PHP configuration:
 php_admin_value[include_path] = .:/home/horde/website/pear/php
 ```
 
+Root files: robots.txt, favicon.ico ...
+
 ### Upgrade
 
 ```bash

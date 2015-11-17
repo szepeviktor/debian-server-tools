@@ -9,23 +9,25 @@
  *     - ékezetes domain nevek IDN kódolással
  *     - útvonalak (path) URL kódolással
  *     - URL paraméterek ("?" utáni rész) URL kódolással
- * VIGYÁZAT! Erre nem hibatűrő a program.
+ * VIGYÁZAT! A kódolásra nem hibatűrő a program.
  * Az URL-ekben lehetnek URL paraméterek is.
  */
-new O1_Go( 'go.url-builder.tld', array(
-    'error'            => 'http://main-website.net/',
+new O1_UTM( 'utm.url-builder.tld', array(
+    // error -> Hiba esetén ide irányítja a látogatókat.
+    'error'            => 'http://website.net/',
     'start-reg'        => 'https://start.site.tld/register/',
 ) );
 
 /**
- * Go - Festett link autómata
+ * Festett link autómata
  *
- * @version 0.2.0
+ * @version 0.2.2
  * @author Viktor Szépe <viktor@szepe.net>
  * @see https://support.google.com/analytics/answer/1033867 URL builder.
  */
-final class O1_Go {
+final class O1_UTM {
 
+    private $error_params = 'utm/honlap/festett-link-hiba';
     private $hostname;
     private $sites;
 
@@ -34,7 +36,7 @@ final class O1_Go {
         // Security check
         $this->hostname = $hostname;
         if ( false !== $this->bad_request() ) {
-            error_log( 'Break-in attempt detected: go_bad_request '
+            error_log( 'Break-in attempt detected: utm_bad_request '
                 . addslashes( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '' )
             );
             ob_get_level() && ob_end_clean();
@@ -81,9 +83,9 @@ final class O1_Go {
             return false;
         }
 
-        // URL-decode parts
+        // URL-decode and sanitize parts
         foreach ( $parts as $key => $part ) {
-            $parts[ $key ] = urldecode( $part );
+            $parts[ $key ] = filter_var( urldecode( $part ), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW );
         }
 
         // Non-existent site
@@ -144,8 +146,8 @@ final class O1_Go {
         // Unknown HTTP request method
         $request_method = strtoupper( $_SERVER['REQUEST_METHOD'] );
         // Google Translate makes OPTIONS requests
-        $go_methods = array( 'GET', 'OPTIONS' );
-        if ( false === in_array( $request_method, $go_methods ) ) {
+        $utm_methods = array( 'GET', 'OPTIONS' );
+        if ( false === in_array( $request_method, $utm_methods ) ) {
             return 'bad_request_http_method';
         }
 
@@ -194,14 +196,16 @@ final class O1_Go {
 
     private function error() {
 
-        error_log( sprintf( 'Go ERROR: %s',
+        error_log( sprintf( 'UTM ERROR: %s',
             addslashes( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '' )
         ) );
         if ( ! empty( $this->sites['error'] ) ) {
-            printf( '<meta http-equiv="refresh" content="3;URL=https://%s/error/go/honlap/festett-link-hiba" />',
-                $this->hostname
+            printf( '<meta http-equiv="refresh" content="3;URL=https://%s/error/%s" />',
+                $this->hostname,
+                $this->error_params
             );
         }
+        // 1F61E = Emoji Disappointed Face
         print '<h2>Sajnos a kért oldal nem található &#x1F61E;</h2>';
         exit;
     }

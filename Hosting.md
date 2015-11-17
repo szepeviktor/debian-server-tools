@@ -31,6 +31,10 @@
 - http://www.hostinger.co.uk/ free, latest hardware, Apache 2.4
 - https://ifastnet.com/portal/sharedhosting.php free, 24 CPU-s
 
+## Dedicated server
+
+https://www.worldstream.nl/more_info.php?id=14 €39
+
 ## VPS in Hungary
 
 - http://servira.com/

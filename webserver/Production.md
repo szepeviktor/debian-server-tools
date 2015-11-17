@@ -103,6 +103,8 @@ Manual replace constants in `wp-config.php`.
 
 ### Clean up database
 
+Check database collation and table storage engines.
+
 See: `alter-table.sql`
 
 `wp --allow-root plugin install --activate wp-clean-up`
@@ -112,6 +114,8 @@ See: `alter-table.sql`
 `wp --allow-root w3-total-cache flush`
 
 `ls -l /home/${U}/website/html/static/cache/`
+
+Check spam and trash comments.
 
 ### Redirect old URL-s
 
@@ -179,7 +183,9 @@ See: `alter-table.sql`
 - headings: h1, h2 / h3-h6
 - images: alt
 - breadcrumbs
+- [noarchive?](https://support.google.com/webmasters/answer/79812)
 - structured data: https://schema.org/ http://microformats.org/
+- Content Keywords
 - [Google My Business](https://www.google.com/business/)
 
 ### Tracking
@@ -190,6 +196,7 @@ Set up and test
 - Facebook pixel
 - Piwik
 - Clicktale
+- URL shortening: Link tracking, Download tracking
 
 
 ## Monitor
@@ -217,9 +224,19 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. auth
 
 
+## Legal
+
+
+- Privacy policy + opt out
+- Term & Conditions
+- Cookie consent + opt out
+
+
 ## Marketing
 
 
 - Newsletter subscribe
-- Email address for free download
-- Exit modal: coupon, free download etc.
+- Offer free download
+- Exit modal: coupon, free download, blog post notification etc.
+- http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
+- Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/

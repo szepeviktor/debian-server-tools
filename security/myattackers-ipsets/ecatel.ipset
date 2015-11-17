@@ -1,0 +1,13 @@
+# AS29073 - Ecatel LTD, type: SSH,HTTP
+# ipset -exist restore < ecatel.ipset
+# iptables -A INPUT -m set --match-set ecatel src -j REJECT
+create ecatel hash:net family inet hashsize 256 maxelem 32
+flush ecatel
+add ecatel 80.82.64.0/20
+add ecatel 89.248.160.0/21
+add ecatel 89.248.168.0/22
+add ecatel 89.248.172.0/23
+add ecatel 89.248.174.0/24
+add ecatel 93.174.88.0/21
+add ecatel 94.102.48.0/20
+# Also in -> dangerous.dnsbl.zone

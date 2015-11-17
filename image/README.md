@@ -1,9 +1,19 @@
-# BGP image format
+## Watermark removal with ImageMagick
+
+```bash
+convert "$1" "$NON_TRANSPARENT_WATERMARKS" -compose DivideSrc -composite -quality 100 "${2%.*}.jpg"
+#convert "$1" "$NON_TRANSPARENT_WATERMARKS" +level 0,66% ..."
+# Usage
+find -maxdepth 1 -type f | parallel dewatermark.sh {} out/{}
+find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
+```
+
+## BGP image format
 
 - http://xooyoozoo.github.io/yolo-octo-bugfixes/#camel&bpg=s&jpg=s
 - https://github.com/mirrorer/libbpg/tree/master/html
 
-# JPEG manipulations
+## JPEG manipulations
 
 ### Lossy minification
 

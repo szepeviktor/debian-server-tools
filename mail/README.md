@@ -2,21 +2,24 @@
 
 https://www.getdrip.com/features
 
-
-### Outlook 2013
+### Outlook 2013 fixes
 
 - Root: "Inbox"
 - To recognize standard folder names [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
 after account setup
 - Fix folder subscription, see: ${D}/mail/courier-outlook-subscribe-bug.sh (Outlook 2007)
 
-### MacOS Mail.app
+### MacOS Mail.app fixes
 
 Advanced/IMAP Path Prefix: "INBOX"
 
 ### Set up Google Apps mailing
 
 https://toolbox.googleapps.com/apps/checkmx/
+
+### Webmail
+
+http://www.rainloop.net/changelog/
 
 ### Disposable email address
 

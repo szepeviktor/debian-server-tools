@@ -1,0 +1,100 @@
+#!/bin/bash
+
+SELF=${0##*/}
+
+if [ $# != 1 ]
+then
+	echo "usage: $SELF [<user>@]<host>[:<port>]"
+	exit 1
+fi
+
+for CMDS in telnet ssh-keygen chmod ssh scp uniq sort
+do
+	which "$CMDS" &> /dev/null || return 255
+done
+
+
+LUSER="$USER"
+[ -z "$LUSER" ] && LUSER="`whoami`"
+LHOME=~
+[ -z "$LHOME" ] && LHOME="$HOME"
+
+RUSER="${1%@*}"
+[ "$RUSER" = "$1" ] && RUSER="$LUSER"
+#RHOME="/root"
+RHOME="/home/$RUSER"
+
+HOST_USER="${1#*@}"
+RHOST="${HOST_USER%:*}"
+RPORT="${HOST_USER#*:}"
+
+AUTHK2="${RHOME}/.ssh/authorized_keys2"
+COPYK2="/tmp/sak2_$$"
+COPYK2_OK="/tmp/sak2_ok_$$"
+
+CRTYPE="dsa"
+#CRTYPE="rsa"
+KEYFILE="${LHOME}/.ssh/id_${CRTYPE}"
+
+die()
+	{
+	EXITCODE="$1"
+	shift
+	echo "${SELF}: $@" >&2
+	exit "$EXITCODE"
+	}
+
+
+if [ -z "$RPORT" ] || [ "$RPORT" = "$RHOST"  ]
+then
+	RPORT=22
+fi
+
+# telnet majd hany, ha a port nem 2 byte-os
+#if ([ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ])
+#then
+#    exit 2
+#fi
+if ! ( echo | telnet "$RHOST" "$RPORT" 2> /dev/null | grep -q "^Connected to" )
+then
+	die 1 "cannot connect to host $RHOST:$RPORT"
+fi
+
+echo "${SELF}: home on $RHOST is $RHOME"
+sleep 3
+echo "${SELF}: setting up pubkey authentication on $RHOST:$RPORT ..."
+
+echo "${SELF}: checking local $CRTYPE key ..."
+if ! [ -f "${KEYFILE}.pub" ]
+then
+	echo "${SELF}: not found, generating"
+	ssh-keygen -q -t "$CRTYPE" -f "$KEYFILE" -P "" &> /dev/null || \
+		die 1 "$?: cannot create $CRTYPE key"
+#	chmod 0600 "$KEYFILE"
+#	chmod 0644 "${KEYFILE}.pub"
+fi
+
+echo "${SELF}: appending to authorized_keys2"
+cat "${KEYFILE}.pub" | ssh -C -o PubkeyAuthentication=no -p "$RPORT" "${RUSER}@${RHOST}" "mkdir -p ${RHOME}/.ssh && \
+	chmod --version &> /dev/null && \
+	cat >> \"${AUTHK2}\" && \
+	chmod 644 \"${AUTHK2}\"" || \
+	die 2 "$?: command `chmod` not found on $RHOST"
+
+echo "${SELF}: setting remote dirs permissions"
+# ellenorizzuk, hogy a ~      konyvtar jogai  rwxr-xr-x  755
+#               hogy a ~/.ssh konyvtar jogai  rwx------  700
+# check: ls -dl ~/.ssh | cut -d ' ' -f 1
+ssh -C -p "$RPORT" "${RUSER}@${RHOST}" "chmod 755 ${RHOME} && \
+	chmod 700 ${RHOME}/.ssh" || \
+	die 3 "$?: remote directory rights set failed"
+
+echo "${SELF}: deleting duplicated keys ..."
+scp -C -P "$RPORT" "${RUSER}@${RHOST}:${AUTHK2}" "$COPYK2" &> /dev/null || die 4 "$?: remote directory rights set failed"
+[ -s "$COPYK2" ] || die 5 "$?: $AUTHK2 is empty"
+sort < "$COPYK2" | uniq > "$COPYK2_OK"
+scp -C -P "$RPORT" "$COPYK2_OK" "${RUSER}@${RHOST}:${AUTHK2}" &> /dev/null
+rm -f "$COPYK2" "$COPYK2_OK"
+
+ssh -o PasswordAuthentication=no -p "$RPORT" "${RUSER}@${RHOST}" "echo \"${SELF}: Works fine.\"" || \
+	die 6 "$?: Doesn't work!"
