@@ -1,27 +1,27 @@
 <?php
 /**
- * Konstruktor paraméterezés
+ * Constructor parameters for O1_UTM
  *
- * @param string Domain/aldomain, amin működünk.
- * @param array  Cél honlapok kódolt URL-jei egy tömbben.
+ * @param string Host name for URL Builder.
+ * @param array  Target website URL-s.
  *
- * Az URL részeinek kódolása:
- *     - ékezetes domain nevek IDN kódolással
- *     - útvonalak (path) URL kódolással
- *     - URL paraméterek ("?" utáni rész) URL kódolással
- * VIGYÁZAT! A kódolásra nem hibatűrő a program.
- * Az URL-ekben lehetnek URL paraméterek is.
+ * Encode these URL parts:
+ *     - international domain names (IDN encoding)
+ *     - URL paths (URL encoding)
+ *     - URL parameters (URL encoding)
+ * WARNING! The code is error prone for encoding errors.
+ * Target URL-s may contains query strings.
  */
 new O1_UTM( 'utm.url-builder.tld', array(
-    // error -> Hiba esetén ide irányítja a látogatókat.
+    // error -> Site to redirect to in case of errors.
     'error'            => 'http://website.net/',
-    'start-reg'        => 'https://start.site.tld/register/',
+    'site-reg'         => 'https://web.site.tld/register/',
 ) );
 
 /**
- * Festett link autómata
+ * URL Builder for Google Analytics
  *
- * @version 0.2.2
+ * @version 0.2.3
  * @author Viktor Szépe <viktor@szepe.net>
  * @see https://support.google.com/analytics/answer/1033867 URL builder.
  */
@@ -35,10 +35,12 @@ final class O1_UTM {
 
         // Security check
         $this->hostname = $hostname;
-        if ( false !== $this->bad_request() ) {
-            error_log( 'Break-in attempt detected: utm_bad_request '
-                . addslashes( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '' )
-            );
+        $bad_request = $this->bad_request();
+        if ( false !== $bad_request ) {
+            error_log( sprintf( 'Break-in attempt detected: %s %s',
+                $bad_request
+                addslashes( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '' )
+            ) );
             ob_get_level() && ob_end_clean();
             if ( ! headers_sent() ) {
                 header( 'Status: 403 Forbidden' );

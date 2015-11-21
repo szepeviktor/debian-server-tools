@@ -74,6 +74,9 @@
 
 # LeonLundberg-net shadow net
 188.143.232.0/24
+
+# E-RING-NET DELORIAN Internet Services Artur Grabowski @
+193.189.116.0/23
 ```
 
 For management script see: ${D}/security/myattackers.sh

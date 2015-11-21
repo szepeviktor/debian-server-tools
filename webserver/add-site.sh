@@ -123,5 +123,8 @@ fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-ssl-error.l
 fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.log
 
 # Add cron jobs
+# Mute cron errors
+#     php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
+#     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
 cd /etc/cron.d/
 # See: ${D}/webserver/preload-cache.sh

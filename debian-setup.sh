@@ -9,8 +9,8 @@
 
 # How to choose VPS provider?
 #
-# - Disk access time
-# - CPU speed (~2000 PassMark CPU Mark, ~20 ms sysbench)
+# - Disk access time (~1 ms)
+# - CPU speed (2000+ PassMark CPU Mark, sub-20 ms sysbench)
 # - Worldwide and regional bandwidth, port speed
 # - Spammer neighbours https://www.projecthoneypot.org/ip_1.2.3.4
 # - Nightime technical support network or hardware failure response time
@@ -22,6 +22,7 @@
 # Packages sources
 DS_MIRROR="http://cloudfront.debian.net/debian"
 #DS_MIRROR="http://http.debian.net/debian"
+#DS_MIRROR="http://mirror.blazingfast.io/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
 DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \

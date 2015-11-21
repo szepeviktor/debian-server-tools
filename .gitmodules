@@ -31,3 +31,6 @@
 [submodule "security/ip-info"]
 	path = security/ip-info
 	url = git@github.com:szepeviktor/ip-info.git
+[submodule "monitoring/virt-what"]
+	path = monitoring/virt-what
+	url = git://git.annexia.org/git/virt-what.git

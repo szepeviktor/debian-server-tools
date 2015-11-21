@@ -13,7 +13,7 @@
 - busy (10k+/month) traffic website
 - for marketing companies
 
-## Website maintenance to prevent partial or full outage
+## Website maintenance to prevent outage
 
 - * offsite backup of all files and the database **daily** (up to 5 GB)
 - offsite backup of all files and the database weekly (up to 5 GB)
@@ -69,9 +69,9 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 #### Röviden a menedzselt tárhelyről (honlap üzemben tartás + tárhely)
 
 - **honlap sebesség növelése**
-- **sokféle honlap megfigyelés**
+- **honlap felügyelet 10+ módon**
 - **biztonsági óvintézkedések és honlap tűzfal**
-- **kapcsolat űrlap és email forgalom megfigyelés**
+- **kapcsolat űrlap működés és email forgalom felügyelet**
 - **tárhely SSD alapú VPS-eken**
 - **személyes technikai támogatás (support)**
 
@@ -81,7 +81,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - forgalmas (10 000+ látogató/hó) honlaphoz
 - marketing cégeknek
 
-## Honlap karbantartás a részleges és teljes leállások megelőzésére
+## Honlap karbantartás a leállások megelőzésére
 
 - támadók, biztonsági réseket kereső robotok kitiltása (tűzfal)
 - * biztonsági mentés fájlokról, adatbázisról **naponta** (5 GB-ig)
@@ -89,17 +89,17 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - magas fokú honlap biztonság, fájl változás jelentés 30 percenként
 - betörés (malware fertőzés) esetén takarítás
 - domain név lejárat figyelés, új regisztráció, módosítás
-- DNS (domain név kiszolgáló) beállítás, óránkénti megfigyelés
-- SSL tanúsítvány beállítás https-hez A+ [Qualys](https://www.ssllabs.com/ssltest/) minősítéssel, lejárat megfigyelés
-- főoldali tartalom óránkénti megfigyelés és hiba észlelés
-- honlap elérhetőség megfigyelése 1 percenként
-- * PHP és MySQL futás megfigyelése óránként
+- DNS (domain név kiszolgáló) beállítás, óránkénti felügyelete
+- SSL tanúsítvány beállítás https-hez A+ [Qualys](https://www.ssllabs.com/ssltest/) minősítéssel, lejárat felügyelet
+- főoldali tartalom óránkénti felügyelet
+- honlap elérhetőségének felügyelete 1 percenként
+- * PHP és MySQL futás felügyelete óránként
 - WMT (Google Webmestereszközök) teljes rendberakása hetente
 - * nem létező tartalomra mutató linkek (404) javítása naponta (hibanapló szűréssel)
 - jelszó és felhasználói fiók menedzsment, technikai segítség belépési problémáknál
 - tárhely biztosítása a honlaphoz (2 GB-ig, email fiókokat nem tartalmaz)
 
-### Honlap gyorsítás SEO-hoz
+### Honlap gyorsítás a látogatóknak és SEO-hoz
 
 - PageSpeed 80+ ponton tartása (ha van mobil nézete a honlapnak, akkor ott is)
 - * tartalom kiszolgáló hálózat (CDN) használat [Amazon CloudFront](http://aws.amazon.com/cloudfront/pricing/) (20 GB havi forgalomig)
@@ -123,11 +123,11 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 
 ## Más szolgáltatások egyedi megállapodás szerint
 
-- honlap tervezés és kivitelezés WordPress motorral (csapatban: marketinges, grafikus, sitebuilder, programozó)
-- módosítás a honlap szerkezetén (programozás, sitebuild)
-- tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
+- szerver (VPS vagy fizikai gép) üzemben tartás és felügyelet
+- betörés utáni takarítás (egy alkalom)
+- prémium levelezés személyes technikai támogatással és kézbesítés felügyelettel
 - domain regisztráció intézése (csak az Ön vagy cége nevére)
 - PageSpeed 100 (vagy 99) ponton tartása
-- betörés utáni takarítás egy alkalommal
-- szerver (VPS vagy fizikai gép) üzemben tartás és megfigyelés
-- prémium levelezés személyes technikai támogatással és kézbesítés-megfigyeléssel
+- honlap tervezés és kivitelezés WordPress motorral (csapatban: marketinges, grafikus, sitebuilder, programozó)
+- módosítás egy meglévő honlap szerkezetén (programozás, sitebuild)
+- tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
