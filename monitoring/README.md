@@ -23,3 +23,12 @@ ls /var/lib/munin/
 ls /var/cache/munin/www/
 # rm -rf /var/cache/munin/www/${DOMAIN}
 ```
+
+### Detect VM and container
+
+- http://git.annexia.org/?p=virt-what.git;a=summary
+- http://www.freedesktop.org/software/systemd/man/systemd-detect-virt.html
+
+`systemd-detect-virt -c; systemd-detect-virt -v`
+
+`dmidecode -s system-product-name`

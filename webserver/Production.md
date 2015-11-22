@@ -5,15 +5,21 @@
 1. [Check](#check)
 1. [Monitor](#monitor)
 1. [Backup](#backup)
-1. [Marketing](#marketing)
+1. [Uninstallation](#uninstallation)
 
 
 ## Installation
 
 
+### DNS setup
+
+- A, CNAME (for CDN)
+- MX
+- SPF, DKIM
+
 ### SSL certificate
 
-For security + trust.
+For security and trust.
 
 1. Apache-SSL.md
 1. https://www.ssllabs.com/ssltest/
@@ -22,7 +28,6 @@ For security + trust.
 
 `git clone --recursive ssh://user@server:port/path/to/git`
 
-1. Turn off debugging
 1. Set up database connection in `wp-config.php`
 1. Edit `wp-cli.yml`
 1. Define contants based on `wp-config.php` skeleton
@@ -75,12 +80,21 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 `wp-cron-cli.sh`
 
+### Settings
+
+- General Settings
+- Writing Settings
+- Reading Settings
+- Media Settings
+- Permalink Settings
+- WP Mail From
+
 ### User management
 
 - 1 administrator
-- personal accounts for editors and authors
-- modify post and page authors
-- enable/disable author sitemaps
+- Personal accounts for editors and authors
+- Modify post and page authors
+- Enable/disable author sitemaps
 
 
 ## Migration
@@ -117,15 +131,41 @@ See: `alter-table.sql`
 
 Check spam and trash comments.
 
+### Remove development and testing stuff
+
+- Code editor configuration, `*example*`, `*demo*`
+- `define( 'WP_DEBUG', false );`
+- `if ( getenv( 'WP_LOCAL_DEV' ) ) { define( 'WP_LOCAL_DEV', true ); }`
+- `if ( 'production.com' !== $_SERVER['SERVER_NAME'] ) { define( 'WP_LOCAL_DEV', true ); }`
+- https://gist.github.com/markjaquith/1044546
+
+### VCS
+
+Put custom theme and plugins under git version control.
+
+Keep `git-dir` above document root.
+
 ### Redirect old URL-s
 
 `wp --allow-root plugin install --activate safe-redirect-manager`
 
 `https://www.google.com/search?q=site:${DOMAIN}`
 
+### Flush Google public DNS cache
+
+http://google-public-dns.appspot.com/cache
+
 
 ## Check
 
+
+### Marketing
+
+- Newsletter subscribe
+- Offer free download
+- Exit modal: coupon, free download, blog post notification etc.
+- http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
+- Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
 
 ### Code styling
 
@@ -154,7 +194,6 @@ Check spam and trash comments.
 - `@font-face` formats: eof, woff, ttf, svg
 - Mobile views
 - Permissions for editors
-- Last one: basic site functionality, registration, contact forms
 
 ### 404 page
 
@@ -167,7 +206,7 @@ Check spam and trash comments.
 - image convert `convert $PNG --quality 100 $JPG`
 - image rename `mv DSC-0005.JPG prefix-descriptive-name.jpg`
 - image optimization `jpeg-recompress $JPG $OPTI_JPG`
-- JS, CSS concatenation `cat small_1.css small_2.css > large.css`
+- JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
 - lazy or late loading ( slider, map, facebook, image gallery )
 - light loading: `&controls=2`
 
@@ -175,8 +214,12 @@ Check spam and trash comments.
 
 `tail -f /var/log/apache2/${SITE_USER}-error.log`
 
+### JavaScript errors
+
 ### SEO
 
+- `blog_public` and robots.txt
+- XML sitemap
 - page title (blue in SERP)
 - permalink structure and slug optimization (green in SERP)
 - page meta desc (grey in SERP)
@@ -197,6 +240,20 @@ Set up and test
 - Piwik
 - Clicktale
 - URL shortening: Link tracking, Download tracking
+
+### Legal
+
+- Privacy policy + opt out
+- Terms & Conditions
+- Cookie consent + opt out
+- "Operated by", "Hosted at"
+
+### Last check
+
+- basic site functionality
+- registration
+- purchase
+- contact forms
 
 
 ## Monitor
@@ -224,19 +281,14 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. auth
 
 
-## Legal
+## Uninstallation
 
 
-- Privacy policy + opt out
-- Term & Conditions
-- Cookie consent + opt out
-
-
-## Marketing
-
-
-- Newsletter subscribe
-- Offer free download
-- Exit modal: coupon, free download, blog post notification etc.
-- http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
-- Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
+- [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
+- Monitoring
+- Archive for long term
+- Backups
+- DNS records
+- Webserver vhost / Placeholder page?
+- Email accounts
+- ... @TODO

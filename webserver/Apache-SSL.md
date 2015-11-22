@@ -40,9 +40,11 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
 
 See: ${D}/security/ca/README.md
 
-### SPDY support
+### HTTP/2, SPDY
 
 https://github.com/eousphoros/mod-spdy - does not support spdy/3.1
+https://github.com/icing/mod_h2
+https://launchpad.net/~ondrej/+archive/ubuntu/apache2
 
 Reverse proxy: https://github.com/tatsuhiro-t/nghttp2
 
@@ -53,6 +55,7 @@ Reverse proxy: https://github.com/tatsuhiro-t/nghttp2
 - HSTS https://hstspreload.appspot.com/
 - SPDY CLI https://github.com/tatsuhiro-t/spdylay
 - SPDY https://spdycheck.org/
+- HTTP/2 https://www.h2check.org/
 
 ### Search & Replace URL-s
 

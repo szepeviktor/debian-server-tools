@@ -11,7 +11,7 @@
 - https://maxer.hu/ CPU
 - [mobilx Cloud Tárhely](http://mobilxcloud.hu/ugyfelkapu/?affid=204) cloud
 - http://www.profitarhely.hu/webtarhely CPU
-- https://www.mhosting.hu/tarhely/evo-ssd-tarhely **managed VPS**
+- https://www.mhosting.hu/tarhely/evo-ssd-tarhely PHP OPcache, SSH
 - https://online.spaceweb.hu/order/main/packages/ssd-premium/?group_id=12 Litespeed
 
 ## VPS, cloud VPS

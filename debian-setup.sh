@@ -22,7 +22,6 @@
 # Packages sources
 DS_MIRROR="http://cloudfront.debian.net/debian"
 #DS_MIRROR="http://http.debian.net/debian"
-#DS_MIRROR="http://mirror.blazingfast.io/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
 DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \
@@ -46,6 +45,7 @@ Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2
 lsb_release -a && sleep 5
 
 # Download this repo
+#apt-get install -y wget ca-certificates
 mkdir ~/src
 cd ~/src
 wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
@@ -64,7 +64,7 @@ cp -v ${D}/package/apt-sources/sources.list /etc/apt/
 sed -i "s/%MIRROR%/${DS_MIRROR//\//\\/}/g" /etc/apt/sources.list
 # Install HTTPS transport
 apt-get update
-apt-get install -y apt-transport-https
+apt-get install -y debian-archive-keyring debian-keyring apt-transport-https
 for R in ${DS_REPOS};do cp -v ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
 eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
 #editor /etc/apt/sources.list
