@@ -1,0 +1,10 @@
+deb http://cloudfront.debian.net/debian/ jessie main contrib non-free
+
+# Security
+deb http://security.debian.org/ jessie/updates main contrib non-free
+
+# Updates
+deb http://cloudfront.debian.net/debian/ jessie-updates main
+
+# Backports
+deb http://cloudfront.debian.net/debian/ jessie-backports main

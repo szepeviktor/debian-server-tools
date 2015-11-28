@@ -1,6 +1,6 @@
 # AS29073 - Ecatel LTD, type: SSH,HTTP
-# ipset -exist restore < ecatel.ipset
-# iptables -A INPUT -m set --match-set ecatel src -j REJECT
+#: ipset -exist restore < ecatel.ipset
+#: iptables -I INPUT -m set --match-set ecatel src -j REJECT
 create ecatel hash:net family inet hashsize 256 maxelem 32
 flush ecatel
 add ecatel 80.82.64.0/20

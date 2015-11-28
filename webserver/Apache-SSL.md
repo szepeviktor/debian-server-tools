@@ -69,3 +69,6 @@ Reverse proxy: https://github.com/tatsuhiro-t/nghttp2
 
 https://weakdh.org/sysadmin.html
 
+### Clear HSTS settings
+
+http://classically.me/blogs/how-clear-hsts-settings-major-browsers

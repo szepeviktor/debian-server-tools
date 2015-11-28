@@ -23,7 +23,7 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 ### Lossless compression
 
 - See: image/jpegrescan
-- http://packjpg.encode.ru/?page_id=17
+- [packJPG](http://packjpg.encode.ru/?page_id=17) (already in pcompress)
 
 ### JPEG artifacts removal
 
@@ -47,17 +47,29 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 
 [Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
 
+Imitation with ImageMagick:
+```
+convert                       \
+   small.png                  \
+  -colorspace RGB             \
+  +sigmoidal-contrast 11.6933 \
+  -define filter:filter=Sinc  \
+  -define filter:window=Jinc  \
+  -define filter:lobes=3      \
+  -resize 400%                \
+  -sigmoidal-contrast 11.6933 \
+  -colorspace sRGB            \
+   better-quality-enlargement.png
+```
+
 ### Online editors
 
 - [Face retouch](http://makeup.pho.to/)
 - [Editor.Pho.to](http://editor.pho.to/edit/)
 - [Pixlr Editor](https://apps.pixlr.com/editor/)
 
-### Archiving
 
-[packJPG](http://packjpg.encode.ru/?page_id=17) (already in pcompress)
-
-### Invalited objects on Amazon CloudFront
+### Invalidate objects on Amazon CloudFront
 
 ```bash
 alias encodeURIComponent='perl -pe '\''s/([^a-zA-Z0-9_.!~*()'\''\'\'''\''-])/sprintf("%%%02X",ord($1))/ge'\'

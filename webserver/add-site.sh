@@ -35,6 +35,8 @@ cd /etc/sudoers.d/
 # * Allow SSH keys
 S="/home/${U}/.ssh";mkdir --mode 700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 editor "${S}/authorized_keys2"
+# Git URL
+echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
 mkdir -v --mode=750 /home/${U}/website

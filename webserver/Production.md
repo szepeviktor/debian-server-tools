@@ -129,6 +129,8 @@ See: `alter-table.sql`
 
 `ls -l /home/${U}/website/html/static/cache/`
 
+`ls -l /home/${U}/website/pagespeed/; u touch /home/${U}/website/pagespeed/cache.flush`
+
 Check spam and trash comments.
 
 ### Remove development and testing stuff
@@ -186,6 +188,7 @@ http://google-public-dns.appspot.com/cache
 
 #### Typical design errors
 
+- Dynamically page parts (rotating quotes by PHP)
 - Dynamically generated resources (`style.css.php`)
 - Extra server-side requests: HTTP, DNS
 - `$_GET` and `$_POST` sanitization

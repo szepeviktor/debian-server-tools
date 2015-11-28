@@ -29,15 +29,16 @@
 # 8 prefixes: 158.255.0.0 - 158.255.7.255
 158.255.0.0/21
 
-# OVH dedicated servers http://bgp.he.net/AS16276#_prefixes
+# AS16276 - OVH dedicated servers
 5.135.160.0/19
 37.59.0.0/18
 37.187.0.0/19
 46.105.96.0/19
 87.98.128.0/18
 91.121.0.0/16
-192.99.0.0/16
 142.4.192.0/19
+188.165.0.0/16
+192.99.0.0/16
 
 # FR ONLINE S.A.S. http://bgp.he.net/AS12876#_prefixes
 # DC: Iliad Entreprises
@@ -51,6 +52,8 @@
 50.200.243.136
 116.224.0.0/12
 223.4.0.0/14
+# CHINANET-AH
+117.64.0.0/13
 
 # HEETHAI-HK
 103.41.124.0/24

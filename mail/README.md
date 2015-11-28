@@ -1,6 +1,42 @@
+### E-mail server factors
+
+- Transport encryption (TLS on SMTP in&out and IMAP)
+- Forwarding with SRS (Sender Rewriting Scheme)
+- Attack mitigation (SMTP vulnerability, authentication)
+- Spam filtering
+- Custom blacklists (RBL)
+- Custom whitelisting of hosts (broken mail servers)
+- Monitor IP reputation
+- Apply to whitelists
+- Register to feedback loops
+- Monitor delivery and delivery errors
+
+### Transactional email providers
+
+- https://www.mailjet.com/
+- https://aws.amazon.com/ses/
+- https://www.mandrill.com/
+- https://sendgrid.com/
+- https://www.mailgun.com/
+- https://postmarkapp.com/
+- https://www.sendinblue.com/
+- https://www.campaignmonitor.com/
+
 ### Marketing tools
 
 https://www.getdrip.com/features
+
+### Webmails
+
+http://www.rainloop.net/changelog/
+
+### Disposable email address
+
+http://nincsmail.hu/ (inbox and sending)
+
+
+## Problems
+
 
 ### Outlook 2013 fixes
 
@@ -13,29 +49,6 @@ after account setup
 
 Advanced/IMAP Path Prefix: "INBOX"
 
-### Set up Google Apps mailing
-
-https://toolbox.googleapps.com/apps/checkmx/
-
-### Webmail
-
-http://www.rainloop.net/changelog/
-
-### Disposable email address
-
-http://nincsmail.hu/ (inbox and sending)
-
-### Transactional email providers
-
-- https://aws.amazon.com/ses/
-- https://www.mandrill.com/
-- https://sendgrid.com/
-- https://www.mailgun.com/
-- https://postmarkapp.com/
-- https://www.sendinblue.com/
-- https://www.mailjet.com/
-- https://www.campaignmonitor.com/
-
 ### Open winmail.dat
 
 https://github.com/Yeraze/ytnef
@@ -44,24 +57,23 @@ See: ${D}/repo/debian/pool/main/y/ytnef/
 
 MIME type: application/ms-tnef
 
-### Mail account migration
+### Set up Google Apps mailing
+
+https://toolbox.googleapps.com/apps/checkmx/
+
+### Online IMAP migration
 
 - see: mail/imapsync
 - [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
 - [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
+
+## Settings
+
+
 ### Send all messages in an mbox file to an email address
 
 See: ${D}/mail/mbox_send2.py
-
-### IMAP PLAIN authentication
-
-```imap
-D0 CAPABILITY
-D1 AUTHENTICATE PLAIN
-$(echo -en "\0USERNAME\0PASSWORD" | base64)
-D2 LOGOUT
-```
 
 ### Email forwarding (srs)
 
@@ -122,6 +134,19 @@ See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INS
 
 Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
+
+## Test
+
+
+### IMAP PLAIN authentication
+
+```imap
+D0 CAPABILITY
+D1 AUTHENTICATE PLAIN
+$(echo -en "\0USERNAME\0PASSWORD" | base64)
+D2 LOGOUT
+```
+
 ### Spamassassin test and email authentication
 
 ```bash
@@ -136,6 +161,8 @@ opendkim -vvv -t msg-signed.eml
 ### Mailserver SSL test
 
 https://ssl-tools.net/
+
+### Authentication
 
 #### Sender ID (From:)
 
@@ -190,9 +217,9 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 
 http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
-#### Bulk mail
+### Bulk mail
 
-##### Body parts
+#### Body parts
 
 - :sunny: :sunny: :sunny: Descriptive From name "Firstname from Company"
 - :sunny: :sunny: Descriptive subject line
@@ -202,13 +229,13 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - Subheader lines
 - :bulb: Sections: image + title + description + call2action  https://litmus.com/subscribe
 
-##### Footer
+#### Footer
 
 - Sender's contact details (postal address, phone number)
 - Who (name, email address, why) is subscribed
 - Unsubscribe link
 
-##### Email headers
+#### Email headers
 
 - List-Unsubscribe: URL (invisible)
 - Precedence: bulk (invisible)
@@ -219,7 +246,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - X-Autoreply: yes
 - Auto-Submitted: auto-replied
 
-##### Others
+#### Others
 
 - SMTP `MAIL FORM: <user@domain.net>`
 - HTML and plain payload
@@ -227,7 +254,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 - :cloud: CDN for images
 
-##### Feedback loop
+#### Feedback loop
 
 https://wordtothewise.com/isp-information/
 
@@ -246,85 +273,23 @@ https://wordtothewise.com/isp-information/
 - checkmyauth@auth.returnpath.net
 - https://winning.email/checkup/DOMAIN
 
-### White lists
-
-- https://www.dnswl.org/?page_id=87
-- .
-
 ### RBL-s (DNSBL)
 
-##### List of blacklists
+#### List of blacklists
 
 - https://mxtoolbox.com/problem/blacklist/
-- http://www.dnsbl-check.info/
 - http://bgp.he.net/ip/1.2.3.4#_rbl
+- http://www.dnsbl-check.info/
+- http://www.anti-abuse.org/
 
-##### Anti-abuse's list: http://www.anti-abuse.org/
-
-```
-bl.spamcop.net
-cbl.abuseat.org
-b.barracudacentral.org
-dnsbl.sorbs.net
-http.dnsbl.sorbs.net
-dul.dnsbl.sorbs.net
-misc.dnsbl.sorbs.net
-smtp.dnsbl.sorbs.net
-socks.dnsbl.sorbs.net
-spam.dnsbl.sorbs.net
-web.dnsbl.sorbs.net
-zombie.dnsbl.sorbs.net
-dnsbl-1.uceprotect.net
-dnsbl-2.uceprotect.net
-dnsbl-3.uceprotect.net
-pbl.spamhaus.org
-sbl.spamhaus.org
-xbl.spamhaus.org
-zen.spamhaus.org
-bl.spamcannibal.org
-psbl.surriel.com
-ubl.unsubscore.com
-rbl.spamlab.com
-dyna.spamrats.com
-noptr.spamrats.com
-spam.spamrats.com
-cbl.anti-spam.org.cn
-cdl.anti-spam.org.cn
-dnsbl.inps.de
-drone.abuse.ch
-httpbl.abuse.ch
-korea.services.net
-short.rbl.jp
-virus.rbl.jp
-spamrbl.imp.ch
-wormrbl.imp.ch
-virbl.bit.nl
-rbl.suresupport.com
-dsn.rfc-ignorant.org
-ips.backscatterer.org
-spamguard.leadmon.net
-opm.tornevall.org
-multi.surbl.org
-ix.dnsbl.manitu.net
-tor.dan.me.uk
-rbl.efnetrbl.org
-dnsbl.dronebl.org
-access.redhawk.org
-db.wpbl.info
-rbl.interserver.net
-query.senderbase.org
-bogons.cymru.com
-csi.cloudmark.com
-```
-
-##### Check RBL-s
+#### Check RBL-s
 
 ```bash
-cat anti-abuse.org.rbl | xargs -I %% host -tA $(revip "$IP").%% 2>&1 \
+cat anti-abuse.org.rbl | xargs -I %% host -t A "$(revip "$IP").%%" 2>&1 \
     | grep -v "not found: 3(NXDOMAIN)"
 ```
 
-##### Trendmicro ERS
+#### Trendmicro ERS check
 
 ```bash
 wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
@@ -333,8 +298,13 @@ wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.tren
 
 Response: "IP Unlisted in the spam sender list None"
 
-### Monitoring you server's IP reputation
+### Monitoring IP reputation
 
 - https://www.rblmon.com/accounts/register/
 - https://www.projecthoneypot.org/monitor_settings.php
+
+### White lists
+
+- https://www.dnswl.org/?page_id=87
+- barracuda?
 

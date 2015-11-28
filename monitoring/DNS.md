@@ -17,5 +17,6 @@
 [DNS Hosting Speed](https://www.ultratools.com/tools/dnsHostingSpeed)
 
 [Detailed recursive DNS query](https://dnsquery.org/)
+http://www.squish.net/dnscheck/
 
 See for [Speedtest.md](./Speedtest.md) DNS propagation checkers

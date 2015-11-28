@@ -209,14 +209,14 @@ env.phppool ${PHPFPM_POOL}
 env.url ${PHPFPM_STATUS}
 PHP_FPM
 
-    cat >&2 <<APACHE_CNF
+    cat 1>&2 <<APACHE_CNF
 # Terminate rewrite processing for PHP-FPM status
 <Location /status>
     SetHandler application/x-httpd-php
     Require local
-    RewriteEngine on
-    RewriteRule ^/status$ - [END]
 </Location>
+RewriteEngine On
+RewriteRule "^/status$" - [END]
 APACHE_CNF
 
     Enable_plugin "phpfpm_memory"
@@ -227,22 +227,25 @@ munin_apache() {
 
     [ -x /usr/sbin/apache2 ] || return 1
 
-    cat > "${PLUGIN_CONF_DIR}/apache" <<APACHE
+    cat > "${PLUGIN_CONF_DIR}/apache" <<EOF
 [apache_*]
 env.url ${APACHE_STATUS}
-APACHE
+EOF
 
-    cat >&2 <<APACHE_CONF
-# terminate rewrite processing for apache status
+    cat 1>&2 <<EOF
+# Terminate rewrite processing for Apache status
 <IfModule mod_status.c>
     <Location /server-status>
         SetHandler server-status
         Require local
-        RewriteEngine On
-        RewriteRule ^/server-status$ - [END]
     </Location>
+    RewriteEngine On
+    RewriteRule "^/server-status$" - [END]
 </IfModule>
-APACHE_CONF
+
+# Comment out '<Location /server-status>' block
+editor /etc/apache2/mods-available/status.conf
+EOF
 }
 
 

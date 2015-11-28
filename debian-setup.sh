@@ -588,6 +588,8 @@ editor /etc/apache2/evvars
 #     export APACHE_RUN_GROUP=web
 
 a2enmod actions rewrite headers deflate expires proxy_fcgi
+# Comment out '<Location /server-status>' block
+editor /etc/apache2/mods-available/status.conf
 a2enmod ssl
 mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/

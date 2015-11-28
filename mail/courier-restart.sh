@@ -2,8 +2,8 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.3
-# DATE          :2015-02-18
+# VERSION       :0.3.1
+# DATE          :2015-11-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,16 +13,30 @@
 
 Error() {
     echo "ERROR: $*"
-    exit $1
+    exit "$1"
 }
 
 makesmtpaccess || Error $? "smtpaccess/*"
-#grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa || makesmtpaccess-msa || Error $? "esmtpd-msa"
-grep -q '^ESMTPDSTART=YES$' /etc/courier/esmtpd-msa || makesmtpaccess-msa || Error $? "esmtpd-msa"
-! [ -d /etc/courier/esmtpacceptmailfor.dir ] || makeacceptmailfor || Error $? "esmtpacceptmailfor.dir/*"
-! [ -e /etc/courier/hosteddomains ] || makehosteddomains || Error $? "hosteddomains"
-! [ -f /etc/courier/userdb ] || makeuserdb || Error $? "userdb"
+
+#if grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa
+if grep -q '^ESMTPDSTART=YES$' /etc/courier/esmtpd-msa; then
+    makesmtpaccess-msa || Error $? "esmtpd-msa"
+fi
+
+if [ -d /etc/courier/esmtpacceptmailfor.dir ]; then
+    makeacceptmailfor || Error $? "esmtpacceptmailfor.dir/*"
+fi
+
+if [ -e /etc/courier/hosteddomains ]; then
+    makehosteddomains || Error $? "hosteddomains"
+fi
+
+if [ -f /etc/courier/userdb ]; then
+    makeuserdb || Error $? "userdb"
+fi
+
 makealiases || Error $? "aliases/*"
+
 service courier-mta-ssl restart || Error $? "courier-mta-ssl"
 service courier-mta restart || Error $? "courier-mta"
 
