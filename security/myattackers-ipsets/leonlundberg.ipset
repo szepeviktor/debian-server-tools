@@ -1,0 +1,7 @@
+# AS44050 - LeonLundberg-net !shadow net!
+#: ipset -exist restore < leonlundberg.ipset
+#: iptables -I INPUT -m set --match-set leonlundberg src -j REJECT
+create leonlundberg hash:net family inet hashsize 256 maxelem 32
+flush leonlundberg
+add leonlundberg 188.143.232.0/24
+# Also in -> dangerous.dnsbl.zone

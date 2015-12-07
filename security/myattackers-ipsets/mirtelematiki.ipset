@@ -1,0 +1,8 @@
+# AS49335 - Mir Telematiki Ltd.
+#: ipset -exist restore < mirtelematiki.ipset
+#: iptables -I INPUT -m set --match-set mirtelematiki src -j REJECT
+create mirtelematiki hash:net family inet hashsize 256 maxelem 32
+flush mirtelematiki
+add mirtelematiki 141.105.64.0/21
+add mirtelematiki 158.255.0.0/21
+# Also in -> dangerous.dnsbl.zone

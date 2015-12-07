@@ -2,7 +2,7 @@
 
 - **high website speed**
 - **many types of monitoring**
-- **security precautions and website firewall**
+- **proactive security and website firewall**
 - **contact form and email traffic monitoring**
 - **SSD based VPS-s**
 - **personal support**
@@ -70,7 +70,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 
 - **honlap sebesség növelése**
 - **honlap felügyelet 10+ módon**
-- **biztonsági óvintézkedések és honlap tűzfal**
+- **proaktív biztonság és honlap tűzfal**
 - **kapcsolat űrlap működés és email forgalom felügyelet**
 - **tárhely SSD alapú VPS-eken**
 - **személyes technikai támogatás (support)**

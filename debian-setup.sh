@@ -319,6 +319,9 @@ host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\
 # View network Graph v4/v6
 #     http://bgp.he.net/ip/${IP}
 
+# Block dangerous IP ranges
+# See: ${D}/security/myattackers-ipsets
+
 # MYATTACKERS chain
 # See: ${D}/security/myattackers.sh
 

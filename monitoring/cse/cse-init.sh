@@ -2,7 +2,7 @@
 #
 # Set up can-send-email.
 #
-# VERSION       :1.1.1
+# VERSION       :1.1.2
 # DATE          :2015-06-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -10,11 +10,11 @@
 # BASH-VERSION  :4.2+
 
 # Install
-[ "$(dirname "$0")" == "cse" ] && cd ../..
+[ "$(dirname "$0")" == "cse" ] && cd ../../
 ./install.sh mail/cse/can-send-email.sh
 
 # Create database
-can-send-email.sh --init || exit 1
+can-send-email.sh init || exit 1
 
 # Add Courier alias
 echo 'editor /etc/courier/aliases/system'

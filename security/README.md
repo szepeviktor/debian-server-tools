@@ -1,3 +1,7 @@
+### Security audit
+
+@TODO https://github.com/CISOfy/lynis/
+
 ### Store secret data in shares
 
 #### gfshare

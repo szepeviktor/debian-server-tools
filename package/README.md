@@ -127,14 +127,22 @@ chkconfig --list
 ```bash
 # Save
 apt-get install -y debconf-utils
+cd /var/backups/
 debconf-get-selections > debconf.selections
 dpkg --get-selections > packages.selection
+tar --exclude=/etc/network/interfaces -vPczf server.tar.gz debconf.selections packages.selection /etc/*
 
 # Restore
+## Update sources.list, sources.list.d/*
+## Remove systemd
 apt-get install -y dselect && dselect update
 debconf-set-selections < debconf.selections
+grep -E "vmware|linux-image" packages.selection
+# Add current kernel, remove vmware
+editor packages.selection
 dpkg --clear-selections && dpkg --set-selections < packages.selection
 apt-get dselect-upgrade -y
+dpkg -l|grep "ssh"
 ```
 
 See: services.list

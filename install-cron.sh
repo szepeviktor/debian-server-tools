@@ -2,16 +2,16 @@
 #
 # Install cron jobs from the script header.
 #
-# E.g. "# CRON-HOURLY    :/usr/local/bin/example.sh"
-# Cron syntax: "# CRON.D         :09,39 *	* * *	root	/usr/local/bin/example.sh"
-# See: man 5 crontab
-#
 # VERSION       :0.2
 # DATE          :2014-12-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+
+# E.g. "# CRON-HOURLY    :/usr/local/bin/example.sh"
+# Cron syntax: "# CRON.D         :09,39 *	* * *	root	/usr/local/bin/example.sh"
+# See: crontab(5)
 
 
 Die() {

@@ -87,6 +87,11 @@ uwp transient delete-all
 uwp w3-total-cache flush
 uwp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-run /oldhome/path /home/path
 
+# * Mount wp-content/cache on tmpfs
+#     editor /etc/fstab
+#     tmpfs  /home/${U}/website/html/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u "$U"),gid=$(id -g "$U"),mode=0755  0 0
+wp-lib.sh --root="/home/${U}/website/html/static/cache/" mount 100
+
 # PHP
 cd /etc/php5/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf

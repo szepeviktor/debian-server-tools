@@ -29,10 +29,10 @@ $TTL 60
 37.59.0.0/18    FR_OVH@OVH/AS16276
 37.187.0.0/19   FR_OVH@OVH/AS16276
 46.105.96.0/19  FR_OVH@OVH/AS16276
-87.98.128.0/18  FR_OVH@OVH/AS16276
 91.121.0.0/16   FR_OVH@OVH/AS16276
-192.99.0.0/16   FR_OVH@OVH/AS16276
 142.4.192.0/19  FR_OVH@OVH/AS16276
+188.165.0.0/16  FR_OVH@OVH/AS16276
+192.99.0.0/16   FR_OVH@OVH/AS16276
 
 # AS12876 - ONLINE S.A.S., DC: Iliad Entreprises, aliases: poneytelecom.eu, scaleway cloud
 62.210.0.0/16   FR_IE-POOL-BUSINESS-HOSTING@ONLINE S.A.S/AS12876
@@ -42,21 +42,21 @@ $TTL 60
 50.200.243.136  US_Comcast Cable/AS7922
 
 # AS4812 - China Telecom
-116.224.0.0/12  CH_CHINANETShanghai@CHINANET/AS4812
+116.224.0.0/12  CN_CHINANET Shanghai@CHINANET/AS4812
 
 # AS37963 - Hangzhou Alibaba
-223.4.0.0/14    CH_Alibab@Alibaba/AS37963
+223.4.0.0/14    CN_Alibab@Alibaba/AS37963
 
-# Withdrawn?? HEETHAI-HK
-# 103.41.124.0/24 HK_
-# 103.41.125.0/24 HK_
+# AS4134 - China Telecom
+117.64.0.0/13   CN_CHINANET Anhui@CHINANET/AS4134
+
+# !reclaimed! AS63854 - HEETHAI-HK https://www.hkcert.org/my_url/en/blog/15042901
 
 # AS60781 - LeaseWeb, type: HTTP
-85.17.73.171    NL_Linkpad spider@LeaseWeb/AS60781
-85.17.73.172    NL_Linkpad spider@LeaseWeb/AS60781
+85.17.73.171-172 NL_Linkpad spider@LeaseWeb/AS60781
 
 # AS8075 - Microsoft, type: SSH
-137.135.0.0/16  US_Microsoft@Microsoft/AS8075
+137.135.0.0/16   US_Microsoft@Microsoft/AS8075
 
 # ---------------------------------------
 
@@ -93,10 +93,16 @@ $TTL 60
 94.102.48.0/20  FR_Ecatel@Ecatel/AS29073
 
 # AS35804 - PP SKS-LUGAN
-91.200.12.0/22  UA_SKS-LUGAN@PP SKS-LUGAN/AS35804
+91.200.12.0/22   UA_SKS-LUGAN@PP SKS-LUGAN/AS35804
 
 # AS44050 - LeonLundberg-net
 188.143.232.0/24 shadownet-RU_LeonLundberg/AS44050
 
 # AS197226 - E-RING-NET, Artur Grabowski (DELORIAN), DC: Spirit
-193.189.116.0/23 PL_ArturGrabowski-E-RING-NET/AS197226
+193.189.116.0/23 PL_Artur Grabowski-E-RING-NET/AS197226
+
+# AS198540 - ELAN Andrzej Niechcial
+91.236.74.0/23   PL_Andrzej Niechcial-ELAN/AS198540
+
+# AS5577 - LU root SA, type: HTTP
+94.242.192.0/18  LU_root SA/AS5577
