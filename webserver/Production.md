@@ -2,6 +2,7 @@
 
 1. [Installation](#installation)
 1. [Migration](#migration)
+1. [Update](#update)
 1. [Check](#check)
 1. [Monitor](#monitor)
 1. [Backup](#backup)
@@ -158,6 +159,12 @@ Keep `git-dir` above document root.
 http://google-public-dns.appspot.com/cache
 
 
+## Update
+
+
+@TODO
+
+
 ## Check
 
 
@@ -201,7 +208,7 @@ http://google-public-dns.appspot.com/cache
 ### 404 page
 
 - informative
-- cooperative
+- cooperative (search form, automatic suggestions, Google's fixurl.js)
 - attractive
 
 ### Resource optimization

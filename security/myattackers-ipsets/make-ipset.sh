@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Example input file
+#
+#     mirtelematiki
+#     # AS49335 - Mir Telematiki Ltd.
+#     141.105.64.0/21 RU_HOSTKEY@Mir Telematiki/AS49335
+#     158.255.0.0/21  RU_HOSTKEY@Mir Telematiki/AS49335
+
+# 1st line
+read -r NAME
+# 2nd line
+read -r ASLINE
+
+{
+    cat <<EOF
+# ${ASLINE### }
+#: ipset -exist restore < ${NAME}.ipset
+#: iptables -I INPUT -m set --match-set ${NAME} src -j REJECT
+create ${NAME} hash:net family inet hashsize 256 maxelem 32
+flush ${NAME}
+EOF
+
+    # Following lines
+    while read -r IPRANGE; do
+        echo "add ${NAME} ${IPRANGE%% *}"
+    done
+
+    echo "# Also in -> dangerous.dnsbl.zone"
+} > "${NAME}.ipset"

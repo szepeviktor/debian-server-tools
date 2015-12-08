@@ -2,10 +2,7 @@
 #
 # Check specified S.M.A.R.T. attributes of all hard drives and SSD-s.
 #
-# Manual check: smartctl -A <DEVICE>
-# Only /dev/sd* and /dev/hd* devices are detected.
-#
-# VERSION       :0.3
+# VERSION       :0.3.0
 # DATE          :2015-05-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,6 +12,10 @@
 # CRON-HOURLY   :/usr/local/sbin/smart-zeros.sh
 # DEPENDS       :apt-get install heirloom-mailx smartmontools
 
+# Manual check:
+#     smartctl -A <DEVICE>
+# Only /dev/sd* and /dev/hd* devices are detected.
+#
 # These attributes must have zero raw value:
 #       1 Raw_Read_Error_Rate
 #       5 Reallocated_Sector_Ct

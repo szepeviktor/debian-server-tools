@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install iproute heirloom-mailx
+# DEPENDS       :apt-get install iproute2 heirloom-mailx
 # LOCATION      :/usr/local/sbin/vpscheck.sh
 # CRON-DAILY    :/usr/local/sbin/vpscheck.sh
 # CONFIG        :~/.config/vpscheck/configuration

@@ -2,6 +2,8 @@
 #
 # Decode piped URL-s.
 #
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/bin/urldecode.pl
 
 # Usage
 #

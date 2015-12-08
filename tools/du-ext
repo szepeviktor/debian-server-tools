@@ -2,14 +2,19 @@
 #
 # Show disk usage in kB by file extension.
 #
-# VERSION       :0.2
+# VERSION       :0.2.1
+# LOCATION      :/usr/local/bin/du-ext
 
-find -type f -printf "%f\n"|grep -o "\.[^.]\+$"|sort|uniq| \
-    ( while read E; do
-        echo -n "$E "
-        du -k --total $(find -type f -name "*${E}" -printf "%p ")|tail -n1|cut -f1
-    done
-    # Extensionless files
-    EXTLESS="$(find -type f -not -name "*.*" -printf "%p ")"
-    [ -z "$EXTLESS" ] || ( echo -n "N/A "; du -k --total ${EXTLESS}|tail -n1|cut -f1 )
-    ) | sort -k2 -n
+find -type f -printf "%f\n" | grep -o "\.[^.]\+$" | sort | uniq \
+    | (
+        while read FILE; do
+            echo -n "${FILE} "
+            du -k --total $(find -type f -name "*${FILE}" -printf "%p ") | tail -n 1 | cut -f 1
+        done
+        # Extensionless files
+        EXTLESS="$(find -type f -not -name "*.*" -printf "%p ")"
+        if [ -n "$EXTLESS" ]; then
+            echo -n "N/A "
+            du -k --total ${EXTLESS} | tail -n 1 | cut -f 1
+        fi
+    ) | sort -k 2 -n

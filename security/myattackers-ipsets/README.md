@@ -3,7 +3,8 @@
 Deny traffic from a network:
 
 ```bash
-cat NETNAME.ipset | head | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
+apt-get install -y ipset
+head NETNAME.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
 ```
 
 ### ipset-persistent

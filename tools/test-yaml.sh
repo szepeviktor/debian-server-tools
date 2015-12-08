@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+exit 0
+
 https://github.com/ingydotnet/test-yaml-pm/blob/master/bin/test-yaml
 
 >>>  YAML::Syck

@@ -2,13 +2,14 @@
 #
 # Test SMTPS authentication.
 #
-# VERSION       :0.4.1
-# DATE          :2015-10-16
+# VERSION       :0.4.2
+# DATE          :2015-12-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install openssl ca-certificates
+# LOCATION      :/usr/local/bin/smtp-auth.sh
 
 INITIAL_WAIT="2"
 CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"

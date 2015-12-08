@@ -1,5 +1,8 @@
 #!/bin/bash
 #
 # Execute 7zip with high PPMd compression
+#
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/bin/7z-ppmd
 
 7z a -mx9 -m0=PPMd:mem=256m -m1=LZMA2 "$@"

@@ -1,17 +1,18 @@
 #!/bin/bash
 #
 # Resolve IPv4 and hostname vice-versa.
-# PTR -> A -> PTR
-# A -> PTR -> A
 #
-# VERSION       :0.2
+# VERSION       :0.2.0
 # DATE          :2014-11-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/hosthost
 # DEPENDS       :apt-get install bind9-host
+# LOCATION      :/usr/local/bin/hosthost
+
+# PTR -> A -> PTR
+# A -> PTR -> A
 
 ARG="$1"
 

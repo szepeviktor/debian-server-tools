@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Debian jessie virtual server setup.
+# Debian jessie setup on a virtual server.
 #
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -37,7 +37,7 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 
 set -e -x
 
-Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" >&2; }
+Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" 1>&2; }
 
 [ "$(id -u)" == 0 ] || exit 1
 
@@ -46,8 +46,8 @@ lsb_release -a && sleep 5
 
 # Download this repo
 #apt-get install -y wget ca-certificates
-mkdir ~/src
-cd ~/src
+mkdir /root/src
+cd /root/src
 wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 cd debian-server-tools-master/
 D="$(pwd)"
@@ -77,7 +77,7 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
-    time bash-completion htop bind9-host mc lynx ncurses-term aptitude
+    time bash-completion htop bind9-host mc lynx ncurses-term aptitude iproute2 ipset
 ln -svf /usr/bin/host /usr/local/bin/mx
 
 # Input
@@ -89,7 +89,7 @@ update-alternatives --set editor /usr/bin/mcedit
 
 # Bash
 #sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc
-echo "dash dash/sh boolean false"|debconf-set-selections -v
+echo "dash dash/sh boolean false" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
 
 # --- Automated --------------- >8 ------------- >8 ------------
@@ -181,6 +181,9 @@ man() {
 
 # ---------------------------------------------------------------------
 
+# Set the title on putty terminals
+sed -i 's;^xterm\*|rxvt\*);xterm*|rxvt*|putty*);' /etc/skel/.bashrc
+
 # Markdown for mc
 #cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
 #editor ~/.config/mc/mc.ext
@@ -190,6 +193,7 @@ man() {
 # Add INI extensions for mc
 cp -v /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
 sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
+sed -i 's;^\(file .*(\)py|PY\().*\)$;\1py|PY|yml|yaml\2;' ~/.config/mc/mcedit/Syntax
 sed -i 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\slist;' ~/.config/mc/mcedit/Syntax
 #editor ~/.config/mc/mcedit/Syntax
 
@@ -208,7 +212,7 @@ adduser ${U} sudo
 editor /etc/shadow
 read -s -p "SSH port? " SSH_PORT
 # sshd on another port
-sed 's/^Port 22$/#Port 22\nPort ${SSH_PORT}/' -i /etc/ssh/sshd_config
+sed "s/^Port 22$/#Port 22\nPort ${SSH_PORT}/" -i /etc/ssh/sshd_config
 # Disable root login
 sed 's/^PermitRootLogin yes$/PermitRootLogin no/' -i /etc/ssh/sshd_config
 # Disable password login for sudoers
@@ -239,11 +243,11 @@ lspci
 clear; cat /proc/mdstat; cat /proc/partitions
 pvdisplay && vgdisplay && lvdisplay
 ls -1 /etc/default/*
-head -n 1000 /etc/default/* | grep -v "^#\|^$" | grep --color -A1000 "^==> "
+head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep --color -A1000 "^==> "
 
 # /tmp in RAM
 TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
-[ "$TOTAL_MEM" -gt $((2049 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
+[ "$TOTAL_MEM" -gt $((4097 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
 
 # Mount points
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
@@ -283,6 +287,7 @@ editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
 editor /etc/motd
+#     This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited.
 
 # Networking
 editor /etc/network/interfaces
@@ -292,7 +297,7 @@ editor /etc/network/interfaces
 #         netmask 255.255.255.0
 #         #netmask 255.255.254.0
 #         gateway GATEWAY
-ifconfig -a
+clear; ifconfig -a
 route -n -4
 route -n -6
 netstat -antup
@@ -314,16 +319,17 @@ editor /etc/resolv.conf
 #
 #     Frankfurt 108.61.10.10
 
-ping6 -c 4 ipv6.google.com
+clear; ping6 -c 4 ipv6.google.com
 host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
 # View network Graph v4/v6
 #     http://bgp.he.net/ip/${IP}
 
 # Block dangerous IP ranges
-# See: ${D}/security/myattackers-ipsets
+cd ${D}/security/myattackers-ipsets/
+head *.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
 
 # MYATTACKERS chain
-# See: ${D}/security/myattackers.sh
+cd ${D} && ./install.sh security/myattackers.sh
 
 # Hostname
 # Set A record and PTR record
@@ -335,6 +341,7 @@ grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
+# See: man hosts
 editor /etc/hosts
 #     127.0.0.1 localhost
 #     127.0.1.1 localhost
@@ -346,31 +353,27 @@ editor /etc/hosts
 #
 #     # ORIGINAL-PTR $(host "$IP")
 #     IP.IP.IP.IP HOST.DOMAIN HOST
+host "$H"
 
 # Locale and timezone
 clear; locale; locale -a
-dpkg-reconfigure locales
+echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections -v
+echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-set-selections -v
+dpkg-reconfigure -f noninteractive locales
+# http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html
 cat /etc/timezone
-dpkg-reconfigure tzdata
+echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
+dpkg-reconfigure -f noninteractive tzdata
 
 # Comment out getty[2-6], NOT /etc/init.d/rc !
 # Consider /sbin/agetty
 editor /etc/inittab
-# Sanitize users
-#     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
-#     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
-# mcview /usr/share/doc/base-passwd/users-and-groups.html
-tabs 20,+3,+8,+8,+20,+20,+8,+8,+8;sort -t':' -k3 -g /etc/passwd|tr ':' '\t';tabs -8
-editor /etc/passwd
-editor /etc/shadow
-update-passwd -v --dry-run
-#update-passwd -v
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
 # 1. Delete not-installed packages
 clear; dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
-apt-get purge  \
+apt-get purge \
     at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
     lrzsz mlocate rpcbind nfs-common w3m vim-runtime vim-common \
     installation-report debian-faq info install-info manpages man-db texinfo tex-common \
@@ -382,9 +385,14 @@ ps aux|grep -v "grep"|grep -E "snmp|vmtools|xe-daemon"
 dpkg -l|grep -E "xe-guest-utilities|dkms"
 # See: ${D}/package/vmware-tools-wheezy.sh
 vmware-toolbox-cmd stat sessionid
+vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
+rm -vrf /usr/lib/vmware-tools
+apt-get install -y open-vm-tools
 # 4. Hardware related
 dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup\
 |acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|popularity-contest"
+apt-get purge dmidecode eject laptop-detect usbutils kbd console-setup \
+    acpid fancontrol hddtemp lm-sensors sensord smartmontools mdadm popularity-contest
 # 5. Non-stable packages
 dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
@@ -403,9 +411,19 @@ aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?
 dpkg -l | most
 apt-get autoremove --purge
 
+# Sanitize users
+#     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
+#     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
+# mcview /usr/share/doc/base-passwd/users-and-groups.html
+tabs 20,+3,+8,+8,+20,+20,+8,+8,+8;sort -t':' -k3 -g /etc/passwd|tr ':' '\t';tabs -8
+editor /etc/passwd
+editor /etc/shadow
+update-passwd -v --dry-run
+#update-passwd -v
+
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
-    whois unzip heirloom-mailx iptables-persistent bootlogd goaccess\
+    whois unzip heirloom-mailx iptables-persistent bootlogd goaccess \
     ntpdate apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make
 # Backports
 # @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
@@ -414,7 +432,7 @@ apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums
 sed -i 's/^CRON_CHECK=never/CRON_CHECK=weekly/' /etc/default/debsums
 
 # Check user cron jobs
-clear; ${D}/tools/catconf /var/spool/cron/crontabs/*
+clear; ${D}/tools/catconf /etc/crontab /var/spool/cron/crontabs/*
 
 # Automatic package updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
@@ -426,6 +444,11 @@ read -r -p "Hosting company? " HOSTING_COMPANY
 find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
+
+# /root/dist-mod
+cd /root/; mkdir dist-mod && cd dist-mod/
+
+# Modified files
 cruft --ignore /dev | tee cruft.log
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
@@ -434,19 +457,16 @@ debsums --all --changed | tee debsums-changed.log
 # Custom APT repositories
 editor /etc/apt/sources.list.d/others.list && apt-get update
 
-cd /root/
-mkdir dist-mod && cd dist-mod/
-
 # Get pip
 apt-get install -y python3-dev
 wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python2 get-pip.py
 
-# Detect whether your container is running under a hypervisor
-wget -O slabbed-or-not.zip https://github.com/kaniini/slabbed-or-not/archive/master.zip
-unzip slabbed-or-not.zip && rm -vf slabbed-or-not.zip
-cd slabbed-or-not-master/ && make && ./slabbed-or-not|tee ../slabbed-or-not.log && cd ..
+# Detect if we are running in a virtual machine
+apt-get install -y virt-what
+virt-what
+apt-get purge dmidecode virt-what
 
 # rsyslogd immark plugin
 #     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
@@ -509,6 +529,7 @@ cd ${D}; ./install.sh monitoring/vpscheck.sh
 editor /usr/local/sbin/vpscheck.sh
 vpscheck.sh -gen
 editor /root/.config/vpscheck/configuration
+#editor /usr/local/sbin/vpscheck.sh
 # Test run
 vpscheck.sh
 
@@ -525,7 +546,7 @@ echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRES
 #     Send-only servers don't receive emails.
 #     Send-only servers don't have local domain names.
 #     They should have an MX record pointing to the smarthost.
-#     Smarthost should receive all emails with send-only server's domain name.
+#     Smarthost should receive all emails addressed to send-only server's domain name.
 clear; apt-get install -y courier-mta courier-mta-ssl
 # Fix dependency on courier-authdaemon
 sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta
@@ -543,8 +564,8 @@ editor /etc/courier/esmtpauthclient
 #     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
 openssl dhparam -out /etc/courier/dhparams.pem 2048
 editor /etc/courier/esmtpd
-#     ADDRESS=127.0.0.1
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
+#     ADDRESS=127.0.0.1
 #     TCPDOPTS=" ... ... -noidentlookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
@@ -558,6 +579,7 @@ editor /etc/courier/me
 # Check MX record
 host -t MX $(cat /etc/courier/me)
 editor /etc/courier/defaultdomain
+# SPF - Add this server to the SPF record of its domains
 editor /etc/courier/dsnfrom
 editor /etc/courier/locals
 #     localhost
@@ -566,12 +588,10 @@ editor /etc/courier/aliases/system
 #     postmaster: |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS admin@szepe.net
 courier-restart.sh
 # Allow unauthenticated SMTP traffic from this server on the smarthost
-#
 #     editor /etc/courier/smtpaccess/default
 #         %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
-#
+
 # Receive bounce messages on the smarthost
-#
 #     editor /etc/courier/aliases/system
 #         @HOSTNAME.TLD: LOCAL-USER
 #     editor /var/mail/DOMAIN/USER/.courier-default
@@ -691,6 +711,7 @@ echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/l
 # - PHP-FPM pool request_terminate_timeout
 
 # Suhosin extension
+#     https://github.com/stefanesser/suhosin/releases
 apt-get install -y php5-suhosin-extension
 php5enmod -s fpm suhosin
 
@@ -723,7 +744,7 @@ cd ${D}; ./install.sh webserver/webrestart.sh
 # Add the development website
 # See: ${D}/webserver/add-prg-site.sh
 
-# Add a website
+# Add a production website
 # See: ${D}/webserver/add-site.sh
 
 # MariaDB
@@ -734,7 +755,7 @@ echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=u
 chmod 600 /root/.my.cnf
 #editor /root/.my.cnf
 
-# wp-cli
+# WP-CLI
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
 wget -O /usr/local/bin/wp "$WPCLI_URL" && chmod -c +x /usr/local/bin/wp
 WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash"
@@ -764,6 +785,10 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 # See: ${D}/webserver/preload-cache.sh
 
 # Spamassassin
+apt-get install -y libmail-dkim-perl \
+    libsocket6-perl libsys-hostname-long-perl libnet-dns-perl libnetaddr-ip-perl \
+    libcrypt-openssl-rsa-perl libdigest-hmac-perl libio-socket-inet6-perl libnet-ip-perl \
+    libcrypt-openssl-bignum-perl
 Getpkg spamassassin
 
 # SSL certificate for web, mail etc.
@@ -800,12 +825,12 @@ lynx 127.0.0.1:2812
 
 # Aruba ExtraControl (serclient)
 #     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx
-wget -nv http://admin.dc3.arubacloud.hu/Installers/debian/aruba-serclient_0.01-1_all.deb
+wget -nv https://admin.dc3.arubacloud.hu/Installers/debian/aruba-serclient_0.01-1_all.deb
 dpkg -i aruba-serclient_*_all.deb
 # Set log level
 echo -e "[LOG]\nlevel = 20" >> /opt/serclient/serclient.ini
 # Comment out "if getRestartGUID(remove=False) == None: rf.doRollover()"
-editor +159 /opt/serclient/tools.py
+editor /opt/serclient/tools.py:159
 # Add logrotate
 editor /etc/logrotate.d/serclient
 #     /var/log/serclient.log {
@@ -821,6 +846,8 @@ editor /etc/logrotate.d/serclient
 #                     fi;
 #         endscript
 #     }
+# Activate ExtraControl
+#     https://admin.dc3.arubacloud.hu/Manage/Serial/SerialActivation.aspx
 
 # node.js
 apt-get install -y iojs
@@ -848,7 +875,7 @@ apt-get autoremove --purge
 echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
 # Backup /etc
-tar cJf "/root/${H//./-}_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
+tar cJf "/root/$(hostname -f)_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
 
 # Clients and services
 cp -v ${D}/server.yml /root/

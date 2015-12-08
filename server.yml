@@ -1,8 +1,8 @@
 # Server installation
 install:
   name: hostname.domain.tld
-  date: 2015-MM-DD
-  operating-system: Debian jessie 8.1
+  date: 2016-MM-DD
+  operating-system: Debian jessie
 
 # Clients using this server
 clients:

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 weekly
 grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554" \
     | mailx -s "[admin] incoming mail errors" postmaster

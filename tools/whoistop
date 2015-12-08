@@ -1,15 +1,16 @@
 #!/bin/bash
 #
-# Show non-empty config file lines.
+# Display only the first block of whois record.
 #
-# VERSION       :0.2.0
+# VERSION       :0.1.0
 # DATE          :2015-12-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/catconf
+# LOCATION      :/usr/local/bin/whoistop
 
-EMPTY_LINES='^\s*#|^\s*$'
+whois "$@" | sed '/^[a-z]\+:/,/^$/!d; /^$/,$d'
 
-grep -Ev "$EMPTY_LINES" "$@"
+# Alternative solution
+#     sed '/range/ {command}'

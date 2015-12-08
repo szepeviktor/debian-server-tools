@@ -1,4 +1,4 @@
 # obnam
 deb http://code.liw.fi/debian/ jessie main
-#K: wget -qO- http://code.liw.fi/apt.asc | apt-key add
+#K: wget -qO- http://code.liw.fi/apt.asc | apt-key add -
 #M: http://obnam.org/tutorial/

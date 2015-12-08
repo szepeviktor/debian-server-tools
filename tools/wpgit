@@ -23,7 +23,7 @@
 #
 #     wpgit
 
-export GIT_DIR="/usr/local/src/wordpress/.git"
+export GIT_DIR="/usr/local/src/wordpress.git"
 
 if [ $# == 1 ]; then
     TAG="$1"
@@ -35,7 +35,7 @@ if [ $# == 1 ]; then
 
     # Check tag
     if ! git rev-parse --verify --quiet "$TAG" > /dev/null; then
-        echo "ERROR: $?, last 20 tags: $(git tag | tail -n 20 | paste -s -d " ")" >&2
+        echo "ERROR: $?, last 20 tags: $(git tag | tail -n 20 | paste -s -d " ")" 1>&2
         exit 1
     fi
 
@@ -43,9 +43,11 @@ if [ $# == 1 ]; then
     git checkout "$TAG" -- .
 fi
 
-# WIP
+# [WIP]
+
 # Show differences from a given tag
 #TAG_COMMIT="$(git rev-list "$TAG" | head -n 1)"
 #git diff "${TAG_COMMIT}^1" -- .
+
 # Show untracked files
 #git status --short | grep "^? "

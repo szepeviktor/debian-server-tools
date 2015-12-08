@@ -47,6 +47,15 @@ exit 0
 
 # gamin for courier-imap
 
+# Mail submission agent (port 587)
+editor esmtpd-msa
+#     AUTH_REQUIRED=1
+#     ADDRESS=0
+#     ESMTPDSTART=YES
+editor esmtpd
+#     ESMTPAUTH=""
+#     ESMTPAUTH_TLS="PLAIN LOGIN"
+
 # IMAP only on localhost
 # https://github.com/svarshavchik/courier/blob/master/courier/courier/module.esmtp/esmtpd-ssl.dist.in.git
 editor imapd
@@ -55,14 +64,17 @@ editor imapd
 #     #IMAP_CAPABILITY_TLS=
 #     #IMAP_EMPTYTRASH
 
-DH_BITS=2048 mkdhparams
+echo -e '#!'"/bin/bash\nDH_BITS=2048 /usr/sbin/mkdhparams" > /etc/cron.monthly/courier-mkdhparams1
+
+mkdir /etc/courier/esmtpacceptmailfor.dir
+touch esmtpacceptmailfor
 
 # authmodulelist="authuserdb"
 
 # echo hosted-domain.hu > /etc/courier/hosteddomains
 # mkdir mkdir /etc/courier/esmtpacceptmailfor.dir
 # echo accepted-domain.hu > /etc/courier/esmtpacceptmailfor.dir/esmtpacceptmailfor
-# touch /etc/courier/userdb && chmod 600 /etc/courier/userdb
+# touch /etc/courier/userdb && chmod 600 /etc/courier/userdb && makeuserdb
 
 # authmysqlrc
 DEFAULT_DOMAIN  szepe.net
@@ -107,6 +119,7 @@ ALTER TABLE `passwords`
 GRANT USAGE ON *.* TO 'courierauthu'@'localhost' IDENTIFIED BY PASSWORD '*CA4FD4F77E14F2B60398B882C1020544D0CA9D9C';
 GRANT SELECT ON `mail`.`passwords` TO 'courierauthu'@'localhost';
 
+service courier-authdaemon restart
 
 # Python Courier filters (python3)
 apt-get install -y libpython2.7-dev libxml2-dev libxslt1-dev cython python-gdbm
@@ -130,13 +143,23 @@ ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
 filterctl start pythonfilter
 
 # DKIM support
-#     apt-get install -y libc6-dev pkg-config libtool libopendkim-dev \
-#     libopendbx1-dev nettle-dev libidn2-0-dev libunistring-dev zlib1g-dev \
-#     
-apt-get install -y libopendkim7 libopendbx1 libnettle4
+#     See: ${D}/packages/zdkim....
+apt-get install -y libopendkim7 libopendbx1 libnettle4 libidn2-0 libunistring0
 # Source
 wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
 ./configure && make check && make install
+# Configure
+#     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
+apt-get install -y opendkim-tools
+filterctl start zdkimfilter; ls -l /etc/courier/filters/active
+mkdir /etc/courier/filters/privs; cd /etc/courier/filters/privs
+opendkim-genkey --verbose --domain olmunkaido.hu --selector=dkim1208
+mkdir /etc/courier/filters/keys; cd ../keys/
+ln -vs ../privs/dkim1208.private olmunkaido.hu
+chown -c root:daemon *; chmod -c 640 *
+# http://www.linuxnetworks.de/doc/index.php/OpenDBX/Configuration#sqlite3_backend
+touch zdkim.sqlite
+
 
 # Spamassassin
 #     http://svn.apache.org/repos/asf/spamassassin/trunk/
@@ -171,7 +194,7 @@ dns_server              81.2.236.171
 
 # spammer.dnsbl, knownhosts.dnsbl
 
-# Mail::SpamAssassin::Plugin::SAGrey
+# Mail::SpamAssassin::Plugin::SAGrey (deprecated!)
 
 # MISSING_MID monitoring
 

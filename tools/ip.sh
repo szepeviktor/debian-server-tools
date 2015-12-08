@@ -16,4 +16,4 @@
 
 IP_URL="http://checkip.dyndns.com/"
 
-wget -q -O- "$IP_URL" | grep -o "[0-9.]\+"
+wget -q -O- "$IP_URL" | grep -m 1 -o "[0-9.]\+"

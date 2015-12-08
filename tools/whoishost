@@ -14,7 +14,7 @@
 WHOST="$1"
 WINFO_REGEXP="^country:|^state:|^netname:|^origin|\(NET-"
 
-WHOST_IP="$(host -t A "$WHOST"|head -n 1)"
+WHOST_IP="$(host -t A "$WHOST" | head -n 1)"
 WHOST_IP="${WHOST_IP##* has address }"
 
 # Check IP

@@ -2,5 +2,8 @@
 #
 # Compress tar with LZ4.
 #
+# VERSION       :0.1.0
+# DEPENDS       :apt-get install liblz4-tool
+# LOCATION      :/usr/local/bin/lz4tar
 
 tar -I /usr/bin/lz4 "$@"

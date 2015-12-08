@@ -2,6 +2,8 @@
 #
 # Obfuscated password input.
 #
+# VERSION       :0.2.0
+# LOCATION      :/usr/local/bin/get-passwd-example.sh
 
 Get_passwd() {
     local PROMPT="$1"

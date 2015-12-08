@@ -2,7 +2,8 @@
 #
 # Display every parent directories' owner and permissions.
 #
-# VERSION       :0.2
+# VERSION       :0.2.0
+# LOCATION      :/usr/local/bin/lsrev
 
 ONE_PATH="$1"
 
