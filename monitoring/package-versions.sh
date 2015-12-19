@@ -2,7 +2,7 @@
 #
 # Linux package versions and possible updates - apt, python, pear, pecl, node.js, ruby gems and java JRE.
 #
-# VERSION       :0.4
+# VERSION       :0.4.1
 # DATE          :2014-09-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -14,15 +14,16 @@
 
 
 h1() {
-        local MAXWIDTH="$(( 26 - 2 ))"
-        local MSG="$*"
-        local MSG_SIZE="${#MSG}"
-        local LEFT_SIDE="$(( (MAXWIDTH + MSG_SIZE + 1) / 2 ))"
-        local RIGHT_SIDE="$(( MAXWIDTH - LEFT_SIDE ))"
-        echo
-        echo "/************************\\"
-        printf "|%*s%*s|\n" "$LEFT_SIDE" "$MSG" "$RIGHT_SIDE" " "
-        echo "\\************************/"
+    local MAXWIDTH="$(( 26 - 2 ))"
+    local MSG="$*"
+    local MSG_SIZE="${#MSG}"
+    local LEFT_SIDE="$(( (MAXWIDTH + MSG_SIZE + 1) / 2 ))"
+    local RIGHT_SIDE="$(( MAXWIDTH - LEFT_SIDE ))"
+
+    echo
+    echo "/************************\\"
+    printf "|%*s%*s|\n" "$LEFT_SIDE" "$MSG" "$RIGHT_SIDE" " "
+    echo "\\************************/"
 }
 
 v() {
@@ -36,7 +37,7 @@ get_java_latest() {
         | grep -o "http://.*download.*?BundleId=[0-9]\+")"
 
     local JAVAWEBVERSION="$(wget -qS --max-redirect=0 "$BUNDLEURL" 2>&1 \
-        | sed -n 's|.* Location: http://.*sun\.com/.*/jre-\([^-]\+\)-linux-x64.tar.gz\?.*|\1|p')"
+        | sed -n 's|.* Location: http://.*oracle\.com/.*/jre-\([^-]\+\)-linux-x64.tar.gz\?.*|\1|p')"
 
     local JAVALATEST_MAJOR="1.${JAVAWEBVERSION%%u*}"
     local JAVALATEST_MINOR="0${JAVAWEBVERSION##*u}"
@@ -48,7 +49,7 @@ get_java_latest() {
 
 get_java_current() {
     java -version 2>&1 \
-        | grep "^java version" | cut -d'"' -f2
+        | grep "^java version" | cut -d '"' -f 2
 }
 
 get_java_update() {
@@ -112,5 +113,5 @@ fi
 
 if which java &> /dev/null; then
     h1 "java jre"
-    get_java_update  || echo "java jre update failure"
+    get_java_update || echo "java jre update failure"
 fi

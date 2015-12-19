@@ -29,7 +29,7 @@ if [ $# == 1 ]; then
     TAG="$1"
 
     # Update HEAD and index only
-    git fetch origin master
+    git fetch --prune --tags origin master
     ORIGIN_LATEST_COMMIT="$(git rev-list origin/master | head -n 1)"
     git reset "$ORIGIN_LATEST_COMMIT"
 

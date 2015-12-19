@@ -124,7 +124,11 @@ See: `alter-table.sql`
 
 `wp --allow-root plugin install --activate wp-clean-up`
 
+Delete transients.
+
 `wp --allow-root transient delete-all`
+
+Purge cache.
 
 `wp --allow-root w3-total-cache flush`
 
@@ -133,6 +137,14 @@ See: `alter-table.sql`
 `ls -l /home/${U}/website/pagespeed/; u touch /home/${U}/website/pagespeed/cache.flush`
 
 Check spam and trash comments.
+
+`wp comment list --status=spam --format=count`
+
+`wp comment list --status=trash --format=count`
+
+Optimize database tables.
+
+`wp db optimize`
 
 ### Remove development and testing stuff
 
@@ -196,14 +208,23 @@ http://google-public-dns.appspot.com/cache
 #### Typical design errors
 
 - Dynamically page parts (rotating quotes by PHP)
-- Dynamically generated resources (`style.css.php`)
+- Dynamically generated resources (`style.css.php`, `grep "enqueue*.php"`)
+- New WordPress entry point `grep -E "\brequire|include.*wp-"`
 - Extra server-side requests: HTTP, DNS
 - `$_GET` and `$_POST` sanitization
 - `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff, ttf, svg
+- E-mail delivery `grep -E "\b(wp_)?mail\("`
+- Propiertary install/update (comment out TGM-Plugin-Activation)
+- Home call, external URL-s (search for URL-s)
+- Non-HTTP/200 requests
+- Short opentags `<?=`
+- PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
+- Always require admin code `whats-running`
 - Mobile views
 - Permissions for editors
+- Confusion in colors: normal text color, link and call2action color, accent color
 
 ### 404 page
 
@@ -277,7 +298,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. file change: `Tripwire`
 1. filter error log `logsearch.sh -e|grep -Ev "AH00162|wpf2b_|bad_request_|no_wp_here_"`
 1. watch error log `error-log-monitor` plugin
-1. connected services: API-s, CDN-s ...
+1. connected services: trackers, API-s, CDN-s ...
 1. recipient account: `cse`
 1. recipient domain: domain expiry, DNS, blacklist
 

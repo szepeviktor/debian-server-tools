@@ -1,7 +1,7 @@
 
 exit 0
 
-# RECEIVING MAIL
+# RECEIVING MAIL (esmtpd)
 #
 # - transport: SMTP, SMTP-TLS, SMTP-MSA, SMTPS
 # - smtpaccess deny
@@ -23,11 +23,11 @@ exit 0
 # - SSL cert, settings
 # - SMTP AUTH methods (CRAM-* needs clear passwords)
 #
-# SENDING MAIL (esmtp)
+# SENDING MAIL (courierd)
 #
 # - SSL cert, settings
 #
-# READING MAIL (imap)
+# READING MAIL (imapd)
 #
 # - authmodulelist="..."
 # - IMAP AUTH methods
@@ -142,6 +142,10 @@ editor /etc/pythonfilter.conf
 ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
 filterctl start pythonfilter
 
+# MAXDELS - Maximum number of simultaneous delivery attempts
+# http://www.courier-mta.org/queue.html
+editor /etc/courier/module.esmtp
+
 # DKIM support
 #     See: ${D}/packages/zdkim....
 apt-get install -y libopendkim7 libopendbx1 libnettle4 libidn2-0 libunistring0
@@ -165,6 +169,9 @@ touch zdkim.sqlite
 #     http://svn.apache.org/repos/asf/spamassassin/trunk/
 editor /etc/default/spamassassin
 #    OPTIONS="--create-prefs --max-children 2 --helper-home-dir --ipv4 --allow-tell --username=virtual --groupname=virtual --nouser-config --virtual-config-dir=/var/mail/.spamassassin"
+
+# whitelist_to spamtrap@domain.tld
+
 
 # For DKIM check
 apt-get install -y libmail-dkim-perl

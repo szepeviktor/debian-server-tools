@@ -2,11 +2,6 @@
 --
 -- Usage: mysql -N DATABASE-NAME < alter-table.sql|mysql
 
--- To InnoDB
--- Table compression algorithm (lz4) support from MariaDB 10.1.0
--- https://mariadb.com/kb/en/mariadb/innodb-xtradb-page-compression/
-SET @engine_string = 'InnoDB';
-
 -- To Aria
 -- https://mariadb.com/kb/en/mariadb/aria-storage-engine/
 -- SET @engine_string = 'Aria, TRANSACTIONAL = 1, PAGE_CHECKSUM = 0';
@@ -18,6 +13,13 @@ SET @engine_string = 'InnoDB';
 -- To TokuDB w/Quick LZ
 -- SET @engine_string = 'TokuDB, ROW_FORMAT=TOKUDB_QUICKLZ';
 
+-- To InnoDB
+-- Table compression algorithm (lz4) support from MariaDB 10.1.0
+-- https://mariadb.com/kb/en/mariadb/innodb-xtradb-page-compression/
+SET @engine_string = 'InnoDB';
+
+SET @data_base = ( SELECT DATABASE() );
+
 SELECT CONCAT(
     'ALTER TABLE `',
     `tbl`.`TABLE_SCHEMA`,
@@ -28,5 +30,5 @@ SELECT CONCAT(
     ';'
 ) AS `alters`
 FROM `information_schema`.`TABLES` `tbl`
-WHERE `tbl`.`TABLE_SCHEMA` = ( SELECT DATABASE() )
+WHERE `tbl`.`TABLE_SCHEMA` = @data_base
 LIMIT 0,1000;

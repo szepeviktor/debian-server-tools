@@ -1,10 +1,10 @@
 # Dangerous IP ranges
 
-Deny traffic from a network:
+Deny traffic from dangerous networks.
 
 ```bash
 apt-get install -y ipset
-head NETNAME.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
+head *.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
 ```
 
 ### ipset-persistent

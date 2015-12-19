@@ -122,7 +122,7 @@ aptitude search '?and(?installed, \S*-dev\b)' -F'%p' | xargs apt-get purge
 chkconfig --list
 ```
 
-### Clone a server
+### Clone a server (installed packages and settings)
 
 ```bash
 # Save

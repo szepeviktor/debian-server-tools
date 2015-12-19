@@ -26,7 +26,7 @@
   an English video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - make mistakes
 
-## Magyarul
+## Magyarul az önéletrajz
 
 - webhely sebesség tervezés és optimalizálás (mobilon is)
 - feltételes erőforrás betöltés (Javascript, CSS, képek)
@@ -54,3 +54,9 @@
 - proaktív szerver és webhely monitorozás https://github.com/szepeviktor/debian-server-tools/blob/master/Maintenance.md
 - ügyfél támogató videók https://www.youtube.com/user/szepeviktor/videos
 - hibát vétek
+
+## WordPress fejlesztő keresés
+
+- http://wphu.org/wordpress-fejlesztes
+- http://weblabor.hu/munka
+- http://jobs.wordpress.net/post-a-job/

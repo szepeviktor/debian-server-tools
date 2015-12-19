@@ -62,3 +62,9 @@ cat <PASTED-FILE>|base64 -d|xz -d > <SCRIPT>
 ### Flush Google public DNS cache
 
 http://google-public-dns.appspot.com/cache
+
+### Rescan the SCSI Bus to Add SCSI Devices
+
+```bash
+echo "- - -" > /sys/class/scsi_host/host0/scan
+```

@@ -4,7 +4,7 @@ INNOBCK_FULL_BACKUP="YYYY-MM-DD"
 
 cd /media/backup || exit 1
 
-TODAY=$(date --rfc-3339=date)
+TODAY=$(date --utc --rfc-3339=date)
 
 Echo() {
     tty --quiet && echo "$*"

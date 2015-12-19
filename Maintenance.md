@@ -64,7 +64,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - VPS or bare metal server maintenance and monitoring
 - premium email accounts with personal support and delivery monitoring
 
-# Magyarul
+# Magyarul a honlap üzemben tartásról
 
 #### Röviden a menedzselt tárhelyről (honlap üzemben tartás + tárhely)
 
@@ -131,3 +131,19 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 - honlap tervezés és kivitelezés WordPress motorral (csapatban: marketinges, grafikus, sitebuilder, programozó)
 - módosítás egy meglévő honlap szerkezetén (programozás, sitebuild)
 - tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
+
+<!--
+- kiválogatja a fontosakat
+- sorba rakja
+- becsomagolja valami fogyasztható "köntösbe"
+
+- "Számít a honlapja?"
+- "Webes szolgáltatása van?"
+Megelőző jelleggel végzem, én lépek kapcsolatba a fejlesztővel és a szerkesztőkkel.
+
+- "Lassú a honlapja?"
+- "Üzemeltetési tapasztalatok visszacsatolása a fejlesztésbe."
+A honlapkészítői szintet meghaladó üzemeltetési tapasztalataimat
+vissza lehet csatolni a fejlesztésbe, amivel a hibákat meg lehet előzni.
+
+-->

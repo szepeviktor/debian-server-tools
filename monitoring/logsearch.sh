@@ -2,7 +2,7 @@
 #
 # Smart search Apache logs.
 #
-# VERSION       :0.6
+# VERSION       :0.6.1
 # DATE          :2015-04-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -12,11 +12,11 @@
 # STYLE         :https://google-styleguide.googlecode.com/svn/trunk/shell.xml
 
 
-# put your log locations here
-LOGS="/var/log/apache2/access*.log /home/*/log/access*.log"
-LOGS_OLD="/var/log/apache2/access*.log.1 /home/*/log/access*.log.1"
-ERROR_LOGS="/var/log/apache2/error*.log /home/*/log/error*.log"
-ERROR_LOGS_OLD="/var/log/apache2/error*.log.1 /home/*/log/error*.log.1"
+# Set your log locations here
+LOGS="/var/log/apache2/*access.log"
+LOGS_OLD="/var/log/apache2/*access.log.1"
+ERROR_LOGS="/var/log/apache2/*error.log"
+ERROR_LOGS_OLD="/var/log/apache2/*error.log.1"
 PIPE="cat"
 FIELDS=""
 
@@ -25,7 +25,7 @@ FIELDS=""
 # Arguments:
 #   FILE
 #####################################################
-get_version() {
+Get_version() {
     local FILE="$1"
     local VER="$(grep -m1 "^# VERSION\s*:" "$FILE" | cut -d":" -f2-)"
 
@@ -38,10 +38,10 @@ get_version() {
 ##########################################################
 # Show help
 ##########################################################
-usage() {
-    cat << USAGE
-logsearch v$(get_version "$0")
-Usage: $(basename $0) [OPTION] [PATTERN]
+Usage() {
+    cat <<EOF
+logsearch v$(Get_version "$0")
+Usage: $(basename "$0") [OPTION] [PATTERN]
 Searches all Apache logs and displays selected log fields.
 
   -l                include log path
@@ -62,7 +62,7 @@ Searches all Apache logs and displays selected log fields.
   -e                parse error logs
   -x <FILE>         use the specified log file
   -h                display this help
-USAGE
+EOF
     exit
 }
 
@@ -73,7 +73,7 @@ USAGE
 # Arguments:
 #   FIELD
 ##########################################################
-add_field() {
+Add_field() {
     local FIELD="$*"
 
     [ -z "$FIELDS" ] || FIELDS="${FIELDS}\t"
@@ -87,7 +87,7 @@ add_field() {
 # Arguments:
 #   CMD
 ##########################################################
-add_pipe() {
+Add_pipe() {
     local CMD="$*"
 
     [ -z "$PIPE" ] || PIPE="${PIPE}|"
@@ -98,44 +98,44 @@ add_pipe() {
 
 while getopts ":lwdirunfqstcmpoehx:" opt; do
     case $opt in
-        l) # log PATH
-            add_field "\1\/\2"
+        l) # Log PATH
+            Add_field "\1\/\2"
             ;;
-        w) # website name
-            add_field "\2"
+        w) # Website name
+            Add_field "\2"
             ;;
         d) # DATE
-            add_field "\4"
+            Add_field "\4"
             ;;
         i) # IP
-            add_field "\3"
+            Add_field "\3"
             ;;
         r) # REQUEST
-            add_field "\5"
+            Add_field "\5"
             ;;
         n) # HTTP status code
-            add_field "\6"
+            Add_field "\6"
             ;;
         f) # REFERER
-            add_field "\7"
+            Add_field "\7"
             ;;
         u) # UA
-            add_field "\8"
+            Add_field "\8"
             ;;
         q)
-            add_pipe "uniq -c"
+            Add_pipe "uniq -c"
             ;;
         s)
-            add_pipe "sort -n"
+            Add_pipe "sort -n"
             ;;
         t)
-            add_pipe "sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n"
+            Add_pipe "sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n"
             ;;
         c)
-            add_pipe "wc -l"
+            Add_pipe "wc -l"
             ;;
         m)
-            add_pipe "most"
+            Add_pipe "most"
             ;;
         p)
             IP_DOTS="1"
@@ -151,44 +151,44 @@ while getopts ":lwdirunfqstcmpoehx:" opt; do
             LOGS="$OPTARG"
             ;;
         h)
-            usage
+            Usage
             ;;
         \?)
-            echo "Invalid option: -$OPTARG" >&2
-            usage
+            echo "Invalid option: -${OPTARG}" 1>&2
+            Usage
             ;;
         :)
-            echo "Option -$OPTARG requires an argument." >&2
-            usage
+            echo "Option -${OPTARG} requires an argument." 1>&2
+            Usage
             ;;
     esac
 done
 
-shift $((OPTIND-1))
+shift $((OPTIND - 1))
 
-# what left is the search phrase
+# What left is the search phrase
 SEARCH="$*"
-[ "${IP_DOTS}" = 1 ] && SEARCH="$(sed 's|\.|\\.|g' <<< "$SEARCH")"
+[ "${IP_DOTS}" == 1 ] && SEARCH="$(sed 's|\.|\\.|g' <<< "$SEARCH")"
 
-# default fields = all
+# Default fields = all
 [ -z "$FIELDS" ] && FIELDS="\1\/\2\t\3\t\4\t\5\t\6\t\7\t\8"
 
 # access      222.255.28.000 - - [25/May/2014:06:54:27 +0200] "HEAD /siv/siv.zip HTTP/1.1" 200 294 "-" "-"
 # error       [Sun Jul 13 12:00:51 2014] [error] [client 192.99.200.213] File does not exist: /home/user/public_html
 
 if [ -z "$ERRORLOG" ]; then
-    # process access logs
+    # Process access logs
     grep "${SEARCH}" ${LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
-        | eval "${PIPE}"
-
+        | ${PIPE}
 else
-    # process error logs
+    # Process error logs
 
-    # remove: 6,7,8, 4 -> 3, 3 -> 4
+    # Remove: 6, 7, 8
     FIELDS="${FIELDS//\\6/}"
     FIELDS="${FIELDS//\\7/}"
     FIELDS="${FIELDS//\\8/}"
+    # Swap: 3 <-> 4
     FIELDS="${FIELDS//\\3/\X}"
     FIELDS="${FIELDS//\\4/\3}"
     FIELDS="${FIELDS//\\X/\4}"
@@ -196,5 +196,5 @@ else
     #             log path:1,2          date:4                        IP:3               message:5
     grep -- "${SEARCH}" ${ERROR_LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\(\[.*\]\) \[error\] \[client \([0-9a-f:\.]*\)\] \(.*\)$/'"$FIELDS"'/' \
-        | eval "${PIPE}"
+        | ${PIPE}
 fi

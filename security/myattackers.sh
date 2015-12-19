@@ -2,8 +2,8 @@
 #
 # Ban malicious hosts manually
 #
-# VERSION       :0.5.3
-# DATE          :2015-11-07
+# VERSION       :0.5.4
+# DATE          :2015-12-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -142,7 +142,7 @@ Unban() {
 
     # Delete rule by searching for source address
     iptables --line-numbers -n -v -L "$CHAIN" \
-        | sed -n "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+DROP\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*$;\1;p" \
+        | sed -n "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*$;\1;p" \
         | sort -r -n \
         | xargs -r -L 1 iptables -D "$CHAIN"
 }
@@ -150,7 +150,7 @@ Unban() {
 Get_rule_data() {
     # Format: LINE-NUMBER|PACKETS|EXPIRATION-DATE
     iptables --line-numbers -n -v -L "$CHAIN" \
-        | sed -n "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+DROP\s\+\S\+\s\+--\s\+\*\s\+\*\s\+[0-9./]\+\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$;\1|\2|\3;p" \
+        | sed -n "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+[0-9./]\+\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$;\1|\2|\3;p" \
         | sort -r -n
 }
 

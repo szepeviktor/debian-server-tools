@@ -164,6 +164,8 @@ https://ssl-tools.net/
 
 ### Authentication
 
+https://www.unlocktheinbox.com/resources/identifieralignments/
+
 #### Sender ID (From:)
 
 - http://en.wikipedia.org/wiki/Sender_ID
@@ -176,6 +178,7 @@ https://ssl-tools.net/
 - setup http://www.spfwizard.net/
 - check http://www.kitterman.com/spf/validate.html
 - monitor `host -t TXT <domain>; pyspf`
+- non-emil domains: `v=spf1 -all`
 
 #### DKIM
 
@@ -234,6 +237,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - Sender's contact details (postal address, phone number)
 - Who (name, email address, why) is subscribed
 - Unsubscribe link
+- Forward to a friend
 
 #### Email headers
 
@@ -243,8 +247,8 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - Reply-to: reply@addre.ss (invisible)
 - From: sender@domain.net
 - To: recipients@addre.ss
-- X-Autoreply: yes
-- Auto-Submitted: auto-replied
+- bounce X-Autoreply: yes
+- bounce Auto-Submitted: auto-replied
 
 #### Others
 
@@ -269,7 +273,7 @@ https://wordtothewise.com/isp-information/
 
 - https://www.mail-tester.com/ by Mailpoet
 - http://spamcheck.postmarkapp.com/
-- mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/bulkemailvalidator/
+- mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/resources/emailauthentication/
 - checkmyauth@auth.returnpath.net
 - https://winning.email/checkup/DOMAIN
 

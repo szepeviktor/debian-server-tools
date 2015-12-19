@@ -50,5 +50,7 @@ service unbound restart
 # On the clients
 cp -vf 20_known-hosts.dnsbl.cf /etc/spamassassin/
 cp -vf 20_spammer.dnsbl.cf /etc/spamassassin/
+editor /etc/spamassassin/local.cf
+#     dns_server              1.2.3.4
 sudo -u daemon -- spamassassin --lint && service spamassassin restart
 ```
