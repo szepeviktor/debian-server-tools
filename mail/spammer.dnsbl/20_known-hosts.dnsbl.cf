@@ -5,7 +5,7 @@
 #
 ###########################################################################
 
-require_version 3.004000
+require_version 3.004001
 
 ###########################################################################
 
@@ -22,10 +22,9 @@ describe __RCVD_IN_WL_KNOWN_HOST Known host
 tflags   __RCVD_IN_WL_KNOWN_HOST net nice
 
 header   RCVD_IN_WL_KNOWN_HOST eval:check_rbl_sub('known-hosts-lastexternal', '127.0.0.128')
+score    RCVD_IN_WL_KNOWN_HOST -20.0
 describe RCVD_IN_WL_KNOWN_HOST Known host
 tflags   RCVD_IN_WL_KNOWN_HOST net nice
-
-score RCVD_IN_WL_KNOWN_HOST -20.0
 
 endif
 

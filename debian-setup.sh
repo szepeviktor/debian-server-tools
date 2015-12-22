@@ -119,6 +119,7 @@ editor /root/.bashrc
 export IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 
 PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
+# Yellow + Cyan: $(tput setaf 3) \u $(tput bold;tput setaf 6)
 export PS1="\[$(tput sgr0)\][\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@\h\[$(tput sgr0)\]:\
 \[$(tput setaf 8;tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
 \[$(tput bold)\]\!\[\$(PS1exitstatus;tput sgr0)\]]\n"
@@ -613,6 +614,8 @@ editor /etc/apache2/evvars
 a2enmod actions rewrite headers deflate expires proxy_fcgi
 # Comment out '<Location /server-status>' block
 editor /etc/apache2/mods-available/status.conf
+# SSL support
+cd ${D}; ./install.sh security/cert-expiry.sh
 a2enmod ssl
 mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
@@ -696,7 +699,7 @@ grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini | most
 # Disable "www" pool
 #sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
 mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf.default
-cp -v ${D}/webserver/php5fpm-pools/* /etc/php5/fpm/
+cp -v ${D}/webserver/phpfpm-pools/* /etc/php5/fpm/
 # PHP 5.6+ session cleaning
 mkdir -p /usr/local/lib/php5
 cp -v ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
@@ -714,6 +717,8 @@ echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/l
 #     https://github.com/stefanesser/suhosin/releases
 apt-get install -y php5-suhosin-extension
 php5enmod -s fpm suhosin
+# Check priority
+ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 
 # PHP file modification time protection
 # https://ioncube24.com/signup
@@ -739,6 +744,77 @@ php5enmod -s fpm suhosin
 #     zend_extension = ioncube_loader_lin_5.6.so
 #     ic24.enable = Off
 
+# PHP 7.0
+apt-get install -y php7.0-cli php7.0-fpm \
+    php7.0-curl php7.0-gd php7.0-json php7.0-intl php7.0-mysql php7.0-readline php7.0-sqlite3
+# php7.0-mcrypt compiled in
+PHP_TZ="Europe/Budapest"
+sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
+sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/php.ini
+# Only Prg site is allowed
+sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php/7.0/fpm/php.ini
+sed -i 's|^;opcache.restrict_api\s*=.*$|opcache.restrict_api = /home/web/website/|' /etc/php/7.0/fpm/php.ini
+
+# OPcache - There may be more than 10k files
+#     find /home/ -type f -name "*.php"|wc -l
+sed -i 's/^;opcache.max_accelerated_files\s*=.*$/opcache.max_accelerated_files = 10000/' /etc/php5/fpm/php.ini
+# APCu
+echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php5/fpm/php.ini
+
+# @TODO Measure: realpath_cache_size = 16k  realpath_cache_ttl = 120
+#       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
+
+grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php/7.0/fpm/php.ini | most
+# Disable "www" pool
+mv /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.default
+cp -v ${D}/webserver/phpfpm-pools/* /etc/php/7.0/fpm/
+# PHP session cleaning
+#/usr/lib/php/sessionclean
+
+# @FIXME PHP timeouts
+# - PHP max_execution_time
+# - PHP max_input_time
+# - FastCGI -idle-timeout
+# - PHP-FPM pool request_terminate_timeout
+
+# Suhosin extension
+#     https://github.com/stefanesser/suhosin/releases
+apt-get install -y php5-suhosin-extension
+php5enmod -s fpm suhosin
+# Check priority
+ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
+
+# PHP file modification time protection
+# https://ioncube24.com/signup
+
+# @TODO .ini-handler, Search for it! ?ucf
+
+# PHP security directives
+#     mail.add_x_header
+#     assert.active
+#     suhosin.executor.disable_emodifier = On
+#     suhosin.disable.display_errors = 1
+#     suhosin.session.cryptkey = $(apg -m 32)
+
+# PHP directives for Drupal
+#     suhosin.get.max_array_index_length = 128
+#     suhosin.post.max_array_index_length = 128
+#     suhosin.request.max_array_index_length = 128
+
+# No FPM pools -> no restart
+
+# ionCube Loader
+# https://www.ioncube.com/loaders.php
+#     zend_extension = ioncube_loader_lin_5.6.so
+#     ic24.enable = Off
+
+# Webserver restart
 cd ${D}; ./install.sh webserver/webrestart.sh
 
 # Add the development website

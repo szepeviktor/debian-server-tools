@@ -133,17 +133,26 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 - tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
 
 <!--
-- kiválogatja a fontosakat
-- sorba rakja
-- becsomagolja valami fogyasztható "köntösbe"
 
-- "Számít a honlapja?"
-- "Webes szolgáltatása van?"
-Megelőző jelleggel végzem, én lépek kapcsolatba a fejlesztővel és a szerkesztőkkel.
+1. kiválogatni a fontosakat
+1. sorba rakni
+1. becsomagolni fogyasztható "köntösbe"
 
-- "Lassú a honlapja?"
-- "Üzemeltetési tapasztalatok visszacsatolása a fejlesztésbe."
-A honlapkészítői szintet meghaladó üzemeltetési tapasztalataimat
-vissza lehet csatolni a fejlesztésbe, amivel a hibákat meg lehet előzni.
+# I. Webes szolgáltatása van
+    - "Webes szolgáltatása van?"
+        A munkámat megelőző jelleggel végzem, én lépek kapcsolatba a fejlesztővel és a szerkesztőkkel.
+    - "Üzemeltetési tapasztalatok visszacsatolása a fejlesztésbe."
+        Az üzemeltetési tapasztalataimat vissza lehet csatolni a fejlesztésbe, amivel meg lehet előzni a hibákat.
+
+# II. Szupermen honlapkészítő/marketinges/SEO-s
+    - "Webszerver biztonsági és sebességi beállításai."
+        Webszerver beállítás
+    - "Honlap hibák feltárása."
+        Honlap hiányosságok folyamatos feltárása 'hibajegy áradatban'.
+
+# III. Honlap tulajdonos
+    - "Számít a honlapja?"
+    - "Lassú a honlapja?"
+    - "Vírusos a honlapja?"
 
 -->

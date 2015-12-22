@@ -30,6 +30,7 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
     SSLStaplingResponderTimeout 5
     SSLStaplingReturnResponderErrors Off
     SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
+    SSLStaplingStandardCacheTimeout 36000
 
     # Root certificates in vhost config
     #SSLCACertificatePath /etc/ssl/certs

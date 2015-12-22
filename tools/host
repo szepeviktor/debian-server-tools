@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Extract hostname from URL and execute bind9 host command.
+# Extract hostname from URL and execute BIND9 host command.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2014-11-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -24,10 +24,12 @@ Un_url() {
     echo "${ARG%:*}"
 }
 
-[ -z "$1" ] && exit 1
-which host &> /dev/null || exit 2
+which host &> /dev/null || exit 1
+[ -z "$1" ] && exit 2
 
 declare -a ARG_ARR
+declare -i LAST_INDEX
+
 # Copy command line arguments into ARG_ARR
 for ARG; do
     ARG_ARR+=("${ARG}")

@@ -2,7 +2,8 @@
 
 # Log only
 SECS=5
-HITS=20
+# Mobile client open more than 20 sockets
+HITS=40
 
 # APPEND after other rules ->  don't log blocked traffic
 iptables -A INPUT -p tcp -m multiport --dports 80,443 -i eth0 -m state --state NEW \
@@ -15,7 +16,7 @@ iptables -A INPUT -p tcp -m multiport --dports 80,443 -i eth0 -m state --state N
 #    iptables -A INPUT -i eth0 -p tcp -m multiport --dports 80,443 -m state --state NEW \
 #        -m recent --set --name DEFAULT --rsource
 #    iptables -A INPUT -i eth0 -p tcp -m multiport --dports 80,443 -m state --state NEW \
-#        -m recent --update --seconds 5 --hitcount 20 --name DEFAULT --rsource -j LOG --log-prefix "HTTP flood: "
+#        -m recent --update --seconds 5 --hitcount 40 --name DEFAULT --rsource -j LOG --log-prefix "HTTP flood: "
 
 exit 0
 

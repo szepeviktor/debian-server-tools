@@ -59,7 +59,7 @@ find -name settings.php -exec chmod -v 400 "{}" ";"
 find -name .htaccess -exec chmod -v 640 "{}" ";"
 
 # Set owner
-chown -cR ${U}:${U} cd /home/${U}/
+chown -cR ${U}:${U} /home/${U}/
 
 # WordPress wp-config.php skeleton
 #     define( 'ABSPATH', dirname( __FILE__ ) . '/html/' );

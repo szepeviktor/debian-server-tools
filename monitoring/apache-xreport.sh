@@ -28,7 +28,7 @@ MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 "
-APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
+APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Xclude_filter() {
     grep -Ev " AH00162:| wpf2b_| bad_request_| no_wp_here_| 404_not_found| 403_forbidden| df2b| netpromo_| AH00128:|\sFile does not exist:|\sclient denied by server configuration:| Installing seccomp filter failed"

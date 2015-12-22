@@ -24,7 +24,7 @@
 
 EMAIL_ADDRESS="webmaster@szepe.net"
 EMAIL_SUBJECT="[admin] Unknown robots from $(hostname -f)"
-APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
+APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Filter_ua() {
     cut -d'"' -f6- \
@@ -33,7 +33,8 @@ Filter_ua() {
     | grep -E -v "Googlebot|Googlebot-Image|Feedfetcher-Google|AdsBot-Google|Googlebot-Mobile|bingbot\
 |BingPreview|msnbot|MJ12bot|AhrefsBot|YandexBot|YandexImages|yandex\.com/bots|ia_archiver|Baiduspider|Yahoo\! Slurp\
 |Pingdom\.com_bot|zerigo\.com/watchdog|ClickTale bot|facebookexternalhit|Wget|Feedstripes" \
-    | grep -E -v "Amazon CloudFront|Debian APT-HTTP|munin/2\.0\.6|W3 Total Cache"
+    | grep -E -v "Amazon CloudFront|Debian APT-HTTP|munin/2\.0\.6|W3 Total Cache" \
+
 }
 
 Digest_ua() {
@@ -56,7 +57,8 @@ while read CONFIG_FILE; do
     SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
 
     # Substitute variables
-    ACCESS_LOG="$(echo "$ACCESS_LOG"|sed -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
+    ACCESS_LOG="$(echo "$ACCESS_LOG"|sed \
+        -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
 
     ionice -c 3 /usr/local/bin/dategrep --format apache --multiline \

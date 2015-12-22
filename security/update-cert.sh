@@ -3,7 +3,7 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.7.0
+# VERSION       :0.7.1
 # DATE          :2015-10-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -103,6 +103,9 @@ Check_requirements() {
     fi
     if ! [ -f "$SUB" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
         Die 3 "Missing cert(s)."
+    fi
+    if ! [ -f /usr/local/bin/cert-expiry.sh ] || ! [ -f /etc/cron.weekly/cert-expiry1 ]; then
+        Die 4 "./install.sh security/cert-expiry.sh"
     fi
 
     # Check certs' moduli

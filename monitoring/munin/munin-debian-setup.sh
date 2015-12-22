@@ -147,31 +147,35 @@ munin_multiping() {
     cat > "${PLUGIN_CONF_DIR}/multiping" <<MULTIPING
 [multiping]
 # One hop away from BIX
-#        Telekom,     UPC,          DIGI,      Invitel
-env.host 81.183.0.151 89.135.214.78 94.21.3.57 217.113.63.72
+#        Telekom,     UPC,          DIGI,      Invitel,      ocsp.startssl.com
+env.host 81.183.0.151 89.135.214.78 94.21.3.57 217.113.63.72 95.101.88.90
 MULTIPING
 
     Enable_plugin "multiping"
 }
 
-munin_bix() {
-    if ! ping -c 3 193.188.137.175; then
-        echo "ERROR: No BIX conncetion" 1>&2
+munin_startcom() {
+    # ocsp.startssl.com
+    local STARTCOM_IP="$(host -tA ocsp.startssl.com|sed -ne '0,/^.* has address \(.\+\)$/s//\1/p')"
+
+    if ! ping -c 3 "$STARTCOM_IP"; then
+        echo "ERROR: No StartCom connection" 1>&2
         return 1
     fi
 
-    # BIX/HE
-    Enable_plugin "ping_" "ping_193.188.137.175"
+    Enable_plugin "ping_" "ping_${STARTCOM_IP}"
 }
 
 munin_decix() {
-    if ! ping -c 3 80.81.194.180; then
-        echo "ERROR: No DE-CIX conncetion" 1>&2
+    local DECIX_IP="80.81.192.1"
+
+    if ! ping -c 3 "$DECIX_IP"; then
+        echo "ERROR: No DE-CIX connection" 1>&2
         return 1
     fi
 
-    # DE-CIX/CloudFlare
-    Enable_plugin "ping_" "ping_80.81.194.180"
+    # DE-CIX
+    Enable_plugin "ping_" "ping_${DECIX_IP}"
 }
 
 munin_phpfpm() {
@@ -285,7 +289,7 @@ munin_loadtime
 
 # Network
 munin_multiping
-munin_bix
+munin_startcom
 munin_decix
 
 #https://github.com/munin-monitoring/munin/tree/devel/plugins/node.d.linux

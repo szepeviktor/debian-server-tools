@@ -27,7 +27,7 @@ MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 "
-APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*)"
+APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Filter_client_server_error() {
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4

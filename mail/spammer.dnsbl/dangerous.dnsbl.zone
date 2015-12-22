@@ -63,10 +63,10 @@ $TTL 60
 # Blocked
 :127.0.0.128:Blocked network
 
-# AS29278 - Deninet KFT, type: HTTP,HDB2 bot,SMTP broken pipe,HTTP commands in SMTP
+# AS29278 - Deninet KFT, type: HTTP,HDB2 bot,SMTP broken pipe,HTTP commands in SMTP - .ipset
 217.113.54.0/24 HU_HDB2_SPYDER-NET@Deninet/AS29278
 
-# AS57043 - HOSTKEY-NET, DC: Serverius, aliases: Mir Telematiki
+# AS57043 - HOSTKEY-NET, DC: Serverius, aliases: Mir Telematiki - .ipset
 5.39.216.0/21   NL_RU@HOSTKEY-NET/AS57043
 #31.192.109.0/24 NL_RU@HOSTKEY-NET/AS57043
 #31.192.110.0/24 NL_RU@HOSTKEY-NET/AS57043
@@ -77,13 +77,13 @@ $TTL 60
 193.109.68.0/23 NL_RU@HOSTKEY-NET/AS57043
 195.162.68.0/23 NL_RU@HOSTKEY-NET/AS57043
 
-# AS49335 - Mir Telematiki Ltd.
+# AS49335 - Mir Telematiki Ltd. - .ipset
 #141.105.64-71   RU_HOSTKEY@Mir Telematiki/AS49335
 141.105.64.0/21 RU_HOSTKEY@Mir Telematiki/AS49335
 #158.255.0-7     RU_HOSTKEY@Mir Telematiki/AS49335
 158.255.0.0/21  RU_HOSTKEY@Mir Telematiki/AS49335
 
-# AS29073 - Ecatel LTD, type: SSH,HTTP
+# AS29073 - Ecatel LTD, type: SSH,HTTP - .ipset
 80.82.64.0/20   FR_Ecatel@Ecatel/AS29073
 89.248.160.0/21 FR_Ecatel@Ecatel/AS29073
 89.248.168.0/22 FR_Ecatel@Ecatel/AS29073
@@ -92,17 +92,17 @@ $TTL 60
 93.174.88.0/21  FR_Ecatel@Ecatel/AS29073
 94.102.48.0/20  FR_Ecatel@Ecatel/AS29073
 
-# AS35804 - PP SKS-LUGAN
+# AS35804 - PP SKS-LUGAN - .ipset
 91.200.12.0/22   UA_SKS-LUGAN@PP SKS-LUGAN/AS35804
 
-# AS44050 - LeonLundberg-net
+# AS44050 - LeonLundberg-net - .ipset
 188.143.232.0/24 shadownet-RU_LeonLundberg/AS44050
 
-# AS197226 - E-RING-NET, Artur Grabowski (DELORIAN), DC: Spirit
+# AS197226 - E-RING-NET, Artur Grabowski (DELORIAN), DC: Spirit - .ipset
 193.189.116.0/23 PL_Artur Grabowski-E-RING-NET/AS197226
 
-# AS198540 - ELAN Andrzej Niechcial
+# AS198540 - ELAN Andrzej Niechcial - .ipset
 91.236.74.0/23   PL_Andrzej Niechcial-ELAN/AS198540
 
-# AS5577 - LU root SA, type: HTTP
+# AS5577 - LU root SA, type: HTTP - .ipset
 94.242.192.0/18  LU_root SA/AS5577

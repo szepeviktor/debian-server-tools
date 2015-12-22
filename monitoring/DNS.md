@@ -6,6 +6,7 @@
 - http://dnscheck.pingdom.com/
 - http://www.solvedns.com/
 - https://www.ultratools.com/domainHealthReport
+- http://dnscheck.ripe.net/
 
 - `http://www.domain.hu/domain/regcheck/?dname=DOMAIN` (on .hu TLD)
 - `http://intodns.com/DOMAIN`
