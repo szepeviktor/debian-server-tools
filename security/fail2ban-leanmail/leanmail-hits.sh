@@ -11,6 +11,6 @@
 # LOCATION      :/usr/local/sbin/leanmail-hits.sh
 # CRON.D        :29 6	* * *	root	/usr/local/sbin/leanmail-hits.sh
 
-sed -n 's/^.* fail2ban-leanmail: .* \(\S\+\)$/\1/p' /var/log/syslog \
+sed -ne 's/^.* fail2ban-leanmail: .* \(\S\+\)$/\1/p' /var/log/syslog \
     | sort | uniq -c \
     | sort -n

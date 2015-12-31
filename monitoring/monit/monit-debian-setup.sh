@@ -224,7 +224,7 @@ cat > /etc/cron.hourly/monit-wake <<EOF
 
 /usr/bin/monit summary | tail -n +3 \
     | grep -v "\sRunning$\|\sAccessible$" \
-    | sed -n "s;^.*'\(\S\+\)'.*$;\1;p" \
+    | sed -ne "s;^.*'\(\S\+\)'.*$;\1;p" \
     | xargs -L 1 -r /usr/bin/monit monitor # && /usr/local/sbin/swap-refresh.sh
 
 exit 0

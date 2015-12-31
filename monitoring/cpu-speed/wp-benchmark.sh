@@ -1,32 +1,5 @@
 #!/bin/bash
 
-WP_URL="https://esküvői-videók.hu/"
-WP_IP="79.172.214.123"
-
-WP_URL="http://degeneralt.hu/"
-WP_IP="81.2.236.108"
-
-WP_URL="http://szepe.hol.es/1w/"
-WP_IP="31.220.16.217"
-
-WP_URL="http://www.lean-hr.hu/"
-WP_IP="95.140.33.67"
-
-WP_URL="https://maxer.hu/"
-WP_IP="178.238.210.115"
-
-WP_URL="http://ssdtarhely.eu/"
-WP_IP="80.249.160.195"
-
-WP_URL="http://http2.olm.hu/wp2/"
-WP_IP="108.61.176.53"
-
-WP_URL="http://szepe.byethost13.com/"
-WP_IP="185.27.134.200"
-
-WP_URL="http://bf.szepe.net/bf/"
-WP_IP="185.11.145.5"
-
 WP_URL="http://shifty.uk.plesk-server.com/wordpress/"
 WP_IP="109.109.132.250"
 
@@ -59,7 +32,7 @@ Ping() {
 
     # ms * 5 * 0.2
     for i in $(seq 1 5); do
-        ping -c 1 "$WP_IP" | sed -n 's/^.* time=\([[:digit:]]\+\).* ms$/\1/p' || exit 1
+        ping -c 1 "$WP_IP" | sed -ne 's/^.* time=\([[:digit:]]\+\).* ms$/\1/p' || exit 1
     done \
         | Avg 0.2
 }

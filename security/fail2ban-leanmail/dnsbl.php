@@ -2,7 +2,8 @@
 
 // wget --post-data="auth=$(echo -n "${IP}${SECRET}"|shasum -a 256|cut -d" " -f1)&ip=${IP}" https://site/dnsbl.php
 
-define( 'DNSBL_SECRET', 'U-pFmD00v81JTYiX_O6j' );
+define( 'DNSBL_SECRET', '' );
+
 // Above document root
 define( 'DNSBL_DB', dirname( __DIR__ ) . '/dnsbl.sqlite' );
 

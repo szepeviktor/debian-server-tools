@@ -143,7 +143,7 @@ Unban() {
 
     # Delete rule by searching for source address
     iptables --line-numbers -n -v -L "$CHAIN" \
-        | sed -n "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*$;\1;p" \
+        | sed -ne "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*$;\1;p" \
         | sort -r -n \
         | xargs -r -L 1 iptables -D "$CHAIN"
 }
@@ -151,7 +151,7 @@ Unban() {
 Get_rule_data() {
     # Output format: LINE-NUMBER|PACKETS|EXPIRATION-DATE
     iptables --line-numbers -n -v -L "$CHAIN" \
-        | sed -n "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+[0-9./]\+\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$;\1|\2|\3;p" \
+        | sed -ne "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+[0-9./]\+\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$;\1|\2|\3;p" \
         | sort -r -n
 }
 

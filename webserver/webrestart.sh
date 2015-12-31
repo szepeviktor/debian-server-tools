@@ -29,7 +29,7 @@ while read CONFIG_FILE; do
     fi
 
     if [ -f /etc/apache2/mods-enabled/mpm_event.load ]; then
-        SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
+        SITE_USER="$(sed -ne '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
         if [ -n "$SITE_USER" ]; then
             groups web | grep -qw "$SITE_USER" || Error "Apache is not in ${SITE_USER} group"
         fi

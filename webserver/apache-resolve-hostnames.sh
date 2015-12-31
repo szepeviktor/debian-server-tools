@@ -14,11 +14,11 @@
 # Interface for Apache
 WAN_IF="eth0"
 
-WAN_IP="$(ip addr show dev ${WAN_IF}|sed -n -e 's_^\s*inet \([0-9\.]\+\)\b.*$_\1_' -e 's_\._\\._gp')"
+WAN_IP="$(ip addr show dev ${WAN_IF}|sed -ne 's_^\s*inet \([0-9\.]\+\)\b.*$_\1_' -e 's_\._\\._gp')"
 
 echo "Apache domains with possible failure:"
 
-apache2ctl -S | sed -n 's_^.*\(namevhost\|alias\) \(\S\+\).*$_\2_p' \
+apache2ctl -S | sed -ne 's_^.*\(namevhost\|alias\) \(\S\+\).*$_\2_p' \
     | grep -Fvx "localhost" \
     | while read -r DOMAIN; do
         # Don't show correct A records and CNAME records

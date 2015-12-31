@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 
 # Prepare .htaccess in place
-IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 read -e -p "Enter management server IP: " -i "$IP" MGMNT || exit 13
 sed -i "s/@@IP-REGEXP@@/${MGMNT//./\\\\.}/" .htaccess || exit 14
 sed -i "s/@@IP@@/${MGMNT}/" .htaccess || exit 15

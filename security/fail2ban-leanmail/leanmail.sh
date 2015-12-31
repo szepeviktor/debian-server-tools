@@ -305,7 +305,7 @@ Match_dnsbl4() {
     local OWN_IP
     local ANSWER
 
-    OWN_IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+    OWN_IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
     printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")" "$(Reverse_ip "$OWN_IP")"
 
     ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"

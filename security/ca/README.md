@@ -11,7 +11,7 @@ C=$(dirname $(pwd))/$(date +%Y%m%d)-HOSTNAME
 mkdir -v ${C}
 openssl rsa -in ./newkey.pem -out ${C}/priv-key-$(date +%Y%m%d).key
 mv -v ./newkey.pem ${C}/priv-key-$(date +%Y%m%d)-encrypted.key
-sed -n '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > ${C}/pub-key-$(date +%Y%m%d).pem
+sed -ne '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > ${C}/pub-key-$(date +%Y%m%d).pem
 rm -v newcert.pem newreq.pem
 ```
 

@@ -8,7 +8,7 @@ exit 0
 
 U="web"
 #read -e -i "prg.$(hostname -d)" -p "prg domain: " DOMAIN
-read -e -i "prg.$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io" -p "prg domain: " DOMAIN
+read -e -i "prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io" -p "prg domain: " DOMAIN
 
 adduser --disabled-password --gecos "" $U
 

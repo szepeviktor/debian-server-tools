@@ -42,7 +42,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 # Apache2: public + intermediate
 # "include intermediate CA certificates, sorted from leaf to root"
 #
-#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -n 's/^.*CN=\([^\/]*\).*$/\1/p'||echo "ERROR")"
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's/^.*CN=\([^\/]*\).*$/\1/p'||echo "ERROR")"
 #APACHE_DOMAIN="${APACHE_DOMAIN#\*.}"
 #APACHE_SSL_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #APACHE_PUB="/etc/apache2/ssl/${APACHE_DOMAIN}-public.pem"
@@ -51,7 +51,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 # Nginx: public + intermediate
 # "the primary certificate comes first, then the intermediate certificates"
 #
-#NGINX_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -n 's/^.*CN=\([^\/]*\).*$/\1/p'||echo "ERROR")"
+#NGINX_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's/^.*CN=\([^\/]*\).*$/\1/p'||echo "ERROR")"
 #NGINX_DOMAIN="${NGINX_DOMAIN#\*.}"
 #NGINX_SSL_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 #NGINX_PUB="/etc/nginx/ssl/${NGINX_DOMAIN}-public.pem"
@@ -245,7 +245,7 @@ Nginx() {
         service nginx restart
 
         # Test HTTPS
-        SERVER_NAME="$(sed -n '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_SSL_CONFIG")"
+        SERVER_NAME="$(sed -ne '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_SSL_CONFIG")"
         timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
         echo "HTTPS result=$?"
     else

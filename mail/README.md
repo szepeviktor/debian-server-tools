@@ -305,7 +305,7 @@ cat anti-abuse.org.rbl | xargs -I %% host -t A "$(revip "$IP").%%" 2>&1 \
 
 ```bash
 wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
-    | sed -n 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '
+    | sed -ne 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '
 ```
 
 Response: "IP Unlisted in the spam sender list None"

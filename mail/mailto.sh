@@ -128,7 +128,7 @@ dnsquery() {
 RCPT="$1"
 [ "$RCPT" == "${RCPT%@*}" ] && exit 2
 
-MYIP="$(ip addr show dev eth0|sed -n '0,/^\s*inet \([0-9\.]\+\)\b.*$/{s//\1/p}')"
+MYIP="$(ip addr show dev eth0|sed -ne '0,/^\s*inet \([0-9\.]\+\)\b.*$/{s//\1/p}')"
 ME="$(dnsquery PTR "$MYIP")"
 ME="${ME%.}"
 [ -z "$ME" ] && exit 3

@@ -343,7 +343,7 @@ service munin-node restart
 # Add node to the **server**
 cat <<EOF
 [$(hostname -f)]
-    address $(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')
+    address $(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')
     use_node_name yes
     contacts sms
     #contacts email

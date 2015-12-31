@@ -118,8 +118,8 @@ editor /root/.bashrc
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
 
-#export IP="$(ip addr show dev xenbr0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
-export IP="$(ip addr show dev eth0|sed -n 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+#export IP="$(ip addr show dev xenbr0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+export IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
 
 PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
 # Yellow + Cyan: $(tput setaf 3) \u $(tput bold;tput setaf 6)
@@ -903,7 +903,7 @@ Getpkg spamassassin
 
 # Simple syslog monitoring
 apt-get install -y libdate-manip-perl
-DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')" #'
+DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -ne '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')" #'
 wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${DGR}/dategrep-standalone-small
 chmod -c +x /usr/local/bin/dategrep
 cd ${D}; ./install.sh monitoring/syslog-errors.sh
