@@ -52,11 +52,11 @@ cd /home/${U}/website/html/
 
 # Repair permissions, line ends
 find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
-find -type f -exec chmod --changes 644 "{}" ";"
-find -type d -exec chmod --changes 755 "{}" ";"
-find -name wp-config.php -exec chmod -v 400 "{}" ";"
-find -name settings.php -exec chmod -v 400 "{}" ";"
-find -name .htaccess -exec chmod -v 640 "{}" ";"
+find -type f -exec chmod --changes 0644 "{}" ";"
+find -type d -exec chmod --changes 0755 "{}" ";"
+find -name wp-config.php -exec chmod -v 0400 "{}" ";"
+find -name settings.php -exec chmod -v 0400 "{}" ";"
+find -name .htaccess -exec chmod -v 0640 "{}" ";"
 
 # Set owner
 chown -cR ${U}:${U} /home/${U}/

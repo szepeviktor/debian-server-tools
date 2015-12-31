@@ -31,6 +31,8 @@
 
 ### Programs
 
+https://quixdb.github.io/squash-benchmark/
+
 - http://mattmahoney.net/dc/zpaq.html
 - http://obnam.org/
 - http://duplicity.nongnu.org/
@@ -40,6 +42,18 @@
 - http://moinakg.github.io/pcompress/
 - compression: http://nanozip.net/
 - http://www.byronknoll.com/cmix.html
+- https://github.com/centaurean/density
+- https://github.com/IlyaGrebnov/libbsc
+
+### Compression
+
+- http://www.7-zip.org/ http://tukaani.org/xz/
+- https://code.google.com/p/snappy/ https://github.com/kubo/snzip
+- https://github.com/google/zopfli High compression zlib-compatible
+- http://www.quicklz.com/
+- [apt-get install lzop](http://www.lzop.org/lzop_man.php)
+- [LZ4 is a very fast lossless compression algorithm](https://github.com/Cyan4973/lz4)
+- [Zstd](https://github.com/Cyan4973/zstd.git)
 
 ### Backup all GitHub repos
 

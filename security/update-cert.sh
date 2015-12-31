@@ -3,7 +3,7 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.7.1
+# VERSION       :0.7.2
 # DATE          :2015-10-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,10 +11,14 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install openssl ca-certificates
 
-# Various root certificates
+# Various root/intermediate certificates
 #
-# StartSSL: https://www.startssl.com/certs/
-#     wget -O sub.class1.server.ca.pem https://www.startssl.com/certs/sub.class1.server.ca.pem
+# StartSSL: https://www.startssl.com/certs/ Class 1 DV SSL certificate
+#     wget https://startssl.com/root/sca.server1.crt
+#     dos2unix sca.server1.crt.pem
+# StartSSL: https://www.startssl.com/certs/ Class 2 IV SSL certificate
+#     wget https://startssl.com/root/sca.server2.crt
+#     dos2unix sca.server2.crt
 # Comodo PositiveSSL: https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
 # CAcert: http://www.cacert.org/index.php?id=3
@@ -23,19 +27,14 @@
 # szepenet: http://ca.szepe.net/szepenet-ca.pem
 
 # Saving certificate from the issuer
-#
-# editor "priv-key-$(date +%Y%m%d)-encrypted.key"
-# openssl rsa -in "priv-key-$(date +%Y%m%d)-encrypted.key" -out "priv-key-$(date +%Y%m%d).key"
-# editor "pub-key-$(date +%Y%m%d).pem"
+#     editor "priv-key-$(date +%Y%m%d)-encrypted.key"
+#     openssl rsa -in "priv-key-$(date +%Y%m%d)-encrypted.key" -out "priv-key-$(date +%Y%m%d).key"
+#     editor "pub-key-$(date +%Y%m%d).pem"
 
-# @TODO add apache, nginx:
-#       { openssl dhparam 1024;
-#       openssl dhparam 2048;
-#       openssl dhparam 4096; } > "/etc/apache2/ssl/${APACHE_DOMAIN}-dhparams3.pem"
-#       OpenSSL 1.0.2+
+# @TODO Add apache SSLOpenSSLConfCmd for OpenSSL 1.0.2+
 
 TODAY="$(date +%Y%m%d)"
-SUB="sub.class1.server.ca.crt"
+SUB="sca.server1.crt"
 PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
@@ -56,6 +55,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 #NGINX_DOMAIN="${NGINX_DOMAIN#\*.}"
 #NGINX_SSL_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 #NGINX_PUB="/etc/nginx/ssl/${NGINX_DOMAIN}-public.pem"
+#NGINX_DHPARAM="/etc/nginx/ssl/${NGINX_DOMAIN}-dhparam.pem"
 #NGINX_PRIV="/etc/nginx/ssl/${NGINX_DOMAIN}-private.key"
 
 # Courier MTA: public + intermediate + private
@@ -84,7 +84,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 Die() {
     local RET="$1"
     shift
-    echo -e "$*" >&2
+    echo -e "$*" 1>&2
     exit "$RET"
 }
 
@@ -156,7 +156,7 @@ Courier_mta() {
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
         echo "IMAPS result=$?"
     else
-        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" >&2
+        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" 1>&2
     fi
 
     echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
@@ -186,7 +186,7 @@ Proftpd() {
         echo "QUIT"|openssl s_client -crlf -CAfile "$CABUNDLE" -connect localhost:21 -starttls ftp
         echo "AUTH TLS result=$?"
     else
-        echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" >&2
+        echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" 1>&2
     fi
 }
 
@@ -197,7 +197,11 @@ Apache2() {
 
     [ -d "$(dirname "$APACHE_PUB")" ] || Die 40 "apache ssl dir"
 
-    cat "$PUB" "$SUB" > "$APACHE_PUB" || Die 41 "apache cert creation"
+    {
+        cat "$PUB" "$SUB"
+        #nice openssl dhparam 4096
+        nice openssl dhparam 2048
+    } > "$APACHE_PUB" || Die 41 "apache cert creation"
     cp "$PRIV" "$APACHE_PRIV" || Die 42 "apache private"
     chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 43 "apache owner"
     chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
@@ -215,25 +219,28 @@ Apache2() {
         timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
         echo "HTTPS result=$?"
     else
-        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" >&2
+        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
     fi
 }
 
 Nginx() {
     [ -z "$NGINX_PUB" ] && return 1
+    [ -z "$NGINX_DHPARAM" ] && return 1
     [ -z "$NGINX_PRIV" ] && return 1
     [ -z "$NGINX_SSL_CONFIG" ] && return 1
 
     [ -d "$(dirname "$NGINX_PUB")" ] || Die 70 "nginx ssl dir"
 
     cat "$PUB" "$SUB" > "$NGINX_PUB" || Die 71 "nginx cert creation"
-    cp "$PRIV" "$NGINX_PRIV" || Die 72 "nginx private"
-    chown root:root "$NGINX_PUB" "$NGINX_PRIV" || Die 73 "nginx owner"
-    chmod 640 "$NGINX_PUB" "$NGINX_PRIV" || Die 74 "nginx perms"
+    nice openssl dhparam 2048 > "$NGINX_DHPARAM" || Die 72 "nginx private"
+    cp "$PRIV" "$NGINX_PRIV" || Die 73 "nginx private"
+    chown root:root "$NGINX_PUB" "$NGINX_PRIV" || Die 74 "nginx owner"
+    chmod 640 "$NGINX_PUB" "$NGINX_PRIV" || Die 75 "nginx perms"
 
     # Check config
     if  grep -q "^\s*ssl_certificate\s\+${NGINX_PUB}\$" "$NGINX_SSL_CONFIG" \
-        && grep -q "^\s*ssl_certificate_key\s\+${NGINX_PRIV}\$" "$NGINX_SSL_CONFIG"; then
+        && grep -q "^\s*ssl_certificate_key\s\+${NGINX_PRIV}\$" "$NGINX_SSL_CONFIG" \
+        && grep -q "^\s*ssl_dhparam\s\+${NGINX_DHPARAM}\$" "$NGINX_SSL_CONFIG"; then
 
         service nginx restart
 
@@ -242,7 +249,7 @@ Nginx() {
         timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
         echo "HTTPS result=$?"
     else
-        echo "Edit Nginx ssl_certificate and ssl_certificate_key" >&2
+        echo "Edit Nginx ssl_certificate and ssl_certificate_key and ssl_dhparam" 1>&2
     fi
 }
 
@@ -277,7 +284,7 @@ Dovecot() {
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
         echo "IMAPS result=$?"
     else
-        echo "Edit Dovecot ssl_cert and ssl_key" >&2
+        echo "Edit Dovecot ssl_cert and ssl_key" 1>&2
     fi
 }
 
@@ -304,7 +311,7 @@ Webmin() {
         timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:10000
         echo "HTTPS result=$?"
     else
-        echo "Edit Webmin keyfile and extracas" >&2
+        echo "Edit Webmin keyfile and extracas" 1>&2
     fi
 }
 

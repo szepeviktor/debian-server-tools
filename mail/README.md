@@ -135,6 +135,14 @@ See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INS
 Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 
+### Courier-mta message processing order on reception
+
+1. SMTP communication
+1. NOADD*, `opt MIME=none`
+1. filters
+1. DEFAULTDELIVERY
+
+
 ## Test
 
 

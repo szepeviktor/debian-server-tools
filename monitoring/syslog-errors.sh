@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.7.0
-# DATE          :2015-12-14
+# VERSION       :0.7.1
+# DATE          :2015-12-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -41,8 +41,10 @@ Failures() {
 
 # Process boot log
 if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then
-    /usr/local/bin/dategrep --format "%a %b %e %H:%M:%S %Y" --multiline \
-        --from "1 hour ago from -17:00" --to "-17:00" /var/log/boot \
+    # Skip "(Nothing has been logged yet.)"
+    sed -e '1!b;/^(Nothing .*$/d' /var/log/boot \
+        | /usr/local/bin/dategrep --format "%a %b %e %H:%M:%S %Y" --multiline \
+        --from "1 hour ago from -17:00" --to "-17:00" \
         | Failures
 fi
 

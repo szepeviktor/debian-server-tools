@@ -20,7 +20,7 @@
 
 ### SSL certificate
 
-For security and trust.
+For security, trust and SEO ranking.
 
 1. Apache-SSL.md
 1. https://www.ssllabs.com/ssltest/

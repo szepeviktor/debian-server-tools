@@ -8,7 +8,6 @@ bash-completion
 bind9-host
 busybox
 ca-certificates
-console-setup
 discover
 dmsetup
 eject
@@ -17,9 +16,6 @@ grub-pc
 htop
 initramfs-tools
 insserv
-installation-report
-keyboard-configuration
-laptop-detect
 lftp
 libaudit-common
 libaudit1

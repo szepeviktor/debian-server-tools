@@ -2,8 +2,8 @@
 #
 # Ban malicious hosts manually
 #
-# VERSION       :0.5.4
-# DATE          :2015-12-16
+# VERSION       :0.5.5
+# DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -134,6 +134,7 @@ Ban() {
     if ! iptables -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &> /dev/null; then
         # Insert at the top
         iptables -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
+        logger -t "myattackers" "Ban ${ADDRESS} PROTO=${PROTOCOL}"
     fi
 }
 
@@ -148,7 +149,7 @@ Unban() {
 }
 
 Get_rule_data() {
-    # Format: LINE-NUMBER|PACKETS|EXPIRATION-DATE
+    # Output format: LINE-NUMBER|PACKETS|EXPIRATION-DATE
     iptables --line-numbers -n -v -L "$CHAIN" \
         | sed -n "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+[0-9./]\+\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$;\1|\2|\3;p" \
         | sort -r -n

@@ -66,8 +66,10 @@ Dnsquery_multi() {
     Answer_only() {
         local TYPE="$1"
 
+        # Answer section (between two lines)
+        #     First RR-s with matching type
         sed  '/^;; ANSWER SECTION:$/,/^$/{//!b};d' \
-            | sed -n "/^\S\+\s\+[0-9]\+\sIN\s${TYPE}\s\(.\+\)$/!q;s//\1/p"
+            | sed -ne "/^\S\+\s\+[0-9]\+\sIN\s${TYPE}\s\(.\+\)$/!q;s//\1/p"
     }
 
     local TYPE="$1"
@@ -314,7 +316,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         while read NS; do
 
             # Actual IP address of nameserver
-            NS_IP="$(getent ahostsv4 "$NS" | sed -n '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
+            NS_IP="$(getent ahostsv4 "$NS" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
             # Failures per nameserver
             if [ -z "${NS_FAILURES[$NS_IP]}" ]; then
                declare -i NS_FAILURES[$NS_IP]="0"

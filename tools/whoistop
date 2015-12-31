@@ -2,7 +2,7 @@
 #
 # Display only the first block of whois record.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2015-12-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/whoistop
 
-whois "$@" | sed '/^[a-z]\+:/,/^$/!d; /^$/,$d'
+whois "$@" | sed '/^[A-Za-z]\+:/,/^$/!d; /^$/,$d'
 
 # Alternative solution
 #     sed '/range/ {command}'

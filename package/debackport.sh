@@ -136,8 +136,8 @@ else
     msg 'Doing shortbuild!'
 fi
 
-msg "Build packages properly, without GPG signing them"
-dpkg-buildpackage -us -uc || die 12 "build failed"
+msg "Build binary packages properly, without GPG signing them"
+dpkg-buildpackage -b -us -uc || die 12 "build failed"
 
 popd
 

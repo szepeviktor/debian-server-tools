@@ -48,4 +48,4 @@ RULES
 dch -d
 
 # Build package
-dpkg-buildpackage -b
+dpkg-buildpackage -b -us -uc

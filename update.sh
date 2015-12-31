@@ -44,7 +44,8 @@ find -type f -size -100k -not -name README.md -printf '%P\n' \
             continue
         fi
 
-        echo "Update ${FILE}: ${OLD_VERSION} -> ${CURRENT_VERSION}  $(dirname $0)/install.sh ${FILE}"
+        echo "# Update ${FILE}: ${OLD_VERSION} -> ${CURRENT_VERSION}"
+        echo "$(dirname $0)/install.sh ${FILE}"
         if [ "$PARAM" == "-d" ]; then
             colordiff -wB "$SCRIPT" "$FILE"
         fi

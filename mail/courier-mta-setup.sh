@@ -35,7 +35,7 @@ exit 0
 # - IMAP folder names, IMAP_EMPTYTRASH=Trash:0
 
 
-# !!! config-compare.sh
+# ${D}/package/config-compare.sh
 
 
 # Courier-mta message processing order on reception

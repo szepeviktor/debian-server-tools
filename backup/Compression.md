@@ -1,7 +1,0 @@
-- http://www.7-zip.org/ http://tukaani.org/xz/
-- https://code.google.com/p/snappy/ https://github.com/kubo/snzip
-- https://github.com/google/zopfli High compression zlib-compatible
-- http://www.quicklz.com/
-- [apt-get install lzop](http://www.lzop.org/lzop_man.php)
-- [LZ4 is a very fast lossless compression algorithm](https://github.com/Cyan4973/lz4)
-- [Zstd](https://github.com/Cyan4973/zstd.git)

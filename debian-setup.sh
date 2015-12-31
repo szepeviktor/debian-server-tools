@@ -15,7 +15,7 @@
 # - Spammer neighbours https://www.projecthoneypot.org/ip_1.2.3.4
 # - Nightime technical support network or hardware failure response time
 # - Daytime technical and billing support
-# - (D)DoS mitigation
+# - D/DoS mitigation
 #
 # See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
 
@@ -28,12 +28,15 @@ DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
 #    newrelic nginx nodejs-iojs oracle percona postgre szepeviktor varnish"
 
 # OVH configuration
-#
 #     /etc/ovhrc
 #     cdns.ovh.net.
 #     ntp.ovh.net. (id-co.in. ntp.cornuwel.net. ntp.syari.net. fry.helpfulhosting.net.)
 #     http://help.ovh.com/InstallOvhKey
 #     http://help.ovh.com/RealTimeMonitoring
+
+# EZIT configuration
+#     dnsc1.ezit.hu. dnsc2.ezit.hu.
+#     ntp.ezit.hu.
 
 set -e -x
 
@@ -52,7 +55,7 @@ wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.g
 cd debian-server-tools-master/
 D="$(pwd)"
 
-# Clean packages
+# Clean package cache
 apt-get clean
 rm -vrf /var/lib/apt/lists/*
 apt-get clean
@@ -325,6 +328,20 @@ host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\
 # View network Graph v4/v6
 #     http://bgp.he.net/ip/${IP}
 
+# SSL support
+rm -f /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key
+# Update ca-certificates
+#wget -qO- http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/unstable_changelog|less
+#Getpkg ca-certificates
+# Install szepenet CA
+CA_NAME="szepenet"
+CA_FILE="szepenet_ca.crt"
+mkdir -v /usr/local/share/ca-certificates/${CA_NAME}
+cp -v ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
+update-ca-certificates -v -f
+# Monitor certificates
+cd ${D}; ./install.sh security/cert-expiry.sh
+
 # Block dangerous IP ranges
 cd ${D}/security/myattackers-ipsets/
 head *.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
@@ -395,13 +412,14 @@ dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup\
 apt-get purge dmidecode eject laptop-detect usbutils kbd console-setup \
     acpid fancontrol hddtemp lm-sensors sensord smartmontools mdadm popularity-contest
 # 5. Non-stable packages
-dpkg -l|grep "~[a-z]\+"
+clear; dpkg -l|grep "~[a-z]\+"
 dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
 # 6. Non-Debian packages
 aptitude search '?narrow(?installed, !?origin(Debian))'
 # 7. Obsolete packages
 aptitude search '?obsolete'
 # 8. Manually installed, not "required" and not "important" packages minus known ones
+#wget https://github.com/szepeviktor/debian-server-tools/raw/master/package/debian-jessie-not-req-imp.pkg
 aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p" \
     | grep -v -x -f ${D}/package/debian-jessie-not-req-imp.pkg | xargs echo
 # 9. Development packages
@@ -429,8 +447,8 @@ apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums
 # Backports
 # @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
 
-# debsums cron weekly
-sed -i 's/^CRON_CHECK=never/CRON_CHECK=weekly/' /etc/default/debsums
+# debsums weekly cron job
+sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums
 
 # Check user cron jobs
 clear; ${D}/tools/catconf /etc/crontab /var/spool/cron/crontabs/*
@@ -454,6 +472,8 @@ cruft --ignore /dev | tee cruft.log
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
 debsums --all --changed | tee debsums-changed.log
+# Check MD5 sums for installed packages
+#for L in /var/lib/dpkg/info/*.list;do P=$(basename "$L" .list);[ -r "/var/lib/dpkg/info/${P}.md5sums" ]||echo "$P";done
 
 # Custom APT repositories
 editor /etc/apt/sources.list.d/others.list && apt-get update
@@ -484,6 +504,11 @@ cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
 
 # CPU
 grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
+cd /root/; wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeature.h
+for FLAG in $(grep -m1 "^flags" /proc/cpuinfo|cut -d":" -f2-); do echo -n "$FLAG"
+ grep -C1 "^#define X86_\(FEATURE\|BUG\)_" cpufeature.h \
+ | grep -i -m1 "/\* \"${FLAG}\"\|^#define X86_\(FEATURE\|BUG\)_${FLAG}" \
+ | grep -o './\*.*\*/' || echo "N/A"; done
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # Performance mode
 #     for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance">$SG;done
@@ -604,7 +629,7 @@ echo "This is a t3st mail."|mailx -s "[first] Subject of the 1st email" viktor@s
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
 apt-get install -y apache2-mpm-itk apache2-utils
 
-# Apache with mpm_events
+# Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
 adduser --disabled-password --gecos "" web
 editor /etc/apache2/evvars
@@ -614,8 +639,6 @@ editor /etc/apache2/evvars
 a2enmod actions rewrite headers deflate expires proxy_fcgi
 # Comment out '<Location /server-status>' block
 editor /etc/apache2/mods-available/status.conf
-# SSL support
-cd ${D}; ./install.sh security/cert-expiry.sh
 a2enmod ssl
 mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
