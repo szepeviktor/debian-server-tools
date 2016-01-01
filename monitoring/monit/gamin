@@ -1,0 +1,15 @@
+check program gamin_test path /usr/local/sbin/gamin-test.sh timeout 5 seconds
+    group system
+    if status != 0 then alert
+    depend gamin_bin
+    depend gamin_rc
+
+check file gamin_bin with path /usr/lib/gamin/gam_server
+    group system
+    include /etc/monit/templates/rootbin
+    if does not exist then unmonitor
+
+check file gamin_rc with path /etc/gamin/gaminrc
+    group system
+    include /etc/monit/templates/rootrc
+    if does not exist then unmonitor

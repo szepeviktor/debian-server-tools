@@ -188,7 +188,7 @@ Log() {
     fi
 }
 
-Check_online() {
+Is_online() {
     if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ", 0% packet loss,"; then
         Log "Server is OFFLINE."
         Alert "Not online" "pocket loss on pinging ${ALWAYS_ONLINE}"
@@ -214,7 +214,7 @@ Generate_rr() {
     [ $? == 0 ] && [ -n "$RR" ] && echo "${TYPE}=${RR}"
 }
 
-Check_online
+Is_online
 
 # Display answers
 if [ $# == 1 ]; then

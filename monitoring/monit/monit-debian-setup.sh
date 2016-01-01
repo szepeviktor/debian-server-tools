@@ -44,12 +44,12 @@ Monit_enable() {
 }
 
 Monit_monit() {
-    cat > "/etc/monit/monitrc.d/00_monitrc" <<MONITMAIN
+    cat > "/etc/monit/monitrc.d/00_monitrc" <<EOF
 set daemon 120
     with start delay ${MONIT_BOOT_DELAY}
 
 # Alert emails
-set mailserver localhost port 25
+set mailserver localhost port 25, mail.szepe.net port 587
 set mail-format { from: root@${MONIT_EMAIL_HOST} }
 set alert root@${MONIT_EMAIL_HOST} with reminder on 2 cycle
 
@@ -57,7 +57,7 @@ set alert root@${MONIT_EMAIL_HOST} with reminder on 2 cycle
 set httpd port 2812 and
     use address localhost
     allow localhost
-MONITMAIN
+EOF
     Monit_enable 00_monitrc
 }
 

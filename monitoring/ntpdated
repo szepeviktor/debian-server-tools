@@ -2,20 +2,24 @@
 #
 # Run ntpdate daily and on reboot to correct the system clock.
 #
-# VERSION       :0.5.0
-# DATE          :2015-12-24
+# VERSION       :0.5.1
+# DATE          :2016-01-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# DEPENDS       :worker.szepe.net. DNS server
 # LOCATION      :/usr/local/sbin/ntpdated
 # CRON.D        :@reboot	root	/usr/local/sbin/ntpdated
 # CRON.D        :@hourly	root	/usr/local/sbin/ntpdated
 
 # Options can be set in /etc/default/ntpdate
 
+# Work-around for pool.ntp.org DNS failures
+POOL_RELAY="worker.szepe.net."
+
 Get_pool_ip() {
-    host -t A 0.de.pool.ntp.org worker.szepe.net. 2>&1 \
+    host -t A 0.de.pool.ntp.org "$POOL_RELAY" 2>&1 \
         | {
             sed -ne 's/^0\.de\.pool\.ntp\.org\. has IPv4 address \([.0-9]\+\)$/\1/p'
             # Fallback server

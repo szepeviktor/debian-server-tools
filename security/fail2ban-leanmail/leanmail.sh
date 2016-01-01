@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.5
+# VERSION       :0.2.6
 # DATE          :2015-11-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -167,14 +167,17 @@ Update_cache() {
     local CACHE_FILE_TEMP
 
     CACHE_FILE="$(Get_cache_file "$URL")"
-    CACHE_FILE_TEMP="${CACHE_FILE}.tmp"
+    CACHE_FILE_TEMP="$(mktemp "${CACHE_FILE}.XXXXXXXXXX")"
 
-    wget -t 1 -T "$TIMEOUT" --quiet -O "$CACHE_FILE_TEMP" "$URL" 2> /dev/null
-    dos2unix --quiet "$CACHE_FILE_TEMP" 2> /dev/null
+    # Long timeout, three tries
+    wget -q -t 3 -O "$CACHE_FILE_TEMP" "$URL" 2> /dev/null
 
     # Circumvent the case of partially downloaded file
-    if [ -f "$CACHE_FILE_TEMP" ]; then
+    if [ -s "$CACHE_FILE_TEMP" ]; then
+        dos2unix --quiet "$CACHE_FILE_TEMP" 2> /dev/null
         mv -f "$CACHE_FILE_TEMP" "$CACHE_FILE"
+    else
+        rm -f "$CACHE_FILE_TEMP"
     fi
 }
 
@@ -327,7 +330,7 @@ Match_http_api1() {
     local URL
 
     printf -v URL "$HTTPAPI" "$IP"
-    if wget -t 1 -T "$TIMEOUT" --quiet -O- "$URL" 2> /dev/null | grep -q "<appears>yes</appears>"; then
+    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<appears>yes</appears>"; then
         # IP is positive
         return 0
     fi
@@ -351,7 +354,7 @@ Match_http_api2() {
     printf -v POST '{"method_name":"check_newuser","auth_key":"%s","sender_email":"","sender_ip":"%s","js_on":1,"submit_time":15}' \
         "$AUTHKEY" "$IP"
 
-    if wget -t 1 -T "$TIMEOUT" --quiet -O- --post-data="$POST" "$HTTPAPI" 2> /dev/null \
+    if wget -q -T "$TIMEOUT" -t 1 -O- --post-data="$POST" "$HTTPAPI" 2> /dev/null \
         | grep -q '"allow" : 0'; then
         # IP is positive
         return 0
@@ -366,7 +369,7 @@ Match_http_api3() {
     local URL
 
     printf -v URL "$HTTPAPI" "$IP"
-    if wget -t 1 -T "$TIMEOUT" --quiet -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\+</attacks>"; then
+    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\+</attacks>"; then
         # IP is positive
         return 0
     fi

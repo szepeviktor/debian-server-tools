@@ -14,7 +14,7 @@
 - error reporting https://github.com/szepeviktor
 - shared hosting check (29 factors)
 - webserver install
-- SSL cert install
+- SSL certificate install
 - CDN setup
 - DNS setup
 - VPS evaluation by various benchmarks

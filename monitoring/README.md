@@ -1,9 +1,10 @@
-### Error searching in a log file
+### Search for errors in a log file
 
 ```bash
-egrep -i -B 1 -A 1 "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|denied" /var/log/dmesg | grep -vi "intERRupt"
-
-egrep -i "crit|err|warn|fail[^2]|alert|unkn|miss|except|disable|invalid|cannot|denied" /var/log/syslog | grep -vi "intERRupt"
+grep -Ei -B 1 -A 1 "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied|broken|exceed|unsafe|unsolicited" \
+    /var/log/dmesg
+grep -Ei -B 1 -A 1 "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|disable|invalid|cannot|denied|broken|exceed|unsafe|unsolicited" \
+    /var/log/syslog
 ```
 
 ### Courier log analyizer
@@ -18,17 +19,22 @@ courier-analogue --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof \
 
 ```bash
 editor /etc/munin/munin.conf
+
+read -r -p "Host name: " DOMAIN
 ls /var/lib/munin/
-# rm -rf /var/lib/munin/${DOMAIN}
+rm -rfI /var/lib/munin/${DOMAIN}
 ls /var/cache/munin/www/
-# rm -rf /var/cache/munin/www/${DOMAIN}
+rm -rfI /var/cache/munin/www/${DOMAIN}
 ```
 
-### Detect VM and container
+### Detect virtualization technology
 
 - http://git.annexia.org/?p=virt-what.git;a=summary
 - http://www.freedesktop.org/software/systemd/man/systemd-detect-virt.html
 
-`systemd-detect-virt -c; systemd-detect-virt -v`
-
-`dmidecode -s system-product-name`
+```bash
+#apt-get install -y virt-what systemd dmidecode
+virt-what
+systemd-detect-virt -c; systemd-detect-virt -v
+dmidecode -s system-product-name
+```

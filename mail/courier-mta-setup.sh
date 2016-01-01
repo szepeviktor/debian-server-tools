@@ -34,6 +34,7 @@ exit 0
 # - SSL cert, settings
 # - IMAP folder names, IMAP_EMPTYTRASH=Trash:0
 
+# .well-known: Thunderbird + Outlook
 
 # ${D}/package/config-compare.sh
 

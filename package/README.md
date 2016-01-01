@@ -10,7 +10,7 @@ Colon at column :16
 # One-line description.
 #
 # VERSION       :semver
-# DATE          :2015-12-31
+# DATE          :2016-12-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -165,3 +165,12 @@ debpear $PEAR_PKG
 
 https://wiki.debian.org/BuildingFormalBackports
 
+### Colorizing Debian package build output
+
+```bash
+apt-get install -y colorgcc #colormake
+ln -svf /usr/bin/colorgcc /usr/local/bin/g++
+ln -svf /usr/bin/colorgcc /usr/local/bin/gcc
+ln -svf /usr/bin/colorgcc /usr/local/bin/cc
+#ln -svf /usr/bin/colormake /usr/local/bin/make
+```
