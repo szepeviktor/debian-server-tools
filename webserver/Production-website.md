@@ -65,11 +65,11 @@ Consider transactional email service through HTTP API: Mailjet, Amazon SES ...
 
 `wp --allow-root eval 'wp_mail("viktor@szepe.net","first outgoing",site_url());'`
 
+- shortest route of delivery, add as `RELAYCLIENT`
 - encode email addresses `antispambot( 'e@ma.il' )`
-- shortest route of delivery
 - email `From:` name and address
 - subject
-- identifing email notifications in office (filtering to mail folders)
+- easy identification for email notifications (filtering to mail folders)
 - SPF
 - DKIM
 
@@ -275,7 +275,7 @@ http://google-public-dns.appspot.com/cache
 
 ### Tracking
 
-Set up and test
+Gain access, set up and test.
 
 - Analytics, Remarketing
 - Facebook pixel
@@ -305,7 +305,8 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 1. Domain expiry
 1. DNS records
-1. @TODO `monitoring/rbl-watch.sh`, [RBL blacklists monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
+1. @TODO `monitoring/rbl-watch.sh`, [RBL blacklist monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
+1. HTML source code inspection
 1. Malware: [Sucuri SiteCheck (Safebrowsing)](https://sitecheck.sucuri.net/results/example.com), [Virustotal URL](https://www.virustotal.com/hu/domain/example.com/information/)
 1. Uptime: [Pingdom](https://www.pingdom.com/free/), `shared-hosting-aid/ping.php`
 1. @TODO Detect JavaScript errors
@@ -315,10 +316,11 @@ https://wiki.apache.org/httpd/ListOfErrors
   - https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
   - https://github.com/errbit/errbit
   - https://github.com/airbrake/airbrake-js
+1. Front page monitoring `monitoring/frontpage-check.sh`
 1. Visual changes: https://visualping.io/ @TODO PhantomJS/slimerJS + `compare -metric MAE/PAE reference.png current.png`
 1. File changes `lucanos/Tripwire`, `lasergoat/Tripwire` (rewrite)
-1. Filter Apache error logs `monitoring/apache-xreport.sh` @TODO munin plugin: log size in lines
-1. Monitor Apache error log `error-log-monitor` plugin on shared hosting, `shared-hosting-aid/remote-log-watch.sh` @TODO Remote rotate error.log
+1. Filter Apache error log `monitoring/apache-xreport.sh` @TODO munin plugin: log size in lines
+1. Monitor Apache error log `monitoring/apache-4xx-report.sh`, `error-log-monitor` plugin on shared hosting, `shared-hosting-aid/remote-log-watch.sh` @TODO Remote rotate error.log
 1. Connected services: trackers, API-s, CDN etc.
 1. Email delivery, also recipient accounts: `can-send-email`
 1. Also for email recipient domains: domain expiry, DNS, blacklist
@@ -326,45 +328,6 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. Google Search Console
 1. Traffic: Analytics
 1. SEO ranking: SEO Panel
-
-```cron
-# Static file check
-01 *	* * *	web	/usr/bin/wget -qO- SITE-URL/wp-includes/wlwmanifest.xml|grep -qF '<serviceName>WordPress</serviceName>'
-
-# PHP version and MySQL version check
-01 *	* * *	web	/usr/bin/wget -qO- SITE-URL/ping.php|grep -qFx 'MD5-SUM'
-
-# Front-page fixed string
-# @FIXME Only one request for the front-page.
-02 *	* * *	web	/usr/local/bin/firefox.sh -qO- FRONT-PAGE|grep -q '<h1>Title string'
-
-# Front-page errors
-02 *	* * *	web	/usr/local/bin/firefox.sh -qO- FRONT-PAGE|grep -qEi 'PHP \S+: |MySQL|error|notice|warning|Account.*Suspend'
-
-# Front-page -exceptions = MD5
-```
-
-```bash
-PFCHK_WEBSITE_NAME=""
-PFCHK_URL=""
-PFCHK_EXCLUDE_PARTS_REGEX=''
-PFCHK_CHKSUM=""
-PFCHK_CHKSUM_GOOGLE_REFERER=""
-PFCHK_UA="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:35.0) Gecko/20100101 Firefox/35.0"
-
-if ! wget -qO- --max-redirect=0 --timeout=5 --user-agent="$PFCHK_UA" \
-    "$PFCHK_URL" \
-    | sed "s|${PFCHK_EXCLUDE_PARTS_REGEX}||" \
-    | md5sum | grep -q "$PFCHK_CHKSUM"; then
-    echo "${PFCHK_WEBSITE_NAME}/frontpage checksum error" >&2
-fi
-if ! wget -qO- --max-redirect=0 --timeout=5 --referer="https://www.google.com/" --user-agent="$PFCHK_UA" \
-    "$PFCHK_URL" \
-    | sed "s|${PFCHK_EXCLUDE_PARTS_REGEX}||" \
-    | md5sum | grep -q "$PFCHK_CHKSUM_GOOGLE_REFERER"; then
-    echo "${PFCHK_WEBSITE_NAME}/frontpage-from-google checksum error" >&2
-fi
-```
 
 
 ## Backup

@@ -2,7 +2,7 @@
 #
 # Restore database dumps.
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.1
 # DATE          :2015-06-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -15,7 +15,7 @@
 # PERMISSION    :755
 
 # site ID,swift container,export-one-db URL,secret key,user agent
-declare DB="...,...,..."
+declare DB=""
 HUBIC="/usr/local/bin/hubic.py --config=/home/bck/database/.hubic.cfg"
 ENCRYPT_PASS_FILE="/home/bck/database/.enc-pass"
 
@@ -23,7 +23,7 @@ ENCRYPT_PASS_FILE="/home/bck/database/.enc-pass"
 PATH="${PATH}:/usr/local/bin"
 
 SWIFT_STDERR="$(mktemp)"
-trap "rm -f '$SWIFT_STDERR' &> /dev/null" EXIT
+trap "rm -f '$SWIFT_STDERR' &> /dev/null" EXIT HUP INT QUIT PIPE TERM
 
 # Get n-th field of a comma separated list
 E() {
@@ -51,7 +51,7 @@ Swift() {
             break
         fi
 
-        echo -n "Swift ERROR ${RET} " >&2
+        echo -n "Swift ERROR ${RET} " 1>&2
         cat "$SWIFT_STDERR" >&2
         RET="255"
         # Wait for object storage
@@ -75,19 +75,15 @@ UA="$(E "$DB" 5)"
 echo "Restoring ${ID} ..."
 
 # Download
-FILE_LIST="$(Swift list "$CONTAINER" | grep "${ID}/${ID}-")"
-while read ZPAQ; do
-    echo "${ZPAQ} ..."
-    if ! Swift download "$CONTAINER" "$ZPAQ"; then
-        exit 10
-    fi
-done <<< "$FILE_LIST"
+if ! Swift download --prefix "${ID}/${ID}-" "$CONTAINER"; then
+    exit 10
+fi
 
 # List all versions
 zpaq l "${ID}/${ID}-?????.zpaq" -key "$(cat "$ENCRYPT_PASS_FILE")" -all
 
 # Restore latest version
 if ! zpaq x "${ID}/${ID}-?????.zpaq" "${ID}.sql" -key "$(cat "$ENCRYPT_PASS_FILE")"; then
-    echo "Restore failed ${ID}." >&2
+    echo "Restore failed ${ID}." 1>&2
     exit 11
 fi

@@ -5,7 +5,7 @@ cd /root/ssl/szepe.net-ca/
 export SSLEAY_CONFIG="-config /root/ssl/szepe.net-ca/config/openssl.cnf"
 ./CAszepenet.sh -newreq
 ./CAszepenet.sh -sign
-# CA-PASSWORD
+# Enter CA-PASSWORD
 
 C=$(dirname $(pwd))/$(date +%Y%m%d)-HOSTNAME
 mkdir -v ${C}
@@ -30,4 +30,6 @@ wget -O /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE} ${CA_URL}
 # Use local copy
 #     cp ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
 update-ca-certificates -v -f
+openssl x509 -noout -modulus -in /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE} | openssl sha256 \
+    | grep --color "769d14e4068b1eb76bf753bdb04d36ec9e0f7237229f30566af82eae76ecdb4d"
 ```

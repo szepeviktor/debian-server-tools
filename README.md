@@ -5,7 +5,7 @@ Various scripts and tools for mainly Debian servers
 
 Check shell scripts: http://www.shellcheck.net/
 
-Code styling: https://google-styleguide.googlecode.com/svn/trunk/shell.xml
+Code styling: https://google.github.io/styleguide/shell.xml
 
 ### /backup
 
@@ -39,6 +39,10 @@ Tools related to Debian packages and general packaging.
 
 Security and SSL certificate related tools.
 
+### /tools
+
+Various small tools.
+
 ### /webserver
 
 Tools related to building webservers.
@@ -68,3 +72,15 @@ http://google-public-dns.appspot.com/cache
 ```bash
 echo "- - -" > /sys/class/scsi_host/host0/scan
 ```
+
+### geoipupdate with free GeoLite
+
+```ini
+UserId 999999
+LicenseKey 000000000000
+ProductIds 506 533
+```
+
+### Free CDN for GitHub
+
+http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`

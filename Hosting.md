@@ -30,6 +30,7 @@
 
 - Pagodabox
 - Jelastic
+- OpenShift
 - CenturyLink (AppFog, WPaaS)
 
 ## Shared hosting

@@ -23,9 +23,9 @@
 DS_MIRROR="http://cloudfront.debian.net/debian"
 #DS_MIRROR="http://http.debian.net/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
-DS_REPOS="dotdeb nodejs-iojs percona szepeviktor"
-#DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier \
-#    newrelic nginx nodejs-iojs oracle percona postgre szepeviktor varnish"
+DS_REPOS="dotdeb nodejs-iojs percona goaccess szepeviktor"
+#DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier newrelic \
+#    nginx nodejs-iojs oracle percona postgre goaccess szepeviktor varnish"
 
 # OVH configuration
 #     /etc/ovhrc
@@ -400,7 +400,7 @@ deluser Debian-exim
 deluser messagebus
 # 3. VPS monitoring
 ps aux|grep -v "grep"|grep -E "snmp|vmtools|xe-daemon"
-dpkg -l|grep -E "xe-guest-utilities|dkms"
+dpkg -l|grep -E "xe-guest-utilities|dkms|cloud-init"
 # See: ${D}/package/vmware-tools-wheezy.sh
 vmware-toolbox-cmd stat sessionid
 vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
@@ -588,7 +588,12 @@ editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
 editor /etc/courier/esmtpauthclient
 #     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
-openssl dhparam -out /etc/courier/dhparams.pem 2048
+DH_BITS=2048 nice /usr/sbin/mkdhparams
+# DH params cron.monthly job
+echo -e "#!/bin/bash\nDH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null\nexit 0" > /usr/local/sbin/courier-dhparams.sh
+chmod 755 /usr/local/sbin/courier-dhparams.sh
+echo -e "#!/bin/bash\n/usr/local/sbin/courier-dhparams.sh" > /etc/cron.monthly/courier-dhparams
+chmod 755 /etc/cron.monthly/courier-dhparams
 editor /etc/courier/esmtpd
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
 #     ADDRESS=127.0.0.1
@@ -682,6 +687,7 @@ ngx-conf --enable no-default
 
 # Fail2ban
 #     https://packages.qa.debian.org/f/fail2ban.html
+# DEPRECATION! @TODO Backport https://packages.debian.org/source/sid/libmaxminddb
 Getpkg geoip-database-contrib
 apt-get install -y geoip-bin recode python3-pyinotify
 #     apt-get install -y fail2ban

@@ -47,7 +47,7 @@ ALERT_ADDRESS="admin@szepe.net"
 ALWAYS_ONLINE="193.188.137.175"
 RETRY_DELAY="40"
 # Don't send emails after this number of failures per nameserver
-MAX_FAILURES="5"
+MAX_FAILURES="3"
 
 DAEMON="dns-watch"
 DNS_WATCH_RC="/etc/dnswatchrc"
@@ -68,7 +68,7 @@ Dnsquery_multi() {
 
         # Answer section (between two lines)
         #     First RR-s with matching type
-        sed  '/^;; ANSWER SECTION:$/,/^$/{//!b};d' \
+        sed '/^;; ANSWER SECTION:$/,/^$/{//!b};d' \
             | sed -ne "/^\S\+\s\+[0-9]\+\sIN\s${TYPE}\s\(.\+\)$/!q;s//\1/p"
     }
 
@@ -142,47 +142,47 @@ Dnsquery_multi() {
                 return 2
             fi
             echo "$ANSWERS"
-        ;;
+            ;;
         AAAA)
             if grep -qEv "$IPV6_REGEX" <<< "$ANSWERS"; then
                 # Invalid IPv6 (at least one)
                 return 2
             fi
             echo "$ANSWERS"
-        ;;
+            ;;
         MX)
             if grep -qEv "$MX_REGEX" <<< "$ANSWERS"; then
                 # Invalid mail exchanger (at least one)
                 return 2
             fi
             echo "$ANSWERS"
-        ;;
+            ;;
         PTR|CNAME|NS)
             if grep -qEv "$HOST_REGEX" <<< "$ANSWERS"; then
                 # Invalid hostname (at least one)
                 return 2
             fi
             echo "$ANSWERS"
-        ;;
+            ;;
         TXT)
             echo "$ANSWERS"
-        ;;
+            ;;
         *)
             # Unknown type
             return 3
-        ;;
+            ;;
     esac
     return 0
 }
 
-#Dnsquery_multi "$@"; echo "$?" >&2; exit
-#DBG() { echo "> |${*}|" >&2; }
+#Dnsquery_multi "$@"; echo "$?" 1>&2; exit
+#DBG() { echo "> |${*}|" 1>&2; }
 
 Log() {
     local MESSAGE="$1"
 
     if tty --quiet; then
-        echo "$MESSAGE" >&2
+        echo "$MESSAGE" 1>&2
     else
         logger -t "${DAEMON}[$$]" "$MESSAGE"
     fi
@@ -257,7 +257,7 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
     )"
 
     if [ -z "$DOMAIN_CONFIG" ]; then
-        echo "No RR-s found for ${DNAME}" >&2
+        echo "No RR-s found for ${DNAME}" 1>&2
         exit 2
     fi
 
@@ -270,7 +270,7 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
 
     # Make me remember www domain
     if [ "$DNAME" == "${DNAME#www}" ]; then
-        echo "$0 -d www.${DNAME}" >&2
+        echo "$0 -d www.${DNAME}" 1>&2
     fi
 
     exit 0
@@ -302,10 +302,10 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
     fi
 
     # Check RR-s
-    while read -d"," RR; do
+    while read -d "," RR; do
         #DBG "$RR"
         if [ -z "$RR" ]; then
-            echo "Empty RR in config for ${DNAME}" >&2
+            echo "Empty RR in config for ${DNAME}" 1>&2
             exit 101
         fi
         RRTYPE="${RR%%=*}"
@@ -327,10 +327,10 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                 case "$PROTO" in
                     T/)
                         PROTO_TEXT="TCP"
-                    ;;
+                        ;;
                     "")
                         PROTO_TEXT="UDP"
-                    ;;
+                        ;;
                 esac
 
                 # Retry at most once

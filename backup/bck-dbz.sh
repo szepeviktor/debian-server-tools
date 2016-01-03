@@ -2,7 +2,7 @@
 #
 # Backup a remote database.
 #
-# VERSION       :1.4.3
+# VERSION       :1.4.4
 # DATE          :2015-08-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -34,7 +34,7 @@ source "$(dirname "$0")/.dbftp"
 PATH="${PATH}:/usr/local/bin"
 
 SWIFT_STDERR="$(mktemp)"
-trap "rm -f '$SWIFT_STDERR' &> /dev/null" EXIT
+trap "rm -f '$SWIFT_STDERR' &> /dev/null" EXIT HUP INT QUIT PIPE TERM
 
 # Get n-th field of a comma separated list
 E() {
@@ -67,7 +67,7 @@ Swift() {
             break
         fi
 
-        echo -n "Swift ERROR ${RET} during ($*), error message: " >&2
+        echo -n "Swift ERROR ${RET} during ($*), error message: " 1>&2
         cat "$SWIFT_STDERR" >&2
         RET="255"
         # Wait for object storage
@@ -165,11 +165,11 @@ if ! [ -z "$(ls -A "$WORKDIR")" ]; then
 fi
 
 # Check object storage usage
-BYTE_LIMIT="$(( 10 * 1000 * 1000 * 1000 ))"
+BYTE_LIMIT="$(( 20 * 1000 * 1000 * 1000 ))"
 SWIFT_BYTES="$(Swift stat)"
-SWIFT_BYTES="$(echo "$SWIFT_BYTES" | grep -m1 "Bytes:" | cut -d":" -f2)"
+SWIFT_BYTES="$(echo "$SWIFT_BYTES" | grep -m 1 "Bytes:" | cut -d ":" -f 2)"
 if [ -n "$SWIFT_BYTES" ] && [ ${SWIFT_BYTES} -gt "$BYTE_LIMIT" ]; then
-    echo "Swift usage > 10 GiB." >&2
+    echo "Swift usage > 20 GiB." 1>&2
 fi
 
 exit 0

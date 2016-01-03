@@ -9,8 +9,6 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/logsearch.sh
-# STYLE         :https://google-styleguide.googlecode.com/svn/trunk/shell.xml
-
 
 # Set your log locations here
 LOGS="/var/log/apache2/*access.log"

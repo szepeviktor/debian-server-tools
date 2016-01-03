@@ -135,3 +135,14 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.lo
 #     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
 cd /etc/cron.d/
 # See: ${D}/webserver/preload-cache.sh
+
+# Goaccess
+IP=""
+goaccess --agent-list --http-method \
+    --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \
+    --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
+    --date-format='%d/%b/%Y' --time-format='%T' \
+    --exclude-ip="$IP" \
+    -f /var/log/apache2/${U}-access.log \
+#    -f /var/log/apache2/${U}-ssl-access.log \
+#    > /home/${U}/website/html/stat.html

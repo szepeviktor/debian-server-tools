@@ -71,5 +71,5 @@ goaccess --agent-list --http-method \
     --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \
     --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u" "%^"' \
     --date-format='%d/%b/%Y' --time-format='%H:%M:%S' \
-    --exclude-ip=SERVER-IP \
+    --exclude-ip="$IP" \
     -f nginx-access.log \

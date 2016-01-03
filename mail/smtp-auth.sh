@@ -28,7 +28,7 @@ Get_version() {
 }
 
 Usage() {
-    cat << USAGE
+    cat <<EOF
 smtp-auth v$(Get_version "$0")
 Usage: $(basename $0) <OPTION> ...
 Test SMTPS authentication.
@@ -37,11 +37,11 @@ Test SMTPS authentication.
   -p                PLAIN authentication
   -l                LOGIN authentication
   -c                CRAM-MD5 authentication
-  -h <HOST>         the SMTP server
+  -s <HOST>         the SMTP server
   -r <PORT>         the SMTP port (default: 465)
   -u <USER>         the SMTP username
   -P <PASS>         the SMTP password
-USAGE
+EOF
     exit
 }
 
@@ -51,8 +51,8 @@ Require_all(){
     local SMTP_PASS="$3"
 
     if [ -z "$SMTP_HOST" ] || [ -z "$SMTP_USER" ] || [ -z "$SMTP_PASS" ]; then
-        echo "Testing authentication needs a host, username and password." >&2
-        usage
+        echo "Testing authentication needs a host, username and password." 1>&2
+        Usage
     fi
 }
 
@@ -60,7 +60,7 @@ Smtp_auth() {
     local SMTP_HOST="$1"
 
     if [ -z "$SMTP_HOST" ]; then
-        echo "Testing authentication support needs a hostname. Use \`-h\`." >&2
+        echo "Testing authentication support needs a hostname. Use \`-h\`." 1>&2
         exit 2
     fi
 
@@ -78,10 +78,10 @@ Smtp_plain() {
 
     Require_all "$SMTP_HOST" "$SMTP_USER" "$SMTP_PASS"
 
-    (sleep "$INITIAL_WAIT"
+    ( sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
         echo "AUTH PLAIN $(echo -ne "\x00${SMTP_USER}\x00${SMTP_PASS}" | base64 --wrap=0)"; sleep 2
-        echo "QUIT") \
+        echo "QUIT" ) \
         | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null \
         | grep "^235 "
 }
@@ -107,7 +107,7 @@ Python_cram_md5() {
     local SMTP_PASS="$2"
     local SMTP_CHALLANGE="$3"
 
-    python << PYTHON
+    python <<EOF
 import sys, hmac, hashlib
 
 def cram_md5_response(username, password, base64challenge):
@@ -118,7 +118,7 @@ def cram_md5_response(username, password, base64challenge):
 
 if __name__ == "__main__":
     print(cram_md5_response('$SMTP_USER', '$SMTP_PASS', '$SMTP_CHALLANGE'))
-PYTHON
+EOF
 }
 
 
@@ -144,7 +144,8 @@ which openssl &> /dev/null || exit 99
 
 [ -z "$*" ] && Usage
 
-while getopts ":aplch:r:u:P:" opt; do
+while getopts ":aplcs:r:u:P:h" opt; do
+echo $opt --
     case $opt in
         a) # Test AUTH support
             MODE="auth"
@@ -158,7 +159,7 @@ while getopts ":aplch:r:u:P:" opt; do
         c) # AUTH CRAM-MD5
             MODE="md5"
             ;;
-        h) # Host
+        s) # Host
             SMTP_HOST="$OPTARG"
             ;;
         r) # Port
@@ -171,12 +172,15 @@ while getopts ":aplch:r:u:P:" opt; do
         P) # Password
             SMTP_PASS="$OPTARG"
             ;;
+        h)
+            Usage
+            ;;
         \?)
-            echo "Invalid option: -$OPTARG" >&2
+            echo "Invalid option: -${OPTARG}" 1>&2
             Usage
             ;;
         :)
-            echo "Option -$OPTARG requires an argument." >&2
+            echo "Option -${OPTARG} requires an argument." 1>&2
             Usage
             ;;
     esac

@@ -3,7 +3,7 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.7.2
+# VERSION       :0.7.3
 # DATE          :2015-10-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -62,6 +62,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 # From Debian jessie on: private + public + intermediate
 #
 #COURIER_COMBINED="/etc/courier/ssl-comb3.pem"
+#COURIER_DHPARAMS="/etc/courier/ssl-dhparams.pem"
 
 # Dovecot: public + intermediate
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
@@ -109,8 +110,8 @@ Check_requirements() {
     fi
 
     # Check certs' moduli
-    PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl md5)"
-    PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl md5)"
+    PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl sha256)"
+    PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl sha256)"
     if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
         Die 4 "Mismatching certs."
     fi
@@ -124,6 +125,7 @@ Protect_certs() {
 
 Courier_mta() {
     [ -z "$COURIER_COMBINED" ] && return 1
+    [ -z "$COURIER_DHPARAMS" ] && return 1
 
     [ -d "$(dirname "$COURIER_COMBINED")" ] || Die 20 "courier ssl dir"
 
@@ -132,11 +134,15 @@ Courier_mta() {
     cat "$PRIV" "$PUB" "$SUB" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     chown root:daemon "$COURIER_COMBINED" || Die 22 "courier owner"
     chmod 640 "$COURIER_COMBINED" || Die 23 "courier perms"
+    nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
+    chown root:daemon "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
+    chmod 640 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     # Check config files for STARTTLS, SMTPS, IMAP STARTTLS IMAPS
     if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
-        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl; then
+        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl \
+        && grep -q "^TLS_DHCERTFILE=${COURIER_DHPARAMS}\$" /etc/courier/courierd; then
 
         service courier-mta restart
         service courier-mta-ssl restart
