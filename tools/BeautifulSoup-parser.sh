@@ -4,7 +4,6 @@
 #
 # VERSION       :0.1.0
 # DEPENDS       :pip2 install beautifulsoup4
-# LOCATION      :/usr/local/bin/BeautifulSoup-parser.sh
 
 import sys
 import urllib

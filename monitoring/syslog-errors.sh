@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog of the last hour. Simple logcheck.
 #
-# VERSION       :0.7.1
-# DATE          :2015-12-22
+# VERSION       :0.7.2
+# DATE          :2016-01-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -25,7 +25,8 @@
 #    --from "3 hour ago from -17:00" --to "-17:00" $(ls -tr /var/log/syslog* | tail -n 2) \
 #    --from "3 hour ago from -17:00" --to "-17:00" /var/log/boot \
 #
-# CRON.D        :17 */3	* * *	root	/usr/local/sbin/syslog-errors.sh
+# /etc/cron.d/syslog-errors2
+# 17 */3	* * *	root	/usr/local/sbin/syslog-errors.sh
 
 Failures() {
     # -intERRupt, -fail2ban

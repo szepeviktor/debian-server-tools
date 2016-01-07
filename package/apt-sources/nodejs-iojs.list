@@ -1,7 +1,7 @@
 # Node JS
-#deb https://deb.nodesource.com/node jessie main
+deb https://deb.nodesource.com/node_5.x jessie main
 # IO.js
-deb https://deb.nodesource.com/iojs_2.x jessie main
+#deb https://deb.nodesource.com/iojs_3.x jessie main
 #K: wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-#M: https://github.com/joyent/node/wiki/installing-node.js-via-package-manager
+#M: https://nodejs.org/en/download/package-manager/
 #M: https://github.com/nodesource/distributions/blob/master/README.md#debmanual

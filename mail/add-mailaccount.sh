@@ -69,7 +69,7 @@ fi
 
 # Validate email address format
 # https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
-grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9_]([-a-z0-9_])*(\.[-a-z0-9_]+)+$' <<< "$EMAIL" \
+grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9][-a-z0-9_]*(\.[a-z]+)+$' <<< "$EMAIL" \
     || Error 8 'Non-regular email address'
 
 NEW_DOMAIN="${EMAIL##*@}"
@@ -164,4 +164,5 @@ fi
     echo "AUTH PLAIN $(echo -ne "\x00${EMAIL}\x00${PASS}" | base64 --wrap=0)"
     sleep 2
     echo "QUIT"
-} | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "$(hostname -f):465" 2> /dev/null
+} | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "$(hostname -f):465" 2> /dev/null \
+    || Error 40 "Failed to authenticate"

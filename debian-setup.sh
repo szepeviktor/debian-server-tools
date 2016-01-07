@@ -57,7 +57,7 @@ D="$(pwd)"
 
 # Clean package cache
 apt-get clean
-rm -vrf /var/lib/apt/lists/*
+rm -rf /var/lib/apt/lists/*
 apt-get clean
 apt-get autoremove --purge -y
 
@@ -67,7 +67,7 @@ cp -v ${D}/package/apt-sources/sources.list /etc/apt/
 sed -i "s/%MIRROR%/${DS_MIRROR//\//\\/}/g" /etc/apt/sources.list
 # Install HTTPS transport
 apt-get update
-apt-get install -y debian-archive-keyring debian-keyring apt-transport-https
+apt-get install -y debian-archive-keyring apt-transport-https
 for R in ${DS_REPOS};do cp -v ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
 eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
 #editor /etc/apt/sources.list
@@ -84,7 +84,6 @@ apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp 
 ln -svf /usr/bin/host /usr/local/bin/mx
 
 # Input
-. /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
 echo "alias e='editor'" > /etc/profile.d/e-editor.sh
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc
 update-alternatives --set pager /usr/bin/most
@@ -94,6 +93,8 @@ update-alternatives --set editor /usr/bin/mcedit
 #sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc
 echo "dash dash/sh boolean false" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
+set +x
+. /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
 
 # --- Automated --------------- >8 ------------- >8 ------------
 #grep -B1000 "# -\+ Automated -\+" debian-setup.sh
@@ -101,10 +102,12 @@ set +e +x
 kill -SIGINT $$
 
 # Remove systemd
-dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit sysvinit-utils
-read -s -p 'Ctrl + D to reboot ' || reboot
+# http://without-systemd.org/wiki/index.php/How_to_remove_systemd_from_a_Debian_jessie/sid_installation
+dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit-utils \
+    && cp -v /usr/share/sysvinit/inittab /etc/inittab
+read -r -s -p 'Ctrl + D to reboot ' || reboot
 
-apt-get remove -y --purge --auto-remove systemd
+apt-get purge -y --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
 # Wget defaults
@@ -214,18 +217,18 @@ adduser ${U} sudo
 
 # Change root and other passwords to "*"
 editor /etc/shadow
-read -s -p "SSH port? " SSH_PORT
+read -r -s -p "SSH port? " SSH_PORT
 # sshd on another port
 sed "s/^Port 22$/#Port 22\nPort ${SSH_PORT}/" -i /etc/ssh/sshd_config
 # Disable root login
-sed 's/^PermitRootLogin yes$/PermitRootLogin no/' -i /etc/ssh/sshd_config
+sed 's/^PermitRootLogin \(yes\|without-password\)$/PermitRootLogin no/' -i /etc/ssh/sshd_config
 # Disable password login for sudoers
-echo -e 'Match Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
+echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 # Add IP blocking
 # See: ${D}/security/README.md
 editor /etc/hosts.deny
-service ssh restart
-netstat -antup|grep sshd
+dpkg-reconfigure openssh-server && service ssh restart
+netstat -antup | grep sshd
 
 # Log out as root
 logout
@@ -282,8 +285,12 @@ dpkg -l | grep "grub"
 # Linode Kernels: auto renew on reboot
 #     https://www.linode.com/kernels/
 editor /etc/modules
-ls -1 /etc/sysctl.d/ | grep -v README.sysctl
+clear; ls -1 /etc/sysctl.d/ | grep -v README.sysctl
 editor /etc/sysctl.conf
+
+# Comment out getty[2-6], NOT /etc/init.d/rc !
+# Consider /sbin/agetty
+editor /etc/inittab
 
 # Miscellaneous configuration
 # Aruba needs arping package in /etc/rc.local
@@ -291,7 +298,9 @@ editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
 editor /etc/motd
-#     This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited.
+#     *
+#     *** This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited. ***
+#     *
 
 # Networking
 editor /etc/network/interfaces
@@ -347,7 +356,7 @@ cd ${D}/security/myattackers-ipsets/
 head *.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
 
 # MYATTACKERS chain
-cd ${D} && ./install.sh security/myattackers.sh
+cd ${D}; ./install.sh security/myattackers.sh
 
 # Hostname
 # Set A record and PTR record
@@ -380,12 +389,10 @@ echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-s
 dpkg-reconfigure -f noninteractive locales
 # http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html
 cat /etc/timezone
+echo "tzdata tzdata/Areas select Etc" | debconf-set-selections -v
 echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
-dpkg-reconfigure -f noninteractive tzdata
-
-# Comment out getty[2-6], NOT /etc/init.d/rc !
-# Consider /sbin/agetty
-editor /etc/inittab
+# FAILS! dpkg-reconfigure -f noninteractive tzdata
+dpkg-reconfigure tzdata
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
 # 1. Delete not-installed packages
@@ -406,6 +413,7 @@ vmware-toolbox-cmd stat sessionid
 vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
 rm -vrf /usr/lib/vmware-tools
 apt-get install -y open-vm-tools
+
 # 4. Hardware related
 dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup\
 |acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|popularity-contest"
@@ -445,7 +453,7 @@ apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums
     whois unzip heirloom-mailx iptables-persistent bootlogd goaccess \
     ntpdate apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make
 # Backports
-# @wheezy apt-get install -t wheezy-backports -y rsyslog whois git goaccess init-system-helpers
+# apt-get install -t jessie-backports -y 
 
 # debsums weekly cron job
 sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums
@@ -464,7 +472,7 @@ find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
 
-# /root/dist-mod
+# Create /root/dist-mod
 cd /root/; mkdir dist-mod && cd dist-mod/
 
 # Modified files
@@ -485,9 +493,8 @@ python3 get-pip.py
 python2 get-pip.py
 
 # Detect if we are running in a virtual machine
-apt-get install -y virt-what
-virt-what
-apt-get purge dmidecode virt-what
+apt-get install -y virt-what && virt-what
+apt-get purge virt-what dmidecode
 
 # rsyslogd immark plugin
 #     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
@@ -499,7 +506,7 @@ service rsyslog restart
 # Debian tools
 cd /usr/local/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
 D="$(pwd)/debian-server-tools"
-rm -vrf /root/src/debian-server-tools-master/
+rm -rf /root/src/debian-server-tools-master/
 cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
 
 # CPU
@@ -590,10 +597,9 @@ editor /etc/courier/esmtpauthclient
 #     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron.monthly job
-echo -e "#!/bin/bash\nDH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null\nexit 0" > /usr/local/sbin/courier-dhparams.sh
-chmod 755 /usr/local/sbin/courier-dhparams.sh
-echo -e "#!/bin/bash\n/usr/local/sbin/courier-dhparams.sh" > /etc/cron.monthly/courier-dhparams
-chmod 755 /etc/cron.monthly/courier-dhparams
+echo -e '#!/bin/bash\nDH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null\nexit 0' > /usr/local/sbin/courier-dhparams.sh
+echo -e '#!/bin/bash\n/usr/local/sbin/courier-dhparams.sh' > /etc/cron.monthly/courier-dhparams
+chmod 755 /usr/local/sbin/courier-dhparams.sh /etc/cron.monthly/courier-dhparams
 editor /etc/courier/esmtpd
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
 #     ADDRESS=127.0.0.1
@@ -637,7 +643,7 @@ apt-get install -y apache2-mpm-itk apache2-utils
 # Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
 adduser --disabled-password --gecos "" web
-editor /etc/apache2/evvars
+editor /etc/apache2/envvars
 #     export APACHE_RUN_USER=web
 #     export APACHE_RUN_GROUP=web
 
@@ -656,7 +662,6 @@ editor /etc/apache2/conf-enabled/security.conf
 #     ServerTokens Prod
 editor /etc/apache2/apache2.conf
 #     LogLevel info
-# @TODO fcgi://port,path?? ProxyPassMatch "^/.*\.php$" "unix:/var/run/php5-fpm.sock|fcgi://127.0.0.1:9000/var/www/website/html"
 
 # mod_pagespeed for poorly written websites
 apt-get install -y mod-pagespeed-stable
@@ -688,8 +693,8 @@ ngx-conf --enable no-default
 # Fail2ban
 #     https://packages.qa.debian.org/f/fail2ban.html
 # DEPRECATION! @TODO Backport https://packages.debian.org/source/sid/libmaxminddb
-Getpkg geoip-database-contrib
-apt-get install -y geoip-bin recode python3-pyinotify
+cd /root/dist-mod/; Getpkg geoip-database-contrib
+apt-get install -y geoip-bin python3-pyinotify
 #     apt-get install -y fail2ban
 Getpkg fail2ban
 mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
@@ -700,9 +705,10 @@ mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
 service fail2ban restart
 
 # PHP 5.6
-apt-get install -y php5-apcu php5-cli php5-curl php5-fpm php5-gd \
-    php5-mcrypt php5-mysqlnd php5-readline php5-sqlite php-pear php5-dev
-PHP_TZ="$(head -n 1 /etc/timezone)"
+apt-get install -y php5-cli php5-curl php5-fpm php5-gd \
+    php5-mcrypt php5-mysqlnd php5-readline php5-dev \
+    php5-sqlite php5-apcu php-pear
+PHP_TZ="Europe/Budapest"
 sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
@@ -812,10 +818,10 @@ cp -v ${D}/webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 # - FastCGI -idle-timeout
 # - PHP-FPM pool request_terminate_timeout
 
-# Suhosin extension
+# Suhosin extension for PHP 7.0
 #     https://github.com/stefanesser/suhosin/releases
-apt-get install -y php5-suhosin-extension
-php5enmod -s fpm suhosin
+#apt-get install -y php5-suhosin-extension
+#php5enmod -s fpm suhosin
 # Check priority
 ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 
@@ -852,9 +858,10 @@ cd ${D}; ./install.sh webserver/webrestart.sh
 # Add a production website
 # See: ${D}/webserver/add-site.sh
 
+
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
-read -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
+read -r -s -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
 echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf
@@ -865,7 +872,7 @@ WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
 wget -O /usr/local/bin/wp "$WPCLI_URL" && chmod -c +x /usr/local/bin/wp
 WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash"
 wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli completions/' > /etc/bash_completion.d/wp-cli
-# If you have suhosin in global php5 config
+# If you have suhosin in PHP-CLI configuration
 #     grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/*suhosin*.ini || Error "Whitelist phar"
 
 # Drush
@@ -936,6 +943,8 @@ dpkg -i aruba-serclient_*_all.deb
 echo -e "[LOG]\nlevel = 20" >> /opt/serclient/serclient.ini
 # Comment out "if getRestartGUID(remove=False) == None: rf.doRollover()"
 editor /opt/serclient/tools.py:159
+md5sum /opt/serclient/tools.py
+editor /var/lib/dpkg/info/aruba-serclient.md5sums
 # Add logrotate
 editor /etc/logrotate.d/serclient
 #     /var/log/serclient.log {
@@ -951,15 +960,14 @@ editor /etc/logrotate.d/serclient
 #                     fi;
 #         endscript
 #     }
-# Activate ExtraControl
+# Activate ExtraControl admin
 #     https://admin.dc3.arubacloud.hu/Manage/Serial/SerialActivation.aspx
 
 # node.js
 apt-get install -y iojs
 # Install packaged under /usr/local/
 npm config set prefix=/usr/local/
-npm install -g less
-npm install -g less-plugin-clean-css
+npm install -g less less-plugin-clean-css
 
 # Logrotate periods
 #

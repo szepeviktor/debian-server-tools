@@ -43,20 +43,19 @@ See: ${D}/security/ca/README.md
 
 ### HTTP/2, SPDY
 
-https://github.com/eousphoros/mod-spdy - does not support spdy/3.1
-https://github.com/icing/mod_h2
-https://launchpad.net/~ondrej/+archive/ubuntu/apache2
-
-Reverse proxy: https://github.com/tatsuhiro-t/nghttp2
+- https://github.com/icing/mod_h2
+- https://launchpad.net/~ondrej/+archive/ubuntu/apache2
+- Reverse proxy: https://github.com/tatsuhiro-t/nghttp2
+- https://github.com/h2o/h2o
 
 ### Tests
 
-- SNI https://sni.velox.ch/
-- SSL https://www.ssllabs.com/ssltest/
-- HSTS https://hstspreload.appspot.com/
-- SPDY CLI https://github.com/tatsuhiro-t/spdylay
-- SPDY https://spdycheck.org/
-- HTTP/2 https://www.h2check.org/
+- SNI: https://sni.velox.ch/
+- SSL: https://www.ssllabs.com/ssltest/
+- HSTS: https://hstspreload.appspot.com/
+- SPDY CLI: https://github.com/tatsuhiro-t/spdylay
+- SPDY: https://spdycheck.org/
+- HTTP/2: https://tools.keycdn.com/http2-test
 
 ### Search & Replace URL-s
 

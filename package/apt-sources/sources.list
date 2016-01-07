@@ -1,3 +1,4 @@
+# Packet mirror:    http://mirror.ewr1.packet.net/debian
 # Linode:           http://mirrors.linode.com/debian
 # OVH:              http://debian.mirrors.ovh.net/debian
 # server4you:       http://debian.intergenia.de/debian
@@ -9,7 +10,7 @@ deb %MIRROR% jessie main contrib non-free
 deb http://security.debian.org/ jessie/updates main contrib non-free
 
 # Updates (previously known as 'volatile')
-deb %MIRROR% jessie-updates main
+deb %MIRROR% jessie-updates main contrib non-free
 
 # Backports
 #     http://backports.debian.org/changes/jessie-backports.html

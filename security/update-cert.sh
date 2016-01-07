@@ -3,7 +3,7 @@
 # Generate certificate files for courier-mta, proftpd and apache2.
 # Also for Webmin and Dovecot.
 #
-# VERSION       :0.7.3
+# VERSION       :0.7.4
 # DATE          :2015-10-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -132,11 +132,11 @@ Courier_mta() {
     #cat "$PUB" "$SUB" "$PRIV" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     # From Debian jessie on: private + public + intermediate
     cat "$PRIV" "$PUB" "$SUB" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
-    chown root:daemon "$COURIER_COMBINED" || Die 22 "courier owner"
-    chmod 640 "$COURIER_COMBINED" || Die 23 "courier perms"
+    chown daemon:root "$COURIER_COMBINED" || Die 22 "courier owner"
+    chmod 600 "$COURIER_COMBINED" || Die 23 "courier perms"
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
-    chown root:daemon "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
-    chmod 640 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
+    chown daemon:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
+    chmod 600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     # Check config files for STARTTLS, SMTPS, IMAP STARTTLS IMAPS
     if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \

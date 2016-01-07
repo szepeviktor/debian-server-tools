@@ -3,7 +3,7 @@
 # Install SSH key to a remote machine.
 #
 # VERSION       :0.1.0
-# LOCATION      :/usr/local/bin/passfree
+# -L-O-C-ATION      :/usr/local/bin/passfree
 
 SELF=${0##*/}
 

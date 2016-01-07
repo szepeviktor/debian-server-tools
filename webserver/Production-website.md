@@ -55,7 +55,9 @@ MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 
 ### Set up CDN
 
-https://aws.amazon.com/console/
+- [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
+- HTML caching or no-cache?
+- https://aws.amazon.com/console/
 
 ### Set up mail sending
 
@@ -77,6 +79,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Security
 
+- Allow loading in an IFRAME? (@TODO Examples.)
 - `wordpress-fail2ban`
 - Sucuri plugin
 - [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php).
@@ -195,8 +198,8 @@ http://google-public-dns.appspot.com/cache
 
 - Newsletter subscribe
 - Offer free download
-- Exit modal: coupon, free download, blog post notification etc.
-- http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
+- Exit modal/hijack box: coupon, free download, update notification etc.
+- Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
 
 ### Code styling
@@ -226,16 +229,17 @@ http://google-public-dns.appspot.com/cache
 - `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff, ttf, svg
-- E-mail delivery `grep -E "\b(wp_)?mail\("`
+- Independent e-mail sending `grep -E "\b(wp_)?mail\("`
 - Propiertary install/update (comment out TGM-Plugin-Activation)
 - Home call, external URL-s (search for URL-s)
 - Non-HTTP/200 requests
-- Short opentags `<?=`
+- PHP short opentags `<?=`
 - PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
 - Always require admin code `whats-running`
-- Mobile views
 - Permissions for editors
+- Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
+- Display content by JavaScript (FOUC)
 
 ### 404 page
 
@@ -245,12 +249,13 @@ http://google-public-dns.appspot.com/cache
 
 ### Resource optimization
 
-- image convert `convert $PNG --quality 100 $JPG`
-- image rename `mv DSC-0005.JPG prefix-descriptive-name.jpg`
+- image format `convert $PNG --quality 100 $JPG`
+- image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
 - image optimization `jpeg-recompress $JPG $OPTI_JPG`
 - JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
-- lazy or late loading ( slider, map, facebook, image gallery )
+- conditional, lazy or late loading ( slider, map, facebook, image gallery )
 - light loading: `&controls=2`
+- HTTP/2 server push
 
 ### PHP errors
 
