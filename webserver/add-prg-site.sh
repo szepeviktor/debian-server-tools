@@ -6,7 +6,7 @@
 
 exit 0
 
-U="web"
+read -r -e -i "prg$((RANDOM % 1000))" -p "user name: " U
 #read -e -i "prg.$(hostname -d)" -p "prg domain: " DOMAIN
 read -e -i "prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io" -p "prg domain: " DOMAIN
 

@@ -147,25 +147,6 @@ filterctl start pythonfilter
 # http://www.courier-mta.org/queue.html
 editor /etc/courier/module.esmtp
 
-# DKIM support
-#     See: ${D}/packages/zdkim....
-apt-get install -y libopendkim7 libopendbx1 libnettle4 libidn2-0 libunistring0
-# Source
-wget -O- http://www.tana.it/sw/zdkimfilter/ | tar xz
-./configure && make check && make install
-# Configure
-#     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
-apt-get install -y opendkim-tools
-filterctl start zdkimfilter; ls -l /etc/courier/filters/active
-mkdir /etc/courier/filters/privs; cd /etc/courier/filters/privs
-opendkim-genkey --verbose --domain olmunkaido.hu --selector=dkim1208
-mkdir /etc/courier/filters/keys; cd ../keys/
-ln -vs ../privs/dkim1208.private olmunkaido.hu
-chown -c root:daemon *; chmod -c 640 *
-# http://www.linuxnetworks.de/doc/index.php/OpenDBX/Configuration#sqlite3_backend
-touch zdkim.sqlite
-
-
 # Spamassassin
 #     http://svn.apache.org/repos/asf/spamassassin/trunk/
 editor /etc/default/spamassassin

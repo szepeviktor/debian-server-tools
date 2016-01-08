@@ -121,8 +121,10 @@ editor /root/.bashrc
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
 
-#export IP="$(ip addr show dev xenbr0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
-export IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+export IP="$(ifconfig|sed -ne '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+#export IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+# Reverse DNS record (PTR)
+host "$IP"
 
 PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
 # Yellow + Cyan: $(tput setaf 3) \u $(tput bold;tput setaf 6)
@@ -197,7 +199,7 @@ sed -i 's;^xterm\*|rxvt\*);xterm*|rxvt*|putty*);' /etc/skel/.bashrc
 #    regex/\.md(own)?$
 #    	View=pandoc -s -f markdown -t man %p | man -l -
 
-# Add INI extensions for mc
+# Add INI extensions for mc syntax highlighting
 cp -v /usr/share/mc/syntax/Syntax ~/.config/mc/mcedit/Syntax
 sed -i 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' ~/.config/mc/mcedit/Syntax
 sed -i 's;^\(file .*(\)py|PY\().*\)$;\1py|PY|yml|yaml\2;' ~/.config/mc/mcedit/Syntax
@@ -218,7 +220,7 @@ adduser ${U} sudo
 # Change root and other passwords to "*"
 editor /etc/shadow
 read -r -s -p "SSH port? " SSH_PORT
-# sshd on another port
+# sshd on another port (no "22"-s)
 sed "s/^Port 22$/#Port 22\nPort ${SSH_PORT}/" -i /etc/ssh/sshd_config
 # Disable root login
 sed 's/^PermitRootLogin \(yes\|without-password\)$/PermitRootLogin no/' -i /etc/ssh/sshd_config
@@ -252,7 +254,7 @@ pvdisplay && vgdisplay && lvdisplay
 ls -1 /etc/default/*
 head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep --color -A1000 "^==> "
 
-# /tmp in RAM
+# Mount /tmp in RAM
 TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
 [ "$TOTAL_MEM" -gt $((4097 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
 
@@ -268,11 +270,12 @@ chmod 0600 /swap0
 mkswap /swap0
 echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
 
+# relAtime option for filesystems
 grep "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
 
 # Kernel
 uname -a
-# List kernels
+# List available kernel versions
 apt-cache policy "linux-image-3.*"
 #apt-get install linux-image-amd64=KERNEL-VERSION
 clear; ls -l /lib/modules/
@@ -323,12 +326,12 @@ editor /etc/resolv.conf
 #     options timeout:2
 #     #options rotate
 
-# Aruba resolvers
+# Aruba Resolvers
 #
 #     DC1-IT 62.149.128.4 62.149.132.4
 #     DC3-CZ 81.2.192.131 81.2.193.227
 #
-# Vultr resolvers
+# Vultr Resolvers
 #
 #     Frankfurt 108.61.10.10
 
@@ -351,11 +354,11 @@ update-ca-certificates -v -f
 # Monitor certificates
 cd ${D}; ./install.sh security/cert-expiry.sh
 
-# Block dangerous IP ranges
+# Block dangerous networks
 cd ${D}/security/myattackers-ipsets/
 head *.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
 
-# MYATTACKERS chain
+# MYATTACKERS chain for blocking attackers
 cd ${D}; ./install.sh security/myattackers.sh
 
 # Hostname
@@ -387,11 +390,12 @@ clear; locale; locale -a
 echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections -v
 echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive locales
+# UTC timezone
 # http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html
 cat /etc/timezone
 echo "tzdata tzdata/Areas select Etc" | debconf-set-selections -v
 echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
-# FAILS! dpkg-reconfigure -f noninteractive tzdata
+# This FAILS! dpkg-reconfigure -f noninteractive tzdata
 dpkg-reconfigure tzdata
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
@@ -400,9 +404,9 @@ clear; dpkg -l|grep -v "^ii"
 # 2. Usually unnecessary packages
 apt-get purge \
     at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
-    lrzsz mlocate rpcbind nfs-common w3m vim-runtime vim-common \
-    installation-report debian-faq info install-info manpages man-db texinfo tex-common \
-    isc-dhcp-client isc-dhcp-common
+    lrzsz mlocate rpcbind nfs-common w3m installation-report debian-faq info \
+    install-info manpages man-db texinfo tex-common \
+    vim-runtime vim-common isc-dhcp-client isc-dhcp-common
 deluser Debian-exim
 deluser messagebus
 # 3. VPS monitoring
@@ -461,7 +465,7 @@ sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums
 # Check user cron jobs
 clear; ${D}/tools/catconf /etc/crontab /var/spool/cron/crontabs/*
 
-# Automatic package updates
+# Automatic security updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
@@ -472,7 +476,7 @@ find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
 
-# Create /root/dist-mod
+# Create directory for non-distribution files
 cd /root/; mkdir dist-mod && cd dist-mod/
 
 # Modified files
@@ -480,7 +484,7 @@ cruft --ignore /dev | tee cruft.log
 # Find broken symlinks
 find / -type l -xtype l -not -path "/proc/*"
 debsums --all --changed | tee debsums-changed.log
-# Check MD5 sums for installed packages
+# Check MD5 hashes of installed packages
 #for L in /var/lib/dpkg/info/*.list;do P=$(basename "$L" .list);[ -r "/var/lib/dpkg/info/${P}.md5sums" ]||echo "$P";done
 
 # Custom APT repositories
@@ -511,13 +515,15 @@ cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
 
 # CPU
 grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
+# Explain Intel CPU flags
 cd /root/; wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeature.h
 for FLAG in $(grep -m1 "^flags" /proc/cpuinfo|cut -d":" -f2-); do echo -n "$FLAG"
  grep -C1 "^#define X86_\(FEATURE\|BUG\)_" cpufeature.h \
  | grep -i -m1 "/\* \"${FLAG}\"\|^#define X86_\(FEATURE\|BUG\)_${FLAG}" \
  | grep -o './\*.*\*/' || echo "N/A"; done
+# CPU frequency scaling governor
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-# Performance mode
+# Set performance mode
 #     for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance">$SG;done
 
 # Entropy - check virtio_rng on KVM
@@ -595,6 +601,7 @@ editor /etc/courier/esmtproutes
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
 editor /etc/courier/esmtpauthclient
 #     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
+# Diffie-Hellman parameter
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron.monthly job
 echo -e '#!/bin/bash\nDH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null\nexit 0' > /usr/local/sbin/courier-dhparams.sh
@@ -638,7 +645,7 @@ echo "This is a t3st mail."|mailx -s "[first] Subject of the 1st email" viktor@s
 
 # Apache 2.4 with ITK
 # @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
-apt-get install -y apache2-mpm-itk apache2-utils
+#apt-get install -y apache2-mpm-itk apache2-utils
 
 # Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
@@ -859,6 +866,11 @@ cd ${D}; ./install.sh webserver/webrestart.sh
 # See: ${D}/webserver/add-site.sh
 
 
+# @TODO NoSQL object cache
+# redis
+# memcached
+
+
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
 read -r -s -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
@@ -960,13 +972,13 @@ editor /etc/logrotate.d/serclient
 #                     fi;
 #         endscript
 #     }
-# Activate ExtraControl admin
+# Aruba ExtraControl activation
 #     https://admin.dc3.arubacloud.hu/Manage/Serial/SerialActivation.aspx
 
 # node.js
-apt-get install -y iojs
-# Install packaged under /usr/local/
-npm config set prefix=/usr/local/
+apt-get install -y nodejs
+# Install packages under /usr/local/
+npm config -g set prefix=/usr/local/
 npm install -g less less-plugin-clean-css
 
 # Logrotate periods
@@ -990,6 +1002,6 @@ echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/
 # Backup /etc
 tar cJf "/root/$(hostname -f)_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
 
-# Clients and services
+# List of clients and services
 cp -v ${D}/server.yml /root/
 editor /root/server.yml

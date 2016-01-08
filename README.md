@@ -84,3 +84,8 @@ ProductIds 506 533
 ### Free CDN for GitHub
 
 http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
+
+### Moving away git-dir
+
+1. /home/user/website/work-dir/.git: `gitdir: /home/user/git`
+1. /home/user/git/: `[core] \n worktree = /home/user/website/work-dir`

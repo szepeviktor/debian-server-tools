@@ -3,8 +3,8 @@
 # Create database and database user from wp-config.php
 # Needs user, password and default-character-set in ~/.my.cnf [mysql] section.
 #
-# VERSION       :0.1.1
-# DATE          :2015-07-20
+# VERSION       :0.2.0
+# DATE          :2016-01-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -17,14 +17,19 @@ Get_wpconfig_var() {
     local VAR="$1"
 
     # UNIX or Windows lineends
-    if ! grep "^define.*${VAR}.*;.\?$" "$WP_CONFIG" | cut -d"'" -f4; then
-        echo "Cannot find variable (${VAR})" >&2
-        exit 1
+    if ! [ -r "$WP_CONFIG" ] || ! grep -q "^define.*${VAR}.*;.\?$" "$WP_CONFIG"; then
+        read -r -p "${VAR}? " DB_VALUE
+        if [ -z "$DB_VALUE" ]; then
+            echo "Cannot set variable (${VAR})" 1>&2
+            exit 4
+        fi
+        echo "$DB_VALUE"
+        return
     fi
+    grep "^define.*${VAR}.*;.\?$" "$WP_CONFIG" | cut -d"'" -f4
 }
 
 which mysql &> /dev/null || exit 1
-[ -r "$WP_CONFIG" ] || exit 2
 # Check credentials
 echo "exit" | mysql || exit 3
 
@@ -44,7 +49,7 @@ echo "Password: ${DBPASS}"
 echo "Host:     ${DBHOST}"
 echo "Charset:  ${DBCHARSET}"
 echo
-read -p "CREATE DATABASE? " -n 1
+read -r -p "CREATE DATABASE? " -n 1
 
 [ "$DBHOST" == "localhost" ] || echo "Connecting to ${DBHOST} ..."
 
@@ -58,3 +63,6 @@ GRANT ALL PRIVILEGES ON \`${DBNAME}\`.* TO '${DBUSER}'@'${DBHOST}'
     IDENTIFIED BY '${DBPASS}';
 FLUSH PRIVILEGES;
 EOF
+
+echo "wp core config --dbname=\"$DBNAME\" --dbuser=\"$DBUSER\" --dbpass=\"$DBPASS\" \\"
+echo "    --dbhost=\"$DBHOST\" --dbprefix=\"prod\" --dbcharset=\"$DBCHARSET\" --extra-php <<EOF"
