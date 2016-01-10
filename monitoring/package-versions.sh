@@ -95,7 +95,7 @@ if which pear &> /dev/null; then
 fi
 
 ##TODO perl
-# DEPENDS      :cpan App::pmodinfo
+# DEPENDS       :cpan App::pmodinfo
 # list all:     pmodinfo -l
 # updates:      echo n | pmodinfo -u
 

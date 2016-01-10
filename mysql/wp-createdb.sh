@@ -31,7 +31,7 @@ Get_wpconfig_var() {
 
 which mysql &> /dev/null || exit 1
 # Check credentials
-echo "exit" | mysql || exit 3
+mysql --execute="EXIT" || exit 3
 
 DBNAME="$(Get_wpconfig_var "DB_NAME")"
 DBUSER="$(Get_wpconfig_var "DB_USER")"

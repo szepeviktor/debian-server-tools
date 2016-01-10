@@ -304,6 +304,7 @@ editor /etc/motd
 #     *
 #     *** This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited. ***
 #     *
+# (HU)* Ez a szerver <a/az CÉG-NÉV> tulajdona. Idegeneknek a belépés tilos. ***
 
 # Networking
 editor /etc/network/interfaces

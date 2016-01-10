@@ -2,7 +2,7 @@
 #
 # Install a tool from debian-server-tools.
 #
-# VERSION       :0.4
+# VERSION       :0.4.2
 # DATE          :2015-05-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -47,6 +47,7 @@ Do_install() {
     local PERMS
     local SYMLINK
     local SCRIPT
+    local PKG
 
     if ! [ -f "$FILE" ]; then
         Die 1 "File does not exist (${FILE})"
@@ -97,6 +98,23 @@ Do_install() {
 
     # Display dependencies
     Get_meta "$FILE" DEPENDS
+    # Check APT dependencies
+    Get_meta "$FILE" DEPENDS | sed -ne 's/^apt-get install \(.\+\)$/\1 /p' \
+        | while read -r -d " " PKG; do
+            dpkg-query --show --showformat='${Status}\n' "$PKG" | grep -q "install ok installed" \
+                || echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
+        done
+    # Check PyPA dependencies
+    Get_meta "$FILE" DEPENDS | sed -ne 's/^pip install \(.\+\)$/\1 /p' \
+        | while read -r -d " " PKG; do
+            pip show "$PKG" | grep -q "^Version: " \
+                || echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
+        done
+    # Check file dependencies
+    Get_meta "$FILE" DEPENDS | sed -ne 's;^\(/.\+\)$;\1;p' \
+        | while read -r PKG; do
+            [ -x "$PKG" ] || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
+        done
 }
 
 #####################################################
