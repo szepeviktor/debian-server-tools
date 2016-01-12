@@ -64,7 +64,7 @@ apt-get autoremove --purge -y
 # Packages sources
 mv -vf /etc/apt/sources.list "/etc/apt/sources.list~"
 cp -v ${D}/package/apt-sources/sources.list /etc/apt/
-sed -i "s/%MIRROR%/${DS_MIRROR//\//\\/}/g" /etc/apt/sources.list
+sed -i -e "s;@@MIRROR@@;${DS_MIRROR};g" /etc/apt/sources.list
 # Install HTTPS transport
 apt-get update
 apt-get install -y debian-archive-keyring apt-transport-https
@@ -456,7 +456,7 @@ update-passwd -v --dry-run
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
     whois unzip heirloom-mailx iptables-persistent bootlogd goaccess \
-    ntpdate apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make
+    apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make ntpdate
 # Backports
 # apt-get install -t jessie-backports -y 
 
@@ -555,6 +555,11 @@ editor /etc/default/ntpdate
 #     NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
 # OVH
 #     NTPSERVERS="ntp.ovh.net"
+# Chrony
+apt-get install -y chrony
+editor /etc/chrony/chrony.conf
+#     pool 0.hu.pool.ntp.org offline iburst
+#     server ntp.ovh.net offline iburst
 
 # µnscd
 apt-get install -y unscd

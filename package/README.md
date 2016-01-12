@@ -122,6 +122,18 @@ aptitude search '?and(?installed, \S*-dev\b)' -F'%p' | xargs apt-get purge
 chkconfig --list
 ```
 
+### Display files sizes in a package
+
+```bash
+dpkg -L systemd|while read -r F;do [ -d "$F" ]||du -sk "$F";done|sort -n
+```
+
+### Display list of packages in order of package size
+
+```bash
+dpkg-query -f '${Installed-size}\t${Package}\n' --show|sort -k 1 -n
+```
+
 ### Install pip (Python package manager)
 
 ```bash

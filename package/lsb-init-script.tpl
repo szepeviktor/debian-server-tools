@@ -14,6 +14,8 @@
 # editor /etc/init.d/<SERVICE-NAME>
 # update-rc.d <SERVICE-NAME> defaults
 
+exit 0
+
 #!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          <SERVICE-NAME>

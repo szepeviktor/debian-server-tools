@@ -1,9 +1,8 @@
 #!/bin/sh
 #
-# Install VMware tools Tools for virtual machines hosted on VMware (CLI)
-# This is NOT A SHELL SCRIPT but a manual.
+# Install VMware tools Tools for virtual machines hosted on VMware
 #
-# VERSION       :0.4
+# VERSION       :0.4.0
 # DATE          :2015-05-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)

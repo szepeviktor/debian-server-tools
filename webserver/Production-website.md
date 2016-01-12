@@ -117,14 +117,23 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Search & replace URL and installation path
 
-Manual replace constants in `wp-config.php`.
+Replace constants in `wp-config.php`.
 
 `wp search-replace --precise --recurse-objects --all-tables-with-prefix ${OLD} ${NEW}`
 
-1. `http://DOMAIN.TLD` or `https://` (no trailing slash)
+1. `http://DOMAIN.TLD/wp-includes` -> `https://NEW-DOMAIN.TLD/SITE/wp-includes` (no trailing slash)
+1. `//DOMAIN.TLD/wp-includes` -> `//NEW-DOMAIN.TLD/SITE/wp-includes` (no trailing slash)
+1. `http://DOMAIN.TLD/wp-content` -> `https://NEW-DOMAIN.TLD/static` (no trailing slash)
+1. `//DOMAIN.TLD/wp-content` -> `//NEW-DOMAIN.TLD/static` (no trailing slash)
+1. `http://DOMAIN.TLD` (no trailing slash)
+1. `//DOMAIN.TLD` (no trailing slash)
 1. `/home/PATH/TO/SITE` (no trailing slash)
 1. `EMAIL@ADDRESS.ES` (all addresses)
 1. `DOMAIN.TLD` (now without protocol)
+
+Check home and siteurl:
+
+`wp option get home; wp option get siteurl`
 
 ### Uploads, media
 
@@ -138,9 +147,13 @@ See: `alter-table.sql`
 
 `wp --allow-root plugin install --activate wp-clean-up`
 
-Delete transients.
+Delete transients and object cache.
 
-`wp --allow-root transient delete-all`
+```
+wp transient delete-all
+wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')options WHERE option_name LIKE '%_transient_%'"
+wp cache flush
+```
 
 Purge cache.
 
