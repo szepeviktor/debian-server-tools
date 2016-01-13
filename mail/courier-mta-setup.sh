@@ -253,3 +253,6 @@ admin@%DOMAIN%:       admin@szepe.net
 webmaster@%DOMAIN%:   admin@%DOMAIN%
 postmaster@%DOMAIN%:  admin@%DOMAIN%
 hostmaster@%DOMAIN%:  admin@%DOMAIN%
+
+# http://www.dontbouncespam.org/#BVR
+

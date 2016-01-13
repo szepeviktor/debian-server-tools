@@ -21,11 +21,11 @@
 
 # Packages sources
 DS_MIRROR="http://cloudfront.debian.net/debian"
-#DS_MIRROR="http://http.debian.net/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
-DS_REPOS="dotdeb nodejs-iojs percona goaccess szepeviktor"
-#DS_REPOS="deb-multimedia dotdeb mariadb mod-pagespeed mt-aws-glacier newrelic \
-#    nginx nodejs-iojs oracle percona postgre goaccess szepeviktor varnish"
+
+DS_REPOS="dotdeb szepeviktor nodejs percona goaccess"
+#DS_REPOS="apache-backports deb-multimedia docker mod-pagespeed mt-aws-glacier \
+#    mysql-server newrelic nginx obnam oracle postgre suhosin varnish"
 
 # OVH configuration
 #     /etc/ovhrc
@@ -983,8 +983,9 @@ editor /etc/logrotate.d/serclient
 
 # node.js
 apt-get install -y nodejs
-# Install packages under /usr/local/
-npm config -g set prefix=/usr/local/
+# Make sure packages are installed under /usr/local
+npm config -g set prefix "/usr/local"
+npm config -g set unicode true
 npm install -g less less-plugin-clean-css
 
 # Logrotate periods

@@ -2,20 +2,22 @@
 
 ### Debian images
 
-debian:jessie 125MB - https://github.com/tianon/docker-brew-debian
-monsantoco/min-jessie 82MB - https://github.com/MonsantoCo/docker-min-jessie
-accursoft/micro-jessie 38MB - https://bitbucket.org/accursoft/micro-debian
-alpine 5 MB - http://gliderlabs.viewdocs.io/docker-alpine/
+1. [debian:jessie](https://github.com/tianon/docker-brew-debian) 125MB
+1. [monsantoco/min-jessie](https://github.com/MonsantoCo/docker-min-jessie) 82MB
+1. [accursoft/micro-jessie](https://bitbucket.org/accursoft/micro-debian) 38MB
+1. [alpine](http://gliderlabs.viewdocs.io/docker-alpine/) 5 MB
 
 ### Package builder environment with Docker
 
 ```bash
+# - Build "szepeviktor/jessie-build" image -
 # docker run -it --entrypoint=/bin/bash debian:jessie
 #apt-get update
 #apt-get install -y dialog devscripts
 #adduser --disabled-password --gecos "" debian
 # docker commit $(docker ps -q|head -n1) szepeviktor/jessie-build
 
+# - Build Debian package -
 # docker run --rm -it --entrypoint=/bin/bash szepeviktor/jessie-build
 
 su -l debian
