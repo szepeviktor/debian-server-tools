@@ -170,6 +170,7 @@ Monit_apache() {
 
 Monit_mysql() {
     Monit_enable mysql
+    echo 'Create DB user!'
 }
 
 [ -d /etc/monit/monitrc.d ] || exit 1

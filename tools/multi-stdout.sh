@@ -12,9 +12,9 @@
 
 # Usage
 #
-#     ls -l | /usr/local/bin/multi-stdout.sh "cat" "tac"
+#     ls -l | multi-stdout.sh "cat" "tac"
 
-# At lease two commands are necessary
+# At least two commands are necessary
 if [ $# -lt 2 ]; then
     exit 1
 fi
@@ -36,5 +36,5 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-# Exit with proper status
+# Exit with the status of the last command
 exit "$RETCODE"

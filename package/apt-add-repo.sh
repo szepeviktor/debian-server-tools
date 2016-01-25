@@ -2,13 +2,12 @@
 #
 # Add the repositories that you install software from.
 #
-# VERSION       :0.1.0
-# DATE          :2016-01-13
+# VERSION       :0.1.1
+# DATE          :2016-01-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install package
 # LOCATION      :/usr/local/sbin/apt-add-repo.sh
 
 # Usage
@@ -16,17 +15,29 @@
 #     apt-add-repo.sh nodejs percona
 
 
+Possible_locations() {
+    cat <<-EOF
+		${D}/package/apt-sources/${REPO}.list
+		${D}/package/apt-sources/${REPO}
+		./package/apt-sources/${REPO}.list
+		./package/apt-sources/${REPO}
+		./${REPO}.list
+		./${REPO}
+		/usr/local/src/debian-server-tools/package/apt-sources/${REPO}.list
+		/usr/local/src/debian-server-tools/package/apt-sources/${REPO}
+		/root/src/debian-server-tools/package/apt-sources/${REPO}.list
+		/root/src/debian-server-tools/package/apt-sources/${REPO}
+		EOF
+}
+
 for REPO in "$@"; do
     LIST=""
-    if [ -r "${D}/package/apt-sources/${REPO}.list" ]; then
-        LIST="${D}/package/apt-sources/${REPO}.list"
-    elif [ -r "${D}/package/apt-sources/${REPO}" ]; then
-        LIST="${D}/package/apt-sources/${REPO}"
-    elif [ -r "${REPO}" ]; then
-        LIST="${REPO}"
-    elif [ -r "${REPO}.list" ]; then
-        LIST="${REPO}.list"
-    fi
+    while read -r LOCATION ; do
+        if [ -r "$LOCATION" ]; then
+            LIST="$LOCATION"
+            break
+        fi
+    done < <(Possible_locations)
 
     # Not a .list file
     [ "$LIST" == "${LIST%.list}" ] && exit 1

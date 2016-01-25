@@ -2,14 +2,23 @@
 #
 # Send SMS message through textlocal.com.
 #
-# VERSION        :1.0.0
+# VERSION        :1.0.1
 # DATE           :2015-07-06
 # AUTHOR         :Viktor Szépe <viktor@szepe.net>
 # URL            :https://github.com/szepeviktor/debian-server-tools
 # LICENSE        :The MIT License (MIT)
 # PYTHON-VERSION :3.2+
-# LOCATION       :/usr/local/bin/txtlocal.py
 # DOCS           :http://api.txtlocal.com/docs/
+# LOCATION       :/usr/local/bin/txtlocal.py
+
+# Fill in
+#     USERNAME and API_HASH
+#
+# Set up alias
+#     txtlocal@szepe.net: |/usr/sbin/sendmail -f SENDER-ADDRESS PHONE-NUMBER@txtlocal.co.uk
+
+USERNAME=''
+API_HASH=''
 
 import urllib.request
 import urllib.parse
@@ -34,8 +43,7 @@ def sendSMS(uname, hashCode, numbers, message):
     return(body)
 
 def main(argv):
-    resp = sendSMS('USERNAME', 'API-HASH',
-        argv[0], argv[1])
+    resp = sendSMS(USERNAME, API-HASH, argv[0], argv[1])
     # Debug: # print(resp.decode('utf-8'))
 
     try:

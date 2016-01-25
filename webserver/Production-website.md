@@ -217,25 +217,26 @@ http://google-public-dns.appspot.com/cache
 
 ### Code styling
 
-- line ends
-- indentation
-- trailing spaces `sed -i 's;\s\+$;;' file.ext`
+- Line ends
+- Indentation
+- Trailing spaces `sed -i 's;\s\+$;;' file.ext`
 
 ### Theme and plugin check
 
-1. theme meta, version in style.css
-1. `query-monitor`
-1. `theme-check`, http://themecheck.org/
+1. Theme meta and version in style.css
+1. `query-monitor` errors and warnings
+1. `theme-check` and http://themecheck.org/
 1. `vip-scanner`
 1. Frontend Debugger `?remove-scripts`
 1. `p3-profiler`
 1. https://validator.w3.org
 1. https://www.webpagetest.org/
 
-#### Typical design errors
+#### Typical theme and plugin errors
 
 - Dynamically page parts (rotating quotes by PHP)
 - Dynamically generated resources (`style.css.php`, `grep "enqueue*.php"`)
+- Missing resource version in wp_register_*() wp_enqueue_*() calls
 - New WordPress entry point `grep -E "\brequire|include.*wp-"`
 - Extra server-side requests: HTTP, DNS
 - `$_GET` and `$_POST` sanitization
@@ -243,16 +244,16 @@ http://google-public-dns.appspot.com/cache
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff, ttf, svg
 - Independent e-mail sending `grep -E "\b(wp_)?mail\("`
-- Propiertary install/update (comment out TGM-Plugin-Activation)
-- Home call, external URL-s (search for URL-s)
-- Non-HTTP/200 requests
+- Propiertary install/update (fix: comment out TGM-Plugin-Activation)
+- Home call, external URL-s (fix: search for URL-s)
+- Non-HTTP/200 responses
 - PHP short opentags `<?=`
 - PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
 - Always require admin code `whats-running`
 - Permissions for editors
 - Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
-- Display content by JavaScript (FOUC)
+- Display content by JavaScript (causes FOUC)
 
 ### 404 page
 

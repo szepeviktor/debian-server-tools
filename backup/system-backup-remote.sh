@@ -232,10 +232,10 @@ Backup_files() {
 
     WEEKLY_HOME="$(Rotate_weekly "homes")"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
-    rsync -a --delete /home/ "$WEEKLY_HOME"
+    rsync -aW --delete /home/ "$WEEKLY_HOME"
 
     WEEKLY_MAIL="$(Rotate_weekly "email")"
-    rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    rsync -aW --delete /var/mail/ "$WEEKLY_MAIL"
 }
 
 Mount() {

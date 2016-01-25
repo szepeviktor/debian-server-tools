@@ -67,16 +67,14 @@ editor /etc/pythonfilter-modules.conf
 read -r -s -p "DKIM domain? " DOMAIN
 apt-get install -y opendkim-tools zdkimfilter
 cd /etc/courier/filters/
-mkdir --mode=600 privs; cd privs/
+mkdir --mode=700 privs; chown -cR daemon:root privs/
+cd privs/
 opendkim-genkey -v --domain="${DOMAIN}" --selector="dkim$(date -u "+%m%d")"
-mkdir keys; cd keys/
+cd ../; mkdir keys; cd keys/
 ln -vs "../privs/dkim$(date -u "+%m%d").private" "${DOMAIN}"
-chown -cR daemon:root privs/
-chmod -c 600 privs/
 editor zdkimfilter.conf
 # http://www.linuxnetworks.de/doc/index.php/OpenDBX/Configuration#sqlite3_backend
 touch zdkim.sqlite
-chown -c daemon:root zdkim.sqlite
-chmod -c 600 zdkim.sqlite
+chown -c daemon:root zdkim.sqlite; chmod -c 600 zdkim.sqlite
 filterctl start zdkimfilter; ls -l /etc/courier/filters/active
 

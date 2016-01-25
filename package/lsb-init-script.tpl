@@ -3,16 +3,17 @@
 # LSB init script for interpreted scripts using start-stop-daemon
 # @TODO LSB init script for executables
 #
-# VERSION       :0.1
+# VERSION       :0.1.0
 # UPSTREAM      :https://gist.github.com/bcap/5397674
 # REFS          :http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/tocsysinit.html
 # DOCS          :https://wiki.debian.org/LSBInitScripts
 
 # Installation
 #
-# cp lsb-init-script.tpl /etc/init.d/<SERVICE-NAME>
-# editor /etc/init.d/<SERVICE-NAME>
-# update-rc.d <SERVICE-NAME> defaults
+#     read -r SERVICE_NAME
+#     cp -va lsb-init-script.tpl /etc/init.d/${SERVICE_NAME}
+#     editor /etc/init.d/${SERVICE_NAME}
+#     update-rc.d ${SERVICE_NAME} defaults
 
 exit 0
 
@@ -29,8 +30,8 @@ exit 0
 PATH="/sbin:/usr/sbin:/bin:/usr/bin"
 DESC="<SERVICE-DESCRIPTION>"
 NAME="<SERVICE-NAME>"
-DAEMON="/usr/bin/script.py"
-DAEMON_ARGS="-c /etc/service-name/config.ini"
+DAEMON="/usr/bin/<DAEMON-NAME>"
+DAEMON_ARGS="-c /etc/<SERVICE-NAME>/config.ini"
 
 WORK_DIR="/var/lib/${NAME}"
 USER="${NAME}"
@@ -104,12 +105,12 @@ case "$1" in
     case "$?" in
       0|1)
         [ "$VERBOSE" != no ] && log_end_msg 0
-      ;;
+        ;;
       2)
         [ "$VERBOSE" != no ] && log_end_msg 1
-      ;;
+        ;;
     esac
-  ;;
+    ;;
 
   stop)
     [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
@@ -117,16 +118,16 @@ case "$1" in
     case "$?" in
       0|1)
         [ "$VERBOSE" != no ] && log_end_msg 0
-      ;;
+        ;;
       2)
         [ "$VERBOSE" != no ] && log_end_msg 1
-      ;;
+        ;;
     esac
-  ;;
+    ;;
 
   status)
     status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
-  ;;
+    ;;
 
   #reload|force-reload)
   #
@@ -151,32 +152,32 @@ case "$1" in
         case "$?" in
           0)
             log_end_msg 0
-          ;;
+            ;;
           # Old process is still running
           1)
             log_end_msg 1
-          ;;
+            ;;
           # Failed to start
           *)
             log_end_msg 1
-          ;;
+            ;;
         esac
-      ;;
+        ;;
       *)
         # Failed to stop
         log_end_msg 1
-      ;;
+        ;;
     esac
-  ;;
+    ;;
 
   *)
     #
     # If the "reload" option is implemented then comment this out
     #
-    #echo "Usage: $SCRIPTNAME {start|stop|status|restart|reload|force-reload}" >&2
-    echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+    #echo "Usage: $SCRIPTNAME {start|stop|status|restart|reload|force-reload}" 1>&2
+    echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" 1>&2
     exit 3
-  ;;
+    ;;
 
 esac
 

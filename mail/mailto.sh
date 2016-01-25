@@ -1,17 +1,19 @@
 #!/bin/bash
 #
 # Test ESMTP communication.
-# Usage: mailto.sh <EMAIL> [<MX>]
 #
-# VERSION       :0.3.2
-# DATE          :2015-07-04
+# VERSION       :0.3.5
+# DATE          :2016-01-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/mailto.sh
 # DEPENDS       :apt-get install telnet bind9-host
 # DEPENDS       :apt-get install telnet knot-host
+# LOCATION      :/usr/local/bin/mailto.sh
+
+# Usage
+#     mailto.sh <ADDRESS> [<MX>]
 
 pwgen16() {
     local PASSWORD=""
@@ -36,7 +38,7 @@ pwgen16() {
             ;;
         esac
         echo -n "$(printf "\x$(printf "%x" "$CHAR")")"
-        #"
+        #mcedit"
     done
 }
 
@@ -121,29 +123,27 @@ dnsquery() {
     return 0
 }
 
-
-[ $# == 0 ] && exit 1
-
 # Email address
 RCPT="$1"
+[ -z "$RCPT" ] && exit 1
 [ "$RCPT" == "${RCPT%@*}" ] && exit 2
 
-MYIP="$(ip addr show dev eth0|sed -ne '0,/^\s*inet \([0-9\.]\+\)\b.*$/{s//\1/p}')"
-ME="$(dnsquery PTR "$MYIP")"
+MY_IP="$(ip addr show dev eth0|sed -ne '0,/^\s*inet \([0-9\.]\+\)\b.*$/{s//\1/p}')"
+ME="$(dnsquery PTR "$MY_IP")"
 ME="${ME%.}"
 [ -z "$ME" ] && exit 3
 
 # Mail exchanger
 if [ -z "$2" ]; then
-        DOMAIN="${RCPT#*@}"
-        echo -n "*"; LC_ALL=C host -W 2 -t MX "$DOMAIN" | sort -k 6 -n
-        MX_REC="$(dnsquery MX "$DOMAIN")"
-        [ -z "$MX_REC" ] && exit 4
+    DOMAIN="${RCPT#*@}"
+    echo -n "*"; LC_ALL=C host -W 2 -t MX "$DOMAIN" | sort -k 6 -n
+    MX_REC="$(dnsquery MX "$DOMAIN")"
+    [ -z "$MX_REC" ] && exit 4
 else
-        MX_REC="$2"
+    MX_REC="$2"
 fi
 
-# man s_client
+# From `man s_client`
 #     the session will be renegotiated if the line begins with an R
 #     if the line begins with a Q the connection will be closed down
 cat <<EOF
@@ -159,12 +159,12 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Date: `date -R`
-From: =?utf-8?b?$(echo -n "Szépe Viktor"|base64)?= <postmaster@${ME}>
+From: =?utf-8?b?$(echo -n "SZÉPE Viktor"|base64)?= <postmaster@${ME}>
 To: ${RCPT}
-Subject: mail test, Sorry!
+Subject: mail test, Sorry! / proba uzenet, Elnezest!
 
-Mail test.
-Sorry! ${MYIP}
+Mail test. Sorry! ${MYIP}
+Proba uzenet. Elnezest! ${MYIP}
 .
 -------------------------------------------------------------------------------
 qUIT
@@ -173,6 +173,6 @@ STARTTLS:  openssl s_client -crlf -connect ${MX_REC}:25 -starttls smtp
 smtps:     openssl s_client -crlf -connect ${MX_REC}:465
 EOF
 
-# Only CRLF
+# Only CRLF line ends
 #nc -C "${MX_REC}" 25
 telnet "$MX_REC" 25

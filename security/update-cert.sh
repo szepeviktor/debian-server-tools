@@ -14,11 +14,9 @@
 # Various root/intermediate certificates
 #
 # StartSSL: https://www.startssl.com/certs/ Class 1 DV SSL certificate
-#     wget https://startssl.com/root/sca.server1.crt
-#     dos2unix sca.server1.crt.pem
+#     wget https://www.startssl.com/certs/sca.server1.crt && dos2unix sca.server1.crt
 # StartSSL: https://www.startssl.com/certs/ Class 2 IV SSL certificate
-#     wget https://startssl.com/root/sca.server2.crt
-#     dos2unix sca.server2.crt
+#     https://www.startssl.com/certs/sca.server2.crt && dos2unix sca.server2.crt
 # Comodo PositiveSSL: https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30
 # GeoTrust: https://www.geotrust.com/resources/root-certificates/
 # CAcert: http://www.cacert.org/index.php?id=3
@@ -27,9 +25,10 @@
 # szepenet: http://ca.szepe.net/szepenet-ca.pem
 
 # Saving certificate from the issuer
-#     editor "priv-key-$(date +%Y%m%d)-encrypted.key"
-#     openssl rsa -in "priv-key-$(date +%Y%m%d)-encrypted.key" -out "priv-key-$(date +%Y%m%d).key"
-#     editor "pub-key-$(date +%Y%m%d).pem"
+#     D=$(date +%Y%m%d); read -r -p "? " DOMAIN; cd /root/ssl/; mkdir "${D}-${DOMAIN}"; cd "${D}-${DOMAIN}"
+#     editor "priv-key-${D}-encrypted.key"
+#     openssl rsa -in "priv-key-${D}-encrypted.key" -out "priv-key-${D}.key"
+#     editor "pub-key-${D}.pem"
 
 # @TODO Add apache SSLOpenSSLConfCmd for OpenSSL 1.0.2+
 
@@ -42,8 +41,17 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 # Apache2: public + intermediate
 # "include intermediate CA certificates, sorted from leaf to root"
 #
-#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's/^.*CN=\([^\/]*\).*$/\1/p'||echo "ERROR")"
+# Last Subject Alternative Name
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
+#
+# Common Name
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*CN=\([^/]*\).*$;\1;p')"
+#
 #APACHE_DOMAIN="${APACHE_DOMAIN#\*.}"
+#
+# Vhost config file name in `apache.vhost`
+#APACHE_SSL_CONFIG="/etc/apache2/sites-available/$(head -n 1 apache.vhost)"
+#
 #APACHE_SSL_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #APACHE_PUB="/etc/apache2/ssl/${APACHE_DOMAIN}-public.pem"
 #APACHE_PRIV="/etc/apache2/ssl/${APACHE_DOMAIN}-private.key"
@@ -213,10 +221,10 @@ Apache2() {
     chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
 
     # Check config
-    if  grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}\$" "$APACHE_SSL_CONFIG" \
-        && grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}\$" "$APACHE_SSL_CONFIG" \
-        && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs\$" "$APACHE_SSL_CONFIG" \
-        && grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}\$" "$APACHE_SSL_CONFIG"; then
+    if  grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs$" "$APACHE_SSL_CONFIG" \
+        && grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}$" "$APACHE_SSL_CONFIG"; then
 
         service apache2 restart
 

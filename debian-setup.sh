@@ -62,13 +62,13 @@ apt-get clean
 apt-get autoremove --purge -y
 
 # Packages sources
-mv -vf /etc/apt/sources.list "/etc/apt/sources.list~"
-cp -v ${D}/package/apt-sources/sources.list /etc/apt/
+mv -f /etc/apt/sources.list "/etc/apt/sources.list~"
+cp ${D}/package/apt-sources/sources.list /etc/apt/
 sed -i -e "s;@@MIRROR@@;${DS_MIRROR};g" /etc/apt/sources.list
 # Install HTTPS transport
 apt-get update
 apt-get install -y debian-archive-keyring apt-transport-https
-for R in ${DS_REPOS};do cp -v ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
+for R in ${DS_REPOS};do cp ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
 eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
 #editor /etc/apt/sources.list
 
@@ -169,6 +169,7 @@ alias transit-receive='base64 -d|xz -d'
 #alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 
 # Colorized man pages with less
+#     update-alternatives --set pager /usr/bin/less
 #     man termcap # String Capabilities
 man() {
     #
@@ -426,7 +427,7 @@ apt-get purge dmidecode eject laptop-detect usbutils kbd console-setup \
     acpid fancontrol hddtemp lm-sensors sensord smartmontools mdadm popularity-contest
 # 5. Non-stable packages
 clear; dpkg -l|grep "~[a-z]\+"
-dpkg -l|grep -E "~squeeze|~wheezy|python2\.6"
+dpkg -l|grep -E "~squeeze|python2\.6|~wheezy|\+deb7"
 # 6. Non-Debian packages
 aptitude search '?narrow(?installed, !?origin(Debian))'
 # 7. Obsolete packages
@@ -489,6 +490,7 @@ debsums --all --changed | tee debsums-changed.log
 #for L in /var/lib/dpkg/info/*.list;do P=$(basename "$L" .list);[ -r "/var/lib/dpkg/info/${P}.md5sums" ]||echo "$P";done
 
 # Custom APT repositories
+cd ${D}; ./install.sh package/apt-add-repo.sh
 editor /etc/apt/sources.list.d/others.list && apt-get update
 
 # Get pip
@@ -497,7 +499,7 @@ wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python2 get-pip.py
 
-# Detect if we are running in a virtual machine
+# Virtualization environment
 apt-get install -y virt-what && virt-what
 apt-get purge virt-what dmidecode
 
@@ -558,8 +560,15 @@ editor /etc/default/ntpdate
 # Chrony
 apt-get install -y chrony
 editor /etc/chrony/chrony.conf
-#     pool 0.hu.pool.ntp.org offline iburst
-#     server ntp.ovh.net offline iburst
+#     cmdport 0
+#
+#     pool 0.cz.pool.ntp.org offline
+#     pool 0.hu.pool.ntp.org offline
+#     # OVH
+#     server ntp.ovh.net offline
+#     # EZIT
+#     server ntp.ezit.hu offline
+service chrony restart
 
 # µnscd
 apt-get install -y unscd
@@ -794,8 +803,7 @@ ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 
 # PHP 7.0
 apt-get install -y php7.0-cli php7.0-fpm \
-    php7.0-curl php7.0-gd php7.0-json php7.0-intl php7.0-mysql php7.0-readline php7.0-sqlite3
-# php7.0-mcrypt compiled in
+    php7.0-mcrypt php7.0-curl php7.0-gd php7.0-json php7.0-intl php7.0-mysql php7.0-readline php7.0-sqlite3
 PHP_TZ="Europe/Budapest"
 sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini

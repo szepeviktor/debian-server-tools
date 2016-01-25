@@ -8,6 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install iptables-persistent
 # LOCATION      :/usr/local/sbin/myattackers.sh
 # SYMLINK       :/usr/local/sbin/deny-ip.sh
 # SYMLINK       :/usr/local/sbin/deny-http.sh

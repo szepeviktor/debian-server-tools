@@ -1,5 +1,5 @@
---- spamassassin	2014-07-11 16:56:51.000000000 +0200
-+++ spamassassin.quite	2015-01-09 12:39:12.471468869 +0100
+--- /etc/cron.daily/spamassassin	2014-07-11 16:56:51.000000000 +0200
++++ /etc/cron.daily/spamassassin.quite	2015-01-09 12:39:12.471468869 +0100
 @@ -36,7 +36,7 @@
      if [ -x /usr/bin/re2c -a -x /usr/bin/sa-compile ]; then
          env -i LANG="$LANG" PATH="$PATH" start-stop-daemon \

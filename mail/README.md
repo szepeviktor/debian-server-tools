@@ -1,10 +1,12 @@
+# Mail servers
+
 ### E-mail server factors
 
 - Transport encryption (TLS on SMTP in&out and IMAP)
 - Forwarding with SRS (Sender Rewriting Scheme)
 - Attack mitigation (SMTP vulnerability, authentication)
 - Spam filtering
-- Custom blacklists (RBL)
+- Custom blackhole lists (RBL)
 - Custom whitelisting of hosts (broken mail servers)
 - Monitor IP reputation
 - Apply to whitelists
@@ -13,18 +15,18 @@
 
 ### Transactional email providers
 
-- https://www.mailjet.com/
-- https://aws.amazon.com/ses/
-- https://www.mandrill.com/
+- https://www.mailjet.com/ Made with :heart: in Paris
+- https://aws.amazon.com/ses/ AWS
+- https://www.mandrill.com/ by MailChimp
 - https://sendgrid.com/
-- https://www.mailgun.com/
-- https://postmarkapp.com/
+- https://www.mailgun.com/ by Rackspace
+- https://postmarkapp.com/ by Wildbit
 - https://www.sendinblue.com/
-- https://www.campaignmonitor.com/
 
 ### Marketing tools
 
-https://www.getdrip.com/features
+- https://www.getdrip.com/features
+- https://www.campaignmonitor.com/
 
 ### Webmails
 
@@ -124,6 +126,13 @@ Delivery instructions:
 
 ```bash
 echo "|/pipe/command" > /var/mail/localhost/user/.courier-foo-default
+```
+
+### Spamtrap
+
+```
+spamtrap@domain.net:  |/usr/local/bin/multi-stdout.sh "/usr/bin/spamc --learntype=spam --max-size=1048576" "/usr/bin/spamc --reporttype=report --max-size=1048576"
+problematic@address.es:  spamtrap@domain.net
 ```
 
 ### Courier kitchen sink (drop incoming messages)
@@ -239,6 +248,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - Short main header line
 - Subheader lines
 - :bulb: Sections: image + title + description + call2action  https://litmus.com/subscribe
+- External resources should be able to load through HTTPS (opening in a HTTPS webmail)
 
 #### Footer
 
@@ -266,10 +276,6 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 - :cloud: CDN for images
 
-#### Feedback loop
-
-https://wordtothewise.com/isp-information/
-
 ### Email templates
 
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
@@ -284,6 +290,10 @@ https://wordtothewise.com/isp-information/
 - mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/resources/emailauthentication/
 - checkmyauth@auth.returnpath.net
 - https://winning.email/checkup/DOMAIN
+
+### Feedback loops
+
+https://wordtothewise.com/isp-information/
 
 ### RBL-s (DNSBL)
 
@@ -301,7 +311,7 @@ cat anti-abuse.org.rbl | xargs -I %% host -t A "$(revip "$IP").%%" 2>&1 \
     | grep -v "not found: 3(NXDOMAIN)"
 ```
 
-#### Trendmicro ERS check
+Trendmicro ERS check
 
 ```bash
 wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.trendmicro.com/reputations \
@@ -312,11 +322,12 @@ Response: "IP Unlisted in the spam sender list None"
 
 ### Monitoring IP reputation
 
-- https://www.rblmon.com/accounts/register/
+- http://mxtoolbox.com/services_servermonitoring2.aspx
 - https://www.projecthoneypot.org/monitor_settings.php
+- https://www.rblmon.com/accounts/register/
 
-### White lists
+### Whitelists
 
 - https://www.dnswl.org/?page_id=87
-- barracuda?
+- http://www.emailreg.org/index.cgi?p=policy (Barracuda)
 

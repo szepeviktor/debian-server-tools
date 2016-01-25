@@ -75,17 +75,12 @@ MUNIN_EVENTS_CONF
 munin_monit() {
     [ -x /usr/bin/monit ] || return 1
 
-    Install_plugin "https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser"
-    cat > "${PLUGIN_CONF_DIR}/monit_parser" <<MONIT_CONF
+#    Install_plugin "https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser"
+    Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/monit_parser"
+    cat > "${PLUGIN_CONF_DIR}/monit_parser" <<EOF
 [monit_parser]
 user root
-MONIT_CONF
-    echo '# Add:
-            if stat == "total_memory":
-                print "monit_%s_%s.warning 1:" % (process, stat)
-    '
-    sleep 5
-
+EOF
     Enable_plugin "monit_parser"
 }
 
@@ -281,6 +276,8 @@ ln -svf /usr/local/share/munin/plugins/ipmi_sensor2_ /etc/munin/plugins/ipmi_sen
 
 # @TODO virtual machine speed (sysbench*100) test: KVM, Xen, VZ, VMware
 
+# Hypervisor: https://github.com/munin-monitoring/contrib/tree/master/plugins/virtualization
+
 # Daemons
 munin_mysql
 munin_fail2ban
@@ -294,6 +291,7 @@ munin_decix
 
 #https://github.com/munin-monitoring/munin/tree/devel/plugins/node.d.linux
 #munin_fw_conntrack
+# apt-get install conntrack && modprobe nf_conntrack && echo "nf_conntrack" >> /etc/modules
 # tcp
 # traffic: ip_ 1 address 8.8.8.8??, ntp
 # port_ udp 53
@@ -304,6 +302,9 @@ munin_phpfpm
 #https://github.com/munin-monitoring/contrib/tree/master/plugins/php
 # munin_phpapc
 # munin_phpopcache
+
+# Shell plugin functions
+#     /usr/share/munin/plugins/plugin.sh
 
 # Separator
 echo

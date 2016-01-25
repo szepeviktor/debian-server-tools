@@ -10,6 +10,8 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/dmesg.sh
 
+# Depreceted, use: dmesg -T
+
 # Detect pipe
 if [ -t 0 ]; then
     echo "Usage: dmesg|dmesg.sh" >&2

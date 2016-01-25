@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install -y ccze
+# DEPENDS       :apt-get install ccze
 # LOCATION      :/usr/local/sbin/syslog.sh
 
 if ls -l /sbin/init | grep -q "systemd"; then

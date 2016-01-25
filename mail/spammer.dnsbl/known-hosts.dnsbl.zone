@@ -7,6 +7,11 @@
 #### DUMP           :rbldnsd -d -r/var/lib/rbldns/spammer known-hosts.dnsbl:ip4set:known-hosts.dnsbl.zone
 
 
+
+#### DEPRECATED, see: ${D}/mail/smtpaccess.conf
+
+
+
 #### 128 - known host
 
 $NS 3600 worker.szepe.net
@@ -18,35 +23,4 @@ $TTL 3600
 # KNOWN HOSTS
 :127.0.0.128:Known host
 
-95.140.33.67     szerver.szepe.net
-81.2.236.171     worker.szepe.net
-79.172.214.123   szerver4.szepe.net
-# QSS
-91.82.110.50     mail.qupdate.net
-# CB
-37.187.55.1      strass2.szepe.net
-# Increst
-80.85.86.212     lhr.belmanetti.hu
-# OLM
-94.125.178.61    web.olmunkaido.hu
-87.229.24.89     fw1.olmunkaido.hu
-# MegaCP
-5.56.37.12       server.megacp.com
-5.56.38.50       server2.megacp.com
-88.151.100.170   server3.megacp.com
-85.25.196.8      server4.megacp.com
-5.56.32.1        server5.megacp.com
-91.82.237.28     server6.megacp.com
-81.0.75.81       server7.megacp.com
-88.151.100.100   server8.megacp.com
-109.200.8.122    server9.megacp.com
-5.56.38.50       server10.megacp.com
-5.56.33.1        server11.megacp.com
-85.25.73.121     server12.megacp.com
-5.56.37.120      server13.megacp.com
-5.56.37.3        server14.megacp.com
-85.25.213.173    server15.megacp.com
-# Gyümölcs tárhely (Nobilitas Hungariae)
-# for i in `seq 1 255`; do host -t A 212.52.167.$i; done|grep lanten
-212.52.167.89    szirmay.lanten.hu
-212.52.167.244   gyimothy.lanten.hu
+95.140.33.67  mail.szepe.net

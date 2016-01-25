@@ -3,7 +3,7 @@
 # Draw graph of network round trip time.
 #
 # VERSION       :0.3
-# DEPENDS       :apt-get install -y gnuplot5-nox feedgnuplot
+# DEPENDS       :apt-get install gnuplot5-nox feedgnuplot
 
 [ -z "$*" ] && exit 1
 

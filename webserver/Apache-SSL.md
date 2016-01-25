@@ -32,9 +32,9 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
     SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
     SSLStaplingStandardCacheTimeout 36000
 
-    # Root certificates in vhost config
-    #SSLCACertificatePath /etc/ssl/certs
-    #SSLCACertificateFile /etc/ssl/certs/ca-certificates.crt
+    # Root certificates
+    SSLCACertificatePath /etc/ssl/certs
+    SSLCACertificateFile /etc/ssl/certs/ca-certificates.crt
 ```
 
 ### Installing CA on a server

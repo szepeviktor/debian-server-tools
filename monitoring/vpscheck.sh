@@ -2,7 +2,7 @@
 #
 # Check your VPS' resources daily.
 #
-# VERSION       :0.4.4
+# VERSION       :0.4.5
 # DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,6 +10,7 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install iproute2 heirloom-mailx
 # LOCATION      :/usr/local/sbin/vpscheck.sh
+# CRON.D        :@reboot	root	/usr/local/sbin/vpscheck.sh
 # CRON-DAILY    :/usr/local/sbin/vpscheck.sh
 # CONFIG        :~/.config/vpscheck/configuration
 
@@ -163,8 +164,10 @@ Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
 # FIXME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
 
 # First hop towards the nearest root server
-# There could be more than one routers!
-Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d" " -f 4'
+# There could be more than one router!
+Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d " " -f 4'
+# Second hop
+#Add_check HOP 'traceroute -n -m 2 ${HOP_TO} | sed -ne "\$s/^ 2  \([0-9.]\+\) .*\$/\1/p"'
 
 # First mail exchanger
 Add_check MX 'host -t MX $(hostname -f)|sed -n "0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/{s//\1/p}"'

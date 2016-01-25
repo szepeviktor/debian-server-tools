@@ -1,0 +1,70 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          boot-alert
+# Required-Start:    $all
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Alert on boot
+### END INIT INFO
+
+NAME="boot-alert"
+ADDRESS="sms@szepe.net"
+
+# Read configuration variable file if it is present
+[ -r /etc/default/${NAME} ] && . /etc/default/${NAME}
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+. /lib/lsb/init-functions
+
+do_start() {
+  # Return
+  #   0 if daemon has been stopped
+  #   1 if daemon was already stopped
+  #   2 if daemon could not be stopped
+  #   other if a failure occurred
+  if echo -e "System FULLY BOOTED at $(date -R)\n\n$(last -x -n 10)\n\n$(COLUMNS=120 pstree -aA)" \
+    | mail -s "System $(hostname -f) is BOOTED" ${ADDRESS}; then
+    # Wait for message delivery
+    sleep 5
+    return 0
+  else
+    return 3
+  fi
+}
+
+case "$1" in
+
+  start)
+    [ "$VERBOSE" != no ] && log_daemon_msg "Sending alert" "$NAME"
+    do_start
+    case "$?" in
+      0|1)
+        [ "$VERBOSE" != no ] && log_end_msg 0
+        ;;
+      2)
+        [ "$VERBOSE" != no ] && log_end_msg 1
+        ;;
+    esac
+    ;;
+
+  stop|status)
+    # No-op
+    ;;
+
+  restart|reload|force-reload)
+    echo "Error: argument '$1' not supported" 1>&2
+    exit 3
+    ;;
+
+  *)
+    echo "Usage: ${SCRIPTNAME} start|stop" 1>&2
+    exit 3
+    ;;
+
+esac
+
+exit 0
