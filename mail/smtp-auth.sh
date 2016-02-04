@@ -145,7 +145,6 @@ which openssl &> /dev/null || exit 99
 [ -z "$*" ] && Usage
 
 while getopts ":aplcs:r:u:P:h" opt; do
-echo $opt --
     case $opt in
         a) # Test AUTH support
             MODE="auth"

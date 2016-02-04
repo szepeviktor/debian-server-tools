@@ -121,6 +121,16 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 
 A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 
+### Mi az, ami még üzemben tartás és nem fejlesztés?
+
+- 1 oldal tartalmának feltöltése
+- kép cseréje képlapozóban (slider), galériában vagy a témában (ahol már kódolásra van szükség)
+- színek megváltoztatása
+- már meglévő elemek (pl. "Rólunk mondták") elrendezésének vagy darabszámának megváltoztatása
+- már meglévő űrlap (pl. "Kapcsolat") mezőinek megváltoztatása, értesítési email cím átírás
+- már meglévő oldal sablon alapján új oldal létrehozása
+- menük átstruktúrálása
+
 ## Más szolgáltatások egyedi megállapodás szerint
 
 - szerver (VPS vagy fizikai gép) üzemben tartás és felügyelet

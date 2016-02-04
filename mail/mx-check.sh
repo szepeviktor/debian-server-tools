@@ -2,14 +2,17 @@
 #
 # Clean up an email list.
 #
-# VERSION       :0.3.0
-# DATE          :2016-01-10
+# VERSION       :0.4.0
+# DATE          :2016-01-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install bind9-host netcat-traditional courier-mta
 # LOCATION      :/usr/local/bin/mx-check.sh
+
+# Watch job queue
+#     watch -n1 'printf "%*s" $(cat $MKTEMP) | tr " " "_"'
 
 # Assumed MTA user
 MAIL_GROUP="daemon"
@@ -20,6 +23,7 @@ CLEAN_LIST="${ORIG_LIST}.0-clean.txt"
 LINES_FAILED="${ORIG_LIST}.0-FAILED-lines.txt"
 DOMAIN_LIST="${ORIG_LIST}.1-domains.txt"
 SMTP_OK_LIST="${ORIG_LIST}.2-smtp-ok.txt"
+IP_OK_LIST="${ORIG_LIST}.2-ip-ok.txt"
 SMTP_FAIL_LIST="${ORIG_LIST}.2-FAILED-smtp.txt"
 SMTP_DOUBLE_FAIL_LIST="${ORIG_LIST}.3-DBLFAILED-smtp.txt"
 
@@ -32,6 +36,10 @@ Die() {
 
 Progress() {
     echo -n "." 1>&2
+}
+
+Progress_failed() {
+    echo -n "X" 1>&2
 }
 
 # Clean up list
@@ -90,6 +98,7 @@ Mx_test() {
     local -i SMTP_TIMEOUT="${2:-5}"
     local RESULT="NO.mx"
     local MX
+    local MX_IP
     local MXS
 
     # Ordered by preference number
@@ -97,18 +106,35 @@ Mx_test() {
         | grep "is handled by" | sort -k 6 -n)"
 
     while read MX; do
+        RESULT="FAIL.dns"
+
         [ -z "$MX" ] && continue
+
+        # First IP address
+        MX_IP="$(getent ahostsv4 "$MX" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
+        [ -z "$MX_IP" ] && continue
+
+        # Already known working
+        if [ -f "$IP_OK_LIST" ] && grep -qFx "$MX_IP" "$IP_OK_LIST"; then
+            RESULT="OK.smtp"
+            break
+        fi
 
         # Ping
         RESULT="FAIL.ping"
-        if ping -c 2 -w 3 "$MX" > /dev/null 2>&1; then
+        if ping -c 2 -w 3 "$MX_IP" > /dev/null 2>&1; then
             RESULT="OK.ping+FAIL.smtp"
         fi
 
+        # Port
+        #if nmap -n -Pn -oG - -p 25 "$MX_IP" | grep -qx "Host: .*Ports: 25/open/tcp//smtp///"
+        #RESULT="OK.port+FAIL.smtp"
+
         # SMTP
-        if Smtp_probe "$MX" "$SMTP_TIMEOUT"; then
+        if Smtp_probe "$MX_IP" "$SMTP_TIMEOUT"; then
+            # Return only the highest priority and working MX
             RESULT="OK.smtp"
-            # Return only the highest priority + first working MX
+            echo "$MX_IP" >> "$IP_OK_LIST"
             break
         fi
     done <<< "$(echo "$MXS" | grep -o '\S\+\.$')"
@@ -119,6 +145,19 @@ Mx_test() {
     fi
 
     return 0
+}
+
+# Conduct the test and append result to logs
+Conduct_mx_test() {
+    local D="$1"
+
+    if RESULT="$(Mx_test "$D")"; then
+        Progress
+        echo "$D" >> "$SMTP_OK_LIST"
+    else
+        Progress_failed
+        echo "${D}:${RESULT}" >> "$SMTP_FAIL_LIST"
+    fi
 }
 
 # Delete message without MX record from the mail queue
@@ -141,6 +180,9 @@ Cancel_mailq() {
     rm "$MAILQ"
 }
 
+# Don't run without `screen`
+[ -n "$STY" ] || Die 99 "Must be running in screen."
+
 # Empty list?
 [ -s "$ORIG_LIST" ] || Die 10 "No addresses in the list."
 
@@ -152,27 +194,33 @@ Cancel_mailq() {
 [ -f "$DOMAIN_LIST" ] || Addr2dom "$CLEAN_LIST" > "$DOMAIN_LIST"
 [ -s "$DOMAIN_LIST" ] || Die 2 "No addresses passed the cleanup."
 
-# Test MX-s
-[ -f "$SMTP_OK_LIST" ] || while read D; do
-    Progress
-    if RESULT="$(Mx_test "$D")"; then
-        echo "$D" >> "$SMTP_OK_LIST"
-    else
-        echo "${D}:${RESULT}" >> "$SMTP_FAIL_LIST"
-    fi
-done < "$DOMAIN_LIST"
-[ -s "$SMTP_OK_LIST" ] || Die 3 "None of MX-s are OK."
+# Test MX-s in batches of 50 (26% load on 1 core)
+if ! [ -f "$SMTP_OK_LIST" ]; then
+    JOBN="$(mktemp)"
+    while read -r D; do
+        Conduct_mx_test "$D" &
+        jobs -p -r | wc -l > "$JOBN"
+        while [ -z "$(cat "$JOBN")" ] || [ "$(cat "$JOBN")" -gt 50 ]; do
+            sleep 1
+            jobs -p -r | wc -l > "$JOBN"
+        done
+    done < "$DOMAIN_LIST"
+    rm "$JOBN"
+fi
+[ -s "$SMTP_OK_LIST" ] || Die 3 "None of the MX-s are OK."
 
 # Retest failed MX-s
 if [ -s "$SMTP_FAIL_LIST" ]; then
     while read FAILED; do
         D="${FAILED%%:*}"
-        Progress
+        #title: domain name echo -n "$(tput tsl)${D}$(tput fsl)"
         if RESULT="$(Mx_test "$D" 30)"; then
+            Progress
             # Not failing this time
             echo "$D" >> "$SMTP_OK_LIST"
             ###sed -i -e "/^${D}:/d" "$SMTP_FAIL_LIST"
         else
+            Progress_failed
             echo "$D" >> "$SMTP_DOUBLE_FAIL_LIST"
             # Remove addresses with two times failed domains
             sed -i -e "/@${D}$/d" "$CLEAN_LIST"
@@ -184,3 +232,5 @@ fi
 
 # New line
 echo
+
+# @TODO remember bad failed IP-s? , merge ok/failed results then separate

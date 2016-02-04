@@ -291,6 +291,11 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - checkmyauth@auth.returnpath.net
 - https://winning.email/checkup/DOMAIN
 
+#### HTML content
+
+- https://inlinestyler.torchbox.com/styler/
+- https://putsmail.com/
+
 ### Feedback loops
 
 https://wordtothewise.com/isp-information/
@@ -322,7 +327,7 @@ Response: "IP Unlisted in the spam sender list None"
 
 ### Monitoring IP reputation
 
-- http://mxtoolbox.com/services_servermonitoring2.aspx
+- https://mxtoolbox.com/services_servermonitoring2.aspx
 - https://www.projecthoneypot.org/monitor_settings.php
 - https://www.rblmon.com/accounts/register/
 

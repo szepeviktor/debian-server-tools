@@ -1,5 +1,7 @@
 # Docker
 
+https://docs.docker.com/engine/reference/builder/
+
 ### Debian images
 
 1. [debian:jessie](https://github.com/tianon/docker-brew-debian) 125MB
@@ -11,22 +13,22 @@
 
 ```bash
 # - Build "szepeviktor/jessie-build" image -
-# docker run -it --entrypoint=/bin/bash debian:jessie
-#apt-get update
-#apt-get install -y dialog devscripts
-#adduser --disabled-password --gecos "" debian
-# docker commit $(docker ps -q|head -n1) szepeviktor/jessie-build
+# docker build -t szepeviktor/jessie-build jessie-build
+
 
 # - Build Debian package -
-# docker run --rm -it --entrypoint=/bin/bash szepeviktor/jessie-build
+# docker run --rm -it -v /opt/result --user=1000 szepeviktor/jessie-build
 
-su -l debian
+
+# @TODO Automate in a Dockerfile !!! ENV PACKAGE=htop
+
+
 read -r -p "Package? " P
 R="testing"; WEB="https://packages.debian.org/${R}/${P}"
 URL="$(curl -s "$WEB"|grep -o 'http://http.debian.net/debian/pool/[^"]\+\.dsc')"
 [ -z "$URL" ] || dget -ux "$URL"
-cd $P-*/
-dpkg-checkbuilddeps 2>&1|cut -d: -f3-|sed 's/([^()]\+)//g'
+cd ${P}-*/
+dpkg-checkbuilddeps 2>&1 | cut -d: -f3- | sed 's/([^()]\+)//g'
 
 # docker exec $(docker ps -q|head -n1) /bin/bash -c "apt-get install -y DEPENDENCIES"
 
@@ -35,4 +37,5 @@ cd ../
 lintian *.deb && ls -l *.deb && logout
 
 # docker exec $(docker ps -q|head -n1) /bin/bash -c "cd /home/debian/;tar c *.deb"|tar xv
+# cp -av "$(docker inspect $(docker ps -q|head -n1)|grep -A10 '"Mounts":'|grep -m1 '"Source": ".*",'|cut -d'"' -f4)" .
 ```

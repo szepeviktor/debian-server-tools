@@ -1,20 +1,20 @@
 #!/bin/bash
 #
-# Measures HTTP response time and show it on stderr
-# Use -S option to show HTTP response on stdout
+# Measure HTTP response time
 #
-# VERSION       :0.2
+# VERSION       :0.2.0
 # DATE          :2014-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/ncget-time.sh
 # DEPENDS       :apt-get install time netcat-traditional
+# LOCATION      :/usr/local/bin/ncget-time.sh
 
+# Use -S option after the URL to show HTTP response on stdout
 
 # User-Agent
-UA="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:20.3) Gecko/20130809 Firefox/20.3 PaleMoon/20.3-x64"
+UA="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:20.3) Gecko/20130809 Firefox/20.3"
 
 URL="$1"
 SHOW="$2"
@@ -37,21 +37,21 @@ hide() {
     fi
 }
 
-# empty URL
+# Empty URL
 [ -z "$URL" ] && exit 1
-# no https:// URLs
+# No https:// URLs
 [ -z "${URL##https*}" ] && exit 2
 
-# parse host name
+# Parse host name
 HOST="$(sed -e "s|\([^/]*\/\/\\)\?\([^:/]*\).*|\2|" <<< "$URL")"  #"
 [ -z "$HOST" ] && exit 3
 
 
-# parse request path
+# Parse request path
 REQ="${URL##*$HOST}"
 [ -z "$REQ" ] && REQ="/"
 
-# get host's IP
+# Get host's IP address
 if isIP "$HOST"; then
     IP="$HOST"
 else
@@ -64,7 +64,7 @@ fi
 # DBG
 #echo "HOST: $HOST, PATH: $REQ"
 
-# send request, return wall clock time in seconds
+# Send request and return wall clock time in seconds,
 # optionally show full response
 echo \
 "GET ${REQ} HTTP/1.1
@@ -75,4 +75,3 @@ Accept-Language: en
 Connection: close
 
 " | /usr/bin/time --format "%e" nc "$IP" 80 | hide
-

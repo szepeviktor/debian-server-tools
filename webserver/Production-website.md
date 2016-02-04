@@ -20,7 +20,10 @@
 
 ### SSL certificate
 
-For security, trust and SEO ranking.
+- For security
+- For trust
+- For better SEO ranking
+- For receiving referrer information (up to April 2012)
 
 1. Apache-SSL.md
 1. https://www.ssllabs.com/ssltest/
@@ -145,7 +148,7 @@ Check database collation and table storage engines.
 
 See: `alter-table.sql`
 
-`wp --allow-root plugin install --activate wp-clean-up`
+`wp --allow-root plugin install --activate wp-sweep`
 
 Delete transients and object cache.
 
@@ -236,16 +239,16 @@ http://google-public-dns.appspot.com/cache
 
 - Dynamically page parts (rotating quotes by PHP)
 - Dynamically generated resources (`style.css.php`, `grep "enqueue*.php"`)
-- Missing resource version in wp_register_*() wp_enqueue_*() calls
+- Missing resource version in `wp_register_*()` `wp_enqueue_*()` calls
 - New WordPress entry point `grep -E "\brequire|include.*wp-"`
-- Extra server-side requests: HTTP, DNS
-- `$_GET` and `$_POST` sanitization
-- `<input type="file" />`
+- Extra server-side requests: HTTP, DNS, file access
+- Lack of `$_GET` and `$_POST` sanitization
+- Form field: `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
-- `@font-face` formats: eof, woff, ttf, svg
+- `@font-face` formats: eof, woff2, woff, ttf, svg
 - Independent e-mail sending `grep -E "\b(wp_)?mail\("`
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
-- Home call, external URL-s (fix: search for URL-s)
+- Home call, external URL-s (fix: search for URL-s, use Snitch)
 - Non-HTTP/200 responses
 - PHP short opentags `<?=`
 - PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
@@ -273,9 +276,15 @@ http://google-public-dns.appspot.com/cache
 
 ### PHP errors
 
-`tail -f /var/log/apache2/${SITE_USER}-error.log`
+wp-config.php: `define( 'WP_DEBUG', true );`
+
+```bash
+tail -f /var/log/apache2/${SITE_USER}-error.log
+```
 
 ### JavaScript errors
+
+@TODO
 
 ### SEO
 

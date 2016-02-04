@@ -12,7 +12,7 @@
 - **Exclusion** support (file list, glob, regexp)
 - Backup/no-backup **[tag files](http://www.brynosaurus.com/cachedir/spec.html)** for directories
 - **One filesystem** restriction
-- Backup target handling on incremental backups ( **read and create only** or updating also), uploading to cold storage
+- Backup target handling on incremental backups (**read and create only** or updating also), uploading to cold storage
 - **Remote** source, remote target support
 - **Low network traffic**
 - Network **protocols** (S3, Glacier, swift, hubiC, S/FTP, SMTP, Dropbox)
@@ -33,6 +33,7 @@
 
 https://quixdb.github.io/squash-benchmark/
 
+- https://bitbucket.org/nikratio/s3ql (winner)
 - http://mattmahoney.net/dc/zpaq.html
 - http://obnam.org/
 - http://duplicity.nongnu.org/
@@ -69,13 +70,13 @@ cat github.repos|xargs -L 1 git clone
 - upload: sync && s3qlctrl flushcache
 - unmount: umount.s3ql
 
-### S3QL on OVH
+### S3QL on OVH (~/.s3ql/authinfo2)
 
 ```
-[swift]
+[swiftks]
+storage-url: swiftks://auth.cloud.ovh.net/REGION_NAME:CT_NAME
 backend-login: TENANT_NAME:USERNAME
 backend-password: PASSWORD
-storage-url: swiftks://auth.cloud.ovh.net/REGION_NAME:CT_NAME
 fs-passphrase: PASSPHRASE
 ```
 

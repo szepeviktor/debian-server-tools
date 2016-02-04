@@ -328,14 +328,18 @@ editor /etc/resolv.conf
 #     options timeout:2
 #     #options rotate
 
-# Aruba Resolvers
-#
+# Aruba resolvers
 #     DC1-IT 62.149.128.4 62.149.132.4
 #     DC3-CZ 81.2.192.131 81.2.193.227
 #
-# Vultr Resolvers
-#
+# Vultr resolvers
 #     Frankfurt 108.61.10.10
+#
+# EZIT resolvers
+#     Budapest 87.229.108.201 80.249.168.18
+#
+# OVH resolvers
+#     France 213.186.33.99
 
 clear; ping6 -c 4 ipv6.google.com
 host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
@@ -508,6 +512,9 @@ apt-get purge virt-what dmidecode
 editor /etc/rsyslog.conf
 #     $ModLoad immark
 #     $MarkMessagePeriod 1800
+#
+#     # Alert root
+#     *.warn  :omusrmsg:root,viktor
 service rsyslog restart
 
 # Debian tools
@@ -887,6 +894,8 @@ cd ${D}; ./install.sh webserver/webrestart.sh
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
+# Disable the binary log
+sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
 read -r -s -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
 echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
@@ -1014,8 +1023,10 @@ apt-get autoremove --purge
 # Throttle package downloads (1000 kB/s)
 echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
-# Backup /etc
+# Backup /etc and package configuration
 tar cJf "/root/$(hostname -f)_etc-backup_$(date --rfc-3339=date).tar.xz" /etc/
+debconf-get-selections > "/root/debconf.selections"
+dpkg --get-selections > "/root/packages.selection"
 
 # List of clients and services
 cp -v ${D}/server.yml /root/
