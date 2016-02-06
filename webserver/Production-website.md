@@ -82,7 +82,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Security
 
-- Allow loading in an IFRAME? (@TODO Examples.)
+- Allow loading in an IFRAME? (Google translate, Facebook app)
 - `wordpress-fail2ban`
 - Sucuri plugin
 - [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php).
@@ -344,6 +344,7 @@ https://wiki.apache.org/httpd/ListOfErrors
   - https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
   - https://github.com/errbit/errbit
   - https://github.com/airbrake/airbrake-js
+  - detect Adblock
 1. Front page monitoring `monitoring/frontpage-check.sh`
 1. Visual changes: https://visualping.io/ @TODO PhantomJS/slimerJS + `compare -metric MAE/PAE reference.png current.png`
 1. File changes `lucanos/Tripwire`, `lasergoat/Tripwire` (rewrite)

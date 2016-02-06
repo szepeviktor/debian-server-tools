@@ -2,14 +2,15 @@
 
 # http://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml
 IANA_URL="http://www.iana.org/assignments/tls-parameters/tls-parameters-4.csv"
-IANA_COLUMNS="3" #head -n 1 tls-parameters-4.csv|grep -o ","|wc -l
+# head -n 1 tls-parameters-4.csv | grep -o "," | wc -l
+IANA_COLUMNS="3"
 NSS_URL="https://raw.githubusercontent.com/jvehent/tlsnames/master/NSS_TLS_Names.csv"
 
 Parse_csv() {
     local BUFFER
     local -i COLUMN="0"
 
-    # echo first and second column separated with a colon
+    # Print first and second column separated with a colon
     Flush() {
         COLUMN+="1"
         [ "$COLUMN" -eq 1 ] && echo -n "${BUFFER}:"
@@ -46,13 +47,17 @@ Parse_csv() {
 }
 
 Get_iana() {
-    # remove CR, convert newline into comma, parse, exclude non-ciphers
+    # Get CSV
+    #     Remove CR
+    #     Convert newline into comma
+    #     Parse
+    #     Exclude non-ciphers
     wget -q -O- "$IANA_URL" \
         | tr -d $'\r' \
         | tr ',' $'\n' \
         | Parse_csv \
         | grep -i "^0x[0-9A-F]\{2\},0x[0-9A-F]\{2\}:" \
-        > "iana-tls-cipher-suits.txt"
+            > "iana-tls-cipher-suits.txt"
 }
 
 Parse_simple_csv() {

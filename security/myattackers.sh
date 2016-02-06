@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually
 #
-# VERSION       :0.5.5
+# VERSION       :0.5.6
 # DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -213,10 +213,11 @@ Reset_old_rule_counters() {
 
 # Script name specifies protocol
 PROTOCOL="ALL"
+MODE="ban"
 case "$(basename "$0")" in
     myattackers.sh)
         # Cron hourly (when called without parameters)
-        [ $# == 0 ] && Unban_expired
+        [ $# == 0 ] && MODE="cron"
         ;;
     deny-http.sh)
         PROTOCOL="HTTP"
@@ -232,8 +233,6 @@ case "$(basename "$0")" in
         ;;
 esac
 
-# Get options
-MODE="ban"
 # Default ban time
 BANTIME_OPTION="$(Bantime_translate "")"
 LIST_FILE=""
@@ -319,6 +318,9 @@ fi
 
 # Modes without a specific host
 case "$MODE" in
+    cron)
+        Unban_expired
+        ;;
     show)
         Show
         ;;
@@ -341,7 +343,7 @@ case "$MODE" in
         else
             # Skip empty and comment lines
             grep -Ev "^\s*#|^\s*$" "$LIST_FILE" \
-                | while read ADDRESS; do
+                | while read -r ADDRESS; do
                     Check_address "$ADDRESS" && Ban "$ADDRESS"
                 done
         fi
@@ -351,7 +353,7 @@ case "$MODE" in
             Unban "$ADDRESS"
         else
             grep -Ev "^\s*#|^\s*$" "$LIST_FILE" \
-                | while read ADDRESS; do
+                | while read -r ADDRESS; do
                     Check_address "$ADDRESS" && Unban "$ADDRESS"
                 done
         fi

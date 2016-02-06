@@ -256,3 +256,6 @@ hostmaster@%DOMAIN%:  admin@%DOMAIN%
 
 # http://www.dontbouncespam.org/#BVR
 
+# ??? dont deliver to noreply@*
+# editor /etc/courier/bofh
+#     badfrom noreply@*

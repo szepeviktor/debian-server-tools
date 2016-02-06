@@ -34,6 +34,7 @@
 
 TODAY="$(date +%Y%m%d)"
 SUB="sca.server1.crt"
+#SUB="null.crt"
 PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
@@ -45,7 +46,7 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 #APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
 #
 # Common Name
-#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*CN=\([^/]*\).*$;\1;p')"
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')"
 #
 #APACHE_DOMAIN="${APACHE_DOMAIN#\*.}"
 #
@@ -176,34 +177,6 @@ Courier_mta() {
     echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
 }
 
-Proftpd() {
-    [ -z "$PROFTPD_PUB" ] && return 1
-    [ -z "$PROFTPD_PRIV" ] && return 1
-    [ -z "$PROFTPD_SUB" ] && return 1
-
-    [ -d "$(dirname "$APACHE_PUB")" ] || Die 30 "proftpd ssl dir"
-
-    cp "$PUB" "$PROFTPD_PUB" || Die 31 "proftpd public"
-    cp "$PRIV" "$PROFTPD_PRIV" || Die 32 "proftpd private"
-    cp "$SUB" "$PROFTPD_SUB" || Die 33 "proftpd intermediate"
-    chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 34 "proftpd owner"
-    chmod 600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 35 "proftpd perms"
-
-    # Check config
-    if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
-        && grep -q "^TLSRSACertificateKeyFile\s*${PROFTPD_PRIV}\$" /etc/proftpd/tls.conf \
-        && grep -q "^TLSCACertificateFile\s*${PROFTPD_SUB}\$" /etc/proftpd/tls.conf; then
-
-        service proftpd restart
-
-        # Test FTP
-        echo "QUIT"|openssl s_client -crlf -CAfile "$CABUNDLE" -connect localhost:21 -starttls ftp
-        echo "AUTH TLS result=$?"
-    else
-        echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" 1>&2
-    fi
-}
-
 Apache2() {
     [ -z "$APACHE_PUB" ] && return 1
     [ -z "$APACHE_PRIV" ] && return 1
@@ -230,7 +203,7 @@ Apache2() {
 
         # Test HTTPS
         SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_SSL_CONFIG"|cut -d' ' -f2)"
-        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
+        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443 < /dev/null
         echo "HTTPS result=$?"
     else
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
@@ -260,10 +233,38 @@ Nginx() {
 
         # Test HTTPS
         SERVER_NAME="$(sed -ne '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_SSL_CONFIG")"
-        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443
+        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect ${SERVER_NAME}:443 < /dev/null
         echo "HTTPS result=$?"
     else
         echo "Edit Nginx ssl_certificate and ssl_certificate_key and ssl_dhparam" 1>&2
+    fi
+}
+
+Proftpd() {
+    [ -z "$PROFTPD_PUB" ] && return 1
+    [ -z "$PROFTPD_PRIV" ] && return 1
+    [ -z "$PROFTPD_SUB" ] && return 1
+
+    [ -d "$(dirname "$APACHE_PUB")" ] || Die 30 "proftpd ssl dir"
+
+    cp "$PUB" "$PROFTPD_PUB" || Die 31 "proftpd public"
+    cp "$PRIV" "$PROFTPD_PRIV" || Die 32 "proftpd private"
+    cp "$SUB" "$PROFTPD_SUB" || Die 33 "proftpd intermediate"
+    chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 34 "proftpd owner"
+    chmod 600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_SUB" || Die 35 "proftpd perms"
+
+    # Check config
+    if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
+        && grep -q "^TLSRSACertificateKeyFile\s*${PROFTPD_PRIV}\$" /etc/proftpd/tls.conf \
+        && grep -q "^TLSCACertificateFile\s*${PROFTPD_SUB}\$" /etc/proftpd/tls.conf; then
+
+        service proftpd restart
+
+        # Test FTP
+        echo "QUIT"|openssl s_client -crlf -CAfile "$CABUNDLE" -connect localhost:21 -starttls ftp
+        echo "AUTH TLS result=$?"
+    else
+        echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" 1>&2
     fi
 }
 

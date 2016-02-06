@@ -358,7 +358,7 @@ mkdir -v /usr/local/share/ca-certificates/${CA_NAME}
 cp -v ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
 update-ca-certificates -v -f
 # Monitor certificates
-cd ${D}; ./install.sh security/cert-expiry.sh
+cd ${D}; ./install.sh monitoring/cert-expiry.sh
 
 # Block dangerous networks
 cd ${D}/security/myattackers-ipsets/

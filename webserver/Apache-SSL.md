@@ -25,6 +25,8 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
 
     SSLCompression Off
 
+    # ??? SSLSessionTickets Off
+
     # OCSP Stapling (could also be in every virtual host)
     SSLUseStapling On
     SSLStaplingResponderTimeout 5

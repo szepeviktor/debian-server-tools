@@ -125,7 +125,7 @@ chkconfig --list
 ### Display files sizes in a package
 
 ```bash
-dpkg -L systemd|while read -r F;do [ -d "$F" ]||du -sk "$F";done|sort -n
+dpkg -L $PACKAGE|while read -r F;do [ -d "$F" ]||du -sk "$F";done|sort -n
 ```
 
 ### Display list of packages in order of package size

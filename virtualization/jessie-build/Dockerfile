@@ -1,6 +1,7 @@
 # jessie-build
 #
 # VERSION 0.1.0
+# BUILD docker build -t szepeviktor/jessie-build jessie-build
 
 FROM debian:jessie
 
