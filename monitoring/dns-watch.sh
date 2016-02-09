@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.7
-# DATE          :2015-10-26
+# VERSION       :0.2.8
+# DATE          :2016-02-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -303,7 +303,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
 
     # Check RR-s
     while read -d "," RR; do
-        #DBG "$RR"
+        #DBG echo "$RR"
         if [ -z "$RR" ]; then
             echo "Empty RR in config for ${DNAME}" 1>&2
             exit 101
@@ -317,6 +317,11 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
 
             # Actual IP address of nameserver
             NS_IP="$(getent ahostsv4 "$NS" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
+            if [ -z "$NS_IP" ]; then
+                Alert "${DNAME}/${RRTYPE}/${NS}" "Cannot resolve IP address of NS ${NS}"
+                continue
+            fi
+
             # Failures per nameserver
             if [ -z "${NS_FAILURES[$NS_IP]}" ]; then
                declare -i NS_FAILURES[$NS_IP]="0"

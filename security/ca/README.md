@@ -33,3 +33,9 @@ update-ca-certificates -v -f
 openssl x509 -noout -modulus -in /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE} | openssl sha256 \
     | grep --color "769d14e4068b1eb76bf753bdb04d36ec9e0f7237229f30566af82eae76ecdb4d"
 ```
+
+### Renew a certificate
+
+```bash
+??? openssl x509 -x509toreq -in ${C}/pub-key-$(date +%Y%m%d).pem -signkey ${C}/priv-key-$(date +%Y%m%d).key
+```

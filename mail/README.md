@@ -131,7 +131,7 @@ echo "|/pipe/command" > /var/mail/localhost/user/.courier-foo-default
 ### Spamtrap
 
 ```
-spamtrap@domain.net:  |/usr/local/bin/multi-stdout.sh "/usr/bin/spamc --learntype=spam --max-size=1048576" "/usr/bin/spamc --reporttype=report --max-size=1048576"
+spamtrap@domain.net:  |/usr/local/bin/multi-stdout.sh "/usr/bin/spamc -4 --learntype=spam --max-size=1048576" "/usr/bin/spamc -4 --reporttype=report --max-size=1048576"
 problematic@address.es:  spamtrap@domain.net
 ```
 

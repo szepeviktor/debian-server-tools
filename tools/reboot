@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Safe reboot.
+#
+# VERSION       :0.1.0
+# DATE          :2016-02-08
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install grub-pc
+# LOCATION      :/usr/local/sbin/reboot
+
+# Usage/Remarks
+#
+#     REBOOT=1 reboot
+
+GRUB_CONFIG="/boot/grub/grub.cfg"
+
+if [ "$REBOOT" != 1 ]; then
+    echo "Try  REBOOT=1 reboot $*"
+    exit 0
+fi
+
+FIRST_ROOT="$(sed -ne '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
+DISK=""
+
+# Block device
+if [ "${FIRST_ROOT:0:4}" == "/dev" ]; then
+    DISK="$FIRST_ROOT"
+fi
+
+# UUID
+if [ "${FIRST_ROOT:0:5}" == "UUID=" ]; then
+    DISK="$(readlink -e "/dev/disk/by-uuid/${FIRST_ROOT#UUID=}")"
+fi
+
+if [ -b "$DISK" ] && grep -q "^${DISK}\s" /proc/mounts; then
+    clear
+    /sbin/reboot "$@" &
+    tail -f /var/log/syslog
+else
+    echo "root not found (${FIRST_ROOT})" 1>&2
+    exit 1
+fi
