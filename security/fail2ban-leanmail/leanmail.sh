@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.6
+# VERSION       :0.2.7
 # DATE          :2015-11-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -88,6 +88,7 @@ declare -a AS_HOSTING=(
     AS5577  # root SA
     AS36352 # ColoCrossing
     AS29073 # Ecatel LTD
+    AS24940 # Hetzner Online GmbH
 )
 
 # Labs
@@ -504,7 +505,7 @@ if [ "$IP" != 10.0.0.2 ]; then
 # if sed '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'; then
 #     INSTANT_SECRET=""
 #     wget -q -O- --post-data="auth=$(echo -n "${IP}${INSTANT_SECRET}"|shasum -a 256|cut -d" " -f1)&ip=${IP}" \
-#         https://site/dnsbl.php &> /dev/null
+#         https://SITE/dnsbl.php &> /dev/null
 # fi |
     /usr/sbin/sendmail -f "$SENDER" "$DEST"
 fi

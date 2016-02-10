@@ -10,7 +10,7 @@
 #               3. Hang up during HTTP on SMTP.
 #           Mail rejected by spamassassin3.py
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
-            ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?$
+            ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: (HOST: \S+|GET \S+ \S+|\.)$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
