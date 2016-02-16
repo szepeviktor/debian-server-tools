@@ -113,7 +113,7 @@ echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/prefer
 # Wget defaults
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 
-# User settings
+# User settings for non-login shells
 editor /root/.bashrc
 
 # ---------------------------------------------------------------------
@@ -121,10 +121,34 @@ editor /root/.bashrc
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
 
-export IP="$(ifconfig|sed -ne '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
 #export IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
-# Reverse DNS record (PTR)
-host "$IP"
+export IP="$(ifconfig|sed -ne '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+export LS_OPTIONS='--color=auto'
+eval "$(dircolors)"
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+export GREP_OPTIONS="--color"
+#alias grep='grep $GREP_OPTIONS'
+alias iotop='iotop -d 0.1 -qqq -o'
+alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
+alias transit='xz -9|base64 -w $((COLUMNS-1))'
+alias transit-receive='base64 -d|xz -d'
+#alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
+#     apt-get install -y tcpdump tcpflow
+#alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
+
+# ---------------------------------------------------------------------
+
+# User settings for login shells
+editor /root/.profile
+
+# ---------------------------------------------------------------------
 
 PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
 # Yellow + Cyan: $(tput setaf 3) \u $(tput bold;tput setaf 6)
@@ -147,26 +171,6 @@ else
         export MC_SKIN="xoria256"
     fi
 fi
-
-export LS_OPTIONS='--color=auto'
-eval "$(dircolors)"
-alias ls='ls $LS_OPTIONS'
-alias ll='ls $LS_OPTIONS -l'
-alias l='ls $LS_OPTIONS -lA'
-
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-export GREP_OPTIONS="--color"
-#alias grep='grep $GREP_OPTIONS'
-alias iotop='iotop -d 0.1 -qqq -o'
-alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
-alias transit='xz -9|base64 -w $((COLUMNS-1))'
-alias transit-receive='base64 -d|xz -d'
-#alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
-#     apt-get install -y tcpdump tcpflow
-#alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 
 # Colorized man pages with less
 #     update-alternatives --set pager /usr/bin/less
@@ -390,6 +394,8 @@ editor /etc/hosts
 #     # ORIGINAL-PTR $(host "$IP")
 #     IP.IP.IP.IP HOST.DOMAIN HOST
 host "$H"
+# Reverse DNS record (PTR)
+host "$IP"
 
 # Locale and timezone
 clear; locale; locale -a
@@ -950,11 +956,8 @@ Getpkg spamassassin
 #     export LC_TIME="en_US.UTF-8"
 
 # Simple syslog monitoring
-apt-get install -y libdate-manip-perl
-DGR="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -ne '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')" #'
-wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${DGR}/dategrep-standalone-small
-chmod -c +x /usr/local/bin/dategrep
-cd ${D}; ./install.sh monitoring/syslog-errors.sh
+cd ${D}; ./package/dategrep-install.sh
+./install.sh monitoring/syslog-errors.sh
 
 # Monit - monitoring
 #     https://packages.debian.org/sid/amd64/monit/download

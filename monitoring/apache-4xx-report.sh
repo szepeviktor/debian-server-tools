@@ -12,12 +12,7 @@
 # LOCATION      :/usr/local/sbin/apache-4xx-report.sh
 # CRON-DAILY    :/usr/local/sbin/apache-4xx-report.sh
 
-# Download the dategrep binary directly from GitHub (without package management)
-#
-#     apt-get install -y libdate-manip-perl
-#     R="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')"
-#     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
-#     chmod +x /usr/local/bin/dategrep
+# Use package/dategrep-install.sh
 
 CCZE_CSS_URL="https://szepe.net/wp-ccze/ccze-apache.css"
 CCZE_BODY_BG="#fdf6e3"
@@ -32,7 +27,7 @@ APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 Filter_client_server_error() {
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
-    grep "\" \(4\(0[0-9]\|1[0-7]\)\|50[0-5]\) [0-9]\+ \""
+    grep -E "\" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ \""
 }
 
 Color_html() {

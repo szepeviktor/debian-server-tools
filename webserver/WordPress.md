@@ -1,6 +1,8 @@
-uwp download core
+# Setup a production WordPress website
 
-# Directory structure
+`uwp download core`
+
+### Directory structure
 
 ```
 docroot─┬─index.php
@@ -14,12 +16,14 @@ docroot─┬─index.php
 
 wp-cli.yml options: path, user ...
 
-./wp-createdb.sh
+`./wp-createdb.sh`
 
 ```bash
 wp core config --dbname="$DBNAME" --dbuser="$DBUSER" --dbpass="$DBPASS" \
     --dbhost="$DBHOST" --dbprefix="prod" --dbcharset="$DBCHARSET" --extra-php <<EOF
 EOF
+
+read -r WPHOMEURL ....
 
 wp core install --url="${WPHOMEURL}/${COMPANY}" --title="Site Title" \
     --admin_user="$ME" --admin_password="$MYPASS" --admin_email=viktor@szepe.net
@@ -29,7 +33,7 @@ wp option set blog_public "0"
 wp option set admin_email "support@company.net"
 ```
 
-# Redis object cache
+### Redis object cache
 
 ```bash
 apt-get install redis-server
@@ -63,7 +67,7 @@ $redis_server = array( 'host' => '127.0.0.1',
 
 
 
-### On deploy / Staging->Production
+### On deploy and Staging->Production migration
 
 - `wp transient delete-all`
 - `wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')options WHERE option_name LIKE '%_transient_%'"`
@@ -72,7 +76,7 @@ $redis_server = array( 'host' => '127.0.0.1',
 - `wp db optimize`
 - WP Cleanup plugin
 
-### Settings
+#### Settings
 
 - General Settings
 - Writing Settings
@@ -92,14 +96,11 @@ $redis_server = array( 'host' => '127.0.0.1',
 
 Manual replace constants in `wp-config.php`.
 
-### Move a site to subdirectories
+### Moving a site to a subdirectory
 
 1. siteurl += /site
 1. search-and-replace: /wp-includes/ -> /site/wp-includes/
 1. search-and-replace: /wp-content/ -> /static/
-
-
-
 
 
 

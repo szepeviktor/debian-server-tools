@@ -13,6 +13,8 @@
 # CRON-WEEKLY   :/usr/local/bin/cert-expiry.sh
 # CONFIG        :~/.config/certexpiry/configuration
 
+# @TODO Add support for starttls: HOST:PORT:smtp HOST:PORT:imap
+
 # Alert 10 days before expiration
 ALERT_DAYS="10"
 

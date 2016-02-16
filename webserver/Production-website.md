@@ -60,6 +60,7 @@ MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 - HTML caching or no-cache?
+- Disallow HTML pages on CDN (robots-cdn.txt)
 - https://aws.amazon.com/console/
 
 ### Set up mail sending
@@ -250,6 +251,7 @@ http://google-public-dns.appspot.com/cache
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
 - Home call, external URL-s (fix: search for URL-s, use Snitch)
 - Non-HTTP/200 responses
+- BOM `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`
 - PHP short opentags `<?=`
 - PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
 - Always require admin code `whats-running`

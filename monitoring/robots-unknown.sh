@@ -13,6 +13,8 @@
 # LOCATION      :/usr/local/sbin/robots-unknown.sh
 # CRON-DAILY    :/usr/local/sbin/robots-unknown.sh
 
+# Use package/dategrep-install.sh
+#
 # Authorized robots with 10+ visits
 #
 #     grep -F "GET /robots.txt" /var/log/apache2/*access.log \
@@ -27,7 +29,7 @@ EMAIL_SUBJECT="[admin] Unknown robots from $(hostname -f)"
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Filter_ua() {
-    cut -d'"' -f6- \
+    cut -d '"' -f 6- \
     | grep -v "^-\"$\|^Mozilla/5\.0 .* Firefox/\|^Mozilla/5\.0 .* AppleWebKit/\|^Mozilla/[4-5]\.0 .* MSIE\
 \|^Mozilla/5\.0 .* Trident/7.0\|^Opera/[8-9]\.[0-9]* .* Presto/" \
     | grep -E -v "Googlebot|Googlebot-Image|Feedfetcher-Google|AdsBot-Google|Googlebot-Mobile|bingbot\
@@ -42,11 +44,11 @@ Digest_ua() {
 }
 
 if [ -z "$APACHE_CONFIGS" ]; then
-    echo "Apace log files could not be found." >&2
+    echo "Apace log files could not be found." 1>&2
     exit 1
 fi
 
-# APACHE_LOG_DIR is defined here
+# APACHE_LOG_DIR is defined in envvars
 source /etc/apache2/envvars
 
 # For non-existent previous log file
@@ -57,7 +59,7 @@ while read CONFIG_FILE; do
     SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
 
     # Substitute variables
-    ACCESS_LOG="$(echo "$ACCESS_LOG"|sed \
+    ACCESS_LOG="$(echo "$ACCESS_LOG" | sed \
         -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
 

@@ -22,12 +22,7 @@ grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554" \
 
 # Installation
 #
-# Download the dategrep binary directly from GitHub (without package management)
-#
-#     apt-get install -y libdate-manip-perl
-#     R="$(wget -qO- https://api.github.com/repos/mdom/dategrep/releases|sed -n '0,/^.*"tag_name": "\([0-9.]\+\)".*$/{s//\1/p}')"
-#     wget -O /usr/local/bin/dategrep https://github.com/mdom/dategrep/releases/download/${R}/dategrep-standalone-small
-#     chmod +x /usr/local/bin/dategrep
+# Use package/dategrep-install.sh
 #
 # - Set date format in `dategrep --format`
 # - Set filter regexp in Filter_log()

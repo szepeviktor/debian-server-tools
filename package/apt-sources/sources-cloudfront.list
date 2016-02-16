@@ -1,11 +1,11 @@
 # Amazon CloudFront mirror
-deb http://cloudfront.debian.net/debian/ jessie main contrib non-free
+deb http://cloudfront.debian.net/debian jessie main contrib non-free
 
 # Security
 deb http://security.debian.org/ jessie/updates main contrib non-free
 
 # Updates
-deb http://cloudfront.debian.net/debian/ jessie-updates main contrib non-free
+deb http://cloudfront.debian.net/debian jessie-updates main contrib non-free
 
 # Backports
-deb http://cloudfront.debian.net/debian/ jessie-backports main
+deb http://cloudfront.debian.net/debian jessie-backports main

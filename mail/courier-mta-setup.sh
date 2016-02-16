@@ -259,3 +259,5 @@ hostmaster@%DOMAIN%:  admin@%DOMAIN%
 # ??? dont deliver to noreply@*
 # editor /etc/courier/bofh
 #     badfrom noreply@*
+
+# DSN: Please consider using WeTransfer for sending BIG FILES / HU ...
