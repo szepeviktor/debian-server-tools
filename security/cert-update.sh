@@ -220,12 +220,14 @@ Apache2() {
     chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
 
     # Check config
-    if  grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}$" "$APACHE_VHOST_CONFIG" \
-        && grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$" "$APACHE_VHOST_CONFIG" \
+    if sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
+        | grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}$" \
+        && sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
+        | grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$" \
         && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs$" "$APACHE_VHOST_CONFIG" \
         && grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}$" "$APACHE_VHOST_CONFIG"; then
 
-        service apache2 restart
+        apache2ctl configtest && service apache2 restart
 
         # Test HTTPS
         SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_VHOST_CONFIG"|cut -d' ' -f2)"
@@ -255,7 +257,7 @@ Nginx() {
         && grep -q "^\s*ssl_certificate_key\s\+${NGINX_PRIV}\$" "$NGINX_VHOST_CONFIG" \
         && grep -q "^\s*ssl_dhparam\s\+${NGINX_DHPARAM}\$" "$NGINX_VHOST_CONFIG"; then
 
-        service nginx restart
+        nginx -t && service nginx restart
 
         # Test HTTPS
         SERVER_NAME="$(sed -ne '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_VHOST_CONFIG")"

@@ -4,7 +4,7 @@
 #
 
 # StartSSL Class 1 DV SSL certificate
-STARTSSL_CA_URL_CLASS1="https://startssl.com/root/sca.server1.crt"
+STARTSSL_CA_URL_CLASS1="https://www.startssl.com/certs/sca.server1.crt"
 STARTSSL_CA_CLASS1="./sca.server1.crt.pem"
 STARTSSL_OCSP_URL_CLASS1="http://ocsp.startssl.com/sub/class1/server/ca"
 STARTSSL_OCSP_HOST="ocsp.startssl.com"

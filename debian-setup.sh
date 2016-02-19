@@ -7,6 +7,18 @@
 # LICENSE       :The MIT License (MIT)
 # AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
 
+# @TODO Prepare for automation
+# - input values: dialog=whiptail save as bash variables (country, )
+# - input values: provider default values (hardware: net, disk+mounts; kernel: tz, ntp, cpufreq, rng, irqbalance, modules; users)
+# - virt-what + OS image check + sanitization (systemd?) + apt sources + dist-upgrade
+# - personal prefs: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
+# - configure installed packages (prefer: debconf)
+# - isntall services + configure (Linux daemons, ?etckeeper, mail delivery methods, fail2ban, nscd, /root/dist-mod)
+# - (list of) custom shell scripts + cron jobs
+# - populate /root/server.yml for every installed component
+# - system-backup.sh (debconf, etc, /root, user data, service data)
+
+
 # How to choose VPS provider?
 #
 # - Disk access time (~1 ms)

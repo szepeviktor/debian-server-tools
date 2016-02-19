@@ -56,6 +56,10 @@ MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 - browserconfig.xml
 - etc.
 
+### Maintenance
+
+Custom maintenance page
+
 ### Set up CDN
 
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
@@ -64,8 +68,6 @@ MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 - https://aws.amazon.com/console/
 
 ### Set up mail sending
-
-Consider transactional email service through HTTP API: Mailjet, Amazon SES ...
 
 `wp --allow-root plugin install --activate wp-mailfrom-ii smtp-uri`
 
@@ -78,6 +80,8 @@ Consider transactional email service through HTTP API: Mailjet, Amazon SES ...
 - easy identification for email notifications (filtering to mail folders)
 - SPF
 - DKIM
+
+Consider transactional email service through HTTP API: Mailjet, Amazon SES etc.
 
 Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
@@ -191,7 +195,7 @@ Put custom theme and plugins under git version control.
 
 Keep `git-dir` above document root.
 
-### Redirect old URL-s
+### Redirect old URL-s (SEO)
 
 `wp --allow-root plugin install --activate safe-redirect-manager`
 
@@ -221,6 +225,7 @@ http://google-public-dns.appspot.com/cache
 
 ### Code styling
 
+- UTF-8 encoding (no BOM)
 - Line ends
 - Indentation
 - Trailing spaces `sed -i 's;\s\+$;;' file.ext`
