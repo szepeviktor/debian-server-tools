@@ -1,0 +1,14 @@
+Source: ipset-persistent
+Section: net
+Priority: optional
+Maintainer: Grigoriy Bilichenko <g.bilichenko@ya.ru>
+Standards-Version: 3.9.5
+
+Package: ipset-persistent
+Architecture: all
+Depends: ipset, iptables-persistent
+Conflicts: lightwrapper
+Homepage: https://sourceforge.net/projects/ipset-persistent/
+Description: Boot-time loader for ipset rules
+ This package provides a system startup script that restores ipset rules from
+ a configuration file.

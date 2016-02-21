@@ -154,6 +154,8 @@ alias transit-receive='base64 -d|xz -d'
 #alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
 #     apt-get install -y tcpdump tcpflow
 #alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
+# http://www.vim.org/scripts/script.php?script_id=658
+#alias email='vim -c "startinsert" /tmp/e.eml'
 
 # ---------------------------------------------------------------------
 

@@ -46,27 +46,25 @@ timeout = 7
 [sshd]
 enabled  = true
 port     = @@SSHPORT@@
-logpath  = %(sshd_log)s
 maxretry = 3
 
 [sshd-ddos]
 enabled  = true
 port     = @@SSHPORT@@
-logpath  = %(sshd_log)s
 
 [apache-combined]
 enabled  = true
-port     = http,https
 logpath  = %(apache_error_log)s
-bantime  = 86400 ; 24h
 maxretry = 6
+bantime  = 86400 ; 24h
+port     = http,https
 
 [apache-instant]
 enabled  = true
-maxretry = 1
-port     = http,https
 logpath  = %(apache_error_log)s
+maxretry = 1
 bantime  = 86400 ; 24h
+port     = http,https
 
 [apache-cf1-combined]
 #[apache-cf2-combined]
@@ -74,8 +72,9 @@ bantime  = 86400 ; 24h
 #enabled  = true
 filter   = apache-combined
 logpath  = /var/log/apache2/CF*error.log
-bantime  = 86400 ; 24h
 maxretry = 6
+bantime  = 86400 ; 24h
+port     = http,https
 action   = %(action_cf_mgl)s
 cfemail  = 
 cfapikey = 
@@ -85,34 +84,33 @@ cfapikey =
 #[apache-cf3-instant]
 #enabled  = true
 filter   = apache-instant
-maxretry = 1
 logpath  = /var/log/apache2/CF*error.log
+maxretry = 1
 bantime  = 86400 ; 24h
+port     = http,https
 action   = %(action_cf_mgl)s
 cfemail  = 
 cfapikey = 
 
 [suhosin]
 #enabled  = true
-port     = http,https
 logpath  = %(suhosin_log)s
 bantime  = 604800  ; 1 week
+port     = http,https
 
 [horde]
 #enabled  = true
-port     = http,https
 logpath  = /var/log/horde/horde.log
 #logpath  = %(syslog_ftp)s
+port     = http,https
 
 [courier-smtp]
 #enabled  = true
-port     = smtp,465,submission
-logpath  = %(syslog_mail)s
+maxretry = 2
 
 [courier-auth]
 #enabled  = true
-port     = smtp,465,submission,imap3,imaps,pop3,pop3s
-logpath  = %(syslog_mail)s
+maxretry = 3
 
 [proftpd]
 # When the default locale for your system is not en_US.UTF-8
@@ -126,17 +124,18 @@ maxretry = 2
 # be sure to add this to /etc/default/proftpd
 # export LC_TIME="en_US.UTF-8"
 #enabled  = true
-maxretry = 1
-findtime = 10
-bantime  = 1
 filter   = proftpd-notif
-logpath  = /var/log/proftpd/proftpd.log
+logpath  = %(proftpd_log)s
+findtime = 10
+maxretry = 1
+bantime  = 1
+port     = ftp,ftp-data,ftps,ftps-data
 action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s]
 
 [recidive]
 enabled  = true
 logpath  = /var/log/fail2ban.log
-bantime  = 604800  ; 1 week
 findtime = 604800  ; 1 week
 maxretry = 3
+bantime  = 604800  ; 1 week
 action   = iptables-allports[name=recidive]

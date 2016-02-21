@@ -66,6 +66,7 @@ Custom maintenance page
 - HTML caching or no-cache?
 - Disallow HTML pages on CDN (robots-cdn.txt)
 - https://aws.amazon.com/console/
+- https://www.cloudflare.com/a/login see also CloudFlare.md
 
 ### Set up mail sending
 
@@ -73,8 +74,8 @@ Custom maintenance page
 
 `wp --allow-root eval 'wp_mail("viktor@szepe.net","first outgoing",site_url());'`
 
-- shortest route of delivery, add as `RELAYCLIENT`
 - encode email addresses `antispambot( 'e@ma.il' )`
+- shortest route of delivery, add server as `RELAYCLIENT`
 - email `From:` name and address
 - subject
 - easy identification for email notifications (filtering to mail folders)
@@ -89,14 +90,14 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 - Allow loading in an IFRAME? (Google translate, Facebook app)
 - `wordpress-fail2ban`
-- Sucuri plugin
-- [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php).
-- ionCube24 `ic24.enable = on` (PHP file modification time protection)
+- option: Sucuri Scanner plugin
+- option: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
+- option: ionCube24 `ic24.enable = on` (PHP file modification time protection)
 - Tripwire.php (file change notifications/30 minutes)
-- monitoring/siteprotection.sh (daily)
+- .php and .htaccess changes (monitoring/siteprotection.sh, daily)
 - Front page change notification (hourly)
 - Sucuri SiteCheck (SafeBrowsing), Virustotal (HTTP API, daily)
-- can-send-email (6 hours)
+- can-send-email (monitoring/cse, 6 hours)
 - Maxumum security: convert website into static HTML files + [formspree](https://formspree.io/)
 
 ### Set up cron jobs

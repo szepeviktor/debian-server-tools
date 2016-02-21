@@ -1,0 +1,10 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ipset-persistent
+Upstream-Contact: Grigoriy Bilichenko <g.bilichenko@ya.ru>
+Source: https://sourceforge.net/projects/ipset-persistent/
+
+Files: *
+Copyright: 2014 Grigoriy Bilichenko
+License: GPL-3+
+ The full text of the GPL is distributed as in
+ /usr/share/common-licenses/GPL-3 on Debian systems.

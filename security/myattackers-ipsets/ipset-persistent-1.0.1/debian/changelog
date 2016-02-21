@@ -1,0 +1,11 @@
+ipset-persistent (1.0.1) stable; urgency=low
+
+  * Small fixes.
+
+ -- Viktor Szépe <viktor@szepe.net>  Sun, 21 Feb 2016 20:36:49 +0000
+
+ipset-persistent (1.0) stable; urgency=low
+
+  * Initial release.
+
+ -- Grigoriy Bilichenko <g.bilichenko@ya.ru>  Thu, 11 Dec 2014 11:16:13 -0000
