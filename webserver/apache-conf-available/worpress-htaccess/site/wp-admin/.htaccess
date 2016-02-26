@@ -1,4 +1,4 @@
-# NO wp-admin PHP
+# NO wp-admin/install.php
 <Files install.php>
     # Apache < 2.3
     <IfModule !mod_authz_core.c>

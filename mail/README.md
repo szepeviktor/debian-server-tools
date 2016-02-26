@@ -17,11 +17,11 @@
 
 - https://www.mailjet.com/ Made with :heart: in Paris
 - https://aws.amazon.com/ses/ AWS
-- https://www.mandrill.com/ by MailChimp
 - https://sendgrid.com/
 - https://www.mailgun.com/ by Rackspace
-- https://postmarkapp.com/ by Wildbit
 - https://www.sendinblue.com/
+- https://postmarkapp.com/ by Wildbit
+- https://www.mandrill.com/ by MailChimp
 
 ### Marketing tools
 
@@ -167,10 +167,10 @@ D2 LOGOUT
 ### Spamassassin test and email authentication
 
 ```bash
-sudo -u daemon -- spamassassin --test-mode -D < msg.eml
+sudo -u daemon -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D < msg.eml
 
 # For specific tests see: man spamassassin-run
-sudo -u daemon -- spamassassin --test-mode -D dkim < msg-signed.eml
+sudo -u daemon -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D dkim < msg-signed.eml
 
 opendkim -vvv -t msg-signed.eml
 ```

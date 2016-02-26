@@ -9,11 +9,12 @@
 
 # @TODO Prepare for automation
 # - input values: dialog=whiptail save as bash variables (country, )
-# - input values: provider default values (hardware: net, disk+mounts; kernel: tz, ntp, cpufreq, rng, irqbalance, modules; users)
+# - input values: provider/virtualization default values (hardware: net, disk+mounts; kernel: tz, ntp, cpufreq, rng, irqbalance, modules; users)
 # - virt-what + OS image check + sanitization (systemd?) + apt sources + dist-upgrade
 # - personal prefs: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
+#     Scripts should be able to install, update, remove: ?package management
 # - configure installed packages (prefer: debconf)
-# - isntall services + configure (Linux daemons, ?etckeeper, mail delivery methods, fail2ban, nscd, /root/dist-mod)
+# - install services + configure (Linux daemons, ?etckeeper, mail delivery methods, fail2ban, nscd, /root/dist-mod)
 # - (list of) custom shell scripts + cron jobs
 # - populate /root/server.yml for every installed component
 # - system-backup.sh (debconf, etc, /root, user data, service data)
@@ -117,7 +118,7 @@ kill -SIGINT $$
 # http://without-systemd.org/wiki/index.php/How_to_remove_systemd_from_a_Debian_jessie/sid_installation
 dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit-utils \
     && cp -v /usr/share/sysvinit/inittab /etc/inittab
-read -r -s -p 'Ctrl + D to reboot ' || reboot
+read -r -s -e -p 'Ctrl + D to reboot ' || reboot
 
 apt-get purge -y --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
@@ -238,7 +239,7 @@ adduser ${U} sudo
 
 # Change root and other passwords to "*"
 editor /etc/shadow
-read -r -s -p "SSH port? " SSH_PORT
+read -r -s -e -p "SSH port? " SSH_PORT
 # sshd on another port (no "22"-s)
 sed "s/^Port 22$/#Port 22\nPort ${SSH_PORT}/" -i /etc/ssh/sshd_config
 # Disable root login
@@ -389,7 +390,7 @@ cd ${D}; ./install.sh security/myattackers.sh
 # Set A record and PTR record
 # Consider: http://www.iata.org/publications/Pages/code-search.aspx
 #           http://www.world-airport-codes.com/
-read -r -p "Host name? " H
+read -r -e -p "Host name? " H
 # Search for the old hostname
 grep -ir "$(hostname)" /etc/
 hostname "$H"
@@ -497,7 +498,7 @@ dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Sanitize files
 rm -vrf /var/lib/clamav /var/log/clamav
-read -r -p "Hosting company? " HOSTING_COMPANY
+read -r -e -p "Hosting company? " HOSTING_COMPANY
 find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"
@@ -596,6 +597,9 @@ editor /etc/chrony/chrony.conf
 #     # EZIT
 #     server ntp.ezit.hu offline
 service chrony restart
+# VMware clock
+vmware-toolbox-cmd timesync enable
+vmware-toolbox-cmd timesync status
 
 # µnscd
 apt-get install -y unscd
@@ -916,7 +920,7 @@ cd ${D}; ./install.sh webserver/webrestart.sh
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
-read -r -s -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
+read -r -s -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
 echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf

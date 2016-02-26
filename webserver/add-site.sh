@@ -11,8 +11,8 @@ exit 0
 # See: ${D}/monitoring/domain-expiry.sh
 # See: ${D}/monitoring/dns-watch.sh
 
-read -r -p "user name: " U
-read -r -p "domain name: (without WWW) " DOMAIN
+read -r -e -p "user name: " U
+read -r -e -p "domain name: (without WWW) " DOMAIN
 
 adduser --disabled-password --gecos "" ${U}
 
@@ -80,7 +80,7 @@ editor wp-cli.yml
 uwp core verify-checksums
 
 # Add your WP user
-uwp user create viktor viktor@szepe.net --role=administrator --user_pass=<PASSWORD> --display_name=v
+uwp user create viktor viktor@szepe.net --role=administrator --display_name=v --user_pass=<PASSWORD>
 
 # Clean up old data
 uwp transient delete-all

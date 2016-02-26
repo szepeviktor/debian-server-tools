@@ -33,6 +33,8 @@ wp option set blog_public "0"
 wp option set admin_email "support@company.net"
 ```
 
+@TODO Migrate to wp-lib
+
 ### Redis object cache
 
 ```bash
@@ -52,7 +54,7 @@ composer create-project -s dev erik-dubbelboer/php-redis-admin radmin
 In wp-config.php:
 
 ```php
-define( 'WP_CACHE_KEY_SALT', 'prod_' );
+define( 'WP_CACHE_KEY_SALT', 'COMPANY_' );
 /*
 $redis_server = array( 'host' => '127.0.0.1',
                        'port' => 6379

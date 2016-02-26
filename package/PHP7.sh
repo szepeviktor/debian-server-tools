@@ -78,3 +78,8 @@ apt-get install -y make binutils autoconf  automake autotools-dev libtool pkg-co
     libjansson-dev libjemalloc-dev
 spdylay....
 git-release ....
+
+# pear+pecl for PHP 7
+git clone --recursive https://anonscm.debian.org/git/pkg-php/php-pear.git
+cd php-pear*
+dpkg-buildpackage -uc -us -b
