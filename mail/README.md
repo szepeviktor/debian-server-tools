@@ -15,13 +15,13 @@
 
 ### Transactional email providers
 
-- https://www.mailjet.com/ Made with :heart: in Paris
-- https://aws.amazon.com/ses/ AWS
-- https://sendgrid.com/
+- https://www.mailjet.com/transactional Made with :heart: in Paris
 - https://www.mailgun.com/ by Rackspace
+- https://aws.amazon.com/ses/ by Amazon
+- https://sendgrid.com/
 - https://www.sendinblue.com/
-- https://postmarkapp.com/ by Wildbit
 - https://www.mandrill.com/ by MailChimp
+- https://postmarkapp.com/ by Wildbit
 
 ### Marketing tools
 

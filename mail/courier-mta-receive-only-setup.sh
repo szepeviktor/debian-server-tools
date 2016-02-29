@@ -10,25 +10,24 @@ exit 0
 #
 # - transport: SMTP, SMTP-TLS, SMTP-MSA, SMTPS
 #     - SMTP AUTH methods (CRAM-* needs clear passwords)
-#     - SSL certificate, settings
+#     - SSL certificate and settings
 # - whitelisting: skip Spamassassin tests, whitelist_block.py
 #     - relay clients (send-only servers using this host as a smarthost, whitelist_relayclients.py)
 #     - managed hosts
-#   / - incoming forwarded mail (upcmail, gmail, freemail, citromail, indamail)
-#   | - providers (monitoring, shared/VPS/server hosting, object storage, DNS, WAF/proxy, CDN, ISP, bank)
-#   | - other subscriptions (mailing lists, forums, trials)
-#    \__> keepass
+#     - keepass-> incoming forwarded mail (upcmail, telekom, gmail, freemail, citromail, indamail)
+#     - keepass-> providers (monitoring, shared/VPS/server hosting, object storage, DNS, WAF/proxy, CDN, ISP)
+#     - keepass-> other subscriptions (banks, mailing lists, forums, trials)
 #     - broken SMTP servers (missing PTR, invalid MAIL FROM: etc.)
-#     - extra cases (can-send-email, timeweb.ru relay)
+#     - extra cases (can-send-email hosts, timeweb.ru relay)
 #     - hosts with broken STARTTLS (advertised but unavailable, in esmtproutes `/SECURITY=NONE`)
 # - blacklisting
 #     - courier-pythonfilter filters
-#     - spamassassin, RBL-s, multi.uribl.com DNS
+#     - spamassassin, RBL-s, DNs server for multi.uribl.com
 #     - pyzor
 #     - Fail2ban
 #     - BIG-mail spammers
 #     - AUTH attackers
-#     How??? 1. reverse DNS hostname (PTR record),  2. From address (bofh)  3. Envelop sender (MAIL FROM:)
+#     How to blacklist??? 1. reverse DNS hostname(PTR record) ?,  2. From address: bofh  3. Envelop sender:(MAIL FROM:) ?
 # - fetchmail
 #
 # READING MAIL (imapd)
@@ -44,8 +43,8 @@ exit 0
 # - MAIL_FILER_EXCEPTION='courierfilter:.*xception'
 # - MAIL_BROKEN='4[0-9][0-9]\s*tls\|Broken pipe'
 # - weekly: grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554"
-# - yearly: archive inbox and sent folders
 # - monthly: top10-mailfolders.sh
+# - yearly: archive inbox and sent folders
 
 # Courier MTA setup
 # See: ${D}/debian-setup.sh
@@ -54,7 +53,7 @@ exit 0
 #     /usr/local/lib/python2.7/dist-packages/pythonfilter
 apt-get install -y python-gdbm
 pip2 -v install courier-pythonfilter
-grep -E "^(MAILUSER|MAILGROUP)\s*=" /etc/courier/esmtpd # "daemon"
+grep -E "^(MAILUSER|MAILGROUP)\s*=" /etc/courier/esmtpd # == "daemon"
 install -v --owner=daemon --group=daemon -d /var/lib/pythonfilter
 ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters/pythonfilter
 filterctl start pythonfilter && readlink /etc/courier/filters/active/pythonfilter

@@ -186,3 +186,8 @@ ln -svf /usr/bin/colorgcc /usr/local/bin/gcc
 ln -svf /usr/bin/colorgcc /usr/local/bin/cc
 #ln -svf /usr/bin/colormake /usr/local/bin/make
 ```
+
+### Makeself - A self-extracting archiving tool
+
+http://stephanepeter.com/makeself/
+

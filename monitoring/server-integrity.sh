@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Check your VPS' resources daily.
+# Check your server's resources daily.
 #
 # VERSION       :0.4.5
 # DATE          :2015-11-12
@@ -9,10 +9,10 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install iproute2 heirloom-mailx
-# LOCATION      :/usr/local/sbin/vpscheck.sh
-# CRON.D        :@reboot	root	/usr/local/sbin/vpscheck.sh
-# CRON-DAILY    :/usr/local/sbin/vpscheck.sh
-# CONFIG        :~/.config/vpscheck/configuration
+# LOCATION      :/usr/local/sbin/server-integrity.sh
+# CRON.D        :@reboot	root	/usr/local/sbin/server-integrity.sh
+# CRON-DAILY    :/usr/local/sbin/server-integrity.sh
+# CONFIG        :~/.config/server-integrity/conf
 
 # Checks
 # - CPU
@@ -28,7 +28,7 @@
 # - MX
 #
 # Generate config
-#     vpscheck.sh -gen
+#     server-integrity.sh -gen
 #
 # Examine the checks below ( `Add_check()` calls )
 #
@@ -71,7 +71,7 @@ Add_check() {
 
 Translate() {
     local WORD="$1"
-    local -A DICT=( [PROC]="CPU#irqbal" [MEM]="RAM" [PART]="DISK" [DNS1]="DNS" [GW]="GATEWAY" )
+    local -A DICT=( [PROC]="CPU#irqbal" [MEM]="RAM" [PCI]="DEVICES" [PART]="DISK" [DNS1]="DNS" [GW]="GATEWAY" )
 
     if [ -z "${DICT[$WORD]}" ]; then
         echo "$WORD"
@@ -112,7 +112,7 @@ PATH+=":/sbin:/usr/sbin"
 # Check current user and dependencies
 Needs_root_commands
 
-VPS_CONFIG="${HOME}/.config/vpscheck/configuration"
+VPS_CONFIG="${HOME}/.config/server-integrity/conf"
 
 # Globals
 declare -A CHECKS=( )
@@ -130,22 +130,29 @@ else
 fi
 
 
-# Number of CPU-s
-Add_check PROC 'grep -c "^processor" /proc/cpuinfo'
+# Number of CPU cores
+Add_check PROC 'grep -c "^processor\b" /proc/cpuinfo'
 
 # Total memory (kB)
 Add_check MEM 'sed -n "s/^MemTotal:\s\+\(\S\+\).*$/\1/p" /proc/meminfo'
 
+# PCI devices (MD5 hash)
+Add_check PCI 'lspci -n | md5sum | cut -d " " -f 1'
+
+# USB devices (MD5 hash)
+#Add_check USB 'lsusb | cut -d " " -f 1-6'
+
 # Disk partitions
-# - VMware /dev/sd*
-# - XEN /dev/xvd*
-# - KVM dev/vd*
-# - OpenVZ: no disk devices, comment out this check
-Add_check PART 'ls /dev/sd* | paste -s -d","'
+#  - phyisical /dev/[sh]d*
+#  - VMware /dev/sd*
+#  - XEN /dev/xvd*
+#  - KVM dev/vd*
+#  - OpenVZ: no disk devices, comment out this check
+Add_check PART 'ls /dev/sd* | paste -s -d ","'
 
 # Swap sizes (kB)
-#Add_check SWAP 'tail -n +2 /proc/swaps | sed "s;\s\+;\t;g" | cut -f 3 | paste -s -d", "'
-Add_check SWAP 'sed "1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g" /proc/swaps | paste -s -d", "'
+#Add_check SWAP 'tail -n +2 /proc/swaps | sed "s;\s\+;\t;g" | cut -f 3 | paste -s -d ", "'
+Add_check SWAP 'sed -e "1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g" /proc/swaps | paste -s -d ", "'
 
 # Kernel clock source
 Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocksource'
@@ -157,11 +164,11 @@ Add_check CLOCK 'cat /sys/devices/system/clocksource/clocksource0/current_clocks
 Add_check DNS1 'grep -m 1 "^nameserver" /etc/resolv.conf | grep -o "[0-9.]\+"'
 
 # First IPv4 address
-Add_check IP 'ip addr show|sed -n "s/^\s*inet \([0-9\.]\+\)\b.*$/\1/p"|grep -F -v -m 1 "127.0.0."'
+Add_check IP 'ip addr show|sed -ne "s/^\s*inet \([0-9\.]\+\)\b.*$/\1/p"|grep -F -v -m 1 "127.0.0."'
 
 # Default gateway (IPv4 only)
-Add_check GW 'ip route | grep "^default via " | cut -d" " -f 3'
-# FIXME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
+Add_check GW 'ip route | grep "^default via " | cut -d " " -f 3'
+# @FIXME "default dev venet0  scope link" if grep -w "default dev [[:alnum:]]\+ "; then grep \1
 
 # First hop towards the nearest root server
 # There could be more than one router!
@@ -170,7 +177,7 @@ Add_check HOP 'traceroute -n -m 1 ${HOP_TO} | tail -n 1 | cut -d " " -f 4'
 #Add_check HOP 'traceroute -n -m 2 ${HOP_TO} | sed -ne "\$s/^ 2  \([0-9.]\+\) .*\$/\1/p"'
 
 # First mail exchanger
-Add_check MX 'host -t MX $(hostname -f)|sed -n "0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/{s//\1/p}"'
+Add_check MX 'host -t MX $(hostname -f)|sed -ne "0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/{s//\1/p}"'
 
 Check_vps
 
@@ -178,6 +185,7 @@ if [ "$GENERATE_DEFAULTS" == 1 ]; then
     mkdir -p "$(dirname "$VPS_CONFIG")"
     echo "$MAIL_CONTENT"
     echo "Create config:  editor ${VPS_CONFIG}"
+
     exit 0
 fi
 
@@ -188,6 +196,7 @@ if tty --quiet; then
     echo "DIFF=${DIFF}" >&2
 else
     echo "$MAIL_CONTENT" \
-        | mailx -S from="vpscheck <root>" -s "[ad.min] WARNING - ${DIFF}changed on $(hostname -f)" root
+        | mailx -S from="server-integrity <root>" -s "[ad.min] WARNING - ${DIFF}changed on $(hostname -f)" root
 fi
+
 exit 100

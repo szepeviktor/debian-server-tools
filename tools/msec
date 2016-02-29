@@ -29,7 +29,7 @@
 #
 #     MSEC_DOT=_ msec php index.php
 #
-# Display increase/decrease of execution time as percentage.
+# Display increase/decrease in execution time as percentage.
 #
 #     MSEC_PERC=1 msec ls -R /var
 

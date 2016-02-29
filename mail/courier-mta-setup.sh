@@ -261,3 +261,8 @@ hostmaster@%DOMAIN%:  admin@%DOMAIN%
 #     badfrom noreply@*
 
 # DSN: Please consider using WeTransfer for sending BIG FILES / HU ...
+
+# TLS_PROTOCOL,TLS_CIPHER_LIST for courierd, esmtpd, esmtpd-ssl, imapd, imapd-ssl
+
+# more than 20 recipients -> use mailgun mailing list https://mailgun.com/
+# set courier: bofh / maxrcpts 20 hard

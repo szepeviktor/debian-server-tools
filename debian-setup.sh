@@ -10,11 +10,12 @@
 # @TODO Prepare for automation
 # - input values: dialog=whiptail save as bash variables (country, )
 # - input values: provider/virtualization default values (hardware: net, disk+mounts; kernel: tz, ntp, cpufreq, rng, irqbalance, modules; users)
-# - virt-what + OS image check + sanitization (systemd?) + apt sources + dist-upgrade
+# - virt-what,is_hypervisor + OS image check + sanitization (systemd?) + apt sources + dist-upgrade
 # - personal prefs: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
 #     Scripts should be able to install, update, remove: ?package management
-# - configure installed packages (prefer: debconf)
-# - install services + configure (Linux daemons, ?etckeeper, mail delivery methods, fail2ban, nscd, /root/dist-mod)
+# - configure installed (essential) packages (prefer: debconf, add monit config)
+# - create metapackages (equivs) only_on_virt, only_on_physical(console-setup console-setup-linux kbd xkb-data)
+# - install services + configure (Linux daemons, ?etckeeper, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
 # - (list of) custom shell scripts + cron jobs
 # - populate /root/server.yml for every installed component
 # - system-backup.sh (debconf, etc, /root, user data, service data)
@@ -93,7 +94,7 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
-    time bash-completion htop bind9-host mc lynx ncurses-term aptitude iproute2 ipset
+    time bash-completion htop host mc lynx ncurses-term aptitude iproute2 ipset
 ln -svf /usr/bin/host /usr/local/bin/mx
 
 # Input
@@ -298,6 +299,8 @@ uname -a
 # List available kernel versions
 apt-cache policy "linux-image-3.*"
 #apt-get install linux-image-amd64=KERNEL-VERSION
+# Alert: more than 1 kernel
+# aptitude --disable-columns search '?and(?installed, ?name(^linux-image-))' -F"%p" | grep -vFx "linux-image-$(dpkg --print-architecture)"
 clear; ls -l /lib/modules/
 ls -latr /boot/
 # Verbose boot
@@ -422,18 +425,25 @@ dpkg-reconfigure -f noninteractive locales
 cat /etc/timezone
 echo "tzdata tzdata/Areas select Etc" | debconf-set-selections -v
 echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
-# This FAILS! dpkg-reconfigure -f noninteractive tzdata
-dpkg-reconfigure tzdata
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=704089
+rm -f /etc/timezone
+dpkg-reconfigure -f noninteractive tzdata && service rsyslog restart
 
 # Sanitize packages (-hardware-related +monitoring -daemons)
-# 1. Delete not-installed packages
+# List selected tasks
+debconf-show tasksel;  # tasksel --list-tasks | grep "^i"
+# https://www.debian.org/doc/manuals/aptitude/ch02s04s05.en.html
+# 1. Purge not installed packages
 clear; dpkg -l|grep -v "^ii"
+aptitude search '?garbage'
+aptitude search '?broken'
+apt-get purge $(aptitude --disable-columns search '?config-files' -F"%p")
 # 2. Usually unnecessary packages
 apt-get purge \
-    at ftp dc dbus rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
+    at ftp dc rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
     lrzsz mlocate rpcbind nfs-common w3m installation-report debian-faq info \
     install-info manpages man-db texinfo tex-common \
-    vim-runtime vim-common isc-dhcp-client isc-dhcp-common
+    dbus isc-dhcp-client isc-dhcp-common
 deluser Debian-exim
 deluser messagebus
 # 3. VPS monitoring
@@ -444,7 +454,6 @@ vmware-toolbox-cmd stat sessionid
 vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
 rm -vrf /usr/lib/vmware-tools
 apt-get install -y open-vm-tools
-
 # 4. Hardware related
 dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup\
 |acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|popularity-contest"
@@ -452,22 +461,28 @@ apt-get purge dmidecode eject laptop-detect usbutils kbd console-setup \
     acpid fancontrol hddtemp lm-sensors sensord smartmontools mdadm popularity-contest
 # 5. Non-stable packages
 clear; dpkg -l|grep "~[a-z]\+"
-dpkg -l|grep -E "~squeeze|python2\.6|~wheezy|\+deb7"
+dpkg -l|grep -E "~squeeze|\+deb6|python2\.6|~wheezy|\+deb7"
 # 6. Non-Debian packages
 aptitude search '?narrow(?installed, !?origin(Debian))'
 # 7. Obsolete packages
 aptitude search '?obsolete'
-# 8. Manually installed, not "required" and not "important" packages minus known ones
-#wget https://github.com/szepeviktor/debian-server-tools/raw/master/package/debian-jessie-not-req-imp.pkg
-aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%p" \
-    | grep -v -x -f ${D}/package/debian-jessie-not-req-imp.pkg | xargs echo
+# 8. Manually installed packages
+# "The base system consists of all those packages with priority required or important."
+aptitude --disable-columns search '?and(?essential, ?not(?installed))' -F"%p"
+aptitude --disable-columns search '?and(?priority(required), ?not(?installed))' -F"%p"
+aptitude --disable-columns search '?and(?priority(important), ?not(?installed))' -F"%p"
+# + ?priority(standard)
+aptitude search '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)))'
 # 9. Development packages
-dpkg -l|grep -- "-dev"
+aptitude search '?and(?installed, ?name(-dev))'
 # List by section
 aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%s %p"|sort
 
 dpkg -l | most
 apt-get autoremove --purge
+
+# Show debconf changes
+debconf-show --listowners | xargs -n 1 debconf-show | grep "^*"
 
 # Sanitize users
 #     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
@@ -589,13 +604,14 @@ editor /etc/default/ntpdate
 apt-get install -y chrony
 editor /etc/chrony/chrony.conf
 #     cmdport 0
+#     logchange 0.010
 #
-#     pool 0.cz.pool.ntp.org offline
-#     pool 0.hu.pool.ntp.org offline
+#     pool 0.cz.pool.ntp.org offline iburst
+#     pool 0.hu.pool.ntp.org offline iburst
 #     # OVH
-#     server ntp.ovh.net offline
+#     server ntp.ovh.net offline iburst
 #     # EZIT
-#     server ntp.ezit.hu offline
+#     server ntp.ezit.hu offline iburst
 service chrony restart
 # VMware clock
 vmware-toolbox-cmd timesync enable
@@ -609,14 +625,14 @@ editor /etc/nscd.conf
 #     negative-time-to-live   hosts   20
 service unscd stop && service unscd start
 
-# VPS check
-cd ${D}; ./install.sh monitoring/vpscheck.sh
-editor /usr/local/sbin/vpscheck.sh
-vpscheck.sh -gen
-editor /root/.config/vpscheck/configuration
-#editor /usr/local/sbin/vpscheck.sh
+# Server integrity
+cd ${D}; ./install.sh monitoring/server-integrity.sh
+editor /usr/local/sbin/server-integrity.sh
+server-integrity.sh -gen
+editor /root/.config/server-integrity/conf
+#editor /usr/local/sbin/server-integrity.sh
 # Test run
-vpscheck.sh
+server-integrity.sh
 
 # msmtp
 apt-get install -y msmtp-mta
@@ -627,7 +643,7 @@ cp -vf ${D}/mail/msmtprc /etc/
 #     http://msmtp.sourceforge.net/doc/msmtp.html
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
-# Courier MTA - deliver all mail to a smarthost
+# Courier MTA - deliver all messages to a smarthost
 #     Send-only servers don't receive emails.
 #     Send-only servers don't have local domain names.
 #     They should have an MX record pointing to the smarthost.

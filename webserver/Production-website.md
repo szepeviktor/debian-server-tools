@@ -109,7 +109,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - General Settings
 - Writing Settings
 - Reading Settings
-- Media Settings
+- Media Settings (reduce generated image sizes)
 - Permalink Settings
 - WP Mail From
 
@@ -218,9 +218,10 @@ http://google-public-dns.appspot.com/cache
 
 ### Marketing
 
+- External URL-s should open in new window
 - Newsletter subscribe
 - Offer free download
-- Exit modal/hijack box: coupon, free download, update notification etc.
+- Exit modal or Hijack box: coupon, free download, blog notification, newsletter etc.
 - Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
 
@@ -245,14 +246,14 @@ http://google-public-dns.appspot.com/cache
 #### Typical theme and plugin errors
 
 - Dynamically page parts (rotating quotes by PHP)
-- Dynamically generated resources (`style.css.php`, `grep "enqueue*.php"`)
+- Dynamically generated resources (`style.css.php`) `grep -E "(register|enqueue)*.php"`
 - Missing resource version in `wp_register_*()` `wp_enqueue_*()` calls
 - New WordPress entry point `grep -E "\brequire|include.*wp-"`
 - Extra server-side requests: HTTP, DNS, file access
 - Lack of `$_GET` and `$_POST` sanitization
 - Form field: `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
-- `@font-face` formats: eof, woff2, woff, ttf, svg
+- `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
 - Independent e-mail sending `grep -E "\b(wp_)?mail\("`
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
 - Home call, external URL-s (fix: search for URL-s, use Snitch)
@@ -278,7 +279,7 @@ http://google-public-dns.appspot.com/cache
 - image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
 - image optimization `jpeg-recompress $JPG $OPTI_JPG`
 - JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
-- conditional, lazy or late loading ( slider, map, facebook, image gallery )
+- conditional, lazy or late loading (slider, map, facebook content, image gallery)
 - light loading: `&controls=2`
 - HTTP/2 server push
 
@@ -300,7 +301,7 @@ tail -f /var/log/apache2/${SITE_USER}-error.log
 - XML sitemap
 - page title (blue in SERP)
 - permalink structure and slug optimization (green in SERP)
-- page meta desc (grey in SERP)
+- page meta description (grey in SERP)
 - headings: h1, h2 / h3-h6
 - images: alt
 - breadcrumbs
@@ -309,11 +310,23 @@ tail -f /var/log/apache2/${SITE_USER}-error.log
 - Content Keywords
 - [Google My Business](https://www.google.com/business/)
 
+### External resources (3rd party services)
+
+Document in README.md and check functionality.
+
+- External search
+- Analytics, tracking
+- Advertisement
+- Live chat
+- Newsletter subscription
+- Payment gateway
+- CDN
+
 ### Tracking
 
 Gain access, set up and test.
 
-- Analytics, Remarketing
+- Google Analytics, Remarketing
 - Facebook pixel
 - Piwik
 - Clicktale
