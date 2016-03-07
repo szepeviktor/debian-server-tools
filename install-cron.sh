@@ -2,7 +2,7 @@
 #
 # Install cron jobs from the script header.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2016-02-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -67,7 +67,7 @@ while read -r JOB; do
         CRON_FILE="/etc/cron.d/$(basename "${SCRIPT%.*}")"
         # Initialize cron.d file
         if [ $(( ++JOB_ID_D )) -eq 1 ]; then
-            touch > "$CRON_FILE"
+            touch "$CRON_FILE"
         fi
         echo "${JOB}" | cut -d ":" -f 2- >> "$CRON_FILE"
 

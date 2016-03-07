@@ -27,10 +27,9 @@ Failures() {
     --from "1 hour ago from -17:00" --to "-17:00" $(ls -tr /var/log/syslog* | tail -n 2) \
     | grep -F -v "$0" \
     | Failures \
-    | grep -E -v "courierd: SHUTDOWN: respawnlo limit reached, system inactive\." \
-    #| grep -E -v "error@|: 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
-    #| grep -E -v "spamd\[[0-9]+\]: spamd:" \
-    #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:"
+    | grep -E -v "error@|spamd\[[0-9]+\]: spamd:|courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$" \
+    #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
+    #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
 
 # Process boot log
 if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then

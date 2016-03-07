@@ -307,6 +307,7 @@ https://wordtothewise.com/isp-information/
 - https://mxtoolbox.com/problem/blacklist/
 - http://bgp.he.net/ip/1.2.3.4#_rbl
 - http://www.dnsbl-check.info/
+- http://multirbl.valli.org/
 - http://www.anti-abuse.org/
 
 #### Check RBL-s
@@ -314,6 +315,7 @@ https://wordtothewise.com/isp-information/
 ```bash
 cat anti-abuse.org.rbl | xargs -I %% host -t A "$(revip "$IP").%%" 2>&1 \
     | grep -v "not found: 3(NXDOMAIN)"
+#rblcheck
 ```
 
 Trendmicro ERS check

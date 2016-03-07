@@ -27,7 +27,7 @@ if [[ "$ARG" =~ ^[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:
         echo "$PTR"
         host -t A "${PTR##* domain name pointer }"
     else
-        echo "Couldn't find PTR record" >&2
+        echo "Couldn't find PTR record" 1>&2
     fi
 else
     # hostname -> IP -> hostname
@@ -38,6 +38,6 @@ else
         A="$(head -n 1 <<< "$A")"
         host -t PTR "${A##* has address }"
     else
-        echo "Couldn't find A record" >&2
+        echo "Couldn't find A record" 1>&2
     fi
 fi

@@ -9,7 +9,7 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/cron-old.sh
-# CRON.D        :* *	* * *	root	/usr/local/sbin/cron-old.sh
+# CRON.D        :*/5 *	* * *	root	/usr/local/sbin/cron-old.sh
 
 declare -i CRON_MAX_AGE="10"
 declare -i CRON_CHILD_AGE

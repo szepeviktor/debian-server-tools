@@ -107,6 +107,11 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-si
 # Name main SSL site (non-SNI) "001-${DOMAIN}.conf"
 # See: webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+# Include the HPKP header: backup key, "Public-Key-Pins-Report-Only:" "Public-Key-Pins:"
+# See: https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
+# See: https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
+openssl x509 -in /etc/apache2/ssl/${SITE_DOMAIN}-public.pem -noout -pubkey \
+    | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 
 # In case of "www." set ServerAlias
 editor ${DOMAIN}.conf

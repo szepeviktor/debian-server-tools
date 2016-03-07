@@ -307,7 +307,7 @@ ls -latr /boot/
 sed -i 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
 dpkg -l | grep "grub"
 # OVH Kernel "made-in-ovh"
-#     https://gist.github.com/szepeviktor/cf6b60ac1b2515cb41c1
+#     ${D}/security/ovh-kernel-update.sh
 # Linode Kernels: auto renew on reboot
 #     https://www.linode.com/kernels/
 editor /etc/modules
@@ -666,6 +666,7 @@ editor /etc/courier/esmtpauthclient
 # Diffie-Hellman parameter
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron.monthly job
+# @TODO Move it to a file
 echo -e '#!/bin/bash\nDH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null\nexit 0' > /usr/local/sbin/courier-dhparams.sh
 echo -e '#!/bin/bash\n/usr/local/sbin/courier-dhparams.sh' > /etc/cron.monthly/courier-dhparams
 chmod 755 /usr/local/sbin/courier-dhparams.sh /etc/cron.monthly/courier-dhparams

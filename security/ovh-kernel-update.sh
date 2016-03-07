@@ -14,18 +14,16 @@
 # LOCATION      :/usr/local/sbin/ovh-kernel-update.sh
 # CRON-DAILY    :/usr/local/sbin/ovh-kernel-update.sh
 
-
 # grsecurity + IPv6 + amd64 VPS
 OVH_KERNELS="ftp://ftp.ovh.net/made-in-ovh/bzImage/latest-production/"
 
 CURRENT="$(ls /boot/*-xxxx-grs-ipv6-64-vps)"
 
-cd /boot/
-lftp -e "mirror -i '.*-xxxx-grs-ipv6-64-vps$'; bye" "$OVH_KERNELS"
+lftp -e "lcd /boot/; mirror -i '.*-xxxx-grs-ipv6-64-vps$'; bye" "$OVH_KERNELS"
 
 NEW="$(ls /boot/*-xxxx-grs-ipv6-64-vps)"
 
-if ! [ "$CURRENT" == "$NEW" ]; then
-    echo -e "Reboot neccessary.\nnewest two kernels: $(ls -1tr /boot/bzImage-* | tail -n 2)" \
-        | mailx -s "new kernel from OVH for $(hostname -s)" root
+if [ "$CURRENT" != "$NEW" ]; then
+    echo -e "Run update-grub\nNewest kernels: $(ls -1tr /boot/bzImage-* | tail -n 2)" \
+        | mailx -s "New kernel from OVH on $(hostname --fqdn)" root
 fi

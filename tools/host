@@ -2,8 +2,8 @@
 #
 # Extract hostname from URL and execute BIND9 host command.
 #
-# VERSION       :0.1.2
-# DATE          :2014-11-19
+# VERSION       :0.2.0
+# DATE          :2016-03-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,35 +11,38 @@
 # DEPENDS       :apt-get install bind9-host
 # LOCATION      :/usr/local/bin/host
 
-# Only works with URL as the last option.
+# Usage
+#
+# The URL must be the last option.
 
-Un_url() {
-    localARG="$1"
+Get_hostname() {
+    local URL="$1"
 
     # Strip protocol, e.g. http://
-    ARG="${ARG#*//}"
+    URL="${URL#*//}"
     # Strip path and query, e.g. /contact/
-    ARG="${ARG%%/*}"
+    URL="${URL%%/*}"
     # Strip port, e.g. :8080
-    echo "${ARG%:*}"
+    echo "${URL%:*}"
 }
 
-which host &> /dev/null || exit 1
-[ -z "$1" ] && exit 2
+[ -x /usr/bin/host ] || exit 1
+[ -z "$*" ] && exit 2
 
 declare -a ARG_ARR
 declare -i LAST_INDEX
 
 # Copy command line arguments into ARG_ARR
 for ARG; do
-    ARG_ARR+=("${ARG}")
+    ARG_ARR+=( "${ARG}" )
 done
 
 LAST_INDEX="$(( ${#ARG_ARR[@]} - 1 ))"
+
 # Extract hostname
-ARG_ARR[$LAST_INDEX]="$(Un_url "${ARG_ARR[$LAST_INDEX]}")"
+ARG_ARR[$LAST_INDEX]="$(Get_hostname "${ARG_ARR[$LAST_INDEX]}")"
 
 # Empty hostname
 [ -z "${ARG_ARR[$LAST_INDEX]}" ] && exit 3
 
-/usr/bin/host "${ARG_ARR[@]}"
+exec /usr/bin/host "${ARG_ARR[@]}"

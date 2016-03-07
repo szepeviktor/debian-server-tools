@@ -173,6 +173,12 @@ apt-get install -y debpear
 debpear $PEAR_PKG
 ```
 
+### List globally installed node packages
+
+```bash
+npm -g ls --depth=0
+```
+
 ### Backporting guide
 
 https://wiki.debian.org/BuildingFormalBackports

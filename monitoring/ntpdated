@@ -2,13 +2,13 @@
 #
 # Run ntpdate daily and on reboot to correct the system clock.
 #
-# VERSION       :0.5.1
-# DATE          :2016-01-01
+# VERSION       :0.6.0
+# DATE          :2016-03-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :worker.szepe.net. DNS server
+# DEPENDS       :apt-get install ntpdate bind9-host
 # LOCATION      :/usr/local/sbin/ntpdated
 # CRON.D        :@reboot	root	/usr/local/sbin/ntpdated
 # CRON.D        :@hourly	root	/usr/local/sbin/ntpdated
@@ -16,21 +16,33 @@
 # Options can be set in /etc/default/ntpdate
 
 # Work-around for pool.ntp.org DNS failures
-POOL_RELAY="worker.szepe.net."
+Get_pool_ips() {
+    local -i SERVER_INDEX="0"
+    local -a SERVERS=( ${NTPSERVERS} 0.europe.pool.ntp.org )
+    local A_RECORDS
+    local -A IPS
 
-Get_pool_ip() {
-    host -t A 0.de.pool.ntp.org "$POOL_RELAY" 2>&1 \
-        | {
-            sed -ne 's/^0\.de\.pool\.ntp\.org\. has IPv4 address \([.0-9]\+\)$/\1/p'
-            # Fallback server
-            echo "0.de.pool.ntp.org"
-        } | head -n 4
+    while [ "${#IPS[*]}" -lt 4 ] && [ -n "${SERVERS[$SERVER_INDEX]}" ]; do
+        A_RECORDS="$(host -t A "${SERVERS[$SERVER_INDEX]}" 2>&1 | sed -ne 's;^\S\+ has \(IPv4 \)\?address \([.0-9]\+\)$;\2;p')"
+        # Retry on DNS failure
+        if [ -z "$A_RECORDS" ]; then
+            sleep 3
+            continue
+        fi
+        while read -r A; do
+            # Prevent duplication by using array indices
+            IPS[$A]="1"
+        done <<< "$A_RECORDS"
+        SERVER_INDEX+="1"
+    done
+
+    echo "${!IPS[*]}"
 }
 
 if [ -r /etc/default/ntpdate ]; then
     source /etc/default/ntpdate
 fi
 
-/usr/sbin/ntpdate -s ${NTPOPTIONS} "$@" $(Get_pool_ip)
+/usr/sbin/ntpdate -s ${NTPOPTIONS} $(Get_pool_ips)
 
 exit 0

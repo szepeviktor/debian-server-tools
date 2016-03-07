@@ -1,0 +1,28 @@
+# Shodan.io, type: all protocols
+#     for S in "" census{1..9}. census1{0..2}. {atlantic,pacific,rim}.census. atlantic.dns. blog. hello.data. www.; do
+#         host -t A "${S}shodan.io"
+#     done | sed -e 's;^.* \(has address\|has IPv4 address\) ;;' | sort | uniq
+#: ipset -exist restore < shodan-io.ipset
+#: iptables -I INPUT -m set --match-set shodan-io src -j REJECT
+create shodan-io hash:net family inet hashsize 256 maxelem 32
+flush shodan-io
+add shodan-io 66.240.192.138
+add shodan-io 66.240.236.119
+add shodan-io 71.6.135.131
+add shodan-io 71.6.165.200
+add shodan-io 71.6.167.142
+add shodan-io 82.221.105.6
+add shodan-io 82.221.105.7
+add shodan-io 85.25.43.94
+add shodan-io 85.25.103.50
+add shodan-io 93.120.27.62
+add shodan-io 104.25.154.35
+add shodan-io 104.25.155.35
+add shodan-io 104.131.0.69
+add shodan-io 104.236.198.48
+add shodan-io 188.138.9.50
+add shodan-io 198.20.69.74
+add shodan-io 198.20.69.98
+add shodan-io 198.20.70.114
+add shodan-io 198.20.99.130
+add shodan-io 209.126.110.38

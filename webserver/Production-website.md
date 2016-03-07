@@ -2,7 +2,7 @@
 
 1. [Installation](#installation)
 1. [Migration](#migration)
-1. [Update](#update)
+1. [Upgrade](#upgrade)
 1. [Check](#check)
 1. [Monitor](#monitor)
 1. [Backup](#backup)
@@ -20,8 +20,9 @@
 
 ### SSL certificate
 
-- For security
-- For trust
+- For safety (personal data)
+- For security (less attacks)
+- For trust (green lock in browsers)
 - For better SEO ranking
 - For receiving referrer information (up to April 2012)
 
@@ -101,6 +102,8 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - Maxumum security: convert website into static HTML files + [formspree](https://formspree.io/)
 
 ### Set up cron jobs
+
+Remove left-over WP-Cron events.
 
 `wp-cron-cli.sh`
 
@@ -207,10 +210,10 @@ Keep `git-dir` above document root.
 http://google-public-dns.appspot.com/cache
 
 
-## Update
+## Upgrade
 
 
-@TODO
+@TODO, Downgrade
 
 
 ## Check
@@ -263,9 +266,10 @@ http://google-public-dns.appspot.com/cache
 - PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
 - Always require admin code `whats-running`
 - Permissions for editors
+- Display content by JavaScript (causes FOUC)
 - Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
-- Display content by JavaScript (causes FOUC)
+- Firefox carot
 
 ### 404 page
 
@@ -303,12 +307,19 @@ tail -f /var/log/apache2/${SITE_USER}-error.log
 - permalink structure and slug optimization (green in SERP)
 - page meta description (grey in SERP)
 - headings: h1, h2 / h3-h6
-- images: alt
+- images: alt, title
 - breadcrumbs
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
 - structured data: https://schema.org/ http://microformats.org/
 - Content Keywords
 - [Google My Business](https://www.google.com/business/)
+
+### Legal
+
+- Privacy policy + opt out
+- Terms & Conditions
+- Cookie consent + opt out
+- "Operated by", "Hosted at"
 
 ### External resources (3rd party services)
 
@@ -332,19 +343,12 @@ Gain access, set up and test.
 - Clicktale
 - URL shortening: Link tracking, Download tracking
 
-### Legal
+### Last checks
 
-- Privacy policy + opt out
-- Terms & Conditions
-- Cookie consent + opt out
-- "Operated by", "Hosted at"
-
-### Last check
-
-- basic site functionality
-- registration
-- purchase
-- contact forms
+- Basic site functionality
+- Registration
+- Purchase
+- Contact forms
 
 
 ## Monitor
@@ -354,7 +358,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 1. Domain expiry
 1. DNS records
-1. @TODO `monitoring/rbl-watch.sh`, [RBL blacklist monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
+1. @TODO `monitoring/rbl-watch.sh`, `rblcheck`, [RBL blacklist monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
 1. HTML source code inspection
 1. Malware: [Sucuri SiteCheck (Safebrowsing)](https://sitecheck.sucuri.net/results/example.com), [Virustotal URL](https://www.virustotal.com/hu/domain/example.com/information/)
 1. Uptime: [Pingdom](https://www.pingdom.com/free/), `shared-hosting-aid/ping.php`

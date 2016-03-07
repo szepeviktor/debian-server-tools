@@ -14,12 +14,12 @@
 
 # Detect pipe
 if [ -t 0 ]; then
-    echo "Usage: dmesg|dmesg.sh" >&2
+    echo "Usage: dmesg|dmesg.sh" 1>&2
     exit 1
 fi
 
 NOW="$(date "+%s")"
-UPTIME="$(cut -d'.' -f 1 /proc/uptime)"
+UPTIME="$(cut -d "." -f 1 /proc/uptime)"
 declare -i BOOT="$(( NOW - UPTIME ))"
 
 # Cannot determine boot time
