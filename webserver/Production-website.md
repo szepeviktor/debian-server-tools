@@ -39,9 +39,9 @@
 
 ### Install plugins
 
-`wp --allow-root plugin install --activate classic-smilies`
+`wp plugin install --activate classic-smilies`
 
-`wp --allow-root plugin install --activate wordpress-seo w3-total-cache contact-form-7`
+`wp plugin install --activate wordpress-seo w3-total-cache contact-form-7`
 
 Disable comments? `mu-disable-comments`
 
@@ -71,9 +71,9 @@ Custom maintenance page
 
 ### Set up mail sending
 
-`wp --allow-root plugin install --activate wp-mailfrom-ii smtp-uri`
+`wp plugin install --activate wp-mailfrom-ii smtp-uri`
 
-`wp --allow-root eval 'wp_mail("viktor@szepe.net","first outgoing",site_url());'`
+`wp eval 'wp_mail("viktor@szepe.net","first outgoing",site_url());'`
 
 - encode email addresses `antispambot( 'e@ma.il' )`
 - shortest route of delivery, add server as `RELAYCLIENT`
@@ -99,7 +99,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - Front page change notification (hourly)
 - Sucuri SiteCheck (SafeBrowsing), Virustotal (HTTP API, daily)
 - can-send-email (monitoring/cse, 6 hours)
-- Maxumum security: convert website into static HTML files + [formspree](https://formspree.io/)
+- Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
 
 ### Set up cron jobs
 
@@ -112,7 +112,7 @@ Remove left-over WP-Cron events.
 - General Settings
 - Writing Settings
 - Reading Settings
-- Media Settings (reduce generated image sizes)
+- Media Settings (fewer generated image sizes)
 - Permalink Settings
 - WP Mail From
 
@@ -157,7 +157,7 @@ Check database collation and table storage engines.
 
 See: `alter-table.sql`
 
-`wp --allow-root plugin install --activate wp-sweep`
+`wp plugin install --activate wp-sweep`
 
 Delete transients and object cache.
 
@@ -169,11 +169,11 @@ wp cache flush
 
 Purge cache.
 
-`wp --allow-root w3-total-cache flush`
+`wp w3-total-cache flush`
 
 `ls -l /home/${U}/website/html/static/cache/`
 
-`ls -l /home/${U}/website/pagespeed/; u touch /home/${U}/website/pagespeed/cache.flush`
+`ls -l /home/${U}/website/pagespeed/; touch /home/${U}/website/pagespeed/cache.flush`
 
 Check spam and trash comments.
 
@@ -201,7 +201,7 @@ Keep `git-dir` above document root.
 
 ### Redirect old URL-s (SEO)
 
-`wp --allow-root plugin install --activate safe-redirect-manager`
+`wp plugin install --activate safe-redirect-manager`
 
 `https://www.google.com/search?q=site:${DOMAIN}`
 
@@ -221,6 +221,7 @@ http://google-public-dns.appspot.com/cache
 
 ### Marketing
 
+- [Videos by one person!](https://wistia.com/blog/startup-ceo-makes-videos)
 - External URL-s should open in new window
 - Newsletter subscribe
 - Offer free download
@@ -284,7 +285,7 @@ http://google-public-dns.appspot.com/cache
 - image optimization `jpeg-recompress $JPG $OPTI_JPG`
 - JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
 - conditional, lazy or late loading (slider, map, facebook content, image gallery)
-- light loading: `&controls=2`
+- light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
 
 ### PHP errors
@@ -378,7 +379,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. Connected services: trackers, API-s, CDN etc.
 1. Email delivery, also recipient accounts: `can-send-email`
 1. Also for email recipient domains: domain expiry, DNS, blacklist
-1. Speed: https://developers.google.com/speed/pagespeed/insights/ , https://www.webpagetest.org/
+1. Speed: https://developers.google.com/speed/pagespeed/insights/ https://www.webpagetest.org/
 1. Google Search Console
 1. Traffic: Analytics
 1. SEO ranking: SEO Panel
@@ -388,19 +389,22 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 
 1. DB
-1. files
-1. settings (connected services)
-1. auth
+1. Files
+1. Settings (connected services)
+1. Authentication data
 
 
 ## Uninstallation
 
 
-- [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
-- Monitoring
 - Archive for long term
+- Monitoring
 - Backups
 - DNS records
-- Webserver vhost / Placeholder page?
+- Webserver vhost, add placeholder page
+- Files
+- DB
 - Email accounts
+- External resources (3rd party services)
+- [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
 - ... @TODO

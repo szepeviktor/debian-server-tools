@@ -15,7 +15,7 @@
 #     Scripts should be able to install, update, remove: ?package management
 # - configure installed (essential) packages (prefer: debconf, add monit config)
 # - create metapackages (equivs) only_on_virt, only_on_physical(console-setup console-setup-linux kbd xkb-data)
-# - install services + configure (Linux daemons, ?etckeeper, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
+# - install services + configure (Linux daemons, ?etckeeper, ?needrestart, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
 # - (list of) custom shell scripts + cron jobs
 # - populate /root/server.yml for every installed component
 # - system-backup.sh (debconf, etc, /root, user data, service data)
@@ -589,6 +589,17 @@ sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron
 service cron restart
 
 # Time synchronization
+cd ${D}; ./install.sh monitoring/ntp-alert.sh
+# Check clock source
+cat /sys/devices/system/clocksource/clocksource0/available_clocksource
+# KVM (no ntp)
+# https://s19n.net/articles/2011/kvm_clock.html
+dmesg | grep "kvm-clock"
+grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksource
+# VMware (no ntp)
+vmware-toolbox-cmd timesync enable
+vmware-toolbox-cmd timesync status
+# NTPdate
 cd ${D}; ./install.sh monitoring/ntpdated
 editor /etc/default/ntpdate
 # http://support.ntp.org/bin/view/Servers/StratumTwoTimeServers
@@ -606,6 +617,7 @@ editor /etc/chrony/chrony.conf
 #     cmdport 0
 #     logchange 0.010
 #
+#     pool 0.de.pool.ntp.org offline iburst
 #     pool 0.cz.pool.ntp.org offline iburst
 #     pool 0.hu.pool.ntp.org offline iburst
 #     # OVH
@@ -613,9 +625,6 @@ editor /etc/chrony/chrony.conf
 #     # EZIT
 #     server ntp.ezit.hu offline iburst
 service chrony restart
-# VMware clock
-vmware-toolbox-cmd timesync enable
-vmware-toolbox-cmd timesync status
 
 # µnscd
 apt-get install -y unscd

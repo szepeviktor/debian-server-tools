@@ -245,10 +245,10 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - :sunny: :sunny: Descriptive subject line
 - :sunny: Short preview line at top of the message
 - Link to online version (newsletter archive)
-- Short main header line
-- Subheader lines
-- :bulb: Sections: image + title + description + call2action  https://litmus.com/subscribe
+- Short main header
+- :bulb: Sections: image + title + description + call2action, see: https://litmus.com/subscribe
 - External resources should be able to load through HTTPS (opening in a HTTPS webmail)
+- :iphone: Mobile compatible
 
 #### Footer
 
@@ -262,7 +262,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - List-Unsubscribe: URL (invisible)
 - Precedence: bulk (invisible)
 - Return-Path: bounce@addre.ss (invisible)
-- Reply-to: reply@addre.ss (invisible)
+- Reply-to: reply@addre.ss (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
 - From: sender@domain.net
 - To: recipients@addre.ss
 - bounce X-Autoreply: yes

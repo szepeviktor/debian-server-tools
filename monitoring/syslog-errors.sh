@@ -9,7 +9,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install libdate-manip-perl
-# DEPENDS       :cpan App:datagrep
+# DEPENDS       :cpan App:dategrep
 # LOCATION      :/usr/local/sbin/syslog-errors.sh
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 

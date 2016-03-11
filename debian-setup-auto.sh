@@ -62,7 +62,7 @@ for DEP in $(aptitude --disable-columns search \
  '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' -F"%p"); do
     REGEXP="$(sed -e 's;\([^a-z0-9]\);[\1];g' <<< "$DEP")"
     if aptitude why "$DEP" 2>&1 | grep -Eq "^i.. \S+\s+(Pre)?Depends( | .* )${REGEXP}( |$)"; then
-        apt-mark auto "$DEP" || echo "[ERROR] Marking failed." 1>&2
+        apt-mark auto "$DEP" || echo "[ERROR] Marking package ${DEP} failed." 1>&2
     fi
 done
 
@@ -106,15 +106,16 @@ apt-get dist-upgrade -qq -y
 # Check for extra packages
 
 {
-    aptitude --disable-columns search '?garbage' -F"%p"
-    aptitude --disable-columns search '?broken' -F"%p"
-    aptitude --disable-columns search '?obsolete' -F"%p"
+    aptitude --disable-columns search '?garbage' -F"%p" | sed 's/$/ # garbage/'
+    aptitude --disable-columns search '?broken' -F"%p" | sed 's/$/ # broken/'
+    aptitude --disable-columns search '?obsolete' -F"%p" | sed 's/$/ # obsolete/'
     aptitude --disable-columns search \
-     '?and(?installed, ?or(?version(~~squeeze), ?version(\+deb6), ?version(python2\.6), ?version(~~wheezy), ?version(\+deb7)))' -F"%p"
-    aptitude --disable-columns search '?and(?installed, ?not(?origin(Debian)))' -F"%p"
+     '?and(?installed, ?or(?version(~~squeeze), ?version(\+deb6), ?version(python2\.6), ?version(~~wheezy), ?version(\+deb7)))' -F"%p" \
+     | sed 's/$/ # old/'
+    aptitude --disable-columns search '?and(?installed, ?not(?origin(Debian)))' -F"%p" | sed 's/$/ # non-Debian/'
     #aptitude --disable-columns search '?and(?installed, ?not(?origin(Ubuntu)))' -F"%p"
     # @TODO dpkg -l|grep "~[a-z]\+" -> whitelist + report only: cloud-init grub-common grub-pc grub-pc-bin grub2-common libgraphite2-3
-    # @TODO How to remove auto-intalled "-dev" packages? aptitude --disable-columns search '?and(?installed, ?name(-dev))' -F"%p"
+    # @TODO How to remove auto-intalled "-dev" packages? aptitude --disable-columns search '?and(?installed, ?name(-dev))' -F"%p" | sed 's/$/ # development/'
 } 2>&1 | tee extra.pkgs | grep -q "." && echo "Extra packages" 1>&2
 
 # Log cruft
@@ -175,7 +176,7 @@ lftp
 htop
 mc
 lynx
-# @TODO etckeeper
+# @TODO etckeeper dstat ?ethstatus
 
 cloud: https://docs.saltstack.com/en/latest/topics/cloud/index.html
 

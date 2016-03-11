@@ -7,6 +7,8 @@ Check shell scripts: http://www.shellcheck.net/
 
 Code styling: https://google.github.io/styleguide/shell.xml
 
+Bashism: https://wiki.ubuntu.com/DashAsBinSh
+
 ### /backup
 
 Tools related to archiving.

@@ -1,0 +1,3 @@
+# Debian 6 squeeze
+deb http://archive.debian.org/debian squeeze main contrib non-free
+#M: http://archive.debian.org/README
