@@ -1,9 +1,9 @@
-# jessie-build
+# wheezy-build
 #
 # VERSION 0.1.0
-# BUILD docker build -t szepeviktor/jessie-build jessie-build
+# BUILD docker build -t szepeviktor/wheezy-build wheezy-build
 
-FROM debian:jessie
+FROM debian:wheezy
 
 ENV LC_ALL C
 ENV DEBIAN_FRONTEND noninteractive

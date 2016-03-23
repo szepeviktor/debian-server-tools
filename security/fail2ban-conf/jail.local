@@ -52,6 +52,12 @@ maxretry = 3
 enabled  = true
 port     = @@SSHPORT@@
 
+[apache-default]
+enabled  = true
+logpath  = /var/log/apache2/access.log
+maxretry = 3
+bantime  = 86400 ; 24h
+
 [apache-combined]
 enabled  = true
 logpath  = %(apache_error_log)s

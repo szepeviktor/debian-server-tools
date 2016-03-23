@@ -1,0 +1,7 @@
+[Definition]
+
+failregex = ^<HOST> \S+ \S+ \[\] ".+" \d{3} \d+ ".+" ".+"$
+
+ignoreregex = ^<HOST> \S+ \S+ \[\] "GET /robots\.txt HTTP/[0-9.]+" 200 \d{3} ".+" ".+"$
+
+# Author: Viktor Szépe

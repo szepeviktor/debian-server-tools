@@ -6,24 +6,28 @@
 exit 0
 
 # On the "donor" before snapshoting
+
 # Switch to DHCP
+apt-get install -qq -y isc-dhcp-client
 cp -a /etc/network/interfaces /etc/network/interfaces.clone
 cp -a /etc/resolv.conf /etc/resolv.conf.clone
 editor /etc/network/interfaces
-apt-get install isc-dhcp-client isc-dhcp-common
-ifdown eth0 && ifup eth0
+ifdown eth0; ifup eth0
+
+### Do snapshot! ###
+
 # Revert after snapshoting
 mv -f /etc/network/interfaces.clone /etc/network/interfaces
-ifdown eth0 && ifup eth0
-apt-get purge isc-dhcp-client isc-dhcp-common
+ifdown eth0; ifup eth0
 mv -f /etc/resolv.conf.clone /etc/resolv.conf
 
 
 # On the "clone"
+
 # IP address
 editor /etc/network/interfaces
 rm -f /etc/network/interfaces.clone
-ifdown eth0 && ifup eth0
+ifdown eth0; ifup eth0
 apt-get purge isc-dhcp-client isc-dhcp-common
 mv -f /etc/resolv.conf.clone /etc/resolv.conf
 
@@ -61,6 +65,10 @@ courier-restart.sh
 # Add clone on the smart host !!!
 #     alias
 #     smtpaccess
+
+# Backups
+
+# MySQL DB-s and users
 
 # Apache "prg" site URL
 

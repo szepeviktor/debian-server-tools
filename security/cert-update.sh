@@ -141,7 +141,7 @@ Check_requirements() {
         Die 5 "Private cert directory needs to be private (0710) and owned by root."
     fi
     if ! [ -f /usr/local/bin/cert-expiry.sh ] || ! [ -f /etc/cron.weekly/cert-expiry1 ]; then
-        Die 6 "./install.sh security/cert-expiry.sh"
+        Die 6 "./install.sh monitoring/cert-expiry.sh"
     fi
 
     # Check certs' moduli
@@ -223,18 +223,23 @@ Apache2() {
     if sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
         | grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}$" \
         && sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
-        | grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$" \
-        && grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs$" "$APACHE_VHOST_CONFIG" \
-        && grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}$" "$APACHE_VHOST_CONFIG"; then
+        | grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$"; then
+        # @TODO moved to /etc/apache2/mods-available/ssl.conf
+        #&& grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs$" "$APACHE_VHOST_CONFIG" \
+        #&& grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}$" "$APACHE_VHOST_CONFIG"; then
 
         apache2ctl configtest && service apache2 restart
 
         # Test HTTPS
         SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_VHOST_CONFIG"|cut -d' ' -f2)"
+        if [ "$SERVER_NAME" == '${SITE_DOMAIN}' ]; then
+            SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
+        fi
         timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect "${SERVER_NAME}:443" < /dev/null
         echo "HTTPS result=$?"
     else
-        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
+        #echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
+        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
     fi
 }
 

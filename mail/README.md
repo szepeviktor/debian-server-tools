@@ -4,6 +4,7 @@
 
 - Transport encryption (TLS on SMTP in&out and IMAP)
 - Forwarding with SRS (Sender Rewriting Scheme)
+- [Fetch instead of forwarding](http://scribu.net/blog/properly-forwarding-email-to-gmail.html)
 - Attack mitigation (SMTP vulnerability, authentication)
 - Spam filtering
 - Custom blackhole lists (RBL)
@@ -253,25 +254,25 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 #### Footer
 
 - Sender's contact details (postal address, phone number)
-- Who (name, email address, why) is subscribed
+- Who (recipient name, email address, why) is subscribed
 - Unsubscribe link
 - Forward to a friend
 
 #### Email headers
 
-- List-Unsubscribe: URL (invisible)
-- Precedence: bulk (invisible)
-- Return-Path: bounce@addre.ss (invisible)
-- Reply-to: reply@addre.ss (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
-- From: sender@domain.net
-- To: recipients@addre.ss
-- bounce X-Autoreply: yes
-- bounce Auto-Submitted: auto-replied
+- `List-Unsubscribe: URL` (invisible)
+- `Precedence: bulk` (invisible)
+- `Return-Path: bounce@addre.ss` (invisible)
+- `Reply-to: reply@addre.ss` (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
+- `From: sender@domain.net`
+- `To: recipients@addre.ss`
+- bounce `X-Autoreply: yes`
+- bounce `Auto-Submitted: auto-replied`
 
 #### Others
 
 - SMTP `MAIL FORM: <user@domain.net>`
-- HTML and plain payload
+- HTML and plain text payload
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 - :cloud: CDN for images

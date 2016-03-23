@@ -53,7 +53,7 @@ Swift() {
         # Empty error message
         echo -n "" > "$SWIFT_STDERR"
 
-        # Be verbose on console and on "swift stat"
+        # Be verbose on console and on `Swift stat`
         if tty --quiet || [ "stat" == "$1" ]; then
             ${HUBIC} -v --swift -- -v "$@" 2> "$SWIFT_STDERR"
             RET="$?"
@@ -63,13 +63,14 @@ Swift() {
         fi
 
         # OK
-        if [ "$RET" -eq 0 ] && ! grep -qv "^[A-Z_]\+=\S\+$" "$SWIFT_STDERR"; then
+        if [ "$RET" -eq 0 ] && ! grep -qvx "[A-Z_]\+=\S\+" "$SWIFT_STDERR"; then
             break
         fi
 
         echo -n "Swift ERROR ${RET} during ($*), error message: " 1>&2
-        cat "$SWIFT_STDERR" >&2
+        cat "$SWIFT_STDERR" 1>&2
         RET="255"
+
         # Wait for object storage
         sleep 60
     done
@@ -87,7 +88,7 @@ cd "$WORKDIR" || exit 3
 
 # Check object storage access
 if ! Swift stat > /dev/null; then
-    echo "Object storage access failure." >&2
+    echo "Object storage access failure." 1>&2
     exit 4
 fi
 
@@ -107,30 +108,30 @@ for DB in "${DBS[@]}"; do
     # Download database dump
     if ! wget -q -S --user-agent="$UA" \
         --header="X-Secret-Key: ${SECRET}" -O "${ID}.sql.gz.enc" "$URL" 2> "${ID}.headers"; then
-        echo "Error during database backup of ${ID}." >&2
+        echo "Error during database backup of ${ID}." 1>&2
         continue
     fi
 
     # Check dump and header files
     if ! [ -s "${ID}.headers" ] || ! [ -s "${ID}.sql.gz.enc" ]; then
-        echo "Backup failed ${ID}." >&2
+        echo "Backup failed ${ID}." 1>&2
         continue
     fi
 
     # Get password
     PASSWORD="$(grep -m1 "^  X-Password:" "${ID}.headers"|cut -d" " -f4-)"
     if [ -z "$PASSWORD" ]; then
-        echo "No password found in response ${ID}." >&2
+        echo "No password found in response ${ID}." 1>&2
         continue
     fi
 
     # Decrypt dump
     if ! OPENSSL_DECRYPT="$("$EXP_O_DECRYPT" "$PASSWORD" "$(cat "${PRIVKEYS}/${ID}.iv")" "${PRIVKEYS}/${ID}.key")"; then #"
-        echo "Password retrieval failed ${ID}." >&2
+        echo "Password retrieval failed ${ID}." 1>&2
         continue
     fi
     if ! ${OPENSSL_DECRYPT} ${ID}.sql.gz.enc | gzip -d > "${ID}.sql"; then
-        echo "Dump decryption failed ${ID}." >&2
+        echo "Dump decryption failed ${ID}." 1>&2
         continue
     fi
     rm "${ID}.sql.gz.enc"
@@ -138,13 +139,13 @@ for DB in "${DBS[@]}"; do
     # Download archive index
     if ! Swift download --output "${ID}-00000.zpaq" "$CONTAINER" "${ID}/${ID}-00000.zpaq" \
         || ! [ -s "${ID}-00000.zpaq" ]; then
-        echo "Archive index download failed ${ID}." >&2
+        echo "Archive index download failed ${ID}." 1>&2
         continue
     fi
 
     # Archive (compress and encrypt)
     if ! zpaq add "${ID}-?????.zpaq" "${ID}.sql" "${ID}.headers" -method 5 -key "$(cat "$ENCRYPT_PASS_FILE")" &> /dev/null; then
-        echo "Archiving failed ${ID}." >&2
+        echo "Archiving failed ${ID}." 1>&2
         continue
     fi
     rm "${ID}.sql" "${ID}.headers"
@@ -152,7 +153,7 @@ for DB in "${DBS[@]}"; do
     # Upload archive parts
     for ZPAQ in "$ID"-*.zpaq; do
         if ! Swift upload --object-name "${ID}/${ZPAQ}" "$CONTAINER" "$ZPAQ"; then
-            echo "Archive upload failed ${ID}/${ZPAQ}, may cause inconsistency." >&2
+            echo "Archive upload failed ${ID}/${ZPAQ}, may cause inconsistency." 1>&2
             continue
         fi
         rm "$ZPAQ"
@@ -161,15 +162,16 @@ done
 
 # Leftover files
 if ! [ -z "$(ls -A "$WORKDIR")" ]; then
-    echo "There was an error, files are left in working directory." >&2
+    echo "There was an error, files are left in working directory." 1>&2
 fi
 
 # Check object storage usage
-BYTE_LIMIT="$(( 20 * 1000 * 1000 * 1000 ))"
+declare -i GBYTE_LIMIT="20"
+declare -i BYTE_LIMIT="$(( GBYTE_LIMIT * 1000 * 1000 * 1000 ))"
 SWIFT_BYTES="$(Swift stat)"
 SWIFT_BYTES="$(echo "$SWIFT_BYTES" | grep -m 1 "Bytes:" | cut -d ":" -f 2)"
 if [ -n "$SWIFT_BYTES" ] && [ ${SWIFT_BYTES} -gt "$BYTE_LIMIT" ]; then
-    echo "Swift usage > 20 GiB." 1>&2
+    echo "Swift usage greater than ${GBYTE_LIMIT} GiB." 1>&2
 fi
 
 exit 0

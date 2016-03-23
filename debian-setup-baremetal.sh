@@ -2,11 +2,13 @@ exit 0
 
 apt-get install -y smartmontools
 
-dmidecode --string 2>&1|grep "^ "|xargs -I "%" sh -c 'echo "%=$(dmidecode --string %)"'
+dmidecode
+dmidecode --string 2>&1|grep "^\s"|xargs -I %% bash -c 'echo "%%=$(dmidecode --string %%)"'
 lspci
 lsusb
+#sensors, IPMI
 
-./install.sh monitoring/ntpdated
+#chrony
 editor /etc/default/hwclock
 
 editor /etc/default/smartmontools

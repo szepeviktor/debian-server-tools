@@ -15,4 +15,4 @@ deb @@MIRROR@@ jessie-updates main contrib non-free
 
 # Backports
 # http://backports.debian.org/changes/jessie-backports.html
-deb @@MIRROR@@ jessie-backports main
+deb @@MIRROR@@ jessie-backports main contrib non-free

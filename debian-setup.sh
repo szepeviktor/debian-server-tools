@@ -13,7 +13,7 @@
 # - virt-what,is_hypervisor + OS image check + sanitization (systemd?) + apt sources + dist-upgrade
 # - personal prefs: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
 #     Scripts should be able to install, update, remove: ?package management
-# - configure installed (essential) packages (prefer: debconf, add monit config)
+# - configure installed (essential) packages (prefer: debconf, add monit config, randomize cron times)
 # - create metapackages (equivs) only_on_virt, only_on_physical(console-setup console-setup-linux kbd xkb-data)
 # - install services + configure (Linux daemons, ?etckeeper, ?needrestart, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
 # - (list of) custom shell scripts + cron jobs
@@ -327,7 +327,7 @@ editor /etc/motd
 #     *
 #     *** This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited. ***
 #     *
-# (HU)* Ez a szerver <a/az CÉG-NÉV> tulajdona. Idegeneknek a belépés tilos. ***
+# (HU)*** Ez a szerver <a/az CÉG-NÉV> tulajdona. Idegeneknek a belépés tilos. ***
 
 # Networking
 editor /etc/network/interfaces
@@ -590,13 +590,17 @@ service cron restart
 
 # Time synchronization
 cd ${D}; ./install.sh monitoring/ntp-alert.sh
+# Virtual serves only
+editor /etc/default/hwclock
+#    HWCLOCKACCESS=no
 # Check clock source
 cat /sys/devices/system/clocksource/clocksource0/available_clocksource
-# KVM (no ntp)
+# KVM (???no ntp)
 # https://s19n.net/articles/2011/kvm_clock.html
 dmesg | grep "kvm-clock"
 grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksource
 # VMware (no ntp)
+# @FIXME It is necessary on every boot?
 vmware-toolbox-cmd timesync enable
 vmware-toolbox-cmd timesync status
 # NTPdate
@@ -614,9 +618,6 @@ editor /etc/default/ntpdate
 # Chrony
 apt-get install -y chrony
 editor /etc/chrony/chrony.conf
-#     cmdport 0
-#     logchange 0.010
-#
 #     pool 0.de.pool.ntp.org offline iburst
 #     pool 0.cz.pool.ntp.org offline iburst
 #     pool 0.hu.pool.ntp.org offline iburst
@@ -624,7 +625,12 @@ editor /etc/chrony/chrony.conf
 #     server ntp.ovh.net offline iburst
 #     # EZIT
 #     server ntp.ezit.hu offline iburst
+#
+#     logchange 0.010
+#     cmdport 0
 service chrony restart
+# Hardware clock (RTC)
+# @TODO Set drift: hwclock
 
 # µnscd
 apt-get install -y unscd
@@ -666,8 +672,9 @@ dpkg -l | grep -E "postfix|exim"
 cd ${D}; ./install.sh mail/courier-restart.sh
 # Smarthost
 editor /etc/courier/esmtproutes
+#     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #     : %SMART-HOST%,587 /SECURITY=REQUIRED
-#     : smtp.mandrillapp.com,587 /SECURITY=REQUIRED
+#     : in-v3.mailjet.com,587 /SECURITY=REQUIRED
 # From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
 #     : %SMART-HOST%,465 /SECURITY=SMTPS
 editor /etc/courier/esmtpauthclient
@@ -1078,3 +1085,6 @@ dpkg --get-selections > "/root/packages.selection"
 # List of clients and services
 cp -v ${D}/server.yml /root/
 editor /root/server.yml
+
+# Clear history
+history -c

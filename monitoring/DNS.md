@@ -8,7 +8,7 @@
 - https://www.ultratools.com/domainHealthReport
 - http://dnscheck.ripe.net/
 
-- `http://www.domain.hu/domain/regcheck/?dname=DOMAIN` (on .hu TLD)
+- `http://www.domain.hu/domain/regcheck/?dname=DOMAIN` (for .hu TLD domain names)
 - `http://intodns.com/DOMAIN`
 - `http://www.dnsinspect.com/DOMAIN`
 - `http://dnscheck.pingdom.com/?domain=DOMAIN`
@@ -18,6 +18,7 @@
 [DNS Hosting Speed](https://www.ultratools.com/tools/dnsHostingSpeed)
 
 [Detailed recursive DNS query](https://dnsquery.org/)
+
 http://www.squish.net/dnscheck/
 
 See for [Speedtest.md](./Speedtest.md) DNS propagation checkers

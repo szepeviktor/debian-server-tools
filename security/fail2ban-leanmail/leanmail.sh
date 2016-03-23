@@ -78,7 +78,7 @@ LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 #LIST_ABUSE_FEODO="https://feodotracker.abuse.ch/blocklist/?download=ipblocklist"
 #LIST_ABUSE_ZEUS="https://zeustracker.abuse.ch/blocklist.php?download=badips"
 
-# Hosting only, no browsers
+# Hosting only, no humans
 declare -a AS_HOSTING=(
     AS14618 # Amazon.com, Inc.
     AS16509 # Amazon.com, Inc.
@@ -89,6 +89,7 @@ declare -a AS_HOSTING=(
     AS36352 # ColoCrossing
     AS29073 # Ecatel LTD
     AS24940 # Hetzner Online GmbH
+    AS8972  # PlusServer AG
 )
 
 # Labs

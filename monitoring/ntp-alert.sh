@@ -2,8 +2,8 @@
 #
 # Check system time and alert on offset greater than 128 ms.
 #
-# VERSION       :0.1.0
-# DATE          :2016-03-04
+# VERSION       :0.1.1
+# DATE          :2016-03-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,7 +22,7 @@ Die() {
     exit "$RET"
 }
 
-OFFSET="$(/usr/sbin/ntpdate -q "$NTP_POOL" | sed -ne '0,/^.*: adjust time server [0-9a-f.:]\+ offset \(-\?[0-9.]\+\) sec$/s//\1/p')"
+OFFSET="$(/usr/sbin/ntpdate -q "$NTP_POOL" | sed -ne '0,/^.*: \(adjust\|step\) time server [0-9a-f.:]\+ offset \(-\?[0-9.]\+\) sec$/s//\2/p')"
 
 if [ -z "$OFFSET" ]; then
     Die 1 "Failed to measure offset"

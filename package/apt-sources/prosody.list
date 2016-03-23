@@ -1,0 +1,5 @@
+# Prosody
+deb http://packages.prosody.im/debian jessie main
+#K: wget -qO- https://prosody.im/files/prosody-debian-packages.key | apt-key add -
+#M: https://prosody.im/download/package_repository
+#F: 74D9DBB5:107D65A0A148C237FDF00AB47393D7E674D9DBB5

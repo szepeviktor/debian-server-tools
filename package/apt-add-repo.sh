@@ -2,8 +2,8 @@
 #
 # Add the repositories that you install software from.
 #
-# VERSION       :0.1.1
-# DATE          :2016-01-19
+# VERSION       :0.2.0
+# DATE          :2016-03-21
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -14,6 +14,7 @@
 #
 #     apt-add-repo.sh nodejs percona
 
+set +e
 
 Possible_locations() {
     cat <<-EOF
@@ -30,7 +31,7 @@ Possible_locations() {
 		EOF
 }
 
-for REPO in "$@"; do
+for REPO; do
     LIST=""
     while read -r LOCATION ; do
         if [ -r "$LOCATION" ]; then
@@ -51,5 +52,23 @@ for REPO in "$@"; do
     # Import key
     grep -h -A 5 "^deb " "$LIST" \
         | grep "^#K: " | cut -d " " -f 2- \
-        | xargs -r -L 1
+        | /bin/bash
+
+    # Check fingerprint
+    grep -h -A 5 "^deb " "$LIST" \
+        | grep "^#F: " | cut -d " " -f 2- \
+        | while read -r ID_FP; do
+            KEY_ID="${ID_FP%:*}"
+            FINGERPRINT="${ID_FP#*:}"
+            CURRENT_FP="$(apt-key adv --with-colons --fingerprint "$KEY_ID" | sed -ne 's/^fpr:::::::::\([0-9A-F]\+\):$/\1/p')"
+            if [ "$CURRENT_FP" != "$FINGERPRINT" ]; then
+                rm -f "/etc/apt/sources.list.d/$(basename "$LIST")"
+                apt-key del "$KEY_ID"
+                echo "[CRITICAL] Fingerprint mismatch: (${CURRENT_FP} <> ${FINGERPRINT})" 1>&2
+                exit 3
+            fi
+        done
 done
+
+apt-get clean
+apt-get update

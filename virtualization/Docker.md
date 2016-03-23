@@ -13,29 +13,34 @@ https://docs.docker.com/engine/reference/builder/
 
 ```bash
 # - Build "szepeviktor/jessie-build" image -
-# docker build -t szepeviktor/jessie-build jessie-build
+#     docker build -t szepeviktor/jessie-build jessie-build
 
 
 # - Build Debian package -
-# docker run --rm -it -v /opt/result --user=1000 szepeviktor/jessie-build
+#     docker run --rm -it --user=1000 szepeviktor/jessie-build
+#     docker run --rm -it -v /opt/result --user=1000 szepeviktor/jessie-build
 
 
 # @TODO Automate in a Dockerfile !!! ENV PACKAGE=htop
 
 
-read -r -p "Package? " P
-R="testing"; WEB="https://packages.debian.org/${R}/${P}"
+cd; read -r -e -i "testing/" -p "Distribution/Package? " DP
+WEB="https://packages.debian.org/${DP}"
 URL="$(curl -s "$WEB"|grep -o 'http://http.debian.net/debian/pool/[^"]\+\.dsc')"
 [ -z "$URL" ] || dget -ux "$URL"
-cd ${P}-*/
-dpkg-checkbuilddeps 2>&1 | cut -d: -f3- | sed 's/([^()]\+)//g'
+cd ${DP#*/}-*/ && dpkg-checkbuilddeps 2>&1 | cut -d: -f3- | sed 's/([^()]\+)//g'
 
-# docker exec $(docker ps -q|head -n1) /bin/bash -c "apt-get install -y DEPENDENCIES"
+# Install dependencies
+#     docker exec --user=0 $(docker ps -q|head -n1) /bin/bash -c "apt-get install -qqy DEPENDENCIES"
 
 dpkg-buildpackage -b -uc -us || echo ERROR
-cd ../
-lintian *.deb && ls -l *.deb && logout
+cd ../ && lintian *.deb && ls -l *.deb
 
-# docker exec $(docker ps -q|head -n1) /bin/bash -c "cd /home/debian/;tar c *.deb"|tar xv
-# cp -av "$(docker inspect $(docker ps -q|head -n1)|grep -A10 '"Mounts":'|grep -m1 '"Source": ".*",'|cut -d'"' -f4)" .
+# Copy resulting packages
+#     docker exec $(docker ps -q|head -n1) /bin/bash -c "cd /home/debian/;tar c *.deb"|tar xv
+
+exit
+
+# Copy resulting packages II.
+#     cp -av "$(docker inspect $(docker ps -q|head -n1)|grep -A10 '"Mounts":'|grep -m1 '"Source": ".*",'|cut -d'"' -f4)" .
 ```
