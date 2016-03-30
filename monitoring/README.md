@@ -7,6 +7,8 @@ grep -Ei -B 1 -A 1 "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|
     /var/log/syslog
 ```
 
+See: ${D}/monitoring/syslog-errors.sh
+
 ### Courier log analyizer
 
 ```bash

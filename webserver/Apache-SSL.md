@@ -54,11 +54,12 @@ See: ${D}/security/ca/README.md
 
 ### Tests
 
-- SNI: https://sni.velox.ch/
 - SSL: https://www.ssllabs.com/ssltest/
+- OCSP and CRL: https://certificate.revocationcheck.com/
+- SNI: https://sni.velox.ch/
 - HSTS: https://hstspreload.appspot.com/
-- SPDY CLI: https://github.com/tatsuhiro-t/spdylay
 - SPDY: https://spdycheck.org/
+- SPDY CLI: https://github.com/tatsuhiro-t/spdylay
 - HTTP/2: https://tools.keycdn.com/http2-test
 - https://github.com/mozilla/tls-observatory
 

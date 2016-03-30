@@ -75,7 +75,7 @@ which make rmadison dget lintian &> /dev/null \
     || die 99 "apt-get -y install build-essential devscripts lintian dpkg-sig reprepro"
 
 # Get current Debian release
-CURRENTSUITE="$(lsb_release --codename | cut -f2)"
+CURRENTSUITE="$(lsb_release -s --codename)"
 [ -z "$CURRENTSUITE" ] && die 9 "cannot detect current suite"
 
 # Get package name from parent dir's name

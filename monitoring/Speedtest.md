@@ -1,17 +1,5 @@
 # Global networking tools
 
-### DNS propagation checker
-
-- https://www.whatsmydns.net/
-- https://dnschecker.org/
-- http://viewdns.info/propagation/
-- https://www.nexcess.net/resources/tools/global-dns-checker/
-
-### DNS lookup
-
-- http://mxtoolbox.com/DNSLookup.aspx
-- http://bgp.he.net/
-
 ### Target country speedtest
 
 - speedtest-cli 100+

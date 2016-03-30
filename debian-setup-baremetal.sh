@@ -1,5 +1,8 @@
 exit 0
 
+amd64-microcode
+intel-microcode
+
 apt-get install -y smartmontools
 
 dmidecode

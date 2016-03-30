@@ -1,7 +1,8 @@
-# jessie-build
+# szepeviktor/jessie-build
 #
-# VERSION 0.1.0
+# VERSION 0.2.0
 # BUILD docker build -t szepeviktor/jessie-build jessie-build
+# RUN docker run --rm -it -v /opt/results:/opt/results szepeviktor/jessie-build
 
 FROM debian:jessie
 
@@ -11,7 +12,12 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN sed -i -e 's/httpredir.debian.org/ftp.hu.debian.org/' /etc/apt/sources.list
 RUN apt-get update && apt-get -y --force-yes dist-upgrade
 
-RUN apt-get -y install dialog devscripts
-RUN adduser --disabled-password --gecos "" debian
-
+RUN apt-get -y install sudo dialog devscripts
 RUN apt-get clean
+
+RUN adduser --disabled-password --gecos "" debian
+RUN echo 'debian  ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+
+VOLUME ["/opt/results"]
+USER debian
+WORKDIR /home/debian

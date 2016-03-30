@@ -1,0 +1,11 @@
+# Hungarian mirror:  http://ftp.hu.debian.org/debian
+deb http://ftp.hu.debian.org/debian jessie main contrib non-free
+
+# Security
+deb http://security.debian.org/ jessie/updates main contrib non-free
+
+# Updates
+deb http://ftp.hu.debian.org/debian jessie-updates main contrib non-free
+
+# Backports
+deb http://ftp.hu.debian.org/debian jessie-backports main contrib non-free

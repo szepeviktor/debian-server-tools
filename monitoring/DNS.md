@@ -21,4 +21,17 @@
 
 http://www.squish.net/dnscheck/
 
-See for [Speedtest.md](./Speedtest.md) DNS propagation checkers
+### DNS propagation checker
+
+- https://asm.ca.com/en/ping.php (91 PoP)
+- https://www.whatsmydns.net/ (20 PoP)
+- https://dnschecker.org/ (24 PoP)
+- https://www.nexcess.net/resources/tools/global-dns-checker/ (21 PoP)
+- http://viewdns.info/propagation/ (19 PoP)
+- https://cachecheck.opendns.com/ (24 PoP)
+
+### DNS lookup
+
+- http://mxtoolbox.com/DNSLookup.aspx
+- http://bgp.he.net/
+
