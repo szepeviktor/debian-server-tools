@@ -1,13 +1,17 @@
 debian-server-tools
 ===================
 
-Various scripts and tools for mainly Debian servers
+Various scripts and tools for mainly Debian servers.
 
 Check shell scripts: http://www.shellcheck.net/
 
 Code styling: https://google.github.io/styleguide/shell.xml
 
 Bashism: https://wiki.ubuntu.com/DashAsBinSh
+
+### Debian install with UTC as timezone
+
+Select Expert install.
 
 ### /backup
 

@@ -8,14 +8,34 @@
 # AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
 
 # @TODO Prepare for automation
-# - input values: dialog=whiptail save as bash variables (country, )
-# - input values: provider/virtualization default values (hardware: net, disk+mounts; kernel: tz, ntp, cpufreq, rng, irqbalance, modules; users)
-# - virt-what,is_hypervisor + OS image check + sanitization (systemd?) + apt sources + dist-upgrade
-# - personal prefs: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
+# - input data/provider/virtualization type: (default values)
+#    - hardware:
+#      - net
+#      - disks, partitions, volumes
+#    - kernel:
+#      - boot mechanism (py/grub, syslinux)
+#      - microcode
+#      - clock source, time synchronization
+#      - timezone = UTC
+#      - cpufreq/cpuidle
+#      - rng (entropy)
+#      - irqbalance
+#      - kernel modules, blacklist
+#    - users
+# - input data/instance:
+#    - dialog=whiptail
+#    - save as YAML
+# - OS image check:
+#   - sanitization () + apt sources + dist-upgrade
+#   - systemd <-> sysvinit
+#   - is_barematel
+#   - is_hypervisor
+#   - virt-what
+# - personal prefs, dot files: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
 #     Scripts should be able to install, update, remove: ?package management
 # - configure installed (essential) packages (prefer: debconf, add monit config, randomize cron times)
 # - create metapackages (equivs) only_on_virt, only_on_physical(console-setup console-setup-linux kbd xkb-data)
-# - install services + configure (Linux daemons, ?etckeeper, ?needrestart, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
+# - install services + configure (Linux daemons, ?etckeeper, needrestart, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
 # - (list of) custom shell scripts + cron jobs
 # - populate /root/server.yml for every installed component
 # - system-backup.sh (debconf, etc, /root, user data, service data)
@@ -496,10 +516,10 @@ update-passwd -v --dry-run
 
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
-    whois unzip heirloom-mailx iptables-persistent bootlogd goaccess \
+    needrestart iptables-persistent bootlogd moreutils whois unzip heirloom-mailx goaccess \
     apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make ntpdate
 # Backports
-# apt-get install -t jessie-backports -y 
+#apt-get install -t jessie-backports -y 
 
 # debsums weekly cron job
 sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums

@@ -2,8 +2,8 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.8.0
-# DATE          :2016-02-16
+# VERSION       :0.9.0
+# DATE          :2016-04-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -12,12 +12,14 @@
 
 # Intermediate certificates and root certificates
 #
-# StartSSL Class 1 DV
+# StartSSL Class 1 DV (Domain and Email Validation)
 #     https://www.startssl.com/root "Intermediate CA Certificates"
 #     wget https://www.startssl.com/certs/sca.server1.crt && dos2unix sca.server1.crt
-# StartSSL Class 2 IV
+# StartSSL Class 2 IV (Identity Validation)
 #     wget https://www.startssl.com/certs/sca.server2.crt && dos2unix sca.server2.crt
-# Comodo (PositiveSSL)
+# StartSSL Class 3 OV (Organization Validation)
+#     wget https://www.startssl.com/certs/sca.server3.crt && dos2unix sca.server2.crt
+# Comodo, PositiveSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust
 #     https://www.geotrust.com/resources/root-certificates/
@@ -149,6 +151,11 @@ Check_requirements() {
     PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl sha256)"
     if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
         Die 7 "Mismatching certs."
+    fi
+
+    # Verify public cert is signed by the intermediate cert
+    if ! openssl verify -purpose sslserver -CAfile "$INT" "$PUB" | grep -qFx "${PUB}: OK"
+        Die 8 "Mismatching intermediate cert."
     fi
 }
 

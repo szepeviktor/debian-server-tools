@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Backport a Debian package to stable.
+# Backport a Debian package.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
@@ -20,6 +20,7 @@
 #     ${UPSTREAM_VERSION}[-${DEBIAN_REVISION}]~bpo${DEBIAN_RELEASE}+${BUILD_INT}
 #
 # Apache backport: ?openssl/sid? spdylay nghttp2 apr-util apache2
+# Courier backport: courier-unicode courier-authlib courier
 
 # @TODO Sign and upload to a repo.
 
@@ -48,6 +49,7 @@ CURRENT_RELEASE="$(lsb_release -s --codename)"
 
 # Install .deb dependencies
 sudo dpkg -R -i /opt/results/ || true
+sudo apt-get update -qq
 sudo apt-get install -y -f
 
 if [ "${PACKAGE%.dsc}" == "$PACKAGE" ]; then
@@ -66,7 +68,9 @@ else
     CHANGELOG_MSG="Built from DSC file: ${PACKAGE}"
 fi
 
-DEPENDENCIES="$(dpkg-checkbuilddeps 2>&1 | sed -e 's/^.*Unmet build dependencies: //' -e 's/ ([^)]\+)//g')"
+# Remove version number constraints and alternatives
+DEPENDENCIES="$(dpkg-checkbuilddeps 2>&1 \
+    | sed -e 's/^.*Unmet build dependencies: //' -e 's/ ([^)]\+)//g' -e 's/\(\S\+\)\( | \S\+\)\+/\1/g')"
 if [ -n "$DEPENDENCIES" ]; then
     sudo apt-get install -y ${DEPENDENCIES}
 fi
