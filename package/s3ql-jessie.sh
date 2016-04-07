@@ -14,7 +14,7 @@
 RELEASE_FILE="s3ql-2.17.1.tar.bz2"
 
 cat > requirements.txt <<EOF
-crypto
+pycrypto
 defusedxml
 requests
 # Must be the same version as libsqlite3
@@ -28,7 +28,7 @@ dugong >= 3.4
 EOF
 
 # Debian packages
-apt-get install -y wget python3-dev python3-pkg-resources pkg-config \
+apt-get install -y wget build-essential python3-dev python3-pkg-resources pkg-config \
     mercurial libattr1-dev fuse libfuse-dev libsqlite3-dev libjs-sphinxdoc python3-systemd
 
 # pip
