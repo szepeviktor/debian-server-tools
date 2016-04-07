@@ -47,6 +47,8 @@ https://wiki.debian.org/BuildingFormalBackports
 
 ### APT repository concepts
 
+Find actual values in `debian/dists/${CODENAME}/Release`
+
 -   a,archive,suite (eg, "stable")
 -   c,component     (eg, "main", "crontrib", "non-free")
 -   l,label         (eg, "Debian", "Debian-Security")

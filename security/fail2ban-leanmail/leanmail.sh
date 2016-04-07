@@ -90,6 +90,7 @@ declare -a AS_HOSTING=(
     AS29073 # Ecatel LTD
     AS24940 # Hetzner Online GmbH
     AS8972  # PlusServer AG
+    AS46606 # Unified Layer
 )
 
 # Labs

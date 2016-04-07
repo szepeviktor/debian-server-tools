@@ -26,10 +26,12 @@ export APT_LISTCHANGES_FRONTEND=none
 
 # APT
 
-apt-get install -f
+apt-get install -y -f
 apt-get install -y lsb-release apt  aptitude debian-archive-keyring
 #apt-get install -y lsb-release apt  aptitude ubuntu-keyring
 apt-get autoremove --purge -y
+# Purge packages that were removed but not purged
+apt-get purge -y $(aptitude --disable-columns search '?config-files' -F"%p")
 
 # Virtualization environment
 
@@ -55,9 +57,6 @@ fi
 # Check Install-Recommends
 apt-config dump APT::Install-Recommends # == "1"
 # @FIXME apt-get install -o APT::AutoRemove::RecommendsImportant=false
-
-# Purge packages that were removed but not purged
-apt-get purge -y $(aptitude --disable-columns search '?config-files' -F"%p")
 
 # No upgrade yet!
 
@@ -111,6 +110,9 @@ BOOT_PACKAGES="grub-pc|linux-image-amd64|firmware-linux-nonfree|usbutils|mdadm|l
 |extlinux|syslinux-common|elasticstack-container|waagent|scx|omi"
 STANDARD_PACKAGES="$(aptitude --disable-columns search '?or(?essential, ?priority(required), ?priority(important), ?priority(standard))' -F"%p" \
  | grep -Evx "$STANDARD_BLACKLIST")"
+#STANDARD_PACKAGES="$(aptitude --disable-columns search \
+# '?and(?architecture(native), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)))' -F"%p" \
+# | grep -Evx "$STANDARD_BLACKLIST")"
 apt-get -qq -y install ${STANDARD_PACKAGES}
 
 # Install missing recommended packages
@@ -137,6 +139,7 @@ apt-get purge -qq -y $(aptitude --disable-columns search '?installed' -F"%p" | g
 # Exim bug
 getent passwd Debian-exim &> /dev/null && deluser --force --remove-home Debian-exim
 apt-get autoremove -qq --purge -y
+# Do dist-upgrade finally
 apt-get dist-upgrade -qq -y
 
 # Check for missing packages
@@ -189,12 +192,17 @@ exit 0
 # RPCBind opens up port 111 to the Internet
 apt-get purge -qq -y rpcbind nfs-common
 # Newer Cloud init
-apt-get install -t jessie-backports cloud-init cloud-utils cloud-initiramfs-growroot
+echo "cloud-init cloud-init/datasources multiselect NoCloud, ConfigDrive, None" | debconf-set-selections -v
+apt-get install -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
 # Clear traces
 apt-get clean
 rm -rf /tmp/* /tmp/.*
+# Clear logs
+#rm -rf /var/log/*.log
+# For all users
 history -c
 systemctl poweroff
+# ?? mount image after poweroff
 
 # SSH port
 Port 33000

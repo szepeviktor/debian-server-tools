@@ -636,7 +636,7 @@ editor /etc/default/ntpdate
 # OVH
 #     NTPSERVERS="ntp.ovh.net"
 # Chrony
-apt-get install -y chrony
+apt-get install -y libseccomp2/jessie-backports chrony
 editor /etc/chrony/chrony.conf
 #     pool 0.de.pool.ntp.org offline iburst
 #     pool 0.cz.pool.ntp.org offline iburst
@@ -648,6 +648,7 @@ editor /etc/chrony/chrony.conf
 #
 #     logchange 0.010
 #     cmdport 0
+#     ##rtcsync
 service chrony restart
 # Hardware clock (RTC)
 # @TODO Set drift: hwclock
@@ -815,13 +816,13 @@ apt-get install -y php5-cli php5-curl php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-dev \
     php5-sqlite php5-apcu php-pear
 PHP_TZ="Europe/Budapest"
-sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php5/fpm/php.ini
-sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
-sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
-sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
-sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
-sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
-sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
+sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php5/fpm/php.ini
+sed -i 's/^max_execution_time\s*=.*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
+sed -i 's/^memory_limit\s*=.*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
+sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
+sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
+sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
+sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 # Only Prg site is allowed
 sed -i 's|^;opcache.restrict_api\s*=.*$|opcache.restrict_api = /home/web/website/|' /etc/php5/fpm/php.ini
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php5/fpm/php.ini
@@ -885,17 +886,19 @@ ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 #     zend_extension = ioncube_loader_lin_5.6.so
 #     ic24.enable = Off
 
+
 # PHP 7.0
+
 apt-get install -y php7.0-cli php7.0-fpm \
     php7.0-mcrypt php7.0-curl php7.0-gd php7.0-json php7.0-intl php7.0-mysql php7.0-readline php7.0-sqlite3
 PHP_TZ="Europe/Budapest"
-sed -i 's/^expose_php = .*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^max_execution_time = .*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^memory_limit = .*$/memory_limit = 384M/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^post_max_size = .*$/post_max_size = 20M/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^upload_max_filesize = .*$/upload_max_filesize = 20M/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^allow_url_fopen = .*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
-sed -i "s|^;date.timezone =.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/php.ini
+sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^max_execution_time=.*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^memory_limit\s*=.*$/memory_limit = 384M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
+sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/php.ini
 # Only Prg site is allowed
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php/7.0/fpm/php.ini

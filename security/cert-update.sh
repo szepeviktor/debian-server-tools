@@ -91,8 +91,8 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 # Courier MTA: public + intermediate + private
 # From Debian jessie on: private + public + intermediate
 #
-#COURIER_COMBINED="${PRIV_DIR}/courier-comb3.pem"
-#COURIER_DHPARAMS="${PRIV_DIR}/courier-dhparams.pem"
+#COURIER_COMBINED="/etc/courier/courier-comb3.pem"
+#COURIER_DHPARAMS="/etc/courier/courier-dhparams.pem"
 
 # Dovecot: public + intermediate
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
@@ -176,6 +176,7 @@ Courier_mta() {
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     chown daemon:root "$COURIER_COMBINED" || Die 22 "courier owner"
     chmod 600 "$COURIER_COMBINED" || Die 23 "courier perms"
+
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
     chown daemon:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
     chmod 600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
@@ -231,8 +232,8 @@ Apache2() {
         | grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}$" \
         && sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
         | grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$"; then
-        # @TODO moved to /etc/apache2/mods-available/ssl.conf
-        #&& grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs$" "$APACHE_VHOST_CONFIG" \
+        # @TODO Moved to /etc/apache2/mods-available/ssl.conf
+        #&& grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs/$" "$APACHE_VHOST_CONFIG" \
         #&& grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}$" "$APACHE_VHOST_CONFIG"; then
 
         apache2ctl configtest && service apache2 restart

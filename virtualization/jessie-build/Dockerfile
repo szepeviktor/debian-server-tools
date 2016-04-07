@@ -1,8 +1,8 @@
 # szepeviktor/jessie-build
 #
-# VERSION 0.2.0
-# BUILD docker build -t szepeviktor/jessie-build jessie-build
-# RUN docker run --rm -it -v /opt/results:/opt/results szepeviktor/jessie-build
+# VERSION       0.2.0
+# BUILD         docker build -t szepeviktor/jessie-build jessie-build
+# RUN           docker run --rm -it -v /opt/results:/opt/results szepeviktor/jessie-build
 
 FROM debian:jessie
 

@@ -1,5 +1,5 @@
 # Microsoft Azure Traffic Manager mirror
-deb http://cloudfront.debian.net/debian jessie main contrib non-free
+deb http://debian-archive.trafficmanager.net/debian jessie main contrib non-free
 
 # Security
 deb http://security.debian.org/ jessie/updates main contrib non-free
