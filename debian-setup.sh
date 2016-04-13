@@ -7,47 +7,13 @@
 # LICENSE       :The MIT License (MIT)
 # AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
 
-# @TODO Prepare for automation
-# - input data/provider/virtualization type: (default values)
-#    - hardware:
-#      - net
-#      - disks, partitions, volumes
-#    - kernel:
-#      - boot mechanism (py/grub, syslinux)
-#      - microcode
-#      - clock source, time synchronization
-#      - timezone = UTC
-#      - cpufreq/cpuidle
-#      - rng (entropy)
-#      - irqbalance
-#      - kernel modules, blacklist
-#    - users
-# - input data/instance:
-#    - dialog=whiptail
-#    - save as YAML
-# - OS image check:
-#   - sanitization () + apt sources + dist-upgrade
-#   - systemd <-> sysvinit
-#   - is_barematel
-#   - is_hypervisor
-#   - virt-what
-# - personal prefs, dot files: root, user (/etc/skel/ w/first-login.sh then rm + several different prefs)
-#     Scripts should be able to install, update, remove: ?package management
-# - configure installed (essential) packages (prefer: debconf, add monit config, randomize cron times)
-# - create metapackages (equivs) only_on_virt, only_on_physical(console-setup console-setup-linux kbd xkb-data)
-# - install services + configure (Linux daemons, ?etckeeper, needrestart, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
-# - (list of) custom shell scripts + cron jobs
-# - populate /root/server.yml for every installed component
-# - system-backup.sh (debconf, etc, /root, user data, service data)
-
-
 # How to choose VPS provider?
 #
 # - Disk access time (~1 ms)
 # - CPU speed (2000+ PassMark CPU Mark, sub-20 ms sysbench)
 # - Worldwide and regional bandwidth, port speed
 # - Spammer neighbours https://www.projecthoneypot.org/ip_1.2.3.4
-# - Nightime technical support network or hardware failure response time
+# - Response time of nightime technical support in case of network or hardware failure
 # - Daytime technical and billing support
 # - D/DoS mitigation
 #
@@ -109,6 +75,7 @@ eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' 
 # APT settings
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/20download-upgrade
+# 'APT::Install-Recommends "1";'
 
 # Upgrade
 apt-get update
@@ -761,7 +728,7 @@ a2enmod ssl
 mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
 yes|cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
-echo -e "User-agent: *\nDisallow: /\n" > /var/www/html/robots.txt
+echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
 
 # Use php-fpm.conf settings per site
 a2enconf h5bp

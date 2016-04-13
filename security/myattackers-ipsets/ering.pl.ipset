@@ -1,6 +1,6 @@
 # AS197226 - E-RING-NET, Artur Grabowski (DELORIAN), DC: Spirit
 #: ipset -exist restore < ering.pl.ipset
-#: iptables -I INPUT -m set --match-set ering.pl src -j REJECT
+#: iptables -I myattackers-ipset -m set --match-set ering.pl src -j REJECT
 create ering.pl hash:net family inet hashsize 256 maxelem 32
 flush ering.pl
 add ering.pl 193.189.116.0/23

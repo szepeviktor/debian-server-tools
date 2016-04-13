@@ -1,3 +1,4 @@
+#!/bin/bash --version
 
 exit 0
 
@@ -49,6 +50,20 @@ exit 0
 # Courier MTA setup
 # See: ${D}/debian-setup.sh
 
+# SSL setup
+# Testing: Fail2ban addignoreip && TCPDOPTS += -noidentlookup -nodnslookup
+editor /etc/courier/esmtpd-ssl
+editor /etc/courier/esmtpd
+editor /etc/courier/esmtpd-msa # Only overrides esmtpd
+editor /etc/courier/courierd
+#     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
+#     TLS_CIPHER_LIST="" See https://mozilla.github.io/server-side-tls/ssl-config-generator/
+#     TLS_CERTFILE="/etc/courier/courier-comb3.pem"
+#     TLS_DHPARAMS="/etc/courier/courier-dhparams.pem"
+#     TLS_CACHEFILE=/var/lib/courier/tmp/ssl_cache
+#     TLS_CACHESIZE=524288
+#     # @TODO Enable session resumption (caching)
+
 # courier-pythonfilter
 #     /usr/local/lib/python2.7/dist-packages/pythonfilter
 apt-get install -y python-gdbm
@@ -77,3 +92,13 @@ touch zdkim.sqlite
 chown -c daemon:root zdkim.sqlite; chmod -c 600 zdkim.sqlite
 filterctl start zdkimfilter; ls -l /etc/courier/filters/active
 
+# Tarbaby fake MX record
+# http://wiki.junkemailfilter.com/index.php/Project_tarbaby
+editor /etc/courier/smtpaccess/default
+#     # https://tools.ietf.org/html/rfc2821#section-4.2.3
+#     # https://tools.ietf.org/html/rfc3463#section-3.8
+#     # http://www.iana.org/assignments/smtp-enhanced-status-codes/smtp-enhanced-status-codes.xhtml
+#     *	allow,RELAYCLIENT,BLOCK="451 4.7.1 Please try another MX"
+
+# Add lowest priority MX (highest numbered) record to DNS
+domain.net.  IN  MX  50 tarbaby.domain.net.

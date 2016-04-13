@@ -2,7 +2,17 @@
 #
 # Set up a Debian jessie system.
 #
-# Jessie 8.3 netinst (essential, required, important) and standard packages
+
+
+# Input data as valid YAML (cloud-init)
+#
+# - provider/virtualization type defaults:
+#   - is_baremetal
+#   - is_hypervisor
+#   - is_virtual
+# - per instance values:
+#   - systemd or sysvinit
+
 
 # Debian Installer steps (Expert Install)
 #
@@ -18,206 +28,131 @@
 #  9. Tasksel (SSH + standard)
 # 10. Boot loader (GRUB, no EFI)
 
-set +e
 
-export LC_ALL=C
-export DEBIAN_FRONTEND=noninteractive
-export APT_LISTCHANGES_FRONTEND=none
+# OS image
+#   - normalized image
+#   - normalization on first boot
+#   - clean up things from kernel messages
 
-# APT
 
-apt-get install -y -f
-apt-get install -y lsb-release apt  aptitude debian-archive-keyring
-#apt-get install -y lsb-release apt  aptitude ubuntu-keyring
-apt-get autoremove --purge -y
-# Purge packages that were removed but not purged
-apt-get purge -y $(aptitude --disable-columns search '?config-files' -F"%p")
+# First boot
+#
+# - boot:
+#   - py/grub, syslinux
+# - hardware:
+#   - microcode
+#   - disks, partitions, volumes
+#   - sensors (SMART, temp, fan, volt)
+#   - cpufreq/cpuidle
+# - kernel:
+#   - kernel modules, blacklist
+#   - clock source, time synchronization
+#   - timezone = UTC
+#   - rng (entropy)
+#   - irqbalance
+#   - network
+#   - netfilter (iptables, persistent)
+# - init:
+#   - remove systemd, -libpam-systemd, -dbus; deluser messagebus
+# - users:
+#   - root (dot files)
+#   - SSH keys
+#   - users (/etc/skel/, script on first login)
 
-# Virtualization environment
 
-#apt-get -qq -y install virt-what && virt-what
-#grep -a "container=" /proc/1/environ
-#cat /proc/cmdline
-#cat /sys/hypervisor/uuid # Xen UUID
-#dmidecode -s system-uuid # HyperV
+# Packages
+#
+# - APT sources
+# - check STANDARD_BLACKLIST packages
+# - set up BOOT_PACKAGES packages
+# - configure installed (ess,req,imp,std) packages (prefer: debconf, add monit config, randomize cron times)
+#   -
+# - create metapackages (equivs) only_on_virt, only_on_baremetal
+# - install services + configure (Linux daemons, ?etckeeper, needrestart, mail delivery methods, fail2ban, nscd, /root/dist-mod) (add monit config)
+#   - mail (lsb-invalid-mta)
+#
+# Scripts
+#
+# - connect scripts to debian packages (e.g. login)
+# - scripts should be able to install, update, remove: ?package management
+# - system-backup.sh (debconf, etc, /root, user data, service data)
+#
+# Documentation
+#
+# - populate /root/server.yml for every installed component
+#   - list of custom shell scripts + cron jobs
+
+
+# Detect virtualization environment
+
+apt-get -qq -y install virt-what && virt-what
+cat /proc/cmdline
+grep -a "container=" /proc/1/environ # OpenVZ
+cat /sys/hypervisor/uuid # Xen UUID
+dmidecode -s system-product-name # Xen type: HVM/PV-HVM/PV
+dmidecode -s system-uuid # HyperV
 
 # Distribution check
 
-if dpkg-query --show -f='${Status}' lsb-release &> /dev/null; then
-    #apt-get install -qq -y lsb-release && apt-mark auto lsb-release
+#if dpkg-query --show -f='${Status}' lsb-release &> /dev/null; then
+if which lsb-release &> /dev/null; then
     lsb_release -s -i # == Debian
     lsb_release -s -c # == jessie
     lsb_release -s -r # == "8\.[0-9]"
 else
+    #apt-get install -qq -y lsb-release && apt-mark auto lsb-release
     cat /etc/debian_version
 fi
 
-# APT config and sanity check
-
-# Check Install-Recommends
-apt-config dump APT::Install-Recommends # == "1"
-# @FIXME apt-get install -o APT::AutoRemove::RecommendsImportant=false
-
-# No upgrade yet!
-
-# Clean package cache
-apt-get clean
-rm -rf /var/lib/apt/lists/*
-apt-get clean
-apt-get autoremove --purge -y
-
-# Set sources
-mv -v /etc/apt/sources.list /etc/apt/sources.list.orig
-# @TODO Detect repos in /etc/apt/sources.list.d/
-wget -nv -O /etc/apt/sources.list "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/sources-cloudfront.list"
-#nano /etc/apt/sources.list
-apt-get update -qq -y
-# Maybe an update is available
-apt-get install -qq -y lsb-release apt aptitude debian-archive-keyring
-#apt-get install -qq -y lsb-release apt aptitude ubuntu-keyring
-
-# Reinstall tasks
-
-debconf-show tasksel
-apt-get purge -qq -y $(aptitude --disable-columns search '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))' -F"%p") #'
-echo "tasksel tasksel/first select " | debconf-set-selections -v
-echo "tasksel tasksel/desktop multiselect" | debconf-set-selections -v
-echo "tasksel tasksel/first multiselect ssh-server, standard" | debconf-set-selections -v
-echo "tasksel tasksel/tasks multiselect ssh-server" | debconf-set-selections -v
-apt-get install -qq -y tasksel
-# May take a while
-tasksel --new-install
-
-# Mark dependencies of standard packages as automatic
-
-for DEP in $(aptitude --disable-columns search \
- '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' -F"%p"); do
-    REGEXP="$(sed -e 's;\([^a-z0-9]\);[\1];g' <<< "$DEP")"
-    if aptitude why "$DEP" 2>&1 | grep -Eq "^i.. \S+\s+(Pre)?Depends( | .* )${REGEXP}( |$)"; then
-        apt-mark auto "$DEP" || echo "[ERROR] Marking package ${DEP} failed." 1>&2
-    fi
-done
-
-# Install standard packages
-
-STANDARD_BLACKLIST="exim.*|procmail|mutt|bsd-mailx|ftp|mlocate|nfs-common|rpcbind|texinfo|info|install-info|debian-faq|doc-debian\
-|intel-microcode|amd64-microcode"
-# Don't ever remove these
-BOOT_PACKAGES="grub-pc|linux-image-amd64|firmware-linux-nonfree|usbutils|mdadm|lvm2\
-|task-ssh-server|task-english|ssh|openssh-server|isc-dhcp-client|pppoeconf|ifenslave|ethtool|vlan\
-|sudo|cloud-init|cloud-initramfs-growroot\
-|sysvinit|initramfs-tools|insserv|discover|systemd|libpam-systemd|systemd-sysv|dbus\
-|extlinux|syslinux-common|elasticstack-container|waagent|scx|omi"
-STANDARD_PACKAGES="$(aptitude --disable-columns search '?or(?essential, ?priority(required), ?priority(important), ?priority(standard))' -F"%p" \
- | grep -Evx "$STANDARD_BLACKLIST")"
-#STANDARD_PACKAGES="$(aptitude --disable-columns search \
-# '?and(?architecture(native), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)))' -F"%p" \
-# | grep -Evx "$STANDARD_BLACKLIST")"
-apt-get -qq -y install ${STANDARD_PACKAGES}
-
-# Install missing recommended packages
-
-MISSING_RECOMMENDS="$(aptitude --disable-columns search '?and(?reverse-recommends(?installed), ?version(TARGET), ?not(?installed))' -F"%p" \
- | grep -Evx "$STANDARD_BLACKLIST")"
-apt-get -qq -y install ${MISSING_RECOMMENDS}
-
-# Remove non-standard packages
-
-MANUALLY_INSTALLED="$(aptitude --disable-columns search \
- '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' -F"%p" \
- | grep -Evx "$BOOT_PACKAGES")"
-apt-get purge -qq -y ${MANUALLY_INSTALLED}
-
-# List what boot packages are installed
-
-aptitude --disable-columns search '?and(?installed, ?not(?automatic))' -F"%p" \
- | grep -Ex "$BOOT_PACKAGES" | sed 's/$/ # boot/'
-
-# Remove packages on standard-blacklist
-
-apt-get purge -qq -y $(aptitude --disable-columns search '?installed' -F"%p" | grep -Ex "$STANDARD_BLACKLIST")
-# Exim bug
-getent passwd Debian-exim &> /dev/null && deluser --force --remove-home Debian-exim
-apt-get autoremove -qq --purge -y
-# Do dist-upgrade finally
-apt-get dist-upgrade -qq -y
-
-# Check for missing packages
-
-cd
-{
-    aptitude --disable-columns search '?and(?essential, ?not(?installed))' -F"%p"
-    aptitude --disable-columns search '?and(?priority(required), ?not(?installed))' -F"%p"
-    aptitude --disable-columns search '?and(?priority(important), ?not(?installed))' -F"%p"
-    aptitude --disable-columns search '?and(?priority(standard), ?not(?installed))' -F"%p" | grep -Evx "$STANDARD_BLACKLIST"
-} 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2
-
-# Check for extra packages
-
-{
-    aptitude --disable-columns search '?garbage' -F"%p" | sed 's/$/ # garbage/'
-    aptitude --disable-columns search '?broken' -F"%p" | sed 's/$/ # broken/'
-    aptitude --disable-columns search '?obsolete' -F"%p" | sed 's/$/ # obsolete/'
-    aptitude --disable-columns search \
-     '?and(?installed, ?or(?version(~~squeeze), ?version(\+deb6), ?version(python2\.6), ?version(~~wheezy), ?version(\+deb7)))' -F"%p" \
-     | sed 's/$/ # old/'
-    aptitude --disable-columns search '?and(?installed, ?not(?origin(Debian)))' -F"%p" | sed 's/$/ # non-Debian/'
-    #aptitude --disable-columns search '?and(?installed, ?not(?origin(Ubuntu)))' -F"%p" | sed 's/$/ # non-Ubuntu/'
-    # @TODO Exclude: cloud-init grub-common grub-pc grub-pc-bin grub2-common libgraphite2-3 intel-microcode
-    dpkg -l | grep "~[a-z]\+" | cut -c 1-55 | sed 's/$/ # tilde version/'
-    # "-dev" versioned packages
-    aptitude --disable-columns search '?and(?installed, ?name(-dev))' -F"%p" | sed 's/$/ # development/'
-} 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2
-
-# Check package integrity and cruft
-
-apt-get install -qq -y debsums cruft
-# Should be empty
-debsums -ac 2>&1 | sed 's/$/ # integrity/'
-cruft 2>&1 | tee cruft.log
-
-# List packages by size
-
-dpkg-query -f '${Installed-size}\t${Package}\n' --show | sort -k 1 -n > installed.pkgs
-
-exit 0
-
-
-# OPTIONAL: Remove systemd, -libpam-systemd
-# ?? -dbus; deluser messagebus
-
-
-# Cloud init
+# Cloud init preparation
 
 # RPCBind opens up port 111 to the Internet
 apt-get purge -qq -y rpcbind nfs-common
+# Xen VM monitoring through XenStore
+wget http://mirror.1and1.com/software/local-updates/XenServer_Tools/Linux/xe-guest-utilities_6.5.0-1423_amd64.deb
+dpkg -i xe-guest-utilities_*.deb
+# Install sudo
+apt-get install -y sudo
 # Newer Cloud init
 echo "cloud-init cloud-init/datasources multiselect NoCloud, ConfigDrive, None" | debconf-set-selections -v
-apt-get install -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
+apt-get install -y -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
+nano /etc/cloud/cloud.cfg.d/10_fakeconfigdrive.cfg
+
+#cloud-config
+hostname: myhostname
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEA17M3bU3LidWotM25W5sM6GWIPt1M1HAG0Kk2rwu21r5oSZjqTyLbs5ClgjDTCZBmwFtWQTwHKy+bgOeD5J02TC2jX/VfDzhcjv8/XFdnr0PImf4SL3DTg6MW98tCM4jd8E0J2PVSk3UAi9wpGU9ZxoOp7vy6qKsHv/Vwd0MpU9nPraP/A56Ps2EYk6vd1FVAcraxScuxiEoAjaLrFrn7X0nTwgMKzxiyTW8OwF4PM/J5AHC3Np8VxlkyDkVbnw3DPVLVVJxCcjMuKzAy4zuphA+vc0FlSU1L4mSQ2k754btlu9saW6SgZqzkHB2LgDDjSW8pHXqEAxfNt/GiJ2jVDw== viktor-RSA-2048bit@20140520
+packages:
+  - htop
+
 # Clear traces
 apt-get clean
-rm -rf /tmp/* /tmp/.*
+rm -rf /tmp/*
 # Clear logs
 #rm -rf /var/log/*.log
-# For all users
+# Clear history for all users
 history -c
+#ssh $USER@$HOST -- rm .bash_history
 systemctl poweroff
-# ?? mount image after poweroff
 
-# SSH port
-Port 33000
+# Cloud init YAML
+
 #  Network (DHCP or static IP, DNS resolver, host name)
 - Change IP, set resolver, change hostname (/etc/hosts too)
 #  Users (no root login, "debian" user, standard password)
 - Rename "debian" user and change password
 - Install an SSH key, disable password authentication
-#  Time sync
-- Xen time or Chrony?
 #  Disks (300MB boot part, use LVM: 2GB swap, 5GB root)
 - Resize LVM partition to full disk, grow root lv, grow root fs
 - Resize swap
-#  APT sources: per country mirror, non-free and backports, linux-image-amd64, no popcon
-#  SSH
+# APT sources: country mirror, release,security,updates,backports
+# SSH port
+Port 33000
+fail2ban
+# Time sync
+- Xen time or NTP/Chrony?
+#   iptables -I INPUT -p udp --destination-port 123 -j REJECT
+#   iptables -I INPUT -p udp --destination-port 323 -j REJECT
 
 # Cloud init examples
 
@@ -227,20 +162,11 @@ Port 33000
 - Change server locale, keyboard
 
 
-- ssh 42000 + fail2ban
-- 
-- clean up things from kernel messages
-- cloud-init/ jessie-backports
 
-Next image: debian base
-- 
+# Next image: debian base
 
-# First steps of customization
 
-1. Revisit STANDARD_BLACKLIST packages
-1. Check BOOT_PACKAGES packages
-1. Add extra repos
-1. Install "Basic" packages
+
 
 # @TODO if Deb_check_pkgname() then Deb_install_pkgname() else Deb_remove_pkgname()
 grub
@@ -271,7 +197,7 @@ cloud-init cloud-initramfs-growroot
 intel-microcode amd64-microcode
 cron (rendomize)
 
-# @TODO Hypervisors?
+# On hypervisors?
 
 # Install BASIC packages
 sudo

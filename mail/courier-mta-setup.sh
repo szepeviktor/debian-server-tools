@@ -65,7 +65,7 @@ editor imapd
 #     #IMAP_CAPABILITY_TLS=
 #     #IMAP_EMPTYTRASH
 
-echo -e '#!'"/bin/bash\nDH_BITS=2048 /usr/sbin/mkdhparams" > /etc/cron.monthly/courier-mkdhparams1
+echo -e '#!'"/bin/bash\nDH_BITS=2048 TLS_DHPARAMS=/etc/courier/courier-dhparams.pem /usr/sbin/mkdhparams" > /etc/cron.monthly/courier-mkdhparams1
 
 mkdir /etc/courier/esmtpacceptmailfor.dir
 touch esmtpacceptmailfor
@@ -266,3 +266,6 @@ hostmaster@%DOMAIN%:  admin@%DOMAIN%
 
 # more than 20 recipients -> use mailgun mailing list https://mailgun.com/
 # set courier: bofh / maxrcpts 20 hard
+
+# Testing infrequent restarts
+echo "23h" > respawnlo

@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+# Create an ipset file from an rbldnsd list.
+#
 # Example input file
 #
 #     mirtelematiki
@@ -16,7 +18,7 @@ read -r ASLINE
     cat <<EOF
 # ${ASLINE### }
 #: ipset -exist restore < ${NAME}.ipset
-#: iptables -I INPUT -m set --match-set ${NAME} src -j REJECT
+#: iptables -I myattackers-ipset -m set --match-set ${NAME} src -j REJECT
 create ${NAME} hash:net family inet hashsize 256 maxelem 32
 flush ${NAME}
 EOF

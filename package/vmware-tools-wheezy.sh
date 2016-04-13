@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash --version
 #
 # Install VMware tools Tools for virtual machines hosted on VMware
 #
@@ -9,14 +9,19 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DOCS          :http://partnerweb.vmware.com/comp_guide2/sim/interop_matrix.php
+# UPSTREAM      :https://github.com/vmware/open-vm-tools
+
+##
+## Deprecated!
+## VMware recommends that you use the open-vm-tools that come with these operating systems.
+##
 
 exit 0
 
-# Debian has a package called open-vm-tools
-# https://packages.debian.org/wheezy-backports/open-vm-tools
-# upstream: http://sourceforge.net/projects/open-vm-tools/files/open-vm-tools/
+# Wheezy
+# https://packages.debian.org/wheezy-backports-sloppy/open-vm-tools
 
-# get current tool version
+# Get current tool version
 vmtoolsd --version
 
 # uninstall

@@ -17,3 +17,7 @@ Use `conf.d` style configurations!
 - by config file
 
 `diff -wu installed.conf new.conf`
+
+### Hyper_
+
+Simple and secure container cloud https://hyper.sh/

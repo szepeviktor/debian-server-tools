@@ -18,7 +18,7 @@
 # StartSSL Class 2 IV (Identity Validation)
 #     wget https://www.startssl.com/certs/sca.server2.crt && dos2unix sca.server2.crt
 # StartSSL Class 3 OV (Organization Validation)
-#     wget https://www.startssl.com/certs/sca.server3.crt && dos2unix sca.server2.crt
+#     wget https://www.startssl.com/certs/sca.server3.crt && dos2unix sca.server3.crt
 # Comodo, PositiveSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust
@@ -181,6 +181,8 @@ Courier_mta() {
     chown daemon:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
     chmod 600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
+    SERVER_NAME="$(head -n 1 /etc/courier/me)"
+
     # Check config files for STARTTLS, SMTPS, IMAP STARTTLS IMAPS
     if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
@@ -193,19 +195,23 @@ Courier_mta() {
         service courier-imap-ssl restart
 
         # Tests SMTP, SMTPS, IMAP, IMAPS
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:25 -starttls smtp
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
         Readkey
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:465
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:465"
         echo "SMTPS result=$?"
         Readkey
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:143 -starttls imap
+        echo QUIT|openssl s_client -crlf -connect localhost:143 -starttls imap
         echo "IMAP STARTTLS result=$?"
         Readkey
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:993
+        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:993"
         echo "IMAPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:465" 1>&2
+        echo "echo QUIT|openssl s_client -crlf -connect localhost:143 -starttls imap" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:993" 1>&2
     fi
 
     echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
@@ -243,11 +249,12 @@ Apache2() {
         if [ "$SERVER_NAME" == '${SITE_DOMAIN}' ]; then
             SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
         fi
-        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect "${SERVER_NAME}:443" < /dev/null
+        echo | openssl s_client -CAfile "$CABUNDLE" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
     else
         #echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
+        echo "echo | openssl s_client -CAfile ${CABUNDLE} -connect ${SERVER_NAME}:443" 1>&2
     fi
 }
 

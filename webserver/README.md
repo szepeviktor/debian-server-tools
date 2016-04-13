@@ -42,6 +42,10 @@ http://www.litespeedtech.com/products/litespeed-web-server/benchmarks/php-hello-
 
 https://github.com/cherokee/webserver#cherokee-web-server
 
+#### Cowboy
+
+http://ninenines.eu/
+
 ### Apache slow loris protection
 
 [RequestReadTimeout](https://httpd.apache.org/docs/2.4/mod/mod_reqtimeout.html)

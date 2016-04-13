@@ -37,10 +37,14 @@ wget -nv -O- https://bootstrap.pypa.io/get-pip.py | python3
 # Python packages
 pip3 install -r requirements.txt
 
+# Import key "Nikolaus Rath <Nikolaus@rath.org>"
+gpg --keyserver pgp.mit.edu --recv-keys 3C4E599F
+
 # s3ql
 wget -nv "https://bitbucket.org/nikratio/s3ql/downloads/${RELEASE_FILE}"
-# @TODO Verify tarball integrity (.asc)
-if pip3 install "$RELEASE_FILE"; then
+wget -nv "https://bitbucket.org/nikratio/s3ql/downloads/${RELEASE_FILE}.asc"
+# Verify tarball integrity
+if gpg --verify "${RELEASE_FILE}.asc" && pip3 install "$RELEASE_FILE"; then
     echo "OK."
 else
     echo 'Failed!'

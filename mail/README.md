@@ -145,12 +145,16 @@ See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INS
 Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 
-### Courier-mta message processing order on reception
+### Courier MTA message processing order on reception
 
 1. SMTP communication
 1. NOADD*, `opt MIME=none`
 1. filters
 1. DEFAULTDELIVERY
+
+### Courier MTA log analyzer
+
+[Courier-analog](http://www.courier-mta.org/download.html#analog)
 
 
 ## Test
@@ -275,6 +279,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - HTML and plain text payload
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
+- [Spamhaus Marketing FAQ](https://www.spamhaus.org/faq/section/Marketing%20FAQs)
 - :cloud: CDN for images
 
 ### Email templates
@@ -305,7 +310,9 @@ https://wordtothewise.com/isp-information/
 
 #### List of blacklists
 
-- https://mxtoolbox.com/problem/blacklist/
+http://psky.me/
+
+- https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity&width=340&height=150)
 - http://bgp.he.net/ip/1.2.3.4#_rbl
 - http://www.dnsbl-check.info/
 - http://multirbl.valli.org/
@@ -339,3 +346,6 @@ Response: "IP Unlisted in the spam sender list None"
 - https://www.dnswl.org/?page_id=87
 - http://www.emailreg.org/index.cgi?p=policy (Barracuda)
 
+### Free e-mail backup server
+
+http://www.junkemailfilter.com/spam/free_mx_backup_service.html

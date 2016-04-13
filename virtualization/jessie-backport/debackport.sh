@@ -2,7 +2,7 @@
 #
 # Backport a Debian package.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
@@ -27,6 +27,9 @@
 set -e
 
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
+
+ARCHIVE_URL="http://ftp.hu.debian.org/debian"
+#ARCHIVE_URL="http://archive.ubuntu.com/ubuntu/"
 
 ALLOW_UNAUTH="--allow-unauthenticated"
 
@@ -55,7 +58,11 @@ sudo apt-get install -y -f
 if [ "${PACKAGE%.dsc}" == "$PACKAGE" ]; then
     # from source "package name/release codename"
     RELEASE="${PACKAGE#*/}"
-    echo "deb-src http://ftp.hu.debian.org/debian ${RELEASE} main" | sudo tee -a /etc/apt/sources.list
+    {
+        echo "deb-src ${ARCHIVE_URL} ${RELEASE} main"
+        wget -q --spider "${ARCHIVE_URL}/dists/${RELEASE}-updates/" \
+            && echo "deb-src ${ARCHIVE_URL} ${RELEASE}-updates main"
+    } | sudo tee -a /etc/apt/sources.list
     sudo apt-get update -qq
     apt-get source "$PACKAGE"
     # "dpkg-source: info: extracting pkg in pkg-1.0.0"

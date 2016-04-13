@@ -25,8 +25,13 @@
 - For trust (green lock in browsers)
 - For better SEO ranking
 - For receiving referrer information (up to April 2012)
+- Very cheap
 
-1. Apache-SSL.md
+Providers: Let's Encrypt, StartSSL, RapidSSL, CloudFlare SSL
+
+Performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
+
+1. [Apache-SSL.md](./Apache-SSL.md)
 1. https://www.ssllabs.com/ssltest/
 
 ### WordPress core, theme

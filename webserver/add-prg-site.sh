@@ -33,7 +33,7 @@ PRG_ROOT="/home/${U}/website/html"
 
 # Favicon and robots.txt
 wget -nv -P ${PRG_ROOT} "https://www.debian.org/favicon.ico"
-echo -e "User-agent: *\nDisallow: /" > ${PRG_ROOT}/robots.txt
+echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > ${PRG_ROOT}/robots.txt
 
 # Default image
 cp -v ${D}/webserver/default-image-38FC48.jpg ${PRG_ROOT}/
@@ -89,6 +89,7 @@ editor ${U}.conf
 # Apache site
 cd /etc/apache2/sites-available
 sed -e "s/@@PRG_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Prg-site.conf > ${DOMAIN}.conf
+# Consider Let’s Encrypt SSL certificate
 
 # Generate SSL certificate
 mc /etc/apache2/ssl/

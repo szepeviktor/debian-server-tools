@@ -27,7 +27,8 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
 
     SSLCompression Off
 
-    # ??? SSLSessionTickets Off
+    # https://github.com/mozilla/server-side-tls/issues/135
+    #SSLSessionTickets Off
 
     # OCSP Stapling (could also be in every virtual host)
     SSLUseStapling On
@@ -61,7 +62,7 @@ See: ${D}/security/ca/README.md
 - SPDY: https://spdycheck.org/
 - SPDY CLI: https://github.com/tatsuhiro-t/spdylay
 - HTTP/2: https://tools.keycdn.com/http2-test
-- https://github.com/mozilla/tls-observatory
+- SSL: https://github.com/mozilla/tls-observatory
 
 ### Search & Replace URL-s
 
