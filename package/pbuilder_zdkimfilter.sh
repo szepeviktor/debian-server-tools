@@ -8,7 +8,7 @@ PKGVERSION="1.5"
 SOURCE_URL="http://www.tana.it/sw/zdkimfilter/zdkimfilter-${PKGVERSION}.tar.gz"
 MAINTAINER="viktor@szepe.net"
 
-set +e
+set -e
 
 apt-get install -qq -y build-essential devscripts colormake pkg-config libtool checkinstall \
     courier-mta libopendkim-dev \

@@ -18,3 +18,5 @@ failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?
 
 # ? ,msg="535 Authentication required.",cmd: EHLO
 # ? ,msg="535 Authentication required.",cmd:
+
+ignoreregex = ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>,to=<\S+-testing@\S">: 550 User (<.*> )?unknown\.?$

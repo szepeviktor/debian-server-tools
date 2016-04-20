@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 # UPSTREAM      :https://github.com/mdom/dategrep
 
-set +e
+set -e
 
 DATEGREP="/usr/local/bin/dategrep"
 DATEGREP_RELEASES="https://api.github.com/repos/mdom/dategrep/releases"

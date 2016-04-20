@@ -10,9 +10,10 @@
 # How to choose VPS provider?
 #
 # - Disk access time (~1 ms)
-# - CPU speed (2000+ PassMark CPU Mark, sub-20 ms sysbench)
+# - CPU speed (2000+ PassMark CPU Mark, sub-20 ms sysbench, 100-150 ms in wordpress-speedtest)
+# - Redundancy in: power, network, storage, hypervisors
 # - Worldwide and regional bandwidth, port speed
-# - Spammer neighbours https://www.projecthoneypot.org/ip_1.2.3.4
+# - Spammer neighbours https://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
 # - Response time of nightime technical support in case of network or hardware failure
 # - Daytime technical and billing support
 # - D/DoS mitigation
@@ -349,6 +350,12 @@ editor /etc/resolv.conf
 #
 # OVH resolvers
 #     France 213.186.33.99
+#
+# ATW resolvers
+#     88.151.96.15
+#     88.151.96.16
+#     2a01:270::15
+#     2a01:270::16
 
 clear; ping6 -c 4 ipv6.google.com
 host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
@@ -358,16 +365,17 @@ host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\
 # SSL support
 rm -f /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key
 # Update ca-certificates
-#wget -qO- http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/unstable_changelog|less
-#Getpkg ca-certificates
+wget -qO- http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/unstable_changelog|less
+Getpkg ca-certificates
 # Install szepenet CA
 CA_NAME="szepenet"
 CA_FILE="szepenet_ca.crt"
 mkdir -v /usr/local/share/ca-certificates/${CA_NAME}
 cp -v ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
-update-ca-certificates -v -f
 # Monitor certificates
 cd ${D}; ./install.sh monitoring/cert-expiry.sh
+# Update certificates
+update-ca-certificates -v -f
 
 # Block dangerous networks
 cd ${D}/security/myattackers-ipsets/
@@ -647,72 +655,7 @@ cp -vf ${D}/mail/msmtprc /etc/
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
 # Courier MTA - deliver all messages to a smarthost
-#     Send-only servers don't receive emails.
-#     Send-only servers don't have local domain names.
-#     They should have an MX record pointing to the smarthost.
-#     Smarthost should receive all emails addressed to send-only server's domain name.
-clear; apt-get install -y courier-mta courier-mta-ssl
-# Fix dependency on courier-authdaemon
-sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta
-update-rc.d courier-mta defaults
-# Check for other MTA-s
-dpkg -l | grep -E "postfix|exim"
-cd ${D}; ./install.sh mail/courier-restart.sh
-# Smarthost
-editor /etc/courier/esmtproutes
-#     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
-#     : %SMART-HOST%,587 /SECURITY=REQUIRED
-#     : in-v3.mailjet.com,587 /SECURITY=REQUIRED
-# From jessie on - requires ESMTP_TLS_VERIFY_DOMAIN=1 and TLS_VERIFYPEER=PEER
-#     : %SMART-HOST%,465 /SECURITY=SMTPS
-editor /etc/courier/esmtpauthclient
-#     smtp.mandrillapp.com,587 MANDRILL@ACCOUNT API-KEY
-# Diffie-Hellman parameter
-DH_BITS=2048 nice /usr/sbin/mkdhparams
-# DH params cron.monthly job
-# @TODO Move it to a file
-echo -e '#!/bin/bash\nDH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null\nexit 0' > /usr/local/sbin/courier-dhparams.sh
-echo -e '#!/bin/bash\n/usr/local/sbin/courier-dhparams.sh' > /etc/cron.monthly/courier-dhparams
-chmod 755 /usr/local/sbin/courier-dhparams.sh /etc/cron.monthly/courier-dhparams
-editor /etc/courier/esmtpd
-#     TLS_DHPARAMS=/etc/courier/dhparams.pem
-#     ADDRESS=127.0.0.1
-#     TCPDOPTS=" ... ... -noidentlookup"
-#     ESMTPAUTH=""
-#     ESMTPAUTH_TLS=""
-editor /etc/courier/esmtpd-ssl
-#     SSLADDRESS=127.0.0.1
-#     TLS_DHPARAMS=/etc/courier/dhparams.pem
-editor /etc/courier/smtpaccess/default
-#     127.0.0.1	allow,RELAYCLIENT
-#     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
-editor /etc/courier/me
-# Check MX record
-host -t MX $(cat /etc/courier/me)
-editor /etc/courier/defaultdomain
-# SPF - Add this server to the SPF record of its domains
-editor /etc/courier/dsnfrom
-editor /etc/courier/locals
-#     localhost
-#     # Remove own hostname!
-editor /etc/courier/aliases/system
-#     postmaster: |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS admin@szepe.net
-courier-restart.sh
-# Allow unauthenticated SMTP traffic from this server on the smarthost
-#     editor /etc/courier/smtpaccess/default
-#         %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0
-
-# Receive bounce messages on the smarthost
-#     editor /etc/courier/aliases/system
-#         @HOSTNAME.TLD: LOCAL-USER
-#     editor /var/mail/DOMAIN/USER/.courier-default
-#         LOCAL-USER
-#     courier-restart.sh
-echo "This is a t3st mail."|mailx -s "[first] Subject of the 1st email" viktor@szepe.net
-
-# Apache 2.4 with ITK
-# @wheezy apt-get install -y -t wheezy-experimental apache2-mpm-itk apache2-utils libapache2-mod-fastcgi
-#apt-get install -y apache2-mpm-itk apache2-utils
+# See: ${D}/mail/courier-mta-send-only-setup.sh
 
 # Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
@@ -742,6 +685,10 @@ apt-get install -y mod-pagespeed-stable
 # Remove duplicate
 ls -l /etc/apt/sources.list.d/*pagespeed*
 #rm -v /etc/apt/sources.list.d/mod-pagespeed.list
+
+# Apache security
+https://github.com/rfxn/linux-malware-detect
+https://github.com/Neohapsis/NeoPI
 
 # Nginx 1.8
 apt-get install -y nginx-lite

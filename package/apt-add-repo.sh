@@ -14,7 +14,7 @@
 #
 #     apt-add-repo.sh nodejs percona
 
-set +e
+set -e
 
 Possible_locations() {
     cat <<-EOF

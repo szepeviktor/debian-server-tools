@@ -90,6 +90,6 @@ dch --bpo --distribution "${CURRENT_RELEASE}-backports" "$CHANGELOG_MSG"
 dpkg-buildpackage -us -uc
 
 cd ..
-lintian *.deb || true
+lintian --info --display-info --display-experimental --pedantic --show-overrides *.deb || true
 sudo cp -av *.deb /opt/results
 echo "OK."

@@ -141,7 +141,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.lo
 cd /etc/cron.d/
 # See: ${D}/webserver/preload-cache.sh
 
-# Goaccess
+# Goaccess, could be a cron job also
 IP=""
 goaccess --agent-list --http-method \
     --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \

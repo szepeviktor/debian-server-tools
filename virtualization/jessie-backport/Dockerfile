@@ -1,6 +1,6 @@
 # szepeviktor/jessie-backport
 #
-# VERSION       0.1.0
+# VERSION       0.1.2
 # BUILD         docker build -t szepeviktor/jessie-backport jessie-backport
 # RUN           docker run --rm --tty -v $TARGET_PATH:/opt/results --env PACKAGE="$SOURCE-PACKAGE/$RELEASE" szepeviktor/jessie-backport
 
@@ -11,7 +11,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 COPY debackport.sh /usr/local/bin/debackport.sh
 
-VOLUME ["/opt/results"]
 USER debian
 WORKDIR /home/debian
+VOLUME ["/opt/results"]
+
 ENTRYPOINT ["/usr/local/bin/debackport.sh"]

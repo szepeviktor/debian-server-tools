@@ -89,6 +89,8 @@ apt-get -qq -y install virt-what && virt-what
 cat /proc/cmdline
 grep -a "container=" /proc/1/environ # OpenVZ
 cat /sys/hypervisor/uuid # Xen UUID
+xenstore-read "/local/domain/$(xenstore-read "domid")/unique-domain-id" # Xen unique domain ID
+#xenstore-ls "/local/domain/$(xenstore-read "domid")" # Xen details
 dmidecode -s system-product-name # Xen type: HVM/PV-HVM/PV
 dmidecode -s system-uuid # HyperV
 

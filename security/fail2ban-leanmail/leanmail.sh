@@ -2,8 +2,8 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.7
-# DATE          :2015-11-24
+# VERSION       :0.2.8
+# DATE          :2016-04-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -173,7 +173,7 @@ Update_cache() {
     CACHE_FILE_TEMP="$(mktemp "${CACHE_FILE}.XXXXXXXXXX")"
 
     # Long timeout, three tries
-    wget -q -t 3 -O "$CACHE_FILE_TEMP" "$URL" 2> /dev/null
+    wget -q -T 20 -t 3 -O "$CACHE_FILE_TEMP" "$URL" 2> /dev/null
 
     # Circumvent the case of partially downloaded file
     if [ -s "$CACHE_FILE_TEMP" ]; then

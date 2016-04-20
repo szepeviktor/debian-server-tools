@@ -302,9 +302,10 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
 
-### Feedback loops
+### Feedback loops, postmaster tools
 
-https://wordtothewise.com/isp-information/
+- https://wordtothewise.com/isp-information/
+- http://postmaster.live.com/snds/
 
 ### RBL-s (DNSBL)
 
@@ -321,9 +322,7 @@ http://psky.me/
 #### Check RBL-s
 
 ```bash
-cat anti-abuse.org.rbl | xargs -I %% host -t A "$(revip "$IP").%%" 2>&1 \
-    | grep -v "not found: 3(NXDOMAIN)"
-#rblcheck
+rblcheck
 ```
 
 Trendmicro ERS check
@@ -333,9 +332,20 @@ wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.tren
     | sed -ne 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '
 ```
 
-Response: "IP Unlisted in the spam sender list None"
+OK response: "IP Unlisted in the spam sender list None"
 
-### Monitoring IP reputation
+### IP reputation
+
+- http://www.senderbase.org/lookup/
+- https://www.senderscore.org/lookup.php
+- http://www.barracudacentral.org/lookups
+- http://www.cyren.com/ip-reputation-check.html
+- http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx
+- http://ipremoval.sms.symantec.com/lookup/
+- https://postmaster.aol.com/ip-reputation
+- https://ers.trendmicro.com/reputations
+
+#### IP reputation monitoring
 
 - https://mxtoolbox.com/services_servermonitoring2.aspx
 - https://www.projecthoneypot.org/monitor_settings.php
@@ -345,6 +355,7 @@ Response: "IP Unlisted in the spam sender list None"
 
 - https://www.dnswl.org/?page_id=87
 - http://www.emailreg.org/index.cgi?p=policy (Barracuda)
+- https://ers.trendmicro.com/reputations/global_approved_list
 
 ### Free e-mail backup server
 

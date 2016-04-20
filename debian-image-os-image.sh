@@ -18,7 +18,7 @@ BOOT_PACKAGES="grub-pc|linux-image-amd64|firmware-linux-nonfree|usbutils|mdadm|l
 |sysvinit|initramfs-tools|insserv|discover|systemd|libpam-systemd|systemd-sysv|dbus\
 |extlinux|syslinux-common|elasticstack-container|waagent|scx|omi"
 
-set +e
+set -e
 
 export LC_ALL=C
 export DEBIAN_FRONTEND=noninteractive

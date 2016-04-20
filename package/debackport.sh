@@ -145,7 +145,7 @@ ok_msg "Packages are ready."
 
 ls *.deb | while read P; do
     ls --color=always -1 "$P"
-    lintian "$P"
+    lintian --info --display-info --display-experimental --pedantic --show-overrides "$P"
 done
 
 echo
