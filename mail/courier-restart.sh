@@ -19,7 +19,7 @@ Error() {
 makesmtpaccess || Error $? "smtpaccess/*"
 
 #if grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa
-if grep -q '^ESMTPDSTART=YES$' /etc/courier/esmtpd-msa; then
+if grep -qFx "ESMTPDSTART=YES" /etc/courier/esmtpd-msa; then
     makesmtpaccess-msa || Error $? "esmtpd-msa"
 fi
 

@@ -83,37 +83,31 @@ See: ${D}/mail/mbox_send2.py
 Build Courier SRS
 
 ```bash
-apt-get install -y build-essential libsrs2-dev libpopt0
+# http://archive.debian.org/debian/pool/main/libs/libsrs2/libsrs2_1.0.18-4.dsc
+dpkg -i libsrs2-*_amd64.deb
+apt-get install -y build-essential autoconf2.64 libpopt-dev courier-mta
 git clone https://github.com/szepeviktor/couriersrs
 cd couriersrs
-./configure --sysconfdir=/etc
+./configure --prefix=/usr --sysconfdir=/etc
 make
-make install
+#sudo make install
+sudo checkinstall
+#
+0 -  Maintainer: [ Viktor Szepe <viktor@szepe.net> ]
+1 -  Summary: [ Forwarding messages in courier using SRS ]
+2 -  Name:    [ couriersrs ]
+3 -  Version: [ 1.2 ]
+4 -  Release: [ 2 ]
+5 -  License: [ GPL ]
+6 -  Group:   [ mail ]
+7 -  Architecture: [ amd64 ]
+8 -  Source location: [ couriersrs ]
+9 -  Alternate source location: [  ]
+10 - Requires: [ libc6 (>= 2.15), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.9), courier-mta ]
+11 - Provides: [ couriersrs ]
+12 - Conflicts: [  ]
+13 - Replaces: [  ]
 ```
-
-See `couriersrs` package: http://szepeviktor.github.io/
-
-Set up SRS secret
-
-```bash
-./couriersrs -v
-apg -a 1 -M LCNS -m 30 -n 1 > /etc/srs_secret
-chown root:daemon /etc/srs_secret
-chmod 640 /etc/srs_secret
-```
-
-Create system aliases `SRS0` and `SRS1`.
-
-```bash
-echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS0-default
-echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-default
-```
-
-Add forwarding alias
-
-`user:  |/usr/bin/couriersrs --srsdomain=domain.srs username@external-domain.net`
-
-\* Note: SRS domain cannot be a virtual domain (`@virt.dom: an@account.net`).
 
 ### Courier catchall address
 
@@ -186,14 +180,8 @@ https://ssl-tools.net/
 
 ### Authentication
 
-https://www.unlocktheinbox.com/resources/identifieralignments/
-
-#### Sender ID (From:)
-
-- http://en.wikipedia.org/wiki/Sender_ID
-- http://tools.ietf.org/html/rfc4407#section-2
-- PRA: Resent-Sender > Resent-From > Sender > From > ill-formed
-- http://www.appmaildev.com/
+- https://www.unlocktheinbox.com/resources/identifieralignments/
+- http://www.openspf.org/Related_Solutions
 
 #### SPF (HELO, MAIL FROM:)
 
@@ -201,6 +189,13 @@ https://www.unlocktheinbox.com/resources/identifieralignments/
 - check http://www.kitterman.com/spf/validate.html
 - monitor `host -t TXT <domain>; pyspf`
 - non-emil domains: `v=spf1 -all`
+
+#### Sender ID (From:)
+
+- http://en.wikipedia.org/wiki/Sender_ID
+- http://tools.ietf.org/html/rfc4407#section-2
+- PRA: Resent-Sender > Resent-From > Sender > From > ill-formed
+- http://www.appmaildev.com/
 
 #### DKIM
 
@@ -211,7 +206,6 @@ https://www.unlocktheinbox.com/resources/identifieralignments/
 
 ##### DKIM tests
 
-- sa-test@sendmail.net
 - check-auth@verifier.port25.com
 - autorespond+dkim@dk.elandsys.com
 - test@dkimtest.jason.long.name
@@ -221,6 +215,7 @@ https://www.unlocktheinbox.com/resources/identifieralignments/
 - http://www.brandonchecketts.com/emailtest.php
 - http://www.appmaildev.com/en/dkim/
 - http://9vx.org/~dho/dkim_validate.php
+- https://protodave.com/tools/dkim-key-checker/ (DNS only)
 
 #### ADSP
 
@@ -284,6 +279,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 ### Email templates
 
+- https://litmus.com/community/templates
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
 - https://www.klaviyo.com/
 - https://litmus.com/subscribe
@@ -313,6 +309,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 http://psky.me/
 
+- http://www.intra2net.com/en/support/antispam/index.php (Blacklist Monitor)
 - https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity&width=340&height=150)
 - http://bgp.he.net/ip/1.2.3.4#_rbl
 - http://www.dnsbl-check.info/

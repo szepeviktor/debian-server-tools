@@ -1,42 +1,35 @@
+#!/bin/bash --version
 
 exit 0
 
-# RECEIVING MAIL (esmtpd)
+# TYPES OF OPERATION
 #
-# - transport: SMTP, SMTP-TLS, SMTP-MSA, SMTPS
-# - smtpaccess deny
-#       BIG mail spammers
-#       AUTH attackers
-#       AUTH attackers on SMTPS
-#       HTTP over SMTP
-# - smtpaccess allow
-#       own IP, known servers, relay clients (smtp.timeweb.ru)
-#       broken SMTP servers (missing PTR, allow,RELAYCLIENT/allow,BOFHCHECKDNS)
-#       providers (ISP, bank, shared hosting, VPS, server, DNS, WAF, CDN)
-#       subscriptions (ifttt, linkedin, hubiC)
-#       freemail?? (gmail, freemail, citromail, indamail)
-# - esmtproutes: servers with broken STARTTLS (advertised but unavailable)
-# - esmtpacceptmailfor.dir, hosteddomains, aliases
-# - courier-filters: python-filter, ?zdkim-filter (send-only)
-# - spamassassin: spammer.dnsbl, pyzor
-# - fetchmail
-# - SSL cert, settings
-# - SMTP AUTH methods (CRAM-* needs clear passwords)
+# Locally generated mail (sendmail, SMTP, notifications)
+#     MTA <-- sendmail
+#     MTA <-- MUA@localhost
+#     MTA <-- DSN
 #
-# SENDING MAIL (courierd)
+# Receiving from foreign hosts and as a 'smarthost' (inbound SMTP, SMTP-MSA)
+#     MTA <-- Internet
+#     MTA <-- Satellite systems (without authentication)
+#     MTA <-- MUA (authenticated)
 #
-# - SSL cert, settings
+# Delivering to foreign hosts or 'smarthosts' or transactional email providers (outbound SMTP)
+#     MTA --> Internet
+#     MTA --> smarthosts
+#     MTA --> transactional providers
 #
-# READING MAIL (imapd)
+# Forward to a foreign mailbox (SRS)
+#     MTA --> another MTA
 #
-# - authmodulelist="..."
-# - IMAP AUTH methods
-# - SSL cert, settings
-# - IMAP folder names, IMAP_EMPTYTRASH=Trash:0
-
-# .well-known /autodiscover: Thunderbird + Outlook
-
-# ${D}/package/config-compare.sh
+# Delivering to local mailboxes (accounts)
+#     MTA --> MDA
+#
+# Fetching remote mailboxes (fetchmail)
+#     MDA <-- remote MDA
+#
+# Reading mail in local mailboxes (IMAP)
+#     MUA <-- MDA
 
 
 # Courier-mta message processing order on reception
@@ -46,9 +39,11 @@ exit 0
 # 3. filters
 # 4. DEFAULTDELIVERY
 
+# ${D}/package/config-compare.sh
+
 # gamin for courier-imap
 
-# Mail submission agent (port 587)
+# Mail Submission Agent (TCP/587)
 editor esmtpd-msa
 #     AUTH_REQUIRED=1
 #     ADDRESS=0
@@ -65,7 +60,7 @@ editor imapd
 #     #IMAP_CAPABILITY_TLS=
 #     #IMAP_EMPTYTRASH
 
-echo -e '#!'"/bin/bash\nDH_BITS=2048 TLS_DHPARAMS=/etc/courier/courier-dhparams.pem /usr/sbin/mkdhparams" > /etc/cron.monthly/courier-mkdhparams1
+# install courier-dhparams.sh
 
 mkdir /etc/courier/esmtpacceptmailfor.dir
 touch esmtpacceptmailfor
@@ -113,7 +108,6 @@ CREATE TABLE IF NOT EXISTS `passwords` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `passwords`
   ADD UNIQUE KEY `id` (`id`);
-
 # @TODO Test utf8.
 
 # Privileges for `courierauthu`@`localhost`
@@ -153,7 +147,6 @@ editor /etc/default/spamassassin
 #    OPTIONS="--create-prefs --max-children 2 --helper-home-dir --ipv4 --allow-tell --username=virtual --groupname=virtual --nouser-config --virtual-config-dir=/var/mail/.spamassassin"
 
 # whitelist_to spamtrap@domain.tld
-
 
 # For DKIM check
 apt-get install -y libmail-dkim-perl
@@ -268,4 +261,16 @@ hostmaster@%DOMAIN%:  admin@%DOMAIN%
 # set courier: bofh / maxrcpts 20 hard
 
 # Testing infrequent restarts
-echo "23h" > respawnlo
+echo "23h" > /etc/courier/respawnlo
+
+# Tarbaby fake MX
+# http://wiki.junkemailfilter.com/index.php/Project_tarbaby
+editor /etc/courier/smtpaccess/default
+#     # https://tools.ietf.org/html/rfc2821#section-4.2.3
+#     # https://tools.ietf.org/html/rfc3463#section-3.8
+#     # http://www.iana.org/assignments/smtp-enhanced-status-codes/smtp-enhanced-status-codes.xhtml
+#     *	allow,RELAYCLIENT,BLOCK="451 4.7.1 Please try another MX"
+
+# Add the lowest priority (highest numbered) MX record
+#     domain.net.  IN  MX  50 tarbaby.domain.net.
+

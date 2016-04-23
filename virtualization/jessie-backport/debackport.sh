@@ -2,7 +2,8 @@
 #
 # Backport a Debian package.
 #
-# VERSION       :0.1.2
+# DOCKER        :szepeviktor/jessie-backport
+# VERSION       :0.2.1
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
@@ -21,8 +22,7 @@
 #
 # Apache backport: ?openssl/sid? spdylay nghttp2 apr-util apache2
 # Courier backport: courier-unicode courier-authlib courier
-
-# @TODO Sign and upload to a repo.
+# S3ql backport: python3-pytest-catchlog python3-llfuse python3-dugong cython3/jessie-backports s3ql
 
 set -e
 
@@ -41,6 +41,21 @@ Error() {
     exit "$RET"
 }
 
+Execute_hook() {
+    local HOOK="debackport-$1"
+
+    if ! [ -r "/opt/results/${HOOK}" ]; then
+        return 0
+    fi
+
+    if source "/opt/results/${HOOK}"; then
+        return 0
+    else
+        echo "HOOK ${HOOK} error: $?" 1>&2
+        return 1
+    fi
+}
+
 if [ -z "$PACKAGE" ]; then
     Error 1 'Usage:  docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="openssl/testing" szepeviktor/jessie-backport'
 fi
@@ -50,13 +65,21 @@ fi
 
 CURRENT_RELEASE="$(lsb_release -s --codename)"
 
+# Hook: init (e.g. set -x)
+Execute_hook init
+
 # Install .deb dependencies
 sudo dpkg -R -i /opt/results/ || true
 sudo apt-get update -qq
 sudo apt-get install -y -f
 
-if [ "${PACKAGE%.dsc}" == "$PACKAGE" ]; then
-    # from source "package name/release codename"
+if [ "${PACKAGE%.dsc}" != "$PACKAGE" ]; then
+    # From .dsc URL
+    dget --extract ${ALLOW_UNAUTH} "$PACKAGE"
+    cd "$(basename "$PACKAGE" | cut -d "_" -f 1)-"*
+    CHANGELOG_MSG="Built from DSC file: ${PACKAGE}"
+elif [ "${PACKAGE//[^\/]/}" == "/" ]; then
+    # From source "package name/release codename"
     RELEASE="${PACKAGE#*/}"
     {
         echo "deb-src ${ARCHIVE_URL} ${RELEASE} main"
@@ -69,11 +92,16 @@ if [ "${PACKAGE%.dsc}" == "$PACKAGE" ]; then
     cd "${PACKAGE%/*}-"*
     CHANGELOG_MSG="Built from ${PACKAGE}"
 else
-    # from .dsc URL
-    dget --extract ${ALLOW_UNAUTH} "$PACKAGE"
-    cd "$(basename "$PACKAGE" | cut -d "_" -f 1)-"*
-    CHANGELOG_MSG="Built from DSC file: ${PACKAGE}"
+    # From a custom source
+    # Should cd to source directory and set CHANGELOG_MSG
+    Execute_hook source
+    if ! [ -d "debian" ]; then
+        Error 3 "Custom source not available"
+    fi
 fi
+
+# Hook: pre-deps (e.g. install dependencies from backports)
+Execute_hook pre-deps
 
 # Remove version number constraints and alternatives
 DEPENDENCIES="$(dpkg-checkbuilddeps 2>&1 \
@@ -85,11 +113,19 @@ fi
 # Double check
 dpkg-checkbuilddeps
 
-dch --bpo --distribution "${CURRENT_RELEASE}-backports" "$CHANGELOG_MSG"
+# Hook: changes (e.g. dch --edit, edit files, debcommit --message $TEXT --all)
+ORIG_HASH="$(md5sum debian/changelog)"
+if ! Execute_hook changes || echo "$ORIG_HASH" | md5sum --status -c - ; then
+    dch --bpo --distribution "${CURRENT_RELEASE}-backports" "$CHANGELOG_MSG"
+fi
 
 dpkg-buildpackage -us -uc
 
-cd ..
-lintian --info --display-info --display-experimental --pedantic --show-overrides *.deb || true
-sudo cp -av *.deb /opt/results
+# Hook: post-build (e.g. sign and upload)
+Execute_hook post-build
+
+cd ../
+#lintian --info
+lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
+sudo cp -av ./*.deb /opt/results/
 echo "OK."

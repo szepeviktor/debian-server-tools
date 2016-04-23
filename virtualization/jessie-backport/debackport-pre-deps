@@ -1,0 +1,7 @@
+# HTTP::Server::Simple::CGI
+sudo apt-get install -y libhttp-server-simple-perl
+
+# Alien::RRDtool
+sudo apt-get install -y pkg-config graphviz libxml2-dev libpango1.0-dev libcairo2-dev \
+    libfile-sharedir-perl libtest-requires-perl
+sudo PERL_MM_USE_DEFAULT=1 cpan -i Alien::RRDtool

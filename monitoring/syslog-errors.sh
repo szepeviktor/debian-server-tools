@@ -20,7 +20,7 @@ Failures() {
 }
 
 # Search recent log entries
-logtail2 /var/log/syslog \
+/usr/sbin/logtail2 /var/log/syslog \
     | grep -F -v "$0" \
     | Failures \
     | grep -E -v "error@|spamd\[[0-9]+\]: spamd:|courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$" \
@@ -30,7 +30,7 @@ logtail2 /var/log/syslog \
 # Process boot log
 if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then
     # Skip "(Nothing has been logged yet.)"
-    logtail2 /var/log/boot \
+    /usr/sbin/logtail2 /var/log/boot \
         | sed -e '1!b;/^(Nothing .*$/d' \
         | Failures
 fi

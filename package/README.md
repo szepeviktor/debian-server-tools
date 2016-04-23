@@ -181,3 +181,6 @@ ln -svf /usr/bin/colorgcc /usr/local/bin/cc
 
 http://stephanepeter.com/makeself/
 
+### Unattended cpan install
+
+PERL_MM_USE_DEFAULT=1 cpan -i Alien::RRDtool

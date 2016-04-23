@@ -1,15 +1,35 @@
 #!/bin/bash --version
-
-exit 0
-
-# SENDING (through transactional email provider)
 #
-# - Mailjet SMTP/STARTTLS
-#     https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md#transactional-email-providers
+# Courier MTA receive-only configuration with accounts.
 #
+
+# Locally generated mail (sendmail, SMTP, notifications)
+#     MTA <-- sendmail (local monitoring scripts)
+#     MTA <-- DSN
+#
+# Receiving from foreign hosts (inbound SMTP, SMTP-MSA)
+#     MTA <-- Internet
+#
+# Delivering to 'smarthosts' or transactional email providers (outbound SMTP)
+#     MTA --> smarthosts
+#     MTA --> transactional providers
+#
+# Forward to a foreign mailbox (SRS)
+#     MTA --> another MTA
+#
+# Delivering to local mailboxes (accounts)
+#     MTA --> MDA
+#
+# Fetching remote mailboxes (fetchmail)
+#     MDA <-- remote MDA
+#
+# Reading mail in local mailboxes (IMAP)
+#     MUA <-- MDA
+
+
 # RECEIVING (esmtpd)
 #
-# - transport: SMTP, SMTP-TLS, SMTP-MSA, SMTPS
+# - transport: SMTP, SMTP STARTTLS, SMTP-MSA STARTTLS, SMTPS
 #     - SMTP AUTH methods (CRAM-* needs clear passwords)
 #     - SSL certificate and settings
 # - whitelisting: skip Spamassassin tests, whitelist_block.py
@@ -35,8 +55,8 @@ exit 0
 #
 # - authmodulelist="..."
 # - IMAP AUTH methods
-# - SSL cert, settings
 # - IMAP folder names, IMAP_EMPTYTRASH=Trash:0
+# - SSL cert, settings
 #
 # MONITORING
 #
@@ -47,22 +67,12 @@ exit 0
 # - monthly: top10-mailfolders.sh
 # - yearly: archive inbox and sent folders
 
-# Courier MTA setup
-# See: ${D}/debian-setup.sh
+exit 0
 
-# SSL setup
+# Courier MTA setup
+# @TODO Common parts with courier-mta-satellite-system.sh
+
 # Testing: Fail2ban addignoreip && TCPDOPTS += -noidentlookup -nodnslookup
-editor /etc/courier/esmtpd-ssl
-editor /etc/courier/esmtpd
-editor /etc/courier/esmtpd-msa # Only overrides esmtpd
-editor /etc/courier/courierd
-#     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
-#     TLS_CIPHER_LIST="" See https://mozilla.github.io/server-side-tls/ssl-config-generator/
-#     TLS_CERTFILE="/etc/courier/courier-comb3.pem"
-#     TLS_DHPARAMS="/etc/courier/courier-dhparams.pem"
-#     TLS_CACHEFILE=/var/lib/courier/tmp/ssl_cache
-#     TLS_CACHESIZE=524288
-#     # @TODO Enable session resumption (caching)
 
 # courier-pythonfilter
 #     /usr/local/lib/python2.7/dist-packages/pythonfilter
@@ -76,29 +86,4 @@ editor /etc/pythonfilter.conf
 #     modules/order???
 editor /etc/pythonfilter-modules.conf
 
-# DKIM signature
-#     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
-read -r -s -p "DKIM domain? " DOMAIN
-apt-get install -y opendkim-tools zdkimfilter
-cd /etc/courier/filters/
-mkdir --mode=700 privs; chown -cR daemon:root privs/
-cd privs/
-opendkim-genkey -v --domain="${DOMAIN}" --selector="dkim$(date -u "+%m%d")"
-cd ../; mkdir keys; cd keys/
-ln -vs "../privs/dkim$(date -u "+%m%d").private" "${DOMAIN}"
-editor zdkimfilter.conf
-# http://www.linuxnetworks.de/doc/index.php/OpenDBX/Configuration#sqlite3_backend
-touch zdkim.sqlite
-chown -c daemon:root zdkim.sqlite; chmod -c 600 zdkim.sqlite
-filterctl start zdkimfilter; ls -l /etc/courier/filters/active
-
-# Tarbaby fake MX record
-# http://wiki.junkemailfilter.com/index.php/Project_tarbaby
-editor /etc/courier/smtpaccess/default
-#     # https://tools.ietf.org/html/rfc2821#section-4.2.3
-#     # https://tools.ietf.org/html/rfc3463#section-3.8
-#     # http://www.iana.org/assignments/smtp-enhanced-status-codes/smtp-enhanced-status-codes.xhtml
-#     *	allow,RELAYCLIENT,BLOCK="451 4.7.1 Please try another MX"
-
-# Add lowest priority MX (highest numbered) record to DNS
-domain.net.  IN  MX  50 tarbaby.domain.net.
+# @TODO Well-known and autodiscover

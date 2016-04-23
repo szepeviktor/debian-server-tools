@@ -3,7 +3,7 @@
 #
 #### DOMAIN        :spammer.dnsbl
 #### DOCS          :http://www.corpit.ru/mjt/rbldnsd.html
-#### DUMP          :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone 1> /dev/null
+#### DUMP          :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone > /dev/null
 #### TEST          :host -tANY $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
 #### LOCATION      :/var/lib/rbldns/spammer/spammer.dnsbl.zone
 
@@ -78,22 +78,22 @@ $TTL 60
 # Iliad (Online SAS, Dedibox servers)
 195.154          :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-212.129.59.1     friendly-vibes.com@FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-62.4.15          :2:Neighbour of *.hoverstyle.com
-62.4.15.221      *.hoverstyle.com@DEDIBOX-POOL-IPFO/AS12876
-212.129.32.0/19  :2:Neighbour of *.nyshkickball.com
-212.129.55.1     gutter.nyshkickball.com@FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+212.129.59.1     friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+62.4.15          :2:Neighbour of *.hoverstyle.com.
+62.4.15.221      *.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
+212.129.32.0/19  :2:Neighbour of *.nyshkickball.com.
+212.129.55.1     gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 
 # Peter Krozser
 198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
 
 # Electris Ltd
 83.143.176-183   :2:Neighbour of Electris Ltd
-83.143.178.104   BG_brandsvirals.net@IXTLAN-SYSTEMS/AS200002
+83.143.178.104   BG_brandsvirals.net. @IXTLAN-SYSTEMS/AS200002
 
 # ROAD MARKETING SRL
 86.106.89        RO_only-mta-s@ROAD-MARKETING-SRL/AS48336
-37.156.226       RO_nagyonhasznos.eu-valamihasznosat.eu@ROAD-MARKETING-SRL/AS59854
+37.156.226       RO_nagyonhasznos.eu-valamihasznosat.eu. @ROAD-MARKETING-SRL/AS59854
 
 # m*.cutersfood.com
 199.217.114.69-73   HU_m*.cutersfood.com@HSI-6/AS30083
@@ -103,24 +103,24 @@ $TTL 60
 
 # Black Fox Limited @VolumeDrive
 107.182.16.0/20     :2:Neighbour of Black Fox Limited
-107.182.16.0/26     *.getlatestnews.biz@BFL-22/AS46664
-107.182.17.198-208  *.getlatestnews.biz@BFL-22/AS46664
+107.182.16.0/26     *.getlatestnews.biz. @BFL-22/AS46664
+107.182.17.198-208  *.getlatestnews.biz. @BFL-22/AS46664
 
 # *.globalplaza.hu
 188.227.227         :2:Neighbour of HU_*.globalplaza.hu
-188.227.227.181-186 HU_*.globalplaza.hu@DOCLERWEB/AS47381
+188.227.227.181-186 HU_*.globalplaza.hu. @DOCLERWEB/AS47381
 
 # euve77344.serverprofi24.net @PlusServer AG
-62.75.142           :2:Neighbour of HU_euve77344.serverprofi24.net
-62.75.142.67        HU_euve77344.serverprofi24.net@BSB-SERVICE-1/AS8972
+62.75.142           :2:Neighbour of HU_euve77344.serverprofi24.net.
+62.75.142.67        HU_euve77344.serverprofi24.net. @BSB-SERVICE-1/AS8972
 
 # *news.info spammer block DC: SERVERDROID
-94.46.192-195       :2: Neighbour of mail.*news.info spammer block
+94.46.192-195       :2: Neighbour of mail.*news.info. spammer block
 94.46.193.222-255   mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
-91.109.112.0/21     :2: Neighbour of *news.info spammer block
+91.109.112.0/21     :2: Neighbour of *news.info. spammer block
 91.109.119.199-255  pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598
-185.109.169.1-148   :2: Neighbour of mail.*news.info spammer block
-185.109.169.171-255 :2: Neighbour of mail.*news.info spammer block
+185.109.169.1-148   :2: Neighbour of mail.*news.info. spammer block
+185.109.169.171-255 :2: Neighbour of mail.*news.info. spammer block
 185.109.169.149-170 mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
 
 # Oancea-F-Cristian-Marius-PFA @AS61971
@@ -128,14 +128,22 @@ $TTL 60
 93.119.106.135      RO_mail.katinanews.info.
 
 # spammer: 93.158.206.23 DC: Serverius
-93.158.204.0/22     :2: Neighbour of intensdesign.com @Serverius/AS50673
+93.158.204.0/22     :2: Neighbour of intensdesign.com. @Serverius/AS50673
 
 # HUMANICWEB @High Speed Web/Genesis 2 Networks
 # *.offersserve.xyz *.sendmasspress.xyz *.sendmasscampaign.xyz *.sendbulkcampaign.xyz
-216.189.122         :2:Neighbour of HUMANICWEB *.send*.xyz
+216.189.122         :2:Neighbour of HUMANICWEB *.send*.xyz.
 216.189.122.193     ptp193.sendbulkcampaign.xyz. @HIGHSPEEDWEB-2/AS8175
 
 # GLOBAL-FRAG-SERVERS
-23.247.114          :2:Neighbour of GLOBAL-FRAG-SERVERS shop*.360jiank.com
-23.247.114.60       shop60.360jiank.com. @GLOBAL-FRAG-SERVERS/AS46573
+23.247.114          :2:Neighbour of GLOBAL-FRAG-SERVERS shop*.360jiank.com.
+23.247.114.60       US_shop60.360jiank.com. @GLOBAL-FRAG-SERVERS/AS46573
 
+# Oancea F. Cristian Marius
+89.33.193           RO_m.*news.info. @Oancea-F-Cristian-Marius-PFA/AS61971
+
+# Forex Binary Trader binarytrader.trade forexoptions.trade fxbinary.club fxbinaryrevenue.com
+146.0.232.0/26      DE_*fxbinary* @VELIANET-DE-KELLYSHARMA/AS29066
+
+# QuadraNet customers: Legendary Tech Enterprises, Ping4Support, Reliablehosting.com, Legendary Tech Enterprises
+198.55.116.0/22     US_*xx.win. @QUADRANET/AS8100

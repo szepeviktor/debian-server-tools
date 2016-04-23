@@ -91,8 +91,8 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 # Courier MTA: public + intermediate + private
 # From Debian jessie on: private + public + intermediate
 #
-#COURIER_COMBINED="/etc/courier/courier-comb3.pem"
-#COURIER_DHPARAMS="/etc/courier/courier-dhparams.pem"
+#COURIER_COMBINED="/etc/courier/ssl-comb.pem"
+#COURIER_DHPARAMS="/etc/courier/dhparams.pem"
 
 # Dovecot: public + intermediate
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates

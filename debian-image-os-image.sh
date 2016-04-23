@@ -52,7 +52,7 @@ mv -v /etc/apt/sources.list /etc/apt/sources.list.orig
 # @TODO Detect repos in /etc/apt/sources.list.d/
 wget -nv -O /etc/apt/sources.list "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/sources-cloudfront.list"
 #nano /etc/apt/sources.list
-apt-get update -qq -y
+apt-get update -qq
 # Maybe an update is available
 apt-get install -qq -y lsb-release apt aptitude debian-archive-keyring
 #apt-get install -qq -y lsb-release apt aptitude ubuntu-keyring
@@ -60,8 +60,9 @@ apt-get install -qq -y lsb-release apt aptitude debian-archive-keyring
 # Reinstall tasks
 
 debconf-show tasksel
+#tasksel --list-tasks
 apt-get purge -qq -y $(aptitude --disable-columns search '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))' -F"%p") #'
-echo "tasksel tasksel/first select " | debconf-set-selections -v
+echo "tasksel tasksel/first select" | debconf-set-selections -v
 echo "tasksel tasksel/desktop multiselect" | debconf-set-selections -v
 echo "tasksel tasksel/first multiselect ssh-server, standard" | debconf-set-selections -v
 echo "tasksel tasksel/tasks multiselect ssh-server" | debconf-set-selections -v

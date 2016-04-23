@@ -5,16 +5,20 @@
 #
 # Set P2R_LANG to any language code after you added the corresponding wordlist file (password2remember_<CODE>.txt).
 #
-# VERSION       :0.3
+# VERSION       :0.3.0
 # DATE          :2015-01-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :pip install xkcdpass
-# LOCATION      :/usr/local/bin/password2remember.sh
 # WORDLIST_HU   :http://packetstormsecurity.com/files/32010/hungarian.gz.html
 # WORDLIST_HU2  :http://sourceforge.net/projects/wordlist-hu/
+# DEPENDS       :pip install xkcdpass
+# LOCATION      :/usr/local/bin/password2remember.sh
+
+# Install
+#     mkdir -p /usr/local/share/password2remember
+#     cp -v ./password2remember_hu.txt /usr/local/share/password2remember/
 
 P2R_LANG="hu"
 DELIMITER="."

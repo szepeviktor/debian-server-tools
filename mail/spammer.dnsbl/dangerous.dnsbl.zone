@@ -3,12 +3,12 @@
 #
 #### DOMAIN        :dangerous.dnsbl
 #### DOCS          :http://www.corpit.ru/mjt/rbldnsd.html
-#### DUMP          :rbldnsd -d -r/var/lib/rbldns/spammer dangerous.dnsbl:ip4set:dangerous.dnsbl.zone 1> /dev/null
+#### DUMP          :rbldnsd -d -r/var/lib/rbldns/spammer dangerous.dnsbl:ip4set:dangerous.dnsbl.zone > /dev/null
 #### TEST          :host -tANY $(revip 1.2.3.4).dangerous.dnsbl worker.szepe.net
 #### LOCATION      :/var/lib/rbldns/spammer/dangerous.dnsbl.zone
 
 ####  1   - Dangerous network
-####  2   - Tor exit node
+####  2   - Tor exit node (deprecated)
 ####  4   - (unused reponse code)
 ####  128 - Blocked network
 

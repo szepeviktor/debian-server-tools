@@ -83,10 +83,8 @@ apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
     time bash-completion htop host mc lynx ncurses-term aptitude iproute2 ipset
-ln -svf /usr/bin/host /usr/local/bin/mx
 
 # Input
-echo "alias e='editor'" > /etc/profile.d/e-editor.sh
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc
 update-alternatives --set pager /usr/bin/most
 update-alternatives --set editor /usr/bin/mcedit
@@ -96,7 +94,7 @@ update-alternatives --set editor /usr/bin/mcedit
 echo "dash dash/sh boolean false" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash
 set +x
-. /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
+source /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
 
 # --- Automated --------------- >8 ------------- >8 ------------
 #grep -B1000 "# -\+ Automated -\+" debian-setup.sh
@@ -280,7 +278,7 @@ mkswap /swap0
 echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
 
 # relAtime option for filesystems
-grep "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
+grep --color "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
 
 # Kernel
 uname -a
@@ -302,6 +300,7 @@ editor /etc/modules
 clear; ls -1 /etc/sysctl.d/ | grep -v README.sysctl
 editor /etc/sysctl.conf
 
+# SysVinit
 # Comment out getty[2-6], NOT /etc/init.d/rc !
 # Consider /sbin/agetty
 editor /etc/inittab
@@ -477,7 +476,7 @@ dpkg -l | most
 apt-get autoremove --purge
 
 # Show debconf changes
-debconf-show --listowners | xargs -n 1 debconf-show | grep "^*"
+debconf-show --listowners | xargs -n 1 debconf-show | grep "^\*"
 
 # Sanitize users
 #     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
@@ -491,8 +490,11 @@ update-passwd -v --dry-run
 
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
-    needrestart iptables-persistent bootlogd moreutils whois unzip heirloom-mailx goaccess \
-    apg dos2unix strace ccze mtr-tiny git colordiff gcc libc6-dev make ntpdate
+    needrestart iptables-persistent moreutils logtail whois unzip heirloom-mailx \
+    apg dos2unix git colordiff mtr-tiny ntpdate \
+    gcc libc6-dev make strace ccze goaccess
+# SysVinit
+apt-get install -y bootlogd
 # Backports
 #apt-get install -t jessie-backports -y 
 
@@ -536,7 +538,7 @@ python2 get-pip.py
 
 # Virtualization environment
 apt-get install -y virt-what && virt-what
-apt-get purge virt-what dmidecode
+apt-get purge virt-what
 
 # rsyslogd immark plugin
 #     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
