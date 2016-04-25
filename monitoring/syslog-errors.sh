@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last hour. Simple logcheck.
 #
-# VERSION       :0.8.0
+# VERSION       :0.8.1
 # DATE          :2016-04-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -24,6 +24,7 @@ Failures() {
     | grep -F -v "$0" \
     | Failures \
     | grep -E -v "error@|spamd\[[0-9]+\]: spamd:|courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$" \
+    | grep -E -v "couriertls: connect: .*:SSL routines:(SSL3_GET_CLIENT_HELLO|SSL3_GET_RECORD):(unsupported protocol|wrong version number|no shared cipher)$" \
     #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
     #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
 

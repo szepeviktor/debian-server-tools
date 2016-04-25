@@ -2,7 +2,7 @@
 #
 # Backup a server.
 #
-# VERSION       :1.1.0
+# VERSION       :1.1.1
 # DATE          :2015-12-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -37,8 +37,8 @@ Error() {
 
     echo "ERROR ${STATUS}: $*" 1>&2
 
-#    if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" 2> /dev/null; then
-    if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null; then
+    #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null; then
+    if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
         /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET"
         /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET"
     fi
@@ -192,7 +192,6 @@ Mount() {
     /usr/bin/mount.s3ql ${S3QL_OPT} \
         "$STORAGE_URL" "$TARGET" || Error 1 "Cannot mount storage"
 
-#    /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" 2> /dev/null || Error 2 "Cannot stat storage"
     /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null || Error 2 "Cannot stat storage"
 
     Check_mount

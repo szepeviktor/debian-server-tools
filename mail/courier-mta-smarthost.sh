@@ -69,7 +69,7 @@ echo "1d" > /etc/courier/queuetime
 # Listen on 587 and 465 and allow only authenticated clients even without PTR record
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
-#     TCPDOPTS=" ... ... -noidentlookup -nodnslookup"
+#     TCPDOPTS+="-noidentlookup -nodnslookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS="PLAIN LOGIN"
 editor /etc/courier/esmtpd-msa
@@ -137,14 +137,41 @@ cd ../
 # Add new key to DNS
 cat "/etc/courier/filters/privs/dkim${DKIM_SELECTOR}.txt"
 host -t TXT "${DKIM_SELECTOR}._domainkey.${DOMAIN}"
-# Start filter
+# Enable zdkimfilter
 filterctl start zdkimfilter; ls -l /etc/courier/filters/active
+
+# ClamAV + no_received_headers
+apt-get install -y python2.7 clamav-daemon python-pyclamav uuid-runtime
+wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
+# Install pythonfilter
+pip2 install courier-pythonfilter
+cat <<EOF > /etc/pythonfilter.conf
+clamav
+attachments
+noreceivedheaders
+EOF
+cat <<EOF > /etc/pythonfilter-modules.conf
+[clamav.py]
+localSocket = '/run/clamav/clamd.ctl'
+action = 'quarantine'
+
+[Quarantine]
+siteid = '$(uuidgen)'
+dir = '/var/lib/pythonfilter/quarantine'
+days = 14
+EOF
+# Quarantine
+mkdir -p /var/lib/pythonfilter/quarantine
+chown -cR daemon:daemon /var/lib/pythonfilter
+# Enable pythonfilter
+ln -vs /usr/local/bin/pythonfilter /usr/lib/courier/filters/
+filterctl start pythonfilter
 
 # SRS (Sender Rewriting Scheme)
 apt-get install -y apg couriersrs
 couriersrs -v
+install -b -o root -g daemon -m 640 /dev/null /etc/srs_secret
 apg -a 1 -M LCNS -m 30 -n 1 > /etc/srs_secret
-chown -c root:daemon /etc/srs_secret; chmod -c 640 /etc/srs_secret
 # Create system aliases SRS0 and SRS1
 echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS0-default
 echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-default
@@ -153,19 +180,19 @@ echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-defa
 # Add forwarding alias
 #     user:  |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS username@external-domain.tld
 
-courier-restart.sh
-
-# Test
-echo "This is a t3st mail."|mailx -s "[first] The 1st outgoing mail" admin@szepe.net
-
-#tail -f /var/log/syslog
-journalctl -f
-
 # Accounts
 mkdir /etc/courier/esmtpacceptmailfor.dir; makeacceptmailfor
 install -b -o root -g root -m 644 /dev/null /etc/courier/hosteddomains; makehosteddomains
 editor /etc/courier/authdaemonrc
 #     authmodulelist="authuserdb"
 install -b -o root -g root -m 600 /dev/null /etc/courier/userdb; makeuserdb
+
+# Restart Courier MTA
+courier-restart.sh
+
+# Test
+echo "This is a t3st mail."|mailx -s "[first] The 1st outgoing mail" admin@szepe.net
+#tail -f /var/log/syslog
+journalctl -f
 
 ./add-mailaccount.sh USER@DOMAIN

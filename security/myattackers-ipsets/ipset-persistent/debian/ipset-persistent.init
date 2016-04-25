@@ -5,9 +5,9 @@
 # Required-Stop:     $local_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# X-Start-Before:    $network iptables-persistent
-# X-Stop-After:      $network
-# Short-Description: Set up ipset rules
+# X-Start-Before:    $network netfilter-persistent
+# X-Stop-After:      $network netfilter-persistent
+# Short-Description: Load boot-time ipset rules
 # Description:       Loads/saves current ipset rules from/to /etc/iptables
 #  to provide a persistent rule set during boot time
 ### END INIT INFO
@@ -15,9 +15,9 @@
 . /lib/lsb/init-functions
 
 # return code
-rc=0
+declare -i rc="0"
 
-IPSET=/sbin/ipset
+IPSET="/sbin/ipset"
 
 load_rules() {
 	if [ ! -x $IPSET ]; then
@@ -31,7 +31,7 @@ load_rules() {
 			$IPSET destroy
 			$IPSET restore < /etc/iptables/ipset 2> /dev/null
 			if [ $? -ne 0 ]; then
-				rc=1
+				rc="1"
 			fi
 		fi
 	fi
@@ -44,12 +44,10 @@ save_rules() {
 		log_action_cont_msg " $IPSET not exist"
 	else
 		log_action_begin_msg "Saving rules"
-		if [ -x /sbin/ipset ]; then
-			log_action_cont_msg " ipset"
-			ipset save > /etc/iptables/ipset
-			if [ $? -ne 0 ]; then
-				rc=1
-			fi
+		log_action_cont_msg " ipset"
+		$IPSET save > /etc/iptables/ipset
+		if [ $? -ne 0 ]; then
+			rc="1"
 		fi
 	fi
 
@@ -58,11 +56,26 @@ save_rules() {
 
 flush_rules() {
 	if [ ! -x $IPSET ]; then
-		log_action_cont_msg " $IPSET not exist"
+		log_action_cont_msg " $IPSET does not exist"
 	else
 		log_action_begin_msg "Flushing rules"
 		log_action_cont_msg " ipset"
 		$IPSET destroy
+	fi
+
+	log_action_end_msg 0
+}
+
+ipset_status() {
+	if [ ! -x $IPSET ]; then
+		log_action_cont_msg " skipping ipset-persistent ($IPSET not exist)"
+	else
+		if [ ! -f /etc/iptables/ipset ]; then
+			log_action_cont_msg " no rules"
+		else
+			log_action_cont_msg " ipset"
+			cat /etc/iptables/ipset
+		fi
 	fi
 
 	log_action_end_msg 0
@@ -81,10 +94,13 @@ case "$1" in
 	flush)
 		flush_rules
 		;;
+	status)
+		ipset_status
+		;;
 	*)
-		echo "Usage: $0 {start|restart|reload|force-reload|save|flush}" 1>&2
+		echo "Usage: $0 {start|restart|reload|force-reload|save|flush|status}" 1>&2
 		exit 1
 		;;
 esac
 
-exit $rc
+exit "$rc"

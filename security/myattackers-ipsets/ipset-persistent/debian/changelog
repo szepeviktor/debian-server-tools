@@ -1,3 +1,10 @@
+ipset-persistent (1.0.2) stable; urgency=high
+
+  * Start before netfilter-persistent, and stop after netfilter-persistent.
+  * Implement status.
+
+ -- Viktor Szépe <viktor@szepe.net>  Mon, 25 Apr 2016 11:17:16 +0000
+
 ipset-persistent (1.0.1) stable; urgency=low
 
   * Small fixes.

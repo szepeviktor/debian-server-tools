@@ -330,10 +330,19 @@ route -n -6
 netstat -antup
 
 editor /etc/resolv.conf
+#     # Google Public DNS
 #     nameserver 8.8.8.8
 #     nameserver LOCAL-NS
 #     nameserver LOCAL-NS2
 #     nameserver 8.8.4.4
+#     options timeout:2
+#     #options rotate
+
+#     # DNS Advantage by Neustar
+#     nameserver 156.154.71.1
+#     nameserver LOCAL-NS
+#     nameserver LOCAL-NS2
+#     nameserver 156.154.70.1
 #     options timeout:2
 #     #options rotate
 

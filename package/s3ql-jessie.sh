@@ -14,7 +14,7 @@
 # Test in Docker
 #
 # cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
-# docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-backport
+# docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
 
 RELEASE_FILE="s3ql-2.17.1.tar.bz2"
 

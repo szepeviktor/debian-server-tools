@@ -3,6 +3,12 @@
 # Display hits of ipsets and reset their counters.
 #
 # VERSION       :0.1.1
+# DATE          :2016-04-13
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install ipset
 # LOCATION      :/usr/local/sbin/ipset-hits.sh
 
 Reset_rule() {
@@ -16,7 +22,12 @@ Reset_rule() {
         return 1
     fi
 
-    iptables -vn -Z myattackers-ipset "$RULE_NUMBER" -L || echo "Error resetting rule for ${IPSET}" 1>&2
+    if ! iptables -v -n -Z myattackers-ipset "$RULE_NUMBER" -L;
+        echo "Error resetting rule for ${IPSET}" 1>&2
+        return 2
+    fi
+
+    return 0
 }
 
 for IPSET in $(ipset list -name); do
