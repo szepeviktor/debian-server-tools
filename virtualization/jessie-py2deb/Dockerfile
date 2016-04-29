@@ -1,7 +1,7 @@
 # szepeviktor/jessie-py2deb
 #
 # VERSION 0.2.0
-# BUILD docker build -t szepeviktor/jessie-py2deb jessie-py2deb
+# BUILD docker build -t szepeviktor/jessie-py2deb:latest jessie-py2deb
 # RUN docker run --rm -v $TARGET_PATH:/opt/results --env PACKAGE="$PYTHON_PACKAGE" szepeviktor/jessie-py2deb
 
 FROM szepeviktor/jessie-build

@@ -142,7 +142,7 @@ Check_requirements() {
         || [ "$(stat --format=%u "$PRIV_DIR")" != 0 ]; then
         Die 5 "Private cert directory needs to be private (0710) and owned by root."
     fi
-    if ! [ -f /usr/local/bin/cert-expiry.sh ] || ! [ -f /etc/cron.weekly/cert-expiry1 ]; then
+    if ! [ -f /usr/local/sbin/cert-expiry.sh ] || ! [ -f /etc/cron.weekly/cert-expiry1 ]; then
         Die 6 "./install.sh monitoring/cert-expiry.sh"
     fi
 

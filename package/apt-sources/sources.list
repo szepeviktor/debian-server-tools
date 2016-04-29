@@ -2,6 +2,7 @@
 # Linode:           http://mirrors.linode.com/debian
 # OVH:              http://debian.mirrors.ovh.net/debian
 # server4you:       http://debian.intergenia.de/debian
+# PCextreme:        http://debian.apt-get.eu/debian
 # Closest mirror:   http://http.debian.net/debian
 # National mirror:  http://ftp.COUNTRY-CODE.debian.org/debian
 deb @@MIRROR@@ jessie main contrib non-free

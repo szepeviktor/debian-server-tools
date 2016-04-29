@@ -1,4 +1,4 @@
-# Hungarian mirror:  http://ftp.hu.debian.org/debian
+# Hungarian Debian mirror (ftp.freepark.org.)
 deb http://ftp.hu.debian.org/debian jessie main contrib non-free
 
 # Security

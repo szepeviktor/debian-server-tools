@@ -2,21 +2,24 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.4.0
-# DATE          :2016-02-06
+# VERSION       :0.4.1
+# DATE          :2016-04-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install openssl ca-certificates
-# LOCATION      :/usr/local/bin/cert-expiry.sh
-# CRON-WEEKLY   :/usr/local/bin/cert-expiry.sh
+# LOCATION      :/usr/local/sbin/cert-expiry.sh
+# CRON-WEEKLY   :/usr/local/sbin/cert-expiry.sh
 # CONFIG        :~/.config/certexpiry/configuration
 
 # @TODO Add support for starttls: HOST:PORT:smtp HOST:PORT:imap
 
 # Alert 10 days before expiration
 ALERT_DAYS="10"
+
+NOW_SEC="$(date "+%s")"
+CERT_EXPIRY_CONFIG="${HOME}/.config/certexpiry/configuration"
 
 Check_cert() {
     local CERT="$1"
@@ -45,16 +48,14 @@ Check_cert() {
     fi
 }
 
-NOW_SEC="$(date "+%s")"
-CERT_EXPIRY_CONFIG="${HOME}/.config/certexpiry/configuration"
-
 if [ -r "$CERT_EXPIRY_CONFIG" ]; then
     # CERT_EXPIRY_REMOTES=( host:port )
     source "$CERT_EXPIRY_CONFIG"
 fi
 
 # Certificates in /etc/ excluding /etc/ssl/certs/
-find /etc/ -not -path "/etc/ssl/certs/*" "(" -iname "*.crt" -or -iname "*.pem" ")" \
+find /etc/ -not -path "/etc/ssl/certs/*" -not -path "/etc/letsencrypt/archive/*" \
+    "(" -iname "*.crt" -or -iname "*.pem" ")" \
     | while read -r CERT; do
         Check_cert "$CERT"
     done

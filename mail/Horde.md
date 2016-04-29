@@ -42,8 +42,11 @@ Root files:
 ### Upgrade
 
 ```bash
+#pear -vvv upgrade pear
+pear -vvv update-channels
 pear list -c horde
-pear upgrade --nobuild --alldeps -c horde
+pear -vvv upgrade --nobuild --onlyreqdeps -c horde
+pear -vvv upgrade --nobuild --alldeps -c horde
 ```
 
 ### Setup account defaults

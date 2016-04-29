@@ -1,4 +1,7 @@
 # Server installation
+
+# todo: y2j + jq
+
 install:
   name: hostname.domain.tld
   date: 2016-MM-DD

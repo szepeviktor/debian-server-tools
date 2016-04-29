@@ -35,8 +35,8 @@ python3 /usr/bin/py2dsc-deb --with-python2=true --with-python3=true --no-python2
     --suite "$(lsb_release -s -c)" "${TARBALL:4}"
 
 if [ -d deb_dist ]; then
-    lintian --color always --info --display-info --display-experimental --pedantic --show-overrides deb_dist/*.deb
     sudo cp -av deb_dist/*.deb /opt/results
+    lintian --color always --display-info --display-experimental --pedantic --show-overrides deb_dist/*.deb || true
     echo "OK."
 else
     ls -la

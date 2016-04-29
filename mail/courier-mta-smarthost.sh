@@ -100,11 +100,15 @@ cd ${D}; ./install.sh mail/courier-dhparams.sh
 # Let's Encrypt certificate
 cd
 git clone https://github.com/letsencrypt/letsencrypt.git
+cd letsencrypt/
 ./letsencrypt-auto certonly --standalone -d $(cat /etc/courier/me)
 # -d DOMAIN2 -d DOMAIN3 --agree-tos --email EMAIL
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > esmtpd.pem
 cd ${D}; ./install.sh monitoring/cert-expiry.sh
+
+# Don't suppress Courier MTA SSL errors
+# as they may come from authorized clients!
 
 # DKIM signature (zdkimfilter)
 #     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html

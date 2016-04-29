@@ -139,6 +139,7 @@ alias iotop='iotop -d 0.1 -qqq -o'
 alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 alias transit='xz -9|base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d|xz -d'
+alias changelog='xargs -I% -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
 #alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
 #     apt-get install -y tcpdump tcpflow
 #alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
@@ -787,6 +788,10 @@ php5enmod -s fpm suhosin
 # Check priority
 ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 
+# @TODO Package realpath_turbo
+# https://github.com/Whissi/realpath_turbo
+# https://github.com/Mikk3lRo/realpath_turbo PHP7.0
+
 # PHP file modification time protection
 # https://ioncube24.com/signup
 
@@ -813,7 +818,6 @@ ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 
 
 # PHP 7.0
-
 apt-get install -y php7.0-cli php7.0-fpm \
     php7.0-mcrypt php7.0-curl php7.0-gd php7.0-json php7.0-intl php7.0-mysql php7.0-readline php7.0-sqlite3
 PHP_TZ="Europe/Budapest"
