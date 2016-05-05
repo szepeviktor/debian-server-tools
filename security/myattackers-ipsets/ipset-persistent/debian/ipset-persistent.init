@@ -14,8 +14,8 @@
 
 . /lib/lsb/init-functions
 
-# return code
-declare -i rc="0"
+# Return code
+rc="0"
 
 IPSET="/sbin/ipset"
 

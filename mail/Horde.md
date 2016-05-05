@@ -21,20 +21,20 @@ PHP_PEAR_SYSCONF_DIR=/home/horde/website php -d "include_path=.:/home/horde/webs
     /home/horde/website/pear/horde-db-migrate
 ```
 
-Apache configuration:
+##### Apache configuration
 
 ```apache
 SetEnv PHP_PEAR_SYSCONF_DIR /home/${SITE_USER}/website
 ```
 
-PHP configuration:
+##### PHP configuration
 
 ```ini
 ; Horde - old: .:/usr/share/php:/usr/share/pear
 php_admin_value[include_path] = .:/home/horde/website/pear/php
 ```
 
-Root files:
+##### Root files
 
 - robots.txt
 - favicon.ico ...
@@ -66,7 +66,7 @@ pear -vvv upgrade --nobuild --alldeps -c horde
 
 Customize login page title
 
-@TODO .po Location?, msgfmt -o .mo .po
+@TODO .po location?, msgfmt -o .mo .po
 
 ```po
 msgid ""
@@ -82,6 +82,8 @@ msgstr ""
 msgid "Log in"
 msgstr "Log in to szepe.net"
 ```
+
+`magnification.css`
 
 ```css
 /* Magnification */

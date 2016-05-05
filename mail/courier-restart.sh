@@ -2,7 +2,7 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.3.1
+# VERSION       :0.3.2
 # DATE          :2015-11-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -12,7 +12,7 @@
 # LOCATION      :/usr/local/sbin/courier-restart.sh
 
 Error() {
-    echo "ERROR: $*"
+    echo "ERROR: $*" 1>&2
     exit "$1"
 }
 
@@ -37,7 +37,9 @@ fi
 
 makealiases || Error $? "aliases/*"
 
-service courier-mta-ssl restart || Error $? "courier-mta-ssl"
+if dpkg --status courier-mta-ssl &> /dev/null; then
+    service courier-mta-ssl restart || Error $? "courier-mta-ssl"
+fi
 service courier-mta restart || Error $? "courier-mta"
 
 echo "OK."

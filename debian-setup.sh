@@ -12,11 +12,11 @@
 # - Disk access time (~1 ms)
 # - CPU speed (2000+ PassMark CPU Mark, sub-20 ms sysbench, 100-150 ms in wordpress-speedtest)
 # - Redundancy in: power, network, storage, hypervisors
-# - Worldwide and regional bandwidth, port speed
-# - Spammer neighbours https://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
-# - Response time of nightime technical support in case of network or hardware failure
-# - Daytime technical and billing support
 # - D/DoS mitigation
+# - Worldwide and regional bandwidth, port speed
+# - Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
+# - Response time of nighttime technical support in case of network or hardware failure
+# - Daytime technical and billing support
 #
 # See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
 

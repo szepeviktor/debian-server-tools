@@ -25,8 +25,8 @@ Failures() {
     | Failures \
     | grep -E -v "error@|spamd\[[0-9]+\]: spamd:|courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$" \
     ##| grep -E -v "couriertls: connect: .*:SSL routines:(SSL3_GET_CLIENT_HELLO|SSL3_GET_RECORD):(unsupported protocol|wrong version number|no shared cipher)$" \
-    #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
     #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
+    #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
 
 # Process boot log
 if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then

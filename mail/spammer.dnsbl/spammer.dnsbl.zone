@@ -4,11 +4,14 @@
 #### DOMAIN        :spammer.dnsbl
 #### DOCS          :http://www.corpit.ru/mjt/rbldnsd.html
 #### DUMP          :rbldnsd -d -r/var/lib/rbldns/spammer spammer.dnsbl:ip4set:spammer.dnsbl.zone > /dev/null
-#### TEST          :host -tANY $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
+#### TEST          :host -t ANY $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
 #### LOCATION      :/var/lib/rbldns/spammer/spammer.dnsbl.zone
 
 ####  1 - Spammer
 ####  2 - Neighbour
+
+#### http://magyarspammer.com/blog/
+#### http://spamlap.hu/archive_month/index.html
 
 $NS 3600 worker.szepe.net
 # one minute TTL
@@ -19,10 +22,11 @@ $TTL 60
 # SPAMMERS
 :127.0.0.1:Is a spammer
 
-# single hosts
+# Single hosts
 23.88.228.135    HU_mail.onlinestoresample.info@ENZUINC/AS18978
 23.238.16.159    HU_smartingatlan.info@HOSTWINDS-17-5/AS54290
 23.238.56.218    HU_Laszlo Nagypal/ujfej.com@HOSTWINDS-17-5/AS54290
+45.55.139.58     HU_aranyhold.tk@DIGITALOCEAN
 46.101.59.151    HU_holdhegy.tk@EU-DIGITALOCEAN-L1/AS202109
 79.172.239.117   HU_server1.bestofmarket.hu@TARHELYEU-NET/AS29278
 82.165.194.195   DE_ns2.ilovebroadband.net@SCHLUND-CUSTOMERS/AS8560
@@ -31,27 +35,25 @@ $TTL 60
 178.238.222.94   HU_server2.bestofmarket.hu@FREEMIUM-NET/AS29278
 198.143.96.181   HU_arctic.gytcre.com@HOSTWINDS-17-5/AS54290
 199.59.62.53     HU_aback.gytcre.com@HOSTWINDS-17-5/AS54290
-45.55.139.58     HU_aranyhold.tk@DIGITALOCEAN
 212.83.143.177   HU_arousal.topaddlinkdir.com@ONLINE-SAS/AS12876
-79.172.210.223   HU_relay-gmail.famedia.hu@SZERVERPLEX/AS61998
 
 # CHINANET-HE
 111.224.250      CHINANET-HE
 # CHINANET-JX
 117.41           CHINANET-JX
 
-# SYSTECH Global, DC: Invitel
+# SYSTECH Global DC: Invitel
 91.82.84-85      :3:Neighbour of smtp*.mindenalove.hu/*.nyuszikaaaaa.hu
 91.82.84.143-152 HU_smtp*.mindenalove.hu@SYSTECH-GLOBAL/AS12301
 91.82.84.203-204 HU_vps.*-ad.com@SYSTECH-GLOBAL/AS12301
 91.82.85.85-99   HU_*.nyuszikaaaaa.hu@SYSTECH-GLOBAL/AS12301
 91.82.85.139-140 HU_*.egyediajanlat.hu@SYSTECH-GLOBAL/AS12301
 
-# Spam tolerant
-# 91.82.226 *.smtp.hu, DC: Invitel
+# Pénzáramlás DC: Invitel
+#91.82.226        :2:Neighbour of *.smtp.hu
 91.82.226.172     HU_penzaramlas.smtp.hu@Invitel-pool/AS12301
 
-# smtp*.topszallasok.hu, smtp.wellness4youmail.hu, DC: Invitel
+# smtp*.topszallasok.hu, smtp.wellness4youmail.hu DC: Invitel
 91.83.236         :2:Neighbour of topszallasok
 91.83.236.239-250 HU_smtp*.topszallasok.hu@Invitel/AS12301
 91.83.93          :2:Neighbour of topszallasok
@@ -147,3 +149,12 @@ $TTL 60
 
 # QuadraNet customers: Legendary Tech Enterprises, Ping4Support, Reliablehosting.com, Legendary Tech Enterprises
 198.55.116.0/22     US_*xx.win. @QUADRANET/AS8100
+
+# EAN NUM LOG Kft./IT Provider Kft. @EZIT
+185.140.108.0/22    HU_EAN-NUM-LOG/AS48131/AS48662
+
+# El Valor Kft. @SZERVERPLEX
+#79.172.210          :2:Neighbour of El Valor, Famillio
+79.172.210.208-215  HU_*.smartlead.hu@SZERVERPLEX/AS61998
+# Famillio Kft.
+79.172.210.223      HU_relay-gmail.famedia.hu@SZERVERPLEX/AS61998

@@ -90,6 +90,10 @@ export HTTP_USER_AGENT="Wp-cron/$(Get_meta) (php-cli; Linux)"
 pushd "$WPCRON_DIR" > /dev/null || Die 2 "Cannot change to directory (${WPCRON_DIR})"
 [ -r "$WPCRON_PATH" ] || Die 3 "File not found (${$WPCRON_PATH})"
 
+#     wp --quiet cron event list --fields=hook,next_run_relative --format=csv \
+#         | sed -ne 's;^\(.\+\),now$;\1;p' | xargs -r wp --quiet cron event run
+# Since 0.24.0
+#     wp cron event run --due-now
 if ! nice /usr/bin/php "$WPCRON_PATH"; then
     RET="$?"
     Die 4 "PHP exit status ${RET} in ${WPCRON_DIR}/${WPCRON_PATH}"

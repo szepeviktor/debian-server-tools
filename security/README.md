@@ -134,3 +134,9 @@ curl -k -s --data 'resp_format=apache' 'https://my.incapsula.com/api/integration
 ### Difference between “BEGIN RSA PRIVATE KEY” and “BEGIN PRIVATE KEY”
 
 http://stackoverflow.com/questions/20065304/what-is-the-differences-between-begin-rsa-private-key-and-begin-private-key/20065522#20065522
+
+### OpenVPN in Linux console
+
+```
+sudo openvpn --ca /abs/path/unsigned-ca.crt --config /abs/path/config.ovpn --auth-user-pass /abs/path/userpass --daemon
+```

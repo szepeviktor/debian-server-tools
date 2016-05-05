@@ -70,13 +70,17 @@ https://toolbox.googleapps.com/apps/checkmx/
 - [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
 - [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
+### Email filters
+
+- https://www.mailscanner.info/install/
+- https://wiki.efa-project.org/
 
 ## Settings
 
 
 ### Send all messages in an mbox file to an email address
 
-See: ${D}/mail/mbox_send2.py
+See: [mbox_send2.py](./mbox_send2.py)
 
 ### Email forwarding (srs)
 
@@ -150,6 +154,10 @@ Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
 
 [Courier-analog](http://www.courier-mta.org/download.html#analog)
 
+### Courier as smarthost client
+
+`esmtproutes` "both MX and A records get looked up"
+
 
 ## Test
 
@@ -186,11 +194,11 @@ https://ssl-tools.net/
 #### SPF (HELO, MAIL FROM:)
 
 - setup http://www.spfwizard.net/
-- check http://www.kitterman.com/spf/validate.html
+- check http://www.kitterman.com/spf/validate.html http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
-- non-emil domains: `v=spf1 -all`
+- For non-email domains: `v=spf1 -all`
 
-#### Sender ID (From:)
+#### Sender ID from Microsoft (From:)
 
 - http://en.wikipedia.org/wiki/Sender_ID
 - http://tools.ietf.org/html/rfc4407#section-2
@@ -217,15 +225,15 @@ https://ssl-tools.net/
 - http://9vx.org/~dho/dkim_validate.php
 - https://protodave.com/tools/dkim-key-checker/ (DNS only)
 
+#### Domain Keys
+
+Deprecated.
+
 #### ADSP
 
 An optional extension to the DKIM E-mail authentication scheme.
 
 https://unlocktheinbox.com/resources/adsp/
-
-#### Domain Keys
-
-Deprecated.
 
 #### DMARC
 
@@ -233,7 +241,7 @@ Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text
 
 - setup https://unlocktheinbox.com/dmarcwizard/
 - check
-- monitor `host -t TXT <domain>`
+- monitor `host -t TXT _dmarc.$DOMAIN`
 
 http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
@@ -298,17 +306,12 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
 
-### Feedback loops, postmaster tools
-
-- https://wordtothewise.com/isp-information/
-- http://postmaster.live.com/snds/
-
 ### RBL-s (DNSBL)
 
-#### List of blacklists
+#### Blacklists
 
-http://psky.me/
-
+- `BLACKLISTS="-block=bl.blocklist.de"`
+- http://psky.me/
 - http://www.intra2net.com/en/support/antispam/index.php (Blacklist Monitor)
 - http://multirbl.valli.org/
 - https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
@@ -340,6 +343,7 @@ OK response: "IP Unlisted in the spam sender list None"
 - http://ipremoval.sms.symantec.com/lookup/
 - https://postmaster.aol.com/ip-reputation
 - https://ers.trendmicro.com/reputations
+- http://www.projecthoneypot.org/search_ip.php
 
 #### IP reputation monitoring
 
@@ -350,10 +354,20 @@ OK response: "IP Unlisted in the spam sender list None"
 
 ### Whitelists
 
-- https://www.dnswl.org/?page_id=87
+- https://www.dnswl.org/selfservice/
 - http://www.emailreg.org/index.cgi?p=policy (Barracuda)
 - https://ers.trendmicro.com/reputations/global_approved_list
 - [Whitelists in SpamAssassin](https://wiki.apache.org/spamassassin/DnsBlocklists#Whitelists)
+
+### Feedback loops, postmaster tools, sender support
+
+- https://wordtothewise.com/isp-information/
+- [Smart Network Data Service (SNDS)](http://postmaster.live.com/snds/) + JMRP
+- [Sender Information for Outlook.com Delivery](http://go.microsoft.com/fwlink/?LinkID=614866)
+- https://www.dnswl.org/selfservice/
+- https://support.google.com/mail/contact/msgdelivery
+- https://postoffice.yandex.com/
+- http://yandexfbl.senderscore.net/
 
 ### Free e-mail backup server
 

@@ -87,3 +87,5 @@ editor /etc/pythonfilter.conf
 editor /etc/pythonfilter-modules.conf
 
 # @TODO Well-known and autodiscover
+
+# BLACKLISTS="-block=bl.blocklist.de"

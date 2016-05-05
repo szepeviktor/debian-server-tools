@@ -16,19 +16,22 @@
 
 # @TODO
 #       What to do on critical errors?
-#       Where to log? stdout, stderr, file
-#       Exclude from tilde-version: cloud-init grub-common grub-pc grub-pc-bin grub2-common libgraphite2-3 intel-microcode
+#       Where to log? stdout, stderr, *file
 
 STANDARD_BLACKLIST="exim.*|procmail|mutt|bsd-mailx|ftp|mlocate|nfs-common|rpcbind\
 |texinfo|info|install-info|debian-faq|doc-debian\
 |intel-microcode|amd64-microcode"
 
+# ??? isc-dhcp-client Priority: important
 # Don't ever remove these
-BOOT_PACKAGES="grub-pc|linux-image-amd64|firmware-linux-nonfree|usbutils|mdadm|lvm2\
+BOOT_PACKAGES="grub-pc|linux-image-amd64|initramfs-tools|firmware-.*|usbutils|mdadm|lvm2\
 |task-ssh-server|task-english|ssh|openssh-server|isc-dhcp-client|pppoeconf|ifenslave|ethtool|vlan\
-|sudo|cloud-init|cloud-initramfs-growroot\
-|sysvinit|initramfs-tools|insserv|discover|systemd|libpam-systemd|systemd-sysv|dbus\
+|open-vm-tools|open-vm-tools-dkms|dkms|sudo|cloud-init|cloud-initramfs-growroot\
+|sysvinit|sysvinit-core|sysvinit-utils|insserv|discover\
+|systemd|libpam-systemd|systemd-sysv|dbus\
 |extlinux|syslinux-common|elasticstack-container|waagent|scx|omi"
+
+TILDE_VERSION="cloud-init|grub-common|grub-pc|grub-pc-bin|grub2-common|libgraphite2-3:amd64|intel-microcode"
 
 set -x -e
 
@@ -36,6 +39,11 @@ export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
 export APT_LISTCHANGES_FRONTEND="none"
 cd
+
+# List what boot packages are installed
+
+aptitude --disable-columns search '?and(?installed, ?not(?automatic))' -F"%p" \
+ | grep -Ex "$BOOT_PACKAGES" | sed 's/$/ # boot/' | tee boot.pkgs
 
 # APT status
 
@@ -65,6 +73,7 @@ tasksel --new-install
 
 # Mark dependencies of standard packages as automatic
 
+set +x
 for DEP in $(aptitude --disable-columns search \
  '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' -F"%p"); do
     REGEXP="$(sed -e 's;\([^a-z0-9]\);[\1];g' <<< "$DEP")"
@@ -72,10 +81,12 @@ for DEP in $(aptitude --disable-columns search \
         apt-mark auto "$DEP" || echo "[ERROR] Marking package ${DEP} failed." 1>&2
     fi
 done
+set -x
 
 # Install standard packages
 
-STANDARD_PACKAGES="$(aptitude --disable-columns search '?or(?essential, ?priority(required), ?priority(important), ?priority(standard))' -F"%p" \
+STANDARD_PACKAGES="$(aptitude --disable-columns search \
+ '?and(?not(?obsolete), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)))' -F"%p" \
  | grep -Evx "$STANDARD_BLACKLIST")"
 #STANDARD_PACKAGES="$(aptitude --disable-columns search \
 # '?and(?architecture(native), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)))' -F"%p" \
@@ -95,33 +106,34 @@ MANUALLY_INSTALLED="$(aptitude --disable-columns search \
  | grep -Evx "$BOOT_PACKAGES" | tee removed.pkgs || true)"
 apt-get purge -qq -y ${MANUALLY_INSTALLED}
 
-# List what boot packages are installed
-
-aptitude --disable-columns search '?and(?installed, ?not(?automatic))' -F"%p" \
- | grep -Ex "$BOOT_PACKAGES" | sed 's/$/ # boot/'
-
 # Remove packages on standard-blacklist
 
 apt-get purge -qq -y $(aptitude --disable-columns search '?installed' -F"%p" | grep -Ex "$STANDARD_BLACKLIST" || true)
 # Exim bug
 getent passwd Debian-exim &> /dev/null && deluser --force --remove-home Debian-exim
-# Dummy MTA instead of Exim
-apt-get install -qq -y lsb-invalid-mta
-apt-get autoremove -qq --purge -y
 
 # Do dist-upgrade finally
 
 apt-get dist-upgrade -qq -y
+apt-get autoremove -qq --purge -y
+
+# Check package integrity and cruft
+
+apt-get install -qq -y debsums cruft > /dev/null
+# Should be empty
+debsums --all --changed 2>&1 | tee integrity.log | sed 's/$/ # integrity/'
+cruft > cruft.log 2>&1
+
+set +e +x
 
 # Check for missing packages
 
-set +x +e
 {
     aptitude --disable-columns search '?and(?essential, ?not(?installed))' -F"%p"
     aptitude --disable-columns search '?and(?priority(required), ?not(?installed))' -F"%p"
     aptitude --disable-columns search '?and(?priority(important), ?not(?installed))' -F"%p"
     aptitude --disable-columns search '?and(?priority(standard), ?not(?installed))' -F"%p" | grep -Evx "$STANDARD_BLACKLIST"
-} 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2 || true
+} 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2
 
 # Check for extra packages
 
@@ -134,17 +146,10 @@ set +x +e
      | sed 's/$/ # old/'
     aptitude --disable-columns search '?and(?installed, ?not(?origin(Debian)))' -F"%p" | sed 's/$/ # non-Debian/'
     #Ubuntu: aptitude --disable-columns search '?and(?installed, ?not(?origin(Ubuntu)))' -F"%p" | sed 's/$/ # non-Ubuntu/'
-    dpkg -l | grep "~[a-z]\+" | cut -c 1-55 | sed 's/$/ # tilde version/'
+    dpkg -l | grep "~[a-z]\+" | grep -Ev "^ii  (${TILDE_VERSION})\s" | cut -c 1-55 | sed 's/$/ # tilde version/'
     # "-dev" versioned packages
     aptitude --disable-columns search '?and(?installed, ?name(-dev))' -F"%p" | sed 's/$/ # development/'
-} 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2 || true
-
-# Check package integrity and cruft
-
-apt-get install -qq -y debsums cruft > /dev/null
-# Should be empty
-debsums --all --changed 2>&1 | tee integrity.log | sed 's/$/ # integrity/'
-cruft > cruft.log 2>&1
+} 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2
 
 # List packages by size
 

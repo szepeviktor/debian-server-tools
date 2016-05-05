@@ -10,6 +10,7 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install courier-ssl
 # DOCS          :man mkdhparams
+# LOCATION      :/usr/local/sbin/courier-dhparams.sh
 # CRON-MONTHLY  :/usr/local/sbin/courier-dhparams.sh
 
 DH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null

@@ -1,0 +1,13 @@
+Third argument of dslog() is a format string
+
+--- rbldnsd.c
++++ rbldnsd.c
+@@ -959,7 +959,7 @@
+ # undef kb
+   }
+ #endif /* NO_MEMINFO */
+-  dslog(LOG_INFO, 0, ibuf);
++  dslog(LOG_INFO, 0, "%s", ibuf);
+ 
+   check_expires();
+ 

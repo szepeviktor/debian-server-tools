@@ -2,8 +2,8 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.9.0
-# DATE          :2016-04-04
+# VERSION       :0.9.1
+# DATE          :2016-05-03
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -91,7 +91,7 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 # Courier MTA: public + intermediate + private
 # From Debian jessie on: private + public + intermediate
 #
-#COURIER_COMBINED="/etc/courier/ssl-comb.pem"
+#COURIER_COMBINED="/etc/courier/esmtpd.pem"
 #COURIER_DHPARAMS="/etc/courier/dhparams.pem"
 
 # Dovecot: public + intermediate

@@ -274,3 +274,4 @@ editor /etc/courier/smtpaccess/default
 # Add the lowest priority (highest numbered) MX record
 #     domain.net.  IN  MX  50 tarbaby.domain.net.
 
+# BLACKLISTS="-block=bl.blocklist.de"

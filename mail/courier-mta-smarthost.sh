@@ -69,6 +69,7 @@ echo "1d" > /etc/courier/queuetime
 # Listen on 587 and 465 and allow only authenticated clients even without PTR record
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
+#     BLACKLISTS="-block=bl.blocklist.de"
 #     TCPDOPTS+="-noidentlookup -nodnslookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS="PLAIN LOGIN"
@@ -77,6 +78,7 @@ editor /etc/courier/esmtpd-msa
 #     ADDRESS=0
 #     ESMTPDSTART=YES
 editor /etc/courier/esmtpd-ssl
+#     BLACKLISTS="-block=bl.blocklist.de"
 #     AUTH_REQUIRED=1
 #     SSLADDRESS=0
 
@@ -148,7 +150,8 @@ filterctl start zdkimfilter; ls -l /etc/courier/filters/active
 apt-get install -y python2.7 clamav-daemon python-pyclamav uuid-runtime
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 # Install pythonfilter
-pip2 install courier-pythonfilter
+#pip2 install courier-pythonfilter
+pip2 install http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/courier-pythonfilter-1.10.tar.gz
 cat <<EOF > /etc/pythonfilter.conf
 clamav
 attachments
