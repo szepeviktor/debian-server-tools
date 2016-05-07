@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually
 #
-# VERSION       :0.5.6
+# VERSION       :0.5.7
 # DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -17,7 +17,7 @@
 # CRON-HOURLY   :/usr/local/sbin/myattackers.sh
 # CRON-MONTHLY  :/usr/local/sbin/myattackers.sh -z
 
-CHAIN="MYATTACKERS"
+CHAIN="myattackers"
 SSH_PORT="22"
 
 # Help

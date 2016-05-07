@@ -7,7 +7,7 @@
 #     MTA <-- sendmail (local monitoring scripts)
 #     MTA <-- DSN
 #
-# Receiving as a 'smarthost' (inbound SMTP, SMTP-MSA)
+# Receiving as a 'smarthost' (inbound SMTP-MSA, SMTPS)
 #     MTA <-- Satellite systems (without authentication)
 #     MTA <-- MUA (authenticated)
 #
@@ -16,11 +16,13 @@
 #
 # Forward to a foreign mailbox (SRS)
 #     MTA --> another MTA
+# @TODO Prefer pulling mail from local mailbox over forwarding
 
 exit 0
 
 # Add an MX record
 host -t MX $(hostname -f)
+# Receive mail on a mailserver with accounts (alias, acceptmailfor)
 
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
@@ -37,6 +39,28 @@ if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courie
     sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta-ssl
     update-rc.d courier-mta-ssl defaults
 fi
+
+# Have systemd restart courier
+mkdir /etc/systemd/system/courier-authdaemon.service.d
+cat <<EOF > /etc/systemd/system/courier-authdaemon.service.d/restart-always.conf
+[Unit]
+# Missing from sysvinit file
+Description=Courier authentication services
+
+[Service]
+PIDFile=/run/courier/authdaemon/pid
+RemainAfterExit=no
+Restart=always
+EOF
+
+mkdir /etc/systemd/system/courier-mta.service.d
+cat <<EOF > /etc/systemd/system/courier-mta.service.d/restart-always.conf
+[Service]
+# courier-mta.service is a mixture of courierd, esmtpd and *esmtpd-msa
+PIDFile=/run/courier/esmtpd-msa.pid
+RemainAfterExit=no
+Restart=always
+EOF
 
 # Restart script
 cd ${D}; ./install.sh mail/courier-restart.sh
@@ -108,9 +132,6 @@ cd letsencrypt/
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > esmtpd.pem
 cd ${D}; ./install.sh monitoring/cert-expiry.sh
-
-# Don't suppress Courier MTA SSL errors
-# as they may come from authorized clients!
 
 # DKIM signature (zdkimfilter)
 #     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
@@ -202,4 +223,17 @@ echo "This is a t3st mail."|mailx -s "[first] The 1st outgoing mail" admin@szepe
 #tail -f /var/log/syslog
 journalctl -f
 
+# Monitoring
+# SystemV
+#cd ${D}; ./install.sh monitor/syslog-errors-infrequent.sh
+# Don't suppress Courier MTA SSL errors as they may come from authorized clients!
+# Systemd
+apt-get install -qq -y libpam-systemd
+mkdir ${HOME}/.config/systemd; cd ${HOME}/.config/systemd/
+git clone https://github.com/kylemanna/systemd-utils.git utils
+cp ./utils/failure-monitor/failure-monitor@.service /etc/systemd/user/
+systemctl --user enable "failure-monitor@postmaster@szepe.net.service"
+systemctl --user start "failure-monitor@postmaster@szepe.net.service"
+
+# User accounts for sending mail
 ./add-mailaccount.sh USER@DOMAIN

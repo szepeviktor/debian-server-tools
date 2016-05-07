@@ -6,14 +6,14 @@
    stop program = "/etc/init.d/apache2 stop"
    if failed host localhost port 80 with protocol http and request "/server-status" with timeout 25 seconds for 4 times within 5 cycles then restart
 # @TODO Add SSL port if /etc/apache2/mods-enabled/ssl.load
-   if 4 restarts within 20 cycles then timeout
+   if 4 restarts within 20 cycles then unmonitor
    depend apache_bin
-   depend apache_rc
+   depend apache_init
 
  check file apache_bin with path /usr/sbin/apache2
    group apache
    include /etc/monit/templates/rootbin
 
- check file apache_rc with path /etc/init.d/apache2
+ check file apache_init with path /etc/init.d/apache2
    group apache
    include /etc/monit/templates/rootbin

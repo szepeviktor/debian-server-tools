@@ -1,15 +1,22 @@
- check process nscd with pidfile /run/nscd/nscd.pid
+ check process unscd with pidfile /run/nscd/nscd.pid
    group system
+   group unscd
    start program = "/etc/init.d/unscd start"
    stop program = "/etc/init.d/unscd stop"
-   if 5 restarts within 5 cycles then timeout
-   depends on nscd_bin
-   depends on nscd_rc
+   if failed unixsocket /var/run/nscd/socket then restart
+   if 5 restarts within 5 cycles then unmonitor
+   depends on unscd_bin
+   depends on unscd_init
+   depends on unscd_rc
 
- check file nscd_bin with path /usr/sbin/nscd
-   group system
+ check file unscd_bin with path /usr/sbin/nscd
+   group unscd
    include /etc/monit/templates/rootbin
 
- check file nscd_rc with path /etc/init.d/unscd
-   group system
+ check file unscd_init with path /etc/init.d/unscd
+   group unscd
    include /etc/monit/templates/rootbin
+
+ check file unscd_rc with path /etc/nscd.conf
+   group unscd
+   include /etc/monit/templates/rootrc

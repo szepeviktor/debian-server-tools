@@ -4,16 +4,16 @@
    group crond
    start program = "/etc/init.d/cron start"
    stop program = "/etc/init.d/cron stop"
-   if 5 restarts with 5 cycles then timeout
+   if 5 restarts with 5 cycles then unmonitor
    depend crond_bin
-   depend crond_rc
+   depend crond_init
    depend crond_spool
 
  check file crond_bin with path /usr/sbin/cron
    group crond
    include /etc/monit/templates/rootbin
 
- check file crond_rc with path /etc/init.d/cron
+ check file crond_init with path /etc/init.d/cron
    group crond
    include /etc/monit/templates/rootbin
 

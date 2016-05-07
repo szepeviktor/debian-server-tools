@@ -1,17 +1,20 @@
-  check process open-vm-tools with pidfile /var/run/vmtoolsd.pid
-    group open-vm-tools
-    start program = "/etc/init.d/open-vm-tools start"
-    stop  program = "/etc/init.d/open-vm-tools stop"
-    check program vmware-toolbox with path "/usr/bin/vmware-toolbox-cmd stat sessionid" with timeout 10 seconds
-      if status != 0 then restart
-    #if 5 restarts within 5 cycles then unmonitor
-    depend open-vm-tools_bin
-    depend open-vm-tools_rc
+ check process open-vm-tools with pidfile /run/vmtoolsd.pid
+   group open-vm-tools
+   start program = "/etc/init.d/open-vm-tools start"
+   stop program = "/etc/init.d/open-vm-tools stop"
+   if 5 restarts within 5 cycles then unmonitor
+   depend open-vm-tools_bin
+   depend vmware-toolbox
+   depend open-vm-tools_init
 
-  check file open-vm-tools_bin with path /usr/bin/vmtoolsd
-    group open-vm-tools
-    include /etc/monit/templates/rootbin
+ check file open-vm-tools_bin with path /usr/bin/vmtoolsd
+   group open-vm-tools
+   include /etc/monit/templates/rootbin
 
-  check file open-vm-tools_rc with path /etc/init.d/open-vm-tools
-    group open-vm-tools
-    include /etc/monit/templates/rootbin
+ check program vmware-toolbox with path "/usr/bin/vmware-toolbox-cmd stat sessionid" with timeout 10 seconds
+   group open-vm-tools
+   if status != 0 then alert
+
+ check file open-vm-tools_init with path /etc/init.d/open-vm-tools
+   group open-vm-tools
+   include /etc/monit/templates/rootbin

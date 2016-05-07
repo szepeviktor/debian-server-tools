@@ -2,14 +2,14 @@
    group mail
    start program = "/etc/init.d/courier-authdaemon start"
    stop program = "/etc/init.d/courier-authdaemon stop"
-   if 5 restarts within 5 cycles then timeout
+   if 5 restarts within 5 cycles then unmonitor
    depends on courier-authdaemon_bin
-   depends on courier-authdaemon_rc
+   depends on courier-authdaemon_init
 
- check file courier-authdaemon_rc with path /etc/init.d/courier-authdaemon
+ check file courier-authdaemon_bin with path /usr/lib/courier/courier-authlib/authdaemond
    group mail
    include /etc/monit/templates/rootbin
 
- check file courier-authdaemon_bin with path /usr/lib/courier/courier-authlib/authdaemond
+ check file courier-authdaemon_init with path /etc/init.d/courier-authdaemon
    group mail
    include /etc/monit/templates/rootbin

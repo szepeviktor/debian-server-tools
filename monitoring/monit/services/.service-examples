@@ -1,0 +1,40 @@
+ check process SERVICE with pidfile /run/SERVICE.pid
+   group system
+   group GROUP
+   start program = "/etc/init.d/SERVICE_INIT start"
+   stop program = "/etc/init.d/SERVICE_INIT stop"
+   if failed unixsocket /run/SERVICE.sock then restart
+   if 5 restarts with 5 cycles then unmonitor
+   depend on SERVICE_bin
+   depend on SERVICE_test
+   depend on SERVICE_rc
+   depend on SERVICE_STICT
+   depend on SERVICE_init
+   depend on SERVICE_log
+
+ check file SERVICE_bin with path /usr/sbin/SERVICE
+   group GROUP
+   include /etc/monit/templates/rootbin
+
+ check program SERVICE_test with path "/usr/bin/SERVICE_TOOL.sh ping" with timeout 10 seconds
+   group GROUP
+   if status != 0 then alert
+
+ check file SERVICE_rc with path /etc/SERVICE/SERVICErc
+   group GROUP
+   include /etc/monit/templates/rootrc
+
+ check file SERVICE_STRICT with path /etc/SERVICE/SERVICE_STRICTrc
+   group GROUP
+   include /etc/monit/templates/rootstrict
+
+ check file SERVICE_init with path /etc/init.d/SERVICE
+   group GROUP
+   include /etc/monit/templates/rootbin
+
+ check file SERVICE_log with path /var/log/SERVICE.log
+   group GROUP
+   if timestamp > 30 minutes then alert
+   if failed permission 640 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid adm then unmonitor

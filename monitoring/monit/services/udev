@@ -1,0 +1,21 @@
+ check process udevd matching udevd
+   group system
+   group udevd
+   start program = "/etc/init.d/udev start"
+   stop program = "/etc/init.d/udev stop"
+   if 5 restarts with 5 cycles then unmonitor
+   depend on udevadm
+   depend on udevd_bin
+   depend on udevd_init
+
+ check program udevadm with path "/bin/udevadm trigger --verbose --dry-run --type=devices --subsystem-match=rtc"
+   group udevd
+   if status != 0 then alert
+
+ check file udevd_bin with path /sbin/udevd
+   group udevd
+   include /etc/monit/templates/rootbin
+
+ check file udevd_init with path /etc/init.d/udev
+   group udevd
+   include /etc/monit/templates/rootbin

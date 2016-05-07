@@ -1,4 +1,4 @@
-check program gamin_test path /usr/local/sbin/gamin-test.sh timeout 5 seconds
+check program gamin_test with path /usr/local/sbin/gamin-test.sh with timeout 5 seconds
     group system
     if status != 0 then alert
     depend gamin_bin

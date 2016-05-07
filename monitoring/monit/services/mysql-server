@@ -6,14 +6,14 @@
    stop program = "/etc/init.d/mysql stop"
    if failed host localhost port 3306 protocol mysql username "@@MYSQL_USER@@" password "@@MYSQL_PASS@@" with timeout 15 seconds for 3 times within 4 cycles then restart
    if failed unixsocket /run/mysqld/mysqld.sock protocol mysql username "@@MYSQL_USER@@" password "@@MYSQL_PASS@@" for 3 times within 4 cycles then restart
-   if 5 restarts with 5 cycles then timeout
+   if 5 restarts with 5 cycles then unmonitor
    depend mysqld_bin
-   depend mysqld_rc
+   depend mysqld_init
 
  check file mysqld_bin with path /usr/sbin/mysqld
    group mysql
    include /etc/monit/templates/rootbin
 
- check file mysqld_rc with path /etc/init.d/mysql
+ check file mysqld_init with path /etc/init.d/mysql
    group mysql
    include /etc/monit/templates/rootbin

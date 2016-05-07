@@ -1,0 +1,16 @@
+ check process irqbalance with pidfile /run/irqbalance.pid
+   group system
+   group irqbalance
+   start program = "/etc/init.d/irqbalance start"
+   stop program = "/etc/init.d/irqbalance stop"
+   if 5 restarts with 5 cycles then unmonitor
+   depend on irqbalance_bin
+   depend on irqbalance_init
+
+ check file irqbalance_bin with path /usr/sbin/irqbalance
+   group irqbalance
+   include /etc/monit/templates/rootbin
+
+ check file irqbalance_init with path /etc/init.d/irqbalance
+   group irqbalance
+   include /etc/monit/templates/rootbin

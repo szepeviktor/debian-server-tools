@@ -2,24 +2,29 @@ check process spamd with pidfile /run/spamd.pid
    group mail
    start program = "/etc/init.d/spamd start"
    stop program = "/etc/init.d/spamd stop"
-   if 5 restarts within 5 cycles then timeout
+   if 5 restarts within 5 cycles then unmonitor
    if cpu usage > 90% for 5 cycles then alert
    if mem usage > 90% for 5 cycles then alert
    depends on spamd_bin
    depends on spamd_rc
+   depends on spamd_init
+   depends on spamd_rules
 
- check file spamd_bin with path /usr/local/bin/spamd <-- local
+ check file spamd_bin with path /usr/sbin/spamd
    group mail
-   if failed checksum then unmonitor
-   if failed permission 755 then unmonitor
-   if failed uid root then unmonitor
-   if failed gid root then unmonitor
+   include /etc/monit/templates/rootbin
 
- check file spamd_rc with path /etc/init.d/spamd
+ check file spamd_rc with path /etc/spamassassin/local.cf
    group mail
-   if failed checksum then unmonitor
-   if failed permission 755 then unmonitor
-   if failed uid root then unmonitor
-   if failed gid root then unmonitor
+   include /etc/monit/templates/rootrc
 
-# @TODO Compile dir > 7 days
+ check file spamd_init with path /etc/init.d/spamd
+   group mail
+   include /etc/monit/templates/rootbin
+
+ check directory spamd_rules with path /var/lib/spamassassin/compiled
+   group mail
+   if timestamp > 7 days then alert
+   if failed permission 755 then unmonitor
+   if failed uid debian-spamd then unmonitor
+   if failed gid debian-spamd then unmonitor

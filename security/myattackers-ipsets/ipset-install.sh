@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :*.ipset files
+# DEPENDS       :*.ipset
 
 CHAIN="myattackers-ipset"
 

@@ -1,1 +1,3 @@
 echo "NOTICE Create a low privilege user for MariaDB."
+echo "CREATE USER 'monitu'@'localhost' IDENTIFIED BY 'monitpassword';
+echo "FLUSH PRIVILEGES;"

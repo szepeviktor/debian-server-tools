@@ -1,0 +1,26 @@
+ check process serclient with pidfile /run/serclient.pid
+   group system
+   group serclient
+   start program = "/etc/init.d/serclient start"
+   stop program = "/etc/init.d/serclient stop"
+   if 5 restarts with 5 cycles then unmonitor
+   depend on serclient_bin
+   depend on serclient_rc
+   depend on serclient_log
+
+ check file serclient_bin with path /opt/serclient/service.py
+   group serclient
+   include /etc/monit/templates/rootbin
+
+ check file serclient_rc with path /opt/serclient/serclient.ini
+   group serclient
+   include /etc/monit/templates/rootrc
+
+ check file serclient_log with path /var/log/serclient.log
+   group serclient
+   if timestamp > 30 minutes then alert
+   if failed permission 640 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+
+ #check program serclient_port with path "/usr/bin/lsof -p $(cat /var/run/serclient.pid)|grep -w /dev/ttyS1"

@@ -1,19 +1,25 @@
 # From Debian package
- check process rsyslogd with pidfile /var/run/rsyslogd.pid
+ check process rsyslogd with pidfile /run/rsyslogd.pid
    group system
    group rsyslogd
    start program = "/etc/init.d/rsyslog start"
    stop program = "/etc/init.d/rsyslog stop"
-   if 5 restarts with 5 cycles then timeout
+   if failed unixsocket /dev/log then restart
+   if 5 restarts with 5 cycles then unmonitor
    depend on rsyslogd_bin
    depend on rsyslogd_rc
+   depend on rsyslogd_init
    depend on rsyslog_file
 
  check file rsyslogd_bin with path /usr/sbin/rsyslogd
    group rsyslogd
    include /etc/monit/templates/rootbin
 
- check file rsyslogd_rc with path "/etc/init.d/rsyslog"
+ check file rsyslogd_rc with path /etc/rsyslog.conf
+   group rsyslogd
+   include /etc/monit/templates/rootrc
+
+ check file rsyslogd_init with path /etc/init.d/rsyslog
    group rsyslogd
    include /etc/monit/templates/rootbin
 

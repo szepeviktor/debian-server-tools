@@ -15,8 +15,9 @@ exit 0
 
 #################### 'smarthost' configuration ####################
 
-# Add the 'smarthost' to an MX record of the satellite system's FQDN for bounce handling
+# Bounce handling
 host -t MX $HOSTNAME
+# Receive (bounce) mail for the satellite system (alias, acceptmailfor)
 
 # Add the 'smarthost' to the SPF record of all sending domains
 host -t TXT $SENDING_DOMAIN
@@ -28,7 +29,7 @@ editor /etc/courier/smtpaccess/default
 # Deliver bounce messages
 editor /etc/courier/aliases/system
 #    @HOSTNAME: LOCAL-USER
-editor /var/mail/DOMAIN/USER/.courier-default
+editor /var/mail/DOMAIN/LOCAL-USER/.courier-default
 #    LOCAL-USER
 
 courier-restart.sh

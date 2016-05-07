@@ -3,7 +3,7 @@
   start program = "/etc/init.d/php7.0-fpm start"
   stop program = "/etc/init.d/php7.0-fpm stop"
   if failed unixsocket /run/php/php7.0-fpm-@@PHP7_USER@@.sock then restart
-  if 3 restarts within 5 cycles then timeout
+  if 3 restarts within 5 cycles then unmonitor
   depends on php7.0-fpm_bin
   depends on php7.0-fpm_init
 

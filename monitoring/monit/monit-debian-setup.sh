@@ -14,17 +14,19 @@
 
 set -e
 
+# add config files as _rc, socket, fifo ...
 # interfaces, resolv.conf -> checksum
 # ADD serverfeatures
 # ADD server-integrity
 # new specific tests from links in Repo-changes.sh
 #   Tests: init.d,  pid,  bin,  conf,  output age
 # reinstall all servers
+# add putty-port-forward 2812+N
 
 MONIT_SERVICES="./services"
 
 Is_pkg_installed() {
-    dpkg-query --showformat='${Status}' --show "$1" | grep -q "install ok installed"
+    dpkg-query --showformat='${Status}' --show "$1" 2> /dev/null | grep -q "install ok installed"
 }
 
 Monit_template() {
@@ -65,6 +67,13 @@ Monit_template() {
         # Substitute variables
         sed -i -e "s;@@${VAR_NAME}@@;${VALUE};g" "$OUT"
     done 3<<< "$VARIABLES"
+
+    # Fix ignored "include"-s by literally including templates
+    ls /etc/monit/templates/* \
+        | while read -r TFILE; do
+            TCONTENT="$(sed -e ':a;N;$!ba;s/^/  /;s/\n/\\n  /g' "$TFILE")"
+            sed -i -e "s;^\s*include\s\+${TFILE}\s*$;${TCONTENT};" "$OUT"
+        done
 }
 
 Monit_apt_config() {
@@ -97,7 +106,7 @@ Monit_enable() {
         ../../install.sh "${SERVICE_TEMPLATE}.script"
     fi
 
-    # 3) Apply template
+    # 3) Render template
     Monit_template "$SERVICE_TEMPLATE" "/etc/monit/conf-available/${SERVICE}"
 
     # 4) .postinst
@@ -124,7 +133,7 @@ Monit_system() {
 }
 
 Monit_all_packages() {
-    local PACKAGES="$(dpkg-query -W -f '${Package}\n')"
+    local PACKAGES="$(dpkg-query --showformat='${Package}\n' --show)"
     local PACKAGE
 
     while read -r PACKAGE <&4; do
@@ -159,16 +168,30 @@ EOF
     chmod +x "$CRONJOB"
 }
 
+Monit_virtual_packages() {
+    local -A VPACKAGES=(
+        [mysql-server]=mariadb-server,mariadb-server-10.0,mysql-server-5.6
+    )
+    local MAIN_PACKAGE
+    local PACKAGE
+
+    for
+        if [ -f "/etc/monit/conf-enabled/${MAIN_PACKAGE}" ]; then
+            continue
+        fi
+        for
+            if Is_pkg_installed PACKAGE
+            Monit_enable mysql-server
+        done
+    done
+}
+
 Monit_mysql() {
-    if [ -f /etc/monit/conf-enabled/mysql-server ]; then
-        return 0
-    fi
 
     # Packages for mysql-server
     if Is_pkg_installed mariadb-server \
         || Is_pkg_installed mariadb-server-10.0 \
         || Is_pkg_installed mysql-server-5.6; then
-        Monit_enable mysql-server
     fi
 }
 
@@ -177,6 +200,10 @@ Monit_nginx() {
     # Packages for nginx
 }
 
+if Is_pkg_installed systemd; then
+    echo "Systemd AND Monit?"
+    exit 1
+fi
 if ! Is_pkg_installed monit; then
     apt-get install -q -y monit
 fi
@@ -189,5 +216,6 @@ Monit_mysql
 Monit_nginx
 
 Monit_apt_config
-
 Monit_wake
+service monit restart
+echo "monit summary"

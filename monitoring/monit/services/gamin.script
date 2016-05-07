@@ -2,7 +2,7 @@
 #
 # Connect to gamin server for session test.
 #
-# VERSION       :1.2.0
+# VERSION       :1.2.1
 # DOCS          :https://people.gnome.org/~veillard/gamin/debug.html
 # DEPENDS       :apt-get install gamin
 # DEPENDS       :gamin/tests/.lib/testgam
@@ -28,4 +28,4 @@ Sudo_virtual() {
 #     disconnected
 # Exit status of grep is 1 if not found
 "$TESTGAM" <(echo -e "connect test\npending\nsleep 1\ndisconnect") \
-    | grep -qFx "pending 0"
+    | grep -Fx "pending 0"

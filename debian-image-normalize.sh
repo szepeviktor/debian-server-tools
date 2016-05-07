@@ -38,7 +38,7 @@ set -x -e
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
 export APT_LISTCHANGES_FRONTEND="none"
-cd
+mkdir ${HOME}/os-normalize; cd ${HOME}/os-normalize/
 
 # List what boot packages are installed
 

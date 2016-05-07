@@ -4,14 +4,14 @@
    group atd
    start program = "/etc/init.d/atd start"
    stop program = "/etc/init.d/atd stop"
-   if 5 restarts within 5 cycles then timeout
+   if 5 restarts within 5 cycles then unmonitor
    depends on atd_bin
-   depends on atd_rc
+   depends on atd_init
 
  check file atd_bin with path /usr/sbin/atd
    group atd
    include /etc/monit/templates/rootbin
 
- check file atd_rc with path /etc/init.d/atd
+ check file atd_init with path /etc/init.d/atd
    group atd
    include /etc/monit/templates/rootbin

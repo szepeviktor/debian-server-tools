@@ -1,0 +1,17 @@
+ check process chronyd with pidfile /run/chronyd.pid
+   group system
+   group chronyd
+   start program = "/etc/init.d/chrony start"
+   stop program = "/etc/init.d/chrony stop"
+   if failed unixsocket /run/chrony/chronyd.sock then restart
+   if 4 restarts within 12 cycles then unmonitor
+   depend chronyd_bin
+   depend chronyd_init
+
+ check file chronyd_bin with path /usr/sbin/chronyd
+   group chronyd
+   include /etc/monit/templates/rootbin
+
+ check file chronyd_init with path /etc/init.d/chrony
+   group chronyd
+   include /etc/monit/templates/rootbin

@@ -1,4 +1,4 @@
- check system the_system
+ check system $HOST
    if loadavg (1min) > 4 then alert
    if loadavg (5min) > 2 then alert
    if memory usage > 75% then alert
