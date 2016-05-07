@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# Connect to gamin server for session test.
+#
+# VERSION       :1.2.0
+# DOCS          :https://people.gnome.org/~veillard/gamin/debug.html
+# DEPENDS       :apt-get install gamin
+# DEPENDS       :gamin/tests/.lib/testgam
+# LOCATION      :/usr/local/sbin/gamin-test.sh
+
+TESTGAM="/usr/local/bin/testgam"
+
+[ -x "$TESTGAM" ] || exit 1
+
+Sudo_virtual() {
+    local IMAP_USER="virtual"
+    local GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
+    trap "sudo -u '$IMAP_USER' -- rm -f '$GAMTMP'" EXIT HUP INT QUIT PIPE TERM
+
+    echo -e "connect test\npending\nsleep 1\ndisconnect" > "$GAMTMP"
+    sudo -u "$IMAP_USER" -- "$TESTGAM" "$GAMTMP" \
+        | grep -qFx "pending 0"
+}
+
+# Expected output:
+#     connected to test
+#     pending 0
+#     disconnected
+# Exit status of grep is 1 if not found
+"$TESTGAM" <(echo -e "connect test\npending\nsleep 1\ndisconnect") \
+    | grep -qFx "pending 0"

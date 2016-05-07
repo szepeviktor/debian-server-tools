@@ -1,0 +1,38 @@
+ check process courier-mta with pidfile /run/courier/esmtpd.pid
+   group mail
+   start program = "/etc/init.d/courier-mta start"
+   stop program = "/etc/init.d/courier-mta stop"
+   # https://bitbucket.org/tildeslash/monit/issue/112/smtp-error#comment-14395650
+   #if failed host 127.0.0.1 port 25 type tcp protocol smtp retry 2 times then restart
+   if failed host 127.0.0.1 port 25 type tcp protocol smtp for 2 cycles then restart
+   if 5 restarts within 5 cycles then timeout
+   depends on courier-mta_bin
+   depends on courier-mta_rc
+
+ check process courier-mta-msa with pidfile /run/courier/esmtpd-msa.pid
+   group mail
+   start program = "/etc/init.d/courier-mta start"
+   stop program = "/etc/init.d/courier-mta stop"
+   if failed host 127.0.0.1 port 587 type tcp protocol smtp for 2 cycles then restart
+   if 5 restarts within 5 cycles then timeout
+   depends on courier-mta_bin
+   depends on courier-mta_rc
+
+ check process courierfilter with pidfile /run/courier/courierfilter.pid
+   group mail
+   start program = "/usr/sbin/courierfilter start"
+   stop program = "/usr/sbin/courierfilter stop"
+   if 5 restarts within 5 cycles then timeout
+   depends on courierfilter_bin
+
+ check file courier-mta_bin with path /usr/sbin/courieresmtpd
+   group mail
+   include /etc/monit/templates/rootbin
+
+ check file courierfilter_bin with path /usr/sbin/courierfilter
+   group mail
+   include /etc/monit/templates/rootbin
+
+ check file courier-mta_rc with path /etc/init.d/courier-mta
+   group mail
+   include /etc/monit/templates/rootbin

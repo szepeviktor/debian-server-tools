@@ -1,0 +1,24 @@
+# From Debian package
+ check process crond with pidfile /run/crond.pid
+   group system
+   group crond
+   start program = "/etc/init.d/cron start"
+   stop program = "/etc/init.d/cron stop"
+   if 5 restarts with 5 cycles then timeout
+   depend crond_bin
+   depend crond_rc
+   depend crond_spool
+
+ check file crond_bin with path /usr/sbin/cron
+   group crond
+   include /etc/monit/templates/rootbin
+
+ check file crond_rc with path /etc/init.d/cron
+   group crond
+   include /etc/monit/templates/rootbin
+
+ check directory crond_spool with path /var/spool/cron/crontabs
+   group crond
+   if failed permission 1730 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid crontab then unmonitor

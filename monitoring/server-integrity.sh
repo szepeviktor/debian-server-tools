@@ -88,7 +88,7 @@ Check_vps() {
         # Variable name for this check
         CURRENT="CURRENT_${C}"
         # Assign value by running check
-        eval "${CURRENT}=\"\$(${CHECKS[$C]})\""
+        declare "${CURRENT}=$(${CHECKS[$C]})"
 
         # User-friendly variable name in email
         if [ "$GENERATE_DEFAULTS" == 1 ]; then

@@ -1,0 +1,3 @@
+if ! grep -q "^\$ModLoad immark\b" /etc/rsyslog.conf; then
+    echo "NOTICE Enable immark plugin in rsyslog.conf"
+fi

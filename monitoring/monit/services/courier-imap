@@ -1,0 +1,16 @@
+ check process courier-imap with pidfile /run/courier/imapd.pid
+   group mail
+   start program = "/etc/init.d/courier-imap start"
+   stop program = "/etc/init.d/courier-imap stop"
+   if failed host 127.0.0.1 port 143 type tcp protocol imap then restart
+   if 5 restarts within 5 cycles then timeout
+   depends on courier-imap_bin
+   depends on courier-imap_rc
+
+ check file courier-imap_bin with path /usr/bin/imapd
+   group mail
+   include /etc/monit/templates/rootbin
+
+ check file courier-imap_rc with path /etc/init.d/courier-imap
+   group mail
+   include /etc/monit/templates/rootbin

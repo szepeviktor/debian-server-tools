@@ -1,0 +1,132 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+
+### Monitor the pop3s service.
+check process courier-pop3s with pidfile /var/run/courier/pop3d-ssl.pid
+   group courier
+   start program = "/etc/init.d/courier-pop-ssl start"
+   stop program = "/etc/init.d/courier-pop-ssl stop"
+   if failed port 995 type TCPSSL protocol pop for 5 cycles then restart
+   if 3 restarts within 5 cycles then timeout
+   depends courier-pop3
+   depends courier-pop3s-init
+   depends courier-pop3s-bin
+   alert root@localhost only on {timeout}
+
+## Init script for pop3s.
+check file courier-pop3s-init with path /etc/init.d/courier-pop-ssl
+   group courier
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## This is just a symlink to the init script.
+check file courier-pop3s-bin with path /usr/sbin/pop3d-ssl
+   group courier
+
+### Monitor the pop3 service.
+check process courier-pop3 with pidfile /var/run/courier/pop3d.pid
+   group courier
+   start program = "/etc/init.d/courier-pop start"
+   stop program = "/etc/init.d/courier-pop stop"
+   if failed port 110 protocol pop for 5 cycles then restart
+   if 3 restarts within 5 cycles then timeout
+   depends courier-auth
+   depends courier-pop3-init
+   depends courier-pop3-bin
+   alert root@localhost only on {timeout}
+
+## Init script for pop3.
+check file courier-pop3-init with path /etc/init.d/courier-pop
+   group courier
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## This is just a symlink to the init script.
+check file courier-pop3-bin with path /usr/sbin/pop3d
+   group courier
+
+
+### Monitor the imaps service.
+check process courier-imaps with pidfile /var/run/courier/imapd-ssl.pid
+   group courier
+   start program = "/etc/init.d/courier-imap-ssl start"
+   stop program = "/etc/init.d/courier-imap-ssl stop"
+   if failed port 993 type TCPSSL protocol imap for 5 cycles then restart
+   if 3 restarts within 5 cycles then timeout
+   depends courier-imap
+   depends courier-imaps-init
+   depends courier-imaps-bin
+   alert root@localhost only on {timeout}
+
+## Init script for imaps.
+check file courier-imaps-init with path /etc/init.d/courier-imap-ssl
+   group courier
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## This is just a symlink to the init script.
+check file courier-imaps-bin with path /usr/sbin/imapd-ssl
+   group courier
+
+### Monitor the imap service.
+check process courier-imap with pidfile /var/run/courier/imapd.pid
+   group courier
+   start program = "/etc/init.d/courier-imap start"
+   stop program = "/etc/init.d/courier-imap stop"
+   if failed port 143 protocol imap for 5 cycles then restart
+   if 3 restarts within 5 cycles then timeout
+   depends courier-auth
+   depends courier-imap-init
+   depends courier-imap-bin
+   alert root@localhost only on {timeout}
+
+## Init script for imap.
+check file courier-imap-init with path /etc/init.d/courier-imap
+   group courier
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## This is just a symlink to the init script.
+check file courier-imap-bin with path /usr/sbin/imapd
+   group courier
+
+
+### Monitor the courier authorization daemon.
+check process courier-auth with pidfile /var/run/courier/authdaemon/pid
+   group courier
+   start program = "/etc/init.d/courier-authdaemon start"
+   stop program = "/etc/init.d/courier-authdaemon stop"
+   if 3 restarts within 5 cycles then timeout
+   depends courier-auth-init
+   depends courier-auth-bin
+   alert root@localhost only on {timeout}
+
+## Init script for auth.
+check file courier-auth-init with path /etc/init.d/courier-authdaemon
+   group courier
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## The authorization daemon binary.
+check file courier-auth-bin with path /usr/sbin/authdaemond
+   group courier
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  

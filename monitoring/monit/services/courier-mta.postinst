@@ -1,0 +1,5 @@
+# Remove check when esmtpd-msa is disabled
+if ! [ -f /etc/couier/esmtpd-msa ] \
+    || ! grep -q "^ESMTPDSTART\s*=\s*[yY]" /etc/couier/esmtpd-msa; then
+    sed -e '/^\s*check process courier-mta-msa /,/^$/d' /etc/monit/conf-available/courier-mta
+fi

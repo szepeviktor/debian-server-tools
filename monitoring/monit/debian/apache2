@@ -1,0 +1,17 @@
+ check process apache with pidfile /var/run/apache2/apache2.pid
+   group www
+   group apache
+   start program = "/etc/init.d/apache2 start"
+   stop program  = "/etc/init.d/apache2 stop"
+   if 4 restarts within 20 cycles then timeout
+   if failed host localhost port 80 with protocol http and request "/server-status" with timeout 25 seconds for 4 times within 5 cycles then restart
+   depend apache_bin
+   depend apache_rc
+
+ check file apache_bin with path /usr/sbin/apache2
+   group apache
+   include /etc/monit/templates/rootbin
+
+ check file apache_rc with path /etc/init.d/apache2
+   group apache
+   include /etc/monit/templates/rootbin

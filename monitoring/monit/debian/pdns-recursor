@@ -1,0 +1,18 @@
+ check process pdns-recursor with pidfile /var/run/pdns_recursor.pid
+   group system
+   group dns
+   group pdns-recursor
+   start program = "/etc/init.d/pdns-recursor start"
+   stop program = "/etc/init.d/pdns-recursor stop"
+   if failed host 127.0.0.1 port 53 type udp protocol dns for 3 times within 4 cycles then restart
+   if 5 restarts within 20 cycles then timeout
+   depend pdns-recursor_bin
+   depend pdns-recursor_rc
+
+ check file pdns-recursor_bin with path /usr/sbin/pdns_recursor
+   group pdns-recursor
+   include /etc/monit/templates/rootbin
+
+ check file pdns-recursor_rc with path /etc/init.d/pdns-recursor
+   group pnds-recursor
+   include /etc/monit/templates/rootbin

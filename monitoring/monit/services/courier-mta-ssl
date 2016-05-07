@@ -1,0 +1,12 @@
+ check process courier-mta-ssl with pidfile /run/courier/esmtpd-ssl.pid
+   group mail
+   start program = "/etc/init.d/courier-mta-ssl start"
+   stop program = "/etc/init.d/courier-mta-ssl stop"
+   if failed host 127.0.0.1 port 465 type tcpssl protocol smtp for 2 cycles then restart
+   if 5 restarts within 5 cycles then timeout
+   depends on courier-mta_bin
+   depends on courier-mta-ssl_rc
+
+ check file courier-mta-ssl_rc with path /etc/init.d/courier-mta-ssl
+   group mail
+   include /etc/monit/templates/rootbin

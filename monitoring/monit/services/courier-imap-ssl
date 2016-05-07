@@ -1,0 +1,12 @@
+ check process courier-imap-ssl with pidfile /run/courier/imapd-ssl.pid
+   group mail
+   start program = "/etc/init.d/courier-imap-ssl start"
+   stop program = "/etc/init.d/courier-imap-ssl stop"
+   if failed host 127.0.0.1 port 993 type tcpssl protocol imap then restart
+   if 5 restarts within 5 cycles then timeout
+   depends on courier-imap_bin
+   depends on courier-imap-ssl_rc
+
+ check file courier-imap-ssl_rc with path /etc/init.d/courier-imap-ssl
+   group mail
+   include /etc/monit/templates/rootbin

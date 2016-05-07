@@ -1,0 +1,33 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monitoring thttpd.
+check process thttpd with pidfile /var/run/thttpd.pid
+  group alt-webserver # alternative webserver group
+  start program = "/etc/init.d/thttpd start"
+  stop program  = "/etc/init.d/thttpd stop"
+  ## Test port 8080 and request the server status page. Restart if the
+  ## server is down.
+  if failed port 8080 protocol http then restart
+  ## If the restarts attempts fail then alert.   
+  if 3 restarts within 5 cycles then timeout
+  depends on thttpdd
+  depends on thttpd_init
+  alert root@localhost only on {timeout}    
+
+## Test the thttpd binary.
+check file thttpdd with path /usr/sbin/thttpd
+   group alt-webserver
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## Test the init scripts.
+check file thttpd_init with path /etc/init.d/thttpd
+   group alt-webserver
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost

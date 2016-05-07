@@ -1,0 +1,29 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monitoring Exim.
+check process exim with pidfile /var/run/exim4/exim.pid
+   group mailserver
+   start program = "/etc/init.d/exim4 start"
+   stop  program = "/etc/init.d/exim4 stop"
+   if failed port 25 protocol smtp then restart
+   if 3 restarts within 5 cycles then timeout
+   depends on eximd
+   depends on exim_init
+   alert root@localhost only on {timeout}
+
+check file eximd with path /usr/sbin/exim4
+   group mailserver
+   if failed checksum then unmonitor
+   # Exim runs setuid 4755.
+   if failed permission 4755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost
+
+check file exim_init with path /etc/init.d/exim4
+   group mailserver
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost

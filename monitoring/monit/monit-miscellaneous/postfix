@@ -1,0 +1,28 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monitoring postfix.
+check process postfix with pidfile /var/spool/postfix/pid/master.pid
+   group mailserver
+   start program = "/etc/init.d/postfix start"
+   stop  program = "/etc/init.d/postfix stop"
+   if failed port 25 protocol smtp then restart
+   if 3 restarts within 5 cycles then timeout
+   depends on postfixd   
+   depends on postfix_init
+   alert root@localhost only on {timeout}
+
+check file postfixd with path /usr/sbin/postfix
+   group mailserver
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost
+
+check file postfix_init with path /etc/init.d/postfix
+   group mailserver
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost

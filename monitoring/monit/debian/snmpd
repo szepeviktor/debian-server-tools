@@ -1,0 +1,6 @@
+ check process snmpd with pidfile /var/run/snmpd.pid
+   start program = "/etc/init.d/snmpd start"
+   stop  program = "/etc/init.d/snmpd stop"
+   if failed host localhost port 161 type udp then restart
+   if failed host localhost port 199 type tcp then restart
+   if 5 restarts within 5 cycles then timeout

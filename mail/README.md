@@ -134,6 +134,11 @@ spamtrap@domain.net:  |/usr/local/bin/multi-stdout.sh "/usr/bin/spamc -4 --learn
 problematic@address.es:  spamtrap@domain.net
 ```
 
+### NAIH nyilvántartási szám - "Hungarian National Authority for Data Protection and Freedom of Information" registry
+
+[NAIH kereső](http://81.183.229.204:8080/EMS/EMSDataProtectionRequest/Finder)
+http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
+
 ### Courier kitchen sink (drop incoming messages)
 
 See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS

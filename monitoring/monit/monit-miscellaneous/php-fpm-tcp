@@ -1,0 +1,55 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monitoring TCP socket php-fpm: the parent process.
+check process php5-fpm-tcp with pidfile /var/run/php5-fpm.pid
+  group phpcgi-tcp # phpcgi-tcp group
+  start program = "/etc/init.d/php5-fpm start"
+  stop program  = "/etc/init.d/php5-fpm stop"
+  ## Test the FCGI protocol with an empty FCGI request.
+  if failed port 9000  # we're running it on port 9000
+  ## This was stolen from here:
+  ## http://richard.wallman.org.uk/2010/03/monitor-a-fastcgi-server-using-monit/
+  ## and here:
+  ## http://stackoverflow.com/questions/1302209/how-do-i-ping-a-fastcgi-server.
+  ## Send FastCGI packet: version 1 (0x01), cmd FCGI_GET_VALUES (0x09)
+  ## padding 8 bytes (0x08), followed by 8xNULLs padding.
+  ## This follows the FCGI spec at http://www.fastcgi.com/devkit/doc/fcgi-spec.html#S3.
+  ## 1. Version - 1 byte (version 1).
+  ## 2. Type - 1 byte (FCGI_GET_VALUES = 9).
+  ## 3. Request ID - 2 bytes (set to 0 - null request ID).
+  ## 4. Content length - 2 bytes (set to 0).
+  ## 5. Padding length - 1 byte (set to 8).
+  ## 6. Reserved - 1 byte (set to 0).
+  ## 7. Content data - variable size set to NULL.
+  ## 8. Padding data - variable size set to 8 bytes (all NULL).
+  send "\0x01\0x09\0x00\0x00\0x00\0x00\0x08\0x00\0x00\0x00\0x00\0x00\0x00\0x00\0x00\0x00"
+  ## Expect FastCGI packet: version 1 (0x01), resp FCGI_GET_VALUES_RESULT (0x0A).
+  ## 1. Version - 1 byte (version 1).
+  ## 2. Type - 1 byte (FCGI_GET_VALUES_RESULT = 10).
+  expect "\0x01\0x0A"
+  ## Timeout because we don't care about anything else then the two initial bytes. 
+  timeout 5 seconds
+  then restart
+  ## If the restarts attempts fail then alert.
+  if 3 restarts within 5 cycles then timeout
+  depends on php5-fpm-tcp_bin
+  depends on php5-fpm-tcp_init
+  alert root@localhost only on {timeout}
+
+## Test the php5-fpm binary.
+check file php5-fpm-tcp_bin with path /usr/sbin/php5-fpm
+   group phpcgi-tcp
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost
+
+## Test the init scripts.
+check file php5-fpm-tcp_init with path /etc/init.d/php5-fpm
+   group phpcgi-tcp
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost

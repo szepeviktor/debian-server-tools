@@ -1,0 +1,9 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monit configuration for sshd.
+check process sshd with pidfile /var/run/sshd.pid
+   start program  = "/etc/init.d/ssh start"
+   stop program = "/etc/init.d/ssh stop"
+   if failed port 330 protocol ssh then restart
+   if 3 restarts within 5 cycles then timeout
+   alert root@localhost only on {timeout}

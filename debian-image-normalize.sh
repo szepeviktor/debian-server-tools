@@ -24,7 +24,7 @@ STANDARD_BLACKLIST="exim.*|procmail|mutt|bsd-mailx|ftp|mlocate|nfs-common|rpcbin
 
 # ??? isc-dhcp-client Priority: important
 # Don't ever remove these
-BOOT_PACKAGES="grub-pc|linux-image-amd64|initramfs-tools|firmware-.*|usbutils|mdadm|lvm2\
+BOOT_PACKAGES="grub-pc|linux-image-amd64|initramfs-tools|firmware-.*|usbutils|mdadm|lvm2|xfsprogs\
 |task-ssh-server|task-english|ssh|openssh-server|isc-dhcp-client|pppoeconf|ifenslave|ethtool|vlan\
 |open-vm-tools|open-vm-tools-dkms|dkms|sudo|cloud-init|cloud-initramfs-growroot\
 |sysvinit|sysvinit-core|sysvinit-utils|insserv|discover\

@@ -1,0 +1,4 @@
+SMARTHOST_DEFAULT="mail.szepe.net"
+SMARTHOST_PORT_DEFAULT="587"
+FROM_ADDRESS_DEFAULT="root@$(hostname -f)"
+ALERT_ADDRESS_DEFAULT="admin@szepe.net"

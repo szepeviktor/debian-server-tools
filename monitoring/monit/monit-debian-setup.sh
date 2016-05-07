@@ -2,232 +2,192 @@
 #
 # Configure monit plugins
 #
-# VERSION       :0.4.1
-# DATE          :2015-10-11
+# VERSION       :0.5.0
+# DATE          :2016-05-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install monit
-# DOCS          :https://mmonit.com/wiki/Monit/ConfigurationExamples
 # DOCS          :https://mmonit.com/monit/documentation/monit.html
+# DOCS          :https://mmonit.com/wiki/Monit/ConfigurationExamples
+# DEPENDS       :apt-get install monit
 
-# Usage
-#
-#     editor ./monit-debian-setup.sh
-#     ./monit-debian-setup.sh
-#     service monit restart
-#     sleep 40 && monit summary
-#     lynx 127.0.0.1:2812
+set -e
 
-# These variables need to be FILLED IN!
-MONIT_BOOT_DELAY="40"
-# Hostname in alert address: root@
-MONIT_EMAIL_HOST=""
-# Name for system monitoring file
-MONIT_FULL_HOSTNAME=""
-MONIT_SSH_PORT=""
-MONIT_PHPFPM_SOCKET=""
+# interfaces, resolv.conf -> checksum
+# ADD serverfeatures
+# ADD server-integrity
+# new specific tests from links in Repo-changes.sh
+#   Tests: init.d,  pid,  bin,  conf,  output age
+# reinstall all servers
 
-# @TODO tests: init.d,  pid,  bin,  conf,  output age
+MONIT_SERVICES="./services"
+
+Is_pkg_installed() {
+    dpkg-query --showformat='${Status}' --show "$1" | grep -q "install ok installed"
+}
+
+Monit_template() {
+    local TPL="$1"
+    local OUT="$2"
+    local VARIABLES
+    local VAR_NAME
+    local DEFAULT_NAME
+    local VALUE
+
+    if ! [ -r "$TPL" ]; then
+        echo "Service template not found (${TPL})" 1>&2
+        return 1
+    fi
+    if ! cp -f "$TPL" "$OUT"; then
+        echo "Writing to service configuration failed: ${OUT}" 1>&2
+        exit 11
+    fi
+
+    VARIABLES="$(grep -o "@@[A-Z0-9_]\+@@" "$TPL" | sort | uniq)"
+    if [ -z "$VARIABLES" ]; then
+        return 0
+    fi
+
+    while read -r VAR_NAME <&3; do
+        # Strip @'s
+        VAR_NAME="${VAR_NAME//@@/}"
+        if [[ "$VAR_NAME" =~ _DEFAULT$ ]]; then
+            echo "Invalid variable name (${VAR_NAME}) in template: ${TPL}"
+            exit 10
+        fi
+        DEFAULT_NAME="${VAR_NAME}_DEFAULT"
+
+        read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" VALUE
+
+        # Escape for sed
+        VALUE="${VALUE//;/\\;}"
+        # Substitute variables
+        sed -i -e "s;@@${VAR_NAME}@@;${VALUE};g" "$OUT"
+    done 3<<< "$VARIABLES"
+}
+
+Monit_apt_config() {
+    cat > /etc/apt/apt.conf.d/05monit <<EOF
+DPkg::Pre-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit stop" };
+DPkg::Post-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit start" };
+EOF
+}
 
 Monit_enable() {
-    local PLUGIN="$1"
+    local SERVICE="$1"
+    local -i IS_CONFIG="${2:-0}"
+    local SERVICE_TEMPLATE="${MONIT_SERVICES}/${SERVICE}"
 
-    if ! [ -f "/etc/monit/monitrc.d/${PLUGIN}" ]; then
-        echo "Plugin not found: (${PLUGIN})" >&2
+    echo "---  ${SERVICE}  ---"
+
+    if ! [ -r "$SERVICE_TEMPLATE" ]; then
+        echo "Service template not found (${SERVICE_TEMPLATE})" 1>&2
         return 1
     fi
 
-    ln -svf "/etc/monit/monitrc.d/${PLUGIN}" "/etc/monit/conf.d/${PLUGIN}" \
-        || echo "Cannot create symlink" >&2
+    # 1) .preinst
+    if [ -r "${SERVICE_TEMPLATE}.preinst" ]; then
+        source "${SERVICE_TEMPLATE}.preinst"
+    fi
+
+    # 2) .script
+    if [ -r "${SERVICE_TEMPLATE}.script" ]; then
+        # @FIXME Where to install install.sh?
+        ../../install.sh "${SERVICE_TEMPLATE}.script"
+    fi
+
+    # 3) Apply template
+    Monit_template "$SERVICE_TEMPLATE" "/etc/monit/conf-available/${SERVICE}"
+
+    # 4) .postinst
+    if [ -r "${SERVICE_TEMPLATE}.postinst" ]; then
+        source "${SERVICE_TEMPLATE}.postinst"
+    fi
+
+    # 5) Symlink
+    if [ "$IS_CONFIG" != 1 ] && ! ln -svf "../conf-available/${SERVICE}" /etc/monit/conf-enabled/; then
+        echo "Failed to enable service (${SERVICE})" 1>&2
+        exit 20
+    fi
+
+    return 0
 }
 
-Monit_monit() {
-    cat > "/etc/monit/monitrc.d/00_monitrc" <<EOF
-set daemon 120
-    with start delay ${MONIT_BOOT_DELAY}
-
-# Alert emails
-set mailserver localhost port 25, mail.szepe.net port 587
-set mail-format { from: root@${MONIT_EMAIL_HOST} }
-set alert root@${MONIT_EMAIL_HOST} with reminder on 2 cycle
-
-# Web interface
-set httpd port 2812 and
-    use address localhost
-    allow localhost
-EOF
-    Monit_enable 00_monitrc
+Monit_config() {
+    # IS_CONFIG=1
+    Monit_enable 00_monitrc 1
 }
 
 Monit_system() {
-    cat > "/etc/monit/monitrc.d/01_${MONIT_FULL_HOSTNAME}" <<MONITSYSTEM
-check system ${MONIT_FULL_HOSTNAME//[^0-9A-Za-z]/_}
-    if loadavg (1min) > 4 then alert
-    if loadavg (5min) > 2 then alert
-    if memory usage > 75% then alert
-    if swap usage > 25% then alert
-    if cpu usage (user) > 70% then alert
-    if cpu usage (system) > 30% then alert
-    if cpu usage (wait) > 20% then alert
-check filesystem rootfs with path /
-    if space usage > 90% then alert
-MONITSYSTEM
-    Monit_enable "01_${MONIT_FULL_HOSTNAME}"
+    Monit_enable 01_system
 }
 
-Monit_ssh() {
-    sed -i "s/port 22 with proto ssh/port ${MONIT_SSH_PORT} with proto ssh/" /etc/monit/monitrc.d/openssh-server
-    Monit_enable openssh-server
+Monit_all_packages() {
+    local PACKAGES="$(dpkg-query -W -f '${Package}\n')"
+    local PACKAGE
+
+    while read -r PACKAGE <&4; do
+        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ]; then
+            Monit_enable "$PACKAGE"
+        fi
+    done 4<<< "$PACKAGES"
 }
 
-Monit_unscd() {
-    cat > "/etc/monit/monitrc.d/unscd" <<MONITUNSCD
-# µNameservice caching daemon (unscd)
-check process nscd with pidfile /var/run/nscd/nscd.pid
-    group system
-    start program = "/etc/init.d/unscd start"
-    stop  program = "/etc/init.d/unscd stop"
-    if 5 restarts within 5 cycles then unmonitor
-    depends on nscd_bin
-    depends on nscd_rc
+Monit_wake() {
+    # @FIXME What a hack!
 
-check file nscd_bin with path /usr/sbin/nscd
-    group system
-    if failed permission 755 then unmonitor
-    if failed uid root then unmonitor
-    if failed gid root then unmonitor
+    local CRONJOB="/etc/cron.hourly/monit-wake"
 
-check file nscd_rc with path /etc/init.d/unscd
-    group system
-    if failed permission 755 then unmonitor
-    if failed uid root then unmonitor
-    if failed gid root then unmonitor
-MONITUNSCD
-    Monit_enable unscd
-}
-
-Monit_fail2ban() {
-    cat > "/etc/monit/monitrc.d/fail2ban" <<MONITFAIL2BAN
-check process fail2ban with pidfile /var/run/fail2ban/fail2ban.pid
-    group services
-    start program = "/etc/init.d/fail2ban force-start"
-    stop  program = "/etc/init.d/fail2ban stop || :"
-    if failed unixsocket /var/run/fail2ban/fail2ban.sock then restart
-    if 5 restarts within 5 cycles then unmonitor
-
-check file fail2ban_log with path /var/log/fail2ban.log
-    if match "ERROR|WARNING" then alert
-MONITFAIL2BAN
-    Monit_enable fail2ban
-}
-
-Monit_rsyslog(){
-    # @TODO --MARK--
-    Monit_enable rsyslog
-}
-
-Monit_cron() {
-    Monit_enable cron
-}
-
-Monit_phpfpm() {
-    #     https://github.com/perusio/monit-miscellaneous
-    wget -O /etc/monit/monitrc.d/php-fpm-unix \
-        "https://raw.githubusercontent.com/szepeviktor/monit-miscellaneous/patch-1/php-fpm-unix"
-    # @FIXME Has a bug: https://raw.githubusercontent.com/perusio/monit-miscellaneous/master/php-fpm-unix
-    sed -i "s|unixsocket /var/run/php-fpm.sock then|unixsocket /var/run/${MONIT_PHPFPM_SOCKET} then|" \
-        /etc/monit/monitrc.d/php-fpm-unix
-    #sed -i "s|alert root@localhost only on {timeout}$|alert root@${MONIT_EMAIL_HOST} only on {timeout}|g" \
-    #    /etc/monit/monitrc.d/php-fpm-unix
-    sed -i "s|alert root@localhost only on {timeout}$||g" /etc/monit/monitrc.d/php-fpm-unix
-    sed -i "s|alert root@localhost$||g" /etc/monit/monitrc.d/php-fpm-unix
-    Monit_enable php-fpm-unix
-}
-
-Monit_couriersmtp() {
-    wget -O /etc/monit/monitrc.d/courier \
-        "https://raw.githubusercontent.com/szepeviktor/FladischerMichael.monit/master/courier.test"
-    Monit_enable courier
-}
-
-Monit_courierauth() {
-    wget -O /etc/monit/monitrc.d/courier-auth \
-        "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-auth.test"
-    Monit_enable courier-auth
-}
-
-Monit_courierimap() {
-    wget -O /etc/monit/monitrc.d/courier-imap \
-        "https://github.com/szepeviktor/FladischerMichael.monit/raw/master/courier-imap.test"
-    Monit_enable courier-imap
-}
-
-Monit_apache() {
-    Monit_enable apache2
-}
-
-Monit_mysql() {
-    Monit_enable mysql
-    echo 'Create DB user!'
-}
-
-[ -d /etc/monit/monitrc.d ] || exit 1
-[ -z "$MONIT_BOOT_DELAY" ] && exit 2
-[ -z "$MONIT_EMAIL_HOST" ] && exit 2
-[ -z "$MONIT_FULL_HOSTNAME" ] && exit 2
-[ -z "$MONIT_SSH_PORT" ] && exit 2
-[ -z "$MONIT_PHPFPM_SOCKET" ] && exit 2
-
-# Filename only
-MONIT_PHPFPM_SOCKET="$(basename "$MONIT_PHPFPM_SOCKET")"
-
-# Plugins
-#     http://storage.fladi.at/~FladischerMichael/monit/
-# Mirror: https://github.com/szepeviktor/FladischerMichael.monit
-Monit_monit
-Monit_system
-[ -x /usr/sbin/sshd ] && Monit_ssh
-[ -x /usr/sbin/nscd ] && Monit_unscd
-[ -x /usr/sbin/rsyslogd ] && Monit_rsyslog
-[ -x /usr/sbin/cron ] && Monit_cron
-[ -x /usr/bin/fail2ban-server ] && Monit_fail2ban
-[ -x /usr/sbin/php5-fpm ] && Monit_phpfpm
-[ -x /usr/sbin/courieresmtpd ] && Monit_couriersmtp
-[ -x /usr/lib/courier/courier-authlib/authdaemond ] && Monit_courierauth
-[ -x /usr/bin/imapd ] && Monit_courierimap
-[ -x /usr/sbin/apache2 ] && Monit_apache
-[ -x /usr/sbin/mysqld ] && Monit_mysql
-
-# @TODO https://extremeshok.com/5207/monit-configs-for-ubuntu-debian-centos-rhce-redhat/
-
-#Monit_enable at
-#Monit_enable memcached
-#Monit_enable nginx
-#Monit_enable openntpd
-#Monit_enable pdns-recursor
-#Monit_enable postfix
-#Monit_enable snmpd
-
-# Hardware related
-#Monit_enable acpid
-#Monit_enable smartmontools
-#Monit_enable mdadm
-
-# Mail related
-#Monit_enable spamassassin
-
-# Wake up monit cron job
-# @TODO remove "unmonitor"-s
-cat > /etc/cron.hourly/monit-wake <<EOF
+    cat > "$CRONJOB" <<EOF
 #!/bin/bash
 
+# @TODO echo 'Alert!!'
+
 /usr/bin/monit summary | tail -n +3 \
-    | grep -v "\sRunning$\|\sAccessible$" \
-    | sed -ne "s;^.*'\(\S\+\)'.*$;\1;p" \
-    | xargs -L 1 -r /usr/bin/monit monitor # && /usr/local/sbin/swap-refresh.sh
+    | grep -vE "\sRunning$|\sAccessible$|\sStatus ok$" \
+    | sed -n -e "s;^.*'\(\S\+\)'.*$;\1;p" \
+    | xargs -r -L 1 /usr/bin/monit monitor
+
+# RET=0 -> There was a failure
+if [ $? == 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
+    /usr/local/sbin/swap-refresh.sh
+fi
 
 exit 0
 EOF
-chmod +x /etc/cron.hourly/monit-wake
+    chmod +x "$CRONJOB"
+}
+
+Monit_mysql() {
+    if [ -f /etc/monit/conf-enabled/mysql-server ]; then
+        return 0
+    fi
+
+    # Packages for mysql-server
+    if Is_pkg_installed mariadb-server \
+        || Is_pkg_installed mariadb-server-10.0 \
+        || Is_pkg_installed mysql-server-5.6; then
+        Monit_enable mysql-server
+    fi
+}
+
+Monit_nginx() {
+    # @TODO
+    # Packages for nginx
+}
+
+if ! Is_pkg_installed monit; then
+    apt-get install -q -y monit
+fi
+
+Monit_config
+
+Monit_system
+Monit_all_packages
+Monit_mysql
+Monit_nginx
+
+Monit_apt_config
+
+Monit_wake

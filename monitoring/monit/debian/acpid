@@ -1,0 +1,16 @@
+ check process acpid with pidfile "/var/run/acpid.pid"
+   group system
+   group acpid
+   start program = "/etc/init.d/acpid start"
+   stop program  = "/etc/init.d/acpid stop"
+   if 5 restarts within 5 cycles then timeout
+   depends on acpid_bin
+   depends on acpid_rc
+
+ check file acpid_bin with path "/usr/sbin/acpid"
+   group acpid
+   include /etc/monit/templates/rootbin
+
+ check file acpid_rc with path "/etc/init.d/acpid"
+   group acpid
+   include /etc/monit/templates/rootbin

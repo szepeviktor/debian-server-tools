@@ -1,0 +1,21 @@
+ check process mdadm with pidfile /var/run/mdadm/monitor.pid
+   group system
+   group mdadm
+   start program = "/etc/init.d/mdadm start"
+   stop  program = "/etc/init.d/mdadm stop"
+   if 5 restarts with 5 cycles then timeout
+   depend mdadm_bin
+   depend mdadm_rc
+   depend mdadm_conf
+
+ check file mdadm_bin with path /sbin/mdadm
+   group mdadm
+   include /etc/monit/templates/rootbin
+
+ check file mdadm_conf with path /etc/mdadm/mdadm.conf
+   group mdadm
+   include /etc/monit/templates/rootrc
+
+ check file mdadm_rc with path "/etc/init.d/mdadm"
+   group mdadm
+   include /etc/monit/templates/rootbin

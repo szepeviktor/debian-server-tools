@@ -1,0 +1,44 @@
+ check process postfix with pidfile /var/spool/postfix/pid/master.pid
+   group system
+   group mail
+   group postfix
+   start program = "/etc/init.d/postfix start"
+   stop  program = "/etc/init.d/postfix stop"
+   if failed host localhost port 25 with protocol smtp for 2 times within 3 cycles then restart
+   if 5 restarts with 5 cycles then timeout
+   depend master_bin
+   depend postfix_rc
+   depend postdrop_bin
+   depend postqueue_bin
+   depend master_cf
+   depend main_cf
+
+ check file master_bin with path /usr/lib/postfix/master
+   group postfix
+   include /etc/monit/templates/rootbin
+
+ check file postdrop_bin with path /usr/sbin/postdrop
+   group postfix
+   if failed checksum        then unmonitor
+   if failed permission 2555 then unmonitor
+   if failed uid root        then unmonitor
+   if failed gid postdrop    then unmonitor
+
+ check file postqueue_bin with path /usr/sbin/postqueue
+   group postfix
+   if failed checksum        then unmonitor
+   if failed permission 2555 then unmonitor
+   if failed uid root        then unmonitor
+   if failed gid postdrop    then unmonitor
+
+ check file master_cf with path /etc/postfix/master.cf
+   group postfix
+   include /etc/monit/templates/rootrc
+
+ check file main_cf with path /etc/postfix/main.cf
+   group postfix
+   include /etc/monit/templates/rootrc
+
+ check file postfix_rc with path /etc/init.d/postfix
+   group postfix
+   include /etc/monit/templates/rootbin

@@ -49,7 +49,7 @@
 #   - provider specific settings
 #   - microcode, firmware
 #   - disks, partitions, volumes
-#   - sensors (SMART, temp, fan, volt)
+#   - sensors (SMART, temp, fan, volt, ACPI)
 #   - cpufreq/cpuidle
 # - kernel:
 #   - kernel modules, blacklist
@@ -264,6 +264,9 @@ apt-get autoremove --purge -y
 
 # Hardware
 
+# Sensors
+#acpi acpid
+
 # Firmware
 if [ -d /dev/.udev/firmware-missing ] || [ -d /run/udev/firmware-missing ]; then
     echo "Probably missing firmware" 1>&2
@@ -272,8 +275,8 @@ fi
 
 # Detect virtualization environment
 apt-get -qq -y install virt-what
-VIRT="$(virt-what)"
-{
+POSSIBLE_VIRTS="$(virt-what)"
+while read -r VIRT; do
     echo "$VIRT" | sed 's/$/ # virtualization/'
     cat /proc/cmdline | sed 's/$/ # cmdline/'
     case "$VIRT" in
@@ -281,6 +284,9 @@ VIRT="$(virt-what)"
             grep -a "container=" /proc/1/environ | tr -d -c '[:print:]' | sed 's/$/ # init-env/'
             ;;
         xen|xen-domU|xen-hvm)
+            if ! [ -r /sys/hypervisor/type ] || [ "$(cat /sys/hypervisor/type)" != xen ]; then
+                break
+            fi
             if [ -e /sys/hypervisor/uuid ]; then
                 # Xen UUID
                 cat /sys/hypervisor/uuid | sed 's/$/ # xen-uuid/'
@@ -313,7 +319,7 @@ VIRT="$(virt-what)"
             apt-get install -qq -y open-vm-tools
             ;;
     esac
-} | tee virtualization.log
+done <<< "$POSSIBLE_VIRTS" | tee virtualization.log
 apt-get -qq -y purge virt-what
 
 # Provider specific
@@ -353,7 +359,7 @@ apt-get install -qq -y lsb-invalid-mta heirloom-mailx
 # RPCBind opens up port 111 to the Internet
 apt-get purge -qq -y rpcbind nfs-common
 # Xen VM monitoring through XenStore
-wget http://mirror.1and1.com/software/local-updates/XenServer_Tools/Linux/xe-guest-utilities_6.5.0-1423_amd64.deb
+wget "http://mirror.1and1.com/software/local-updates/XenServer_Tools/Linux/xe-guest-utilities_6.5.0-1423_amd64.deb"
 dpkg -i xe-guest-utilities_*.deb
 # Install sudo
 apt-get install -y sudo
@@ -421,7 +427,7 @@ firmware-linux-nonfree
 irqbalance
 rng-tools haveged
 fancontrol hddtemp lm-sensors sensord smartmontools ipmitools
-console-setup keyboard-configuration kbd ...
+console-setup
 mdadm
 lvm2
 

@@ -304,7 +304,12 @@ editor /etc/sysctl.conf
 # SysVinit
 # Comment out getty[2-6], NOT /etc/init.d/rc !
 # Consider /sbin/agetty
+# Xen Serial Console
 editor /etc/inittab
+#     s1:2345:respawn:/sbin/agetty -L ttyS0 115200 vt102
+# Systemd
+systemctl enable serial-getty@ttyS0.service
+systemctl start serial-getty@ttyS0.service
 
 # Miscellaneous configuration
 # Aruba needs arping package in /etc/rc.local
@@ -910,6 +915,8 @@ echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8"
 echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf
 #editor /root/.my.cnf
+# @TODO repl? bin_log? xtrabackup?
+
 
 # WP-CLI
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"

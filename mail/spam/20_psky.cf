@@ -7,8 +7,6 @@
 
 require_version 3.004000
 
-###########################################################################
-
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
 # http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules#check_rbl.28_.29

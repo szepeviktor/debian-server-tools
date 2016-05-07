@@ -1,0 +1,32 @@
+# -*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monitoring php-cgi: the parent process.
+check process php-cgi with pidfile /var/run/php-cgi.pid
+  group phpcgi # phpcgi group
+  start program = "/etc/init.d/php-cgi start"
+  stop program  = "/etc/init.d/php-cgi stop"
+  ## Test the UNIX socket. Restart if down.
+  if failed unixsocket /tmp/php-cgi/php-cgi.socket then restart
+  ## If the restarts attempts fail then alert.   
+  if 3 restarts within 5 cycles then timeout
+  depends on php-cgi_bin
+  depends on php-cgi_init
+  alert root@localhost only on {timeout}    
+
+## Test the php-cgi binary.
+check file php-cgi_bin with path /usr/bin/php5-cgi
+   group phpcgi
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost  
+
+## Test the init scripts.
+check file php-cgi_init with path /etc/init.d/php-cgi
+   group phpcgi
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost

@@ -1,0 +1,2 @@
+ check file munin_index_html with path /var/cache/munin/www/index.html
+   if timestamp > 7 minutes then alert

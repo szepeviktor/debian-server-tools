@@ -1,0 +1,5 @@
+# Test pool config
+/usr/sbin/php5-fpm -tt 2>&1 \
+    | grep -E "NOTICE:\s\[\S+\]|NOTICE:\s\spm\.status_path = /" \
+    | grep -F -A 1 "$PHP5_USER" \
+    | grep -q -F pm.status_path

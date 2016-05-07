@@ -112,7 +112,7 @@ port     = http,https
 
 [courier-smtp]
 #enabled  = true
-maxretry = 2
+maxretry = 3
 
 [courier-auth]
 #enabled  = true

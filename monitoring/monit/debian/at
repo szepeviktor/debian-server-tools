@@ -1,0 +1,16 @@
+ check process atd with pidfile "/var/run/atd.pid"
+   group system
+   group atd
+   start program = "/etc/init.d/atd start"
+   stop program  = "/etc/init.d/atd stop"
+   if 5 restarts within 5 cycles then timeout
+   depends on atd_bin
+   depends on atd_rc
+
+ check file atd_bin with path "/usr/sbin/atd"
+   group atd
+   include /etc/monit/templates/rootbin
+
+ check file atd_rc with path "/etc/init.d/atd"
+   group atd
+   include /etc/monit/templates/rootbin

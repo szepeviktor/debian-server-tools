@@ -1,0 +1,16 @@
+ check process smartd with pidfile /var/run/smartd.pid
+   group system
+   group smartd
+   start program = "/etc/init.d/smartmontools start"
+   stop  program = "/etc/init.d/smartmontools stop"
+   if 5 restarts with 5 cycles then timeout
+   depend smartd_bin
+   depend smartd_rc
+
+ check file smartd_bin with path /usr/sbin/smartd
+   group smartd
+   include /etc/monit/templates/rootbin
+
+ check file smartd_rc with path "/etc/init.d/smartmontools"
+   group smartd
+   include /etc/monit/templates/rootbin

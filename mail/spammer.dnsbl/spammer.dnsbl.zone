@@ -12,6 +12,7 @@
 
 #### http://magyarspammer.com/blog/
 #### http://spamlap.hu/archive_month/index.html
+#### http://dnsbl.aspnet.hu/About.aspx
 
 $NS 3600 worker.szepe.net
 # one minute TTL
@@ -158,3 +159,9 @@ $TTL 60
 79.172.210.208-215  HU_*.smartlead.hu@SZERVERPLEX/AS61998
 # Famillio Kft.
 79.172.210.223      HU_relay-gmail.famedia.hu@SZERVERPLEX/AS61998
+
+# MarketMix Reklámiroda Bt. by Webmuhely @Magyar Telekom
+195.228.247.20 HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
+195.228.247.25 HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
+79.143.189.215 HU_hirlev-smtp.webmuhely.hu.
+92.222.29.197  HU_ns2.webmuhely.hu.

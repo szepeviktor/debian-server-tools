@@ -1,18 +1,16 @@
-# Fail2Ban filter to block relay attempts though a Courier smtp server
+# Fail2Ban filter ...
 #
 #
 
 [INCLUDES]
 
-# Read common prefixes. If any customizations available -- read them from
-# common.local
 before = common.conf
 
 [Definition]
 
 _daemon = courieresmtpd
 
-# Password tries: 123, 1234, 12345, 123456, 1234567
-failregex = ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd: (MTIz|MTIzNA==|MTIzNDU=|MTIzNDU2|MTIzNDU2Nw==)$
+# Password probes: 123, 1234, 12345, 123456, 1234567
+failregex = ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd: MTIz(|NA==|NDU=|NDU2|NDU2Nw==)$
 
 ignoreregex = 

@@ -1,0 +1,11 @@
+set daemon 120
+
+# Alert emails
+set mailserver localhost port 25, @@SMARTHOST@@ port @@SMARTHOST_PORT@@
+set mail-format { from: @@FROM_ADDRESS@@ }
+set alert @@ALERT_ADDRESS@@ with reminder on 2 cycle
+
+# Web interface
+set httpd port 2812 and
+    use address localhost
+    allow localhost

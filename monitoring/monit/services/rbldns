@@ -1,0 +1,16 @@
+ check process rbldnsd with pidfile /run/rbldnsd-dsbl.pid
+   group rbldns
+   start program = "/etc/init.d/rbldnsd start"
+   stop program = "/etc/init.d/rbldnsd stop"
+   if failed host 10.0.0.1 port 8053 type udp protocol dns then alert
+   if 5 restarts within 5 cycles then unmonitor
+   depends on rbldns_bin
+   depends on rbldns_rc
+
+ check file rbldns_bin with path /usr/sbin/rbldnsd
+   group rbldns
+   include /etc/monit/templates/rootbin
+
+ check file rbldns_rc with path /etc/init.d/rbldnsd
+   group rbldns
+   include /etc/monit/templates/rootbin

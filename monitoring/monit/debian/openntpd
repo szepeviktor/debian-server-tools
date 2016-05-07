@@ -1,0 +1,16 @@
+ check process ntpd with pidfile /var/run/openntpd.pid
+   group system
+   group ntpd
+   start program = "/etc/init.d/openntpd start"
+   stop  program = "/etc/init.d/openntpd stop"
+   if 4 restarts within 12 cycles then timeout
+   depend ntpd_bin
+   depend ntpd_rc
+
+ check file ntpd_bin with path /usr/sbin/ntpd
+   group ntpd
+   include /etc/monit/templates/rootbin
+
+ check file ntpd_rc with path /etc/init.d/openntpd
+   group ntpd
+   include /etc/monit/templates/rootbin

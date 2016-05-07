@@ -1,0 +1,19 @@
+ check process unbound with pidfile /var/run/unbound.pid
+   group unbound
+   start program = "/etc/init.d/unbound start"
+   stop  program = "/etc/init.d/unbound stop"
+   if failed port 53 IPV4 type tcp protocol dns then alert
+   if failed port 53 IPV6 type tcp protocol dns then alert
+   if failed port 53 IPV4 type udp protocol dns then alert
+   if failed port 53 IPV6 type udp protocol dns then alert
+   #if 5 restarts within 5 cycles then unmonitor
+   depend unbound_bin
+   depend unbound_rc
+
+ check file unbound_bin with path /usr/sbin/unbound
+   group unbound
+   include /etc/monit/templates/rootbin
+
+ check file unbound_rc with path /etc/init.d/unbound
+   group unbound
+   include /etc/monit/templates/rootbin

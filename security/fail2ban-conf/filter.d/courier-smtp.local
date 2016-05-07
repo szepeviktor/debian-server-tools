@@ -4,19 +4,21 @@
 
 [Definition]
 
-#           courier-smtp.conf
-#               1. Trying an authentication method that it not advertised.
-#               2. HTTP commands on SMTP, and the "message complete dot" outside the DATA command.
-#               3. Hang up during HTTP on SMTP.
-#           Mail rejected by spamassassin3.py
+#           2×courier-smtp.conf
+#               1. Trying an authentication method that it not advertised
+#               2. HTTP commands on SMTP, and the "message complete dot" outside the DATA command
+#               3. Hang up during HTTP on SMTP
+#           4. Mail rejected by spamassassin3.py
+#           5. Open relay test
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
             ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: (HOST: \S+|GET \S+ \S+|\.)$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
             ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: 554 Mail rejected - (reverse DNS lookup failure|spam detected).*$
+            ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>,to=<\S+>: 513 Relaying denied\.$
 
-# ? ,msg="535 Authentication required.",cmd: EHLO
-# ? ,msg="535 Authentication required.",cmd:
+# @TODO ,msg="535 Authentication required.",cmd: EHLO$
+# @TODO ,msg="535 Authentication required.",cmd:$
 
 ignoreregex = ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>,to=<\S+-testing@\S">: 550 User (<.*> )?unknown\.?$

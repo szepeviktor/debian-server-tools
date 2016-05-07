@@ -1,0 +1,4 @@
+CURRENT_SSH_PORT="$(sed -ne 's;^Port \([0-9]\+\)$;\1;p' /etc/ssh/sshd_config)"
+if [ -n "$CURRENT_SSH_PORT" ]; then
+    SSH_PORT_DEFAULT="$CURRENT_SSH_PORT"
+fi

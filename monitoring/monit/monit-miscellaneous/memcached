@@ -1,0 +1,28 @@
+#-*- mode: conf; mode: flyspell-prog; mode: autopair; ispell-current-dictionary: american -*-
+
+### Monitoring memcached.
+check process memcache with pidfile /var/run/memcached.pid
+   group memcache
+   start program = "/etc/init.d/memcached start"
+   stop  program = "/etc/init.d/memcached stop"
+   if failed port 11211 protocol memcache then restart
+   if 3 restarts within 5 cycles then timeout
+   depends on memcached   
+   depends on memcached_init
+   alert root@localhost only on {timeout}
+
+check file memcached with path /usr/bin/memcached
+   group memcache
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost
+
+check file memcached_init with path /etc/init.d/memcached
+   group memcache
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
+   alert root@localhost
