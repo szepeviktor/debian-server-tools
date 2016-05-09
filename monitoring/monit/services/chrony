@@ -3,7 +3,7 @@
    group chronyd
    start program = "/etc/init.d/chrony start"
    stop program = "/etc/init.d/chrony stop"
-   if failed unixsocket /run/chrony/chronyd.sock then restart
+###   if failed unixsocket /run/chrony/chronyd.sock then restart
    if 4 restarts within 12 cycles then unmonitor
    depend chronyd_bin
    depend chronyd_init

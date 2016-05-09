@@ -46,7 +46,14 @@ Monit_template() {
         exit 11
     fi
 
-    VARIABLES="$(grep -o "@@[A-Z0-9_]\+@@" "$TPL" | sort | uniq)"
+    # Fix ignored "include"-s by literally including templates (before "return 0")
+    find /etc/monit/templates/ -type f \
+        | while read -r TFILE; do
+            TCONTENT="$(sed -e ':a;N;$!ba;s/^/  /;s/\n/\\n  /g' "$TFILE")"
+            sed -i -e "s;^\s*include\s\+${TFILE}\s*$;${TCONTENT};" "$OUT"
+        done
+
+    VARIABLES="$(grep -o "@@[A-Z0-9_]\+@@" "$TPL" | nl | sort -k 2 | uniq -f 1 | sort -n | sed -e 's;\s*[0-9]\+\s\+;;')"
     if [ -z "$VARIABLES" ]; then
         return 0
     fi
@@ -67,13 +74,6 @@ Monit_template() {
         # Substitute variables
         sed -i -e "s;@@${VAR_NAME}@@;${VALUE};g" "$OUT"
     done 3<<< "$VARIABLES"
-
-    # Fix ignored "include"-s by literally including templates
-    ls /etc/monit/templates/* \
-        | while read -r TFILE; do
-            TCONTENT="$(sed -e ':a;N;$!ba;s/^/  /;s/\n/\\n  /g' "$TFILE")"
-            sed -i -e "s;^\s*include\s\+${TFILE}\s*$;${TCONTENT};" "$OUT"
-        done
 }
 
 Monit_apt_config() {
@@ -107,7 +107,11 @@ Monit_enable() {
     fi
 
     # 3) Render template
-    Monit_template "$SERVICE_TEMPLATE" "/etc/monit/conf-available/${SERVICE}"
+    if [ "$IS_CONFIG" == 1 ]; then
+        Monit_template "$SERVICE_TEMPLATE" "/etc/monit/conf.d/${SERVICE}"
+    else
+        Monit_template "$SERVICE_TEMPLATE" "/etc/monit/conf-available/${SERVICE}"
+    fi
 
     # 4) .postinst
     if [ -r "${SERVICE_TEMPLATE}.postinst" ]; then
@@ -115,9 +119,13 @@ Monit_enable() {
     fi
 
     # 5) Symlink
-    if [ "$IS_CONFIG" != 1 ] && ! ln -svf "../conf-available/${SERVICE}" /etc/monit/conf-enabled/; then
-        echo "Failed to enable service (${SERVICE})" 1>&2
-        exit 20
+    if [ "$IS_CONFIG" == 1 ]; then
+        echo "/etc/monit/conf.d/${SERVICE}"
+    else
+        if ! ln -svf "../conf-available/${SERVICE}" /etc/monit/conf-enabled/; then
+            echo "Failed to enable service (${SERVICE})" 1>&2
+            exit 20
+        fi
     fi
 
     return 0
@@ -141,6 +149,27 @@ Monit_all_packages() {
             Monit_enable "$PACKAGE"
         fi
     done 4<<< "$PACKAGES"
+}
+
+Monit_virtual_packages() {
+    local -A VPACKAGES=(
+        [mysql-server]="mariadb-server,mariadb-server-10.0,mysql-server-5.6"
+        [nginx]="nginx-extras,nginx-full,nginx-light"
+    )
+    local MAIN_PACKAGE
+    local PACKAGE
+
+    for MAIN_PACKAGE in "${!VPACKAGES[@]}"; do
+        if [ -f "/etc/monit/conf-enabled/${MAIN_PACKAGE}" ]; then
+            continue
+        fi
+        for PACKAGE in ${VPACKAGES[$MAIN_PACKAGE]//,/ }; do
+            if Is_pkg_installed "$PACKAGE"; then
+                Monit_enable "$MAIN_PACKAGE"
+                break
+            fi
+        done
+    done
 }
 
 Monit_wake() {
@@ -168,54 +197,28 @@ EOF
     chmod +x "$CRONJOB"
 }
 
-Monit_virtual_packages() {
-    local -A VPACKAGES=(
-        [mysql-server]=mariadb-server,mariadb-server-10.0,mysql-server-5.6
-    )
-    local MAIN_PACKAGE
-    local PACKAGE
-
-    for
-        if [ -f "/etc/monit/conf-enabled/${MAIN_PACKAGE}" ]; then
-            continue
-        fi
-        for
-            if Is_pkg_installed PACKAGE
-            Monit_enable mysql-server
-        done
-    done
-}
-
-Monit_mysql() {
-
-    # Packages for mysql-server
-    if Is_pkg_installed mariadb-server \
-        || Is_pkg_installed mariadb-server-10.0 \
-        || Is_pkg_installed mysql-server-5.6; then
-    fi
-}
-
-Monit_nginx() {
-    # @TODO
-    # Packages for nginx
-}
-
+if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.17.1"; then
+    echo "Minimum Monit version needed: 5.17.1"
+    exit 1
+fi
 if Is_pkg_installed systemd; then
     echo "Systemd AND Monit?"
-    exit 1
+    exit 2
 fi
 if ! Is_pkg_installed monit; then
     apt-get install -q -y monit
 fi
+service monit stop || true
 
 Monit_config
 
 Monit_system
 Monit_all_packages
-Monit_mysql
-Monit_nginx
+Monit_virtual_packages
 
 Monit_apt_config
 Monit_wake
-service monit restart
-echo "monit summary"
+
+service monit start
+sleep 3
+monit summary

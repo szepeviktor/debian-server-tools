@@ -1,0 +1,4 @@
+# Remove SSL check when mod_ssl is not enabled
+if ! [ -f /etc/apache2/mods-enabled/ssl.load ]; then
+    sed -i -e '/^\s*if failed host \S\+ port 443 with protocol https /d' /etc/monit/conf-available/apache2
+fi

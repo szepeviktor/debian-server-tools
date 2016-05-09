@@ -16,7 +16,15 @@
    if failed host 127.0.0.1 port 587 type tcp protocol smtp for 2 cycles then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-mta_bin
-   depends on courier-mta_rc
+   depends on courier-mta_init
+
+ check file courier-mta_bin with path /usr/sbin/courieresmtpd
+   group mail
+   include /etc/monit/templates/rootbin
+
+ check file courier-mta_init with path /etc/init.d/courier-mta
+   group mail
+   include /etc/monit/templates/rootbin
 
  check process courierfilter with pidfile /run/courier/courierfilter.pid
    group mail
@@ -25,14 +33,6 @@
    if 5 restarts within 5 cycles then unmonitor
    depends on courierfilter_bin
 
- check file courier-mta_bin with path /usr/sbin/courieresmtpd
-   group mail
-   include /etc/monit/templates/rootbin
-
  check file courierfilter_bin with path /usr/sbin/courierfilter
-   group mail
-   include /etc/monit/templates/rootbin
-
- check file courier-mta_init with path /etc/init.d/courier-mta
    group mail
    include /etc/monit/templates/rootbin

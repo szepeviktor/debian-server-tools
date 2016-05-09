@@ -4,7 +4,7 @@
    group rsyslogd
    start program = "/etc/init.d/rsyslog start"
    stop program = "/etc/init.d/rsyslog stop"
-   if failed unixsocket /dev/log then restart
+###   if failed unixsocket /dev/log then restart
    if 5 restarts with 5 cycles then unmonitor
    depend on rsyslogd_bin
    depend on rsyslogd_rc

@@ -926,10 +926,17 @@ wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli c
 # If you have suhosin in PHP-CLI configuration
 #     grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/*suhosin*.ini || Error "Whitelist phar"
 
+# Composer
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');
+if (hash_file('SHA384', 'composer-setup.php') ===
+'92102166af5abdb03f49ce52a40591073a7b859a86e8ff13338cf7db58a19f7844fbc0bb79b2773bf30791e935dbd938')
+{ echo 'Installer verified'; }
+else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+rm composer-setup.php
+
 # Drush
 #     https://github.com/drush-ops/drush/releases
-wget -qO getcomposer.php https://getcomposer.org/installer
-php getcomposer.php --install-dir=/usr/local/bin --filename=composer
 mkdir -p /opt/drush && cd /opt/drush
 composer require drush/drush:7.*
 ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
