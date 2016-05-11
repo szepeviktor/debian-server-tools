@@ -9,3 +9,93 @@
 
  check filesystem rootfs with path /
    if space usage > 90% then alert
+
+ # Uptime
+ check directory with path /proc
+   if timestamp > 180 days then alert
+
+ # Number of CPU cores
+ check program hardware_cpu
+    with path "/usr/local/sbin/server-integrity.sh CPU | grep -Fx '@@INTEGRITY_CPU@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # Total memory (MB)
+ check program hardware_ram
+    with path "/usr/local/sbin/server-integrity.sh RAM | grep -Fx '@@INTEGRITY_RAM_MB@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # PCI devices
+ check program hardware_pci
+    with path "/usr/local/sbin/server-integrity.sh PCI | grep -Fx '@@INTEGRITY_PCI_HASH@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # USB devices
+ #check program hardware_usb
+ #   with path "/usr/local/sbin/server-integrity.sh USB | grep -Fx '@@INTEGRITY_USB_HASH@@'" every 33 cycles
+ #  group integrity
+ #  if status != 0 then alert
+
+ # Disk partitions
+ #  - bare metal /dev/[sh]d*
+ #  - VMware /dev/sd*
+ #  - KVM /dev/vd*
+ #  - XEN /dev/xvd*
+ #  - OpenVZ: no disk devices, enter empty string
+ check program hardware_disk
+    with path "/usr/local/sbin/server-integrity.sh DISK | grep -Fx '@@INTEGRITY_DISKS@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # Swap sizes (kB)
+ check program hardware_swap
+    with path "/usr/local/sbin/server-integrity.sh SWAP | grep -Fx '@@INTEGRITY_SWAPS@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # Kernel clock source
+ check program hardware_clocksource
+    with path "/usr/local/sbin/server-integrity.sh CLOCKSOURCE | grep -Fx '@@INTEGRITY_CLOCKSOURCE@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # Virtual console on Xen
+ #check program hardware_vconsole
+ #   with path "/usr/local/sbin/server-integrity.sh VCONSOLE | grep -Fx '@@INTEGRITY_VCONSOLE@@'" every 33 cycles
+ #  group integrity
+ #  if status != 0 then alert
+
+ # First nameserver (IPv4 only)
+ check program network_dns
+    with path "/usr/local/sbin/server-integrity.sh DNS1 | grep -Fx '@@INTEGRITY_FIRST_DNS@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # First IPv4 address
+ check program network_ip
+    with path "/usr/local/sbin/server-integrity.sh IP1 | grep -Fx '@@INTEGRITY_FIRST_IP@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # Default IPv4 gateway
+ check program network_gateway
+    with path "/usr/local/sbin/server-integrity.sh GATEWAY | grep -Fx '@@INTEGRITY_GATEWAY@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # First hop towards the nearest root server
+ # WARNING There could be more routers
+ check program network_hop
+   with path "/usr/local/sbin/server-integrity.sh HOP1 @@INTEGRITY_NEAREST@@ | grep -Fx '@@INTEGRITY_HOP@@'" every 33 cycles
+ # Second hop
+ #  with path "/usr/local/sbin/server-integrity.sh HOP2 @@INTEGRITY_NEAREST@@ | grep -Fx '@@INTEGRITY_HOP@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # First mail exchanger
+ check program network_mx
+    with path "/usr/local/sbin/server-integrity.sh MX1 | grep -Fx '@@INTEGRITY_FIRST_MX@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert

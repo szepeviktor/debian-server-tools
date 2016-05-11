@@ -1,10 +1,15 @@
 # From Fail2ban
-check process fail2ban with pidfile /run/fail2ban/fail2ban.pid
-    group services
-    start program = "/etc/init.d/fail2ban force-start"
-    stop  program = "/etc/init.d/fail2ban stop || :"
-    if failed unixsocket /run/fail2ban/fail2ban.sock then restart
-    if 5 restarts within 5 cycles then unmonitor
+ check process fail2ban with pidfile /run/fail2ban/fail2ban.pid
+   group services
+   start program = "/etc/init.d/fail2ban force-start"
+   stop program = "/etc/init.d/fail2ban stop || :"
+   if failed unixsocket /run/fail2ban/fail2ban.sock then restart
+   if 5 restarts within 5 cycles then unmonitor
 
-check file fail2ban_log with path /var/log/fail2ban.log
-    if match "ERROR|WARNING" then alert
+ check file fail2ban_log with path /var/log/fail2ban.log
+   group services
+   if match "ERROR|WARNING" then alert
+
+ check program fail2ban_test with path /usr/local/sbin/fail2ban-test.sh
+   group services
+   if status != 0 then alert

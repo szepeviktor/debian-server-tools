@@ -14,14 +14,13 @@
 
 set -e
 
-# add config files as _rc, socket, fifo ...
-# interfaces, resolv.conf -> checksum
-# ADD serverfeatures
-# ADD server-integrity
+# ADD cert-expiry, ntp-alert
 # new specific tests from links in Repo-changes.sh
-#   Tests: init.d,  pid,  bin,  conf,  output age
 # reinstall all servers
 # add putty-port-forward 2812+N
+
+# Exclude packages
+#     EXCLUDED_PACKAGES=php5-fpm:apache2 ./monit-debian-setup.sh
 
 MONIT_SERVICES="./services"
 
@@ -95,15 +94,15 @@ Monit_enable() {
         return 1
     fi
 
-    # 1) .preinst
-    if [ -r "${SERVICE_TEMPLATE}.preinst" ]; then
-        source "${SERVICE_TEMPLATE}.preinst"
-    fi
-
-    # 2) .script
+    # 1) .script
     if [ -r "${SERVICE_TEMPLATE}.script" ]; then
         # @FIXME Where to install install.sh?
         ../../install.sh "${SERVICE_TEMPLATE}.script"
+    fi
+
+    # 2) .preinst
+    if [ -r "${SERVICE_TEMPLATE}.preinst" ]; then
+        source "${SERVICE_TEMPLATE}.preinst"
     fi
 
     # 3) Render template
@@ -145,7 +144,7 @@ Monit_all_packages() {
     local PACKAGE
 
     while read -r PACKAGE <&4; do
-        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ]; then
+        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -qF ":${PACKAGE}:" <<< ":${EXCLUDED_PACKAGES}:"; then
             Monit_enable "$PACKAGE"
         fi
     done 4<<< "$PACKAGES"
@@ -197,6 +196,8 @@ EOF
     chmod +x "$CRONJOB"
 }
 
+trap 'echo "RET=$?"' EXIT HUP INT QUIT PIPE TERM
+
 if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.17.1"; then
     echo "Minimum Monit version needed: 5.17.1"
     exit 1
@@ -222,3 +223,4 @@ Monit_wake
 service monit start
 sleep 3
 monit summary
+echo "OK."

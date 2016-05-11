@@ -2,3 +2,7 @@
 if ! [ -f /etc/apache2/mods-enabled/ssl.load ]; then
     sed -i -e '/^\s*if failed host \S\+ port 443 with protocol https /d' /etc/monit/conf-available/apache2
 fi
+
+# @TODO grep "Location .*/server-status" /etc/apache2/sites-enabled/*
+wget -q -T 10 -S -O /dev/null "http://${APACHE_SERVER_NAME}/server-status"
+wget -q -T 10 -S -O /dev/null "https://${APACHE_SSL_SERVER_NAME}/server-status"

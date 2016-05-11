@@ -2,8 +2,8 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.4.3
-# DATE          :2015-12-08
+# VERSION       :0.4.5
+# DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -80,9 +80,9 @@ NEW_MAILDIR="${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}/Maildir"
 [ -d "$HOMEDIR" ] && Error 9 "This home ($HOMEDIR) already exists."
 
 # Check domain
-grep -qFxr "${NEW_DOMAIN}" /etc/courier/locals /etc/courier/esmtpacceptmailfor.dir \
+grep -qFxr "${NEW_DOMAIN}" /etc/courier/esmtpacceptmailfor.dir \
     || echo "[WARNING] This domain is not accepted here (${NEW_DOMAIN})" 1>&2
-grep -qFxr "${NEW_DOMAIN}" /etc/courier/hosteddomains \
+grep -qFxr "${NEW_DOMAIN}" /etc/courier/hosteddomains /etc/courier/locals \
     || echo "[WARNING] This domain is not hosted here (${NEW_DOMAIN})" 1>&2
 
 # Account home folder and maildir

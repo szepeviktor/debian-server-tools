@@ -7,6 +7,7 @@
 
 ## Shared hosting in Hungary
 
+- [Rackforest](http://rackforest.hu/korlatlan-tarhely/)
 - [Cloud Webtárhely Plus](https://client.ezit.hu/aff.php?aff=036) PHP OPcache, cloud, SSH
 - https://maxer.hu/ CPU
 - [mobilx Cloud Tárhely](http://mobilxcloud.hu/ugyfelkapu/?affid=204) cloud

@@ -615,24 +615,14 @@ grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksourc
 # @FIXME It is necessary on every boot?
 vmware-toolbox-cmd timesync enable
 vmware-toolbox-cmd timesync status
-# NTPdate
-cd ${D}; ./install.sh monitoring/ntpdated
-editor /etc/default/ntpdate
-# http://support.ntp.org/bin/view/Servers/StratumTwoTimeServers
-# Set nearest time server: http://www.pool.ntp.org/en/
-#     NTPSERVERS="0.uk.pool.ntp.org 1.uk.pool.ntp.org 2.uk.pool.ntp.org 3.uk.pool.ntp.org"
-#     NTPSERVERS="0.de.pool.ntp.org 1.de.pool.ntp.org 2.de.pool.ntp.org 3.de.pool.ntp.org"
-#     NTPSERVERS="0.fr.pool.ntp.org 1.fr.pool.ntp.org 2.fr.pool.ntp.org 3.fr.pool.ntp.org"
-#     NTPSERVERS="0.cz.pool.ntp.org 1.cz.pool.ntp.org 2.cz.pool.ntp.org 3.cz.pool.ntp.org"
-#     NTPSERVERS="0.hu.pool.ntp.org 1.hu.pool.ntp.org 2.hu.pool.ntp.org 3.hu.pool.ntp.org"
-# OVH
-#     NTPSERVERS="ntp.ovh.net"
 # Chrony
 apt-get install -y libseccomp2/jessie-backports chrony
 editor /etc/chrony/chrony.conf
 #     pool 0.de.pool.ntp.org offline iburst
 #     pool 0.cz.pool.ntp.org offline iburst
 #     pool 0.hu.pool.ntp.org offline iburst
+#     pool 0.fr.pool.ntp.org offline iburst
+#     pool 0.uk.pool.ntp.org offline iburst
 #     # OVH
 #     server ntp.ovh.net offline iburst
 #     # EZIT
@@ -640,10 +630,9 @@ editor /etc/chrony/chrony.conf
 #
 #     logchange 0.010
 #     cmdport 0
+#     # Don't set hardware clock (RTC)
 #     ##rtcsync
 service chrony restart
-# Hardware clock (RTC)
-# @TODO Set drift: hwclock
 
 # µnscd
 apt-get install -y unscd
@@ -652,15 +641,6 @@ editor /etc/nscd.conf
 #     positive-time-to-live   hosts   60
 #     negative-time-to-live   hosts   20
 service unscd stop && service unscd start
-
-# Server integrity
-cd ${D}; ./install.sh monitoring/server-integrity.sh
-editor /usr/local/sbin/server-integrity.sh
-server-integrity.sh -gen
-editor /root/.config/server-integrity/conf
-#editor /usr/local/sbin/server-integrity.sh
-# Test run
-server-integrity.sh
 
 # msmtp
 apt-get install -y msmtp-mta
@@ -977,15 +957,7 @@ cd ${D}; ./package/dategrep-install.sh
 ./install.sh monitoring/syslog-errors.sh
 
 # Monit - monitoring
-#     https://packages.debian.org/sid/amd64/monit/download
-apt-get install -y monit
-# See: ${D}/monitoring/monit/
-#     https://mmonit.com/monit/documentation/monit.html
-service monit restart
-# Wait for start
-tail -f /var/log/monit.log
-monit summary
-lynx 127.0.0.1:2812
+${D}/monitoring/monit/monit-debian-setup.sh
 
 # Munin - network-wide graphing
 # See: ${D}/monitoring/munin/munin-debian-setup.sh

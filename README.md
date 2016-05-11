@@ -100,3 +100,25 @@ http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
 [﴾͡๏̯͡๏﴿.tk](http://xn--wta3hb403ica11187ama.tk/)
 
+### Crontab format
+
+```
+# .---------------- minute (0 - 59)
+# | .-------------- hour (0 - 23)
+# | |  .----------- day of month (1 - 31)
+# | |  | .--------- month (1 - 12)
+# | |  | | .------- day of week (0 - 6)
+# | |  | | |
+# * *  * * *  USER  COMMAND
+```
+
+```
+# crontab -e -u USER
+# .---------------- minute (0 - 59)
+# | .-------------- hour (0 - 23)
+# | |  .----------- day of month (1 - 31)
+# | |  | .--------- month (1 - 12)
+# | |  | | .------- day of week (0 - 6)
+# | |  | | |
+# * *  * * *  COMMAND
+```

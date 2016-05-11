@@ -1,0 +1,20 @@
+ check process fetchmail with pidfile /run/fetchmail/fetchmail.pid
+   group fetchmail
+   group mail
+   start program = "/etc/init.d/fetchmail start"
+   stop program = "/etc/init.d/fetchmail stop"
+   depends on fetchmail_bin
+   depends on fetchmail_init
+   depends on fetchmail_rc
+
+ check file fetchmail_bin with path /usr/bin/fetchmail
+   group fetchmail
+   include /etc/monit/templates/rootbin
+
+ check file fetchmail_init with path /etc/init.d/fetchmail
+   group fetchmail
+   include /etc/monit/templates/rootbin
+
+ check file fetchmail_rc with path /etc/fetchmailrc
+   group fetchmail
+   include /etc/monit/templates/rootstrict

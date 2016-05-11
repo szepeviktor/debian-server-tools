@@ -1,0 +1,7 @@
+ check file network_interfaces_rc with path /etc/network/interfaces
+   group system
+   include /etc/monit/templates/rootrc
+
+ check file network_resolvconf_rc with path /etc/resolv.conf
+   group system
+   include /etc/monit/templates/rootrc

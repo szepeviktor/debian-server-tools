@@ -1,0 +1,113 @@
+#!/bin/bash
+#
+# List your server's resources.
+#
+# VERSION       :1.0.1
+# DATE          :2016-05-11
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/sbin/server-integrity.sh
+
+# Checks
+# - CPU
+# - memory
+# - disks
+# - swap
+# - clock source
+# - virtual console
+# - gateway
+# - IP address
+# - nameserver
+# - nearest hop
+# - MX
+#
+# Report issues
+#     https://github.com/szepeviktor/debian-server-tools/issues/new
+
+Disk_partitions() {
+    local VDISK
+
+    # OpenVZ: no disk devices, empty string (but no CloudLinux)
+    # OpenVZ states in /proc/self/status:
+    #     envID == 0 -> openvzhn
+    #     envID present but > 0 -> openvzve
+    if [ -f /proc/vz/vzquota ] && ! [ -f /proc/lve/list ]; then
+        echo
+        return 0
+    fi
+
+    # Physical /dev/[sh]d? (only hd?)
+    # VMware /dev/sd?
+    # XEN /dev/xvd?
+    # KVM dev/vd?
+    for VDISK in hd sd xvd vd; do
+        if [ -b "$(ls /dev/${VDISK}? 2> /dev/null | head -n 1)" ]; then
+            ls /dev/${VDISK}? | paste -s -d ":"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+# Check current user
+[ "$(id --user)" == 0 ] || exit 2
+
+case "$1" in
+    CPU)
+        grep -c "^processor\b" /proc/cpuinfo
+        ;;
+    RAM)
+        RAM_KB="$(sed -n 's;^MemTotal:\s\+\(\S\+\).*$;\1;p' /proc/meminfo)"
+        echo "$((RAM_KB / 1024))"
+        ;;
+    PCI)
+        lspci -n | md5sum | cut -d " " -f 1
+        ;;
+    USB)
+        lsusb | cut -d " " -f 1-6 | md5sum | cut -d " " -f 1
+        ;;
+    DISK)
+        Disk_partitions
+        ;;
+    SWAP)
+        sed -e '1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g' /proc/swaps | paste -s -d ":"
+        ;;
+    CLOCKSOURCE)
+        cat /sys/devices/system/clocksource/clocksource0/current_clocksource
+        ;;
+    VCONSOLE)
+        [ -c /dev/hvc0 ] || exit 10
+        echo "/dev/hvc0"
+        ;;
+    GATEWAY)
+        # @FIXME "default dev venet0  scope link" if grep "^default dev [[:alnum:]]\+ "; then grep \1
+        ip route | grep "^default via " | cut -d " " -f 3
+        ;;
+    IP1)
+        ip addr show | sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p' | grep -F -v -m 1 "127.0.0."
+        ;;
+    DNS1)
+        sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s;;\1;p' /etc/resolv.conf
+        ;;
+    HOP1)
+        NEAREST="$2"
+        [ -z "$NEAREST" ] && exit 10
+        traceroute -n -m 1 "$NEAREST" | tail -n 1 | cut -d " " -f 4
+        ;;
+    HOP2)
+        NEAREST="$2"
+        [ -z "$NEAREST" ] && exit 10
+        traceroute -n -m 2 "$NEAREST" | sed -n -e '$s/^ 2  \([0-9.]\+\) .*$/\1/p'
+        ;;
+    MX)
+        host -t MX $(hostname -f) | sed -ne '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/{s//\1/p}'
+        ;;
+    *)
+        exit 1;
+        ;;
+esac
+
+# Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' server-integrity.sh|xargs -I% server-integrity.sh % 8.8.8.8

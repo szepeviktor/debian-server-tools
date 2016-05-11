@@ -1,0 +1,33 @@
+INTEGRITY_CPU_DEFAULT="$(/usr/local/sbin/server-integrity.sh CPU)"
+INTEGRITY_RAM_MB_DEFAULT="$(/usr/local/sbin/server-integrity.sh RAM)"
+INTEGRITY_PCI_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh PCI)"
+INTEGRITY_USB_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh USB)"
+INTEGRITY_DISKS_DEFAULT="$(/usr/local/sbin/server-integrity.sh DISK)"
+INTEGRITY_SWAPS_DEFAULT="$(/usr/local/sbin/server-integrity.sh SWAP)"
+INTEGRITY_CLOCKSOURCE_DEFAULT="$(/usr/local/sbin/server-integrity.sh CLOCKSOURCE)"
+INTEGRITY_VCONSOLE_DEFAULT="/dev/hvc0"
+
+INTEGRITY_FIRST_DNS_DEFAULT="$(/usr/local/sbin/server-integrity.sh DNS1)"
+INTEGRITY_FIRST_IP_DEFAULT="$(/usr/local/sbin/server-integrity.sh IP1)"
+INTEGRITY_GATEWAY_DEFAULT="$(/usr/local/sbin/server-integrity.sh GATEWAY)"
+echo "Looking for nearest root server ..." 1>&2
+declare -i INTEGRITY_MIN_HOPS="10"
+# http://www.root-servers.org/
+for R in {a..z}; do
+    # ICMP pings, maximum 10 hops, 2 seconds timeout
+    INTEGRITY_HOPS="$(traceroute -4 -n -m 10 -w 2 "${R}.root-servers.net." 2>&1 \
+        | tail -n +2 | wc -l; echo ${PIPESTATUS[0]})"
+
+    # Traceroute is OK AND less hops than before
+    if [ "${INTEGRITY_HOPS#*[^0-9]}" == 0 ] && [ "${INTEGRITY_HOPS%[^0-9]*}" -lt "$INTEGRITY_MIN_HOPS" ]; then
+        INTEGRITY_MIN_HOPS="${INTEGRITY_HOPS%[^0-9]*}"
+        INTEGRITY_NEAREST_DEFAULT="${R}.root-servers.net."
+    fi
+done
+INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh HOP1 "$INTEGRITY_NEAREST_DEFAULT")"
+#INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh HOP2 "$INTEGRITY_NEAREST_DEFAULT")"
+if /usr/local/sbin/server-integrity.sh MX1 > /dev/null; then
+    INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh MX1)"
+else
+    echo "WARNING: Servers should have MX record in DNS for delivering bounces"
+fi

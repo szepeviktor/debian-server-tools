@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.8
+# VERSION       :0.2.9
 # DATE          :2016-04-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -61,6 +61,8 @@ LIST_GREENSNOW="http://blocklist.greensnow.co/greensnow.txt"
 # https://www.blocklist.de/en/export.html
 LIST_BLDE="http://lists.blocklist.de/lists/all.txt"
 LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
+# https://www.alienvault.com/forums/discussion/5246/otx-reputation-file-format
+LIST_AVAULT="https://reputation.alienvault.com/reputation.snort"
 
 # https://ipsec.pl/files/ipsec/blacklist-ip.txt
 #
@@ -411,6 +413,10 @@ Match_multi_AS() {
 
 Match_any() {
     # Local
+    if Match_list "$LIST_AVAULT" "$IP"; then
+        Log_match "alienvault"
+        return 0
+    fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         Log_match "greensnow"
         return 0
@@ -463,6 +469,9 @@ Match_all() {
     fi
     if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then
         echo "hosting"
+    fi
+    if Match_list "$LIST_AVAULT" "$IP"; then
+        echo "alienvault"
     fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         echo "greensnow"

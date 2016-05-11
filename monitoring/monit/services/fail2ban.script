@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Check Fail2ban iptables chains.
+#
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/sbin/fail2ban-test.sh
+
+set -e
+
+FAIL2BAN_JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's;, ; ;g' -e 's;^.*Jail list:\s\+\(.*\)$;\1;p')"
+
+for JAIL in ${FAIL2BAN_JAILS}; do
+    # No iptables chain for these
+    [ "$JAIL" == "proftpd-notif" ] && continue
+    [[ "$JAIL" =~ apache-cf.* ]] && continue
+
+    # Check chain and reference
+    CHAIN="f2b-${JAIL}"
+    /sbin/iptables -n -L "$CHAIN" | grep -q " (1 references)$"
+done
+
+# Ping Fail2ban server
+/usr/bin/fail2ban-client ping | grep -Fx "Server replied: pong"
