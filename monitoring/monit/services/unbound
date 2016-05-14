@@ -2,10 +2,10 @@
    group unbound
    start program = "/etc/init.d/unbound start"
    stop program = "/etc/init.d/unbound stop"
-   if failed port 53 IPV4 type tcp protocol dns then alert
-   if failed port 53 IPV6 type tcp protocol dns then alert
-   if failed port 53 IPV4 type udp protocol dns then alert
-   if failed port 53 IPV6 type udp protocol dns then alert
+   if failed host localhost port 53 IPV4 type tcp protocol dns then alert
+   #if failed host localhost port 53 IPV6 type tcp protocol dns then alert
+   if failed host localhost port 53 IPV4 type udp protocol dns then alert
+   #if failed host localhost port 53 IPV6 type udp protocol dns then alert
    if 5 restarts within 5 cycles then unmonitor
    depend unbound_bin
    depend unbound_init

@@ -2,7 +2,7 @@
    group mail
    start program = "/etc/init.d/courier-imap start"
    stop program = "/etc/init.d/courier-imap stop"
-   if failed host 127.0.0.1 port 143 type tcp protocol imap then restart
+   if failed host localhost port 143 type tcp protocol imap then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-imap_bin
    depends on courier-imap_init

@@ -368,7 +368,7 @@ echo "cloud-init cloud-init/datasources multiselect NoCloud, ConfigDrive, None" 
 apt-get install -y -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
 nano /etc/cloud/cloud.cfg.d/10_fakeconfigdrive.cfg
 
-cat <<EOF
+cat <<"EOF"
 #cloud-config
 hostname: myhostname
 ssh_authorized_keys:

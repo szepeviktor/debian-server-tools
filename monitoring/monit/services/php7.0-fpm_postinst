@@ -4,4 +4,4 @@
     | grep -F -A 1 "$PHP7_USER" \
     | grep -q -F pm.status_path
 
-wget -q -T 10 -S -O /dev/null "https://${PHP7_STATUS_VHOST}/statusphp"
+wget -q -T 10 -S -O /dev/null "https://${PHP7_STATUS_DOMAIN}/statusphp"

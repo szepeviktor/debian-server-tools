@@ -2,7 +2,7 @@
    group mail
    start program = "/etc/init.d/courier-mta-ssl start"
    stop program = "/etc/init.d/courier-mta-ssl stop"
-   if failed host 127.0.0.1 port 465 type tcpssl protocol smtp for 2 cycles then restart
+   if failed host localhost port 465 type tcpssl protocol smtp for 2 cycles then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-mta_bin
    depends on courier-mta-ssl_init

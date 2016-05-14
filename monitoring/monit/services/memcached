@@ -4,7 +4,7 @@
    group memcached
    start program = "/etc/init.d/memcached start"
    stop program = "/etc/init.d/memcached stop"
-   if failed host 127.0.0.1 port 11211 and protocol memcache then restart
+   if failed host localhost port 11211 and protocol memcache then restart
    if cpu > 60% for 2 cycles then alert
    if cpu > 98% for 5 cycles then restart
    if 5 restarts within 20 cycles then unmonitor
@@ -25,6 +25,6 @@
    group memcached
    include /etc/monit/templates/rootbin
 
- check program memcache_test with path "echo version|nc -q 3 127.0.0.1 11211" with timeout 10 seconds
+ check program memcache_test with path "echo version|nc -q 3 localhost 11211" with timeout 10 seconds
    group memcached
    if status != 0 then alert

@@ -33,7 +33,7 @@ done
 INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh HOP1 "$INTEGRITY_NEAREST_DEFAULT")"
 #INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh HOP2 "$INTEGRITY_NEAREST_DEFAULT")"
 if ! INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh MX1)"; then
-    echo "WARNING: Servers should have an MX record in DNS for delivering bounces"
+    echo "WARNING: Servers should have an MX record in DNS for delivering bounces" 2>&1
     # Remove check
     sed -i -e '/^\s*check program network_mx\b/,/^$/d' /etc/monit/conf-available/01_system
 fi

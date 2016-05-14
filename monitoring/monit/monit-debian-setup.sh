@@ -2,8 +2,8 @@
 #
 # Configure monit plugins
 #
-# VERSION       :0.5.0
-# DATE          :2016-05-07
+# VERSION       :0.5.1
+# DATE          :2016-05-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -14,17 +14,17 @@
 
 set -e
 
-# ADD cert-expiry, ntp-alert
-# new specific tests from links in Repo-changes.sh
-# reinstall all servers
+# integrate cert-expiry/openssl, ntp-alert/ntpdate
 # add putty-port-forward 2812+N
 
 # Exclude packages
 #     EXCLUDED_PACKAGES=php5-fpm:apache2 ./monit-debian-setup.sh
 
+DEBIAN_SERVER_TOOLS_INSTALLER="../../install.sh"
 MONIT_SERVICES="./services"
 
 Is_pkg_installed() {
+    # shellcheck disable=SC2016
     dpkg-query --showformat='${Status}' --show "$1" 2> /dev/null | grep -q "install ok installed"
 }
 
@@ -66,20 +66,15 @@ Monit_template() {
         fi
         DEFAULT_NAME="${VAR_NAME}_DEFAULT"
 
-        read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" VALUE
+        # Read into $VAR_NAME
+        read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
 
+        VALUE="${!VAR_NAME}"
         # Escape for sed
         VALUE="${VALUE//;/\\;}"
         # Substitute variables
         sed -i -e "s;@@${VAR_NAME}@@;${VALUE};g" "$OUT"
     done 3<<< "$VARIABLES"
-}
-
-Monit_apt_config() {
-    cat > /etc/apt/apt.conf.d/05monit <<EOF
-DPkg::Pre-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit stop" };
-DPkg::Post-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit start" };
-EOF
 }
 
 Monit_enable() {
@@ -94,15 +89,14 @@ Monit_enable() {
         return 1
     fi
 
-    # 1) .script
-    if [ -r "${SERVICE_TEMPLATE}.script" ]; then
-        # @FIXME Where to install install.sh?
-        ../../install.sh "${SERVICE_TEMPLATE}.script"
+    # 1) _script
+    if [ -r "${SERVICE_TEMPLATE}_script" ]; then
+        "$DEBIAN_SERVER_TOOLS_INSTALLER" "${SERVICE_TEMPLATE}_script"
     fi
 
-    # 2) .preinst
-    if [ -r "${SERVICE_TEMPLATE}.preinst" ]; then
-        source "${SERVICE_TEMPLATE}.preinst"
+    # 2) _preinst
+    if [ -r "${SERVICE_TEMPLATE}_preinst" ]; then
+        source "${SERVICE_TEMPLATE}_preinst"
     fi
 
     # 3) Render template
@@ -112,12 +106,12 @@ Monit_enable() {
         Monit_template "$SERVICE_TEMPLATE" "/etc/monit/conf-available/${SERVICE}"
     fi
 
-    # 4) .postinst
-    if [ -r "${SERVICE_TEMPLATE}.postinst" ]; then
-        source "${SERVICE_TEMPLATE}.postinst"
+    # 4) _postinst
+    if [ -r "${SERVICE_TEMPLATE}_postinst" ]; then
+        source "${SERVICE_TEMPLATE}_postinst"
     fi
 
-    # 5) Symlink
+    # 5) Enable service
     if [ "$IS_CONFIG" == 1 ]; then
         echo "/etc/monit/conf.d/${SERVICE}"
     else
@@ -140,6 +134,7 @@ Monit_system() {
 }
 
 Monit_all_packages() {
+    # shellcheck disable=SC2016
     local PACKAGES="$(dpkg-query --showformat='${Package}\n' --show)"
     local PACKAGE
 
@@ -171,12 +166,23 @@ Monit_virtual_packages() {
     done
 }
 
+Monit_apt_config() {
+    echo "---  apt.conf  ---"
+
+    cat > /etc/apt/apt.conf.d/05monit <<"EOF"
+DPkg::Pre-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit stop" };
+DPkg::Post-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit start" };
+EOF
+}
+
 Monit_wake() {
     # @FIXME What a hack!
 
     local CRONJOB="/etc/cron.hourly/monit-wake"
 
-    cat > "$CRONJOB" <<EOF
+    echo "---  cron.hourly  ---"
+
+    cat > "$CRONJOB" <<"EOF"
 #!/bin/bash
 
 # @TODO echo 'Alert!!'
@@ -194,6 +200,23 @@ fi
 exit 0
 EOF
     chmod +x "$CRONJOB"
+}
+
+Monit_start() {
+    local MONIT_SYNTAX_CHECK
+
+    echo "---  Start Monit  ---"
+
+    MONIT_SYNTAX_CHECK="$(monit -t 2>&1)"
+    if [ "$MONIT_SYNTAX_CHECK" == "Control file syntax OK" ]; then
+        service monit start
+        sleep 3
+        monit summary
+        echo "OK."
+    else
+        echo "ERROR: Syntax check failed" 1>&2
+        echo "$MONIT_SYNTAX_CHECK" | grep -vFx "Control file syntax OK" 1>&2
+    fi
 }
 
 trap 'echo "RET=$?"' EXIT HUP INT QUIT PIPE TERM
@@ -220,7 +243,4 @@ Monit_virtual_packages
 Monit_apt_config
 Monit_wake
 
-service monit start
-sleep 3
-monit summary
-echo "OK."
+Monit_start
