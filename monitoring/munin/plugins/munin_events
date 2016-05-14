@@ -19,7 +19,7 @@ The following is the default configuration
   env.muninupdate /var/log/munin/munin-update.log
   env.logtail2 /usr/sbin/logtail2
 
-You could trigger alert on updatefailure
+You could trigger alerts on update failures
 
   [munin_events]
   env.munin_fatal_critical 0
@@ -29,11 +29,8 @@ You could trigger alert on updatefailure
 
 =head1 INTERPRETATION
 
-This plugin shows a graph with one line per active fail2ban jail, each
-showing the number of blacklisted addresses for that jail.
-
-In addition, a line with the total number of blacklisted addresses is
-displayed.
+This plugin shows a graph with one line per munin state:
+INFO, WARNING, ERROR, FATAL.
 
 =head1 MAGIC MARKERS
 
@@ -42,7 +39,7 @@ displayed.
 
 =head1 VERSION
 
-  1.1.20141220
+  1.2.20160514
 
 =head1 AUTHOR
 
@@ -76,7 +73,7 @@ do_value() {
 
     EVENT_COUNT="$("$logtail_bin" -t "$muninupdate" 2> /dev/null | grep -c "^[0-9/: ]\{19\} \[${EVENT_LABEL}\]")"
     if ! [ -z "${EVENT_COUNT//[0-9]/}" ]; then
-        echo "Cannot determine event count" >&2
+        echo "Cannot determine event count" 1>&2
         exit 10
     fi
 
@@ -89,7 +86,7 @@ values() {
     do_value 'munin_warning' 'WARNING'
     do_value 'munin_error' 'ERROR'
     do_value 'munin_fatal' 'FATAL'
-    # set offset
+    # Set offset
     "$logtail_bin" "$muninupdate" &> /dev/null
     chmod 640 "${muninupdate}.offset"
 }
@@ -132,7 +129,7 @@ autoconf() {
 ##############################
 # Main
 
-case $1 in
+case "$1" in
     config)
         config
         ;;

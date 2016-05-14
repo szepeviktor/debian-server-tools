@@ -28,7 +28,7 @@ sudo apt-get -qq -y install curl build-essential python3-dev python3-pkg-resourc
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
 # Python packages
-cat > requirements.txt <<EOF
+cat > requirements.txt <<"EOF"
 pycrypto
 defusedxml
 requests

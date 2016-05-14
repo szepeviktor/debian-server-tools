@@ -1,2 +1,0 @@
-# docker run --rm --tty -v /opt/results:/opt/results --env PACKAGE="munin" szepeviktor/jessie-backport:0.2.0
-set -x

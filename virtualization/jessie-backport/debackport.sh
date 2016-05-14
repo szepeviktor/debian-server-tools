@@ -17,7 +17,15 @@
 # Get the .dsc file at
 #     https://www.debian.org/distrib/packages#search_packages
 #
-# Package versioning:
+# Hooks
+#
+# 1. init - Before everything else
+# 2. source - Provide custom source, should cd to source directory and set CHANGELOG_MSG
+# 3. pre-deps - Just before dependency installation
+# 4. changes - Custom changelog entry
+# 5. post-build - After build
+#
+# Package versioning
 #     ${UPSTREAM_VERSION}[-${DEBIAN_REVISION}]~bpo${DEBIAN_RELEASE}+${BUILD_INT}
 #
 # Apache backport: ?openssl/sid? spdylay nghttp2 apr-util apache2

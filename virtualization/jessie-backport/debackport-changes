@@ -1,1 +1,0 @@
-dch --newversion "3.0b2-1~bpo8+1" --distribution "${CURRENT_RELEASE}-backports" "$CHANGELOG_MSG"
