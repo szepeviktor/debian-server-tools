@@ -64,7 +64,7 @@ APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
 # Use $APACHE_DOMAIN
 APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #
-# Use apache.vhost
+# Use apache.vhost file for determining name of the virtual host config file
 [ -r apache.vhost ] && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 apache.vhost).conf"
 #
 #APACHE_PUB="${PUB_DIR}/${APACHE_DOMAIN}-public.pem"
@@ -160,7 +160,7 @@ Check_requirements() {
 }
 
 Protect_certs() {
-    # Are certificates are readable?
+    # Are certificates readable?
     chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
     chmod 600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
 }
@@ -183,7 +183,7 @@ Courier_mta() {
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
-    # Check config files for STARTTLS, SMTPS, IMAP STARTTLS IMAPS
+    # Check config files for SMTP STARTTLS, SMTPS, IMAPS and sending (FIXME No IMAP STARTTLS, SMTP MSA)
     if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl \
@@ -194,16 +194,16 @@ Courier_mta() {
         service courier-imap restart
         service courier-imap-ssl restart
 
-        # Tests SMTP, SMTPS, IMAP, IMAPS
+        # Tests SMTP STARTTLS, SMTPS, IMAP STARTTLS, IMAPS (FIXME No SMTP MSA)
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
         Readkey
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:465"
         echo "SMTPS result=$?"
         Readkey
-        echo QUIT|openssl s_client -crlf -connect localhost:143 -starttls imap
-        echo "IMAP STARTTLS result=$?"
-        Readkey
+        #echo QUIT|openssl s_client -crlf -connect localhost:143 -starttls imap
+        #echo "IMAP STARTTLS result=$?"
+        #Readkey
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:993"
         echo "IMAPS result=$?"
     else

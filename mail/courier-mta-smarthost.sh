@@ -124,11 +124,11 @@ DH_BITS=2048 nice /usr/sbin/mkdhparams
 cd ${D}; ./install.sh mail/courier-dhparams.sh
 
 # Let's Encrypt certificate
-cd
-git clone https://github.com/letsencrypt/letsencrypt.git
-cd letsencrypt/
-./letsencrypt-auto certonly --standalone -d $(cat /etc/courier/me)
+apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
+wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
+pip2 install certbot
 # -d DOMAIN2 -d DOMAIN3 --agree-tos --email EMAIL
+certbot certonly --no-self-upgrade --standalone -d $(cat /etc/courier/me)
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > esmtpd.pem
 cd ${D}; ./install.sh monitoring/cert-expiry.sh

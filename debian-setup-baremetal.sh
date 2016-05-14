@@ -42,3 +42,5 @@ apt-get install -y ipmitool
 # Munin/sensors
 # Munin/ups
 # Munin/router ping IP
+
+apt-get install linux-cpupower

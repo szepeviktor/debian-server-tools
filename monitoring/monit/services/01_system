@@ -33,10 +33,10 @@
    if status != 0 then alert
 
  # USB devices
- #check program hardware_usb
- #   with path "/usr/local/sbin/server-integrity.sh USB | grep -Fx '@@INTEGRITY_USB_HASH@@'" every 33 cycles
- #  group integrity
- #  if status != 0 then alert
+ check program hardware_usb
+    with path "/usr/local/sbin/server-integrity.sh USB | grep -Fx '@@INTEGRITY_USB_HASH@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
 
  # Disk partitions
  #  - bare metal /dev/[sh]d*
@@ -62,10 +62,10 @@
    if status != 0 then alert
 
  # Virtual console on Xen
- #check program hardware_vconsole
- #   with path "/usr/local/sbin/server-integrity.sh VCONSOLE | grep -Fx '@@INTEGRITY_VCONSOLE@@'" every 33 cycles
- #  group integrity
- #  if status != 0 then alert
+ check program hardware_vconsole
+    with path "/usr/local/sbin/server-integrity.sh VCONSOLE | grep -Fx '@@INTEGRITY_VCONSOLE@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
 
  # First nameserver (IPv4 only)
  check program network_dns

@@ -1,3 +1,9 @@
+### Instant webserver
+
+```bash
+python -m SimpleHTTPServer 80
+```
+
 ### TCP port forwarder
 
 http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLE_OPTION_REUSEADDR

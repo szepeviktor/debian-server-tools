@@ -197,7 +197,7 @@ case "$1" in
         Get_urls | Trigger 1>&2
         ;;
 
-    # Trigger emails cron job
+    # Trigger a cron job
     trigger-url|triggerurl)
         echo "$2" | Trigger 1>&2
         ;;

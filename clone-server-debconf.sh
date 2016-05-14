@@ -159,8 +159,8 @@ netstat -anp | grep "ssh" || echo 'no SSH !!!'
 
 cd /usr/local/src/
 git clone https://github.com/szepeviktor/debian-server-tools.git
-cd
-git clone https://github.com/letsencrypt/letsencrypt.git
+apt-get install python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
+pip2 install certbot
 
 chown -cR virtual:virtual /var/mail/*
 cat /etc/courier/me

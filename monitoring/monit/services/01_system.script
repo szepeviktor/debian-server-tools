@@ -8,6 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install usbutils
 # LOCATION      :/usr/local/sbin/server-integrity.sh
 
 # Checks
@@ -21,10 +22,7 @@
 # - IP address
 # - nameserver
 # - nearest hop
-# - MX
-#
-# Report issues
-#     https://github.com/szepeviktor/debian-server-tools/issues/new
+# - MX record
 
 Disk_partitions() {
     local VDISK
@@ -60,20 +58,21 @@ case "$1" in
         grep -c "^processor\b" /proc/cpuinfo
         ;;
     RAM)
-        RAM_KB="$(sed -n 's;^MemTotal:\s\+\(\S\+\).*$;\1;p' /proc/meminfo)"
+        RAM_KB="$(sed -n -e 's;^MemTotal:\s\+\(\S\+\).*$;\1;p' /proc/meminfo)"
         echo "$((RAM_KB / 1024))"
         ;;
     PCI)
         lspci -n | md5sum | cut -d " " -f 1
         ;;
     USB)
+        [ -d /sys/bus/usb ] || exit 10
         lsusb | cut -d " " -f 1-6 | md5sum | cut -d " " -f 1
         ;;
     DISK)
-        Disk_partitions
+        Disk_partitions || exit 10
         ;;
     SWAP)
-        sed -e '1d;s/^\(\S\+\s\+\)\{2\}\(\S\+\).*$/\2/g' /proc/swaps | paste -s -d ":"
+        sed -e '1d;s;^\(\S\+\s\+\)\{2\}\(\S\+\).*$;\2;' /proc/swaps | paste -s -d ":"
         ;;
     CLOCKSOURCE)
         cat /sys/devices/system/clocksource/clocksource0/current_clocksource
@@ -87,23 +86,25 @@ case "$1" in
         ip route | grep "^default via " | cut -d " " -f 3
         ;;
     IP1)
-        ip addr show | sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p' | grep -F -v -m 1 "127.0.0."
+        ip addr show | sed -n -e 's;^\s*inet \([0-9\.]\+\)\b.*$;\1;p' | grep -v -x -m 1 "127\.[0-9]\+\.[0-9]\+\.[0-9]\+"
         ;;
     DNS1)
         sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s;;\1;p' /etc/resolv.conf
         ;;
     HOP1)
         NEAREST="$2"
-        [ -z "$NEAREST" ] && exit 10
+        [ -z "$NEAREST" ] && exit 1
         traceroute -n -m 1 "$NEAREST" | tail -n 1 | cut -d " " -f 4
         ;;
     HOP2)
         NEAREST="$2"
-        [ -z "$NEAREST" ] && exit 10
-        traceroute -n -m 2 "$NEAREST" | sed -n -e '$s/^ 2  \([0-9.]\+\) .*$/\1/p'
+        [ -z "$NEAREST" ] && exit 1
+        traceroute -n -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p'
         ;;
-    MX)
-        host -t MX $(hostname -f) | sed -ne '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/{s//\1/p}'
+    MX1)
+        MX1="$(host -t MX "$(hostname -f)")"
+        [ "$MX1" == "${MX1% has no MX record}" ] || exit 10
+        echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s;;\1;p'
         ;;
     *)
         exit 1;

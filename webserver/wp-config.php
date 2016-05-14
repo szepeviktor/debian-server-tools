@@ -41,7 +41,7 @@ require_once dirname( __FILE__ ) . '/wp-fail2ban-bad-request-instant.inc.php';
 // See: wp-config-live-debugger/
 define( 'WP_DEBUG', false );
 
-// wp-content locataion
+// "wp-content" location
 define( 'WP_CONTENT_DIR', '/HOME/WP-ROOT-DIR/static' );
 define( 'WP_CONTENT_URL', 'http://DOMAIN.URL/static' );
 //define( 'WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . '/static' );

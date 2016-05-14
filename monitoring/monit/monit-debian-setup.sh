@@ -182,7 +182,7 @@ Monit_wake() {
 # @TODO echo 'Alert!!'
 
 /usr/bin/monit summary | tail -n +3 \
-    | grep -vE "\sRunning$|\sAccessible$|\sStatus ok$" \
+    | grep -vE "\sRunning$|\sAccessible$|\sStatus ok$|\sWaiting$" \
     | sed -n -e "s;^.*'\(\S\+\)'.*$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 

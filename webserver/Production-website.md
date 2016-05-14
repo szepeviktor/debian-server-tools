@@ -193,11 +193,9 @@ Optimize database tables.
 
 ### Remove development and testing stuff
 
-- Code editor configuration, `*example*`, `*demo*`
-- `define( 'WP_DEBUG', false );`
-- `if ( getenv( 'WP_LOCAL_DEV' ) ) { define( 'WP_LOCAL_DEV', true ); }`
-- `if ( 'production.com' !== $_SERVER['SERVER_NAME'] ) { define( 'WP_LOCAL_DEV', true ); }`
-- https://gist.github.com/markjaquith/1044546
+- Code editor configuration file
+- Files: `*example*`, `*demo*`
+- PHP-FPM pool config: `env[WP_ENV] = production`
 
 ### VCS
 
@@ -219,7 +217,7 @@ http://google-public-dns.appspot.com/cache
 ## Upgrade
 
 
-@TODO, Downgrade
+@TODO ## Downgrade
 
 
 ## Check
@@ -368,7 +366,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. @TODO `monitoring/rbl-watch.sh`, `rblcheck`, [RBL blacklist monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
 1. HTML source code inspection
 1. Malware: [Sucuri SiteCheck (Safebrowsing)](https://sitecheck.sucuri.net/results/example.com), [Virustotal URL](https://www.virustotal.com/hu/domain/example.com/information/)
-1. Uptime: [Pingdom](https://www.pingdom.com/free/), `shared-hosting-aid/ping.php`
+1. Uptime: https://uptimerobot.com/signUp , `shared-hosting-aid/ping.php`, `ping.php?time=$(date "+%s")`
 1. @TODO Detect JavaScript errors
   - Piwik
   - http://jserrlog.appspot.com/

@@ -2,6 +2,10 @@
 
 @TODO https://github.com/CISOfy/lynis/
 
+### Malware analysis
+
+https://www.payload-security.com/
+
 ### Store secret data in shares
 
 #### gfshare

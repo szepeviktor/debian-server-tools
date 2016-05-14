@@ -1,4 +1,4 @@
-# Setup a production WordPress website
+# WordPress website lifecycle
 
 `uwp download core`
 
@@ -85,6 +85,8 @@ editor ./app/.config
 
 
 ### On deploy and Staging->Production migration
+
+(Also in Production-website.md)
 
 - `wp transient delete-all`
 - `wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')options WHERE option_name LIKE '%_transient_%'"`

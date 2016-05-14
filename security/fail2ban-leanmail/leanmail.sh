@@ -413,12 +413,12 @@ Match_multi_AS() {
 
 Match_any() {
     # Local
-    if Match_list "$LIST_AVAULT" "$IP"; then
-        Log_match "alienvault"
-        return 0
-    fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         Log_match "greensnow"
+        return 0
+    fi
+    if Match_list "$LIST_AVAULT" "$IP"; then
+        Log_match "alienvault"
         return 0
     fi
     if Match_list "$LIST_BLDE" "$IP"; then
@@ -470,11 +470,11 @@ Match_all() {
     if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then
         echo "hosting"
     fi
-    if Match_list "$LIST_AVAULT" "$IP"; then
-        echo "alienvault"
-    fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         echo "greensnow"
+    fi
+    if Match_list "$LIST_AVAULT" "$IP"; then
+        echo "alienvault"
     fi
     if Match_list "$LIST_BLDE" "$IP"; then
         echo "blde"

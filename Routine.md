@@ -31,7 +31,7 @@
     https://sitecheck.sucuri.net/results/DOMAIN
     https://www.virustotal.com/hu/domain/DOMAIN/information/
     @TODO Virustotal-API.py
-1. Uptime: [Pingdom](https://www.pingdom.com/free/), `shared-hosting-aid/ping.php`
+1. Uptime: https://uptimerobot.com/signUp `shared-hosting-aid/ping.php` `ping.php?time=$(date "+%s")`
     auto
     
 1. @TODO Detect JavaScript errors

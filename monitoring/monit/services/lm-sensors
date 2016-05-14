@@ -1,0 +1,2 @@
+ check program sensors with path "/usr/bin/sensors -A"
+   if status != 0 then alert
