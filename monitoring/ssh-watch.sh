@@ -2,7 +2,7 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.4
+# VERSION       :0.1.5
 # DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,7 +11,7 @@
 # DEPENDS       :apt-get install bind9-host scanssh
 # LOCATION      :/usr/local/bin/ssh-watch.sh
 # CRON-HOURLY   :/usr/local/bin/ssh-watch.sh
-# CONFIG        :/etc/sshwatchrc
+# CONFIG        :/etc/ssh-watchrc
 
 # Usage
 #
@@ -33,7 +33,7 @@
 # Host names should have only DNS A records.
 
 DAEMON="ssh-watch"
-SSH_WATCH_RC="/etc/sshwatchrc"
+SSH_WATCH_RC="/etc/ssh-watchrc"
 SKIP_HOST=""
 SKIP_UNTIL=""
 ALERT_ADDRESS="admin@szepe.net"

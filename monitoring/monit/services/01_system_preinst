@@ -1,21 +1,15 @@
-INTEGRITY_CPU_DEFAULT="$(/usr/local/sbin/server-integrity.sh CPU)"
-INTEGRITY_RAM_MB_DEFAULT="$(/usr/local/sbin/server-integrity.sh RAM)"
-INTEGRITY_PCI_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh PCI)"
-if ! INTEGRITY_USB_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh USB)"; then
-    # Remove check
-    sed -i -e '/^\s*check program hardware_usb\b/,/^$/d' /etc/monit/conf-available/01_system
-fi
-INTEGRITY_DISKS_DEFAULT="$(/usr/local/sbin/server-integrity.sh DISK)"
-INTEGRITY_SWAPS_DEFAULT="$(/usr/local/sbin/server-integrity.sh SWAP)"
-INTEGRITY_CLOCKSOURCE_DEFAULT="$(/usr/local/sbin/server-integrity.sh CLOCKSOURCE)"
-if ! INTEGRITY_VCONSOLE_DEFAULT="$(/usr/local/sbin/server-integrity.sh VCONSOLE)"; then
-    # Remove check
-    sed -i -e '/^\s*check program hardware_vconsole\b/,/^$/d' /etc/monit/conf-available/01_system
-fi
+INTEGRITY_CPU_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c CPU)"
+INTEGRITY_RAM_MB_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c RAM)"
+INTEGRITY_PCI_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PCI)"
+INTEGRITY_USB_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c USB || true)"
+INTEGRITY_DISKS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c DISK)"
+INTEGRITY_SWAPS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c SWAP)"
+INTEGRITY_CLOCKSOURCE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c CLOCKSOURCE)"
+INTEGRITY_VCONSOLE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c VCONSOLE || true)"
 
-INTEGRITY_FIRST_DNS_DEFAULT="$(/usr/local/sbin/server-integrity.sh DNS1)"
-INTEGRITY_FIRST_IP_DEFAULT="$(/usr/local/sbin/server-integrity.sh IP1)"
-INTEGRITY_GATEWAY_DEFAULT="$(/usr/local/sbin/server-integrity.sh GATEWAY)"
+INTEGRITY_FIRST_DNS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c DNS1)"
+INTEGRITY_FIRST_IP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c IP1)"
+INTEGRITY_GATEWAY_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c GATEWAY)"
 echo "Looking for nearest root server ..." 1>&2
 declare -i INTEGRITY_MIN_HOPS="10"
 # http://www.root-servers.org/
@@ -30,10 +24,6 @@ for R in {a..z}; do
         INTEGRITY_NEAREST_DEFAULT="${R}.root-servers.net."
     fi
 done
-INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh HOP1 "$INTEGRITY_NEAREST_DEFAULT")"
-#INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh HOP2 "$INTEGRITY_NEAREST_DEFAULT")"
-if ! INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh MX1)"; then
-    echo "WARNING: Servers should have an MX record in DNS for delivering bounces" 2>&1
-    # Remove check
-    sed -i -e '/^\s*check program network_mx\b/,/^$/d' /etc/monit/conf-available/01_system
-fi
+INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP1 -h "$INTEGRITY_NEAREST_DEFAULT")"
+#INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP2 -h "$INTEGRITY_NEAREST_DEFAULT")"
+INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c MX1 || true)"

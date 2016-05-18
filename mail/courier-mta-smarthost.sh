@@ -42,7 +42,7 @@ fi
 
 # Have systemd restart courier
 mkdir /etc/systemd/system/courier-authdaemon.service.d
-cat <<EOF > /etc/systemd/system/courier-authdaemon.service.d/restart-always.conf
+cat <<"EOF" > /etc/systemd/system/courier-authdaemon.service.d/restart-always.conf
 [Unit]
 # Missing from sysvinit file
 Description=Courier authentication services
@@ -54,7 +54,7 @@ Restart=always
 EOF
 
 mkdir /etc/systemd/system/courier-mta.service.d
-cat <<EOF > /etc/systemd/system/courier-mta.service.d/restart-always.conf
+cat <<"EOF" > /etc/systemd/system/courier-mta.service.d/restart-always.conf
 [Service]
 # courier-mta.service is a mixture of courierd, esmtpd and *esmtpd-msa
 PIDFile=/run/courier/esmtpd-msa.pid
@@ -168,8 +168,13 @@ host -t TXT "${DKIM_SELECTOR}._domainkey.${DOMAIN}"
 filterctl start zdkimfilter; ls -l /etc/courier/filters/active
 
 # ClamAV + no_received_headers
-apt-get install -y python2.7 clamav-daemon python-pyclamav uuid-runtime
+apt-get install -y python2.7 clamav-daemon uuid-runtime
+wget -P /root/dist-mod/ http://ftp.de.debian.org/debian/pool/main/p/pyclamd/python-pyclamd_0.3.16-1_all.deb
+dpkg -i /root/dist-mod/python-pyclamd_*_all.deb
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
+# courierfilter -> pythonfilter/clamav.py -> pyclamd -> clamd socket -> clamd -> scan in /var/lib/courier/tmp
+sed -i -e 's/^AllowSupplementaryGroups\s.*/AllowSupplementaryGroups true/' /etc/clamav/clamd.conf
+adduser clamav daemon
 # Install pythonfilter
 #pip2 install courier-pythonfilter
 pip2 install http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/courier-pythonfilter-1.10.tar.gz

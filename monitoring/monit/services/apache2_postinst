@@ -6,6 +6,7 @@ wget -q -T 10 -S -O /dev/null "http://${APACHE_SERVER_NAME}/server-status"
 if [ -f /etc/apache2/mods-enabled/ssl.load ]; then
     wget -q -T 10 -S -O /dev/null "https://${APACHE_SSL_SERVER_NAME}/server-status"
 else
+    echo "Removing check for https" 1>&2
     sed -i -e '/^\s*if failed host \S\+ port 443 with protocol https /d' /etc/monit/conf-available/apache2
 fi
 

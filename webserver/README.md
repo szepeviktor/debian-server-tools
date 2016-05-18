@@ -4,6 +4,10 @@
 python -m SimpleHTTPServer 80
 ```
 
+### A web server written in Bash
+
+https://github.com/avleen/bashttpd
+
 ### TCP port forwarder
 
 http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLE_OPTION_REUSEADDR

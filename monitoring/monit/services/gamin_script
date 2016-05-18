@@ -9,12 +9,13 @@
 # LOCATION      :/usr/local/sbin/gamin-test.sh
 
 TESTGAM="/usr/local/bin/testgam"
+IMAP_USER="virtual"
 
 [ -x "$TESTGAM" ] || exit 1
 
 Sudo_virtual() {
-    local IMAP_USER="virtual"
     local GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
+    # shellcheck disable=SC2064
     trap "sudo -u '$IMAP_USER' -- rm -f '$GAMTMP'" EXIT HUP INT QUIT PIPE TERM
 
     echo -e "connect test\npending\nsleep 1\ndisconnect" > "$GAMTMP"

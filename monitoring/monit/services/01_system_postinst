@@ -1,0 +1,15 @@
+if ! /usr/local/sbin/server-integrity.sh -c USB &> /dev/null; then
+    echo "Removing check for usb" 1>&2
+    sed -i -e '/^\s*check program hardware_usb\b/,/^$/d' /etc/monit/conf-available/01_system
+fi
+
+if ! /usr/local/sbin/server-integrity.sh -c VCONSOLE &> /dev/null; then
+    echo "Removing check for vconsole" 1>&2
+    sed -i -e '/^\s*check program hardware_vconsole\b/,/^$/d' /etc/monit/conf-available/01_system
+fi
+
+if ! /usr/local/sbin/server-integrity.sh -c MX1 &> /dev/null; then
+    echo "WARNING: Servers should have an MX record in DNS for delivering bounces" 2>&1
+    echo "Removing check for mx" 1>&2
+    sed -i -e '/^\s*check program network_mx\b/,/^$/d' /etc/monit/conf-available/01_system
+fi

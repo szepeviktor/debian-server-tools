@@ -104,7 +104,7 @@ sshd: 223.0.0.0/8
 - https://www.cloudflare.com/ips-v4
 - https://www.cloudflare.com/ips-v6
 
-### CloudFlare API IP banning
+### CloudFlare API v4 IP banning
 
 mode: block | challenge | whitelist
 target: country | ip
@@ -120,8 +120,8 @@ retrieved via an API GET to `https://api.cloudflare.com/client/v4/zones/` with y
 
 ```
 curl --data-binary '{"mode":"block","notes":"","configuration":{"value":"1.2.3.4","target":"ip"}}' \
-    --compressed -H 'content-type: application/json' \
-    --header "X-Auth-Key: API-KEY" --header "X-Auth-Email: EMAIL-ADDRESS" --verbose \
+    --compressed -H 'Content-Type: application/json' \
+    --header "X-Auth-Key: $API_KEY" --header "X-Auth-Email: $API_EMAIL" --verbose \
     'https://api.cloudflare.com/client/v4/user/firewall/packages/access_rules/rules'
 ```
 

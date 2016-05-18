@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configure monit plugins
+# Install and set up monit
 #
 # VERSION       :0.5.1
 # DATE          :2016-05-14
@@ -45,7 +45,9 @@ Monit_template() {
         exit 11
     fi
 
-    # Fix ignored "include"-s by literally including templates (before "return 0")
+    # Fix ignored "include"-s by literally including templates (do it before "return 0")
+    local TFILE
+    local TCONTENT
     find /etc/monit/templates/ -type f \
         | while read -r TFILE; do
             TCONTENT="$(sed -e ':a;N;$!ba;s/^/  /;s/\n/\\n  /g' "$TFILE")"
@@ -58,7 +60,7 @@ Monit_template() {
     fi
 
     while read -r VAR_NAME <&3; do
-        # Strip @'s
+        # Strip @-s
         VAR_NAME="${VAR_NAME//@@/}"
         if [[ "$VAR_NAME" =~ _DEFAULT$ ]]; then
             echo "Invalid variable name (${VAR_NAME}) in template: ${TPL}"
@@ -158,7 +160,7 @@ Monit_virtual_packages() {
             continue
         fi
         for PACKAGE in ${VPACKAGES[$MAIN_PACKAGE]//,/ }; do
-            if Is_pkg_installed "$PACKAGE"; then
+            if Is_pkg_installed "$PACKAGE" && ! grep -qF ":${PACKAGE}:" <<< ":${EXCLUDED_PACKAGES}:"; then
                 Monit_enable "$MAIN_PACKAGE"
                 break
             fi

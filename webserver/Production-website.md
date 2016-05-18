@@ -78,7 +78,7 @@ Custom maintenance page
 
 `wp plugin install --activate wp-mailfrom-ii smtp-uri`
 
-`wp eval 'wp_mail("viktor@szepe.net","first outgoing",site_url());'`
+`wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'`
 
 - encode email addresses `antispambot( 'e@ma.il' )`
 - shortest route of delivery, add server as `RELAYCLIENT`

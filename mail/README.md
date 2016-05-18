@@ -373,6 +373,7 @@ OK response: "IP Unlisted in the spam sender list None"
 - https://support.google.com/mail/contact/msgdelivery
 - https://postoffice.yandex.com/
 - http://yandexfbl.senderscore.net/
+- http://poczta.onet.pl/pomoc/en,odblokuj.html
 
 ### Free e-mail backup server
 

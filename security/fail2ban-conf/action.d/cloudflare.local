@@ -38,7 +38,10 @@ actioncheck =
 #          <time>  unix timestamp of the ban time
 # Values:  CMD
 #
+# API v1
 actionban = curl -s -o /dev/null https://www.cloudflare.com/api_json.html -d 'a=ban' -d 'tkn=<cfapikey>' -d 'email=<cfemail>' -d 'key=<ip>'
+# API v4
+#actionban = curl -s -o /dev/null -X POST https://api.cloudflare.com/client/v4/user/firewall/access_rules/rules -H 'X-Auth-Email: <cfemail>' -H 'X-Auth-Key: <cfapikey>' -H 'Content-Type: application/json' -d '{ "mode": "block", "configuration": { "target": "ip", "value": "<ip>" } }'
 
 # Option:  actionunban
 # Notes.:  command executed when unbanning an IP. Take care that the
@@ -48,7 +51,10 @@ actionban = curl -s -o /dev/null https://www.cloudflare.com/api_json.html -d 'a=
 #          <time>  unix timestamp of the ban time
 # Values:  CMD
 #
+# API v1
 actionunban = curl -s -o /dev/null https://www.cloudflare.com/api_json.html -d 'a=nul' -d 'tkn=<cfapikey>' -d 'email=<cfemail>' -d 'key=<ip>'
+# API v4
+#actionunban = curl -s -o /dev/null -X DELETE https://api.cloudflare.com/client/v4/user/firewall/access_rules/rules/$(curl -s -X GET 'https://api.cloudflare.com/client/v4/user/firewall/access_rules/rules?mode=block&configuration_target=ip&configuration_value=<ip>&page=1&per_page=1' -H 'X-Auth-Email: <cfemail>' -H 'X-Auth-Key: <cfapikey>' | cut -d'"' -f6) -H 'X-Auth-Email: <cfemail>' -H 'X-Auth-Key: <cfapikey>'
 
 [Init]
 

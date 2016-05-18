@@ -17,7 +17,7 @@
 # Adjust these variables.
 #
 ALERT_MOBILE=""
-ALERT_ADDRESS="viktor@szepe.net"
+ALERT_ADDRESS="admin@szepe.net"
 CSE_ADDRESS="cse@worker.szepe.net"
 WORK_DIR="/var/lib/can-send-email"
 # 6 hours in seconds

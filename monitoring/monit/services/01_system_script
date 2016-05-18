@@ -2,8 +2,8 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.1
-# DATE          :2016-05-11
+# VERSION       :1.0.2
+# DATE          :2016-05-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -32,7 +32,7 @@ Disk_partitions() {
     #     envID == 0 -> openvzhn
     #     envID present but > 0 -> openvzve
     if [ -f /proc/vz/vzquota ] && ! [ -f /proc/lve/list ]; then
-        echo
+        echo ""
         return 0
     fi
 
@@ -41,8 +41,8 @@ Disk_partitions() {
     # XEN /dev/xvd?
     # KVM dev/vd?
     for VDISK in hd sd xvd vd; do
-        if [ -b "$(ls /dev/${VDISK}? 2> /dev/null | head -n 1)" ]; then
-            ls /dev/${VDISK}? | paste -s -d ":"
+        if [ -n "$(find /dev/ -type b -name "${VDISK}?")" ]; then
+            find /dev/ -type b -name "${VDISK}?" | paste -s -d ":"
             return 0
         fi
     done
@@ -51,64 +51,97 @@ Disk_partitions() {
 }
 
 # Check current user
-[ "$(id --user)" == 0 ] || exit 2
+[ "$(id --user)" == 0 ] || exit 9
 
-case "$1" in
+while getopts ":c:h:r:" OPT; do
+    case "$OPT" in
+        c)
+            CHECK="$OPTARG"
+            ;;
+        h)
+            # Nearest host for HOP1/2
+            NEAREST="$OPTARG"
+            ;;
+        r)
+            # Expected result
+            EXPECTED="$OPTARG"
+            ;;
+        *)
+            # Incorrect usage
+            exit 1;
+            ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+[ -z "$*" ] || exit 1
+
+case "$CHECK" in
     CPU)
-        grep -c "^processor\b" /proc/cpuinfo
+        RESULT="$(grep -c "^processor\b" /proc/cpuinfo)"
         ;;
     RAM)
         RAM_KB="$(sed -n -e 's;^MemTotal:\s\+\(\S\+\).*$;\1;p' /proc/meminfo)"
-        echo "$((RAM_KB / 1024))"
+        RESULT="$((RAM_KB / 1024))"
         ;;
     PCI)
-        lspci -n | md5sum | cut -d " " -f 1
+        RESULT="$(lspci -n | md5sum | cut -d " " -f 1)"
         ;;
     USB)
         [ -d /sys/bus/usb ] || exit 10
-        lsusb | cut -d " " -f 1-6 | md5sum | cut -d " " -f 1
+        RESULT="$(lsusb | cut -d " " -f 1-6 | md5sum | cut -d " " -f 1)"
         ;;
     DISK)
-        Disk_partitions || exit 10
+        RESULT="$(Disk_partitions)" || exit 10
         ;;
     SWAP)
-        sed -e '1d;s;^\(\S\+\s\+\)\{2\}\(\S\+\).*$;\2;' /proc/swaps | paste -s -d ":"
+        RESULT="$(sed -e '1d;s;^\(\S\+\s\+\)\{2\}\(\S\+\).*$;\2;' /proc/swaps | paste -s -d ":")"
         ;;
     CLOCKSOURCE)
-        cat /sys/devices/system/clocksource/clocksource0/current_clocksource
+        RESULT="$(cat /sys/devices/system/clocksource/clocksource0/current_clocksource)"
         ;;
     VCONSOLE)
         [ -c /dev/hvc0 ] || exit 10
-        echo "/dev/hvc0"
+        RESULT="/dev/hvc0"
         ;;
     GATEWAY)
         # @FIXME "default dev venet0  scope link" if grep "^default dev [[:alnum:]]\+ "; then grep \1
-        ip route | grep "^default via " | cut -d " " -f 3
+        RESULT="$(ip route | grep "^default via " | cut -d " " -f 3)"
         ;;
     IP1)
-        ip addr show | sed -n -e 's;^\s*inet \([0-9\.]\+\)\b.*$;\1;p' | grep -v -x -m 1 "127\.[0-9]\+\.[0-9]\+\.[0-9]\+"
+        RESULT="$(ip addr show | sed -n -e 's;^\s*inet \([0-9\.]\+\)\b.*$;\1;p' | grep -v -x -m 1 "127\.[0-9]\+\.[0-9]\+\.[0-9]\+")"
         ;;
     DNS1)
-        sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s;;\1;p' /etc/resolv.conf
+        RESULT="$(sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s;;\1;p' /etc/resolv.conf)"
         ;;
     HOP1)
-        NEAREST="$2"
-        [ -z "$NEAREST" ] && exit 1
-        traceroute -n -m 1 "$NEAREST" | tail -n 1 | cut -d " " -f 4
+        [ -z "$NEAREST" ] && exit 2
+        RESULT="$(traceroute -n -m 1 "$NEAREST" | tail -n 1 | cut -d " " -f 4)"
         ;;
     HOP2)
-        NEAREST="$2"
-        [ -z "$NEAREST" ] && exit 1
-        traceroute -n -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p'
+        [ -z "$NEAREST" ] && exit 2
+        RESULT="$(traceroute -n -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
         ;;
     MX1)
-        MX1="$(host -t MX "$(hostname -f)")"
-        [ "$MX1" == "${MX1% has no MX record}" ] || exit 10
-        echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s;;\1;p'
+        MX1="$(host -t MX "$(hostname -f)")" #"
+        [ "$MX1" == "${MX1/ mail is handled by /}" ] && exit 10
+        RESULT="$(echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s;;\1;p')"
         ;;
     *)
-        exit 1;
+        # Missing check
+        exit 3;
         ;;
 esac
 
-# Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' server-integrity.sh|xargs -I% server-integrity.sh % 8.8.8.8
+echo "$RESULT"
+
+# We need to check the result
+if [ -n "${EXPECTED+empty}" ]; then
+    # Expected value is set and empty
+    if [ "$EXPECTED" == "empty" ]; then
+        EXPECTED=""
+    fi
+    [ "$EXPECTED" == "$RESULT" ]
+fi
+
+# Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' server-integrity.sh|xargs -I% server-integrity.sh -c % -h 8.8.8.8
