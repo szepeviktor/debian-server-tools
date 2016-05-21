@@ -8,6 +8,7 @@
    depend crond_bin
    depend crond_init
    depend crond_spool
+   depend crond_test
 
  check file crond_bin with path /usr/sbin/cron
    group crond
@@ -22,3 +23,7 @@
    if failed permission 1730 then unmonitor
    if failed uid root then unmonitor
    if failed gid crontab then unmonitor
+
+ check program crond_test with path "/etc/init.d/cron status|grep -qF 'cron is running'" with timeout 10 seconds
+   group crond
+   if status != 0 then alert

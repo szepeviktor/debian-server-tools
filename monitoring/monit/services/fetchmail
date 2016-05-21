@@ -17,4 +17,7 @@
 
  check file fetchmail_rc with path /etc/fetchmailrc
    group fetchmail
-   include /etc/monit/templates/rootstrict
+   if failed checksum then unmonitor
+   if failed permission 600 then unmonitor
+   if failed uid fetchmail then unmonitor
+   if failed gid root then unmonitor

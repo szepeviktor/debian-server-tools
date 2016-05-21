@@ -42,11 +42,9 @@ require_once dirname( __FILE__ ) . '/wp-fail2ban-bad-request-instant.inc.php';
 define( 'WP_DEBUG', false );
 
 // "wp-content" location
+// EDIT wp-content directory
 define( 'WP_CONTENT_DIR', '/HOME/WP-ROOT-DIR/static' );
 define( 'WP_CONTENT_URL', 'http://DOMAIN.URL/static' );
-//define( 'WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . '/static' );
-//define( 'WP_CONTENT_URL', sprintf( '%s%s/static',
-//    ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ) ? 'https://' : 'http://', $_SERVER['SERVER_NAME'] ) );
 
 // Moving to subdirs
 //     siteurl += /site , search-and-replace: /wp-includes/ -> /site/wp-includes/ , /wp-content/ -> /static/
@@ -95,7 +93,7 @@ $table_prefix  = 'wp_';
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
-    // Change ABSPATH if wp-config is outside WordPress root
+    // EDIT core directory
     //define( 'ABSPATH', dirname( __FILE__ ) . '/site/' );
     define( 'ABSPATH', dirname( __FILE__ ) . '/' );
 }

@@ -2,7 +2,7 @@
 #
 # Test SMTPS authentication.
 #
-# VERSION       :0.4.2
+# VERSION       :0.4.4
 # DATE          :2015-12-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -33,14 +33,14 @@ smtp-auth v$(Get_version "$0")
 Usage: $(basename $0) <OPTION> ...
 Test SMTPS authentication.
 
-  -a                test authentication support
-  -p                PLAIN authentication
-  -l                LOGIN authentication
-  -c                CRAM-MD5 authentication
-  -s <HOST>         the SMTP server
-  -r <PORT>         the SMTP port (default: 465)
-  -u <USER>         the SMTP username
-  -P <PASS>         the SMTP password
+  -s <SERVER>       SMTPS server
+  -p <PORT>         SMTPS port (default: 465)
+  -u <USER>         SMTPS username
+  -w <PASSWORD>     SMTPS password
+  -a                Test authentication support
+  -P                PLAIN authentication
+  -L                LOGIN authentication
+  -C                CRAM-MD5 authentication
 EOF
     exit
 }
@@ -80,6 +80,7 @@ Smtp_plain() {
 
     ( sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
+        # It is also possible to send the username and password, together with the AUTH PLAIN command, as a single line.
         echo "AUTH PLAIN $(echo -ne "\x00${SMTP_USER}\x00${SMTP_PASS}" | base64 --wrap=0)"; sleep 2
         echo "QUIT" ) \
         | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null \
@@ -95,7 +96,8 @@ Smtp_login() {
 
     (sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
-        echo "AUTH LOGIN $(echo -n "$SMTP_USER" | base64 --wrap=0)"; sleep 2
+        echo "AUTH LOGIN"; sleep 2
+        echo "$(echo -n "$SMTP_USER" | base64 --wrap=0)"; sleep 2
         echo "$(echo -n "$SMTP_PASS" | base64 --wrap=0)"; sleep 2
         echo "QUIT") \
         | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null \

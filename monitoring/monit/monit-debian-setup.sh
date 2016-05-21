@@ -2,20 +2,21 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.5.1
-# DATE          :2016-05-14
+# VERSION       :0.5.3
+# DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DOCS          :https://mmonit.com/monit/documentation/monit.html
 # DOCS          :https://mmonit.com/wiki/Monit/ConfigurationExamples
-# DEPENDS       :apt-get install monit
 
 set -e
 
-# integrate cert-expiry/openssl, ntp-alert/ntpdate
+# @TODO
+# integrate cert-expiry/openssl
 # add putty-port-forward 2812+N
+# add "/etc/init.d/SERVICe status" checks
 
 # Exclude packages
 #     EXCLUDED_PACKAGES=php5-fpm:apache2 ./monit-debian-setup.sh
@@ -187,16 +188,19 @@ Monit_wake() {
     cat > "$CRONJOB" <<"EOF"
 #!/bin/bash
 
-# @TODO echo 'Alert!!'
+if ! /etc/init.d/monit status | grep -qF "monit is running"; then
+    echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
+    /etc/init.d/monit restart || /etc/init.d/monit start
+fi
 
 /usr/bin/monit summary | tail -n +3 \
-    | grep -vE "\sRunning$|\sAccessible$|\sStatus ok$|\sWaiting$" \
+    | grep -vE "\s(Running|Accessible|Status ok|Waiting)$" \
     | sed -n -e "s;^.*'\(\S\+\)'.*$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 
-# RET=0 -> There was a failure
-if [ $? == 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
-    /usr/local/sbin/swap-refresh.sh
+# Exit status 0 means there was a failure
+if [ $? == 0 ]; then
+    [ -x /usr/local/sbin/swap-refresh.sh ] && /usr/local/sbin/swap-refresh.sh
 fi
 
 exit 0
@@ -220,7 +224,7 @@ Monit_start() {
         echo "$MONIT_SYNTAX_CHECK" | grep -vFx "Control file syntax OK" 1>&2
     fi
 }
-
+Monit_wake;exit
 trap 'echo "RET=$?"' EXIT HUP INT QUIT PIPE TERM
 
 if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.17.1"; then
@@ -235,6 +239,8 @@ if ! Is_pkg_installed monit; then
     apt-get install -q -y monit
 fi
 service monit stop || true
+# Disable all services
+rm -f /etc/monit/conf-enabled/*
 
 Monit_config
 

@@ -14,15 +14,14 @@ if ( defined( 'WP_ENV' ) && 'development' === WP_ENV ) {
     define( 'WP_LOCAL_DEV', true );
 
     // WARNING! Lazy dev site - Links and images in posts are still pointing to the production site.
+    define( '_REQUEST_SCHEME', ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ) ? 'https://' : 'http://' );
     // EDIT core directory
-    define( 'WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/wordpress' );
-    define( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] );
+    define( 'WP_SITEURL', sprintf( '%s%s/wordpress', _REQUEST_SCHEME, $_SERVER['HTTP_HOST'] ) );
+    define( 'WP_HOME', _REQUEST_SCHEME . $_SERVER['HTTP_HOST'] );
     // EDIT wp-content directory
     define( 'WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . '/static' );
     // EDIT wp-content directory
-    define( 'WP_CONTENT_URL', sprintf( '%s%s/static',
-        ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ) ? 'https://' : 'http://', $_SERVER['HTTP_HOST'] ) );
-
+    define( 'WP_CONTENT_URL', sprintf( '%s%s/static', _REQUEST_SCHEME, $_SERVER['HTTP_HOST'] ) );
     define( 'WP_DEBUG', true );
     define( 'WP_CACHE', false );
 }

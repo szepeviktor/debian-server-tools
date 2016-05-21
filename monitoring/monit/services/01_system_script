@@ -51,7 +51,7 @@ Disk_partitions() {
 }
 
 # Check current user
-[ "$(id --user)" == 0 ] || exit 9
+[ "$(id --user)" == 0 ] || exit 5
 
 while getopts ":c:h:r:" OPT; do
     case "$OPT" in
@@ -68,13 +68,13 @@ while getopts ":c:h:r:" OPT; do
             ;;
         *)
             # Incorrect usage
-            exit 1;
+            exit 6;
             ;;
     esac
 done
 
 shift $((OPTIND - 1))
-[ -z "$*" ] || exit 1
+[ -z "$*" ] || exit 7
 
 case "$CHECK" in
     CPU)
@@ -115,11 +115,11 @@ case "$CHECK" in
         RESULT="$(sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s;;\1;p' /etc/resolv.conf)"
         ;;
     HOP1)
-        [ -z "$NEAREST" ] && exit 2
+        [ -z "$NEAREST" ] && exit 8
         RESULT="$(traceroute -n -m 1 "$NEAREST" | tail -n 1 | cut -d " " -f 4)"
         ;;
     HOP2)
-        [ -z "$NEAREST" ] && exit 2
+        [ -z "$NEAREST" ] && exit 8
         RESULT="$(traceroute -n -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
         ;;
     MX1)
@@ -129,7 +129,7 @@ case "$CHECK" in
         ;;
     *)
         # Missing check
-        exit 3;
+        exit 9;
         ;;
 esac
 

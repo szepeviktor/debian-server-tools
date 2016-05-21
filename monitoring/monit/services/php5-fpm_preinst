@@ -1,1 +1,1 @@
-echo "Consider enabling /statusphp in the webmail"
+echo "Consider enabling /statusphp in the webmail through https" 2>&1

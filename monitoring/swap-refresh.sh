@@ -32,10 +32,10 @@ if [ "$TOTAL_FREE" -le "$SWAP_USED" ]; then
     exit 2
 fi
 
-logger -t "$SELF" "Swap OFF"
+logger -t "$SELF" "Disabling swap"
 /sbin/swapoff -a || echo "swapoff ERROR $?" 1>&2
 
-logger -t "$SELF" "Reactivating swap"
+logger -t "$SELF" "Enabling swap"
 /sbin/swapon -a || echo "swapon ERROR $?" 1>&2
 
 logger -t "$SELF" "Swap refresh done"

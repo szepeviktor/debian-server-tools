@@ -2,7 +2,7 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.4.1
+# VERSION       :0.4.2
 # DATE          :2016-04-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,18 +11,21 @@
 # DEPENDS       :apt-get install openssl ca-certificates
 # LOCATION      :/usr/local/sbin/cert-expiry.sh
 # CRON-WEEKLY   :/usr/local/sbin/cert-expiry.sh
-# CONFIG        :~/.config/certexpiry/configuration
+# CONFIG        :/etc/certexpiry
 
 # @TODO Add support for starttls: HOST:PORT:smtp HOST:PORT:imap
 
 # Alert 10 days before expiration
 ALERT_DAYS="10"
-
+CERT_EXPIRY_CONFIG="/etc/certexpiry"
 NOW_SEC="$(date "+%s")"
-CERT_EXPIRY_CONFIG="${HOME}/.config/certexpiry/configuration"
 
 Check_cert() {
     local CERT="$1"
+    local EXPIRY_DATE
+    local EXPIRY_SEC
+    local EXPIRY_DAYS
+    local CERT_SUBJECT
 
     # Not an X509 formatted certificate
     if ! grep -q -- "-BEGIN CERTIFICATE-" "$CERT"; then
@@ -48,11 +51,6 @@ Check_cert() {
     fi
 }
 
-if [ -r "$CERT_EXPIRY_CONFIG" ]; then
-    # CERT_EXPIRY_REMOTES=( host:port )
-    source "$CERT_EXPIRY_CONFIG"
-fi
-
 # Certificates in /etc/ excluding /etc/ssl/certs/
 find /etc/ -not -path "/etc/ssl/certs/*" -not -path "/etc/letsencrypt/archive/*" \
     "(" -iname "*.crt" -or -iname "*.pem" ")" \
@@ -61,6 +59,10 @@ find /etc/ -not -path "/etc/ssl/certs/*" -not -path "/etc/letsencrypt/archive/*"
     done
 
 # Remote certificates
+if [ -r "$CERT_EXPIRY_CONFIG" ]; then
+    # CERT_EXPIRY_REMOTES=( host:port )
+    source "$CERT_EXPIRY_CONFIG"
+fi
 if [ -n "${CERT_EXPIRY_REMOTES[*]}" ]; then
     for HOST_PORT in "${CERT_EXPIRY_REMOTES[@]}"; do
         # Set file name for expiry reporting

@@ -5,7 +5,7 @@
 
 # HARDCODED pristine-tar latest, munin release version, docker image
 
-#mkdir /opt/results
+[ -d /opt/results ] || mkdir /opt/results
 
 # init hook ----------
 cat <<"EOF" > /opt/results/debackport-init
@@ -22,8 +22,10 @@ cd munin/
 
 git checkout pristine-tar
 pristine-tar list | tail -n 1
+# EDIT munin version
 pristine-tar checkout ../munin_2.999.2.orig.tar.gz
 # "Packagers can use that (2.999.x) versionning or 3.0b2"
+# EDIT versions
 mv -v ../munin_2.999.2.orig.tar.gz ../munin_3.0b2.orig.tar.gz
 
 git checkout debian-experimental
@@ -57,5 +59,6 @@ EOF
 
 
 # Build it ----------
+# EDIT jessie-backport version
 docker run --rm --tty -v /opt/results:/opt/results --env PACKAGE="munin" szepeviktor/jessie-backport:0.2.1
 rm -f /opt/results/debackport-init /opt/results/debackport-source /opt/results/debackport-pre-deps /opt/results/debackport-changes /opt/results/debackport-post-build

@@ -4,6 +4,7 @@
 " Last Change:	2003-05-27
 "
 " Used haskell.vim as a template
+" Copy this file to ~/.vim/syntax/
 " Add this to your vimrc
 "     syntax on
 "     filetype on
@@ -26,7 +27,7 @@ syn match Date "\v(\a{3}, )?\d{1,2} \a{3} \d{2,4}"
 syn match shortDate "\v<\d{1,2}[-/]\d{1,2}([-/]\d{2,4})?>"
 syn match Time "\v<\d{1,2}:\d{1,2}:\d{1,2}(.\d{1,4})?( [+-]\d{4})?( [(]?\u{3,5}[)]?)?"
 syn match host "\v<\w+\.(\w+\.)*\a\w+>"
-syn match email "\v<[A-Za-z0-9.]*\@[A-Za-z0-9]*\.[A-Za-z0-9.]*>"
+syn match email "\v<[A-Za-z0-9.-]*\@[A-Za-z0-9]*\.[A-Za-z0-9.]*>"
 syn match contentType "\v<\a{1,20}/\a{1,20}>"
 " IP Addresses
 syn match IPAddr "\v<\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}>"
@@ -59,4 +60,3 @@ endif
 let b:current_syntax = "headers"
 
 " Options for vi: ts=8 sw=2 sts=2 nowrap noexpandtab ft=vim
-

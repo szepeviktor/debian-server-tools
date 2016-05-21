@@ -122,3 +122,8 @@ http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 # | |  | | |
 # * *  * * *  COMMAND
 ```
+
+### Writing a man page
+
+http://asciidoc.org/
+

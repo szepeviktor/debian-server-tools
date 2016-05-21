@@ -1,16 +1,34 @@
 # IPtables rules
 
-### Log outgoing SMTP traffic of website (non-MTA) users
-
-```bash
-echo USER1 USER2 USER3 | tr ' ' '\n' | xargs -I %% iptables -I OUTPUT \
-    -o eth0 \
-    -m state --state NEW \
-    -p tcp -m multiport --dports 25,465,587 \
-    -m owner --uid-owner %% \
-    -j LOG --log-prefix "SMTP web: " --log-level 4 --log-uid
-iptables -nvL OUTPUT
-```
+### Restrict outgoing SMTP traffic
 
 Against spamming.
-@FIXME Except transactional email providers
+
+```bash
+iptables -D OUTPUT \
+    -o eth0 \
+    -p tcp -m multiport --dports 25,465,587 \
+    -j out-smtp || true
+iptables -F out-smtp || true
+iptables -X out-smtp || true
+
+iptables -N out-smtp
+iptables -A out-smtp \
+    -m owner --uid-owner daemon \
+    -j ACCEPT
+#iptables -A out-smtp \
+#    -dport 587
+#    -m owner --uid-owner $WEB_USER_WITH_SMTP \
+#    -j ACCEPT
+iptables -A out-smtp \
+    -m state --state NEW \
+    -j LOG --log-prefix "SMTP illegal: " --log-level 4 --log-uid
+iptables -A out-smtp \
+    -j REJECT
+iptables -I OUTPUT \
+    -o eth0 \
+    -p tcp -m multiport --dports 25,465,587 \
+    -j out-smtp
+
+iptables -nvL OUTPUT; iptables -nvL out-smtp
+```

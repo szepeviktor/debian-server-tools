@@ -9,9 +9,13 @@ grep -Ei -B 1 -A 1 "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|
 
 See: ${D}/monitoring/syslog-errors.sh
 
-### Syslog time format
+### Logging in syslog-style
 
-`date "+%b %e %T"`
+Syslog time format: `date "+%b %e %T"`
+
+Log to syslog: `echo MESSAGE|logger --tag "${TAG}[${PID}]"`
+
+Log to anywhere else: `echo MESSAGE|sed -e "s/^/${TAG}[${PID}]: /"|ts "%b %e %T"`
 
 ### Courier log analyizer
 

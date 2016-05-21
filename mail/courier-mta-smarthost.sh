@@ -106,6 +106,12 @@ editor /etc/courier/esmtpd-ssl
 #     AUTH_REQUIRED=1
 #     SSLADDRESS=0
 
+# Infrequent restarts
+echo "23h" > /etc/courier/respawnlo
+
+# *Announce* message size limit
+echo "$((25 * 1024**2))" > /etc/courier/sizelimit
+
 # SSL configuration
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=apache-2.4.14&openssl=1.0.1k&hsts=yes&profile=intermediate
 editor /etc/courier/courierd

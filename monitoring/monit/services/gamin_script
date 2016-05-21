@@ -2,16 +2,19 @@
 #
 # Connect to gamin server for session test.
 #
-# VERSION       :1.2.1
+# VERSION       :1.2.2
 # DOCS          :https://people.gnome.org/~veillard/gamin/debug.html
+# SOURCE        :gamin/tests/.lib/testgam
+# DEPENDS       :/usr/local/bin/testgam
 # DEPENDS       :apt-get install gamin
-# DEPENDS       :gamin/tests/.lib/testgam
 # LOCATION      :/usr/local/sbin/gamin-test.sh
 
 TESTGAM="/usr/local/bin/testgam"
 IMAP_USER="virtual"
 
-[ -x "$TESTGAM" ] || exit 1
+set -e
+
+[ -x "$TESTGAM" ]
 
 Sudo_virtual() {
     local GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
@@ -20,7 +23,7 @@ Sudo_virtual() {
 
     echo -e "connect test\npending\nsleep 1\ndisconnect" > "$GAMTMP"
     sudo -u "$IMAP_USER" -- "$TESTGAM" "$GAMTMP" \
-        | grep -qFx "pending 0"
+        | grep -Fx "pending 0"
 }
 
 # Expected output:

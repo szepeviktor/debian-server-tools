@@ -151,6 +151,7 @@ A_ptr_a() {
 }
 
 which host &> /dev/null || Error 99 "Host command not found"
+
 if [ "$ARG" == "-v" ]; then
     VERBOSE="1"
     ARG="$2"

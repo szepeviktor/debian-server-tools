@@ -1,7 +1,7 @@
 check process spamd with pidfile /run/spamd.pid
    group mail
-   start program = "/etc/init.d/spamd start"
-   stop program = "/etc/init.d/spamd stop"
+   start program = "/etc/init.d/spamassassin start"
+   stop program = "/etc/init.d/spamassassin stop"
    if 5 restarts within 5 cycles then unmonitor
    if cpu usage > 90% for 5 cycles then alert
    if mem usage > 90% for 5 cycles then alert
@@ -18,7 +18,7 @@ check process spamd with pidfile /run/spamd.pid
    group mail
    include /etc/monit/templates/rootrc
 
- check file spamd_init with path /etc/init.d/spamd
+ check file spamd_init with path /etc/init.d/spamassassin
    group mail
    include /etc/monit/templates/rootbin
 

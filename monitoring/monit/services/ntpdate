@@ -1,0 +1,19 @@
+ check program ntpdate_test with path /usr/local/bin/ntp-alert.sh with timeout 30 seconds every 333 cycles
+   group system
+   group ntpdate
+   if status != 0 then alert
+   depend ntpdate_debian_bin
+   depend ntpdate_bin
+   depend ntpdate_rc
+
+ check file ntpdate_debian_bin with path /usr/sbin/ntpdate-debian
+   group ntpdate
+   include /etc/monit/templates/rootbin
+
+ check file ntpdate_bin with path /usr/sbin/ntpdate
+   group ntpdate
+   include /etc/monit/templates/rootbin
+
+ check file ntpdate_rc with path /etc/default/ntpdate
+   group ntpdate
+   include /etc/monit/templates/rootrc

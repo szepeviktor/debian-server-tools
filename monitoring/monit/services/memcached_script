@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Get memcached version.
+#
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/sbin/memcached-test.sh
+
+set -e
+
+echo "version" | nc -q 10 localhost 11211

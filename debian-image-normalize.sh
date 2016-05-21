@@ -2,7 +2,7 @@
 #
 # Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.3
 # DEPENDS       :apt-get install apt aptitude debian-archive-keyring
 
 # Generated lists
@@ -15,6 +15,7 @@
 # - installed-size.pkgs
 
 # @TODO
+#       Move -F"%p" to front
 #       What to do on critical errors?
 #       Where to log? stdout, stderr, *file
 
@@ -22,14 +23,14 @@ STANDARD_BLACKLIST="exim.*|procmail|mutt|bsd-mailx|ftp|mlocate|nfs-common|rpcbin
 |texinfo|info|install-info|debian-faq|doc-debian\
 |intel-microcode|amd64-microcode"
 
-# ??? isc-dhcp-client Priority: important
 # Don't ever remove these
-BOOT_PACKAGES="grub-pc|linux-image-amd64|initramfs-tools|firmware-.*|usbutils|mdadm|lvm2|xfsprogs\
+BOOT_PACKAGES="grub-pc|grub-efi-amd64|extlinux|syslinux-common|linux-image-amd64|initramfs-tools\
+|firmware-.*|usbutils|mdadm|lvm2|xfsprogs\
 |task-ssh-server|task-english|ssh|openssh-server|isc-dhcp-client|pppoeconf|ifenslave|ethtool|vlan\
-|open-vm-tools|open-vm-tools-dkms|dkms|sudo|cloud-init|cloud-initramfs-growroot\
 |sysvinit|sysvinit-core|sysvinit-utils|insserv|discover\
 |systemd|libpam-systemd|systemd-sysv|dbus\
-|extlinux|syslinux-common|elasticstack-container|waagent|scx|omi"
+|open-vm-tools|open-vm-tools-dkms|dkms|sudo|cloud-init|cloud-initramfs-growroot\
+|elasticstack-container|waagent|scx|omi"
 
 TILDE_VERSION="cloud-init|grub-common|grub-pc|grub-pc-bin|grub2-common|libgraphite2-3:amd64|intel-microcode"
 
@@ -98,6 +99,7 @@ apt-get -qq -y install ${STANDARD_PACKAGES}
 MISSING_RECOMMENDS="$(aptitude --disable-columns search '?and(?reverse-recommends(?installed), ?version(TARGET), ?not(?installed))' -F"%p" \
  | grep -Evx "$STANDARD_BLACKLIST" || true)"
 apt-get -qq -y install ${MISSING_RECOMMENDS}
+echo "$MISSING_RECOMMENDS" | xargs -r -L 1 apt-mark auto
 
 # Remove non-standard packages
 

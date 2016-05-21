@@ -65,16 +65,15 @@ $redis_server = array( 'host' => '127.0.0.1',
 ### Memcached control panel
 
 ```
+echo stats | nc localhost 11211 | grep bytes
 mkdir phpMemAdmin; cd phpMemAdmin/
 echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
     [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] } }' > composer.json
-composer install
-composer install
+composer install; composer install
 mv web memadmin
 mv ./app/.config.dist ./app/.config
-editor ./app/.config
-#     "username": null,
-#     "password": null,
+sed -i -e '0,/"username":.*/s//"username": null,/' ./app/.config
+sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
 ```
 
 ### Security

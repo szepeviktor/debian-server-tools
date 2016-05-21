@@ -3,14 +3,15 @@
    start program = "/etc/init.d/rbldnsd start"
    stop program = "/etc/init.d/rbldnsd stop"
    if failed host @@RBLDNSD_IP@@ port @@RBLDNSD_PORT@@ type udp protocol dns then alert
+   if failed host @@RBLDNSD_IP@@ port @@RBLDNSD_PORT@@ type tcp protocol dns then alert
    if 5 restarts within 5 cycles then unmonitor
-   depends on rbldns_bin
-   depends on rbldns_init
+   depends on rbldnsd_bin
+   depends on rbldnsd_init
 
- check file rbldns_bin with path /usr/sbin/rbldnsd
+ check file rbldnsd_bin with path /usr/sbin/rbldnsd
    group rbldns
    include /etc/monit/templates/rootbin
 
- check file rbldns_init with path /etc/init.d/rbldnsd
+ check file rbldnsd_init with path /etc/init.d/rbldnsd
    group rbldns
    include /etc/monit/templates/rootbin

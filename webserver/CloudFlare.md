@@ -39,3 +39,6 @@ RemoteIPTrustedProxy $(wget -qO- https://www.cloudflare.com/ips-v4|tr '\n' ' ')
 ### Security
 
 Restrict access: only in Apache `Require ip` / in Linux firewall
+
+[Origin CA](https://blog.cloudflare.com/cloudflare-ca-encryption-origin/#3clicommandlineinterfacelinuxonly)
+

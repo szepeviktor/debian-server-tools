@@ -1,4 +1,15 @@
-CURRENT_SSH_PORT="$(sed -ne 's;^Port \([0-9]\+\)$;\1;p' /etc/ssh/sshd_config)"
-if [ -n "$CURRENT_SSH_PORT" ]; then
-    SSH_PORT_DEFAULT="$CURRENT_SSH_PORT"
+SSH_PORT_DEFAULT="$(sed -ne 's;^Port \([0-9]\+\)$;\1;p' /etc/ssh/sshd_config)"
+if ! [ -f /etc/ssh/ssh_host_rsa_key ]; then
+    {
+        echo "Please add an RSA host key"
+        echo "HostKey /etc/ssh/ssh_host_rsa_key"
+        echo "dpkg-reconfigure openssh-server"
+    } 1>&2
+fi
+if ! [ -f /etc/ssh/ssh_host_ecdsa_key ]; then
+    {
+        echo "Please add an ECDSA host key"
+        echo "HostKey /etc/ssh/ssh_host_ecdsa_key"
+        echo "dpkg-reconfigure openssh-server"
+    } 1>&2
 fi

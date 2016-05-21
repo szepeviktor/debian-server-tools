@@ -1,10 +1,8 @@
-#!/bin/bash
+#!/bin/bash --version
 #
 # Flock on itself.
 #
 # VERSION       :0.1.0
-# PERMISSION    :644
-# LOCATION      :/usr/local/bin/flock-self-eample.sh
 
 exec 200<$0
 

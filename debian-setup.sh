@@ -82,7 +82,7 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
-    time bash-completion htop host mc lynx ncurses-term aptitude iproute2 ipset
+    time bash-completion htop host netcat-openbsd mc lynx ncurses-term aptitude iproute2 ipset
 
 # Input
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc
