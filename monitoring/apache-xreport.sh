@@ -2,13 +2,14 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.1.0
+# VERSION       :1.1.1
 # DATE          :2015-12-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install mail-transport-agent apache2 ccze recode
+# DEPENDS       :/usr/local/bin/dategrep
 # LOCATION      :/usr/local/sbin/apache-xreport.sh
 # CRON-DAILY    :/usr/local/sbin/apache-xreport.sh
 
@@ -26,7 +27,9 @@ Content-Transfer-Encoding: quoted-printable
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Xclude_filter() {
-    grep -Ev " AH00162:| wpf2b_| bad_request_| no_wp_here_| 404_not_found| 403_forbidden| df2b| netpromo_| AH00128:|\sFile does not exist:|\sclient denied by server configuration:| Installing seccomp filter failed"
+    grep -Ev " AH00162:| wpf2b_| bad_request_| no_wp_here_| 404_not_found\
+| 403_forbidden| df2b| netpromo_| AH00128:|\sFile does not exist:\
+|\sclient denied by server configuration:| Installing seccomp filter failed"
 }
 
 Color_html() {
@@ -46,7 +49,7 @@ Maybe_sendmail() {
 }
 
 if [ -z "$APACHE_CONFIGS" ]; then
-    echo "Apace log files could not be found." >&2
+    echo "Apace log files could not be found." 1>&2
     exit 1
 fi
 
@@ -65,7 +68,7 @@ while read CONFIG_FILE; do
         -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
 
-    # Log lines for 1 day from cron.daily
+    # Log lines for 1 day from Debian cron.daily
     nice /usr/local/bin/dategrep --format '%a %b %d %T(.[0-9]+)? %Y' --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "$ERROR_LOG".[1] "$ERROR_LOG" \
         | Xclude_filter \

@@ -47,7 +47,10 @@ define( 'WP_CONTENT_DIR', '/HOME/WP-ROOT-DIR/static' );
 define( 'WP_CONTENT_URL', 'http://DOMAIN.URL/static' );
 
 // Moving to subdirs
-//     siteurl += /site , search-and-replace: /wp-includes/ -> /site/wp-includes/ , /wp-content/ -> /static/
+//     siteurl += /site
+//     wp search-repalce: /wp-includes/ -> /site/wp-includes/ and /wp-content/ -> /static/
+//     wp option set home
+//     wp option set siteurl
 
 //define( 'WP_MEMORY_LIMIT', '96M' );
 //define( 'WP_MAX_MEMORY_LIMIT', '384M' );
@@ -57,8 +60,8 @@ define( 'WP_POST_REVISIONS', 10 );
 
 //define( 'WP_CACHE', true );
 
-// CLI cron see: debian-server-tools:/webserver/wp-cron-cli.sh
-// HTTP cron see: shared-hosting-aid/wp-cron-http.sh
+// CLI cron job: debian-server-tools:/webserver/wp-cron-cli.sh
+// HTTP cron job: wordpress-plugin-construction:/shared-hosting-aid/wp-cron-http.sh
 // Simple CLI cron job: /usr/bin/php ABSPATH/wp-cron.php # stdout and stderr to cron email
 define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );

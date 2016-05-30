@@ -10,10 +10,12 @@
 # BASH-VERSION  :4.2+
 # DOCS          :https://metacpan.org/pod/distribution/Date-Manip/lib/Date/Manip/Date.pod#PRINTF-DIRECTIVES
 # DEPENDS       :apt-get install mail-transport-agent apache2 ccze recode
+# DEPENDS       :/usr/local/bin/dategrep
 
 # Installation
 #
 # Use package/dategrep-install.sh
+# Or use logtail2
 #
 # 1. Set logfile name in SERVICE_LOG
 # 1. Set email recipient and subject

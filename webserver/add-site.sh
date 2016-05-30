@@ -19,7 +19,7 @@ adduser --disabled-password --gecos "" ${U}
 # Add webserver to this group
 adduser web ${U}
 
-# Add system mail alias to direct bounces to one address
+# Add system mail alias to deliver bounces to one address
 # E.g. VIRTUAL-USERGROUP could be one client
 #     USER@HOSTNAME:       VIRTUAL-USERGROUP@HOSTNAME
 #     wordpress@HOSTNAME:  VIRTUAL-USERGROUP@HOSTNAME
@@ -140,6 +140,15 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.lo
 #     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
 cd /etc/cron.d/
 # See: ${D}/webserver/preload-cache.sh
+
+# Contact form notification email
+# Authenticated send to foreign mailboxes
+editor /etc/courier/esmtproutes
+#     website.tld:smarthost.foreign.com,587 /SECURITY=REQUIRED
+#     #website.tld:smarthost.foreign.com,465 /SECURITY=SMTPS
+editor /etc/courier/esmtpauthclient
+#     smarthost.foreign.com,587 username password
+#     #smarthost.foreign.com,465 username password
 
 # Goaccess, could be a cron job also
 IP=""

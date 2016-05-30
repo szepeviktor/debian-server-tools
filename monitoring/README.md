@@ -22,7 +22,7 @@ Log to anywhere else: `echo MESSAGE|sed -e "s/^/${TAG}[${PID}]: /"|ts "%b %e %T"
 ```bash
 courier-analogue --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof \
     --imapnet --imaptime --imapbyuser --imapbylength --imapbyxfer \
-    --noisy --title="text" /var/log/mail.log
+    --noisy --title="TITLE" /var/log/mail.log
 ```
 
 ### Remove server from Munin monitoring

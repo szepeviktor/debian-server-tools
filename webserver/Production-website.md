@@ -82,7 +82,9 @@ Custom maintenance page
 
 - obfuscate email addresses `antispambot( 'e@ma.il' )`
 - [JavaScript href fallback](https://gist.github.com/joshdick/961154): https://www.google.com/recaptcha/admin#mailhide
-- shortest route of delivery, add server as `RELAYCLIENT`
+- authenticated send for email notifications
+- shortest route of delivery
+- add server as `RELAYCLIENT` on the smarthost
 - email `From:` name and address
 - subject
 - easy identification for email notifications (filtering to mail folders)
