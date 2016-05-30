@@ -24,7 +24,7 @@ check process spamd with pidfile /run/spamd.pid
 
  check directory spamd_rules with path /var/lib/spamassassin/compiled
    group mail
-   if timestamp > 7 days then alert
+   if timestamp > 30 days then alert
    if failed permission 755 then unmonitor
    if failed uid debian-spamd then unmonitor
    if failed gid debian-spamd then unmonitor

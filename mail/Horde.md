@@ -49,6 +49,13 @@ pear -vvv upgrade --nobuild --onlyreqdeps -c horde
 pear -vvv upgrade --nobuild --alldeps -c horde
 ```
 
+### Horde configuration
+
+```php
+// Allow webserver to read cached files in /static
+$conf['umask'] = 037;
+```
+
 ### Setup account defaults
 
 "Show Advanced"

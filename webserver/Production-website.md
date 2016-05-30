@@ -34,13 +34,13 @@ Performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 1. [Apache-SSL.md](./Apache-SSL.md)
 1. https://www.ssllabs.com/ssltest/
 
-### WordPress core, theme
+### WordPress core, theme from git
 
 `git clone --recursive ssh://user@server:port/path/to/git`
 
 1. Set up database connection in `wp-config.php`
-1. Edit `wp-cli.yml`
-1. Define contants based on `wp-config.php` skeleton
+1. Define contants, generate salts based on `/webserver/wp-config.php` skeleton
+1. Edit `../wp-cli.yml`
 
 ### Install plugins
 
@@ -80,7 +80,8 @@ Custom maintenance page
 
 `wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'`
 
-- encode email addresses `antispambot( 'e@ma.il' )`
+- obfuscate email addresses `antispambot( 'e@ma.il' )`
+- [JavaScript href fallback](https://gist.github.com/joshdick/961154): https://www.google.com/recaptcha/admin#mailhide
 - shortest route of delivery, add server as `RELAYCLIENT`
 - email `From:` name and address
 - subject
@@ -99,17 +100,21 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - option: Sucuri Scanner plugin
 - option: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
 - option: ionCube24 `ic24.enable = on` (PHP file modification time protection)
-- Tripwire.php (file change notifications/30 minutes)
+- Tripwire.php or git (file change notifications/30 minutes)
 - .php and .htaccess changes (monitoring/siteprotection.sh, daily)
 - Front page change notification (hourly)
 - Sucuri SiteCheck (SafeBrowsing), Virustotal (HTTP API, daily)
 - can-send-email (monitoring/cse, 6 hours)
 - Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
-- Subresource Integrity (SRI) integrity="sha256-`cat resource.js | openssl dgst -sha256 -binary | openssl enc -base64`" crossorigin="anonymous"
+- Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js | openssl dgst -sha256 -binary | openssl enc -base64)" crossorigin="anonymous"`
 
 ### Set up cron jobs
 
 Remove left-over WP-Cron events.
+
+`wp cron event list; wp cron schedule list`
+
+Use real cron job.
 
 `wp-cron-cli.sh`
 
@@ -149,7 +154,7 @@ Replace constants in `wp-config.php`.
 1. `EMAIL@ADDRESS.ES` (all addresses)
 1. `DOMAIN.TLD` (now without protocol)
 
-Check home and siteurl:
+Check home and siteurl.
 
 `wp option get home; wp option get siteurl`
 
@@ -163,9 +168,9 @@ Check database collation and table storage engines.
 
 See: `alter-table.sql`
 
-`wp plugin install --activate wp-sweep`
-
 Delete transients and object cache.
+
+`wp plugin install --activate wp-sweep`
 
 ```
 wp transient delete-all
@@ -173,19 +178,20 @@ wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')op
 wp cache flush
 ```
 
-Purge cache.
+Purge page cache.
 
-`wp w3-total-cache flush`
-
-`ls -l /home/${U}/website/html/static/cache/`
-
-`ls -l /home/${U}/website/pagespeed/; touch /home/${U}/website/pagespeed/cache.flush`
+```
+wp w3-total-cache flush
+ls -l /home/${U}/website/html/static/cache/
+ls -l /home/${U}/website/pagespeed/; touch /home/${U}/website/pagespeed/cache.flush
+```
 
 Check spam and trash comments.
 
-`wp comment list --status=spam --format=count`
-
-`wp comment list --status=trash --format=count`
+```
+wp comment list --status=spam --format=count
+wp comment list --status=trash --format=count
+```
 
 Optimize database tables.
 
@@ -193,21 +199,21 @@ Optimize database tables.
 
 ### Remove development and testing stuff
 
-- Code editor configuration file
-- Files: `*example*`, `*demo*`
+- Code editor configuration file `.editorconfig`
+- Files: `find -iname "*example*" -iname "*sample*" -iname "*demo*"`
 - PHP-FPM pool config: `env[WP_ENV] = production`
 
 ### VCS
 
 Put custom theme and plugins under git version control.
 
-Keep `git-dir` above document root.
+Keep git dir above document root.
 
 ### Redirect old URL-s (SEO)
 
 `wp plugin install --activate safe-redirect-manager`
 
-`https://www.google.com/search?q=site:${DOMAIN}`
+`https://www.google.com/search?q=site:DOMAIN`
 
 ### Flush Google public DNS cache
 
@@ -249,6 +255,7 @@ http://google-public-dns.appspot.com/cache
 1. Frontend Debugger `?remove-scripts`
 1. `p3-profiler`
 1. https://validator.w3.org
+1. https://validator.nu/
 1. https://www.webpagetest.org/
 
 #### Typical theme and plugin errors
@@ -278,18 +285,18 @@ http://google-public-dns.appspot.com/cache
 
 ### 404 page
 
-- informative
-- cooperative (search form, automatic suggestions, Google's fixurl.js)
-- attractive
+- Informative
+- Cooperative (search form, automatic suggestions, Google's fixurl.js)
+- Attractive
 
 ### Resource optimization
 
-- image format `convert $PNG --quality 100 $JPG`
-- image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
-- image optimization `jpeg-recompress $JPG $OPTI_JPG`
+- Image format `convert PNG --quality 100 JPG`
+- Image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
+- Image optimization `jpeg-recompress JPG OPTI_JPG`
 - JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
-- conditional, lazy or late loading (slider, map, facebook content, image gallery)
-- light loading, e.g. `&controls=2` for YouTube
+- Conditional, lazy or late loading (slider, map, facebook content, image gallery)
+- Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
 
 ### PHP errors
@@ -297,7 +304,7 @@ http://google-public-dns.appspot.com/cache
 wp-config.php: `define( 'WP_DEBUG', true );`
 
 ```bash
-tail -f /var/log/apache2/${SITE_USER}-error.log
+tail -f /var/log/apache2/SITE_USER-error.log
 ```
 
 ### JavaScript errors
@@ -308,14 +315,14 @@ tail -f /var/log/apache2/${SITE_USER}-error.log
 
 - `blog_public` and robots.txt
 - XML sitemap
-- page title (blue in SERP)
-- permalink structure and slug optimization (green in SERP)
-- page meta description (grey in SERP)
-- headings: h1, h2 / h3-h6
-- images: alt, title
-- breadcrumbs
+- Page title (blue in SERP)
+- Permalink structure and slug optimization (green in SERP)
+- Page meta description (grey in SERP)
+- Headings: h1, h2 / h3-h6
+- Images: alt, title
+- Breadcrumbs
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
-- structured data: https://schema.org/ http://microformats.org/
+- Structured data: https://schema.org/ http://microformats.org/
 - Content Keywords
 - [Google My Business](https://www.google.com/business/)
 

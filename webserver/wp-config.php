@@ -33,8 +33,8 @@ ini_set( 'log_errors', 1 );
 // WordPress fail2ban
 //define( 'O1_BAD_REQUEST_ALLOW_CONNECTION_CLOSE', true );
 //define( 'O1_BAD_REQUEST_CDN_HEADERS', 'HTTP_X_AMZ_CF_ID:HTTP_VIA:HTTP_X_FORWARDED_FOR' );
-//require_once dirname( __FILE__ ) . '/wp-miniban-htaccess.inc.php';
-require_once dirname( __FILE__ ) . '/wp-fail2ban-bad-request-instant.inc.php';
+//require_once __DIR__ . '/wp-miniban-htaccess.inc.php';
+require_once __DIR__ . '/wp-fail2ban-bad-request-instant.inc.php';
 
 /** Core */
 
@@ -75,6 +75,8 @@ define( 'ENABLE_FORCE_CHECK_UPDATE', true );
 //define( 'ITSEC_BACKUP_CRON', true );
 
 /** DB */
+
+// See: /mysql/wp-createdb.sh
 
 define( 'DB_NAME', 'database_name_here' );
 define( 'DB_USER', 'username_here' );

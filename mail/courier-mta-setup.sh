@@ -147,6 +147,11 @@ editor /etc/default/spamassassin
 #    OPTIONS="--create-prefs --max-children 2 --helper-home-dir --ipv4 --allow-tell --username=virtual --groupname=virtual --nouser-config --virtual-config-dir=/var/mail/.spamassassin"
 
 # whitelist_to spamtrap@domain.tld
+# Disable uribl.com checks
+score URIBL_BLACK 0
+score URIBL_RED 0
+score URIBL_GREY 0
+score URIBL_BLOCKED 0
 
 # For DKIM check
 apt-get install -y libmail-dkim-perl

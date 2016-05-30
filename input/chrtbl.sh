@@ -30,4 +30,4 @@ for H2 in 8 9 A B C D E F; do
         One_char "$H2" "$LO"
         echo
     done
-done | less
+done | pager

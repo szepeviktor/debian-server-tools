@@ -93,8 +93,13 @@ http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
 ### Moving away git-dir
 
-1. /home/user/website/work-dir/.git: `gitdir: /home/user/git`
-1. /home/user/git/config: `[core]\n\tworktree = /home/user/website/work-dir`
+`git init --separate-git-dir=/home/user/gitdir`
+
+Produces:
+
+/home/user/work-dir/.git: `gitdir: /home/user/git`
+
+/home/user/gitdir/config: `worktree = /home/user/work-dir`
 
 ### UNICODE owl
 
@@ -127,3 +132,6 @@ http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
 http://asciidoc.org/
 
+### Install your own SSH key
+
+`S="${HOME}/.ssh";mkdir --mode 700 "$S";editor "${S}/authorized_keys2"`

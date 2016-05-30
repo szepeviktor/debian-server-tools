@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually
 #
-# VERSION       :0.5.7
+# VERSION       :0.5.8
 # DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -29,6 +29,7 @@ Ban malicious hosts manually.
 
 Without parameters runs cron job to unban expired addresses without traffic.
   -i                    set up iptables chain
+  -d                    remove iptables chain
   -s                    show active rules
   -p <PROTOCOL>         ban only ports associated with this protocol
                           (ALL, SMTP, HTTP, SSH), default: ALL
@@ -99,6 +100,12 @@ Init() {
     return 0
 }
 
+Remove_chain() {
+    echo "iptables -D INPUT -j ${CHAIN}"
+    echo "iptables -F ${CHAIN}"
+    echo "iptables -X ${CHAIN}"
+}
+
 Show() {
     iptables -v -n -L ${CHAIN}
 
@@ -132,8 +139,10 @@ Ban() {
     local ADDRESS="$1"
 
     # Don't populate duplicates
+    # shellcheck disable=SC2086
     if ! iptables -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &> /dev/null; then
         # Insert at the top
+        # shellcheck disable=SC2086
         iptables -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
         logger -t "myattackers" "Ban ${ADDRESS} PROTO=${PROTOCOL}"
     fi
@@ -144,15 +153,16 @@ Unban() {
 
     # Delete rule by searching for source address
     iptables --line-numbers -n -v -L "$CHAIN" \
-        | sed -ne "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*$;\1;p" \
+        | sed -n -e "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*\$;\1;p" \
         | sort -r -n \
         | xargs -r -L 1 iptables -D "$CHAIN"
+    logger -t "myattackers" "Unban ${ADDRESS}"
 }
 
 Get_rule_data() {
-    # Output format: LINE-NUMBER|PACKETS|EXPIRATION-DATE
+    # Output format: LINE-NUMBER <TAB> PACKETS <TAB> IP-ADDRESS <TAB> EXPIRATION-DATE
     iptables --line-numbers -n -v -L "$CHAIN" \
-        | sed -ne "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+[0-9./]\+\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$;\1|\2|\3;p" \
+        | sed -n -e "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$;\1\t\2\t\3\t\4;p" \
         | sort -r -n
 }
 
@@ -161,20 +171,23 @@ Unban_expired() {
     local -i NOW="$(date "+%s")"
     local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
     local NUMBER
-    local PACKETS
+    local -i PACKETS
+    local SOURCE
     local -i EXPIRATION
 
     Get_rule_data \
-        | while read RULEDATA; do
-            NUMBER="${RULEDATA%%|*}"
-            PACKETS="${RULEDATA/*|0|*/Z}"
-            EXPIRATION="${RULEDATA##*|}"
+        | while IFS=$'\t' read -r -a RULEDATA; do
+            NUMBER="${RULEDATA[0]}"
+            PACKETS="${RULEDATA[1]}"
+            SOURCE="${RULEDATA[2]}"
+            EXPIRATION="${RULEDATA[3]}"
 
-            # Had zero traffic and expired less than one month ago
-            if [ "$PACKETS" == "Z" ] \
+            # Had zero traffic and expired in the last 1 month period
+            if [ "$PACKETS" -eq 0 ] \
                 && [ "$EXPIRATION" -le "$NOW" ] \
                 && [ "$EXPIRATION" -gt "$MONTH_AGO" ]; then
                 iptables -D "$CHAIN" "$NUMBER"
+                logger -t "myattackers" "Unban expired ${SOURCE}"
             fi
         done
 
@@ -185,22 +198,25 @@ Unban_expired() {
 Reset_old_rule_counters() {
     local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
     local NUMBER
-    local PACKETS
+    local -i PACKETS
+    local SOURCE
     local -i EXPIRATION
 
     Get_rule_data \
-        | while read RULEDATA; do
-            NUMBER="${RULEDATA%%|*}"
-            PACKETS="${RULEDATA/*|0|*/Z}"
-            EXPIRATION="${RULEDATA##*|}"
+        | while IFS=$'\t' read -r -a RULEDATA; do
+            NUMBER="${RULEDATA[0]}"
+            PACKETS="${RULEDATA[1]}"
+            SOURCE="${RULEDATA[2]}"
+            EXPIRATION="${RULEDATA[3]}"
 
             # Expired at least one month ago
             # These survived the hourly deletion
             if [ "$EXPIRATION" -le "$MONTH_AGO" ]; then
-                if [ "$PACKETS" == "Z" ]; then
+                if [ "$PACKETS" -eq 0 ]; then
                     # Remove rules with zero traffic
                     # These must be at least 2 months old
                     iptables -D "$CHAIN" "$NUMBER"
+                    logger -t "myattackers" "Unban expired 1+ months ${SOURCE}"
                 else
                     # Reset the packet and byte counters
                     iptables -Z "$CHAIN" "$NUMBER"
@@ -236,10 +252,13 @@ esac
 # Default ban time
 BANTIME_OPTION="$(Bantime_translate "")"
 LIST_FILE=""
-while getopts ":isp:t:l:uzh" OPT; do
+while getopts ":idsp:t:l:uzh" OPT; do
     case "$OPT" in
-        i) # Protocol
+        i) # Initialize
             MODE="setup"
+            ;;
+        d) # Remove chain
+            MODE="remove"
             ;;
         s) # Show rules
             MODE="show"
@@ -309,6 +328,10 @@ case "$MODE" in
             exit 11
         fi
         ;;
+    remove)
+        Remove_chain
+        exit 0
+        ;;
 esac
 
 if ! Check_chain; then
@@ -342,9 +365,9 @@ case "$MODE" in
             Ban "$ADDRESS"
         else
             # Skip empty and comment lines
-            grep -Ev "^\s*#|^\s*$" "$LIST_FILE" \
-                | while read -r ADDRESS; do
-                    Check_address "$ADDRESS" && Ban "$ADDRESS"
+            grep -Ev "^\s*#|^\s*\$" "$LIST_FILE" \
+                | while read -r LADDRESS; do
+                    Check_address "$LADDRESS" && Ban "$LADDRESS"
                 done
         fi
         ;;
@@ -352,9 +375,9 @@ case "$MODE" in
         if [ -z "$LIST_FILE" ]; then
             Unban "$ADDRESS"
         else
-            grep -Ev "^\s*#|^\s*$" "$LIST_FILE" \
-                | while read -r ADDRESS; do
-                    Check_address "$ADDRESS" && Unban "$ADDRESS"
+            grep -Ev "^\s*#|^\s*\$" "$LIST_FILE" \
+                | while read -r LADDRESS; do
+                    Check_address "$LADDRESS" && Unban "$LADDRESS"
                 done
         fi
         ;;

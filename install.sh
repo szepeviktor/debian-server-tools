@@ -12,8 +12,9 @@
 
 Die() {
     local RET="$1"
+
     shift
-    echo -e $@ >&2
+    echo -e "$*" 1>&2
     exit "$RET"
 }
 
@@ -93,25 +94,28 @@ Do_install() {
 
     # Cron jobs
     if head -n 30 "$FILE" | grep -qi "^# CRON"; then
-        $(dirname $0)/install-cron.sh "$FILE" || Die 13 "Cron installation failulre (${FILE})"
+        "$(dirname "$0")/install-cron.sh" "$FILE" || Die 13 "Cron installation failulre (${FILE})"
     fi
 
     # Display dependencies
     Get_meta "$FILE" DEPENDS
     # Check APT dependencies
-    Get_meta "$FILE" DEPENDS | sed -ne 's/^apt-get install \(.\+\)$/\1 /p' \
+    Get_meta "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
-            dpkg-query --showformat='${Status}\n' --show "$PKG" 2> /dev/null | grep -q "install ok installed" \
-                || echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
+            if ! dpkg-query --showformat="\${Status}\n" --show "$PKG" 2> /dev/null | grep -qFx "install ok installed"; then
+                #if ! grep-status -sPackage -FProvides "$PKG" | grep -qx "Package: \S\+"; then
+                echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
+            fi
         done
     # Check PyPA dependencies
-    Get_meta "$FILE" DEPENDS | sed -ne 's/^pip install \(.\+\)$/\1 /p' \
+    Get_meta "$FILE" DEPENDS | sed -n -e 's/^pip install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
-            pip show "$PKG" | grep -q "^Version: " \
-                || echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
+            if ! pip show "$PKG" | grep -qx "^Version: \S\+"; then
+                echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
+            fi
         done
     # Check file dependencies
-    Get_meta "$FILE" DEPENDS | sed -ne 's;^\(/.\+\)$;\1;p' \
+    Get_meta "$FILE" DEPENDS | sed -n -e 's;^\(/.\+\)$;\1;p' \
         | while read -r PKG; do
             [ -x "$PKG" ] || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
         done

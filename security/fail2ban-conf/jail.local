@@ -26,12 +26,12 @@ destemail = admin@szepe.net
 
 # Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-             %(mta)s-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+             sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 action = %(action_mgl)s
 
 # Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
 action_cf_mgl = cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
-                %(mta)s-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+                sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 
 # sendmail-geoip-lines = 2×geoip + host + grep log + sendmail
 timeout = 7
@@ -111,6 +111,10 @@ port     = http,https
 #enabled  = true
 maxretry = 3
 
+[courier-smtp-instant]
+#enabled  = true
+maxretry = 1
+
 [courier-auth]
 #enabled  = true
 maxretry = 3
@@ -141,4 +145,8 @@ logpath  = /var/log/fail2ban.log
 findtime = 604800  ; 1 week
 maxretry = 3
 bantime  = 604800  ; 1 week
+# No email alert
 action   = iptables-allports[name=recidive]
+#           cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
+#cfemail  = 
+#cfapikey = 

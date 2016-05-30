@@ -126,9 +126,9 @@ $TTL 60
 185.109.169.171-255 :2: Neighbour of mail.*news.info. spammer block
 185.109.169.149-170 mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
 
-# Oancea-F-Cristian-Marius-PFA @AS61971
-93.119.106-107      :2: Neighbour of mail.*news.info.
-93.119.106.135      RO_mail.katinanews.info.
+# Oancea-F-Cristian-Marius-PFA mail.*news.info. @AS61971
+93.119.106-107      RO_mail.katinanews.info. /23
+188.240.221.0/25    RO_m.tunatebiz.info. /25
 
 # spammer: 93.158.206.23 DC: Serverius
 93.158.204.0/22     :2: Neighbour of intensdesign.com. @Serverius/AS50673

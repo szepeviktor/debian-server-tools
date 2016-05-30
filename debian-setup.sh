@@ -217,10 +217,10 @@ sed -i 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\
 # Username
 U="viktor"
 # GECOS: Full name,Room number,Work phone,Home phone
-adduser --gecos "" ${U}
+adduser --gecos "" "$U"
 # <<< Enter password twice
-K="PUBLIC-KEY"
-S="/home/${U}/.ssh";mkdir --mode 700 "$S";echo "$K" >> "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
+K="PUBLIC_KEY"
+S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 700 "$S";echo "$K">>"${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 adduser ${U} sudo
 # Expire password
 #     passwd -e ${U}
@@ -598,6 +598,9 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 
 # Make cron log all failed jobs (exit status != 0)
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
+# Add healthchecks.io check
+editor /etc/cron.d/healthchecks
+#     03 *	* * *	nobody	curl -fsS --retry 3 https://hchk.io/@@UUID@@ | grep -qFx "OK"
 service cron restart
 
 # Time synchronization

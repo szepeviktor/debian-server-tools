@@ -8,6 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
+# DOCS          :https://www.youtube.com/watch?v=pYYtiIwtQxg
 # DEPENDS       :apt-get install logtail
 # LOCATION      :/usr/local/sbin/syslog-errors-infrequent.sh
 # CRON.D        :17 */3	* * *	root	/usr/local/sbin/syslog-errors-infrequent.sh

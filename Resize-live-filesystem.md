@@ -19,15 +19,16 @@ Source: http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.sh
 2.  Unmount all filesystems:
 
 ```
+    cd /
     umount -a
 ```
 
 3.  Create a temporary filesystem:
 
-@FIXME /tmp may a separate fs
+@FIXME /tmp may be a separate fs
 ```
     mkdir /tmp/tmproot
-    mount none /tmp/tmproot -t tmpfs
+    mount -t tmpfs none /tmp/tmproot
     mkdir /tmp/tmproot/{proc,sys,usr,var,oldroot}
     cp -ax /{bin,etc,mnt,sbin,lib,lib64,run} /tmp/tmproot/
     cp -ax /usr/{bin,sbin,lib,lib64} /tmp/tmproot/usr/
@@ -38,7 +39,7 @@ Source: http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.sh
     _Note that this used up about 1.6GB of ramdisk on my Red Hat Enterprise Linux (AS) 4 server._
 
     _Also note that on 64-bit systems you will also need to copy `/lib64` and `/usr/lib64` as well,
-    otherwise you will see errors like "lib64/ld-linux-x86-64.so.2: bad ELF interpreter: No such file or directory"._
+    otherwise you will see errors like "lib64/ld-linux-x86-64.so.2: bad ELF interpreter: No such file or directory"_
 
 4.  Switch the filesystem root to the temporary filesystem:
 
@@ -151,17 +152,18 @@ Source: http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.sh
 
     Replace `3` with your preferred runlevel. _You may also want to start SELinux up again with `setenforce`._
 
+
 The above has only been tested on RHEL AS 4, but something like it should work on most Linux variants
 that have `pivot_root`, `tmpfs`, and `umount -l`, so long as you can replace the `chkconfig` and `service` parts
 with whatever is appropriate for your distribution.
 
 **Update:** [Lucas Chan](http://lucaschan.com/) says, for CentOS 4.4, "I was not able to login
-after restarting `sshd` in step 5 until I did this: `mount none /dev/pts -t devpts`".
+after restarting `sshd` in step 5 until I did this: `mount none /dev/pts -t devpts`"
 
 **Update:** [Simetrical](http://www.blogger.com/profile/09132743148689521886) suggests
 that 64-bit systems also need to copy `/lib64` and `/usr/lib64`, and
 that after `pivot_root` 2.6 kernels will also need `mount none /sys -t sysfs`
-and `mount none /dev/pts -t devpts`. (The above steps have been modified accordingly).
+and `mount none /dev/pts -t devpts`. The above steps have been modified accordingly.
 
 **Update:** nemo writes: "In my case, I had some trouble because `/run` wasn't copied.
-This was a Debian squeeze, and `/var/run` only seems to be a symlink to `/run`."
+This was a Debian squeeze, and `/var/run` only seems to be a symlink to `/run`"

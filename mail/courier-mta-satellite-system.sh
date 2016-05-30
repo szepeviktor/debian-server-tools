@@ -108,6 +108,7 @@ editor /etc/courier/dsnfrom
 
 # Aliases
 editor /etc/courier/aliases/system
+#     nobody: postmaster
 #     postmaster: postmaster@szepe.net
 
 courier-restart.sh

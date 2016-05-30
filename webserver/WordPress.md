@@ -5,13 +5,13 @@
 ### Directory structure
 
 ```
-docroot─┬─index.php
-        ├─wp-config.php
-        ├─$CORE─┬─wp-load.php
-        │       ├─wp-login.php
-        │       ├─wp-admin/
-        │       └─wp-includes/
-        └─static/
+$DOCROOT─┬─index.php
+         ├─wp-config.php
+         ├─$CORE─┬─wp-load.php
+         │       ├─wp-login.php
+         │       ├─wp-admin/
+         │       └─wp-includes/
+         └─static/
 ```
 
 wp-cli.yml options: path, user ...
@@ -92,7 +92,7 @@ sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
 - Remove development wp_options -> Option Inspector
 - Delete unused Media files @TODO `for $m in files; search $m in DB;`
 - `wp db optimize`
-- WP Cleanup plugin
+- WP Cleanup
 
 #### Settings
 

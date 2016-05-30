@@ -85,6 +85,7 @@ editor /etc/courier/dsnfrom
 
 # Aliases
 editor /etc/courier/aliases/system
+#     nobody: postmaster
 #     postmaster: |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS admin@szepe.net
 
 # 1 day queue time
