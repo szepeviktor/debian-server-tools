@@ -26,7 +26,7 @@ syn match Header "\v^[^Xx \t][^:]{1,30}:"
 syn match Date "\v(\a{3}, )?\d{1,2} \a{3} \d{2,4}"
 syn match shortDate "\v<\d{1,2}[-/]\d{1,2}([-/]\d{2,4})?>"
 syn match Time "\v<\d{1,2}:\d{1,2}:\d{1,2}(.\d{1,4})?( [+-]\d{4})?( [(]?\u{3,5}[)]?)?"
-syn match host "\v<\w+\.(\w+\.)*\a\w+>"
+syn match host "\v<(\w|-)+\.((\w|-)+\.)*\a\w+>"
 syn match email "\v<[A-Za-z0-9.-]*\@[A-Za-z0-9]*\.[A-Za-z0-9.]*>"
 syn match contentType "\v<\a{1,20}/\a{1,20}>"
 " IP Addresses

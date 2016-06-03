@@ -1,0 +1,161 @@
+#!/bin/bash
+#
+# Display system status, fast.
+#
+# DOCS          :https://wiki.debian.org/motd
+# DOCS          :http://apt.armbian.com/pool/main/l/linux-jessie-root-odroidxu4/linux-jessie-root-odroidxu4_5.11_armhf.deb
+# DOCS          :http://archive.ubuntu.com/ubuntu/pool/main/u/update-notifier/update-notifier_3.168.dsc
+# DEPENDS       :apt-get install bc
+
+# /run/motd.dynamic is displayed by pam at first.
+# See: /etc/pam.d/sshd
+# Last login is displayed by pam at last.
+# See: /etc/pam.d/login
+
+export TERM="xterm-color"
+
+# Traffic lights: red, yellow and green
+TL_RED="$(tput setaf 0; tput setab 1)"
+TL_YELLOW="$(tput setaf 0; tput setab 3)"
+TL_GREEN="$(tput setaf 2)"
+TL_UNKNOWN="$(tput setaf 0;tput setab 7)"
+RSET="$(tput sgr0)"
+
+declare -a DISPLAY_LEFT
+declare -a DISPLAY_RIGHT
+
+Tl_limits() {
+    local -i VALUE="$1"
+    local -i RLIMIT="$2"
+    if [ -z "$3" ]; then
+        local -i YLIMIT="$RLIMIT"
+    else
+        local -i YLIMIT="$3"
+    fi
+
+    if [ "$VALUE" -ge "$RLIMIT" ]; then
+        echo "R"
+        return
+    fi
+    if [ "$VALUE" -ge "$YLIMIT" ]; then
+        echo "Y"
+        return
+    fi
+    echo "G"
+}
+
+Display() {
+    local TITLE="$1"
+    local VALUE="$2"
+    # Traffic light: (R)ed, (Y)ellow, (G)reen
+    local TL="$3"
+    local COLOR
+
+    case "${TL:0:1}" in
+        R)
+            COLOR="$TL_RED"
+            ;;
+        Y)
+            COLOR="$TL_YELLOW"
+            ;;
+        G)
+            COLOR="$TL_GREEN"
+            ;;
+        *)
+            COLOR="$TL_UNKNOWN"
+            ;;
+    esac
+    printf "%-20s${COLOR}%-21s${RSET}" "${TITLE:0:20}:" "${VALUE:0:21}"
+}
+
+Display_left() {
+    DISPLAY_LEFT+=( "$(Display "$@")" )
+}
+
+Display_right() {
+    DISPLAY_RIGHT+=( "$(Display "$@")" )
+}
+
+Do_display() {
+    local -i LEFT_POS="0"
+    local -i RIGHT_POS="0"
+    local -i WAS_LEFT
+
+    while [ ${#DISPLAY_LEFT[*]} -ne "$LEFT_POS" ] || [ ${#DISPLAY_RIGHT[*]} -ne "$RIGHT_POS" ]; do
+        WAS_LEFT="0"
+
+        # Any more on left?
+        if [ ${#DISPLAY_LEFT[*]} -ne "$LEFT_POS" ]; then
+            printf "%s  " "${DISPLAY_LEFT[$LEFT_POS]}"
+            LEFT_POS+="1"
+            WAS_LEFT="1"
+        fi
+        # Any more on right?
+        if [ ${#DISPLAY_RIGHT[*]} -ne "$RIGHT_POS" ]; then
+            if [ "$WAS_LEFT" -eq 0 ]; then
+                printf "%-41s  "
+            fi
+            printf "%s" "${DISPLAY_RIGHT[$RIGHT_POS]}"
+            RIGHT_POS+="1"
+        fi
+        printf "\n"
+    done
+}
+
+UPTIME="$(uptime 2>&1)"
+UPTIME="${UPTIME#* up }"
+UPTIME="${UPTIME%,  * user*}"
+UPTIME_SECONDS="$(< /proc/uptime)"
+UPTIME_SECONDS="${UPTIME_SECONDS%% *}"
+UPTIME_SECONDS="${UPTIME_SECONDS%.*}"
+Display_left "Up time" "$UPTIME" "$(Tl_limits "$UPTIME_SECONDS" 15552000 14860800)"
+
+LOAD_AVG="$(< /proc/loadavg)"
+LOAD_AVG="${LOAD_AVG%% *}"
+declare -i LOAD_AVG000="$(echo "(${LOAD_AVG} * 100)/1" | bc -q)"
+declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
+Display_left "System load" "$LOAD_AVG" "$(Tl_limits "$LOAD_AVG000" $((CPU_COUNT * 100)) $((CPU_COUNT * 50)))" #"
+
+MEM_USAGE="$(free | awk '/Mem/ { printf("%.0f",($2 - $4 - $7) / $2 * 100) }')"
+Display_left "Memory usage" "${MEM_USAGE} %" "$(Tl_limits "$MEM_USAGE" 90 80)"
+
+ROOT_USAGE="$(df / | awk '/\// { print $(NF-1) }')"
+ROOT_USAGE="${ROOT_USAGE/%%/}"
+Display_left "Root fs usage" "${ROOT_USAGE} %" "$(Tl_limits "$ROOT_USAGE" 95 83)"
+
+declare -i SWAP_USAGE="$(free | awk '/Swap/ { printf("%.0f", $3 / $2 * 100) }')"
+Display_left "Swap usage" "${SWAP_USAGE} %" "$(Tl_limits "$SWAP_USAGE" 75 50)"
+
+YOU_ARE="$(id -un) / $(id -ur)"
+Display_right "You are" "$YOU_ARE" G
+
+CURRENT_DATE="$(date --iso-8601=minutes)"
+declare -i CURRENT_HOUR="$(date "+%H")"
+declare -A LATE_HOURS=( [21]=1 [22]=1 [23]=1 [0]=1 [1]=1 [2]=1 [3]=1 [4]=1 [5]=1 )
+Display_right "Date" "$CURRENT_DATE" "$(if [ "${LATE_HOURS[$CURRENT_HOUR]}" == 1 ]; then echo "R"; else echo "G"; fi)"
+
+declare -i LOGGED_IN="$(users | wc -w)"
+Display_right "Users" "$LOGGED_IN" "$(Tl_limits "$LOGGED_IN" 10 2)"
+
+PUBLIC_IPV4="$(ip addr show | sed -n -e 's;^\s*inet \([0-9\.]\+\)\b.*$;\1;p' | grep -v -x -m 1 "127\.[0-9]\+\.[0-9]\+\.[0-9]\+")"
+Display_right "Public IPv4" "$PUBLIC_IPV4" "$(if [ -z "$PUBLIC_IPV4" ]; then echo " "; else echo "G"; fi)"
+
+declare -i PACKAGE_UPGRADES="$(apt-get -s -o Debug::NoLocking=true upgrade | grep -c "^Inst ")"
+Display_right "Package upgrades" "$PACKAGE_UPGRADES" "$(Tl_limits "$PACKAGE_UPGRADES" 5 1)"
+
+if which hddtemp &> /dev/null; then
+    declare -i HDD_TEMP
+    for HARDDISK in /dev/sd? /dev/hd?; do
+        [ -b "$HARDDISK" ] || continue
+        HDD_TEMP="$(/usr/sbin/hddtemp --quiet --numeric --wake-up "$HARDDISK")"
+        Display_right "HDD temp" "${HDD_TEMP} °C" "$(Tl_limits "$HDD_TEMP" 50 45)"
+    done
+fi
+
+Do_display
+echo
+
+# TODO
+#   1 random slow stuff
+#   sensors alert, ipmi alert
+#   apt_check.py --human-readable

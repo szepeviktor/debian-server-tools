@@ -52,12 +52,12 @@ if ( 'production.com' !== $_SERVER['SERVER_NAME'] ) {
       query-monitor (off)
 1. HTTP traffic: airplanemode, analytics, other 3rd-party service:newrelic, mouse tracking (admin and frontend)
 1. Mail:
-    sendmail block: php_admin_value[disable_functions] += mail
-    sendmail hijack: php_admin_value[sendmail_path] = /usr/local/sbin/sendmail.sh
-    sendmail hijack: error_log? sendmail_path = sudo -u pool_user -- php -r "error_log('sendmail: $data');"
-    sendmail hijack: force recipient? sendmail_path = /usr/sbin/sendmail -f fpm-pool@domain.tld fixed@recipient.net
-    SMTP block: Block OUTPUT to tcp port 25, 587, 465
-    SMTP hijack: FORWARD by uid-owner dev.smtp.com, Mailcatcher, MailHog
+    1. sendmail block: php_admin_value[disable_functions] += mail
+    1. sendmail hijack: php_admin_value[sendmail_path] = /usr/local/sbin/sendmail.sh
+    1. sendmail hijack: error_log? sendmail_path = sudo -u pool_user -- php -r "error_log('sendmail: $data');"
+    1. sendmail hijack: force recipient? sendmail_path = /usr/sbin/sendmail -f fpm-pool@domain.tld fixed@recipient.net
+    1. SMTP block: Block OUTPUT to tcp port 25, 587, 465
+    1. SMTP hijack: FORWARD by uid-owner dev.smtp.com, Mailcatcher, MailHog
 1. Visuals: admin bar (outline-bottom+transition), page title (admin and frontend)
       https://plugins.svn.wordpress.org/easy-local-site/trunk/easy-local-site.php
 1. Enable developer's user as administrator

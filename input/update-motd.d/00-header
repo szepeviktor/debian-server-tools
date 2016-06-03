@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# First part of motd: Welcome
+#
+# DEPENDS       :apt-get install figlet
+
+export TERM="xterm-color"
+
+if [ -x /usr/bin/lsb_release ]; then
+    # Has point release
+    DISTRIB_DESCRIPTION="$(/usr/bin/lsb_release -s -d)"
+elif [ -r /etc/os-release ]; then
+    DISTRIB_DESCRIPTION="$(sed -n -e 's;^PRETTY_NAME="\(.\+\)"$;\1;p' /etc/os-release)"
+fi
+
+if [ -s /etc/hostcolor ] && [[ "$(< /etc/hostcolor)" =~ [0-9] ]]; then
+    tput setaf "$(< /etc/hostcolor)"
+else
+    echo "PLEASE seet host color in /etc/hostcolor" 1>&2
+fi
+figlet -w "117" "$(hostname -f)"
+tput sgr0
+echo
+
+printf "Welcome to %s (%s).\n\n" "$DISTRIB_DESCRIPTION" "$(uname -r)"

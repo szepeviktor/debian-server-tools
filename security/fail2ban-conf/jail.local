@@ -150,3 +150,4 @@ action   = iptables-allports[name=recidive]
 #           cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
 #cfemail  = 
 #cfapikey = 
+# Check action: fail2ban-client get recidive action cloudflare

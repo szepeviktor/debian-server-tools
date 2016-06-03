@@ -119,7 +119,7 @@ CLASSC_MATCH="1"
 NS1="81.2.236.171" # worker
 
 # Timeout in seconds
-TIMEOUT="5"
+TIMEOUT="3"
 
 # List cache path
 CACHE_DIR="/var/lib/fail2ban"
@@ -516,7 +516,7 @@ if [ "$IP" != 10.0.0.2 ]; then
 # if sed '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'; then
 #     INSTANT_SECRET=""
 #     wget -q -O- --post-data="auth=$(echo -n "${IP}${INSTANT_SECRET}"|shasum -a 256|cut -d" " -f1)&ip=${IP}" \
-#         https://SITE/dnsbl.php &> /dev/null
+#         https://SITE/dnsbl.php &> /dev/null &
 # fi |
     /usr/sbin/sendmail -f "$SENDER" "$DEST"
 fi

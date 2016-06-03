@@ -36,4 +36,4 @@
 	url = git://git.annexia.org/git/virt-what.git
 [submodule "security/maldet"]
 	path = security/maldet
-	url = https://github.com/ftrojahn/linux-malware-detect.git
+	url = https://github.com/waja/maldetect.git

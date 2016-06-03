@@ -50,3 +50,8 @@ cd ../
 lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
 sudo cp -av ./*.deb /opt/results/
 echo "OK."
+
+# Courier-analog usage
+#     courier-analog --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof \
+#         --imapnet --imaptime --imapbyuser --imapbylength --imapbyxfer \
+#         --noisy --title="REPORT TITLE" /var/log/mail.log

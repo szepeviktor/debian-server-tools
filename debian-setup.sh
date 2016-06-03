@@ -316,7 +316,7 @@ systemctl start serial-getty@ttyS0.service
 editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
-editor /etc/motd
+##editor /etc/motd
 #     *
 #     *** This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited. ***
 #     *
@@ -729,6 +729,8 @@ service fail2ban restart
 apt-get install -y php5-cli php5-curl php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-dev \
     php5-sqlite php5-apcu php-pear
+
+# System-wide strict values
 PHP_TZ="Europe/Budapest"
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time\s*=.*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
@@ -737,16 +739,17 @@ sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
-# Only Prg site is allowed
+# OPcache - only "prg" site is allowed
 sed -i 's|^;opcache.restrict_api\s*=.*$|opcache.restrict_api = /home/web/website/|' /etc/php5/fpm/php.ini
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php5/fpm/php.ini
 sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php5/fpm/php.ini
-
-# OPcache - There may be more than 10k files
-#     find /home/ -type f -name "*.php"|wc -l
+# There may be more than 10k files
+#     find /home/ -type f -name "*.php" | wc -l
 sed -i 's/^;opcache.max_accelerated_files\s*=.*$/opcache.max_accelerated_files = 10000/' /etc/php5/fpm/php.ini
 # APCu
 echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php5/fpm/php.ini
+
+# Pool-specific values go to pool configs
 
 # @TODO Measure: realpath_cache_size = 16k  realpath_cache_ttl = 120
 #       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
@@ -766,6 +769,7 @@ echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/l
 # @FIXME PHP timeouts
 # - PHP max_execution_time
 # - PHP max_input_time
+# - Apache ProxyTimeout
 # - FastCGI -idle-timeout
 # - PHP-FPM pool request_terminate_timeout
 

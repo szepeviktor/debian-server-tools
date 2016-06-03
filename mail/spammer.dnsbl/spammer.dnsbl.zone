@@ -81,11 +81,11 @@ $TTL 60
 # Iliad (Online SAS, Dedibox servers)
 195.154          :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-212.129.59.1     friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 62.4.15          :2:Neighbour of *.hoverstyle.com.
 62.4.15.221      *.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
 212.129.32.0/19  :2:Neighbour of *.nyshkickball.com.
 212.129.55.1     gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+212.129.59.1     friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 
 # Peter Krozser
 198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475

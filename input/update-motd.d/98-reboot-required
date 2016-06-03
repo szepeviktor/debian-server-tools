@@ -1,0 +1,9 @@
+#!/bin/bash
+
+NEEDRESTART="$(needrestart -b -k)"
+CUR="$(grep "NEEDRESTART-KCUR:" <<< "$NEEDRESTART")"
+EXP="$(grep "NEEDRESTART-KEXP:" <<< "$NEEDRESTART")"
+if [ "${CUR#*:}" != "${EXP#*:}" ]; then
+    echo
+    echo "[ALERT] Reboot required."
+fi

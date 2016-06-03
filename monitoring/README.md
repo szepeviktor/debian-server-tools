@@ -20,7 +20,7 @@ Log to anywhere else: `echo MESSAGE|sed -e "s/^/${TAG}[${PID}]: /"|ts "%b %e %T"
 ### Courier log analyizer
 
 ```bash
-courier-analogue --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof \
+courier-analog --smtpinet --smtpitime --smtpierr --smtpos --smtpod --smtpof \
     --imapnet --imaptime --imapbyuser --imapbylength --imapbyxfer \
     --noisy --title="TITLE" /var/log/mail.log
 ```

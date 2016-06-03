@@ -7,7 +7,7 @@ Check shell scripts: http://www.shellcheck.net/
 
 Code styling: https://google.github.io/styleguide/shell.xml
 
-Bashism: https://wiki.ubuntu.com/DashAsBinSh
+Bashism: https://wiki.ubuntu.com/DashAsBinSh `checkbashisms -f bash-script.sh`
 
 ### Debian install with UTC as timezone
 
@@ -48,6 +48,10 @@ Security and SSL certificate related tools.
 ### /tools
 
 Various small tools.
+
+### /virtualization
+
+Docker containers.
 
 ### /webserver
 

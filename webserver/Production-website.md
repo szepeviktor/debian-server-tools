@@ -240,6 +240,7 @@ http://google-public-dns.appspot.com/cache
 - Exit modal or Hijack box: coupon, free download, blog notification, newsletter etc.
 - Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
+- Content to share: https://paper.li/
 
 ### Code styling
 
