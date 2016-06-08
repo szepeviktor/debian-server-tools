@@ -126,8 +126,9 @@ Display_left "Root fs usage" "${ROOT_USAGE} %" "$(Tl_limits "$ROOT_USAGE" 95 83)
 declare -i SWAP_USAGE="$(free | awk '/Swap/ { printf("%.0f", $3 / $2 * 100) }')"
 Display_left "Swap usage" "${SWAP_USAGE} %" "$(Tl_limits "$SWAP_USAGE" 75 50)"
 
-YOU_ARE="$(id -un) / $(id -ur)"
-Display_right "You are" "$YOU_ARE" G
+# pam always runs as root
+#YOU_ARE="$(id -un) / $(id -ur)"
+#Display_right "You are" "$YOU_ARE" G
 
 CURRENT_DATE="$(date --iso-8601=minutes)"
 declare -i CURRENT_HOUR="$(date "+%H")"

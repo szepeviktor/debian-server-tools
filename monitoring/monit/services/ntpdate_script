@@ -13,11 +13,11 @@
 
 export NTPSERVERS="0.europe.pool.ntp.org"
 
-Die() {
+Error() {
     local RET="$1"
 
     shift
-    echo -e "$*" 1>&2
+    echo -e "ERROR: $*" 1>&2
     exit "$RET"
 }
 

@@ -16,7 +16,7 @@ fi
 if [ -s /etc/hostcolor ] && [[ "$(< /etc/hostcolor)" =~ [0-9] ]]; then
     tput setaf "$(< /etc/hostcolor)"
 else
-    echo "PLEASE seet host color in /etc/hostcolor" 1>&2
+    echo "PLEASE set host color in /etc/hostcolor"
 fi
 figlet -w "117" "$(hostname -f)"
 tput sgr0

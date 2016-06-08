@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Resolve IPv4 address and hostname vice-versa.
+# Resolve a IPv4 address or a hostname vice-versa.
 #
 # VERSION       :0.3.0
 # DATE          :2016-05-04

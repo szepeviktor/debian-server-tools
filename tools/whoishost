@@ -19,5 +19,6 @@ WHOST_IP="${WHOST_IP##* has address }"
 
 # Check IP
 # @TODO Octets could be greater than 255
-[[ "$WHOST_IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] \
-    && whois "$WHOST_IP" | grep -Ei "$WINFO_REGEXP"
+if [[ "$WHOST_IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+    whois "$WHOST_IP" | grep -E -i "$WINFO_REGEXP"
+fi

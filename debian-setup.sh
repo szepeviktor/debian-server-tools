@@ -505,13 +505,13 @@ update-passwd -v --dry-run
 
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
-    needrestart iptables-persistent moreutils logtail whois unzip heirloom-mailx \
+    iptables-persistent moreutils logtail whois unzip heirloom-mailx \
     apg dos2unix git colordiff mtr-tiny ntpdate \
     gcc libc6-dev make strace ccze goaccess
+# Backports
+apt-get install -t jessie-backports -y needrestart
 # SysVinit
 apt-get install -y bootlogd
-# Backports
-#apt-get install -t jessie-backports -y 
 
 # debsums weekly cron job
 sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums
@@ -638,14 +638,14 @@ editor /etc/chrony/chrony.conf
 service chrony restart
 
 # µnscd
-apt-get install -y unscd
+apt-get install -y -t jessie-backports unscd
 editor /etc/nscd.conf
 #     enable-cache            hosts   yes
 #     positive-time-to-live   hosts   60
 #     negative-time-to-live   hosts   20
 service unscd stop && service unscd start
 
-# msmtp
+# msmtp (has no queue!)
 apt-get install -y msmtp-mta
 # /usr/share/doc/msmtp/examples/msmtprc-system.example
 cp -vf ${D}/mail/msmtprc /etc/

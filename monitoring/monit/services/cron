@@ -24,6 +24,6 @@
    if failed uid root then unmonitor
    if failed gid crontab then unmonitor
 
- check program crond_test with path "/etc/init.d/cron status|grep -qF 'cron is running'" with timeout 10 seconds
+ check program crond_test with path "/etc/init.d/cron status" with timeout 10 seconds
    group crond
    if status != 0 then alert

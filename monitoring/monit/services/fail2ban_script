@@ -16,7 +16,7 @@ for JAIL in ${FAIL2BAN_JAILS}; do
 
     # Check chain and reference
     CHAIN="f2b-${JAIL}"
-    /sbin/iptables -n -L "$CHAIN" | grep -q " (1 references)$"
+    /sbin/iptables -n -L "$CHAIN" | grep -q " (1 references)\$"
 done
 
 # Ping Fail2ban server

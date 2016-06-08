@@ -19,7 +19,7 @@ set -e
 Sudo_virtual() {
     local GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
     # shellcheck disable=SC2064
-    trap "sudo -u '$IMAP_USER' -- rm -f '$GAMTMP'" EXIT HUP INT QUIT PIPE TERM
+    trap "sudo -u '$IMAP_USER' -- rm -f '$GAMTMP'" EXIT HUP QUIT PIPE TERM
 
     echo -e "connect test\npending\nsleep 1\ndisconnect" > "$GAMTMP"
     sudo -u "$IMAP_USER" -- "$TESTGAM" "$GAMTMP" \

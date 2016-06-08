@@ -194,8 +194,8 @@ if ! /etc/init.d/monit status | grep -qF "monit is running"; then
 fi
 
 /usr/bin/monit summary | tail -n +3 \
-    | grep -vE "\s(Running|Accessible|Status ok|Waiting)$" \
-    | sed -n -e "s;^.*'\(\S\+\)'.*$;\1;p" \
+    | grep -vE "\s(Running|Accessible|Status ok|Waiting)\$" \
+    | sed -n -e "s;^.*'\(\S\+\)'.*\$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 
 # Exit status 0 means there was a failure
@@ -219,13 +219,14 @@ Monit_start() {
         sleep 3
         monit summary
         echo "OK."
+        echo "tail -f /var/log/monit.log"
     else
         echo "ERROR: Syntax check failed" 1>&2
         echo "$MONIT_SYNTAX_CHECK" | grep -vFx "Control file syntax OK" 1>&2
     fi
 }
-Monit_wake;exit
-trap 'echo "RET=$?"' EXIT HUP INT QUIT PIPE TERM
+
+trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 
 if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.17.1"; then
     echo "Minimum Monit version needed: 5.17.1"

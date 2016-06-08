@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if which monit &> /dev/null; then
-    if monit summary | grep -vE "\s(Running|Accessible|Status ok|Waiting)\$|^The Monit daemon |^\$"; then
-        echo
-        echo "[ALERT] Monit status is NOT OK."
-    fi
-fi

@@ -269,6 +269,7 @@ http://google-public-dns.appspot.com/cache
 - New WordPress entry point `grep -E "\brequire|include.*wp-"`
 - Extra server-side requests: HTTP, DNS, file access
 - Lack of `$_GET` and `$_POST` sanitization
+- Whitespaces before `<!DOCTYPE html>`
 - Form field: `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
@@ -335,6 +336,10 @@ tail -f /var/log/apache2/SITE_USER-error.log
 - Terms & Conditions
 - Cookie consent + opt out
 - "Operated by", "Hosted at"
+
+### Print friendly
+
+http://www.printfriendly.com/
 
 ### External resources (3rd party services)
 
