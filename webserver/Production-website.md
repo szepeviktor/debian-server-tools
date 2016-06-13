@@ -264,24 +264,24 @@ http://google-public-dns.appspot.com/cache
 #### Typical theme and plugin errors
 
 - Dynamically page parts (rotating quotes by PHP)
-- Dynamically generated resources (`style.css.php`) `grep -E "(register|enqueue)*.php"`
+- Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue)*.php"`)
+- Non-200 HTTP response
 - Missing resource version in `wp_register_*()` `wp_enqueue_*()` calls
-- New WordPress entry point `grep -E "\brequire|include.*wp-"`
+- New WordPress entry point (fix: `grep -E "\brequire|include.*wp-"`)
 - Extra server-side requests: HTTP, DNS, file access
 - Lack of `$_GET` and `$_POST` sanitization
-- Whitespaces before `<!DOCTYPE html>`
+- Characters before `<!DOCTYPE html>`
 - Form field: `<input type="file" />`
 - Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
-- Independent e-mail sending `grep -E "\b(wp_)?mail\("`
+- Independent e-mail sending (fix: `grep -E "\b(wp_)?mail\("`)
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
-- Home call, external URL-s (fix: search for URL-s, use Snitch)
-- Non-HTTP/200 responses
-- BOM `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`
+- Home call, external URL-s (fix: search for URL-s, use Snitch plugin and tcpdump)
+- BOM (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
 - PHP short opentags `<?=`
-- PHP errors, WP deprecated `define( 'WP_DEBUG', true );`
-- Always require admin code `whats-running`
-- Permissions for editors
+- PHP errors, WP deprecated (fix: `define( 'WP_DEBUG', true );`)
+- Always require admin code (fix: `whats-running`)
+- Permissions for WP editors
 - Display content by JavaScript (causes FOUC)
 - Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
@@ -308,12 +308,14 @@ http://google-public-dns.appspot.com/cache
 wp-config.php: `define( 'WP_DEBUG', true );`
 
 ```bash
-tail -f /var/log/apache2/SITE_USER-error.log
+tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's;\\n;\n●;g'
 ```
 
 ### JavaScript errors
 
 @TODO
+
+Send to Analytics, report to `/js-error.php`
 
 ### SEO
 
@@ -347,6 +349,8 @@ Document in README.md and check functionality.
 
 - External search
 - Analytics, tracking
+- Social media
+- Video
 - Advertisement
 - Live chat
 - Newsletter subscription
@@ -389,7 +393,7 @@ https://wiki.apache.org/httpd/ListOfErrors
   - https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
   - https://github.com/errbit/errbit
   - https://github.com/airbrake/airbrake-js
-  - detect Adblock
+  - handle ad blockers (Adblock Plus, uBlock Origin, Disconnect, Ghostery)
 1. Front page monitoring `monitoring/frontpage-check.sh`
 1. Visual changes: https://visualping.io/ @TODO PhantomJS/slimerJS + `compare -metric MAE/PAE reference.png current.png`
 1. File changes `lucanos/Tripwire`, `lasergoat/Tripwire` (rewrite)
@@ -421,9 +425,11 @@ https://wiki.apache.org/httpd/ListOfErrors
 - Backups
 - DNS records
 - Webserver vhost, add placeholder page
+- PHP-FPM pool
 - Files
-- DB
+- Linux user
 - Email accounts
+- DB, DB user
 - External resources (3rd party services)
 - [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
 - ... @TODO
