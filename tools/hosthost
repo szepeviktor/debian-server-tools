@@ -27,7 +27,7 @@ Error() {
     local RET="$1"
 
     shift
-    echo -e "ERROR ${RET}: $*" 1>&2
+    echo -e "ERROR: $*" 1>&2
 
     exit "$RET"
 }

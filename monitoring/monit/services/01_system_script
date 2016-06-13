@@ -2,7 +2,7 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.2
+# VERSION       :1.0.3
 # DATE          :2016-05-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,6 +23,8 @@
 # - nameserver
 # - nearest hop
 # - MX record
+
+set -e
 
 Disk_partitions() {
     local VDISK
@@ -50,9 +52,6 @@ Disk_partitions() {
     return 1
 }
 
-# Check current user
-[ "$(id --user)" == 0 ] || exit 5
-
 while getopts ":c:h:r:" OPT; do
     case "$OPT" in
         c)
@@ -74,6 +73,8 @@ while getopts ":c:h:r:" OPT; do
 done
 
 shift $((OPTIND - 1))
+
+# Stray option
 [ -z "$*" ] || exit 7
 
 case "$CHECK" in
@@ -144,4 +145,5 @@ if [ -n "${EXPECTED+empty}" ]; then
     [ "$EXPECTED" == "$RESULT" ]
 fi
 
+# Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' ./01_system_script|xargs -I% bash -- ./01_system_script -c % -h 8.8.8.8
 # Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' server-integrity.sh|xargs -I% server-integrity.sh -c % -h 8.8.8.8

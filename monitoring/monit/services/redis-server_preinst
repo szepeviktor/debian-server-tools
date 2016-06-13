@@ -1,0 +1,3 @@
+if ! [ -x /bin/nc ]; then
+    echo "WARNING: Please install netcat-openbsd" 2>&1
+fi

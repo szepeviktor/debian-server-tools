@@ -49,7 +49,9 @@ php5enmod redis && php -m|grep redis
 git clone https://github.com/phpredis/phpredis.git
 cd phpredis/ && git checkout php7
 apt-get install php7.0-dev re2c
-phpize7.0 && ./configure --enable-redis-igbinary && make && make install
+# igbinary disables inc() and dec()
+#phpize7.0 && ./configure --enable-redis-igbinary && make && make install
+phpize7.0 && ./configure && make && make install
 chmod -c -x /usr/lib/php/20151012/redis.so
 echo -e "; priority=20\nextension=redis.so" > /etc/php/mods-available/redis.ini
 phpenmod -v 7.0 -s ALL redis
@@ -58,7 +60,9 @@ php -m | grep -Fx "redis" && php tests/TestRedis.php --class Redis
 cd /home/wp/
 wp plugin install wp-redis
 ln -sv plugins/wp-redis/object-cache.php static/
+
 composer create-project -s dev erik-dubbelboer/php-redis-admin radmin
+cp -v includes/config.sample.inc.php includes/config.inc.php
 ```
 
 In wp-config.php:

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Report statistics about Fail2ban leanmail
+# Report statistics about Fail2ban leanmail.
 #
 # VERSION       :0.1.0
 # DATE          :2015-10-25
@@ -11,6 +11,6 @@
 # LOCATION      :/usr/local/sbin/leanmail-hits.sh
 # CRON.D        :29 6	* * *	root	/usr/local/sbin/leanmail-hits.sh
 
-sed -ne 's/^.* fail2ban-leanmail: .* \(\S\+\)$/\1/p' /var/log/syslog \
+sed -n -e 's/^.* fail2ban-leanmail: .* \(\S\+\)$/\1/p' /var/log/syslog \
     | sort | uniq -c \
     | sort -n

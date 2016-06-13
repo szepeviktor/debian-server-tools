@@ -142,7 +142,7 @@ alias transit-receive='base64 -d|xz -d'
 alias changelog='xargs -I% -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
 #alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
 #     apt-get install -y tcpdump tcpflow
-#alias httpdump='tcpdump -nn -i eth0 -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
+#alias httpdump='tcpdump -i eth0 -nn -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 # http://www.vim.org/scripts/script.php?script_id=658
 #alias email='vim -c "startinsert" /tmp/e.eml'
 
@@ -307,6 +307,7 @@ editor /etc/sysctl.conf
 # Xen Serial Console
 editor /etc/inittab
 #     s1:2345:respawn:/sbin/agetty -L ttyS0 115200 vt102
+
 # Systemd
 systemctl enable serial-getty@ttyS0.service
 systemctl start serial-getty@ttyS0.service
@@ -449,10 +450,9 @@ aptitude search '?broken'
 apt-get purge $(aptitude --disable-columns search '?config-files' -F"%p")
 # 2. Usually unnecessary packages
 apt-get purge \
-    at ftp dc rpcbind exim4-base exim4-config python2.6-minimal python2.6 \
-    lrzsz mlocate rpcbind nfs-common w3m installation-report debian-faq info \
-    install-info manpages man-db texinfo tex-common \
-    dbus isc-dhcp-client isc-dhcp-common
+    ftp dc exim4-base exim4-config python2.6-minimal python2.6 \
+    lrzsz mlocate installation-report debian-faq info install-info texinfo tex-common \
+    dbus rpcbind nfs-common
 deluser Debian-exim
 deluser messagebus
 # 3. VPS monitoring
@@ -510,8 +510,15 @@ apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums
     gcc libc6-dev make strace ccze goaccess
 # Backports
 apt-get install -t jessie-backports -y needrestart
+
 # SysVinit
 apt-get install -y bootlogd
+
+# Alert on boot and on halt
+cp -v ${D}/monitoring/boot-alert /etc/init.d/
+update-rc.d boot-alert defaults
+cp -v ${D}/monitoring/halt-alert /etc/init.d/
+update-rc.d halt-alert defaults
 
 # debsums weekly cron job
 sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums
@@ -600,11 +607,13 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
 # Add healthchecks.io check
 editor /etc/cron.d/healthchecks
-#     03 *	* * *	nobody	curl -fsS --retry 3 https://hchk.io/@@UUID@@ | grep -qFx "OK"
+#     03 *	* * *	nobody	wget -q -t 3 -O- https://hchk.io/@@UUID@@ | grep -qFx "OK"
 service cron restart
 
 # Time synchronization
-cd ${D}; ./install.sh monitoring/ntp-alert.sh
+cd ${D}; ./install.sh monitoring/monit/services/ntpdate_script
+echo -e '#!/bin/bash\n/usr/local/bin/ntp-alert.sh' > /etc/cron.daily/ntp-alert
+chmod +x /etc/cron.daily/ntp-alert
 # Virtual serves only
 editor /etc/default/hwclock
 #    HWCLOCKACCESS=no
@@ -636,6 +645,8 @@ editor /etc/chrony/chrony.conf
 #     # Don't set hardware clock (RTC)
 #     ##rtcsync
 service chrony restart
+# Systemd
+timedatectl set-ntp 1
 
 # µnscd
 apt-get install -y -t jessie-backports unscd

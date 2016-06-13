@@ -4,8 +4,10 @@
    group apache
    start program = "/etc/init.d/apache2 start"
    stop program = "/etc/init.d/apache2 stop"
-   if failed host @@APACHE_SERVER_NAME@@ port 80 with protocol http and request "/server-status" with timeout 25 seconds for 4 times within 5 cycles then restart
-   if failed host @@APACHE_SSL_SERVER_NAME@@ port 443 with protocol https and request "/server-status" with timeout 25 seconds for 4 times within 5 cycles then restart
+   if failed host @@APACHE_SERVER_NAME@@ port 80 with protocol apache-status path "/server-status?auto"
+     with timeout 25 seconds for 4 times within 5 cycles then restart
+   if failed host @@APACHE_SSL_SERVER_NAME@@ port 443 with protocol https and request "/server-status?auto" status != 200
+     with timeout 25 seconds for 4 times within 5 cycles then restart
    if 4 restarts within 20 cycles then unmonitor
    depend apache_bin
    depend apache_init

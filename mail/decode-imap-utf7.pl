@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# Decode IMAP UTF-7 string
+# Decode an IMAP UTF-7 string.
 #
 # VERSION       :0.1.0
 # DATE          :2015-08-01

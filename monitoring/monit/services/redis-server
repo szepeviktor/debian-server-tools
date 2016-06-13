@@ -1,0 +1,29 @@
+ check process redis with pidfile /run/redis/redis-server.pid
+   group cache
+   group redis
+   start program = "/etc/init.d/redis-server start"
+   stop program = "/etc/init.d/redis-server stop"
+   if failed host localhost port 6379 protocol redis then restart
+   if cpu > 60% for 2 cycles then alert
+   if cpu > 98% for 5 cycles then restart
+   if 4 restarts within 20 cycles then unmonitor
+   depend redis_bin
+   depend redis_rc
+   depend redis_init
+   depend redis_test
+
+ check file redis_bin with path /usr/bin/redis-server
+   group redis
+   include /etc/monit/templates/rootbin
+
+ check file redis_rc with path /etc/redis/redis.conf
+   group redis
+   include /etc/monit/templates/rootrc
+
+ check file redis_init with path /etc/init.d/redis-server
+   group redis
+   include /etc/monit/templates/rootbin
+
+ check program redis_test with path /usr/local/sbin/redis-server-test.sh with timeout 10 seconds
+   group redis
+   if status != 0 then alert

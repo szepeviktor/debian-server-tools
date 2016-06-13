@@ -102,7 +102,7 @@ Do_install() {
     # Check APT dependencies
     Get_meta "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
-            if ! dpkg-query --showformat="\${Status}\n" --show "$PKG" 2> /dev/null | grep -qFx "install ok installed"; then
+            if ! dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null | grep -qFx "install ok installed"; then
                 #if ! grep-status -sPackage -FProvides "$PKG" | grep -qx "Package: \S\+"; then
                 echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
             fi

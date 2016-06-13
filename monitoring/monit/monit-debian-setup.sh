@@ -15,8 +15,9 @@ set -e
 
 # @TODO
 # integrate cert-expiry/openssl
-# add putty-port-forward 2812+N
-# add "/etc/init.d/SERVICe status" checks
+# add putty port-forward 2812+N
+# add "/etc/init.d/SERVICE status" checks
+# permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
 
 # Exclude packages
 #     EXCLUDED_PACKAGES=php5-fpm:apache2 ./monit-debian-setup.sh
@@ -37,12 +38,8 @@ Monit_template() {
     local DEFAULT_NAME
     local VALUE
 
-    if ! [ -r "$TPL" ]; then
-        echo "Service template not found (${TPL})" 1>&2
-        return 1
-    fi
-    if ! cp -f "$TPL" "$OUT"; then
-        echo "Writing to service configuration failed: ${OUT}" 1>&2
+    if ! install --no-target-directory --mode=600 "$TPL" "$OUT"; then
+        echo "Writing to service configuration failed (${OUT})" 1>&2
         exit 11
     fi
 
@@ -67,6 +64,7 @@ Monit_template() {
             echo "Invalid variable name (${VAR_NAME}) in template: ${TPL}"
             exit 10
         fi
+        # May be set in _preinst
         DEFAULT_NAME="${VAR_NAME}_DEFAULT"
 
         # Read into $VAR_NAME
@@ -75,7 +73,7 @@ Monit_template() {
         VALUE="${!VAR_NAME}"
         # Escape for sed
         VALUE="${VALUE//;/\\;}"
-        # Substitute variables
+        # Substitute variable
         sed -i -e "s;@@${VAR_NAME}@@;${VALUE};g" "$OUT"
     done 3<<< "$VARIABLES"
 }
@@ -88,7 +86,7 @@ Monit_enable() {
     echo "---  ${SERVICE}  ---"
 
     if ! [ -r "$SERVICE_TEMPLATE" ]; then
-        echo "Service template not found (${SERVICE_TEMPLATE})" 1>&2
+        echo "ERROR: Service template not found (${SERVICE_TEMPLATE})" 1>&2
         return 1
     fi
 

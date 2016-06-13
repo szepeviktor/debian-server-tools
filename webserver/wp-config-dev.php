@@ -53,7 +53,7 @@ if ( 'production.com' !== $_SERVER['SERVER_NAME'] ) {
 1. HTTP traffic: airplanemode, analytics, other 3rd-party service:newrelic, mouse tracking (admin and frontend)
 1. Mail:
     1. sendmail block: php_admin_value[disable_functions] += mail
-    1. sendmail hijack: php_admin_value[sendmail_path] = /usr/local/sbin/sendmail.sh
+    1. sendmail hijack: php_admin_value[sendmail_path] = /usr/local/sbin/dev-sendmail.sh
     1. sendmail hijack: error_log? sendmail_path = sudo -u pool_user -- php -r "error_log('sendmail: $data');"
     1. sendmail hijack: force recipient? sendmail_path = /usr/sbin/sendmail -f fpm-pool@domain.tld fixed@recipient.net
     1. SMTP block: Block OUTPUT to tcp port 25, 587, 465
@@ -72,8 +72,12 @@ Development environment
 
 sendmail.sh
 #!/bin/dash
+#
+# Dump email to a file.
+#
+# LOCATION      :/usr/local/sbin/dev-sendmail.sh
 
-# Must be world writable
+# Must be world writable or use SUID
 DUMP_PATH="/tmp"
 
 {

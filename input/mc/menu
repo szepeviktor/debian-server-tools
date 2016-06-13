@@ -1,0 +1,22 @@
+#+ y Python\ Program | f \.py$
+l       pylint --line-too-long --missing-docstring
+        DIS_MSGS=",%{disabled_msgs}"
+        pylint -d line-too-long,missing-docstring${DIS_MSGS} '%f' | most
+
+t       Trim Trailing Whitespaces
+        sed --in-place --expression='s/[[:space:]]\+$//' '%f'
+
+#+ y PHP\ Program | f \.php$
+1       WordPress: Wrap selection in esc_html_e()
+        TMPFILE=$(mktemp ${MC_TMPDIR:-/tmp}/up.XXXXXX) || exit 1
+        cat %b > $TMPFILE
+        cat $TMPFILE | sed "s/\(.*\)/<?php esc_html_e( '\1', 'txtdom' ); ?>/" > %b
+        rm -f $TMPFILE
+
+2       WordPress: Wrap selection in printf( esc_html__() )
+        TMPFILE=$(mktemp ${MC_TMPDIR:-/tmp}/up.XXXXXX) || exit 1
+        cat %b > $TMPFILE
+        cat $TMPFILE | sed "s/\(.*\)/<?php printf( esc_html__( '\1', 'txtdom' ),  ); ?>/" > %b
+        rm -f $TMPFILE
+d       Insert debug
+        echo 'error_log(addcslashes(serialize(  ), "\0..\37!@\@\177..\377"));' >%b

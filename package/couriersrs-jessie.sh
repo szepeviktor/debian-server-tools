@@ -27,7 +27,6 @@ cd couriersrs/
 
 ./configure --prefix=/usr --sysconfdir=/etc
 colormake
-#sudo make install
 
 echo "Forwarding messages in courier using SRS" > description-pak
 # http://checkinstall.izto.org/docs/README
@@ -40,7 +39,7 @@ sudo checkinstall -D -y --nodoc --strip --stripso --install=no \
     --pkgsource="https://github.com/szepeviktor/couriersrs" \
     --pkglicense="GPL" \
     --maintainer="$MAINTAINER" \
-    --requires="libc6 \(\>= 2.15\), libgcc1 \(\>= 1:4.1.1\), libstdc++6 \(\>= 4.9\), libsrs2-0 \(\>= 1.0.18\), courier-mta" \
+    --requires="libc6 \(\>= 2.15\), libsrs2-0 \(\>= 1.0.18\), courier-mta" \
     --pakdir="../"
 
 cd ../

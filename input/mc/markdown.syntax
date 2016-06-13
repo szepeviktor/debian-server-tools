@@ -1,0 +1,68 @@
+# Markdown syntax file
+
+# Authors:
+#	Ruslan Brest, http://rb.labtodo.com, r-b@mail.ru, 2013
+#	https://gist.github.com/rb2/1f6b23ea5ea848c75a8c/raw/e4c608a7072b80610c2bec9a90312512be1e59a9/markdown.syntax
+#	~/.local/share/mc/mcedit/markdown.syntax
+
+context default
+## Links
+##    keyword [*](http*)		brightcyan/17
+    keyword [*]		brightcyan
+    keyword <*>		yellow
+    keyword (http*)		brightmagenta
+    keyword (ftp*)		brightmagenta
+
+## **Bold** or __Bold__
+    keyword \*\**\*\*	yellow
+    keyword __*__		yellow
+## *italic* or _italic_
+    keyword \s\**\*\s		white
+    keyword \s_*_\s			white
+
+
+## Horisontal ruler
+	keyword linestart ---- white
+
+## List
+    keyword linestart \* brightgreen
+    keyword linestart \t\* brightgreen
+    keyword linestart \t\t\* brightgreen
+    keyword linestart - brightgreen
+    keyword linestart \t- brightgreen
+    keyword linestart \t\t- brightgreen
+
+#	keyword \{0123456789\}    white
+
+## Headings
+context linestart #+ \n white
+    spellcheck
+
+## (not Markdown) TODO
+context linestart TODO: \n brightred
+
+
+## Code, tt, pre
+context ` ` brightred
+
+context linestart From:\s \n\n cyan
+    keyword linestart From: brightgreen
+    keyword linestart From\s brightred
+    keyword <*@*> white
+    keyword whole +@+ white
+    keyword linestart To: brightmagenta
+    keyword linestart Subject: brightred/Orange
+    keyword linestart +: brown
+
+context linestart Date:\s \n\n cyan
+    keyword linestart From: brightgreen
+    keyword linestart From\s brightred
+    keyword <*@*> white
+    keyword whole +@+ white
+    keyword linestart To: brightmagenta
+    keyword linestart Subject: brightred/Orange
+    keyword linestart +: brown
+
+context " " green
+	spellcheck
+

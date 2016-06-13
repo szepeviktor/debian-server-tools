@@ -1,0 +1,15 @@
+# ~/.config/mc/mcedit/Syntax
+
+file ..\*\\.(md|markdown)$ Markdown\sdocument
+include /root/.config/mc/mcedit/markdown.syntax
+
+file ..\*(\\.([iI][nN][iI]|conf|cfg|zone|local|cf|htaccess)|Dockerfile)$ INI\sfile
+include ini.syntax
+
+file ..\*\\.(eml|msg)$ Email\ssource
+include email.syntax
+
+# Append /usr/share/mc/syntax/Syntax here!
+# Alt + U cat /usr/share/mc/syntax/Syntax
+
+

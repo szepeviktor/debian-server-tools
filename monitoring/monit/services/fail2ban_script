@@ -9,8 +9,10 @@ set -e
 
 FAIL2BAN_JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's;, ; ;g' -e 's;^.*Jail list:\s\+\(.*\)$;\1;p')"
 
+[ -n "$FAIL2BAN_JAILS" ]
+
 for JAIL in ${FAIL2BAN_JAILS}; do
-    # No iptables chain for these
+    # No iptables chain for these jails
     [ "$JAIL" == "proftpd-notif" ] && continue
     [[ "$JAIL" =~ apache-cf.* ]] && continue
 

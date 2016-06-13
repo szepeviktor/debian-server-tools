@@ -2,13 +2,13 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.3.2
+# VERSION       :0.3.3
 # DATE          :2015-11-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install courier-mta courier-mta-ssl
+# DEPENDS       :apt-get install courier-mta
 # LOCATION      :/usr/local/sbin/courier-restart.sh
 
 Error() {
@@ -16,19 +16,21 @@ Error() {
     exit "$1"
 }
 
+set -e
+
 makesmtpaccess || Error $? "smtpaccess/*"
 
-#if grep -q '^ACCESSFILE=\${sysconfdir}/smtpaccess$' /etc/courier/esmtpd-msa
-if grep -qFx "ESMTPDSTART=YES" /etc/courier/esmtpd-msa; then
-    makesmtpaccess-msa || Error $? "esmtpd-msa"
+#if ! grep -qFx "ACCESSFILE=\${sysconfdir}/smtpaccess" /etc/courier/esmtpd-msa &&
+if grep -qFxi "ESMTPDSTART=YES" /etc/courier/esmtpd-msa; then
+    makesmtpaccess-msa || Error $? "msa smtpaccess/*"
 fi
 
 if [ -d /etc/courier/esmtpacceptmailfor.dir ]; then
-    makeacceptmailfor || Error $? "esmtpacceptmailfor.dir/*"
+    makeacceptmailfor || Error $? "esmtp acceptmailfor.dir/*"
 fi
 
 if [ -e /etc/courier/hosteddomains ]; then
-    makehosteddomains || Error $? "hosteddomains"
+    makehosteddomains || Error $? "hosted domains"
 fi
 
 if [ -f /etc/courier/userdb ]; then
@@ -37,9 +39,10 @@ fi
 
 makealiases || Error $? "aliases/*"
 
-if dpkg --status courier-mta-ssl &> /dev/null; then
-    service courier-mta-ssl restart || Error $? "courier-mta-ssl"
+# Restart courier-mta-ssl also
+if [ "$(dpkg-query --showformat="\${Status}" --show courier-mta-ssl 2> /dev/null)" == "install ok installed" ]; then
+    service courier-mta-ssl restart || Error $? "courier-mta-ssl restart"
 fi
-service courier-mta restart || Error $? "courier-mta"
+service courier-mta restart || Error $? "courier-mta restart"
 
 echo "OK."

@@ -104,7 +104,7 @@ LATEST_RELEASE="$(wget -qO- ftp://ftp.debian.org/debian/dists/${IMAGE_CODENAME}/
 # @TODO Or curl ...
 CURRENT_ARCH="$(dpkg --print-architecture)"
 CURRENT_MACHINE="$(uname --machine)"
-if [ "$(dpkg-query --show -f='${Status}' lsb-release)" != "install ok installed" ] \
+if [ "$(dpkg-query --showformat="\${Status}" --show lsb-release)" != "install ok installed" ] \
     || ! which lsb_release &> /dev/null; then
     apt-get update -qq
     apt-get install -qq -y -f lsb-release
@@ -162,14 +162,14 @@ set +e
 Is_installed() {
     local PKG
 
-    PKG="$(aptitude --disable-columns search "?and(?installed, ?exact-name($1))" -F"%p")"
+    PKG="$(aptitude --disable-columns --display-format "%p" search "?and(?installed, ?exact-name($1))")"
     test -n "$PKG"
 }
 
 Is_installed_regexp() {
     local PKG
 
-    PKG="$(aptitude --disable-columns search "?and(?installed, ?name($1))" -F"%p")"
+    PKG="$(aptitude --disable-columns --display-format "%p" search "?and(?installed, ?name($1))")"
     test -n "$PKG"
 }
 

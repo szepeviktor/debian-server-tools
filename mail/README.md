@@ -75,6 +75,13 @@ https://toolbox.googleapps.com/apps/checkmx/
 - https://www.mailscanner.info/install/
 - https://wiki.efa-project.org/
 
+### Decode emails
+
+- Encoded (base64 or QP) headers: `conv2047.pl -d`
+- Body and attachments: `munpack -t`
+- Syntax highlight: headers.vim for vim, email.syntax for mcedit
+
+
 ## Settings
 
 
@@ -86,32 +93,7 @@ See: [mbox_send2.py](./mbox_send2.py)
 
 Build Courier SRS
 
-```bash
-# http://archive.debian.org/debian/pool/main/libs/libsrs2/libsrs2_1.0.18-4.dsc
-dpkg -i libsrs2-*_amd64.deb
-apt-get install -y build-essential autoconf2.64 libpopt-dev courier-mta
-git clone https://github.com/szepeviktor/couriersrs
-cd couriersrs
-./configure --prefix=/usr --sysconfdir=/etc
-make
-#sudo make install
-sudo checkinstall
-#
-0 -  Maintainer: [ Viktor Szepe <viktor@szepe.net> ]
-1 -  Summary: [ Forwarding messages in courier using SRS ]
-2 -  Name:    [ couriersrs ]
-3 -  Version: [ 1.2 ]
-4 -  Release: [ 2 ]
-5 -  License: [ GPL ]
-6 -  Group:   [ mail ]
-7 -  Architecture: [ amd64 ]
-8 -  Source location: [ couriersrs ]
-9 -  Alternate source location: [  ]
-10 - Requires: [ libc6 (>= 2.15), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.9), courier-mta ]
-11 - Provides: [ couriersrs ]
-12 - Conflicts: [  ]
-13 - Replaces: [  ]
-```
+See: `/package/couriersrs-jessie.sh`
 
 ### Courier catchall address
 

@@ -4,8 +4,8 @@
 #
 # VERSION       :0.1.0
 # DEPENDS       :apt-get install netcat-openbsd
-# LOCATION      :/usr/local/sbin/memcached-test.sh
+# LOCATION      :/usr/local/sbin/redis-server-test.sh
 
 set -e
 
-echo "version" | nc -q 10 localhost 11211
+echo "ping" | nc -C -q 10 localhost 6379 | grep -F "+PONG"

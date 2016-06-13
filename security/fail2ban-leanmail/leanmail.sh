@@ -93,6 +93,7 @@ declare -a AS_HOSTING=(
     AS24940 # Hetzner Online GmbH
     AS8972  # PlusServer AG
     AS46606 # Unified Layer
+    AS45055 # NForce Entertainment B.V.
 )
 
 # Labs
@@ -248,6 +249,7 @@ Match_dnsbl1() {
     local IP="$2"
     local ANSWER
 
+    # shellcheck disable=SC2059
     printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")"
 
     ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
@@ -269,6 +271,7 @@ Match_dnsbl2() {
     local IP="$2"
     local ANSWER
 
+    # shellcheck disable=SC2059
     printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")"
 
     ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
@@ -290,6 +293,7 @@ Match_dnsbl3() {
     local IP="$2"
     local ANSWER
 
+    # shellcheck disable=SC2059
     printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")"
 
     ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
@@ -314,6 +318,7 @@ Match_dnsbl4() {
     local ANSWER
 
     OWN_IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+    # shellcheck disable=SC2059
     printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")" "$(Reverse_ip "$OWN_IP")"
 
     ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
@@ -334,6 +339,7 @@ Match_http_api1() {
     local IP="$2"
     local URL
 
+    # shellcheck disable=SC2059
     printf -v URL "$HTTPAPI" "$IP"
     if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<appears>yes</appears>"; then
         # IP is positive
@@ -350,6 +356,7 @@ Match_http_api2() {
     local URL
     local POST
 
+    # shellcheck disable=SC2059
     printf -v URL "$HTTPAPI" "$IP"
 
     # https://cleantalk.org/wiki/doku.php?id=spam_check
@@ -373,6 +380,7 @@ Match_http_api3() {
     local IP="$2"
     local URL
 
+    # shellcheck disable=SC2059
     printf -v URL "$HTTPAPI" "$IP"
     if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\+</attacks>"; then
         # IP is positive
