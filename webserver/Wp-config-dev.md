@@ -6,7 +6,7 @@
 - PHP-FPM pool
 - Fail2ban
 - MTA
-- backup
+- Backup to object storage (s3ql with OpenStack swift or S3)
 
 ### Website
 
@@ -48,49 +48,49 @@ Disallow: /
 # Please stop sending further requests.
 ```
 
-wp-config.php constants, see: https://codex.wordpress.org/Editing_wp-config.php
+### wp-config.php constants
+
+See: https://codex.wordpress.org/Editing_wp-config.php
 
 Import database, set DB_* constants.
-
-Set forced site URL (see: /webserver/wp-config-dev.php) or download Search-Replace-DB
-
-1. https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
-1. https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
-
-Upload index.php as srdb.php
-
-Delete bith files after replace.
 
 Replace original URL.
 
 ```bash
 read -r -e -p "ORIGINAL URL=" ORIG_URL
-read -r -e -p "DEVELOPMENT URL=" DEV_URL
 read -r -e -p "ORIGINAL PATH=" ORIG_PATH
-read -r -e -p "DEVELOPMENT PATH=" DEV_PATH
 read -r -e -p "ORIGINAL EMAIL=" ORIG_MAIL
+read -r -e -p "DEVELOPMENT URL=" DEV_URL
+read -r -e -p "DEVELOPMENT PATH=" DEV_PATH
 read -r -e -p "DEVELOPMENT EMAIL=" DEV_MAIL
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "${ORIG_URL%/}" "${DEV_URL%/}"
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "${ORIG_URL#*:}" "${DEV_URL#*:}"
-wp search-replace --precise --recurse-objects --all-tables-with-prefix "$ORIG_PATH" ""DEV_PATH"
+wp search-replace --precise --recurse-objects --all-tables-with-prefix "$ORIG_PATH" "$DEV_PATH"
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "$ORIG_MAIL" "$DEV_MAIL"
 ORIG_DOMAIN="${ORIG_URL#*//}"
 DEV_DOMAIN="${DEV_URL#*//}"
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "${ORIG_URL%%/*}" "${DEV_URL%%/*}"
 ```
 
-1. `http://DOMAIN.TLD` -> `https://DEV.SITE.COM` (no trailing slash)
-1. `//DOMAIN.TLD` -> `//DEV.SITE.COM` (no trailing slash)
-1. `/home/PATH/TO/SITE` -> `C:/wamp/php/wordpress` (no trailing slash)
-1. `EMAIL@ADDRESS.ES` -> `DEVELOPMENT@ADDRE.SS` (all addresses)
-1. `DOMAIN.TLD` -> `DEV.SITE.COM` (now without protocol)
+Force site URL (see: /webserver/wp-config-dev.php) or download Search-Replace-DB
+
+1. https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
+1. https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
+
+Upload index.php as srdb.php (delete both files after replace).
+
+1. `http://DOMAIN.TLD` → `https://DEV.SITE.COM` (no trailing slash)
+1. `//DOMAIN.TLD` → `//DEV.SITE.COM` (no trailing slash)
+1. `/home/PATH/TO/SITE` → `C:/wamp/php/wordpress` (no trailing slash)
+1. `EMAIL@ADDRESS.ES` → `DEVELOPMENT@ADDRE.SS` (all addresses)
+1. `DOMAIN.TLD` → `DEV.SITE.COM` (now without protocol)
 
 Change salts.
 
 - If you have apg installed: `wordpress-plugin-construction/wp-safe-salt.sh >> wp-config.php`
 - Using PHP's OpenSSL support: `php wordpress-plugin-construction/wp-safe-salt.php >> wp-config.php`
 - From Automattic: `wget -qO- https://api.wordpress.org/secret-key/1.1/salt/ >> wp-config.php`
-- Get new salts from Automattic: https://api.wordpress.org/secret-key/1.1/salt/
+- Get salts from Automattic: https://api.wordpress.org/secret-key/1.1/salt/
 
 Constants for [debugging](https://codex.wordpress.org/Debugging_in_WordPress):
 
@@ -136,25 +136,30 @@ Enable developer's user as administrator:
 - `wp user set-role DEVELOPER administrator`
 - `http://DEV.SITE.COM/wp-admin/users.php`
 
-Development tools: `option-inspector`, `what-the-file`, `error-log-monitor`, `query-monitor`
+Development tools:
 
-Block outgoing HTTP traffic: `airplane-mode`
+- `option-inspector`
+- `what-the-file`
+- `error-log-monitor`
+- `query-monitor`
+
+Block all outgoing HTTP traffic: `airplane-mode`
 
 @TODO Block HTTP traffic on admin and on frontend:
 
-- analytics
-- newrelic
-- mouse tracking
-- other 3rd-party services
+- Google Analytics
+- New Relic `php_admin_flag[newrelic.browser_monitoring.auto_instrument] = Off`
+- Mouse tracking
+- Other 3rd-party services
 - ?if ( 'on' === get_site_option( 'airplane-mode' ) )
 
 @TODO Distinguish development site:
 
-- admin bar (outline-bottom+transition)
-- page title (admin and frontend)
+- Admin bar: outline-bottom + transition
+- [TAG] Page title: admin and frontend
 - https://plugins.svn.wordpress.org/easy-local-site/trunk/easy-local-site.php
 
-#### Email delivery
+### Email delivery
 
 By `wp_mail()`
 
@@ -163,21 +168,21 @@ By `wp_mail()`
 By `sendmail` (calling `mail()` function)
 
 - Log all `mail()` calls:
-    FPM: `php_admin_value[mail.log] = /home/user/log/mail.log`
-    .htaccess: `php_admin_value sendmail_path /home/user/log/mail.log`
+  - FPM: `php_admin_value[mail.log] = /home/user/log/mail.log`
+  - .htaccess: `php_admin_value sendmail_path /home/user/log/mail.log`
 - Force recipient for all `mail()` calls:
-    FPM: `php_admin_value[mail.force_extra_parameters] = "DEVELOPMENT@ADDRE.SS"`
-    .htaccess: `php_admin_value mail.force_extra_parameters "DEVELOPMENT@ADDRE.SS"`
+  - FPM: `php_admin_value[mail.force_extra_parameters] = "DEVELOPMENT@ADDRE.SS"`
+  - .htaccess: `php_admin_value mail.force_extra_parameters "DEVELOPMENT@ADDRE.SS"`
 - Dump all messages sent by `mail()` to a file:
-    FPM: `php_admin_value[sendmail_path] = /usr/local/sbin/dev-sendmail.sh`
-    .htaccess: `php_admin_value sendmail_path /home/user/bin/dev-sendmail.sh`
+  - FPM: `php_admin_value[sendmail_path] = /usr/local/sbin/dev-sendmail.sh`
+  - .htaccess: `php_admin_value sendmail_path /home/user/bin/dev-sendmail.sh`
 - Block `mail()` function:
-    In PHP PFM pool config append `mail` to `php_admin_value[disable_functions]`
-    In php.ini append `mail` to `disable_functions`
+  - In PHP PFM pool config append `mail` to `php_admin_value[disable_functions]`
+  - In php.ini append `mail` to `disable_functions`
 
-By STMP
+By SMTP
 
-- Use local SMTP server: `smtp-uri` and [Mailcatcher](https://mailcatcher.me/), [MailHog](https://github.com/mailhog/MailHog)
+- Use local SMTP server: `smtp-uri` and [Mailcatcher](https://mailcatcher.me/) or [MailHog](https://github.com/mailhog/MailHog)
 - Forward SMTP traffic to Mailcatcher, MailHog or any other SMTP server
 - Block outgoing SMTP traffic (TCP port 25, 587 and 465) by user
 
@@ -186,5 +191,5 @@ By STMP
 - Export plugin and theme settings separately
 - Push to git repository
 - [WP downloader](https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/shared-hosting-aid/wp-downloader)
-- [Clean database](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Production-website.md#clean-up-database)
+- [Clean database](/webserver/Production-website.md#clean-up-database)
 - Dump database in a single transaction

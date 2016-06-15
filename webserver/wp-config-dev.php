@@ -42,5 +42,5 @@ define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
 /*
-   See Wp-config-dev.md for complete how-to
+   See /webserver/Wp-config-dev.md for complete how-to
 */
