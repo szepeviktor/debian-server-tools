@@ -1,22 +1,30 @@
-#+ y Python\ Program | f \.py$
+shell_patterns=0    # expression type
+
++ y Python\ Program | f \.py$
 l       pylint --line-too-long --missing-docstring
         DIS_MSGS=",%{disabled_msgs}"
         pylint -d line-too-long,missing-docstring${DIS_MSGS} '%f' | most
 
++ y Python\ Program | f \.py$
 t       Trim Trailing Whitespaces
         sed --in-place --expression='s/[[:space:]]\+$//' '%f'
 
-#+ y PHP\ Program | f \.php$
-1       WordPress: Wrap selection in esc_html_e()
+# ------------------------------------------------------------------------------
+
++ y PHP\ Program | f \.php$
+1       Wrap selection in esc_html_e/pm3
         TMPFILE=$(mktemp ${MC_TMPDIR:-/tmp}/up.XXXXXX) || exit 1
         cat %b > $TMPFILE
-        cat $TMPFILE | sed "s/\(.*\)/<?php esc_html_e( '\1', 'txtdom' ); ?>/" > %b
+        cat $TMPFILE | sed "s/\(.*\)/<?php esc_html_e( '\1', 'pm3' ); ?>/" > %b
         rm -f $TMPFILE
 
-2       WordPress: Wrap selection in printf( esc_html__() )
++ y PHP\ Program | f \.php$
+2       Wrap selection in printf+esc_html__/pm3
         TMPFILE=$(mktemp ${MC_TMPDIR:-/tmp}/up.XXXXXX) || exit 1
         cat %b > $TMPFILE
-        cat $TMPFILE | sed "s/\(.*\)/<?php printf( esc_html__( '\1', 'txtdom' ),  ); ?>/" > %b
+        cat $TMPFILE | sed "s/\(.*\)/<?php printf( esc_html__( '\1', 'pm3' ),  ); ?>/" > %b
         rm -f $TMPFILE
+
++ y PHP\ Program | f \.php$
 d       Insert debug
         echo 'error_log(addcslashes(serialize(  ), "\0..\37!@\@\177..\377"));' >%b

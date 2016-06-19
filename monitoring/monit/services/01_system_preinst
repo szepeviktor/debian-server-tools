@@ -4,6 +4,7 @@ INTEGRITY_PCI_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PCI)"
 INTEGRITY_USB_HASH_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c USB || true)"
 INTEGRITY_DISKS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c DISK)"
 INTEGRITY_SWAPS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c SWAP)"
+INTEGRITY_ENTROPY_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c ENTROPY)"
 INTEGRITY_CLOCKSOURCE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c CLOCKSOURCE)"
 INTEGRITY_VCONSOLE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c VCONSOLE || true)"
 

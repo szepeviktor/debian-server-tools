@@ -7,4 +7,4 @@ cat /usr/share/mc/syntax/Syntax >> ~/.config/mc/mcedit/Syntax
 install --mode=0644 ./menu ~/.config/mc/mcedit/
 ```
 
-Per directory user menu file: `.cedit.menu`
+Per directory menu file: `.cedit.menu`

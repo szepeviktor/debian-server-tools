@@ -58,13 +58,19 @@
    if status != 0 then alert
 
  # Kernel clock source
- check program hardware_clocksource
+ check program kernel_clocksource
     with path "/usr/local/sbin/server-integrity.sh -c CLOCKSOURCE -r '@@INTEGRITY_CLOCKSOURCE@@'" every 33 cycles
    group integrity
    if status != 0 then alert
 
+ # Available entropy
+ check program kernel_entropy
+    with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
  # Virtual console on Xen
- check program hardware_vconsole
+ check program device_vconsole
     with path "/usr/local/sbin/server-integrity.sh -c VCONSOLE -r '@@INTEGRITY_VCONSOLE@@'" every 33 cycles
    group integrity
    if status != 0 then alert

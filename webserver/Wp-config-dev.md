@@ -112,7 +112,11 @@ MU plugins are from https://github.com/szepeviktor/wordpress-plugin-construction
 
 Faster plugin install: `plugin-installer-speedup`
 
-Deactivate unnecessary plugins (backup, email, 3rd-party service etc.)
+Deactivate unnecessary plugins:
+- security on localhost but **not** on public development site
+- backup
+- email, newsletter
+- 3rd-party service
 
 @TODO Auto-disable and require some plugins.
 
@@ -120,7 +124,7 @@ Protect plugins from deactivation: `mu-protect-plugins`
 
 Prevent indexing: `mu-prevent-public`
 
-Disable updated: `mu-disable-updates`
+Disable updates: `mu-disable-updates`
 
 Triggers WP-cron manually: `manual-cron`
 
@@ -147,11 +151,11 @@ Block all outgoing HTTP traffic: `airplane-mode`
 
 @TODO Block HTTP traffic on admin and on frontend:
 
+- ? `if ( 'on' === get_site_option( 'airplane-mode' ) )`
 - Google Analytics
 - New Relic `php_admin_flag[newrelic.browser_monitoring.auto_instrument] = Off`
 - Mouse tracking
 - Other 3rd-party services
-- ?if ( 'on' === get_site_option( 'airplane-mode' ) )
 
 @TODO Distinguish development site:
 

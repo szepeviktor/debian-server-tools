@@ -5,7 +5,7 @@ fi
 
 if ! /usr/local/sbin/server-integrity.sh -c VCONSOLE &> /dev/null; then
     echo "Removing check for vconsole" 1>&2
-    sed -i -e '/^\s*check program hardware_vconsole\b/,/^$/d' /etc/monit/conf-available/01_system
+    sed -i -e '/^\s*check program device_vconsole\b/,/^$/d' /etc/monit/conf-available/01_system
 fi
 
 if ! /usr/local/sbin/server-integrity.sh -c MX1 &> /dev/null; then

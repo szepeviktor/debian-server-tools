@@ -150,13 +150,5 @@ editor /etc/courier/esmtpauthclient
 #     smarthost.foreign.com,587 username password
 #     #smarthost.foreign.com,465 username password
 
-# Goaccess, could be a cron job also
-IP=""
-goaccess --agent-list --http-method \
-    --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \
-    --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
-    --date-format='%d/%b/%Y' --time-format='%T' \
-    --exclude-ip="$IP" \
-    -f /var/log/apache2/${U}-access.log \
-#    -f /var/log/apache2/${U}-ssl-access.log \
-#    > /home/${U}/website/html/stat.html
+# Goaccess
+# See: ${D}/webserver/goaccess.sh
