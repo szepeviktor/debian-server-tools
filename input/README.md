@@ -6,9 +6,10 @@ apt-get install -y figlet bc cowsay
 mv -v /etc/motd /etc/motd~
 ln -svf /var/run/motd /etc/motd
 echo -e "*\n*** Ez a szerver <a/az CÉG-NÉV> tulajdona. Idegeneknek a belépés tilos. ***\n*\n" > /etc/motd.tail
-#echo -e "*\n*** This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited. ***\n*\n" > /etc/motd.tail
+#echo -e "*\n*** This server is the property of <COMPANY-NAME>. Unauthorized entry is prohibited. ***\n*\n" > /etc/motd.tail
 cp -avf ./update-motd.d /etc/
 cp -avf ./profile.d /etc/
+echo "4" > /etc/hostcolor
 ```
 
 ### "Rainbows and unicorns!"

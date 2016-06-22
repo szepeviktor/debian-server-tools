@@ -185,14 +185,19 @@ Monit_wake() {
 
     cat > "$CRONJOB" <<"EOF"
 #!/bin/bash
+#
+# Monit_wake
+#
+# VERSION       :0.4.0
 
 if ! /etc/init.d/monit status | grep -qF "monit is running"; then
     echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
     /etc/init.d/monit restart || /etc/init.d/monit start
 fi
 
+# Try remonitor failed services
 /usr/bin/monit summary | tail -n +3 \
-    | grep -vE "\s(Running|Accessible|Status ok|Waiting)\$" \
+    | grep -vE "^System\s|\s(Running|Accessible|Status ok|Waiting)\$" \
     | sed -n -e "s;^.*'\(\S\+\)'.*\$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 

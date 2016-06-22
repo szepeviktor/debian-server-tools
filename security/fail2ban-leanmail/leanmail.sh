@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.9
+# VERSION       :0.2.11
 # DATE          :2016-04-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -27,7 +27,10 @@ DNSBL1_HTTPBL_ACCESSKEY="hsffbftuslgh"
 DNSBL1_HTTPBL="${DNSBL1_HTTPBL_ACCESSKEY}.%s.dnsbl.httpbl.org"
 # Exploits Block List
 # https://www.spamhaus.org/xbl/
-DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
+#DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
+# Combination of SBL, SBLCSS, XBL and PBL blocklists
+# https://www.spamhaus.org/zen/
+DNSBL2_SPAMHAUS="%s.zen.spamhaus.org"
 # Private list of dangerous networks
 # See: ${D}/mail/spammer.dnsbl/dangerous.dnsbl.zone
 DNSBL3_DANGEROUS="%s.dangerous.dnsbl"
@@ -283,9 +286,11 @@ Match_dnsbl2() {
         return 10
     fi
 
-    # Illegal 3rd party exploits, including proxies, worms and trojan exploits
-    # 127.0.0.4-7
-    grep -q -x "127.0.0.[4567]" <<< "$ANSWER"
+    # SBL: 127.0.0.2 - The Spamhaus Block List
+    # CSS: 127.0.0.3 - Spamhaus CSS Component
+    # XBL: 127.0.0.4-7 - Exploits Block List
+    # PBL: 127.0.0.10-11 - The Policy Block List
+    grep -q -E -x "127.0.0.([234567]|1[01])" <<< "$ANSWER"
 }
 
 Match_dnsbl3() {

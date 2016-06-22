@@ -1,1 +1,0 @@
-- zopfli -5% zlib compatible (backport)

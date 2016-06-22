@@ -180,7 +180,7 @@ wget -P /root/dist-mod/ http://ftp.de.debian.org/debian/pool/main/p/pyclamd/pyth
 dpkg -i /root/dist-mod/python-pyclamd_*_all.deb
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 # courierfilter -> pythonfilter/clamav.py -> pyclamd -> clamd socket -> clamd -> scan in /var/lib/courier/tmp
-sed -i -e 's/^AllowSupplementaryGroups\s.*/AllowSupplementaryGroups true/' /etc/clamav/clamd.conf
+# Not since v0.99.2 sed -i -e 's/^AllowSupplementaryGroups\s.*/AllowSupplementaryGroups true/' /etc/clamav/clamd.conf
 adduser clamav daemon
 # Install pythonfilter
 #pip2 install courier-pythonfilter

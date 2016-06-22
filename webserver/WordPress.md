@@ -37,6 +37,8 @@ wp option set admin_email "support@company.net"
 
 ### Redis object cache
 
+[Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
+
 ```bash
 apt-get install redis-server
 

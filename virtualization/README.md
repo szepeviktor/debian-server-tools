@@ -21,3 +21,23 @@ Use `conf.d` style configurations!
 ### Hyper_
 
 Simple and secure container cloud https://hyper.sh/
+
+### Manual backportinh
+
+```bash
+# read -r DSC
+# docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="$DSC" -i --entrypoint=/bin/bash szepeviktor/jessie-backport
+
+sudo apt-get install -y nano
+export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
+dget -ux $PACKAGE
+cd *
+dpkg-buildpackage -us -uc
+sudo apt-get install -y
+dch --bpo --distribution "jessie-backports" "Built from stretch"
+nano debian/control
+nano debian/rules
+dpkg-buildpackage -us -uc
+lintian --display-info --display-experimental --pedantic --show-overrides ../*.deb
+sudo cp -v ../*.deb /opt/results/
+```
