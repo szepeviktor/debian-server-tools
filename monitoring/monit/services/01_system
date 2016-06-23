@@ -29,13 +29,13 @@
    if status != 0 then alert
 
  # PCI devices
- check program hardware_pci
+ check program hardware_pci_hash
     with path "/usr/local/sbin/server-integrity.sh -c PCI -r '@@INTEGRITY_PCI_HASH@@'" every 33 cycles
    group integrity
    if status != 0 then alert
 
  # USB devices
- check program hardware_usb
+ check program hardware_usb_hash
     with path "/usr/local/sbin/server-integrity.sh -c USB -r '@@INTEGRITY_USB_HASH@@'" every 33 cycles
    group integrity
    if status != 0 then alert
@@ -99,6 +99,12 @@
    with path "/usr/local/sbin/server-integrity.sh -c HOP1 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP@@'" every 33 cycles
  # Second hop
  #  with path "/usr/local/sbin/server-integrity.sh -c HOP2 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # First reverse record
+ check program network_ptr
+    with path "/usr/local/sbin/server-integrity.sh -c PTR1 -r '@@INTEGRITY_REVERSE@@'" every 33 cycles
    group integrity
    if status != 0 then alert
 

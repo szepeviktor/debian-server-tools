@@ -27,4 +27,5 @@ for R in {a..z}; do
 done
 INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP1 -h "$INTEGRITY_NEAREST_DEFAULT")"
 #INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP2 -h "$INTEGRITY_NEAREST_DEFAULT")"
+INTEGRITY_REVERSE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PTR1)"
 INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c MX1 || true)"

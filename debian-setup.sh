@@ -505,7 +505,7 @@ update-passwd -v --dry-run
 
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
-    iptables-persistent moreutils logtail whois unzip heirloom-mailx \
+    ipset-persistent moreutils logtail whois unzip heirloom-mailx \
     apg dos2unix git colordiff mtr-tiny ntpdate \
     gcc libc6-dev make strace ccze goaccess
 # Backports
