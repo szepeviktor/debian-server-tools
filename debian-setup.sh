@@ -581,7 +581,7 @@ cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
 # CPU
 grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 # Explain Intel CPU flags
-cd /root/; wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeature.h
+cd /root/; wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeatures.h
 for FLAG in $(grep -m1 "^flags" /proc/cpuinfo|cut -d":" -f2-); do echo -n "$FLAG"
  grep -C1 "^#define X86_\(FEATURE\|BUG\)_" cpufeature.h \
  | grep -i -m1 "/\* \"${FLAG}\"\|^#define X86_\(FEATURE\|BUG\)_${FLAG}" \

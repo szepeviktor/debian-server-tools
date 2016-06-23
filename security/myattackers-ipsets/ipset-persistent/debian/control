@@ -1,12 +1,13 @@
 Source: ipset-persistent
 Section: net
 Priority: optional
-Maintainer: Grigoriy Bilichenko <g.bilichenko@ya.ru>
-Standards-Version: 3.9.5
+Maintainer: Viktor Szépe <viktor@szepe.net>
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 7.0.50~)
 
 Package: ipset-persistent
 Architecture: all
-Depends: ipset, iptables-persistent
+Depends: ${misc:Depends}, ipset, iptables-persistent
 Conflicts: lightwrapper
 Homepage: https://sourceforge.net/projects/ipset-persistent/
 Description: Boot-time loader for ipset rules

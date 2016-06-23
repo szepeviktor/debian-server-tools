@@ -1,3 +1,9 @@
+ipset-persistent (1.1.0) stable; urgency=high
+
+  * Fix netfilter-persistent compatibility. Set Default-Start to "S".
+
+ -- Viktor Szépe <viktor@szepe.net>  Thu, 23 Jun 2016 17:23:40 +0000
+
 ipset-persistent (1.0.2) stable; urgency=high
 
   * Start before netfilter-persistent, and stop after netfilter-persistent.

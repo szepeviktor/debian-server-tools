@@ -1,12 +1,12 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          ipset-persistent
-# Required-Start:    mountkernfs $local_fs
-# Required-Stop:     $local_fs
-# Default-Start:     2 3 4 5
+# Required-Start:    $remote_fs mountkernfs
+# Required-Stop:     $remote_fs
+# Default-Start:     S
 # Default-Stop:      0 1 6
-# X-Start-Before:    $network netfilter-persistent
-# X-Stop-After:      $network netfilter-persistent
+# X-Start-Before:    netfilter-persistent
+# X-Stop-After:      netfilter-persistent
 # Short-Description: Load boot-time ipset rules
 # Description:       Loads/saves current ipset rules from/to /etc/iptables
 #  to provide a persistent rule set during boot time
