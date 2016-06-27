@@ -64,6 +64,7 @@ wp plugin install wp-redis
 ln -sv plugins/wp-redis/object-cache.php static/
 
 composer create-project -s dev erik-dubbelboer/php-redis-admin radmin
+cd radmin/
 cp -v includes/config.sample.inc.php includes/config.inc.php
 ```
 

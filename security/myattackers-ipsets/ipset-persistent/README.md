@@ -15,6 +15,8 @@ dpkg-buildpackage -uc -us
 
 Compatible with `netfilter-persistent` package.
 
+https://wiki.debian.org/LSBInitScripts
+
 ### Links
 
 - [iptables-persistent source](http://anonscm.debian.org/cgit/collab-maint/iptables-persistent.git/tree/)

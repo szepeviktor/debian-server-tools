@@ -196,7 +196,7 @@ fi
 # linux-image-amd64 initramfs-tools firmware-.* open-vm-tools open-vm-tools-dkms dkms
 if [ -d /sys/bus/usb ]; then
     apt-get install -qq -y usbutils
-elif Is_installed usbutils
+elif Is_installed usbutils; then
     apt-get purge -qq -y usbutils
 fi
 
@@ -278,7 +278,7 @@ apt-get -qq -y install virt-what
 POSSIBLE_VIRTS="$(virt-what)"
 while read -r VIRT; do
     echo "$VIRT" | sed 's/$/ # virtualization/'
-    cat /proc/cmdline | sed 's/$/ # cmdline/'
+    sed -e 's/$/ # cmdline/' < /proc/cmdline
     case "$VIRT" in
         openvz)
             grep -a "container=" /proc/1/environ | tr -d -c '[:print:]' | sed 's/$/ # init-env/'
@@ -289,7 +289,7 @@ while read -r VIRT; do
             fi
             if [ -e /sys/hypervisor/uuid ]; then
                 # Xen UUID
-                cat /sys/hypervisor/uuid | sed 's/$/ # xen-uuid/'
+                sed 's/$/ # xen-uuid/' < /sys/hypervisor/uuid
             fi
             if which xenstore-read &> /dev/null; then
                 # Xen unique domain ID
@@ -307,6 +307,7 @@ while read -r VIRT; do
                 # HyperV UUID
                 dmidecode -s system-uuid | sed 's/$/ # system-uuid/'
             fi
+            ;;
         vmware)
             if [ -c /dev/mem ]; then
                 # vmware UUID
@@ -386,33 +387,36 @@ rm -rf /tmp/*
 # Clear history for all users
 history -c
 #ssh $USER@$HOST -- rm .bash_history
+
+exit 0
+
 systemctl poweroff
 
 # Cloud init YAML
 
 #  Network (DHCP or static IP, DNS resolver, host name)
-- Change IP, set resolver, change hostname (/etc/hosts too)
+#- Change IP, set resolver, change hostname (/etc/hosts too)
 #  Users (no root login, "debian" user, standard password)
-- Rename "debian" user and change password
-- Install an SSH key, disable password authentication
+#- Rename "debian" user and change password
+#- Install an SSH key, disable password authentication
 #  Disks (300MB boot part, use LVM: 2GB swap, 5GB root)
-- Resize LVM partition to full disk, grow root lv, grow root fs
-- Resize swap
+#- Resize LVM partition to full disk, grow root lv, grow root fs
+#- Resize swap
 # APT sources: country mirror, release,security,updates,backports
 # SSH port
-Port 33000
-fail2ban
+# Port 33000
+# fail2ban
 # Time sync
-- Xen time or NTP/Chrony?
+#- Xen time or NTP/Chrony?
 #   iptables -I INPUT -p udp --destination-port 123 -j REJECT
 #   iptables -I INPUT -p udp --destination-port 323 -j REJECT
 
 # Cloud init examples
 
-- Fail2ban and disable DSA keys for SSH
-- Separate /var vg
-- Separate /home vg
-- Change server locale, keyboard
+#- Fail2ban and disable DSA keys for SSH
+#- Separate /var vg
+#- Separate /home vg
+#- Change server locale, keyboard
 
 
 
@@ -422,7 +426,7 @@ fail2ban
 
 # @TODO if Deb_check_pkgname() then Deb_install_pkgname() else Deb_remove_pkgname()
 grub
-linux-image-amd64 linux-headers-amd64 Custom-Kernel `dpkg -l|grep linux-` # Ubuntu linux-image-virtual
+linux-image-amd64 linux-headers-amd64 Custom-Kernel $(dpkg -l|grep linux-) # Ubuntu linux-image-virtual
 firmware-linux-nonfree
 irqbalance
 rng-tools haveged

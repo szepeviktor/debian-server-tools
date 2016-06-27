@@ -11,11 +11,10 @@
 # DOCS           :http://api.txtlocal.com/docs/
 # LOCATION       :/usr/local/bin/txtlocal.py
 
-# Fill in
-#     USERNAME and API_HASH
+# Fill in USERNAME and API_HASH
 #
-# Set up alias
-#     txtlocal@szepe.net: |/usr/sbin/sendmail -f SENDER-ADDRESS PHONE-NUMBER@txtlocal.co.uk
+# Alternative Email to SMS method:
+#     txtlocal@mydomain.net: |/usr/sbin/sendmail -f AUTHORIZED@ADDRESS PHONE-NUMBER@txtlocal.co.uk
 
 USERNAME=''
 API_HASH=''

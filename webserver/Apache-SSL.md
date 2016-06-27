@@ -45,7 +45,7 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
 
 ### Installing CA on a server
 
-See: ${D}/security/ca/README.md
+See: [/security/ca/README.md](/security/ca/README.md)
 
 ### HTTP/2, SPDY
 

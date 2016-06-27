@@ -24,12 +24,13 @@
 - For security (less attacks)
 - For trust (green lock in browsers)
 - For better SEO ranking
+- For speed (enables HTTP/2)
 - For receiving referrer information (up to April 2012)
 - Very cheap
 
 Providers: Let's Encrypt, StartSSL, RapidSSL, CloudFlare SSL
 
-Performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
+OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 1. [Apache-SSL.md](./Apache-SSL.md)
 1. https://www.ssllabs.com/ssltest/
@@ -39,7 +40,7 @@ Performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 `git clone --recursive ssh://user@server:port/path/to/git`
 
 1. Set up database connection in `wp-config.php`
-1. Define contants, generate salts based on `/webserver/wp-config.php` skeleton
+1. Define contants, generate salts based on [wp-config.php skeleton](./wp-config.php)
 1. Edit `../wp-cli.yml`
 
 ### Install plugins
@@ -168,7 +169,7 @@ Check home and siteurl.
 
 Check database collation and table storage engines.
 
-See: `alter-table.sql`
+See [alter-table.sql](/mysql/alter-table.sql)
 
 Delete transients and object cache.
 
@@ -382,6 +383,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 1. Domain expiry
 1. DNS records
+1. SSL certificate expiry
 1. @TODO `monitoring/rbl-watch.sh`, `rblcheck`, [RBL blacklist monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
 1. HTML source code inspection
 1. Malware: [Sucuri SiteCheck (Safebrowsing)](https://sitecheck.sucuri.net/results/example.com), [Virustotal URL](https://www.virustotal.com/hu/domain/example.com/information/)

@@ -2,7 +2,7 @@
 #
 # Prevent increasing swap usage by turning swap off and on.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2016-03-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -12,30 +12,45 @@
 # CRON-DAILY    :/usr/local/sbin/swap-refresh.sh
 
 # Maximum swap to refresh, in kB
-SWAP_MAX=256000
+declare -i SWAP_MAX=256000
+
+set -e
 
 SELF="swap-refresh[$$]"
 
-# First swap only, in kB
-#     SWAP_USED="$(( $(/sbin/swapon --noheadings --show=USED --bytes | head -n 1) / 1024 ))"
-SWAP_USED="$(sed -n '2s/^\(\S\+\s\+\)\{3\}\([0-9]\+\)\b.*$/\2/p' /proc/swaps)"
-MEM_FREE="$(/usr/bin/free -k | sed -n 's/^Mem:\(\s\+[0-9]\+\b\)\{2\}\s\+\([0-9]\+\)\b.*$/\2/p')"
-CACHES="$(/usr/bin/free -k | sed -n 's/^Mem:\(\s\+[0-9]\+\b\)\{5\}\s\+\([0-9]\+\)\b.*$/\2/p')"
-TOTAL_FREE="$((MEM_FREE + CACHES))"
+#SWAP_USED="$(( $(/sbin/swapon --noheadings --raw --show=USED --bytes | head -n 1) / 1024 ))"
 
+# First swap only, in kB
+declare -i SWAP_USED="$(sed -n -e '2s/^\(\S\+\s\+\)\{3\}\([0-9]\+\)\b.*$/\2/p' /proc/swaps)"
+
+# Less than 1 MB usage
+if [ "$SWAP_USED" -lt 1024 ]; then
+    logger -t "$SELF" "Little or no swap usage, no refresh"
+    exit 0
+fi
+
+# Too much swap usage
 if [ "$SWAP_USED" -ge "$SWAP_MAX" ]; then
     echo "Swap usage is over maximum! (${SWAP_USED} kB)" 1>&2
     exit 1
 fi
+
+declare -i MEM_FREE="$(/usr/bin/free -k | sed -n -e 's/^Mem:\(\s\+[0-9]\+\b\)\{2\}\s\+\([0-9]\+\)\b.*$/\2/p')"
+declare -i CACHES="$(/usr/bin/free -k | sed -n -e 's/^Mem:\(\s\+[0-9]\+\b\)\{5\}\s\+\([0-9]\+\)\b.*$/\2/p')"
+declare -i TOTAL_FREE="$((MEM_FREE + CACHES))"
+
+# Swap won't fit into memory
 if [ "$TOTAL_FREE" -le "$SWAP_USED" ]; then
     echo "Not enough free memory! (${TOTAL_FREE} kB)" 1>&2
     exit 2
 fi
 
 logger -t "$SELF" "Disabling swap"
-/sbin/swapoff -a || echo "swapoff ERROR $?" 1>&2
+/sbin/swapoff --all || echo "swapoff ERROR $?" 1>&2
 
 logger -t "$SELF" "Enabling swap"
-/sbin/swapon -a || echo "swapon ERROR $?" 1>&2
+/sbin/swapon --all || echo "swapon ERROR $?" 1>&2
 
 logger -t "$SELF" "Swap refresh done"
+
+exit 0

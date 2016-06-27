@@ -134,7 +134,7 @@ case "$CHECK" in
         RESULT="$(traceroute -n -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
         ;;
     PTR1)
-        IP="$($0 IP1)"
+        IP="$($0 -c IP1)"
         RESULT="$(host -t PTR "$IP" | sed -n -e '0,/^[0-9.]\+\.in-addr\.arpa domain name pointer \(.\+\)$/s//\1/p')"
         ;;
     MX1)

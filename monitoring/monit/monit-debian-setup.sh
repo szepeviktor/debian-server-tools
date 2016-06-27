@@ -201,8 +201,8 @@ fi
     | sed -n -e "s;^.*'\(\S\+\)'.*\$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 
-# Exit status 0 means there was a failure
-if [ $? == 0 ]; then
+# Exit status 0 means it was OK
+if [ $? != 0 ]; then
     [ -x /usr/local/sbin/swap-refresh.sh ] && /usr/local/sbin/swap-refresh.sh
 fi
 

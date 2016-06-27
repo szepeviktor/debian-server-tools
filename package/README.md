@@ -47,14 +47,17 @@ https://wiki.debian.org/BuildingFormalBackports
 
 ### APT repository concepts
 
-Find actual values in `debian/dists/${CODENAME}/Release`
+Find actual values in `debian/dists/stable/Release`
 
--   a,archive,suite (eg, "stable")
--   c,component     (eg, "main", "crontrib", "non-free")
--   l,label         (eg, "Debian", "Debian-Security")
--   o,origin        (eg, "Debian", "Unofficial Multimedia Packages")
--   n,codename      (eg, "jessie", "jessie-updates")
--     site          (eg, "http.debian.net")
+-   a,archive,suite (e.g. "stable")
+-   c,component     (e.g. "main", "crontrib" or "non-free")
+-   v,version       (e.g. "1.0.2-1" )
+-   o,origin        (e.g. "Debian", "Unofficial Multimedia Packages")
+-   l,label         (e.g. "Debian", "Debian-Security")
+-   n,codename      (e.g. "jessie", "jessie-updates")
+-     site          (e.g. "http.debian.net")
+
+See apt_preferences(5) Determination of Package Version and Distribution Properties
 
 ### Inspect signing keys
 

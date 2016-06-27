@@ -142,9 +142,9 @@ apt-get install -qq -y debsums cruft > /dev/null
 debsums --all --changed 2>&1 | sed 's/$/ # integrity/' | tee integrity.log
 cruft > cruft.log 2>&1
 
-set +e +x
+Info "Check for missing and extra packages"
 
-Info "Check for missing packages"
+set +e +x
 
 {
     ${APTI_SEARCH} '?and(?essential, ?not(?installed))'
@@ -152,8 +152,6 @@ Info "Check for missing packages"
     ${APTI_SEARCH} '?and(?priority(important), ?not(?installed))'
     ${APTI_SEARCH} '?and(?priority(standard), ?not(?installed))' | grep -Evx "$STANDARD_BLACKLIST"
 } 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2
-
-Info "Check for extra packages"
 
 {
     ${APTI_SEARCH} '?garbage' | sed 's/$/ # garbage/'
@@ -167,8 +165,7 @@ Info "Check for extra packages"
     ${APTI_SEARCH} '?and(?installed, ?name(-dev))' | sed 's/$/ # development/'
 } 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2
 
-Info "List packages by size"
-
+# List packages by size
 dpkg-query --showformat="\${Installed-size}\t\${Package}\n" --show | sort -k 1 -n > installed-by-size.pkgs
 
 exit 0

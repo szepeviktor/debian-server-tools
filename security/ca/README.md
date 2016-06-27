@@ -1,3 +1,5 @@
+# Custom certificates
+
 ### Sign a certificate
 
 ```bash
@@ -15,12 +17,13 @@ sed -ne '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > ${C}/pub-key-$(date +
 rm -v newcert.pem newreq.pem && ls -l ${C}
 ```
 
-### Install CA
+### Install a CA
 
 ```bash
 CA_NAME="szepenet"
 CA_FILE="szepenet_ca.crt"
 CA_URL="http://ca.szepe.net/szepenet-ca.pem"
+
 #    CA_NAME="PositiveSSL2"
 #    CA_FILE="PositiveSSL_CA_2.crt"
 #    CA_URL="https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/943/30"

@@ -583,8 +583,8 @@ grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 # Explain Intel CPU flags
 cd /root/; wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeatures.h
 for FLAG in $(grep -m1 "^flags" /proc/cpuinfo|cut -d":" -f2-); do echo -n "$FLAG"
- grep -C1 "^#define X86_\(FEATURE\|BUG\)_" cpufeature.h \
- | grep -i -m1 "/\* \"${FLAG}\"\|^#define X86_\(FEATURE\|BUG\)_${FLAG}" \
+ grep -C1 "^#define X86_\(FEATURE\|BUG\)_" cpufeatures.h \
+ | grep -E -i -m1 "/\* \"${FLAG}\"|^#define X86_(FEATURE|BUG)_${FLAG}" \
  | grep -o './\*.*\*/' || echo "N/A"; done
 # CPU frequency scaling governor
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -788,8 +788,14 @@ echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/l
 #     https://github.com/stefanesser/suhosin/releases
 apt-get install -y php5-suhosin-extension
 php5enmod -s fpm suhosin
+# Disable for PHP-CLI
+#     php5dismod -s cli suhosin
+#     phpdismod -v ALL -s cli suhosin
+# Disable suhosin
+#     [suhosin]
+#     suhosin.simulation = On
 # Check priority
-ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
+ls -l /etc/php5/fpm/conf.d/20-suhosin.ini
 
 # @TODO Package realpath_turbo
 # https://github.com/Whissi/realpath_turbo
