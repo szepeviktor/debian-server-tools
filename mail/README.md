@@ -356,6 +356,8 @@ OK response: "IP Unlisted in the spam sender list None"
 - https://postoffice.yandex.com/
 - http://yandexfbl.senderscore.net/
 - http://poczta.onet.pl/pomoc/en,odblokuj.html
+- [Report abuse from Gmail](https://support.google.com/mail/contact/abuse)
+- [Report abuse from Outlook.com](mailto:abuse@outlook.com)
 
 ### Free e-mail backup server
 

@@ -1,4 +1,4 @@
 # Node JS
-deb https://deb.nodesource.com/node_5.x jessie main
+deb https://deb.nodesource.com/node_6.x jessie main
 #K: wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 #M: https://github.com/nodesource/distributions/blob/master/README.md#debmanual

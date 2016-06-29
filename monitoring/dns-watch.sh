@@ -315,6 +315,8 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         # All nameservers
         while read NS; do
 
+            #[ "$NS" == ns.xoo.hu ] && continue
+
             # Actual IP address of nameserver
             NS_IP="$(getent ahostsv4 "$NS" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
             if [ -z "$NS_IP" ]; then

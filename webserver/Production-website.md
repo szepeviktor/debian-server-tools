@@ -81,14 +81,14 @@ Custom maintenance page
 
 `wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'`
 
-- obfuscate email addresses `antispambot( 'e@ma.il' )`
+- Obfuscate email addresses `antispambot( 'e@ma.il' )`
 - [JavaScript href fallback](https://gist.github.com/joshdick/961154): https://www.google.com/recaptcha/admin#mailhide
-- authenticated send for email notifications
-- shortest route of delivery
-- add server as `RELAYCLIENT` on the smarthost
-- email `From:` name and address
-- subject
-- easy identification for email notifications (filtering to mail folders)
+- Authenticated send for email notifications
+- Shortest route of delivery
+- Add server as `RELAYCLIENT` on the smarthost
+- Email `From:` name and address
+- Subject line
+- Easy identification for email notifications (filtering to mail folders)
 - SPF
 - DKIM
 
@@ -100,14 +100,14 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 - Allow loading in an IFRAME? (Google translate, Facebook app)
 - `wordpress-fail2ban`
-- option: Sucuri Scanner plugin
-- option: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
-- option: ionCube24 `ic24.enable = on` (PHP file modification time protection)
-- Tripwire.php or git (file change notifications/30 minutes)
-- .php and .htaccess changes (monitoring/siteprotection.sh, daily)
-- Front page change notification (hourly)
-- Sucuri SiteCheck (SafeBrowsing), Virustotal (HTTP API, daily)
-- can-send-email (monitoring/cse, 6 hours)
+- Option: Sucuri Scanner plugin
+- Option: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
+- Option: ionCube24 `ic24.enable = on` (PHP file modification time protection)
+- Tripwire.php or git (file change notifications @30 minutes)
+- .php and .htaccess changes (monitoring/siteprotection.sh @daily)
+- Front page change notification (@hourly)
+- Sucuri SiteCheck (SafeBrowsing), Virustotal (HTTP API @daily)
+- Can-send-email (monitoring/cse @6 hours)
 - Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js | openssl dgst -sha256 -binary | openssl enc -base64)" crossorigin="anonymous"`
 
@@ -267,6 +267,7 @@ http://google-public-dns.appspot.com/cache
 - Dynamically page parts (rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue)*.php"`)
 - Non-200 HTTP response
+- JavaScript code parsable as HTML (e.g. `<a>` or `<iframe>`)
 - Missing resource version in `wp_register_*()` `wp_enqueue_*()` calls
 - New WordPress entry point (fix: `grep -E "\brequire|include.*wp-"`)
 - Extra server-side requests: HTTP, DNS, file access
@@ -349,7 +350,7 @@ http://www.printfriendly.com/
 Document in README.md and check functionality.
 
 - External search
-- Analytics, tracking
+- Analytics (make UA-number `'UN'+'parse'+'able'`), tracking
 - Social media
 - Video
 - Advertisement

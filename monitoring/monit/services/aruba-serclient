@@ -23,4 +23,5 @@
    if failed uid root then unmonitor
    if failed gid root then unmonitor
 
- #check program serclient_port with path "/usr/bin/lsof -p $(cat /var/run/serclient.pid)|grep -w /dev/ttyS1"
+ #check program serclient_port with path /usr/local/sbin/aruba-serclient-test.sh
+ #    /usr/bin/lsof -p $(cat /run/serclient.pid) | grep -w "/dev/ttyS1"

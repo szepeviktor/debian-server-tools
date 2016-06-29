@@ -1,4 +1,4 @@
 # Glacier.pl
-deb http://dl.mt-aws.com/debian/current/ wheezy main
+deb http://dl.mt-aws.com/debian/current/ jessie main
 #K: wget -qO- http://mt-aws.com/vsespb.gpg.key | apt-key add -
 #M: https://github.com/vsespb/mt-aws-glacier#installation-via-os-package-manager

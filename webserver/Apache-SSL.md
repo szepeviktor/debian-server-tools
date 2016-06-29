@@ -14,15 +14,16 @@ https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
     # "Intermediate" SSLCipherSuite from Mozilla SSL Configuration Generator
     #     dpkg -l | grep "apache2\|openssl"
     #     https://mozilla.github.io/server-side-tls/ssl-config-generator/
-    #     Prioritize AES128-GCM: grep -E -m1 "^flags\s*:.*\saes(\s|\$)" /proc/cpuinfo
+    # Prioritize AES128-GCM
+    #     grep -E -m1 "^flags\s*:.*\saes(\s|\$)" /proc/cpuinfo
+    # * As of 2016-04-05
     SSLCipherSuite ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
-    # As of 2016-04-05
-
-    # @TODO When to move to https://wiki.mozilla.org/Security/Server_Side_TLS#Modern_compatibility ?
 
     SSLHonorCipherOrder On
 
     SSLProtocol all -SSLv3
+    # @TODO When to move to https://wiki.mozilla.org/Security/Server_Side_TLS#Modern_compatibility ?
+    #SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 
     SSLStrictSNIVHostCheck Off
 

@@ -56,6 +56,10 @@ https://github.com/cherokee/webserver#cherokee-web-server
 
 http://ninenines.eu/
 
+#### Resin
+
+http://caucho.com/products/resin/problem
+
 ### Apache slow loris protection
 
 [RequestReadTimeout](https://httpd.apache.org/docs/2.4/mod/mod_reqtimeout.html)

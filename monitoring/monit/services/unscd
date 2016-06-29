@@ -3,7 +3,7 @@
    group unscd
    start program = "/etc/init.d/unscd start"
    stop program = "/etc/init.d/unscd stop"
-   if failed unixsocket /var/run/nscd/socket then restart
+   if failed unixsocket /run/nscd/socket then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on unscd_bin
    depends on unscd_init

@@ -2,7 +2,7 @@
 #
 # Prevent increasing swap usage by turning swap off and on.
 #
-# VERSION       :0.5.1
+# VERSION       :0.5.2
 # DATE          :2016-03-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,8 +23,8 @@ SELF="swap-refresh[$$]"
 # First swap only, in kB
 declare -i SWAP_USED="$(sed -n -e '2s/^\(\S\+\s\+\)\{3\}\([0-9]\+\)\b.*$/\2/p' /proc/swaps)"
 
-# Less than 1 MB usage
-if [ "$SWAP_USED" -lt 1024 ]; then
+# Less than 10 MB usage
+if [ "$SWAP_USED" -lt 10240 ]; then
     logger -t "$SELF" "Little or no swap usage, no refresh"
     exit 0
 fi
