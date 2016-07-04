@@ -10,6 +10,7 @@ export SSLEAY_CONFIG="-config /root/ssl/szepe.net-ca/config/openssl.cnf"
 # Enter CA-PASSWORD
 
 C=$(dirname $(pwd))/$(date +%Y%m%d)-$(openssl x509 -in newcert.pem -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')
+C="${C/\*/wildcard}"
 mkdir -v ${C}
 openssl rsa -in ./newkey.pem -out ${C}/priv-key-$(date +%Y%m%d).key
 mv -v ./newkey.pem ${C}/priv-key-$(date +%Y%m%d)-encrypted.key

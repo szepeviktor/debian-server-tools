@@ -3,9 +3,9 @@
    start program = "/etc/init.d/open-vm-tools start"
    stop program = "/etc/init.d/open-vm-tools stop"
    if 5 restarts within 5 cycles then unmonitor
-   depend open-vm-tools_bin
-   depend vmware-toolbox
-   depend open-vm-tools_init
+   depends on open-vm-tools_bin
+   depends on vmware-toolbox
+   depends on open-vm-tools_init
 
  check file open-vm-tools_bin with path /usr/bin/vmtoolsd
    group open-vm-tools

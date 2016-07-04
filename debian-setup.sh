@@ -9,19 +9,24 @@
 
 # How to choose VPS provider?
 #
-# - Disk access time (~1 ms)
-# - CPU speed (2000+ PassMark CPU Mark, sub-20 ms sysbench, 100-150 ms in wordpress-speedtest)
-# - Redundancy in: power, network, storage, hypervisors
-# - D/DoS mitigation
-# - Worldwide and regional bandwidth, port speed
-# - Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
-# - Response time of nighttime technical support in case of network or hardware failure
-# - Daytime technical and billing support
+# 1.  Data center location
+# 2.  Price
+#     Has own AS? Number of peers
+# 3.  Redundancy (power, network, storage, hypervisor)
+#     Free scheduled backup
+# 4.  Response time of nighttime technical support in case of network or hardware failure
+# 5.  Disk access time (~1 ms)
+# 6.  CPU speed (PassMark CPU Mark 2000+, sysbench < 20 ms, WordPress Speedtest 100-150 ms)
+# 7.  Memory speed (bandwidth64)
+# 8.  Network: worldwide and regional bandwidth, port speed, D/DoS mitigation
+# 9.  Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
+# 10. Daytime technical and billing support
 #
-# See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
+# See: https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
 
 # Packages sources
-DS_MIRROR="http://cloudfront.debian.net/debian"
+DS_MIRROR="http://debian-archive.trafficmanager.net/debian"
+#DS_MIRROR="http://cloudfront.debian.net/debian"
 #DS_MIRROR="http://ftp.COUNTRY-CODE.debian.org/debian"
 
 DS_REPOS="dotdeb szepeviktor nodejs percona goaccess"
@@ -82,7 +87,7 @@ echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/2
 apt-get update
 apt-get dist-upgrade -y --force-yes
 apt-get install -y lsb-release xz-utils ssh sudo ca-certificates most less lftp \
-    time bash-completion htop host netcat-openbsd mc lynx ncurses-term aptitude iproute2 ipset
+    time bash-completion htop host netcat-openbsd mc ncurses-term aptitude iproute2 ipset
 
 # Input
 sed -i 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc
@@ -101,6 +106,10 @@ source /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
 set +e +x
 kill -SIGINT $$
 
+# Virtualization environment
+apt-get install -y virt-what && virt-what
+apt-get purge -y virt-what
+
 # Remove systemd
 # http://without-systemd.org/wiki/index.php/How_to_remove_systemd_from_a_Debian_jessie/sid_installation
 dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit-utils \
@@ -110,7 +119,7 @@ read -r -s -e -p 'Ctrl + D to reboot ' || reboot
 apt-get purge -y --auto-remove systemd
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
-# Wget defaults
+# Wget defaults TODO to user settings
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 
 # User settings for non-login shells
@@ -227,177 +236,6 @@ adduser ${U} sudo
 
 # Change root and other passwords to "*"
 editor /etc/shadow
-read -r -s -e -p "SSH port? " SSH_PORT
-# sshd on another port (no "22"-s)
-sed "s/^Port 22$/#Port 22\nPort ${SSH_PORT}/" -i /etc/ssh/sshd_config
-# Disable root login
-sed 's/^PermitRootLogin \(yes\|without-password\)$/PermitRootLogin no/' -i /etc/ssh/sshd_config
-# Disable password login for sudoers
-echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
-# Add IP blocking
-# See: ${D}/security/README.md
-editor /etc/hosts.deny
-dpkg-reconfigure openssh-server && service ssh restart
-netstat -antup | grep sshd
-
-# Log out as root
-logout
-
-# Log in
-sudo su - || exit
-D="/root/src/debian-server-tools-master"
-
-# Download architecture-independent packages
-Getpkg() { local P="$1"; local R="${2-sid}"; local WEB="https://packages.debian.org/${R}/all/${P}/download";
-    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')";
-    [ -z "$URL" ] && return 1; wget -qO "${P}.deb" "$URL" && dpkg -i "${P}.deb"; echo "Ret=$?"; }
-
-# Hardware
-lspci
-[ -f /proc/modules ] && lsmod || echo "WARNING: monolithic kernel"
-
-# Disk configuration
-clear; cat /proc/mdstat; cat /proc/partitions
-pvdisplay && vgdisplay && lvdisplay
-ls -1 /etc/default/*
-head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep --color -A1000 "^==> "
-
-# Mount /tmp in RAM
-TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
-[ "$TOTAL_MEM" -gt $((4097 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
-
-# Mount points
-# <file system> <mount point>             <type>          <options>                               <dump> <pass>
-clear; editor /etc/fstab
-clear; cat /proc/mounts
-swapoff -a; swapon -a; cat /proc/swaps
-
-# Create a swap file
-dd if=/dev/zero of=/swap0 bs=1M count=768
-chmod 0600 /swap0
-mkswap /swap0
-echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
-
-# relAtime option for filesystems
-grep --color "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
-
-# Kernel
-uname -a
-# List available kernel versions
-apt-cache policy "linux-image-3.*"
-#apt-get install linux-image-amd64=KERNEL-VERSION
-# Alert: more than 1 kernel
-# aptitude --disable-columns search '?and(?installed, ?name(^linux-image-))' -F"%p" | grep -vFx "linux-image-$(dpkg --print-architecture)"
-clear; ls -l /lib/modules/
-ls -latr /boot/
-# Verbose boot
-sed -i 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
-dpkg -l | grep "grub"
-# OVH Kernel "made-in-ovh"
-#     ${D}/security/ovh-kernel-update.sh
-# Linode Kernels: auto renew on reboot
-#     https://www.linode.com/kernels/
-editor /etc/modules
-clear; ls -1 /etc/sysctl.d/ | grep -v README.sysctl
-editor /etc/sysctl.conf
-
-# SysVinit
-# Comment out getty[2-6], NOT /etc/init.d/rc !
-# Consider /sbin/agetty
-# Xen Serial Console
-editor /etc/inittab
-#     s1:2345:respawn:/sbin/agetty -L ttyS0 115200 vt102
-
-# Systemd
-systemctl enable serial-getty@ttyS0.service
-systemctl start serial-getty@ttyS0.service
-
-# Miscellaneous configuration
-# Aruba needs arping package in /etc/rc.local
-editor /etc/rc.local
-editor /etc/profile
-ls -l /etc/profile.d/
-##editor /etc/motd
-#     *
-#     *** This server is the property of <COMPANY-NAME> Unauthorized entry is prohibited. ***
-#     *
-# (HU)*** Ez a szerver <a/az CÉG-NÉV> tulajdona. Idegeneknek a belépés tilos. ***
-
-# Networking
-editor /etc/network/interfaces
-#     auto eth0
-#     iface eth0 inet static
-#         address IP
-#         netmask 255.255.255.0
-#         #netmask 255.255.254.0
-#         gateway GATEWAY
-clear; ifconfig -a
-route -n -4
-route -n -6
-netstat -antup
-
-editor /etc/resolv.conf
-#     # Google Public DNS
-#     nameserver 8.8.8.8
-#     nameserver LOCAL-NS
-#     nameserver LOCAL-NS2
-#     nameserver 8.8.4.4
-#     options timeout:2
-#     #options rotate
-
-#     # DNS Advantage by Neustar
-#     nameserver 156.154.71.1
-#     nameserver LOCAL-NS
-#     nameserver LOCAL-NS2
-#     nameserver 156.154.70.1
-#     options timeout:2
-#     #options rotate
-
-# Aruba resolvers
-#     DC1-IT 62.149.128.4 62.149.132.4
-#     DC3-CZ 81.2.192.131 81.2.193.227
-#
-# Vultr resolvers
-#     Frankfurt 108.61.10.10
-#
-# EZIT resolvers
-#     Budapest 87.229.108.201 80.249.168.18
-#
-# OVH resolvers
-#     France 213.186.33.99
-#
-# ATW resolvers
-#     88.151.96.15
-#     88.151.96.16
-#     2a01:270::15
-#     2a01:270::16
-
-clear; ping6 -c 4 ipv6.google.com
-host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
-# View network Graph v4/v6
-#     http://bgp.he.net/ip/${IP}
-
-# SSL support
-rm -f /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key
-# Update ca-certificates
-wget -qO- http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/unstable_changelog|less
-Getpkg ca-certificates
-# Install szepenet CA
-CA_NAME="szepenet"
-CA_FILE="szepenet_ca.crt"
-mkdir -v /usr/local/share/ca-certificates/${CA_NAME}
-cp -v ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
-# Monitor certificates
-cd ${D}; ./install.sh monitoring/cert-expiry.sh
-# Update certificates
-update-ca-certificates -v -f
-
-# Block dangerous networks
-cd ${D}/security/myattackers-ipsets/
-head *.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash
-
-# MYATTACKERS chain for blocking attackers
-cd ${D}; ./install.sh security/myattackers.sh
 
 # Hostname
 # Set A record and PTR record
@@ -425,6 +263,189 @@ host "$H"
 # Reverse DNS record (PTR)
 host "$IP"
 
+# SSH
+read -r -s -e -p "SSH port? " SSH_PORT
+# Change port (no "22"-s)
+sed "s/^Port 22$/#Port 22\nPort ${SSH_PORT}/" -i /etc/ssh/sshd_config
+# Disable root login
+sed 's/^PermitRootLogin \(yes\|without-password\)$/PermitRootLogin no/' -i /etc/ssh/sshd_config
+# Disable DSA host key
+sed "s|^HostKey\s\+/etc/ssh/ssh_host_dsa_key|#HostKey /etc/ssh/ssh_host_dsa_key|" -i /etc/ssh/sshd_config
+# Change host keys
+rm -vf /etc/ssh/ssh_host_*
+# Disable password login for sudoers
+echo -e "\nMatch Group sudo\n    PasswordAuthentication no" >> /etc/ssh/sshd_config
+# Add blocked networks
+# See: /security/README.md
+editor /etc/hosts.deny
+dpkg-reconfigure -f noninteractive openssh-server && service ssh restart
+# Check sshd
+service ssh status
+netstat -antup | grep sshd
+
+# Log out as root
+logout
+
+# Log in
+sudo su - || exit
+D="/root/src/debian-server-tools-master"
+
+# Download architecture-independent packages
+Getpkg() { local P="$1"; local R="${2-sid}"; local WEB="https://packages.debian.org/${R}/all/${P}/download";
+    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')";
+    [ -z "$URL" ] && return 1; wget -qO "${P}.deb" "$URL" && dpkg -i "${P}.deb"; echo "Ret=$?"; }
+
+# Hardware
+lspci
+[ -f /proc/modules ] && lsmod || echo "WARNING: monolithic kernel"
+# TODO intel_rapl
+
+# Disk configuration
+clear; cat /proc/mdstat; cat /proc/partitions
+pvdisplay && vgdisplay && lvdisplay
+clear; ls -1 /etc/default/*
+head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep --color -A1000 "^==> "
+
+# Mount /tmp in RAM
+TOTAL_MEM="$(grep MemTotal /proc/meminfo|sed 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
+[ "$TOTAL_MEM" -gt $((4097 * 1024)) ] && sed -i 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
+
+# Mount points
+# <file system> <mount point>             <type>          <options>                               <dump> <pass>
+clear; editor /etc/fstab
+clear; cat /proc/mounts
+swapoff -a; swapon -a; cat /proc/swaps
+
+# Create swap file
+dd if=/dev/zero of=/swap0 bs=1M count=768
+chmod 0600 /swap0
+mkswap /swap0
+echo "/swap0    none    swap    sw    0   0" >> /etc/fstab
+
+# relAtime option for filesystems
+grep --color "\S\+\s\+/\s.*relatime" /proc/mounts || echo "ERROR: no relAtime for rootfs"
+
+# Kernel
+uname -a
+# List available kernel versions
+apt-cache policy "linux-image-[3456789].*"
+#apt-get install linux-image-amd64=KERNEL-VERSION
+# More than 1 kernel?
+#aptitude --disable-columns -F"%p" search '?and(?installed, ?name(^linux-image-))'|grep -vFx "linux-image-$(dpkg --print-architecture)"
+clear; ls -l /lib/modules/
+ls -latr /boot/
+
+# Verbose boot
+sed -i 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
+dpkg -l | grep "grub"
+# OVH Kernel "made-in-ovh"
+#     ${D}/security/ovh-kernel-update.sh
+# Linode Kernels: auto renew on reboot
+#     https://www.linode.com/kernels/
+editor /etc/modules
+clear; ls -1 /etc/sysctl.d/ | grep -v README.sysctl
+editor /etc/sysctl.conf
+
+# Inittab on SysVinit
+# Comment out getty[2-6], NOT /etc/init.d/rc
+# Consider /sbin/agetty
+#     1:2345:respawn:/sbin/agetty 38400 tty1
+editor /etc/inittab
+
+# Xen Serial Console
+# SysVinit
+editor /etc/inittab
+#     s1:2345:respawn:/sbin/agetty -L ttyS0 115200 vt102
+# Systemd
+systemctl enable serial-getty@ttyS0.service
+systemctl start serial-getty@ttyS0.service
+
+
+# Miscellaneous configuration
+editor /etc/rc.local
+editor /etc/profile
+ls -l /etc/profile.d/
+# Aruba needs arping package for /etc/rc.local
+apt-get install -y arping
+# See: /input/motd-install.sh
+
+# Networking
+editor /etc/network/interfaces
+#     source /etc/network/interfaces.d/*
+#
+#     allow-hotplug eth0
+#     auto eth0
+#     iface eth0 inet static
+#         address INET-IP
+#         netmask 255.255.255.0
+#         #netmask 255.255.254.0
+#         gateway GATEWAY
+#     iface eth0 inet6 auto
+#         dns-nameservers INET6-NS1
+#     #iface eth0 inet6 static
+#     #    address INET6-IP/NETMASK
+#     #    gateway INET6-GW
+clear; ifconfig -a
+route -n -4
+route -n -6
+netstat -antup
+
+editor /etc/resolv.conf
+#     # Google Public DNS
+#     nameserver 8.8.8.8
+#     nameserver LOCAL-NS
+#     nameserver LOCAL-NS2
+#     nameserver 8.8.4.4
+#     #nameserver 2001:4860:4860:0:0:0:0:8888
+#     #nameserver 2001:4860:4860:0:0:0:0:8844
+#     options timeout:2
+#     #options rotate
+
+#     # DNS Advantage by Neustar
+#     nameserver 156.154.71.1
+#     nameserver LOCAL-NS
+#     nameserver LOCAL-NS2
+#     nameserver 156.154.70.1
+#     options timeout:2
+#     #options rotate
+
+# Aruba resolvers
+#     DC1-IT 62.149.128.4 62.149.132.4
+#     DC3-CZ 81.2.192.131 81.2.193.227
+#
+# Vultr resolvers
+#     Frankfurt 108.61.10.10
+#
+# EZIT resolvers
+#     BIX 87.229.108.201 80.249.168.18
+#
+# OVH resolvers
+#     France 213.186.33.99
+#
+# ATW resolvers
+#     BIX 88.151.96.15 88.151.96.16 2a01:270::15 2a01:270::16
+
+clear; ping6 -c 4 ipv6.google.com
+host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\.34$"||echo "DNS error"
+# View network Graph v4/v6
+#     http://bgp.he.net/ip/${IP}
+
+# SSL support
+rm -f /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key
+# Update ca-certificates
+wget -qO- http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/unstable_changelog|less
+Getpkg ca-certificates
+# Monitor certificates
+( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
+
+# Install szepenet CA
+CA_NAME="szepenet"
+CA_FILE="szepenet_ca.crt"
+mkdir -v /usr/local/share/ca-certificates/${CA_NAME}
+cp -v ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
+# Update certificates
+update-ca-certificates -v -f
+
 # Locale and timezone
 clear; locale; locale -a
 echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections -v
@@ -439,59 +460,21 @@ echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
 rm -f /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata && service rsyslog restart
 
-# Sanitize packages (-hardware-related +monitoring -daemons)
-# List selected tasks
-debconf-show tasksel;  # tasksel --list-tasks | grep "^i"
-# https://www.debian.org/doc/manuals/aptitude/ch02s04s05.en.html
-# 1. Purge not installed packages
-clear; dpkg -l|grep -v "^ii"
-aptitude search '?garbage'
-aptitude search '?broken'
-apt-get purge $(aptitude --disable-columns search '?config-files' -F"%p")
-# 2. Usually unnecessary packages
-apt-get purge \
-    ftp dc exim4-base exim4-config python2.6-minimal python2.6 \
-    lrzsz mlocate installation-report debian-faq info install-info texinfo tex-common \
-    dbus rpcbind nfs-common
-deluser Debian-exim
-deluser messagebus
-# 3. VPS monitoring
-ps aux|grep -v "grep"|grep -E "snmp|vmtools|xe-daemon"
-dpkg -l|grep -E "xe-guest-utilities|dkms|cloud-init"
-# See: ${D}/package/vmware-tools-wheezy.sh
-vmware-toolbox-cmd stat sessionid
-vmware-uninstall-tools.pl 2>&1 | tee vmware-uninstall.log
-rm -vrf /usr/lib/vmware-tools
-apt-get install -y open-vm-tools
-# 4. Hardware related
-dpkg -l|grep -E -w "dmidecode|eject|laptop-detect|usbutils|kbd|console-setup\
-|acpid|fancontrol|hddtemp|lm-sensors|sensord|smartmontools|mdadm|popularity-contest"
-apt-get purge dmidecode eject laptop-detect usbutils kbd console-setup \
-    acpid fancontrol hddtemp lm-sensors sensord smartmontools mdadm popularity-contest
-# 5. Non-stable packages
-clear; dpkg -l|grep "~[a-z]\+"
-dpkg -l|grep -E "~squeeze|\+deb6|python2\.6|~wheezy|\+deb7"
-# 6. Non-Debian packages
-aptitude search '?narrow(?installed, !?origin(Debian))'
-# 7. Obsolete packages
-aptitude search '?obsolete'
-# 8. Manually installed packages
-# "The base system consists of all those packages with priority required or important."
-aptitude --disable-columns search '?and(?essential, ?not(?installed))' -F"%p"
-aptitude --disable-columns search '?and(?priority(required), ?not(?installed))' -F"%p"
-aptitude --disable-columns search '?and(?priority(important), ?not(?installed))' -F"%p"
-# + ?priority(standard)
-aptitude search '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)))'
-# 9. Development packages
-aptitude search '?and(?installed, ?name(-dev))'
-# List by section
-aptitude search '?and(?installed, ?not(?automatic), ?not(?priority(required)), ?not(?priority(important)))' -F"%s %p"|sort
-
-dpkg -l | most
-apt-get autoremove --purge
-
+# Review packages
+dpkg -l | pager
 # Show debconf changes
 debconf-show --listowners | xargs -n 1 debconf-show | grep "^\*"
+# Find broken symlinks
+find / -type l -xtype l -not -path "/proc/*"
+debsums --all --changed | tee debsums-changed.log
+# Check MD5 hashes of installed packages
+for L in /var/lib/dpkg/info/*.list;do P=$(basename "$L" .list);[ -r "/var/lib/dpkg/info/${P}.md5sums" ]||echo "$P";done
+# Sanitize files
+rm -vrf /var/lib/clamav /var/log/clamav
+read -r -e -p "Hosting company? " HOSTING_COMPANY
+find / -iname "*${HOSTING_COMPANY}*"
+grep -ir "${HOSTING_COMPANY}" /etc/
+dpkg -l | grep -i "${HOSTING_COMPANY}"
 
 # Sanitize users
 #     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
@@ -530,37 +513,25 @@ clear; ${D}/tools/catconf /etc/crontab /var/spool/cron/crontabs/*
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true"|debconf-set-selections -v
 dpkg-reconfigure -f noninteractive unattended-upgrades
 
-# Sanitize files
-rm -vrf /var/lib/clamav /var/log/clamav
-read -r -e -p "Hosting company? " HOSTING_COMPANY
-find / -iname "*${HOSTING_COMPANY}*"
-grep -ir "${HOSTING_COMPANY}" /etc/
-dpkg -l | grep -i "${HOSTING_COMPANY}"
+# Custom APT repositories
+( cd ${D}; ./install.sh package/apt-add-repo.sh )
+#editor /etc/apt/sources.list.d/others.list && apt-get update
+
+# Block dangerous networks
+( cd ${D}/security/myattackers-ipsets/; ./ipset-install.sh )
+( cd ${D}; ./install.sh security/myattackers.sh )
+# Initialize iptables chain
+myattackers.sh -i
+
 
 # Create directory for non-distribution files
 cd /root/; mkdir dist-mod && cd dist-mod/
 
-# Modified files
-cruft --ignore /dev | tee cruft.log
-# Find broken symlinks
-find / -type l -xtype l -not -path "/proc/*"
-debsums --all --changed | tee debsums-changed.log
-# Check MD5 hashes of installed packages
-#for L in /var/lib/dpkg/info/*.list;do P=$(basename "$L" .list);[ -r "/var/lib/dpkg/info/${P}.md5sums" ]||echo "$P";done
-
-# Custom APT repositories
-cd ${D}; ./install.sh package/apt-add-repo.sh
-editor /etc/apt/sources.list.d/others.list && apt-get update
-
 # Get pip
 apt-get install -y python3-dev
-wget https://bootstrap.pypa.io/get-pip.py
+wget -nv https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 python2 get-pip.py
-
-# Virtualization environment
-apt-get install -y virt-what && virt-what
-apt-get purge virt-what
 
 # rsyslogd immark plugin
 #     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
@@ -576,26 +547,28 @@ service rsyslog restart
 cd /usr/local/src/ && git clone --recursive https://github.com/szepeviktor/debian-server-tools.git
 D="$(pwd)/debian-server-tools"
 rm -rf /root/src/debian-server-tools-master/
-cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%%
+( cd ${D}; ls tools/ | xargs -I "%%" ./install.sh tools/%% )
 
 # CPU
 grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 # Explain Intel CPU flags
-cd /root/; wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeatures.h
+( cd /root/dist-mod/
+wget https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/plain/arch/x86/include/asm/cpufeatures.h
 for FLAG in $(grep -m1 "^flags" /proc/cpuinfo|cut -d":" -f2-); do echo -n "$FLAG"
  grep -C1 "^#define X86_\(FEATURE\|BUG\)_" cpufeatures.h \
  | grep -E -i -m1 "/\* \"${FLAG}\"|^#define X86_(FEATURE|BUG)_${FLAG}" \
- | grep -o './\*.*\*/' || echo "N/A"; done
+ | grep -o './\*.*\*/' || echo "N/A"; done )
+
 # CPU frequency scaling governor
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # Set performance mode
-#     for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance">$SG;done
+#for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance" > $SG;done
 
 # Entropy - check virtio_rng on KVM
-cat /sys/devices/virtual/misc/hw_random/rng_available
-cat /sys/devices/virtual/misc/hw_random/rng_current
+cat /sys/devices/virtual/misc/hw_random/rng_{available,current}
 [ -c /dev/hwrng ] && apt-get install -y rng-tools
 # Software based entropy source
+cat /proc/sys/kernel/random/entropy_avail
 apt-get install -y haveged
 cat /proc/sys/kernel/random/entropy_avail
 
@@ -606,15 +579,15 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 # Make cron log all failed jobs (exit status != 0)
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
 # Add healthchecks.io check
-editor /etc/cron.d/healthchecks
-#     03 *	* * *	nobody	wget -q -t 3 -O- https://hchk.io/@@UUID@@ | grep -qFx "OK"
+read -r -e -p "hchk.io URL=" HCHK_URL
+echo -e "03 *\t* * *\tnobody\twget -q -t 3 -O- ${HCHK_URL} | grep -qFx 'OK'" > /etc/cron.d/healthchecks
 service cron restart
 
 # Time synchronization
-cd ${D}; ./install.sh monitoring/monit/services/ntpdate_script
+( cd ${D}; ./install.sh monitoring/monit/services/ntpdate_script )
 echo -e '#!/bin/bash\n/usr/local/bin/ntp-alert.sh' > /etc/cron.daily/ntp-alert
 chmod +x /etc/cron.daily/ntp-alert
-# Virtual serves only
+# Virtual servers only
 editor /etc/default/hwclock
 #    HWCLOCKACCESS=no
 # Check clock source
@@ -649,7 +622,7 @@ service chrony restart
 timedatectl set-ntp 1
 
 # µnscd
-apt-get install -y -t jessie-backports unscd
+apt-get install -t jessie-backports -y unscd
 editor /etc/nscd.conf
 #     enable-cache            hosts   yes
 #     positive-time-to-live   hosts   60
@@ -666,7 +639,7 @@ cp -vf ${D}/mail/msmtprc /etc/
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
 # Courier MTA - deliver all messages to a smarthost
-# See: ${D}/mail/courier-mta-send-only-setup.sh
+# See: /mail/courier-mta-satellite-system.sh
 
 # Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
@@ -679,10 +652,11 @@ a2enmod actions rewrite headers deflate expires proxy_fcgi
 # Comment out '<Location /server-status>' block
 editor /etc/apache2/mods-available/status.conf
 a2enmod ssl
-mkdir /etc/apache2/ssl && chmod 750 /etc/apache2/ssl
 cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
 yes|cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
+( cd ${D}; ./install.sh webserver/apache-resolve-hostnames.sh )
+( cd ${D}; ./install.sh webserver/wp-cron-cli.sh )
 
 # Use php-fpm.conf settings per site
 a2enconf h5bp
@@ -724,16 +698,16 @@ ngx-conf --enable no-default
 
 # Fail2ban
 #     https://packages.qa.debian.org/f/fail2ban.html
-# DEPRECATION! @TODO Backport https://packages.debian.org/source/sid/libmaxminddb
-cd /root/dist-mod/; Getpkg geoip-database-contrib
+( cd /root/dist-mod/; Getpkg geoip-database-contrib )
 apt-get install -y geoip-bin python3-pyinotify
 #     apt-get install -y fail2ban
-Getpkg fail2ban
+( cd /root/dist-mod/; Getpkg fail2ban )
 mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
 # Config:    fail2ban.local
 # Jails:     jail.local
 # /filter.d: apache-combined.local, apache-instant.local, courier-smtp.local, recidive.local
 # /action.d: cloudflare.local
+# Search for "@@"
 service fail2ban restart
 
 # PHP 5.6
@@ -828,11 +802,12 @@ ls -l /etc/php5/fpm/conf.d/20-suhosin.ini
 
 # PHP 7.0
 apt-get install -y php7.0-cli php7.0-fpm \
-    php7.0-mcrypt php7.0-curl php7.0-gd php7.0-json php7.0-intl php7.0-mysql php7.0-readline php7.0-sqlite3
+    php7.0-mbstring php7.0-mcrypt php7.0-json php7.0-intl \
+    php7.0-readline php7.0-curl php7.0-gd php7.0-mysql php7.0-sqlite3
 PHP_TZ="Europe/Budapest"
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^max_execution_time=.*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^memory_limit\s*=.*$/memory_limit = 384M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^memory_limit\s*=.*$/memory_limit = 128M/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
@@ -840,9 +815,10 @@ sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/p
 # Only Prg site is allowed
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php/7.0/fpm/php.ini
-sed -i 's|^;opcache.restrict_api\s*=.*$|opcache.restrict_api = /home/web/website/|' /etc/php/7.0/fpm/php.ini
+# Set username in $U
+sed -i "s|^;opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" /etc/php/7.0/fpm/php.ini
 
-# OPcache - There may be more than 10k files
+# OPcache - There may be more than 2k files
 #     find /home/ -type f -name "*.php"|wc -l
 sed -i 's/^;opcache.max_accelerated_files\s*=.*$/opcache.max_accelerated_files = 10000/' /etc/php5/fpm/php.ini
 # APCu
@@ -851,9 +827,10 @@ echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php5/fpm/php.ini
 # @TODO Measure: realpath_cache_size = 16k  realpath_cache_ttl = 120
 #       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
 
-grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php/7.0/fpm/php.ini | most
+grep -Ev "^\s*#|^\s*;|^\s*\$" /etc/php/7.0/fpm/php.ini | pager
 # Disable "www" pool
-mv /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.default
+mv -v /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.default
+# Add skeletons
 cp -v ${D}/webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 # PHP session cleaning
 #/usr/lib/php/sessionclean
@@ -896,27 +873,29 @@ ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 #     ic24.enable = Off
 
 # Webserver restart
-cd ${D}; ./install.sh webserver/webrestart.sh
+( cd ${D}; ./install.sh webserver/webrestart.sh )
 
 # Add the development website
-# See: ${D}/webserver/add-prg-site.sh
+# See: /webserver/add-prg-site.sh
 
 # Add a production website
-# See: ${D}/webserver/add-site.sh
+# See: /webserver/add-site.sh
 
 
 # @TODO NoSQL object cache
-# redis
-# memcached
+# Redis
 
 
 # MariaDB
-apt-get install -y mariadb-server-10.0 mariadb-client-10.0
+apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
+# OR Percona server
+apt-get install -y percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
+
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
 read -r -s -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
-echo -e "[mysql]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
-echo -e "[mysqldump]\nuser=root\npass=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
+echo -e "[mysql]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
+echo -e "[mysqldump]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
 chmod 600 /root/.my.cnf
 #editor /root/.my.cnf
 # @TODO repl? bin_log? xtrabackup?
@@ -931,6 +910,7 @@ wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli c
 #     grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/*suhosin*.ini || Error "Whitelist phar"
 
 # Composer
+# Current hash: https://composer.github.io/pubkeys.html
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');
 if (hash_file('SHA384', 'composer-setup.php') ===
 '92102166af5abdb03f49ce52a40591073a7b859a86e8ff13338cf7db58a19f7844fbc0bb79b2773bf30791e935dbd938')
@@ -956,20 +936,20 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 #     drush --root=DOCUMENT-ROOT vset --yes file_temporary_path "UPLOAD-DIRECTORY"
 #     drush --root=DOCUMENT-ROOT vset --yes cron_safe_threshold 0
 #
-# See: ${D}/webserver/preload-cache.sh
+# See: /webserver/preload-cache.sh
 
 # Spamassassin
 apt-get install -y libmail-dkim-perl \
     libsocket6-perl libsys-hostname-long-perl libnet-dns-perl libnetaddr-ip-perl \
     libcrypt-openssl-rsa-perl libdigest-hmac-perl libio-socket-inet6-perl libnet-ip-perl \
     libcrypt-openssl-bignum-perl
-Getpkg spamassassin
+( cd /root/dist-mod/; Getpkg spamassassin )
 
 # SSL certificate for web, mail etc.
-# See: ${D}/security/new-ssl-cert.sh
+# See: /security/new-ssl-cert.sh
 
 # Test TLS connections
-# See: ${D}/security/README.md
+# See: /security/README.md
 
 # ProFTPD
 # When the default locale for your system is not en_US.UTF-8
@@ -977,14 +957,13 @@ Getpkg spamassassin
 #     export LC_TIME="en_US.UTF-8"
 
 # Simple syslog monitoring
-cd ${D}; ./package/dategrep-install.sh
-./install.sh monitoring/syslog-errors.sh
+( cd ${D}; ./install.sh monitoring/syslog-errors.sh )
 
 # Monit - monitoring
-${D}/monitoring/monit/monit-debian-setup.sh
+( cd ${D}/monitoring/monit/; ./monit-debian-setup.sh )
 
 # Munin - network-wide graphing
-# See: ${D}/monitoring/munin/munin-debian-setup.sh
+# See: /monitoring/munin/munin-debian-setup.sh
 
 # Aruba ExtraControl (serclient)
 #     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx

@@ -12,20 +12,18 @@ All systems with "bash", "logtail" and "munin"
 
 =head1 CONFIGURATION
 
-The following is the default configuration
+# The following is the default configuration
+[munin_events]
+user munin
+env.muninupdate /var/log/munin/munin-update.log
+env.logtail2 /usr/sbin/logtail2
 
-  [munin_events]
-  user munin
-  env.muninupdate /var/log/munin/munin-update.log
-  env.logtail2 /usr/sbin/logtail2
-
-You could trigger alerts on update failures
-
-  [munin_events]
-  env.munin_fatal_critical 0
-  env.munin_error_critical 0
-  env.munin_warning_warning 0
-  env.munin_warning_critical 5
+# You could trigger an alert on update failures
+#
+# env.munin_fatal_critical 0
+# env.munin_error_critical 0
+# env.munin_warning_warning 0
+# env.munin_warning_critical 5
 
 =head1 INTERPRETATION
 
@@ -34,7 +32,7 @@ INFO, WARNING, ERROR, FATAL.
 
 =head1 MAGIC MARKERS
 
-  #%# family=auto
+  #%# family=contrib
   #%# capabilities=autoconf
 
 =head1 VERSION
@@ -55,10 +53,11 @@ GPLv2
 ##############################
 # Includes
 
-. $MUNIN_LIBDIR/plugins/plugin.sh
+source "${MUNIN_LIBDIR}/plugins/plugin.sh"
 
 ##############################
 # Configurable variables
+
 muninupdate=${muninupdate:-/var/log/munin/munin-update.log}
 logtail_bin=${logtail_bin:-/usr/sbin/logtail2}
 
@@ -66,7 +65,7 @@ logtail_bin=${logtail_bin:-/usr/sbin/logtail2}
 # Functions
 
 # Print one value
-do_value() {
+Do_value() {
     local FIELD="$1"
     local EVENT_LABEL="$2"
     local EVENT_COUNT
@@ -81,18 +80,18 @@ do_value() {
 }
 
 # Print the munin values
-values() {
-    do_value 'munin_info' 'INFO'
-    do_value 'munin_warning' 'WARNING'
-    do_value 'munin_error' 'ERROR'
-    do_value 'munin_fatal' 'FATAL'
+Values() {
+    Do_value 'munin_info' 'INFO'
+    Do_value 'munin_warning' 'WARNING'
+    Do_value 'munin_error' 'ERROR'
+    Do_value 'munin_fatal' 'FATAL'
     # Set offset
     "$logtail_bin" "$muninupdate" &> /dev/null
     chmod 640 "${muninupdate}.offset"
 }
 
 # Print the munin config
-config() {
+Config() {
     echo 'graph_title Munin update events groupped by log levels'
     echo 'graph_info This graph shows INFO, WARNING, ERROR and FATAL events'
     echo 'graph_category munin'
@@ -105,19 +104,22 @@ config() {
     echo 'munin_info.label INFO'
     print_warning munin_info
     print_critical munin_info
+
     echo 'munin_warning.label WARNING'
     print_warning munin_warning
     print_critical munin_warning
+
     echo 'munin_error.label ERROR'
     print_warning munin_error
     print_critical munin_error
+
     echo 'munin_fatal.label FATAL'
     print_warning munin_fatal
     print_critical munin_fatal
 }
 
 # Print autoconfiguration hint
-autoconf() {
+Autoconf() {
     if [ -r "${muninupdate}" ] && [ -x "$logtail_bin" ]; then
         echo "yes"
     else
@@ -131,12 +133,12 @@ autoconf() {
 
 case "$1" in
     config)
-        config
+        Config
         ;;
     autoconf)
-        autoconf
+        Autoconf
         ;;
     *)
-        values
+        Values
         ;;
 esac

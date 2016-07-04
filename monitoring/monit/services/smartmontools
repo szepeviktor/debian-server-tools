@@ -5,8 +5,8 @@
    start program = "/etc/init.d/smartmontools start"
    stop program = "/etc/init.d/smartmontools stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend smartd_bin
-   depend smartd_init
+   depends on smartd_bin
+   depends on smartd_init
 
  check file smartd_bin with path /usr/sbin/smartd
    group smartd

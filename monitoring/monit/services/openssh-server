@@ -6,12 +6,12 @@
    stop program = "/etc/init.d/ssh stop"
    if failed host localhost port @@SSH_PORT@@ with proto ssh then restart
    if 5 restarts with 5 cycles then unmonitor
-   depend on sshd_bin
-   depend on sftp_bin
-   depend on sshd_rsa_key
-   depend on sshd_ecdsa_key
-   depend on sshd_rc
-   depend on sshd_init
+   depends on sshd_bin
+   depends on sftp_bin
+   depends on sshd_rsa_key
+   depends on sshd_ecdsa_key
+   depends on sshd_rc
+   depends on sshd_init
 
  check file sshd_bin with path /usr/sbin/sshd
    group sshd

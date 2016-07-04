@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.5.3
+# VERSION       :0.5.4
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -127,11 +127,11 @@ Monit_enable() {
 
 Monit_config() {
     # IS_CONFIG=1
-    Monit_enable 00_monitrc 1
+    Monit_enable 00-monitrc 1
 }
 
 Monit_system() {
-    Monit_enable 01_system
+    Monit_enable 01-system
 }
 
 Monit_all_packages() {

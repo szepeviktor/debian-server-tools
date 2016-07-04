@@ -5,9 +5,9 @@
    start program = "/etc/init.d/mdadm start"
    stop program = "/etc/init.d/mdadm stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend mdadm_bin
-   depend mdadm_conf
-   depend mdadm_init
+   depends on mdadm_bin
+   depends on mdadm_conf
+   depends on mdadm_init
 
  check file mdadm_bin with path /sbin/mdadm
    group mdadm

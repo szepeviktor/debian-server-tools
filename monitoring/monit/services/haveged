@@ -4,8 +4,8 @@
    start program = "/etc/init.d/haveged start"
    stop program = "/etc/init.d/haveged stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend on haveged_bin
-   depend on haveged_init
+   depends on haveged_bin
+   depends on haveged_init
 
  check file haveged_bin with path /usr/sbin/haveged
    group haveged

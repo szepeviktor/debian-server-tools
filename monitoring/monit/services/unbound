@@ -7,8 +7,8 @@
    if failed host localhost port 53 IPV4 type udp protocol dns then alert
    #if failed host localhost port 53 IPV6 type udp protocol dns then alert
    if 5 restarts within 5 cycles then unmonitor
-   depend unbound_bin
-   depend unbound_init
+   depends on unbound_bin
+   depends on unbound_init
 
  check file unbound_bin with path /usr/sbin/unbound
    group unbound

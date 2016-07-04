@@ -5,10 +5,10 @@
    start program = "/etc/init.d/cron start"
    stop program = "/etc/init.d/cron stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend crond_bin
-   depend crond_init
-   depend crond_spool
-   depend crond_test
+   depends on crond_bin
+   depends on crond_init
+   depends on crond_spool
+   depends on crond_test
 
  check file crond_bin with path /usr/sbin/cron
    group crond

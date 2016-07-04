@@ -35,6 +35,8 @@ ini_set( 'log_errors', 1 );
 //define( 'O1_BAD_REQUEST_CDN_HEADERS', 'HTTP_X_AMZ_CF_ID:HTTP_VIA:HTTP_X_FORWARDED_FOR' );
 //require_once __DIR__ . '/wp-miniban-htaccess.inc.php';
 require_once __DIR__ . '/wp-fail2ban-bad-request-instant.inc.php';
+// wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
+// wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
 
 /** Core */
 
@@ -68,7 +70,7 @@ define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
 /** Plugins */
 
-//define( 'WP_CACHE_KEY_SALT', 'COMPANY-SHORT_' );
+//define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 // https://polylang.wordpress.com/documentation/documentation-for-developers/list-of-options-which-can-be-set-in-wp-config-php/
 //define( 'PLL_LINGOTEK_AD', false );
 //define( 'PLL_WPML_COMPAT', false );
@@ -94,7 +96,7 @@ $table_prefix  = 'wp_';
 
 /** Salts */
 
-//      wget -qO- https://api.wordpress.org/secret-key/1.1/salt/
+// wget -qO- https://api.wordpress.org/secret-key/1.1/salt/
 
 
 /* That's all, stop editing! Happy blogging. */

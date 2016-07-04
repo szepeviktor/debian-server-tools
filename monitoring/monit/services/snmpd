@@ -6,9 +6,9 @@
    if failed host localhost port 161 type udp then restart
    if failed host localhost port 199 type tcp then restart
    if 5 restarts within 5 cycles then unmonitor
-   depend on snmpd_bin
-   depend on snmpd_rc
-   depend on snmpdinit
+   depends on snmpd_bin
+   depends on snmpd_rc
+   depends on snmpdinit
 
  check file snmpd_bin with path /usr/sbin/snmpd
    group snmpd

@@ -264,30 +264,31 @@ http://google-public-dns.appspot.com/cache
 
 #### Typical theme and plugin errors
 
-- Dynamically page parts (rotating quotes by PHP)
+- Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue)*.php"`)
-- Non-200 HTTP response
-- JavaScript code parsable as HTML (e.g. `<a>` or `<iframe>`)
 - Missing resource version in `wp_register_*()` `wp_enqueue_*()` calls
 - New WordPress entry point (fix: `grep -E "\brequire|include.*wp-"`)
-- Extra server-side requests: HTTP, DNS, file access
+- Always require admin code (fix: `whats-running`)
 - Lack of `$_GET` and `$_POST` sanitization
-- Characters before `<!DOCTYPE html>`
-- Form field: `<input type="file" />`
-- Insufficient or excessive font character sets (`&subset=latin,latin-ext`)
-- `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
+- PHP short opentags `<?=`
+- PHP errors, WP deprecated (fix: `define( 'WP_DEBUG', true );`)
+- Permissions for WP editors
+- Non-200 HTTP response
+- Extra server-side requests: HTTP, DNS, file access
 - Independent e-mail sending (fix: `grep -E "\b(wp_)?mail\("`)
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
 - Home call, external URL-s (fix: search for URL-s, use Snitch plugin and tcpdump)
+- Insufficient or excessive font character sets (fix: `&subset=latin,latin-ext`)
+- `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
+- Form field for file upload: `<input type="file" />`
 - BOM (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
-- PHP short opentags `<?=`
-- PHP errors, WP deprecated (fix: `define( 'WP_DEBUG', true );`)
-- Always require admin code (fix: `whats-running`)
-- Permissions for WP editors
+- Characters before `<!DOCTYPE html>`
+- JavaScript code parsable as HTML link (e.g. `<a>` or `<iframe>`)
 - Display content by JavaScript (causes FOUC)
 - Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
 - Firefox carot
+- Email header and content check with https://www.mail-tester.com/
 
 ### 404 page
 

@@ -1,18 +1,104 @@
 #!/bin/bash
 #
-# Install munin.
+# Install munin node.
+#
+
+# @REWRITE: install&configure plugins per debian pkg, 
 
 MUNIN_MASTER_IP="1.2.3.4"
 
 LOADTIME_URL="http://www.site.net/login"
 PHPFPM_POOL="web"
-PHPFPM_STATUS="http://www.site.net/status"
+PHPFPM_STATUS="http://www.site.net/statusphp"
 APACHE_STATUS="http://www.site.net:%d/server-status?auto"
 
 PLUGIN_CONF_DIR="/etc/munin/plugin-conf.d"
 PLUGIN_PATH="/usr/share/munin/plugins"
 PLUGIN_PATH_LOCAL="/usr/local/share/munin/plugins"
 ENABLED_PLUGIN_PATH="/etc/munin/plugins"
+
+# Plugin types
+#     http://guide.munin-monitoring.org/en/latest/architecture/syntax.html
+
+# non-autoconf + /usr/local/share/munin/plugins/* -> write .config and .script
+
+# Does autoconf/suggest work?
+#     munin-node-configure --families auto,manual,contrib --suggest 2>&1 | less
+#     munin-node-configure --families auto,manual,contrib --suggest --debug 2>&1 | less
+
+
+# - official auto (always has autoconf)
+#     detect "auto but not non autoconf"
+#         cd /usr/share/munin/plugins
+#         munin-node-configure --families auto|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# capabilities=.*autoconf"
+#     find fake/modified official auto-s:
+#         munin-node-configure --libdir /usr/local/share/munin/plugins --families auto
+          ?How to handle ?Exclude the one with same name in /usr/share/munin/plugins
+# - contrib
+#     detect autoconf
+#         cd /usr/share/munin/plugins
+#         munin-node-configure --families contrib|tail -n +3|cut -d' ' -f1|xargs -L1 grep -H "#%# capabilities=.*autoconf"
+#     detect non-autoconf
+#         cd /usr/share/munin/plugins
+#         munin-node-configure --families contrib|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# capabilities=.*autoconf"
+# - manual
+#     detect autoconf
+#         cd /usr/share/munin/plugins
+#         munin-node-configure --families manual|tail -n +3|cut -d' ' -f1|xargs -L1 grep -H "#%# capabilities=.*autoconf"
+#     detect non-autoconf
+#         cd /usr/share/munin/plugins
+#         munin-node-configure --families manual|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# capabilities=.*autoconf"
+# - wildcard: All suggest-s should be autoconf also
+# - wildcard: Fix non-suggest-s to be suggest
+# - missing familiy magic markers (send PR to munin)
+#         cd /usr/share/munin/plugins
+#         munin-node-configure|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# family"
+
+
+# http://munin-monitoring.org/wiki/munin-node-configure
+# deb-name -> plugin name mapping Yes!
+
+# source and use $MUNIN_LIBDIR/plugins/plugin.sh
+# script names = PLUGIN_NAME.script
+# config: /etc/munin/plugin-conf.d/${PLUGIN_NAME}
+# HTTP_LOADTIME_URLS multiple|multiple
+# Bash suggest example
+
+# 0. /usr/local/src/debian-server-tools/monitoring/munin/plugins
+# 1. /usr/local/src/debian-server-tools/monitoring/munin/munin-debian/plugins/node.d
+# 2. /usr/local/src/debian-server-tools/monitoring/munin/munin-debian/plugins/node.d.linux
+# 3. /usr/local/src/debian-server-tools/monitoring/munin/contrib/plugins
+
+
+munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,manual,contrib \
+    --suggest 2>&1
+munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,manual,contrib \
+    --shell --debug 2>&1
+
+
+Munin_packages2plugins() {
+# Invent a "depends" mechanism for plugins: have a list: plugin->apt:depends|pip:depends...
+    local -A PACKAGES=(
+        [coreutils]="df:df_inode"
+        [apache2]="apache:http_loadtime"
+        [courier-mta]="courier_mta_mailqueue:courier_mta_mailstats:courier_mta_mailvolume"
+        [ipmitool]="ipmi_sensor_"
+        [monit]="monit_parser"
+        [munin]="munin_events" # needs logtail
+        [rsyslog]="loggrep"
+        [memcached]="memcached_"
+        []=""
+        []=""
+        []=""
+        []=""
+        []=""
+        []=""
+        []=""
+        []=""
+        []=""
+        []=""
+    )
+}
 
 Install_plugin() {
     local PLUGIN_URL="$1"
@@ -184,16 +270,16 @@ munin_phpfpm() {
     fi
 
     # phpfpm pool:
-    # pm.status_path = /status
+    # pm.status_path = /statusphp
 
-    # apach 2.4 config:
-    # <Location /status>
+    # Apache 2.4 config:
+    # <Location /statusphp>
     #     SetHandler application/x-httpd-php
     #     Require local
     # </Location>
 
     # WordPress rewrite rule:
-    # RewriteCond %{REQUEST_URI} !=/status
+    # RewriteCond %{REQUEST_URI} !=/statusphp
 
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_average"
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_connections"
@@ -210,12 +296,12 @@ PHP_FPM
 
     cat 1>&2 <<APACHE_CNF
 # Terminate rewrite processing for PHP-FPM status
-<Location /status>
+<Location /statusphp>
     SetHandler application/x-httpd-php
     Require local
 </Location>
 RewriteEngine On
-RewriteRule "^/status$" - [END]
+RewriteRule "^/statusphp$" - [END]
 APACHE_CNF
 
     Enable_plugin "phpfpm_memory"
@@ -246,10 +332,6 @@ EOF
 editor /etc/apache2/mods-available/status.conf
 EOF
 }
-
-
-# ------------------------------- main -------------------------------
-
 
 # @TODO https://www.monitis.com/monitoring-plan-builder
 # Ideas: URL hit, load, SMS

@@ -12,21 +12,24 @@ read -e -i "prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\
 
 adduser --disabled-password --gecos "" $U
 
-echo "${U}@$(hostname -d): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user
+# Add webserver to this group
+adduser web ${U}
+
+echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user
 makealiases
 
 # Website directories
 cd /home/${U}/
 mkdir website
 chmod -v 750 website*
-cd website
-mkdir {session,tmp,html,pagespeed,backup,fastcgicache}
+cd website/
+mkdir {session,tmp,html,backup}
 
 # HTTP authentication
 read -e -p "prg HTTP/auth user: " HTTP_USER
-read -e -p "prg HTTP/auth password? " HTTP_PASSWORD
-htpasswd -bc ./htpasswords "$HTTP_USER" "$HTTP_PASSWORD"
-chmod 640 ./htpasswords
+read -e -s -p "prg HTTP/auth password: " HTTP_PASSWORD
+htpasswd -bBc ./htpasswords "$HTTP_USER" "$HTTP_PASSWORD"
+chmod -c 640 ./htpasswords
 
 # Control panel for OPcache and APC
 PRG_ROOT="/home/${U}/website/html"
@@ -59,7 +62,7 @@ wget -nv -O ${PRG_ROOT}/pif.php \
 # PHPMyAdmin
 cd /home/${U}/website/html/
 ${D}/package/phpmyadmin-get.sh
-cd phpMyAdmin-*-english
+cd phpMyAdmin-*-english/
 cp -v config.sample.inc.php config.inc.php
 apg -n 1 -m 30
 #     http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
@@ -76,24 +79,35 @@ cd ../
 # PHP Secure Configuration Checker
 git clone https://github.com/sektioneins/pcc.git
 
+# Redis admin
+composer create-project -s dev erik-dubbelboer/php-redis-admin radmin
+cd radmin/
+cp -v includes/config.sample.inc.php includes/config.inc.php
+
 # Set owner
 chown -cR ${U}:${U} cd /home/${U}/
 
 # PHP pool
 cd /etc/php5/fpm/pool.d/
+#cd /etc/php/7.0/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Prg-pool.conf > ${U}.conf
 # PHP Secure Configuration Checker allow IP address
-#     env[PCC_ALLOW_IP] = 1.2.3.*
 editor ${U}.conf
+#     env[PCC_ALLOW_IP] = 1.2.3.*
+
+# SSL certificate
+read -e -p "Common Name: " CN
+editor /etc/ssl/private/${CN}-private.key
+editor /etc/ssl/localcerts/${CN}-public.pem
 
 # Apache site
-cd /etc/apache2/sites-available
+cd /etc/apache2/sites-available/
 sed -e "s/@@PRG_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Prg-site.conf > ${DOMAIN}.conf
+# Certificate's common name differs from domain name
+#sed -e "s/@@CN@@/${CN}/g" -e "s/@@PRG_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Prg-site.conf > ${DOMAIN}.conf
 # Consider Let’s Encrypt SSL certificate
 
-# Generate SSL certificate
-mc /etc/apache2/ssl/
-
+# Enable site
 a2ensite ${DOMAIN}
 ${D}/webserver/apache-resolve-hostnames.sh
 

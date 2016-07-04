@@ -1,7 +1,7 @@
  check program sensors with path "/usr/bin/sensors -A"
    group sensors
    if status != 0 then alert
-   depend sensors_bin
+   depends on sensors_bin
 
  check file sensors_bin with path /usr/bin/sensors
    group sensors

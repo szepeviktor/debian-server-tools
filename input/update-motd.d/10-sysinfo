@@ -127,7 +127,7 @@ declare -i SWAP_USAGE="$(free | awk '/Swap/ { printf("%.0f", $3 / $2 * 100) }')"
 Display_left "Swap usage" "${SWAP_USAGE} %" "$(Tl_limits "$SWAP_USAGE" 75 50)"
 
 if which mailq &> /dev/null; then
-    declare -i MAIL_QUEUE="$(mailq -batch | grep -v "^messages: " | wc -l)"
+    declare -i MAIL_QUEUE="$(mailq -batch | grep -vc "^messages: ")"
     Display_left "Mail queue" "$MAIL_QUEUE" "$(Tl_limits "$MAIL_QUEUE" 10 1)"
 fi
 

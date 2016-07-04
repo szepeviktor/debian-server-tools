@@ -1,5 +1,7 @@
 # WordPress website lifecycle
 
+## Core and essentials
+
 `uwp download core`
 
 ### Directory structure
@@ -42,46 +44,39 @@ wp option set admin_email "support@company.net"
 ```bash
 apt-get install redis-server
 
-# PHP 5.6
+# PHP 5.6 extension
 pecl install redis
 echo -e "; priority=20\nextension=redis.so" > /etc/php5/mods-available/redis.ini
 php5enmod redis && php -m|grep redis
 
-# PHP 7
-git clone https://github.com/phpredis/phpredis.git
-cd phpredis/ && git checkout php7
+# PHP 7 extension
 apt-get install php7.0-dev re2c
+git clone https://github.com/phpredis/phpredis.git
+cd phpredis/ # && git checkout php7
 # igbinary disables inc() and dec()
 #phpize7.0 && ./configure --enable-redis-igbinary && make && make install
 phpize7.0 && ./configure && make && make install
 chmod -c -x /usr/lib/php/20151012/redis.so
-echo -e "; priority=20\nextension=redis.so" > /etc/php/mods-available/redis.ini
+echo -e "; priority=20\nextension=redis.so" > /etc/php/7.0/mods-available/redis.ini
 phpenmod -v 7.0 -s ALL redis
 php -m | grep -Fx "redis" && php tests/TestRedis.php --class Redis
-
-cd /home/wp/
-wp plugin install wp-redis
-ln -sv plugins/wp-redis/object-cache.php static/
-
-composer create-project -s dev erik-dubbelboer/php-redis-admin radmin
-cd radmin/
-cp -v includes/config.sample.inc.php includes/config.inc.php
 ```
 
-In wp-config.php:
+Key salt in `wp-config.php`
 
 ```php
 define( 'WP_CACHE_KEY_SALT', 'COMPANY_' );
 /*
-$redis_server = array( 'host' => '127.0.0.1',
-                       'port' => 6379
+$redis_server = array(
+    'host' => '127.0.0.1',
+    'port' => 6379,
 );
 */
 ```
 
 ### Memcached control panel
 
-```
+```bash
 echo stats | nc localhost 11211 | grep bytes
 mkdir phpMemAdmin; cd phpMemAdmin/
 echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
@@ -95,10 +90,45 @@ sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
 
 ### Security
 
-- fail2ban
-- wpf2b
+- wordpress-fail2ban
 
+### Plugins
 
+```bash
+mkdir wp-content/mu-plugins
+cd wp-content/mu-plugins/
+
+# protect plugins
+wget https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-protect-plugins/protect-plugins.php
+
+# password bcrypt
+wget https://github.com/szepeviktor/password-bcrypt/raw/wp/wp-password-bcrypt.php
+
+# disable comments
+wget https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu.php
+wget -P disable-comments-mu https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu/comments-template.php
+
+# google analytics
+wget https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/google-universal-analytics/google-universal-analytics.php
+
+# redis
+uwp plugin install wp-redis
+ln -sv wp-content/plugins/wp-redis/object-cache.php wp-content/
+uwp transient delete-all
+# Add WP_CACHE_KEY_SALT in wp-config.php
+
+# mail from
+uwp plugin install classic-smilies wp-mailfrom-ii --activate
+
+# smtp uri
+uwp plugin install smtp-uri --activate
+
+# safe redirect manager
+uwp plugin install safe-redirect-manager --activate
+
+# user role editor
+uwp plugin install user-role-editor --activate
+```
 
 ### On deploy and Staging->Production migration
 
@@ -123,13 +153,16 @@ sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
 #### Search & replace items
 
 `wp search-replace --precise --recurse-objects --all-tables-with-prefix`
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix`
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix`
 
 1. http://DOMAIN.TLD or https (no trailing slash)
 1. /home/PATH/TO/SITE (no trailing slash)
 1. EMAIL@ADDRESS.ES (all addresses)
 1. DOMAIN.TLD (now without http)
 
-Manual replace constants in `wp-config.php`.
+Manual replace constants in `wp-config.php`
 
 ### Moving a site to a subdirectory
 
@@ -137,7 +170,7 @@ Manual replace constants in `wp-config.php`.
 1. search-and-replace: /wp-includes/ -> /site/wp-includes/
 1. search-and-replace: /wp-content/ -> /static/
 
-
+S&R links...
 
 
 @TODO wp-lib

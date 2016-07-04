@@ -25,8 +25,7 @@ adduser web ${U}
 #     wordpress@HOSTNAME:  VIRTUAL-USERGROUP@HOSTNAME
 # Set forwarding address on the smarthost
 #     echo "RECIPIENT@DOMAIN.COM" > .courier-VIRTUAL-USERGROUP
-
-editor /etc/courier/aliases/system-user
+echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user
 makealiases
 
 # * Add sudo permissions for real users to become this user
@@ -55,7 +54,7 @@ find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.
 find -type f -exec chmod --changes 0644 "{}" ";"
 find -type d -exec chmod --changes 0755 "{}" ";"
 find -name wp-config.php -exec chmod -v 0400 "{}" ";"
-find -name settings.php -exec chmod -v 0400 "{}" ";"
+#find -name settings.php -exec chmod -v 0400 "{}" ";"
 find -name .htaccess -exec chmod -v 0640 "{}" ";"
 
 # Set owner
@@ -64,13 +63,12 @@ chown -cR ${U}:${U} /home/${U}/
 # WordPress wp-config.php skeleton
 #     define( 'ABSPATH', dirname( __FILE__ ) . '/html/' );
 
-# wordpress-fail2ban MU plugin
+# wordpress-fail2ban
 
 # Migrate database NOW!
-
 # Create WordPress database from wp-config
-# See: ${D}/mysql/wp-createdb.sh
-# See: ${D}/mysql/alter-table.sql
+# See: /mysql/wp-createdb.sh
+# See: /mysql/alter-table.sql
 
 # wp-cli configuration
 # path, url, debug, user, skip-plugins
@@ -92,26 +90,35 @@ uwp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-ru
 #     tmpfs  /home/${U}/website/html/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u "$U"),gid=$(id -g "$U"),mode=0755  0 0
 wp-lib.sh --root="/home/${U}/website/html/static/cache/" mount 100
 
-# PHP
+# PHP pool
 cd /etc/php5/fpm/pool.d/
+#cd /etc/php/7.0/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
 editor ${U}.conf
 
-# Apache
+# SSL certificate
+read -e -p "Common Name: " -i "$DOMAIN" CN
+editor /etc/ssl/private/${CN}-private.key
+editor /etc/ssl/localcerts/${CN}-public.pem
+
+# Apache vhost
 # CloudFlase, Incapsula
-#     a2enmod remoteip
-cd /etc/apache2/sites-available
+#a2enmod remoteip
+cd /etc/apache2/sites-available/
 # Non-SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 # * SSL
 # Name main SSL site (non-SNI) "001-${DOMAIN}.conf"
 # See: webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+# Certificate's common name differs from domain name
+#sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+
 # Include the HPKP header: backup key, "Public-Key-Pins-Report-Only:" "Public-Key-Pins:"
 # See: https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
 # See: https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
-openssl x509 -in /etc/apache2/ssl/${SITE_DOMAIN}-public.pem -noout -pubkey \
-    | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
+openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
+ | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 
 # In case of "www." set ServerAlias
 editor ${DOMAIN}.conf
@@ -120,7 +127,7 @@ a2ensite ${DOMAIN}
 apache-resolve-hostnames.sh
 
 # Restart webserver + PHP
-# See: ${D}/webserver/webrestart.sh
+# See: /webserver/webrestart.sh
 webrestart.sh
 
 # * Logrotate for log in $HOME
@@ -137,6 +144,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.lo
 # Add cron jobs
 # Mute cron errors
 #     php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
+#     https://maximivanov.github.io/php-error-reporting-calculator/
 #     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
 cd /etc/cron.d/
 # See: ${D}/webserver/preload-cache.sh

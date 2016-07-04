@@ -1,6 +1,6 @@
 if ! /usr/local/sbin/server-integrity.sh -c USB &> /dev/null; then
     echo "Removing check for usb" 1>&2
-    sed -i -e '/^\s*check program hardware_usb\b/,/^$/d' /etc/monit/conf-available/01-system
+    sed -i -e '/^\s*check program hardware_usb_hash\b/,/^$/d' /etc/monit/conf-available/01-system
 fi
 
 if ! /usr/local/sbin/server-integrity.sh -c VCONSOLE &> /dev/null; then

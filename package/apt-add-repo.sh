@@ -2,7 +2,7 @@
 #
 # Add the repositories that you install software from.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-03-21
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -26,8 +26,8 @@ Possible_locations() {
 		./${REPO}
 		/usr/local/src/debian-server-tools/package/apt-sources/${REPO}.list
 		/usr/local/src/debian-server-tools/package/apt-sources/${REPO}
-		/root/src/debian-server-tools/package/apt-sources/${REPO}.list
-		/root/src/debian-server-tools/package/apt-sources/${REPO}
+		/root/src/debian-server-tools-master/package/apt-sources/${REPO}.list
+		/root/src/debian-server-tools-master/package/apt-sources/${REPO}
 		EOF
 }
 

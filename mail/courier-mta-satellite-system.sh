@@ -16,7 +16,7 @@ exit 0
 #################### 'smarthost' configuration ####################
 
 # Bounce handling
-host -t MX $HOSTNAME
+host -t MX $(hostname -f)
 # Receive (bounce) mail for the satellite system (alias, acceptmailfor)
 
 # Add the 'smarthost' to the SPF record of all sending domains
@@ -38,21 +38,21 @@ courier-restart.sh
 
 
 
+# Check for other MTA-s
+if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))')" ]; then
+    echo "There is another MTA installed." 2>&1
+    exit 1
+fi
+
 apt-get install -y aptitude courier-mta courier-ssl
 # Fix dependency on courier-authdaemon
-if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courier-mta)" ge "0.75.0-11"; then
+if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courier-mta)" lt "0.75.0-11"; then
     sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta
     update-rc.d courier-mta defaults
 fi
 
 # Restart script
-cd ${D}; ./install.sh mail/courier-restart.sh
-
-# Check for other MTA-s
-if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))')" ]; then
-    echo "There's another MTA installed" 2>&1
-    exit 1
-fi
+( cd ${D}; ./install.sh mail/courier-restart.sh )
 
 # Route mail to the smarthost
 editor /etc/courier/esmtproutes
@@ -66,17 +66,22 @@ editor /etc/courier/esmtpauthclient
 
 # SSL configuration
 editor /etc/courier/courierd
-# @TODO Use only TLSv1.2 and Modern cipher suite WHEN 'smarthost' is ready for it
+# Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready (jessie) for it
+# https://mozilla.github.io/server-side-tls/ssl-config-generator/
+#     TLS_PROTOCOL="TLSv1.2"
+#     TLS_CIPHER_LIST="" # Modern profile
+#
 #     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
-#     TLS_CIPHER_LIST="" See https://mozilla.github.io/server-side-tls/ssl-config-generator/
+#     TLS_CIPHER_LIST="" # Intermediate profile
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
 #     TLS_CACHEFILE=/var/lib/courier/tmp/ssl_cache
 #     TLS_CACHESIZE=524288
 
 # Diffie-Hellman parameters
+rm -f /etc/courier/dhparams.pem
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
-cd ${D}; ./install.sh mail/courier-dhparams.sh
+( cd ${D}; ./install.sh mail/courier-dhparams.sh )
 
 # STARTTLS in client mode and 'smarthost' certificate verification
 editor /etc/courier/courierd
@@ -96,6 +101,7 @@ editor /etc/courier/esmtpd
 editor /etc/courier/smtpaccess/default
 #     127.0.0.1	allow,RELAYCLIENT
 #     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
+
 # No local domains
 editor /etc/courier/locals
 #     localhost

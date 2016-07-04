@@ -50,7 +50,7 @@ Disallow: /
 
 ### wp-config.php constants
 
-See: https://codex.wordpress.org/Editing_wp-config.php
+See https://codex.wordpress.org/Editing_wp-config.php
 
 Import database, set DB_* constants.
 
@@ -72,7 +72,7 @@ DEV_DOMAIN="${DEV_URL#*//}"
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "${ORIG_URL%%/*}" "${DEV_URL%%/*}"
 ```
 
-Force site URL (see: /webserver/wp-config-dev.php) or download Search-Replace-DB
+Force site URL (see /webserver/wp-config-dev.php) or download Search-Replace-DB
 
 1. https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
 1. https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
@@ -104,7 +104,7 @@ define( 'SIMPLE_HISTORY_DEV', true );
 define( 'W3TC_PRO_DEV_MODE', true );
 ```
 
-See: https://github.com/szepeviktor/WPHW
+See https://github.com/szepeviktor/WPHW
 
 ## Plugins
 

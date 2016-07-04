@@ -4,9 +4,9 @@
    start program = "/etc/init.d/serclient start"
    stop program = "/etc/init.d/serclient stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend on serclient_bin
-   depend on serclient_rc
-   depend on serclient_log
+   depends on serclient_bin
+   depends on serclient_rc
+   depends on serclient_log
 
  check file serclient_bin with path /opt/serclient/service.py
    group serclient

@@ -4,10 +4,10 @@
    stop program = "/etc/init.d/munin-node stop"
    if failed host localhost port 4949 type tcp for 2 cycles then restart
    if 5 restarts with 10 cycles then unmonitor
-   depend on munin_node_bin
-   depend on munin_node_rc
-   depend on munin_node_init
-   depend on munin_node_log
+   depends on munin_node_bin
+   depends on munin_node_rc
+   depends on munin_node_init
+   depends on munin_node_log
 
  check file munin_node_bin with path /usr/sbin/munin-node
    group munin_node

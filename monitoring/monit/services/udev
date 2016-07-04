@@ -4,9 +4,9 @@
    start program = "/etc/init.d/udev start"
    stop program = "/etc/init.d/udev stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend on udevadm
-   depend on udevd_bin
-   depend on udevd_init
+   depends on udevadm
+   depends on udevd_bin
+   depends on udevd_init
 
  check program udevadm with path "/bin/udevadm trigger --verbose --dry-run --type=devices --subsystem-match=rtc"
    group udevd

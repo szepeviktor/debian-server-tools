@@ -4,8 +4,8 @@
    start program = "/etc/init.d/irqbalance start"
    stop program = "/etc/init.d/irqbalance stop"
    if 5 restarts with 5 cycles then unmonitor
-   depend on irqbalance_bin
-   depend on irqbalance_init
+   depends on irqbalance_bin
+   depends on irqbalance_init
 
  check file irqbalance_bin with path /usr/sbin/irqbalance
    group irqbalance

@@ -2,9 +2,9 @@
    group system
    group ntpdate
    if status != 0 then alert
-   depend ntpdate_debian_bin
-   depend ntpdate_bin
-   depend ntpdate_rc
+   depends on ntpdate_debian_bin
+   depends on ntpdate_bin
+   depends on ntpdate_rc
 
  check file ntpdate_debian_bin with path /usr/sbin/ntpdate-debian
    group ntpdate

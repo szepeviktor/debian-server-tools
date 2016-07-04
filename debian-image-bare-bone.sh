@@ -173,6 +173,15 @@ Is_installed_regexp() {
     test -n "$PKG"
 }
 
+exit 0
+
+# --> /debian-setup/PACKAGE chmod +x
+#     if installed ...
+#     if ! installed ...
+
+export -f Is_installed
+export -f Is_installed_regexp
+
 #BOOT_PACKAGES
 if Is_installed grub-pc; then
     # GRUB and PyGrub
@@ -308,6 +317,7 @@ while read -r VIRT; do
                 dmidecode -s system-uuid | sed 's/$/ # system-uuid/'
             fi
             ;;
+            apt-get install -qq -y hyperv-demons
         vmware)
             if [ -c /dev/mem ]; then
                 # vmware UUID
@@ -333,6 +343,7 @@ apt-get -qq -y purge virt-what
 # network by provider
 
 # intel_rapl
+echo "blacklist intel_rapl" > /etc/modprobe.d/intel_rapl-blacklist.conf
 
 # Init
 
@@ -367,7 +378,7 @@ apt-get install -y sudo
 # Newer Cloud init
 echo "cloud-init cloud-init/datasources multiselect NoCloud, ConfigDrive, None" | debconf-set-selections -v
 apt-get install -y -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
-nano /etc/cloud/cloud.cfg.d/10_fakeconfigdrive.cfg
+editor /etc/cloud/cloud.cfg.d/10_fakeconfigdrive.cfg
 
 cat <<"EOF"
 #cloud-config
