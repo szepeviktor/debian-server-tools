@@ -71,7 +71,7 @@ apt-get update -qq
 Info "Reinstall tasks"
 
 debconf-show tasksel
-tasksel --list-tasks | grep -v "^u "
+tasksel --list-tasks | grep -v "^u " || true
 # shellcheck disable=SC2046
 apt-get purge -qq -y $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))')
 #tasksel --task-packages ssh-server; tasksel --task-packages standard '
@@ -140,7 +140,7 @@ Info "Check package integrity and cruft"
 apt-get install -qq -y debsums cruft > /dev/null
 # Should be empty
 debsums --all --changed 2>&1 | sed 's/$/ # integrity/' | tee integrity.log
-cruft > cruft.log 2>&1
+cruft --ignore /root > cruft.log 2>&1
 
 Info "Check for missing and extra packages"
 

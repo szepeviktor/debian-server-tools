@@ -149,6 +149,8 @@ Development tools:
 
 Block all outgoing HTTP traffic: `airplane-mode`
 
+`wp install plugin "https://github.com/norcross/airplane-mode/archive/master.zip" --activate`
+
 @TODO Block HTTP traffic on admin and on frontend:
 
 - ? `if ( 'on' === get_site_option( 'airplane-mode' ) )`

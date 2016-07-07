@@ -2,7 +2,7 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-02-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,12 +22,13 @@ if [ "$REBOOT" != 1 ]; then
     exit 0
 fi
 
+# shellcheck disable=SC2016
 FIRST_ROOT="$(sed -ne '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
 DISK=""
 
 # Block device
 if [ "${FIRST_ROOT:0:4}" == "/dev" ]; then
-    DISK="$FIRST_ROOT"
+    DISK="$(realpath "$FIRST_ROOT")"
 fi
 
 # UUID

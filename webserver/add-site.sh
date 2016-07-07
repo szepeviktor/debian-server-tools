@@ -8,8 +8,8 @@ exit 0
 
 # Domain and DNS checks
 #
-# See: ${D}/monitoring/domain-expiry.sh
-# See: ${D}/monitoring/dns-watch.sh
+# See /monitoring/domain-expiry.sh
+# See /monitoring/dns-watch.sh
 
 read -r -e -p "user name: " U
 read -r -e -p "domain name: (without WWW) " DOMAIN
@@ -32,13 +32,13 @@ makealiases
 cd /etc/sudoers.d/
 
 # * Allow SSH keys
-S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
+S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 editor "${S}/authorized_keys2"
 # Git URL
 echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
-mkdir -v --mode=750 /home/${U}/website
+mkdir -v --mode=0750 /home/${U}/website
 mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
 
 # Install WordPress
@@ -147,7 +147,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.lo
 #     https://maximivanov.github.io/php-error-reporting-calculator/
 #     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
 cd /etc/cron.d/
-# See: ${D}/webserver/preload-cache.sh
+# See /webserver/preload-cache.sh
 
 # Contact form notification email
 # Authenticated send to foreign mailboxes
@@ -159,4 +159,4 @@ editor /etc/courier/esmtpauthclient
 #     #smarthost.foreign.com,465 username password
 
 # Goaccess
-# See: ${D}/webserver/goaccess.sh
+# See /webserver/goaccess.sh

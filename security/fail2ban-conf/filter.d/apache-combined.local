@@ -11,6 +11,7 @@ before = apache-common.conf
 #               apache-noscript.conf
 #           wordpress-fail2ban (fastcgi, proxy_fcgi)
 #               WordPress theme, plugin direct access (fastcgi, proxy_fcgi)
+#           non-existent PHP file
 failregex = ^%(_apache_error_client)s (AH(01797|01630): )?client denied by server configuration: (uri )?\S*(, referer: \S+)?\s*$
             ^%(_apache_error_client)s (AH01617: )?user .*? authentication failure for "\S*": Password Mismatch(, referer: \S+)?$
             ^%(_apache_error_client)s (AH01618: )?user .*? not found(: )?\S*(, referer: \S+)?\s*$
@@ -28,6 +29,7 @@ failregex = ^%(_apache_error_client)s (AH(01797|01630): )?client denied by serve
                 ^%(_apache_error_client)s script '/\S*(php([45]|[.-]cgi)?|\.asp|\.exe|\.pl)\S*' not found or unable to stat(, referer: \S+)?\s*$
             ^%(_apache_error_client)s (FastCGI: server "/\S+" stderr: |AH01071: Got error ')(PHP message: )?(Malicious traffic detected|File does not exist): .*(, referer: \S+)?\s*$
                 ^%(_apache_error_client)s (FastCGI: server "/\S+" stderr: |AH01071: Got error ')(PHP message: )?(PHP Fatal error:)?  Call to undefined function \S+\(\) in /\S+/(themes|plugins)/\S+/\S+\.php on line [0-9]+$
+            ^%(_apache_error_client)s AH01071: Got error 'Primary script unknown\\n'$
 ignoreregex = 
 
 # Author: Viktor Szépe

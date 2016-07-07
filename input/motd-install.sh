@@ -2,11 +2,12 @@
 #
 # Install motd scripts.
 #
+# VERSION       :0.1.1
 
 set -e
 
 # Dependencies
-apt-get install -y figlet bc cowsay
+apt-get install -y bc figlet cowsay
 
 if [ -d /etc/update-motd.d ]; then
     # Non-empty script directory
@@ -23,11 +24,11 @@ ln -svf /var/run/motd /etc/motd
 # Trespass warning
 echo "(hit Ctrl + D to change language)"
 if read -r -e -p "Company name: " COMPANY; then
-    echo -e "*\n*** This server is the property of ${COMPANY}. Unauthorized entry is prohibited. ***\n*\n" > /etc/motd.tail
+    echo -e "*\n*** This server is used by ${COMPANY}. Unauthorized entry is prohibited. ***\n*\n" > /etc/motd.tail
 else
     echo
     read -r -e -p "a/az + cégnév: " COMPANY
-    echo -e "*\n*** Ez a szerver ${COMPANY} tulajdona. Idegeneknek a belépés tilos. ***\n*\n" > /etc/motd.tail
+    echo -e "*\n*** Ez a szerver ${COMPANY} használatában áll. Másoknak a belépés tilos. ***\n*\n" > /etc/motd.tail
 fi
 
 # Hostname color
@@ -44,3 +45,5 @@ echo "$HOSTCOLOR" > /etc/hostcolor
 # Install scripts
 cp -avf ./update-motd.d /etc/
 cp -avf ./profile.d /etc/
+
+echo "OK."

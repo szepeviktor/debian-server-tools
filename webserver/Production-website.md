@@ -265,12 +265,12 @@ http://google-public-dns.appspot.com/cache
 #### Typical theme and plugin errors
 
 - Dynamic page parts (e.g. rotating quotes by PHP)
-- Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue)*.php"`)
-- Missing resource version in `wp_register_*()` `wp_enqueue_*()` calls
-- New WordPress entry point (fix: `grep -E "\brequire|include.*wp-"`)
+- Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
+- Missing resource version in `grep -E "wp_(register|enqueue)_.*\("` calls
+- New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
 - Always require admin code (fix: `whats-running`)
-- Lack of `$_GET` and `$_POST` sanitization
-- PHP short opentags `<?=`
+- Lack of `grep -E "\\\$_(GET|POST)"` sanitization
+- PHP short opentags `grep -F "<?="`
 - PHP errors, WP deprecated (fix: `define( 'WP_DEBUG', true );`)
 - Permissions for WP editors
 - Non-200 HTTP response

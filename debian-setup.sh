@@ -376,14 +376,14 @@ editor /etc/network/interfaces
 #     allow-hotplug eth0
 #     auto eth0
 #     iface eth0 inet static
-#         address INET-IP
-#         netmask 255.255.255.0
-#         #netmask 255.255.254.0
+#         address INET-IP/INET-NETMASK
 #         gateway GATEWAY
+#         #netmask INET-NETMASK
+#         #dns-nameservers INET-NS1
 #     iface eth0 inet6 auto
 #         dns-nameservers INET6-NS1
 #     #iface eth0 inet6 static
-#     #    address INET6-IP/NETMASK
+#     #    address INET6-IP/INET6-NETMASK
 #     #    gateway INET6-GW
 clear; ifconfig -a
 route -n -4

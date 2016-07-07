@@ -50,7 +50,7 @@ cp -v ${D}/webserver/ocp.php ${PRG_ROOT}
 
 # apc.php from APCu master for PHP 5.5+
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
-    && wget -nv -O ${PRG_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/simplify/apc.php"
+    && wget -nv -O ${PRG_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/master/apc.php"
 echo "<?php define('ADMIN_USERNAME', '${HTTP_USER}');
     define('ADMIN_PASSWORD', '${HTTP_PASSWORD}');" > ${PRG_ROOT}/apc.conf.php
 chmod 640 ${PRG_ROOT}/apc.conf.php

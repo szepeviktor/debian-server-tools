@@ -3,8 +3,12 @@
 # Real-time web log analyzer.
 #
 
-IP="$IP"
 U="$(stat . -c %U)"
+#U="${1:-default-user}"
+
+HTTP="ssl-"
+
+IP="$IP"
 
 Goaccess() {
     goaccess \
@@ -17,17 +21,17 @@ Goaccess() {
         --exclude-ip="$IP" "$@"
 }
 
-# HTTPS
-Goaccess -f /var/log/apache2/${U}-ssl-access.log
-# HTTP
-#Goaccess -f /var/log/apache2/${U}-access.log
+Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log
+
+# List log files by size
+# ls -lSr /var/log/apache2/*access.log
 
 # Multiple log files (not realtime)
-#cat /var/log/apache2/${U}{-ssl,}-access.log | Goaccess
+#cat /var/log/apache2/${U}-{ssl-,}access.log | Goaccess
+
 
 # HTML output
-#Goaccess -f /var/log/apache2/${U}-ssl-access.log -o /home/${U}/website/html/stat.html
-#Goaccess -f /var/log/apache2/${U}-access.log -o /home/${U}/website/html/stat.html
+#Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log -o /home/${U}/website/html/stat.html
 
 # HTML output from multiple log files
-#cat /var/log/apache2/${U}{-ssl,}-access.log | Goaccess -o /home/${U}/website/html/stat.html
+#cat /var/log/apache2/${U}-{ssl-,}access.log | Goaccess -o /home/${U}/website/html/stat.html
