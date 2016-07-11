@@ -5,6 +5,7 @@
 
 # Locally generated mail (sendmail, SMTP, notifications)
 #     MTA <-- sendmail (local monitoring scripts)
+#     MTA <-- MUA@localhost
 #     MTA <-- DSN
 #
 # Receiving from foreign hosts (inbound SMTP, SMTP-MSA)
@@ -25,7 +26,6 @@
 #
 # Reading mail in local mailboxes (IMAP)
 #     MUA <-- MDA
-
 
 # RECEIVING (esmtpd)
 #

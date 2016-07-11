@@ -2,7 +2,7 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -54,7 +54,8 @@ if [ -n "${CERT_EXPIRY_REMOTES[*]}" ]; then
     for HOST_PORT in "${CERT_EXPIRY_REMOTES[@]}"; do
         # Set file name for expiry reporting
         CERT_EXPIRY_TMP="$(mktemp "/tmp/${HOST_PORT%%:*}-XXXXXXXXXX")"
-        openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt -connect "$HOST_PORT" \
+        openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
+            -connect "$HOST_PORT" -servername "${HOST_PORT%%:*}" \
             < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null
         Check_cert "$CERT_EXPIRY_TMP"
         rm -f "$CERT_EXPIRY_TMP"

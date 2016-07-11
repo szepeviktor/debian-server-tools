@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.1.0
+# VERSION       :2.2.0
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -74,12 +74,14 @@ NEXT_UPDATE="$(sed -n -e '0,/^\s*Next Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPO
 declare -i THIS_UPDATE_SECOND="$(date --date "$THIS_UPDATE" "+%s")"
 declare -i NEXT_UPDATE_SECOND="$(date --date "$NEXT_UPDATE" "+%s")"
 
-# Check expired update
+# Check expiry
 [ "$NEXT_UPDATE_SECOND" -ge "$(date "+%s")" ]
 
-declare -i OCSP_PERIOD="$(( ( NEXT_UPDATE_SECOND - THIS_UPDATE_SECOND ) / 3600 ))"
-[ "$OCSP_PERIOD" -ge 2 ]
+# Check expiration time
+declare -i OCSP_HOURS="$(( ( NEXT_UPDATE_SECOND - THIS_UPDATE_SECOND ) / 3600 ))"
+[ "$OCSP_HOURS" -ge 24 ]
+[ "$OCSP_HOURS" -le 240 ]
 
-echo "${HOST} OCSP period: ${OCSP_PERIOD} hours"
+echo "${HOST} OCSP period: ${OCSP_HOURS} hours"
 
 exit 0

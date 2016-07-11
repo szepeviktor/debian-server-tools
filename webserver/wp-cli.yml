@@ -1,0 +1,9 @@
+path: /home/USER/website/html/WP
+url: http://SITENAME.TLD
+debug: true
+user: viktor
+core update:
+    locale: hu_HU
+skip-plugins:
+    # Version randomizer
+    - better-wp-security

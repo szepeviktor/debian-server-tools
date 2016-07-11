@@ -14,7 +14,7 @@ time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$((4 * $(grep 
 ```bash
 apt-get clean; apt-get update
 apt-get install -y php5-cli php5-sqlite
-wget -qO- https://github.com/szepeviktor/wordpress-speedtest/releases/download/v0.1.0/wordpress-speedtest.tar.gz|tar xzv
+wget -qO- https://github.com/szepeviktor/wordpress-speedtest/releases/download/v0.1.2/wordpress-speedtest.tar.gz|tar xzv
 cd wordpress-speedtest
 
 time php index.php | grep -q 'Hello world.</a></h2>' || echo "WordPress error." >&2

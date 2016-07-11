@@ -80,7 +80,7 @@ cd ../
 git clone https://github.com/sektioneins/pcc.git
 
 # Redis admin
-composer create-project -s dev erik-dubbelboer/php-redis-admin radmin
+composer create-project --no-interaction --stability=dev erik-dubbelboer/php-redis-admin radmin
 cd radmin/
 cp -v includes/config.sample.inc.php includes/config.inc.php
 

@@ -25,6 +25,7 @@ Failures() {
     | grep -F -v "$0" \
     | Failures \
     | grep -E -v "error@|spamd\[[0-9]+\]: spamd:|courierd: SHUTDOWN: respawnlo limit reached, system inactive\.\$" \
+    | grep -E -v "courieresmtpd: error,relay=.*: 451 4\.7\.1 Please try another MX\$" \
     | grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)\$" \
     #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)\$" \
     #| grep -E -v "rngd\[[0-9]+\]: stats: FIPS 140-2 failures: [0-9]+\$" \

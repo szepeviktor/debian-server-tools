@@ -39,22 +39,25 @@ wp option set admin_email "support@company.net"
 
 @TODO Migrate to wp-lib
 
+
 ### Redis object cache
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
 
 ```bash
-apt-get install redis-server
+# Redis server
+apt-get install -y redis-server
 
 # PHP 5.6 extension
 pecl install redis
 echo -e "; priority=20\nextension=redis.so" > /etc/php5/mods-available/redis.ini
-php5enmod redis && php -m|grep redis
+php5enmod redis
+php -m | grep -Fx "redis"
 
 # PHP 7 extension
 apt-get install php7.0-dev re2c
 git clone https://github.com/phpredis/phpredis.git
-cd phpredis/ # && git checkout php7
+cd phpredis/ && git checkout php7
 # igbinary disables inc() and dec()
 #phpize7.0 && ./configure --enable-redis-igbinary && make && make install
 phpize7.0 && ./configure && make && make install
@@ -62,9 +65,13 @@ chmod -c -x /usr/lib/php/20151012/redis.so
 echo -e "; priority=20\nextension=redis.so" > /etc/php/7.0/mods-available/redis.ini
 phpenmod -v 7.0 -s ALL redis
 php -m | grep -Fx "redis" && php tests/TestRedis.php --class Redis
+echo "FLUSHALL" | nc -C -q 10 localhost 6379
+
+# PHP 7 extension from dotdeb
+apt-get install -y php7.0-redis
 ```
 
-Key salt in `wp-config.php`
+Cache key salt in `wp-config.php`
 
 ```php
 define( 'WP_CACHE_KEY_SALT', 'COMPANY_' );
@@ -101,8 +108,12 @@ ProxyPassMatch "^/memadmin/.+\.php$" "unix:///run/php/php7.0-fpm-${SITE_USER}.so
 
 APCu object cache
 
+https://github.com/l3rady/WordPress-APCu-Object-Cache
+
 ```bash
 wp plugin install apcu
+wp plugin install https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
+ln -sv wp-content/plugins/wp-redis/object-cache.php wp-content/
 ```
 
 ### Plugins
@@ -136,6 +147,12 @@ ln -sv wp-content/plugins/wp-redis/object-cache.php wp-content/
 wp transient delete-all
 # Add WP_CACHE_KEY_SALT in wp-config.php
 
+# apcu
+# DANGER! apcu is not available from CLI by default during WP-Cron
+## worse: wp plugin install apcu
+wp plugin https://github.com/l3rady/WordPress-APCu-Object-Cache/archive/master.zip
+ln -sv wp-content/plugins/WordPress-APCu-Object-Cache-master/object-cache.php wp-content/
+
 # mail from
 wp plugin install classic-smilies wp-mailfrom-ii --activate
 
@@ -149,9 +166,15 @@ wp plugin install safe-redirect-manager --activate
 wp plugin install user-role-editor --activate
 ```
 
-#### Optimize plugins
+#### Optimize
 
-TGM-Plugin-Activation
+Resource optimization
+
+`wp plugin install resource-versioning autoptimize --activate`
+
+`define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );`
+
+TGM-Plugin-Activation plugin
 
 ```php
 add_action( 'after_setup_theme', 'o1_disable_theme_updates' );
@@ -161,7 +184,7 @@ function o1_disable_theme_updates() {
 }
 ```
 
-WPBakery Visual Composer
+WPBakery Visual Composer plugin
 
 ```php
 add_action( 'plugins_loaded', 'o1_disable_plugin_updates' );
@@ -174,7 +197,6 @@ function o1_disable_plugin_updates() {
 Envato Market plugin for ThemeForest updates
 
 `wp plugin install https://envato.github.io/wp-envato-market/dist/envato-market.zip --activate`
-
 
 #### SMTP URI
 

@@ -1,3 +1,8 @@
+# Block access to directories without a default document
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
 # NO readme-s (site-wide) http://perldoc.perl.org/perlre.html#Extended-Patterns
 <FilesMatch "^.*(?i)readme\.txt$">
     # Apache < 2.3

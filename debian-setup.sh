@@ -700,13 +700,14 @@ ngx-conf --enable no-default
 #     https://packages.qa.debian.org/f/fail2ban.html
 ( cd /root/dist-mod/; Getpkg geoip-database-contrib )
 apt-get install -y geoip-bin python3-pyinotify
-#     apt-get install -y fail2ban
-( cd /root/dist-mod/; Getpkg fail2ban )
+#( cd /root/dist-mod/; Getpkg fail2ban )
+# From szepeviktor repo
+apt-get install -y fail2ban
 mc ${D}/security/fail2ban-conf/ /etc/fail2ban/
-# Config:    fail2ban.local
-# Jails:     jail.local
-# /filter.d: apache-combined.local, apache-instant.local, courier-smtp.local, recidive.local
-# /action.d: cloudflare.local
+# Config:     fail2ban.local
+# Jails:      jail.local
+# /filter.d:  apache-combined.local, apache-instant.local, courier-smtp.local, recidive.local
+# /action.d:  cloudflare.local
 # Search for "@@"
 service fail2ban restart
 
@@ -724,6 +725,7 @@ sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
+sed -i "s|^;mail.add_x_header\s*=.*\$|mail.add_x_header = Off|" /etc/php5/fpm/php.ini
 # OPcache - only "prg" site is allowed
 sed -i 's|^;opcache.restrict_api\s*=.*$|opcache.restrict_api = /home/web/website/|' /etc/php5/fpm/php.ini
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php5/fpm/php.ini
@@ -812,6 +814,7 @@ sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/php.ini
+sed -i "s|^;mail.add_x_header\s*=.*\$|mail.add_x_header = Off|" /etc/php/7.0/fpm/php.ini
 # Only Prg site is allowed
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php/7.0/fpm/php.ini
@@ -913,7 +916,7 @@ wget -O- "$WPCLI_COMPLETION_URL"|sed 's/wp cli completions/wp --allow-root cli c
 # Current hash: https://composer.github.io/pubkeys.html
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');
 if (hash_file('SHA384', 'composer-setup.php') ===
-'92102166af5abdb03f49ce52a40591073a7b859a86e8ff13338cf7db58a19f7844fbc0bb79b2773bf30791e935dbd938')
+'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae')
 { echo 'Installer verified'; }
 else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer

@@ -107,7 +107,7 @@ Install_plugin() {
     [ -d "$PLUGIN_PATH_LOCAL" ] || mkdir -p "$PLUGIN_PATH_LOCAL"
 
     if ! wget -nv -O "${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}" "$PLUGIN_URL"; then
-        echo "ERROR: plugin ${PLUGIN_NAME} download failure" >&2
+        echo "ERROR: plugin ${PLUGIN_NAME} download failure" 1>&2
         return 1
     fi
     chmod 755 "${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}"
@@ -208,39 +208,39 @@ IPMI_CFG
 munin_fail2ban() {
     which fail2ban-client &> /dev/null || return 1
 
-    cat > "${PLUGIN_CONF_DIR}/fail2ban" <<FAIL2BAN_PLG
+    cat > "${PLUGIN_CONF_DIR}/fail2ban" <<EOF
 [fail2ban]
 user root
-FAIL2BAN_PLG
+EOF
 }
 
 munin_loadtime() {
     [ "$LOADTIME_URL" == "http://www.site.net/login" ] && return 1
     [ -z "$LOADTIME_URL" ] && return 1
 
-    cat > "${PLUGIN_CONF_DIR}/http_loadtime" <<LOADTIME_PLG
+    cat > "${PLUGIN_CONF_DIR}/http_loadtime" <<EOF
 [http_loadtime]
 env.target ${LOADTIME_URL}
-LOADTIME_PLG
+EOF
 }
 
 munin_multiping() {
-    cat > "${PLUGIN_CONF_DIR}/multiping" <<MULTIPING
+    cat > "${PLUGIN_CONF_DIR}/multiping" <<EOF
 [multiping]
 # One hop away from BIX
-#        Telekom,     UPC,          DIGI,      Invitel,      ocsp.startssl.com
-env.host 81.183.0.151 89.135.214.78 94.21.3.57 217.113.63.72 95.101.88.90
-MULTIPING
+#        Telekom         UPC           DIGI       Invitel       ocsp.startssl.com
+env.host 145.236.128.199 89.135.214.78 94.21.3.57 217.113.63.72 95.101.88.90
+EOF
 
     Enable_plugin "multiping"
 }
 
 munin_startcom() {
     # ocsp.startssl.com
-    local STARTCOM_IP="$(host -tA ocsp.startssl.com|sed -ne '0,/^.* has address \(.\+\)$/s//\1/p')"
+    local STARTCOM_IP="$(host -t A ocsp.startssl.com|sed -n -e '0,/^.* has address \(.\+\)$/s//\1/p')"
 
     if ! ping -c 3 "$STARTCOM_IP"; then
-        echo "ERROR: No StartCom connection" 1>&2
+        echo "ERROR: No connection with StartCom" 1>&2
         return 1
     fi
 

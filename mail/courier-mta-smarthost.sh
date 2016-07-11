@@ -26,7 +26,7 @@ host -t MX $(hostname -f)
 
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
-apt-get install -y aptitude courier-mta courier-mta-ssl
+apt-get install -y aptitude apg courier-mta courier-ssl courier-mta-ssl
 
 # Check for other MTA-s
 aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))'
@@ -63,7 +63,7 @@ Restart=always
 EOF
 
 # Restart script
-cd ${D}; ./install.sh mail/courier-restart.sh
+( cd ${D}; ./install.sh mail/courier-restart.sh )
 
 # SMTP access for localhost and satellite systems
 editor /etc/courier/smtpaccess/default
@@ -88,9 +88,6 @@ editor /etc/courier/aliases/system
 #     nobody: postmaster
 #     postmaster: |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS admin@szepe.net
 
-# 1 day queue time
-echo "1d" > /etc/courier/queuetime
-
 # Listen on 587 and 465 and allow only authenticated clients even without PTR record
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
@@ -106,6 +103,9 @@ editor /etc/courier/esmtpd-ssl
 #     BLACKLISTS="-block=bl.blocklist.de"
 #     AUTH_REQUIRED=1
 #     SSLADDRESS=0
+
+# 1 day queue time
+echo "1d" > /etc/courier/queuetime
 
 # Infrequent restarts
 echo "23h" > /etc/courier/respawnlo
@@ -128,17 +128,18 @@ editor /etc/courier/esmtpd-ssl
 rm -f /etc/courier/dhparams.pem
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
-cd ${D}; ./install.sh mail/courier-dhparams.sh
+( cd ${D}; ./install.sh mail/courier-dhparams.sh )
 
 # Let's Encrypt certificate
 apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
+apt-get install -t jessie-backports -y python-six
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 pip2 install certbot
 # -d DOMAIN2 -d DOMAIN3 --agree-tos --email EMAIL
 certbot certonly --no-self-upgrade --standalone -d $(cat /etc/courier/me)
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > esmtpd.pem
-cd ${D}; ./install.sh monitoring/cert-expiry.sh
+( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
 
 # DKIM signature (zdkimfilter)
 #     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
@@ -176,6 +177,7 @@ filterctl start zdkimfilter; ls -l /etc/courier/filters/active
 
 # ClamAV + no_received_headers
 apt-get install -y python2.7 clamav-daemon uuid-runtime
+freshclam -v
 wget -P /root/dist-mod/ http://ftp.de.debian.org/debian/pool/main/p/pyclamd/python-pyclamd_0.3.16-1_all.deb
 dpkg -i /root/dist-mod/python-pyclamd_*_all.deb
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
@@ -205,10 +207,10 @@ mkdir -p /var/lib/pythonfilter/quarantine
 chown -cR daemon:daemon /var/lib/pythonfilter
 # Enable pythonfilter
 ln -vs /usr/local/bin/pythonfilter /usr/lib/courier/filters/
-filterctl start pythonfilter
+filterctl start pythonfilter; ls -l /etc/courier/filters/active
 
 # SRS (Sender Rewriting Scheme)
-apt-get install -y apg couriersrs
+apt-get install -y couriersrs
 couriersrs -v
 install -b -o root -g daemon -m 640 /dev/null /etc/srs_secret
 apg -a 1 -M LCNS -m 30 -n 1 > /etc/srs_secret
@@ -237,10 +239,10 @@ journalctl -f
 
 # Monitoring
 # SystemV
-#cd ${D}; ./install.sh monitor/syslog-errors-infrequent.sh
+( cd ${D}; ./install.sh monitor/syslog-errors-infrequent.sh )
 # Don't suppress Courier MTA SSL errors as they may come from authorized clients!
 # Systemd
-apt-get install -qq -y libpam-systemd
+apt-get install -y libpam-systemd
 mkdir ${HOME}/.config/systemd; cd ${HOME}/.config/systemd/
 git clone https://github.com/kylemanna/systemd-utils.git utils
 cp ./utils/failure-monitor/failure-monitor@.service /etc/systemd/user/
@@ -248,4 +250,4 @@ systemctl --user enable "failure-monitor@postmaster@szepe.net.service"
 systemctl --user start "failure-monitor@postmaster@szepe.net.service"
 
 # User accounts for sending mail
-./add-mailaccount.sh USER@DOMAIN
+${D}/mail/add-mailaccount.sh USER@DOMAIN

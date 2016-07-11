@@ -1,7 +1,8 @@
 #!/bin/bash --version
 #
-# Courier MTA - deliver all messages to a smarthost
+# Courier MTA - deliver all messages to a smarthost.
 #
+
 # Locally generated mail (sendmail, SMTP, notifications)
 #     MTA <-- sendmail
 #     MTA <-- MUA@localhost

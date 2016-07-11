@@ -1,9 +1,8 @@
 #!/bin/bash --version
-
-exit 0
-
-# TYPES OF OPERATION
 #
+# Courier MTA.
+#
+
 # Locally generated mail (sendmail, SMTP, notifications)
 #     MTA <-- sendmail
 #     MTA <-- MUA@localhost
@@ -31,6 +30,7 @@ exit 0
 # Reading mail in local mailboxes (IMAP)
 #     MUA <-- MDA
 
+exit 0
 
 # Courier-mta message processing order on reception
 #
