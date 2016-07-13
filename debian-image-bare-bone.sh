@@ -291,6 +291,8 @@ while read -r VIRT; do
     case "$VIRT" in
         openvz)
             grep -a "container=" /proc/1/environ | tr -d -c '[:print:]' | sed 's/$/ # init-env/'
+            # /proc/vz/veinfo
+            # /proc/vz/vestat
             ;;
         xen|xen-domU|xen-hvm)
             if ! [ -r /sys/hypervisor/type ] || [ "$(cat /sys/hypervisor/type)" != xen ]; then

@@ -1,5 +1,7 @@
+# See: https://github.com/fail2ban/fail2ban/issues/1151
+
 [Definition]
 
 failregex = ^%(__prefix_line)sLOGIN FAILED, (user|method)=.*, ip=\[<HOST>\]$
 
-# See: https://github.com/fail2ban/fail2ban/issues/1151
+# Author: Viktor Szépe

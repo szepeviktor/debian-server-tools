@@ -8,6 +8,10 @@ python -m SimpleHTTPServer 80
 
 https://github.com/avleen/bashttpd
 
+### Debug PHP-FPM (FastCGI) unix domain socket
+
+`strace $(pidof php5-fpm|sed 's|\b[0-9]|-p &|g') -f -e trace=read,write -s 4096 2>&1|sed 's|[A-Z_]\+|\n&|g'`
+
 ### TCP port forwarder
 
 http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLE_OPTION_REUSEADDR
@@ -25,7 +29,7 @@ location ~* ^(.+)\.\d\d+\.(js|css|png|jpg|jpeg|gif|ico)$ {
 }
 ```
 
-### Remove all comments and indentation from (compact) a PHP script
+### Remove all comments and indentation (compact) from a PHP script
 
 ```bash
 php -w SCRIPT.php | sed 's/;/;\n/g'

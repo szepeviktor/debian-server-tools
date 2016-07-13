@@ -9,6 +9,11 @@ add ering.pl 155.133.64.0/24
 add ering.pl 155.133.82.0/24
 # E-RING-NET, Artur Grabowski (DELORIAN)
 add ering.pl 193.189.116.0/23
+# Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
+#   add ering.pl 185.125.4.0/23
+#   add ering.pl 185.125.6.0/24
+#   add ering.pl 185.125.7.0/24
+add ering.pl 185.125.4.0/22
 # Also in -> dangerous.dnsbl.zone
 
 # AS197226 "SPRINT" S.A. - Prefixes
@@ -19,9 +24,9 @@ add ering.pl 193.189.116.0/23
 # *155.133.64.0/24 FUFO STUDIO AGATA GRABOWSKA
 # *155.133.82.0/24 FUFO STUDIO AGATA GRABOWSKA
 # 185.38.248.0/22 "SPRINT" S.A.
-# 185.125.4.0/23 Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
-# 185.125.6.0/24 Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
-# 185.125.7.0/24 Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
+# *185.125.4.0/23 Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
+# *185.125.6.0/24 Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
+# *185.125.7.0/24 Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
 # 188.68.224.0/20 "SPRINT" S.A.
 # 188.68.240.0/20 "SPRINT" S.A.
 # 193.42.147.0/24 Data Quest

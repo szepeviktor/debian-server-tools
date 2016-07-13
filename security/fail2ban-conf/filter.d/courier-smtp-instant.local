@@ -8,7 +8,9 @@ before = common.conf
 
 _daemon = courieresmtpd
 
-#           Failed password is 1-9 characters long (4-12 base64 encoded)
+#           failed password is 1-9 characters long (4-12 base64 encoded)
 failregex = ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)? [0-9a-zA-Z\+/=]{4,12}( \S+)?$
 
 ignoreregex = 
+
+# Author: Viktor Szépe

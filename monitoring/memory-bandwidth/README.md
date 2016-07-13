@@ -12,7 +12,7 @@ apt-get install -y build-essential nasm
 tar xf bandwidth-${BW_VER}.tar.gz
 cd bandwidth-${BW_VER}/
 make bandwidth64
-# Ru
+# Run
 nice -n -2 ./bandwidth64 --fast
 ```
 

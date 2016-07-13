@@ -652,8 +652,8 @@ a2enmod actions rewrite headers deflate expires proxy_fcgi
 # Comment out '<Location /server-status>' block
 editor /etc/apache2/mods-available/status.conf
 a2enmod ssl
-cp -v ${D}/webserver/apache-conf-available/* /etc/apache2/conf-available/
-yes|cp -vf ${D}/webserver/apache-sites-available/* /etc/apache2/sites-available/
+cp -v ${D}/webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
+yes|cp -vf ${D}/webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
 ( cd ${D}; ./install.sh webserver/apache-resolve-hostnames.sh )
 ( cd ${D}; ./install.sh webserver/wp-cron-cli.sh )

@@ -1,12 +1,12 @@
 ### CPU benchmarks
 
 ```bash
-# One thread, all threads, 4 times overload
-apt-get install -y time sysbench
-time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1 --max-requests=100
-time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1
-time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$(grep -c "^processor" /proc/cpuinfo)
-time sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$((4 * $(grep -c "^processor" /proc/cpuinfo)))
+# Mini, one thread, all threads, 4 times overload
+apt-get install -y sysbench
+sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1 --max-requests=100
+sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=1
+sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$(grep -c "^processor" /proc/cpuinfo)
+sysbench --test=cpu --cpu-max-prime=100000 run --num-threads=$((4 * $(grep -c "^processor" /proc/cpuinfo)))
 ```
 
 ### WordPress speedtest

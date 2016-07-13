@@ -2,7 +2,7 @@
 #
 # Smart search Apache logs.
 #
-# VERSION       :0.6.1
+# VERSION       :0.6.2
 # DATE          :2015-04-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -176,12 +176,12 @@ SEARCH="$*"
 
 if [ -z "$ERRORLOG" ]; then
     # Process access logs
+    # shellcheck disable=SC2086
     grep "${SEARCH}" ${LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
-        | ${PIPE}
+        | eval "$PIPE"
 else
     # Process error logs
-
     # Remove: 6, 7, 8
     FIELDS="${FIELDS//\\6/}"
     FIELDS="${FIELDS//\\7/}"
@@ -190,9 +190,9 @@ else
     FIELDS="${FIELDS//\\3/\X}"
     FIELDS="${FIELDS//\\4/\3}"
     FIELDS="${FIELDS//\\X/\4}"
-
     #             log path:1,2          date:4                        IP:3               message:5
+    # shellcheck disable=SC2086
     grep -- "${SEARCH}" ${ERROR_LOGS} \
         | sed 's/^\([^:]*\)\/\([^\/]*\):\(\[.*\]\) \[error\] \[client \([0-9a-f:\.]*\)\] \(.*\)$/'"$FIELDS"'/' \
-        | ${PIPE}
+        | eval "$PIPE"
 fi

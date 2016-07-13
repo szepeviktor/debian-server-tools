@@ -1,7 +1,12 @@
+# Fail2Ban filter for Apache access log of the default (first) virtual host
+
 [Definition]
 
+#           any traffic
 failregex = ^<HOST> \S+ \S+ \[\] ".+" \d{3} \d+ ".+" ".+"$
 
+#             request for /robots.txt
+#             timeout
 ignoreregex = ^<HOST> \S+ \S+ \[\] "GET /robots\.txt HTTP/[0-9.]+" 200 \d{3} ".+" ".+"$
               ^<HOST> \S+ \S+ \[\] "-" 408 0 "-" "-"$
 

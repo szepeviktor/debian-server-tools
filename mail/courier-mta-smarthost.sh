@@ -251,3 +251,14 @@ systemctl --user start "failure-monitor@postmaster@szepe.net.service"
 
 # User accounts for sending mail
 ${D}/mail/add-mailaccount.sh USER@DOMAIN
+
+# Let's Encrypt renew
+#     #pip2 install --upgrade certbot
+#     certbot renew
+#     ( cd /etc/letsencrypt/live/mail.radiomedinstruments.hu
+#     cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
+#     rm -f /etc/courier/dhparams.pem
+#     DH_BITS=2048 nice /usr/sbin/mkdhparams
+#     courier-restart.sh
+#     # Verify
+#     #openssl s_client -connect $(hostname -f):587 -starttls smtp

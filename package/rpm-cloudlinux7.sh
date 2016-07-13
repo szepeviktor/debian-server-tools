@@ -14,10 +14,10 @@ Get_rpm() {
     local PKG
 
     REPO="$CL_REPO1"
-    PKG="$(wget -qO- "$REPO" | grep -o "\"${RPM}-.*\.rpm\"" | cut -d '"' -f 2)"
+    PKG="$(wget -qO- "$REPO" | grep -o -m 1 "\"${RPM}-.*\.rpm\"" | cut -d '"' -f 2)"
     if [ -z "$PKG" ]; then
         REPO="$CL_REPO2"
-        PKG="$(wget -qO- "$REPO" | grep -o "\"${RPM}-.*\.rpm\"" | cut -d '"' -f 2)"
+        PKG="$(wget -qO- "$REPO" | grep -o -m 1 "\"${RPM}-.*\.rpm\"" | cut -d '"' -f 2)"
     fi
     [ -z "$PKG" ] && return 10
 
