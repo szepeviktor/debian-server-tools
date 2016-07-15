@@ -53,7 +53,7 @@
 - http://speedtest6.digi.hu/
 - http://www.sebessegteszt.telekom.hu/
 - http://speedtest.datanet.hu/
-- http://www.externet.hu/index.php?page=speedmeter_display
+- https://www.externet.hu/index.php/ugyintezes/sebessegmeres
 - http://speedtest.szelessavkereso.hu/index.nof?parent=http%3A%2F%2Fwww.szelessavindex.hu%2FSzelessav_speedtest.nof
 
 ### IX locations

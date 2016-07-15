@@ -1,9 +1,9 @@
 #!/bin/sh
 #
-# Follow syslog colorized.
+# Show colorized syslog without cron and imapd.
 #
-# VERSION       :0.2
-# DATE          :2015-02-26
+# VERSION       :0.3.0
+# DATE          :2016-07-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,12 +11,34 @@
 # DEPENDS       :apt-get install ccze
 # LOCATION      :/usr/local/sbin/syslog.sh
 
-if ls -l /sbin/init | grep -q "systemd"; then
-    LOG_CMD="journalctl -n 300 -f"
+if [ "$1" = "-f" ]; then
+    FOLLOW="1"
 else
-    LOG_CMD="tail -n 300 -f /var/log/syslog"
+    FOLLOW="0"
 fi
 
-${LOG_CMD} \
-    | grep -v "imapd:\|imapd\[[0-9]\+\]:\|CRON\[[0-9]\+\]:" \
-    | ccze --mode ansi --plugin syslog
+LOG_OUTPUT=""
+if realpath /sbin/init | grep -q "systemd"; then
+    if [ "$FOLLOW" = "1" ]; then
+        LOG_SOURCE="journalctl -n 300 -f"
+    else
+        LOG_SOURCE="journalctl"
+        LOG_OUTPUT="less -r"
+    fi
+else
+    if [ "$FOLLOW" = "1" ]; then
+        LOG_SOURCE="tail -n 300 -f /var/log/syslog"
+    else
+        LOG_SOURCE="cat /var/log/syslog"
+        LOG_OUTPUT="less -r"
+    fi
+fi
+
+${LOG_SOURCE} \
+    | grep -E --line-buffered --invert-match "(imapd|CRON)(\[[0-9]+\])?:" \
+    | if [ -z "$LOG_OUTPUT" ]; then
+        # ccze (or cat?) holds back some lines with "ccze | cat"
+        ccze --mode ansi --plugin syslog
+    else
+        eval "ccze --mode ansi --plugin syslog | ${LOG_OUTPUT}"
+    fi

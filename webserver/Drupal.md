@@ -68,6 +68,10 @@ Enable inclusion per content type.
 
 `udrush en xmlsitemap -y`
 
+## CDN
+
+`udrush en cdn -y`
+
 ## Drupal menus
 
 - All options: admin/config

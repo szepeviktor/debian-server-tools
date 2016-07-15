@@ -4,7 +4,7 @@
 - Easy rollback to a previous version.
 - Able to setup deployment to staging/production environments.
 
-## Path of repositories on a Debian system
+## Path of repositories on a Debian-based system
 
 /var/lib/git
 
@@ -17,9 +17,9 @@ LIVE_ROOT="<PRODUCTION-ROOT>"
 cat <<EOF > hooks/post-receive
 #!/bin/sh
 
-# Go update development website.
+# Go update development website
 GIT_WORK_TREE=${DEV_ROOT}/cms git checkout -f
-# @TODO set owner and permissions
+# @TODO Set owner and permissions
 rm -rf ${DEV_ROOT}/cms/wp-content
 # Symlink live site's /static/uploads directory.
 ln -sf ${LIVE_ROOT}/static/uploads ${DEV_ROOT}/static/uploads
@@ -30,7 +30,7 @@ chmod +x hooks/post-receive
 
 ### In the developer's repo
 
-`~/.ssh/config`:
+`~/.ssh/config`
 
 ```
 Host HOST-ALIAS

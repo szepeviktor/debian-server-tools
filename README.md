@@ -57,25 +57,37 @@ Docker containers.
 
 Tools related to building webservers.
 
+### Install your own SSH key
+
+```bash
+S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2"
+```
+
 ### Fast and safe transit of scripts (or any data) via copy&paste
 
 ##### Pack
 
 ```bash
-cat <SCRIPT>|xz -9|base64 -w $((COLUMNS-1))
-# alias: cat <SCRIPT>|transit
+cat $SCRIPT|xz -9|base64 -w $((COLUMNS-1))
+# alias: cat $SCRIPT|transit
 ```
 
 ##### Unpack
 
 ```bash
-cat <PASTED-FILE>|base64 -d|xz -d > <SCRIPT>
-# alias: cat <PASTED-FILE>|transit-receive
+cat $PASTED_FILE|base64 -d|xz -d > $SCRIPT
+# alias: cat $PASTED_FILE>|transit-receive
 ```
 
-### Flush Google public DNS cache
+### Moving away git-dir
 
-http://google-public-dns.appspot.com/cache
+`git init --separate-git-dir=/home/user/gitdir`
+
+Produces:
+
+/home/user/work-dir/.git: `gitdir: /home/user/git`
+
+/home/user/gitdir/config: `worktree = /home/user/work-dir`
 
 ### Rescan the SCSI Bus to Add SCSI Devices
 
@@ -91,19 +103,13 @@ LicenseKey 000000000000
 ProductIds 506 533
 ```
 
+### Flush Google public DNS cache
+
+http://google-public-dns.appspot.com/cache
+
 ### Free CDN for GitHub
 
 http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
-
-### Moving away git-dir
-
-`git init --separate-git-dir=/home/user/gitdir`
-
-Produces:
-
-/home/user/work-dir/.git: `gitdir: /home/user/git`
-
-/home/user/gitdir/config: `worktree = /home/user/work-dir`
 
 ### UNICODE owl
 
@@ -135,7 +141,3 @@ Produces:
 ### Writing a man page
 
 http://asciidoc.org/
-
-### Install your own SSH key
-
-`S="${HOME}/.ssh";mkdir --mode 700 "$S";editor "${S}/authorized_keys2"`

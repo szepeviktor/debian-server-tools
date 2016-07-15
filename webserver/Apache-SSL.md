@@ -10,6 +10,8 @@ cat /proc/sys/kernel/random/entropy_avail
 
 https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
 
+[Current master in Debian](https://anonscm.debian.org/cgit/pkg-apache/apache2.git/tree/debian/config-dir/mods-available/ssl.conf)
+
 ```apache
     # "Intermediate" SSLCipherSuite from Mozilla SSL Configuration Generator
     #     dpkg -l | grep "apache2\|openssl"

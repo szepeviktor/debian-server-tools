@@ -1,4 +1,7 @@
-# AS8560 - 1&1 Internet SE
-#inetnum:        82.165.0.0 - 82.165.15.255
-#netname:        SCHLUND-CUSTOMERS
+## AS8560 - 1&1 Internet SE / SCHLUND-CUSTOMERS
+##: ipset -exist restore < oneandone-slund.ipset
+##: iptables -I myattackers-ipset -m set --match-set oneandone-slund src -j REJECT
+#create oneandone-slund hash:net family inet hashsize 256 maxelem 32
+#flush oneandone-slund
 #add oneandone-slund 82.165.0.0/20
+## Also in -> dangerous.dnsbl.zone
