@@ -146,6 +146,9 @@ Development tools:
 - `what-the-file`
 - `error-log-monitor`
 - `query-monitor`
+- `p3-profiler`
+
+@TODO Move to wordpress-sitebuild/...
 
 Block all outgoing HTTP traffic: `airplane-mode`
 

@@ -1,10 +1,15 @@
 # WordPress website lifecycle
 
-## Core and essentials
+## Where do I find ...?
 
-`wp download core`
+- Development environment: /webserver/Wp-config-dev.md
+- Development tools: wordpress-sitebuild/
+- Production environment: /webserver/Production-website.md
+- Production on cPanel and migration to cPanel: wordpress-plugin-construction/shared-hosting-aid/cPanel/cPanel-WordPress-setup.md
+- Content plugins: wordpress-plugin-construction/README.md
+- WordPress installation: here + secret dir + git + migration
 
-### Directory structure
+### Secret Directory structure
 
 ```
 $DOCROOT─┬─index.php
@@ -24,14 +29,6 @@ wp-cli.yml options: path, user ...
 wp core config --dbname="$DBNAME" --dbuser="$DBUSER" --dbpass="$DBPASS" \
     --dbhost="$DBHOST" --dbprefix="prod" --dbcharset="$DBCHARSET" --extra-php <<EOF
 EOF
-editor wp-config.php
-#     require_once __DIR__ . '/wp-fail2ban-bad-request-instant.inc.php';
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
-
-read -r WPHOMEURL
-wp core install --url="${WPHOMEURL}/${COMPANY}" --title="Site Title" \
-    --admin_user="$ME" --admin_password="$MYPASS" --admin_email=viktor@szepe.net
-
 wp option set home "$WPHOMEURL"
 wp option set blog_public "0"
 wp option set admin_email "support@company.net"
@@ -40,6 +37,8 @@ wp option set admin_email "support@company.net"
 @TODO Migrate to wp-lib
 
 
+
+@TODO Move to add-prg-site...
 ### Redis object cache
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
@@ -71,18 +70,6 @@ echo "FLUSHALL" | nc -C -q 10 localhost 6379
 apt-get install -y php7.0-redis
 ```
 
-Cache key salt in `wp-config.php`
-
-```php
-define( 'WP_CACHE_KEY_SALT', 'COMPANY_' );
-/*
-$redis_server = array(
-    'host' => '127.0.0.1',
-    'port' => 6379,
-);
-*/
-```
-
 ### Memcached control panel
 
 ```bash
@@ -106,79 +93,143 @@ SetEnvIfNoCase Authorization "(.+)" HTTP_AUTHORIZATION=$1
 ProxyPassMatch "^/memadmin/.+\.php$" "unix:///run/php/php7.0-fpm-${SITE_USER}.sock|fcgi://localhost/home/${SITE_USER}/website/phpMemAdmin"
 ```
 
-APCu object cache
+### Development
 
-https://github.com/l3rady/WordPress-APCu-Object-Cache
-
-```bash
-wp plugin install apcu
-wp plugin install https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
-ln -sv wp-content/plugins/wp-redis/object-cache.php wp-content/
-```
+See /webserver/Wp-config-dev.md
 
 ### Plugins
 
+#### Core
+
 ```bash
-mkdir wp-content/mu-plugins
-cd wp-content/mu-plugins/
+mkdir wp-content/mu-plugins/
 
-# Fail2ban Wordpress
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
-
-# protect plugins
-wget https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-protect-plugins/protect-plugins.php
-
-# password bcrypt
-wget https://github.com/szepeviktor/password-bcrypt/raw/wp/wp-password-bcrypt.php
+# InnoDB table engine
+wget -qO- https://github.com/szepeviktor/debian-server-tools/raw/master/mysql/alter-table.sql \
+ | mysql -N $(cd public_html/;wp eval 'echo DB_NAME;') | mysql
 
 # disable updates
 wget https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disable-updates/disable-updates.php
 
 # disable comments
-wget https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu.php
-wget -P disable-comments-mu https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu/comments-template.php
+wget -P wp-content/mu-plugins/ https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu.php
+wget -P wp-content/mu-plugins/disable-comments-mu/ https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu/comments-template.php
 
-# google analytics
-wget https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/google-universal-analytics/google-universal-analytics.php
+# smilies
+wp plugin install classic-smilies --activate
 
-# redis
-wp plugin install wp-redis
-ln -sv wp-content/plugins/wp-redis/object-cache.php wp-content/
-wp transient delete-all
-# Add WP_CACHE_KEY_SALT in wp-config.php
+# mail
+wp plugin install classic-smilies wp-mailfrom-ii smtp-uri --activate
+#wget -P wp-content/mu-plugins/ https://github.com/danielbachhuber/mandrill-wp-mail/raw/master/mandrill-wp-mail.php
+wp eval 'var_dump(wp_mail("admin@szepe.net","First outgoing",site_url()));'
+# define( 'SMTP_URI', 'smtp://FOR-THE-WEBSITE%40DOMAIN.TLD:PWD@localhost' );
 
-# apcu
-# DANGER! apcu is not available from CLI by default during WP-Cron
-## worse: wp plugin install apcu
-wp plugin https://github.com/l3rady/WordPress-APCu-Object-Cache/archive/master.zip
-ln -sv wp-content/plugins/WordPress-APCu-Object-Cache-master/object-cache.php wp-content/
-
-# mail from
-wp plugin install classic-smilies wp-mailfrom-ii --activate
-
-# smtp uri
-wp plugin install smtp-uri --activate
-
-# safe redirect manager
-wp plugin install safe-redirect-manager --activate
-
-# user role editor
-wp plugin install user-role-editor --activate
+# multilanguage
+wp plugin install polylang --activate
 ```
 
-#### Optimize
+#### Security
+
+```bash
+# Fail2ban Wordpress
+wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
+
+# users
+wp plugin install password-bcrypt
+cp wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
+wp plugin uninstall password-bcrypt
+# mu-lock-session-ip
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-lock-session-ip/lock-session-ip.php
+wp plugin install prevent-concurrent-logins --activate
+wp plugin install user-session-control --activate
+# mu-totp-login
+# https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-totp-login
+# user role editor
+wp plugin install user-role-editor --activate
+
+# security suite + audit
+wp plugin install sucuri-scanner custom-sucuri --activate
+# simple audit
+simple-history
+
+# mail/spam
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php
+# Install: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
+wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php
+wp plugin install obfuscate-email --activate
+```
+
+#### Forcing
+
+```bash
+# protect plugins
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-protect-plugins/protect-plugins.php
+```
+
+#### Object cache
+
+```bash
+# APCu @l3rady
+# DANGER! apcu is not available from CLI by default during WP-Cron
+wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
+## Worse: wp plugin install apcu
+# Memcached @tollmanz
+wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/raw/master/object-cache.php
+# Redis @danielbachhuber
+wp plugin install wp-redis
+wp transient delete-all
+ln -sv plugins/wp-redis/object-cache.php wp-content/
+```
+
+```php
+// Remember adding WP_CACHE_KEY_SALT in wp-config.php
+$redis_server = array(
+    'host' => '127.0.0.1',
+    'port' => 6379,
+);
+```
+
+#### Optimize HTML + HTTP
 
 Resource optimization
 
-`wp plugin install resource-versioning autoptimize --activate`
+```bash
+# safe redirect manager
+wp plugin install safe-redirect-manager --activate
 
-`define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );`
+# ?
+wp plugin install resource-versioning <--> autoptimize --activate
+# define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
+
+# CDN, Page Cache, Minify
+wp plugin install w3-total-cache --activate
+```
+
+Set up CDN.
+
+#### Plugin fixes
+
+Revolution Slider fix
+
+```php
+/*
+ * Trigger fail2ban on Revolution Slider upload attempt.
+ *
+ * @revslider/revslider_admin.php:389
+ *     case "update_plugin":
+ * Comment out
+ *     //self::updatePlugin(self::DEFAULT_VIEW);
+ */
+error_log( 'Break-in attempt detected: ' . 'revslider_update_plugin' );
+exit;
+```
 
 TGM-Plugin-Activation plugin
 
 ```php
-add_action( 'after_setup_theme', 'o1_disable_theme_updates' );
-function o1_disable_theme_updates() {
+add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
+function o1_disable_tgmpa() {
     remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
     remove_action( 'tgmpa_register', 'theme_required_plugins' );
 }
@@ -187,24 +238,34 @@ function o1_disable_theme_updates() {
 WPBakery Visual Composer plugin
 
 ```php
-add_action( 'plugins_loaded', 'o1_disable_plugin_updates' );
-function o1_disable_plugin_updates() {
+add_action( 'plugins_loaded', 'o1_disable_vc_plugin_updates' );
+function o1_disable_vc_plugin_updates() {
     global $vc_manager;
     $vc_manager->disableUpdater( true );
 }
 ```
 
+Easy Social Share Buttons plugin
+
+```php
+add_action( 'plugins_loaded', 'o1_disable_essb_plugin_updates' );
+function o1_disable_essb_plugin_updates() {
+    global $essb_manager;
+    $essb_manager->disableUpdates( true );
+}
+```
+
 Envato Market plugin for ThemeForest updates
 
-`wp plugin install https://envato.github.io/wp-envato-market/dist/envato-market.zip --activate`
+```bash
+wp plugin install https://envato.github.io/wp-envato-market/dist/envato-market.zip --activate
+```
 
-#### SMTP URI
+### On deploy and Staging->Production Migration
 
-`wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'`
+@TODO Move to Production-website.md
 
-### On deploy and Staging->Production migration
-
-(Also in Production-website.md)
+Also in /webserver/Production-website.md
 
 - `wp transient delete-all`
 - `wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')options WHERE option_name LIKE '%_transient_%'"`

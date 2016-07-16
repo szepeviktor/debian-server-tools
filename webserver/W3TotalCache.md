@@ -1,5 +1,7 @@
 # How to debug "creating the minify cache" errors
 
+This is an `opcache.validate_timestamps`-related error.
+
 1. Put the config directories under git.
 1. Set up an hourly cron job to monitor
 

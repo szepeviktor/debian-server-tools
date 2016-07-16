@@ -2,6 +2,7 @@
 #
 # Install mc on cPanel as a normal user.
 #
+# VERSION       :0.1.1
 
 # CentOS 6 repo
 MC_REPO="http://download.opensuse.org/repositories/home:/laurentwandrebeck:/mc/CentOS_6/x86_64"
@@ -16,7 +17,8 @@ Progressbar() {
     sed -e 's|^.*$|.|g' | tr -d '\n'
 }
 
-cat > ~/.bashrc <<EOF
+cat >> ~/.bashrc <<EOF
+
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export MC_SKIN=dark
