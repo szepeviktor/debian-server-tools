@@ -67,8 +67,8 @@ chown -cR ${U}:${U} /home/${U}/
 
 # Migrate database NOW!
 # Create WordPress database from wp-config
-# See: /mysql/wp-createdb.sh
-# See: /mysql/alter-table.sql
+# See /mysql/wp-createdb.sh
+# See /mysql/alter-table.sql
 
 # wp-cli configuration
 # path, url, debug, user, skip-plugins
@@ -108,15 +108,15 @@ cd /etc/apache2/sites-available/
 # Non-SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 # * SSL
-# Name main SSL site (non-SNI) "001-${DOMAIN}.conf"
-# See: webserver/Apache-SSL.md
+# "001-${DOMAIN}.conf" non-SNI site
+# See /webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 
 # Include the HPKP header: backup key, "Public-Key-Pins-Report-Only:" "Public-Key-Pins:"
-# See: https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
-# See: https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
+# See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
+# See https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
 openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
  | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 
@@ -127,7 +127,7 @@ a2ensite ${DOMAIN}
 apache-resolve-hostnames.sh
 
 # Restart webserver + PHP
-# See: /webserver/webrestart.sh
+# See /webserver/webrestart.sh
 webrestart.sh
 
 # * Logrotate for log in $HOME

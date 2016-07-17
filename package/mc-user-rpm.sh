@@ -19,16 +19,15 @@ Progressbar() {
 
 cat >> ~/.bashrc <<EOF
 
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 export MC_SKIN=dark
+
 EOF
 
 # Get utils
 mkdir ~/bin || true
 wget -nv -P ~/bin/ "${BINARIES}/rpm2cpio"
 wget -nv -P ~/bin/ "${BINARIES}/cpio"
-chmod +x ~/bin/*
+chmod +x ~/bin/{rpm2cpio,cpio}
 
 # Download RPM
 mkdir -p ~/rpm/mc
@@ -66,3 +65,6 @@ echo
 
 mc --version
 rm -rf etc usr
+
+# Uninstall
+#rm -rf ~/rpm/mc/mc-*x86_64.rpm ~/.mc ~/.config/mc ~/.local/share/mc ~/bin/mc*

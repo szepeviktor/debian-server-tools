@@ -14,7 +14,7 @@
 
 ### DNS setup
 
-- A, CNAME (for CDN)
+- A, CNAME (for [CDN](http://www.cdnplanet.com/cdns/))
 - MX
 - SPF, DKIM
 

@@ -2,23 +2,32 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.2.11
-# DATE          :2016-04-19
+# VERSION       :0.3.0
+# DATE          :2016-07-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install bind9-host dos2unix grepcidr geoip-database-contrib
-# CI            :shellcheck -e SC2059 leanmail.sh
 # LOCATION      :/usr/local/sbin/leanmail.sh
-# CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh 10.0.0.2
+# CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh cron
 
-# Usage, remarks
+# Usage and remarks
 #
-# Replace sendmail in Fail2ban action
-#     | /usr/local/sbin/leanmail.sh <ip> <sender> <dest>
+# Pipe destination address into leanmail.sh in MTA config
+#     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
+# Set destination address in jail.local
+#     destemail = f2bleanmail
+# Prepend X-Fail2ban header to your action in sendmail-*.local
+#     actionban = printf %%b "X-Fail2ban: <ip>,<sender>
+# Restart fail2ban
+#     fail2ban-client reload
 #
 # Serving a website over HTTPS reduces attacks!
+
+
+DEST="${1:-admin@szepe.net}"
+
 
 # DNS blacklists
 
@@ -132,11 +141,6 @@ CACHE_DIR="/var/lib/fail2ban"
 COUNTRY_GEOIP="/usr/share/GeoIP/GeoIP.dat"
 AS_GEOIP="/usr/share/GeoIP/GeoIPASNum.dat"
 
-# Fail2ban action in sendmail-*.local
-#     | /usr/local/sbin/leanmail.sh <ip> <sender> <dest>
-IP="$1"
-SENDER="$2"
-DEST="$3"
 
 Reverse_ip() {
     local STRING="$1"
@@ -516,6 +520,27 @@ Match_all() {
     exit
 }
 
+
+# Main
+if [ "$DEST" == cron ]; then
+    # Cron job
+    IP="10.0.0.2"
+else
+    FIRST_LINE=""
+    while [ -z "$FIRST_LINE" ] || [ "${FIRST_LINE#Received: }" != "$FIRST_LINE" ] || [ "${FIRST_LINE:0:1}" == " " ]; do
+        IFS='' read -r FIRST_LINE
+    done
+    if grep -qx "X-Fail2ban: [0-9a-fA-F:.]\+,\S\+@\S\+" <<< "$FIRST_LINE"; then
+        IP_SENDER="${FIRST_LINE#X-Fail2ban: }"
+        IP="${IP_SENDER%%,*}"
+        SENDER="${IP_SENDER##*,}"
+    else
+        # Missing X-Fail2ban header
+        sed "1s/^/${FIRST_LINE}\n/" | /usr/sbin/sendmail "$DEST"
+        exit
+    fi
+fi
+
 [ -d "$CACHE_DIR" ] || exit 1
 
 [ -z "$LEANMAIL_DEBUG" ] || CACHE_UPDATE="1" Match_all
@@ -524,12 +549,12 @@ if Match_any; then
     exit 0
 fi
 
-if [ "$IP" != 10.0.0.2 ]; then
-# @TODO Report IP
-# if sed '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'; then
-#     INSTANT_SECRET=""
-#     wget -q -O- --post-data="auth=$(echo -n "${IP}${INSTANT_SECRET}"|shasum -a 256|cut -d" " -f1)&ip=${IP}" \
-#         https://SITE/dnsbl.php &> /dev/null &
-# fi |
+if [ "$DEST" != cron ]; then
+    # @TODO Report IP
+    # if sed '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'; then
+    #     INSTANT_SECRET=""
+    #     wget -q -O- --post-data="auth=$(echo -n "${IP}${INSTANT_SECRET}"|shasum -a 256|cut -d" " -f1)&ip=${IP}" \
+    #         https://SITE/dnsbl.php &> /dev/null &
+    # fi |
     /usr/sbin/sendmail -f "$SENDER" "$DEST"
 fi

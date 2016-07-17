@@ -6,6 +6,7 @@
 - apt-spy -d stable -a Europe
 - Cachefly "1" http://cachefly.cachefly.net/100mb.test
 
+- keycdn https://tools.keycdn.com/ping `P`
 - Aruba.cz http://speedtest.forpsi.net/ `PTS6`
 - Aruba.cz http://29.209.forpsi.net/ `PTS6`
 - OVH 3 http://ipv4.rbx.proof.ovh.net/ `PTS`

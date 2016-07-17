@@ -151,7 +151,7 @@ wp plugin install user-role-editor --activate
 # security suite + audit
 wp plugin install sucuri-scanner custom-sucuri --activate
 # simple audit
-simple-history
+wp plugin install simple-history --activate
 
 # mail/spam
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php

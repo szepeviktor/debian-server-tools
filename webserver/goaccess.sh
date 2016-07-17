@@ -2,11 +2,12 @@
 #
 # Real-time web log analyzer.
 #
+# VERSION       :0.1.1
 
 U="$(stat . -c %U)"
 #U="${1:-default-user}"
 
-HTTP="ssl-"
+HTTPS="ssl-"
 
 IP="$IP"
 

@@ -23,6 +23,7 @@ usedns = no
 sender = @@SENDER@@
 
 destemail = admin@szepe.net
+#destemail = f2bleanmail@szepe.net
 
 # Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
