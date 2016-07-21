@@ -159,7 +159,7 @@ netstat -anp | grep "ssh" || echo 'no SSH !!!'
 
 cd /usr/local/src/
 git clone https://github.com/szepeviktor/debian-server-tools.git
-apt-get install python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
+apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
 pip2 install certbot
 
 chown -cR virtual:virtual /var/mail/*

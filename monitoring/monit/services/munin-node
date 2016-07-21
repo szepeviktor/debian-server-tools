@@ -24,4 +24,6 @@
  check file munin_node_log with path /var/log/munin/munin-node.log
    group munin_node
    if timestamp > 8 minutes then alert
-   include /etc/monit/templates/rootrc
+   if failed permission 644 then unmonitor
+   if failed uid root       then unmonitor
+   if failed gid root       then unmonitor

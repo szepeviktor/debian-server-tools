@@ -85,7 +85,7 @@ cd radmin/
 cp -v includes/config.sample.inc.php includes/config.inc.php
 
 # Set owner
-chown -cR ${U}:${U} cd /home/${U}/
+chown -cR root:root /home/${U}/
 
 # PHP pool
 cd /etc/php5/fpm/pool.d/

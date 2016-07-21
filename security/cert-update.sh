@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.9.1
+# VERSION       :0.9.2
 # DATE          :2016-05-03
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -153,8 +153,8 @@ Check_requirements() {
         Die 7 "Mismatching certs."
     fi
 
-    # Verify public cert is signed by the intermediate cert
-    if ! openssl verify -purpose sslserver -CAfile "$INT" "$PUB" | grep -qFx "${PUB}: OK"
+    # Verify public cert is signed by the intermediate cert if intermediate is not null
+    if [ -s "$INT" ] && ! openssl verify -purpose sslserver -CAfile "$INT" "$PUB" | grep -qFx "${PUB}: OK"; then
         Die 8 "Mismatching intermediate cert."
     fi
 }
@@ -183,34 +183,33 @@ Courier_mta() {
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
-    # Check config files for SMTP STARTTLS, SMTPS, IMAPS and sending (FIXME No IMAP STARTTLS, SMTP MSA)
-    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
+    # Check config files for SMTP STARTTLS, SMTPS, IMAPS and outgoing SMTP
+    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/courierd \
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/courierd \
+        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd-ssl \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl \
-        && grep -q "^TLS_DHCERTFILE=${COURIER_DHPARAMS}\$" /etc/courier/courierd; then
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/imapd-ssl; then
 
         service courier-mta restart
         service courier-mta-ssl restart
-        service courier-imap restart
         service courier-imap-ssl restart
 
-        # Tests SMTP STARTTLS, SMTPS, IMAP STARTTLS, IMAPS (FIXME No SMTP MSA)
+        # Tests SMTP STARTTLS, SMTPS, IMAPS
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
         Readkey
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:465"
         echo "SMTPS result=$?"
         Readkey
-        #echo QUIT|openssl s_client -crlf -connect localhost:143 -starttls imap
-        #echo "IMAP STARTTLS result=$?"
-        #Readkey
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:993"
         echo "IMAPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:465" 1>&2
-        echo "echo QUIT|openssl s_client -crlf -connect localhost:143 -starttls imap" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:993" 1>&2
     fi
 
@@ -246,7 +245,7 @@ Apache2() {
 
         # Test HTTPS
         SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_VHOST_CONFIG"|cut -d' ' -f2)"
-        if [ "$SERVER_NAME" == '${SITE_DOMAIN}' ]; then
+        if [ "$SERVER_NAME" == "\${SITE_DOMAIN}" ]; then
             SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
         fi
         echo | openssl s_client -CAfile "$CABUNDLE" -connect "${SERVER_NAME}:443"

@@ -21,7 +21,7 @@ sudo dpkg -R -i /opt/results/ || true
 sudo apt-get update -qq
 sudo apt-get install -qq -y -f wget bzip2 build-essential devscripts colormake pkg-config libtool checkinstall
 
-if ! dpkg-query --showformat="\${Status}\n" --show libcourier-unicode-dev 2> /dev/null | grep -qFx "install ok installed"; then
+if [ "$(dpkg-query --showformat="\${Status}" --show libcourier-unicode-dev 2> /dev/null)" != "install ok installed" ]; then
     echo "libcourier-unicode-dev needs to be installed" 1>&2
     exit 1
 fi

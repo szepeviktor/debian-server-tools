@@ -1,5 +1,3 @@
 if ! [ -f /etc/apache2/mods-enabled/status.load ]; then
     echo "WARNING: Enable mod_status" 2>&1
 fi
-APACHE_SERVER_NAME_DEFAULT="localhost"
-APACHE_SSL_SERVER_NAME_DEFAULT="localhost"

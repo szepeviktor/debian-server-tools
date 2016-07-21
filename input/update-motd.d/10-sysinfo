@@ -2,6 +2,7 @@
 #
 # Display system status, fast.
 #
+# VERSION       :1.0.3
 # DOCS          :https://wiki.debian.org/motd
 # DOCS          :http://apt.armbian.com/pool/main/l/linux-jessie-root-odroidxu4/linux-jessie-root-odroidxu4_5.11_armhf.deb
 # DOCS          :http://archive.ubuntu.com/ubuntu/pool/main/u/update-notifier/update-notifier_3.168.dsc

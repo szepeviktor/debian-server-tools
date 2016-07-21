@@ -34,6 +34,10 @@
 - CenturyLink (AppFog, WPaaS)
 - Heroku
 
+## CDN
+
+- [keycdn](https://www.keycdn.com/cdn-europe) 10×Europe, Made in Switzerland
+
 ## Shared hosting
 
 - [OVH](https://www.ovh.ie/web-hosting/)  100 GB, PHP-FPM, mini CDN

@@ -7,23 +7,6 @@
 # LICENSE       :The MIT License (MIT)
 # AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
 
-# How to choose VPS provider?
-#
-# 1.  Data center location
-# 2.  Price
-#     Has own AS? Number of peers
-# 3.  Redundancy (power, network, storage, hypervisor)
-#     Free scheduled backup
-# 4.  Response time of nighttime technical support in case of network or hardware failure
-# 5.  Disk access time (~1 ms)
-# 6.  CPU speed (PassMark CPU Mark 2000+, sysbench < 20 ms, WordPress Speedtest 100-150 ms)
-# 7.  Memory speed (bandwidth64)
-# 8.  Network: worldwide and regional bandwidth, port speed, D/DoS mitigation
-# 9.  Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
-# 10. Daytime technical and billing support
-#
-# See: https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
-
 # Packages sources
 DS_MIRROR="http://debian-archive.trafficmanager.net/debian"
 #DS_MIRROR="http://cloudfront.debian.net/debian"
@@ -46,7 +29,7 @@ DS_REPOS="dotdeb szepeviktor nodejs percona goaccess"
 
 set -e -x
 
-Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)$*$(tput sgr0)" 1>&2; }
+Error() { echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)${*}$(tput sgr0)" 1>&2; }
 
 [ "$(id -u)" == 0 ] || exit 1
 
@@ -56,8 +39,8 @@ lsb_release -a && sleep 5
 # Download this repo
 #apt-get install -y wget ca-certificates
 mkdir /root/src
-cd /root/src
-wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
+cd /root/src/
+wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz | tar xz
 cd debian-server-tools-master/
 D="$(pwd)"
 
@@ -74,9 +57,8 @@ sed -i -e "s;@@MIRROR@@;${DS_MIRROR};g" /etc/apt/sources.list
 # Install HTTPS transport
 apt-get update
 apt-get install -y debian-archive-keyring apt-transport-https
-for R in ${DS_REPOS};do cp ${D}/package/apt-sources/${R}.list /etc/apt/sources.list.d/;done
-eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d' ' -f2-)"
-#editor /etc/apt/sources.list
+for R in ${DS_REPOS};do cp "${D}/package/apt-sources/${R}.list" /etc/apt/sources.list.d/;done
+eval "$(grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d" " -f2-)"
 
 # APT settings
 echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
@@ -101,10 +83,12 @@ dpkg-reconfigure -f noninteractive dash
 set +x
 source /etc/profile.d/bash_completion.sh || Error "bash_completion.sh"
 
+
 # --- Automated --------------- >8 ------------- >8 ------------
 #grep -B1000 "# -\+ Automated -\+" debian-setup.sh
 set +e +x
 kill -SIGINT $$
+
 
 # Virtualization environment
 apt-get install -y virt-what && virt-what
@@ -196,12 +180,12 @@ man() {
     #     md   Start bold mode (highlight)
     #     me   End all mode like so, us, mb, md and mr
     env \
-        LESS_TERMCAP_so=$(tput setab 230) \
-        LESS_TERMCAP_se=$(tput sgr0) \
-        LESS_TERMCAP_us=$(tput setaf 2) \
-        LESS_TERMCAP_ue=$(tput sgr0) \
-        LESS_TERMCAP_md=$(tput bold) \
-        LESS_TERMCAP_me=$(tput sgr0) \
+        LESS_TERMCAP_so="$(tput setab 230)" \
+        LESS_TERMCAP_se="$(tput sgr0)" \
+        LESS_TERMCAP_us="$(tput setaf 2)" \
+        LESS_TERMCAP_ue="$(tput sgr0)" \
+        LESS_TERMCAP_md="$(tput bold)" \
+        LESS_TERMCAP_me="$(tput sgr0)" \
         man "$@"
 }
 
@@ -247,7 +231,7 @@ grep -ir "$(hostname)" /etc/
 hostname "$H"
 echo "$H" > /etc/hostname
 echo "$H" > /etc/mailname
-# See: man hosts
+# See man hosts
 editor /etc/hosts
 #     127.0.0.1 localhost
 #     127.0.1.1 localhost
@@ -276,7 +260,7 @@ rm -vf /etc/ssh/ssh_host_*
 # Disable password login for sudoers
 echo -e "\nMatch Group sudo\n    PasswordAuthentication no" >> /etc/ssh/sshd_config
 # Add blocked networks
-# See: /security/README.md
+# See /security/README.md
 editor /etc/hosts.deny
 dpkg-reconfigure -f noninteractive openssh-server && service ssh restart
 # Check sshd
@@ -334,9 +318,9 @@ apt-cache policy "linux-image-[3456789].*"
 #aptitude --disable-columns -F"%p" search '?and(?installed, ?name(^linux-image-))'|grep -vFx "linux-image-$(dpkg --print-architecture)"
 clear; ls -l /lib/modules/
 ls -latr /boot/
-
 # Verbose boot
 sed -i 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
+# GRUB
 dpkg -l | grep "grub"
 # OVH Kernel "made-in-ovh"
 #     ${D}/security/ovh-kernel-update.sh
@@ -360,14 +344,13 @@ editor /etc/inittab
 systemctl enable serial-getty@ttyS0.service
 systemctl start serial-getty@ttyS0.service
 
-
 # Miscellaneous configuration
 editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
 # Aruba needs arping package for /etc/rc.local
 apt-get install -y arping
-# See: /input/motd-install.sh
+# See /input/motd-install.sh
 
 # Networking
 editor /etc/network/interfaces
@@ -430,14 +413,13 @@ host -v -tA example.com|grep "^example\.com\.\s*[0-9]\+\s*IN\s*A\s*93\.184\.216\
 # View network Graph v4/v6
 #     http://bgp.he.net/ip/${IP}
 
-# SSL support
+# SSL certificates
 rm -f /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key
 # Update ca-certificates
 wget -qO- http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/unstable_changelog|less
 Getpkg ca-certificates
 # Monitor certificates
 ( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
-
 # Install szepenet CA
 CA_NAME="szepenet"
 CA_FILE="szepenet_ca.crt"
@@ -487,7 +469,7 @@ update-passwd -v --dry-run
 #update-passwd -v
 
 # Essential packages
-apt-get install -y localepurge unattended-upgrades apt-listchanges cruft debsums \
+apt-get install -y localepurge unattended-upgrades apt-listchanges etckeeper cruft debsums \
     ipset-persistent moreutils logtail whois unzip heirloom-mailx \
     apg dos2unix git colordiff mtr-tiny ntpdate \
     gcc libc6-dev make strace ccze goaccess
@@ -522,7 +504,6 @@ dpkg-reconfigure -f noninteractive unattended-upgrades
 ( cd ${D}; ./install.sh security/myattackers.sh )
 # Initialize iptables chain
 myattackers.sh -i
-
 
 # Create directory for non-distribution files
 cd /root/; mkdir dist-mod && cd dist-mod/
@@ -584,9 +565,6 @@ echo -e "03 *\t* * *\tnobody\twget -q -t 3 -O- ${HCHK_URL} | grep -qFx 'OK'" > /
 service cron restart
 
 # Time synchronization
-( cd ${D}; ./install.sh monitoring/monit/services/ntpdate_script )
-echo -e '#!/bin/bash\n/usr/local/bin/ntp-alert.sh' > /etc/cron.daily/ntp-alert
-chmod +x /etc/cron.daily/ntp-alert
 # Virtual servers only
 editor /etc/default/hwclock
 #    HWCLOCKACCESS=no
@@ -596,11 +574,15 @@ cat /sys/devices/system/clocksource/clocksource0/available_clocksource
 # https://s19n.net/articles/2011/kvm_clock.html
 dmesg | grep "kvm-clock"
 grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksource
-# VMware (no ntp)
-# @FIXME It is necessary on every boot?
+# Without monit
+( cd ${D}; ./install.sh monitoring/monit/services/ntpdate_script )
+echo -e '#!/bin/bash\n/usr/local/bin/ntp-alert.sh' > /etc/cron.daily/ntp-alert
+chmod +x /etc/cron.daily/ntp-alert
+
+# 1) VMware
 vmware-toolbox-cmd timesync enable
 vmware-toolbox-cmd timesync status
-# Chrony
+# 2) Chrony
 apt-get install -y libseccomp2/jessie-backports chrony
 editor /etc/chrony/chrony.conf
 #     pool 0.de.pool.ntp.org offline iburst
@@ -618,7 +600,7 @@ editor /etc/chrony/chrony.conf
 #     # Don't set hardware clock (RTC)
 #     ##rtcsync
 service chrony restart
-# Systemd
+# 3) Systemd
 timedatectl set-ntp 1
 
 # µnscd
@@ -639,7 +621,7 @@ cp -vf ${D}/mail/msmtprc /etc/
 echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRESS
 
 # Courier MTA - deliver all messages to a smarthost
-# See: /mail/courier-mta-satellite-system.sh
+# See /mail/courier-mta-satellite-system.sh
 
 # Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
@@ -647,12 +629,11 @@ adduser --disabled-password --gecos "" web
 editor /etc/apache2/envvars
 #     export APACHE_RUN_USER=web
 #     export APACHE_RUN_GROUP=web
-
 a2enmod actions rewrite headers deflate expires proxy_fcgi
 # Comment out '<Location /server-status>' block
 editor /etc/apache2/mods-available/status.conf
 a2enmod ssl
-cp -v ${D}/webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
+yes|cp -vf ${D}/webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
 yes|cp -vf ${D}/webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
 ( cd ${D}; ./install.sh webserver/apache-resolve-hostnames.sh )
@@ -879,15 +860,12 @@ ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 ( cd ${D}; ./install.sh webserver/webrestart.sh )
 
 # Add the development website
-# See: /webserver/add-prg-site.sh
-
+# See /webserver/add-prg-site.sh
 # Add a production website
-# See: /webserver/add-site.sh
+# See /webserver/add-site.sh
 
-
-# @TODO NoSQL object cache
-# Redis
-
+# In-memory object cache
+apt-get install -y redis-server
 
 # MariaDB
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
@@ -902,7 +880,6 @@ echo -e "[mysqldump]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-s
 chmod 600 /root/.my.cnf
 #editor /root/.my.cnf
 # @TODO repl? bin_log? xtrabackup?
-
 
 # WP-CLI
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
@@ -939,7 +916,7 @@ ln -sv /opt/drush/vendor/bin/drush /usr/local/bin/drush
 #     drush --root=DOCUMENT-ROOT vset --yes file_temporary_path "UPLOAD-DIRECTORY"
 #     drush --root=DOCUMENT-ROOT vset --yes cron_safe_threshold 0
 #
-# See: /webserver/preload-cache.sh
+# See /webserver/preload-cache.sh
 
 # Spamassassin
 apt-get install -y libmail-dkim-perl \
@@ -949,10 +926,10 @@ apt-get install -y libmail-dkim-perl \
 ( cd /root/dist-mod/; Getpkg spamassassin )
 
 # SSL certificate for web, mail etc.
-# See: /security/new-ssl-cert.sh
+# See /security/new-ssl-cert.sh
 
 # Test TLS connections
-# See: /security/README.md
+# See /security/README.md
 
 # ProFTPD
 # When the default locale for your system is not en_US.UTF-8
@@ -966,7 +943,7 @@ apt-get install -y libmail-dkim-perl \
 ( cd ${D}/monitoring/monit/; ./monit-debian-setup.sh )
 
 # Munin - network-wide graphing
-# See: /monitoring/munin/munin-debian-setup.sh
+# See /monitoring/munin/munin-debian-setup.sh
 
 # Aruba ExtraControl (serclient)
 #     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx
@@ -1001,7 +978,7 @@ apt-get install -y nodejs
 # Make sure packages are installed under /usr/local
 npm config -g set prefix "/usr/local"
 npm config -g set unicode true
-npm install -g less less-plugin-clean-css
+#npm install -g less less-plugin-clean-css
 
 # Logrotate periods
 #

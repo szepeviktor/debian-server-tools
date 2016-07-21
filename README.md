@@ -57,6 +57,24 @@ Docker containers.
 
 Tools related to building webservers.
 
+### How to choose VPS provider?
+
+1. Data center location
+1. Price
+1. Has own AS? Number of peers
+1. Redundancy (power, network, storage, hypervisor)
+1. Stores plain text passwords?
+1. Free scheduled backup
+1. Response time of nighttime technical support in case of network or hardware failure
+1. Disk access time (~1 ms)
+1. CPU speed (PassMark CPU Mark 2000+, sysbench < 20 ms, WordPress Speedtest 100-150 ms)
+1. Memory speed (bandwidth64)
+1. Network: worldwide and regional bandwidth, port speed, D/DoS mitigation
+1. Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
+1. Daytime technical and billing support
+
+See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
+
 ### Install your own SSH key
 
 ```bash
@@ -111,31 +129,31 @@ http://google-public-dns.appspot.com/cache
 
 http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
-### UNICODE owl
+### UNICODE owl domain name
 
 [﴾͡๏̯͡๏﴿.tk](http://xn--wta3hb403ica11187ama.tk/)
 
 ### Crontab format
 
 ```
-# .---------------- minute (0 - 59)
-# | .-------------- hour (0 - 23)
-# | |  .----------- day of month (1 - 31)
-# | |  | .--------- month (1 - 12)
-# | |  | | .------- day of week (0 - 6)
-# | |  | | |
-# * *  * * *  USER  COMMAND
+.---------------- minute (0 - 59)
+| .-------------- hour (0 - 23)
+| |  .----------- day of month (1 - 31)
+| |  | .--------- month (1 - 12)
+| |  | | .------- day of week (0 - 6)
+| |  | | |
+* *  * * *  USER  COMMAND
 ```
 
 ```
-# crontab -e -u USER
-# .---------------- minute (0 - 59)
-# | .-------------- hour (0 - 23)
-# | |  .----------- day of month (1 - 31)
-# | |  | .--------- month (1 - 12)
-# | |  | | .------- day of week (0 - 6)
-# | |  | | |
-# * *  * * *  COMMAND
+crontab -e -u USER
+.---------------- minute (0 - 59)
+| .-------------- hour (0 - 23)
+| |  .----------- day of month (1 - 31)
+| |  | .--------- month (1 - 12)
+| |  | | .------- day of week (0 - 6)
+| |  | | |
+* *  * * *  COMMAND
 ```
 
 ### Writing a man page

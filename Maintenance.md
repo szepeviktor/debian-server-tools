@@ -50,6 +50,7 @@
 - * enabling [click heatmap](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png)
 - * supervision of new content weekly (typograhy and HTML usage)
 - * image optimization (smaller file size and nicer loading)
+- * update of embeddedd HTML content (e.g. Facebook like box)
 
 Items marked with an asterisk ( * ) are available in the bigger plan and only on a VPS (with root access).
 
@@ -118,6 +119,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - * [kattintási hőtérkép](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png) készítés
 - * újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
 - * képek optimalizálása (méret csökkentés, szebb betöltődés)
+- * beágyazott tartalmak kódjának frissítése (pl. Facebook doboz)
 
 A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 

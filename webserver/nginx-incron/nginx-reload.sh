@@ -10,3 +10,5 @@ WORKER="/usr/local/sbin/nginx-reload-worker.sh"
 flock -x -w 5 "/var/lock/nginx-reload" -c "$WORKER"
 
 logger -t "nginx-reload[$$]" "Reloading OK"
+
+# ? https://github.com/ByteInternet/nginx_config_reloader

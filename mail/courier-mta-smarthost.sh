@@ -137,8 +137,8 @@ wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 pip2 install certbot
 # -d DOMAIN2 -d DOMAIN3 --agree-tos --email EMAIL
 certbot certonly --no-self-upgrade --standalone -d $(cat /etc/courier/me)
-cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
-    > esmtpd.pem
+cat /etc/letsencrypt/live/$(cat /etc/courier/me)/privkey.pem /etc/letsencrypt/live/$(cat /etc/courier/me)/fullchain.pem \
+    > /etc/courier/esmtpd.pem
 ( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
 
 # DKIM signature (zdkimfilter)

@@ -2,7 +2,7 @@
 #
 # Display only the first block of whois record.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2015-12-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,7 +10,12 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/whoistop
 
-whois "$@" | sed '/^[A-Za-z]\+:/,/^$/!d; /^$/,$d'
+whois "$@" | sed -e '/^[A-Za-z]\+:/,/^$/!d; /^$/,$d'
 
-# Alternative solution
+# Alternate solution
 #     sed '/range/ {command}'
+
+# Network based whois query
+#wget -qO- "http://lg.net.telekom.hu/whois?q=$1" \
+#    | sed -n -e 's|^\s*"output": "\(.*\)",\s*$|\1|; s|<br>|\n|gp' \
+#    | sed -e '/^[A-Za-z]\+:/,/^$/!d; /^$/,$d'

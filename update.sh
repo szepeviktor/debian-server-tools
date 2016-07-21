@@ -31,8 +31,11 @@ Get_meta() {
 
 which colordiff &> /dev/null || unset PARAM
 
+#Input_motd Get_meta input/update-motd.d - Get_meta /etc/update-motd.d/update-motd.d
+
+D="$(dirname "$0")"
 find -type f -size -100k -not -name README.md -printf '%P\n' \
-    | while read FILE; do
+    | while read -r FILE; do
         SCRIPT="$(Get_meta "$FILE" LOCATION)"
         if [ -z "$SCRIPT" ] || [ "$SCRIPT" == "(unknown)" ] || ! [ -f "$SCRIPT" ]; then
             continue
@@ -45,7 +48,7 @@ find -type f -size -100k -not -name README.md -printf '%P\n' \
         fi
 
         echo "# Update ${FILE}: ${OLD_VERSION} -> ${CURRENT_VERSION}"
-        echo "$(dirname $0)/install.sh ${FILE}"
+        echo "${D}/install.sh ${FILE}"
         if [ "$PARAM" == "-d" ]; then
             colordiff -wB "$SCRIPT" "$FILE"
         fi

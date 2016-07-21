@@ -231,7 +231,7 @@ TGM-Plugin-Activation plugin
 add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
 function o1_disable_tgmpa() {
     remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
-    remove_action( 'tgmpa_register', 'theme_required_plugins' );
+    remove_action( 'tgmpa_register', 'CUSTOM-FUNCTION' );
 }
 ```
 

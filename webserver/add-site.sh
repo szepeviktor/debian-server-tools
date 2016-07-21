@@ -98,8 +98,8 @@ editor ${U}.conf
 
 # SSL certificate
 read -e -p "Common Name: " -i "$DOMAIN" CN
-editor /etc/ssl/private/${CN}-private.key
 editor /etc/ssl/localcerts/${CN}-public.pem
+editor /etc/ssl/private/${CN}-private.key
 
 # Apache vhost
 # CloudFlase, Incapsula
@@ -146,6 +146,8 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.lo
 #     php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
 #     https://maximivanov.github.io/php-error-reporting-calculator/
 #     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
+# Cron log
+#     job | ts "\%d \%b \%Y \%T \%z" >> CRON-LOG
 cd /etc/cron.d/
 # See /webserver/preload-cache.sh
 

@@ -2,7 +2,7 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.5.1
+# VERSION       :0.5.2
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -57,7 +57,11 @@ if [ -n "${CERT_EXPIRY_REMOTES[*]}" ]; then
         openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
             -connect "$HOST_PORT" -servername "${HOST_PORT%%:*}" \
             < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null
-        Check_cert "$CERT_EXPIRY_TMP"
+        if [ $? == 0 ]; then
+            Check_cert "$CERT_EXPIRY_TMP"
+        else
+            echo "Certificate check error for ${HOST_PORT}" 1>&2
+        fi
         rm -f "$CERT_EXPIRY_TMP"
     done
 fi

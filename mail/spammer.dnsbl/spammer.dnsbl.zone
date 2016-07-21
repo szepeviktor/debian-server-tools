@@ -165,3 +165,7 @@ $TTL 60
 195.228.247.25 HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
 79.143.189.215 HU_hirlev-smtp.webmuhely.hu.
 92.222.29.197  HU_ns2.webmuhely.hu.
+
+# *.cegorszag.hu. DC: InterWare
+195.70.59.160 HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
+195.70.59.161 HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358

@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.5.4
+# VERSION       :0.5.5
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,21 +13,27 @@
 
 set -e
 
-# @TODO
-# integrate cert-expiry/openssl
-# add putty port-forward 2812+N
-# add "/etc/init.d/SERVICE status" checks
-# permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
-
+# Usage
+#
+# Use example defaults file or edit your own
+#     install --mode=0640 -D -t /etc/monit monit.defaults
 # Exclude packages
-#     EXCLUDED_PACKAGES=php5-fpm:apache2 ./monit-debian-setup.sh
+#     EXCLUDED_PACKAGES=apache2:php7.0-fpm ./monit-debian-setup.sh
+
+# @TODO
+# - integrate cert-expiry/openssl
+# - document putty port-forward 2812+N (web interface)
+# - add "/etc/init.d/SERVICE status" checks
+# - list permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
 
 DEBIAN_SERVER_TOOLS_INSTALLER="../../install.sh"
 MONIT_SERVICES="./services"
+MONIT_DEFAULTS="/etc/monit/monit.defaults"
 
 Is_pkg_installed() {
-    # shellcheck disable=SC2016
-    dpkg-query --showformat='${Status}' --show "$1" 2> /dev/null | grep -q "install ok installed"
+    local PKG="$1"
+
+    [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed" ]
 }
 
 Monit_template() {
@@ -64,12 +70,19 @@ Monit_template() {
             echo "Invalid variable name (${VAR_NAME}) in template: ${TPL}"
             exit 10
         fi
-        # May be set in _preinst
+        # _preinst script could set default value
         DEFAULT_NAME="${VAR_NAME}_DEFAULT"
-
-        # Read into $VAR_NAME
-        read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
-
+        if grep -q "^${DEFAULT_NAME}=" "$MONIT_DEFAULTS"; then
+            # Override with previous value
+            declare "${DEFAULT_NAME}=$(sed -n -e "0,/^${DEFAULT_NAME}=\"\(.*\)\"\$/s//\1/p" "$MONIT_DEFAULTS")" #"
+            # Read value into $VAR_NAME
+            read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
+        else
+            # Read value into $VAR_NAME
+            read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
+            # Save value as next default
+            echo "${VAR_NAME}_DEFAULT=\"${!VAR_NAME}\"" >> "$MONIT_DEFAULTS"
+        fi
         VALUE="${!VAR_NAME}"
         # Escape for sed
         VALUE="${VALUE//;/\\;}"

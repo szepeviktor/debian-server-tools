@@ -13,8 +13,25 @@ C=$(dirname $(pwd))/$(date +%Y%m%d)-$(openssl x509 -in newcert.pem -noout -subje
 C="${C/\*/wildcard}"
 mkdir -v ${C}
 openssl rsa -in ./newkey.pem -out ${C}/priv-key-$(date +%Y%m%d).key
-mv -v ./newkey.pem ${C}/priv-key-$(date +%Y%m%d)-encrypted.key
 sed -ne '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > ${C}/pub-key-$(date +%Y%m%d).pem
+rm -v newcert.pem newreq.pem && ls -l ${C}
+```
+
+### Renew a certificate
+
+```bash
+cd /root/ssl/szepe.net-ca/
+export SSLEAY_CONFIG="-config /root/ssl/szepe.net-ca/config/openssl.cnf"
+read -r -e -p "Old cert=" -i "../20991231-common.name/pub-key-20991231.pem" OLDC
+openssl ca -revoke $OLDC
+C=$(dirname $(pwd))/$(date +%Y%m%d)-$(openssl x509 -in $OLDC -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')
+OLDKEY=${OLDC/pub-key-/priv-key-}
+openssl x509 -x509toreq -in $OLDC -signkey ${OLDKEY/.pem/.key} > newreq.pem
+./CAszepenet.sh -sign
+# Enter CA-PASSWORD
+mkdir -v ${C}
+sed -ne '/-----BEGIN CERTIFICATE-----/,$p' ./newcert.pem > ${C}/pub-key-$(date +%Y%m%d).pem
+cp -v $OLDC ${C}/priv-key-$(date +%Y%m%d).key
 rm -v newcert.pem newreq.pem && ls -l ${C}
 ```
 
@@ -36,10 +53,4 @@ wget -O /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE} ${CA_URL}
 update-ca-certificates -v -f
 openssl x509 -noout -modulus -in /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE} | openssl sha256 \
     | grep --color "769d14e4068b1eb76bf753bdb04d36ec9e0f7237229f30566af82eae76ecdb4d"
-```
-
-### Renew a certificate
-
-```bash
-??? openssl x509 -x509toreq -in ${C}/pub-key-$(date +%Y%m%d).pem -signkey ${C}/priv-key-$(date +%Y%m%d).key
 ```

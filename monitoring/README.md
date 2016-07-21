@@ -13,9 +13,9 @@ See: ${D}/monitoring/syslog-errors.sh
 
 Syslog time format: `date "+%b %e %T"`
 
-Log to syslog: `echo MESSAGE|logger --tag "${TAG}[${PID}]"`
+Log to syslog: `echo MESSAGE | logger --tag "${TAG}[${PID}]"`
 
-Log to anywhere else: `echo MESSAGE|sed -e "s/^/${TAG}[${PID}]: /"|ts "%b %e %T"`
+Log to anywhere else: `echo MESSAGE | sed -e "s/^/${TAG}[${PID}]: /"|ts "%b %e %T"`
 
 ### Courier log analyizer
 
