@@ -81,6 +81,18 @@ See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#res
 S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2"
 ```
 
+Parameters
+
+```
+no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user \"debian\" rather than the user \"root\".';echo;sleep 10" ssh-rsa AAAA...
+```
+
+### Install a user's SSH key
+
+```bash
+U="$(stat . -c %U)";S="/home/$U/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2";chown -R $U:$U "$S"
+```
+
 ### Fast and safe transit of scripts (or any data) via copy&paste
 
 ##### Pack

@@ -244,7 +244,7 @@ journalctl -f
 # Systemd
 apt-get install -y libpam-systemd
 mkdir ${HOME}/.config/systemd; cd ${HOME}/.config/systemd/
-git clone https://github.com/kylemanna/systemd-utils.git utils
+git clone https://github.com/kylemanna/systemd-utils.git "utils"
 cp ./utils/failure-monitor/failure-monitor@.service /etc/systemd/user/
 systemctl --user enable "failure-monitor@postmaster@szepe.net.service"
 systemctl --user start "failure-monitor@postmaster@szepe.net.service"

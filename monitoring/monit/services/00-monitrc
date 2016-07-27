@@ -6,6 +6,6 @@ set mail-format { from: @@FROM_ADDRESS@@ }
 set alert @@ALERT_ADDRESS@@ with reminder on 2 cycles
 
 # Web interface
-set httpd port 2812 and
+set httpd port 2812
     use address localhost
     allow localhost

@@ -149,7 +149,7 @@ wp plugin install user-session-control --activate
 wp plugin install user-role-editor --activate
 
 # security suite + audit
-wp plugin install sucuri-scanner custom-sucuri --activate
+wp plugin install custom-sucuri sucuri-scanner --activate
 # simple audit
 wp plugin install simple-history --activate
 
@@ -170,16 +170,26 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 #### Object cache
 
 ```bash
-# APCu @l3rady
-# DANGER! apcu is not available from CLI by default during WP-Cron
+# APCu
+# DANGER! apcu is not available from CLI by default during WP-Cron/WP-CLI
 wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
-## Worse: wp plugin install apcu
+wp transient delete-all
+# Worse plugin: wp plugin install apcu
+
 # Memcached @tollmanz
-wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/raw/master/object-cache.php
+#wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/blob/develop/src/object-cache.php
+wget https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/archive/develop.zip
+unzip wordpress-pecl-memcached-object-cache-develop.zip
+mkdir wp-content/plugins/wordpress-pecl-memcached-object-cache
+mv wordpress-pecl-memcached-object-cache-develop/src/* wp-content/plugins/wordpress-pecl-memcached-object-cache/
+rm -rf wordpress-pecl-memcached-object-cache-develop
+wp mem install
+wp transient delete-all
+
 # Redis @danielbachhuber
 wp plugin install wp-redis
-wp transient delete-all
 ln -sv plugins/wp-redis/object-cache.php wp-content/
+wp transient delete-all
 ```
 
 ```php
@@ -201,6 +211,10 @@ wp plugin install safe-redirect-manager --activate
 # ?
 wp plugin install resource-versioning <--> autoptimize --activate
 # define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
+
+# Redis or ngx_http_memcached_module
+# https://github.com/petermolnar/wp-ffpc
+wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --activate
 
 # CDN, Page Cache, Minify
 wp plugin install w3-total-cache --activate

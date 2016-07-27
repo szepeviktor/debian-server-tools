@@ -1,2 +1,0 @@
-
-cron.hourly:server_features.sh +"fail2ban-client get sshd actions" -> monit-ize

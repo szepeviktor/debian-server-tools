@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.5.5
+# VERSION       :0.6.0
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,7 +18,11 @@ set -e
 # Use example defaults file or edit your own
 #     install --mode=0640 -D -t /etc/monit monit.defaults
 # Exclude packages
-#     EXCLUDED_PACKAGES=apache2:php7.0-fpm ./monit-debian-setup.sh
+#     EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm ./monit-debian-setup.sh
+# Check missing service configs
+#     dpkg-query --showformat="\${Package}\n" --show|while read -r PACKAGE; do
+#     if [ -f "services/${PACKAGE}" ] && ! [ -f "/etc/monit/conf-enabled/${PACKAGE}" ]; then
+#     echo "Missing: ${PACKAGE}"; fi; done
 
 # @TODO
 # - integrate cert-expiry/openssl
@@ -48,15 +52,6 @@ Monit_template() {
         echo "Writing to service configuration failed (${OUT})" 1>&2
         exit 11
     fi
-
-    # Fix ignored "include"-s by literally including templates (do it before "return 0")
-    local TFILE
-    local TCONTENT
-    find /etc/monit/templates/ -type f \
-        | while read -r TFILE; do
-            TCONTENT="$(sed -e ':a;N;$!ba;s/^/  /;s/\n/\\n  /g' "$TFILE")"
-            sed -i -e "s;^\s*include\s\+${TFILE}\s*$;${TCONTENT};" "$OUT"
-        done
 
     VARIABLES="$(grep -o "@@[A-Z0-9_]\+@@" "$TPL" | nl | sort -k 2 | uniq -f 1 | sort -n | sed -e 's;\s*[0-9]\+\s\+;;')"
     if [ -z "$VARIABLES" ]; then
@@ -148,8 +143,7 @@ Monit_system() {
 }
 
 Monit_all_packages() {
-    # shellcheck disable=SC2016
-    local PACKAGES="$(dpkg-query --showformat='${Package}\n' --show)"
+    local PACKAGES="$(dpkg-query --showformat="\${Package}\n" --show)"
     local PACKAGE
 
     while read -r PACKAGE <&4; do
@@ -201,7 +195,7 @@ Monit_wake() {
 #
 # Monit_wake
 #
-# VERSION       :0.4.0
+# VERSION       :0.5.0
 
 if ! /etc/init.d/monit status | grep -qF "monit is running"; then
     echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
@@ -209,9 +203,10 @@ if ! /etc/init.d/monit status | grep -qF "monit is running"; then
 fi
 
 # Try remonitor failed services
-/usr/bin/monit summary | tail -n +3 \
-    | grep -vE "^System\s|\s(Running|Accessible|Status ok|Waiting)\$" \
-    | sed -n -e "s;^.*'\(\S\+\)'.*\$;\1;p" \
+IGNORED_STATUSES="Running|Accessible|Status ok|Waiting"
+/usr/bin/monit -B summary | tail -n +3 \
+    | grep -vE "\sSystem\s*\$|\s(${IGNORED_STATUSES})\s*\S+\s*\$" \
+    | sed -n -e "s;^\s*\(\S\+\)\s\+\S\+\s\+\S\+\s*\$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 
 # Exit status 0 means it was OK
@@ -244,8 +239,8 @@ Monit_start() {
 
 trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 
-if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.17.1"; then
-    echo "Minimum Monit version needed: 5.17.1"
+if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.18"; then
+    echo "Minimum Monit version needed: 5.18"
     exit 1
 fi
 if Is_pkg_installed systemd; then

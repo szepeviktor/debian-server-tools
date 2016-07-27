@@ -96,14 +96,16 @@ apt-get purge -y virt-what
 
 # Remove systemd
 # http://without-systemd.org/wiki/index.php/How_to_remove_systemd_from_a_Debian_jessie/sid_installation
-dpkg -s systemd &> /dev/null && apt-get install -y sysvinit-core sysvinit-utils \
-    && cp -v /usr/share/sysvinit/inittab /etc/inittab
-read -r -s -e -p 'Ctrl + D to reboot ' || reboot
-
+if [ "$(dpkg-query --showformat="\${Status}" --show systemd 2> /dev/null)" == "install ok installed" ]; then
+    apt-get install -y sysvinit-core sysvinit-utils
+    cp -v /usr/share/sysvinit/inittab /etc/inittab
+    echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
+    read -r -s -e -p 'Ctrl + D to reboot ' || reboot
+fi
+# Wait for reboot
 apt-get purge -y --auto-remove systemd
-echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 
-# Wget defaults TODO to user settings
+# Wget defaults TODO To user settings
 echo -e "\ncontent_disposition = on" >> /etc/wgetrc
 
 # User settings for non-login shells
@@ -246,6 +248,9 @@ editor /etc/hosts
 host "$H"
 # Reverse DNS record (PTR)
 host "$IP"
+
+# login package
+[ -f /var/log/lastlog ] || install -o root -g utmp -m 664 /dev/null /var/log/lastlog
 
 # SSH
 read -r -s -e -p "SSH port? " SSH_PORT
@@ -470,14 +475,21 @@ update-passwd -v --dry-run
 
 # Essential packages
 apt-get install -y localepurge unattended-upgrades apt-listchanges etckeeper cruft debsums \
-    ipset-persistent moreutils logtail whois unzip heirloom-mailx \
-    apg dos2unix git colordiff mtr-tiny ntpdate \
-    gcc libc6-dev make strace ccze goaccess
+    moreutils logtail whois unzip heirloom-mailx apg dos2unix git colordiff mtr-tiny ntpdate \
+    gcc libc6-dev make strace ccze \
+    goaccess ipset-persistent
 # Backports
 apt-get install -t jessie-backports -y needrestart
+# VMware tools
+apt-get install -t jessie-backports -y open-vm-tools
 
 # SysVinit
 apt-get install -y bootlogd
+
+# etckeeper
+cd /etc/
+git config --global user.name "root"
+git config --global user.email "admin@szepe.net"
 
 # Alert on boot and on halt
 cp -v ${D}/monitoring/boot-alert /etc/init.d/
@@ -609,7 +621,7 @@ editor /etc/nscd.conf
 #     enable-cache            hosts   yes
 #     positive-time-to-live   hosts   60
 #     negative-time-to-live   hosts   20
-service unscd stop && service unscd start
+service unscd --full-restart
 
 # msmtp (has no queue!)
 apt-get install -y msmtp-mta
@@ -722,7 +734,7 @@ echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php5/fpm/php.ini
 # @TODO Measure: realpath_cache_size = 16k  realpath_cache_ttl = 120
 #       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
 
-grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini | most
+grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini | pager
 # Disable "www" pool
 #sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
 mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf.default
@@ -761,7 +773,7 @@ ls -l /etc/php5/fpm/conf.d/20-suhosin.ini
 # PHP file modification time protection
 # https://ioncube24.com/signup
 
-# @TODO .ini-handler, Search for it! ?ucf
+# @TODO .ini-handler, Search for it!
 
 # PHP security directives
 #     mail.add_x_header
@@ -804,9 +816,9 @@ sed -i "s|^;opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/websi
 
 # OPcache - There may be more than 2k files
 #     find /home/ -type f -name "*.php"|wc -l
-sed -i 's/^;opcache.max_accelerated_files\s*=.*$/opcache.max_accelerated_files = 10000/' /etc/php5/fpm/php.ini
+sed -i 's/^;opcache.max_accelerated_files\s*=.*$/opcache.max_accelerated_files = 10000/' /etc/php/7.0/fpm/php.ini
 # APCu
-echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php5/fpm/php.ini
+echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php/7.0/fpm/php.ini
 
 # @TODO Measure: realpath_cache_size = 16k  realpath_cache_ttl = 120
 #       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
@@ -830,12 +842,12 @@ cp -v ${D}/webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 #apt-get install -y php5-suhosin-extension
 #php5enmod -s fpm suhosin
 # Check priority
-ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
+#ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
 
 # PHP file modification time protection
 # https://ioncube24.com/signup
 
-# @TODO .ini-handler, Search for it! ?ucf
+# @TODO .ini-handler, Search for it!
 
 # PHP security directives
 #     mail.add_x_header
@@ -897,7 +909,7 @@ if (hash_file('SHA384', 'composer-setup.php') ===
 { echo 'Installer verified'; }
 else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-rm composer-setup.php
+rm -f composer-setup.php
 
 # Drush
 #     https://github.com/drush-ops/drush/releases
@@ -940,7 +952,7 @@ apt-get install -y libmail-dkim-perl \
 ( cd ${D}; ./install.sh monitoring/syslog-errors.sh )
 
 # Monit - monitoring
-( cd ${D}/monitoring/monit/; ./monit-debian-setup.sh )
+( cd ${D}/monitoring/monit/; install --mode=0640 -D -t /etc/monit monit.defaults; ./monit-debian-setup.sh )
 
 # Munin - network-wide graphing
 # See /monitoring/munin/munin-debian-setup.sh

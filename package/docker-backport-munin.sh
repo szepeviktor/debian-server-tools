@@ -1,9 +1,12 @@
 #!/bin/bash
 #
-# Build munin from Debian pristine-tar branch
+# Build munin from Debian pristine-tar branch.
 #
+# DEPENDS       :docker pull szepeviktor/jessie-backport:0.2.1
 
-# HARDCODED pristine-tar latest, munin release version, docker image
+# Usage
+#
+# EDIT: pristine-tar latest, munin release version, docker image
 
 [ -d /opt/results ] || mkdir /opt/results
 
@@ -61,4 +64,4 @@ EOF
 # Build it ----------
 # EDIT jessie-backport version
 docker run --rm --tty -v /opt/results:/opt/results --env PACKAGE="munin" szepeviktor/jessie-backport:0.2.1
-rm -f /opt/results/debackport-init /opt/results/debackport-source /opt/results/debackport-pre-deps /opt/results/debackport-changes /opt/results/debackport-post-build
+rm -f /opt/results/{debackport-init,debackport-source,debackport-pre-deps,debackport-changes,debackport-post-build}

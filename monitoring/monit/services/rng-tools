@@ -1,0 +1,26 @@
+ check process "rngd" with pidfile "/run/rngd.pid"
+   group "system"
+   group "rngd"
+   start program = "/etc/init.d/rng-tools start"
+   stop program = "/etc/init.d/rng-tools stop"
+   if 5 restarts with 5 cycles then unmonitor
+   depends on rngd_bin
+   depends on rngd_test
+   depends on rngd_rc
+   depends on rngd_init
+
+ check file "rngd_bin" with path "/usr/sbin/rngd"
+   group "rngd"
+   include "/etc/monit/templates/rootbin"
+
+ check program "rngd_test" with path "/usr/local/sbin/rng-tools-test.sh" with timeout 10 seconds every 33 cycles
+   group "rngd"
+   if status != 0 then alert
+
+ check file "rngd_rc" with path "/etc/default/rng-tools"
+   group "rngd"
+   include "/etc/monit/templates/rootrc"
+
+ check file "rngd_init" with path "/etc/init.d/rng-tools"
+   group "rngd"
+   include "/etc/monit/templates/rootbin"

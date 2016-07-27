@@ -1,3 +1,20 @@
+# Viktor Szépe from Hungary would work for a Company
+
+My main activity is **proactive** maintenance of HTTP-based services: an application, an API or a website.  
+These experiences could mean valuable feedback for the development team.  
+(*Traffic light example: a developer sees the green light, I see amber and red.*)
+
+I build and monitor Debian-based web-servers. Email delivery is on my radar.  
+My howtos and scripts are open-source: https://github.com/szepeviktor/
+
+I am also a WordPress expert. I know the core and develop plugins: https://profiles.wordpress.org/szepeviktor#content-plugins
+
+You could give me feature (theme or plugin) development jobs, but that is outside my daily routine.
+
+I hope I'll fit in your picture.
+
+## CV in English
+
 - website speed design and optimization (also on mobile)
 - conditional resource loading (Javascript, CSS, images)
 - resources optimization

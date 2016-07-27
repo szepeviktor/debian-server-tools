@@ -195,6 +195,18 @@ By SMTP
 - Forward SMTP traffic to Mailcatcher, MailHog or any other SMTP server
 - Block outgoing SMTP traffic (TCP port 25, 587 and 465) by user
 
+### Media
+
+Use production Media Library from a staging/development site.
+
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond "%{REQUEST_FILENAME}" !-f
+    RewriteRule "wp-content/uploads/(.*)$" "https://www.PRODUCTION.NET/wp-content/uploads/$1" [R,L]
+</IfModule>
+```
+
 ### Export plugins and theme
 
 - Export plugin and theme settings separately

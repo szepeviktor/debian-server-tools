@@ -28,6 +28,12 @@
 #  9. Tasksel (SSH + standard) -> packages/tasks
 # 10. Boot loader (GRUB, no EFI) -> boot
 
+# Automated Debian install with preseed file
+#
+# - two instances on the same private network with DHCP
+# - One is a webserver with the preseed file
+# - Two is autmatically installed: auto url=http://192.168.1.2/path/to/preseed.file
+# - see https://www.debian.org/releases/stable/amd64/apb.html
 
 # OS image
 #
@@ -220,7 +226,7 @@ if Is_installed systemd; then
         echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
         # Schedule removal of systemd
         echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
-@reboot root apt-get purge -qq -y --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
+@reboot root apt-get purge -qq -y --auto-remove systemd > /dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
     else
         if Is_installed sysvinit; then
             apt-get purge -qq -y sysvinit-core

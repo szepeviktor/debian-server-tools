@@ -2,7 +2,7 @@
 #
 # Test ESMTP communication.
 #
-# VERSION       :0.3.5
+# VERSION       :0.3.6
 # DATE          :2016-01-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -13,7 +13,7 @@
 # LOCATION      :/usr/local/bin/mailto.sh
 
 # Usage
-#     mailto.sh <ADDRESS> [<MX>]
+#     mailto.sh ADDR@ESS [MX]
 
 pwgen16() {
     local PASSWORD=""
@@ -25,20 +25,19 @@ pwgen16() {
         R="$RANDOM"
         case $((R % 5)) in
             1|3)
-                # capital 65-90 40%
+                # Capitals 65-90 40%
                 CHAR="$((65 + R % 26))"
             ;;
             2|4)
-                # letter 97-122 40%
+                # Letters 97-122 40%
                 CHAR="$((97 + R % 26))"
             ;;
             *)
-                # digit 48-57 20%
+                # Digits 48-57 20%
                 CHAR="$((48 + R % 10))"
             ;;
         esac
-        echo -n "$(printf "\x$(printf "%x" "$CHAR")")"
-        #mcedit"
+        echo -n "$(printf "\x$(printf "%x" "$CHAR")")" #"
     done
 }
 
@@ -125,6 +124,7 @@ dnsquery() {
 
 # Email address
 RCPT="$1"
+
 [ -z "$RCPT" ] && exit 1
 [ "$RCPT" == "${RCPT%@*}" ] && exit 2
 
@@ -145,32 +145,32 @@ fi
 
 # From `man s_client`
 #     the session will be renegotiated if the line begins with an R
+#
 #     if the line begins with a Q the connection will be closed down
 cat <<EOF
 -------------------------------------------------------------------------------
-EHLO ${ME}
-MAIL FROM: <postmaster@${ME}>
+eHLO ${ME}
+mAIL FROM: <postmaster@${ME}>
 rCPT TO: <${RCPT}>
-DATA
+dATA
 -------------------------------------------------------------------------------
-Message-ID: <$(date '+%Y%m%d%H%M%S').$(pwgen16)@${ME}>
+Date: `date -R`
+From: =?utf-8?b?$(echo -n "SZÉPE Viktor"|base64)?= <postmaster@${ME}>
+To: ${RCPT}
+Subject: mail t3st, Sorry! / proba uzenet, Elnezest!
+Message-ID: <$(date "+%Y%m%d%H%M%S").$(pwgen16)@${ME}>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8;
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Date: `date -R`
-From: =?utf-8?b?$(echo -n "SZÉPE Viktor"|base64)?= <postmaster@${ME}>
-To: ${RCPT}
-Subject: mail test, Sorry! / proba uzenet, Elnezest!
 
-Mail test. Sorry! ${MYIP}
+Mail t3st. Sorry! ${MYIP}
 Proba uzenet. Elnezest! ${MYIP}
 .
 -------------------------------------------------------------------------------
 qUIT
 -------------------------------------------------------------------------------
 STARTTLS:  openssl s_client -crlf -connect ${MX_REC}:25 -starttls smtp
-smtps:     openssl s_client -crlf -connect ${MX_REC}:465
 EOF
 
 # Only CRLF line ends

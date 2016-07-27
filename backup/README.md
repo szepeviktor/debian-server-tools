@@ -83,9 +83,10 @@ fs-passphrase: PASSPHRASE
 ### Storage
 
 [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
-[OVH/hubiC object storage](https://hubic.com/en/offers/)
+[OVH/hubiC object storage](https://hubic.com/en/offers/) communication failures!
 [OVH/KS-1 server](https://www.kimsufi.com/en/) 500 GB €5/m
 [HostHatch Storage VPS](https://hosthatch.com/storage-vps) 250 GB €5/m
+[FireDrop](https://firedrop.com/signup.html) 10 GB free, 1 TB $4/m
 
 ### mega.co.nz CLI
 

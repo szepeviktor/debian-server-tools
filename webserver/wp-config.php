@@ -60,7 +60,6 @@ define( 'DISALLOW_FILE_EDIT', true );
 define( 'WP_USE_EXT_MYSQL', false );
 define( 'WP_POST_REVISIONS', 10 );
 
-//define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 //define( 'WP_CACHE', true );
 
 // CLI cron job: debian-server-tools:/webserver/wp-cron-cli.sh
@@ -71,6 +70,8 @@ define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
 /** Plugins */
 
+//define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT' );
+//define( 'MEMCACHED_SERVERS', '127.0.0.1:11211:0' );
 // https://polylang.wordpress.com/documentation/documentation-for-developers/list-of-options-which-can-be-set-in-wp-config-php/
 //define( 'PLL_LINGOTEK_AD', false );
 //define( 'PLL_WPML_COMPAT', false );

@@ -106,7 +106,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - Tripwire.php or git (file change notifications @30 minutes)
 - .php and .htaccess changes (monitoring/siteprotection.sh @daily)
 - Front page change notification (@hourly)
-- Sucuri SiteCheck (SafeBrowsing), Virustotal (HTTP API @daily)
+- Sucuri SiteCheck (Google Safe Browsing), Virustotal (HTTP API @daily)
 - Can-send-email (monitoring/cse @6 hours)
 - Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js | openssl dgst -sha256 -binary | openssl enc -base64)" crossorigin="anonymous"`

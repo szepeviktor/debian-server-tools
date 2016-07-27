@@ -2,7 +2,7 @@
 #
 # Install s3ql systemwide by pip only.
 #
-# VERSION       :2.17.1
+# VERSION       :2.19
 # DATE          :2016-04-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -10,21 +10,23 @@
 # BASH-VERSION  :4.2+
 # DOCS          :http://www.rath.org/s3ql-docs/installation.html#dependencies
 # UPSTREAM      :https://bitbucket.org/nikratio/s3ql/downloads
-#
-# Test in Docker
-#
-# cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
-# docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
+# CHANGELOG     :https://bitbucket.org/nikratio/s3ql/src/default/Changes.txt
 
-RELEASE_FILE="s3ql-2.17.1.tar.bz2"
+# Test in Docker
+#     cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
+#     docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
+
+RELEASE_FILE="s3ql-2.19.tar.bz2"
 
 set -e
 
 # Debian packages
-sudo apt-get -qq -y install curl build-essential python3-dev python3-pkg-resources pkg-config \
-    mercurial libattr1-dev kmod fuse libfuse-dev libsqlite3-dev libjs-sphinxdoc python3-systemd
+sudo apt-get update -qq
+sudo apt-get install -y curl build-essential pkg-config \
+    python3-pkg-resources python3-systemd kmod fuse \
+    python3-dev libattr1-dev libfuse-dev libsqlite3-dev libjs-sphinxdoc mercurial
 
-# pip
+# Get pip
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
 # Python packages
@@ -33,7 +35,7 @@ pycrypto
 defusedxml
 requests
 # Must be the same version as libsqlite3
-# dpkg-query --show --showformat='${Version}' libsqlite3-dev | sed 's/-.*$/-r1/'
+# dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed 's/-.*$/-r1/'
 # 3.8.7.1-r1 for Debian jessie
 apsw == 3.8.7.1-r1
 # Any version between 1.0 (inclusive) and 2.0 (exclusive) will do

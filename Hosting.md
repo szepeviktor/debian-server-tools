@@ -40,12 +40,24 @@
 
 ## Shared hosting
 
+**Hawk Host**
+
+- LiteSpeed webserver with HTTP/2
+- Free SSL certificate
+- 180 seconds long PHP OPcache
+- Memcached for WordPress object-cache
+- Fast disks
+- MariaDB version 10 database
+- Modern cPanel with SSH access thus you can use WP-CLI
+- European and US location
+- Stability of SoftLayer, an IBM company
+
+
 - [OVH](https://www.ovh.ie/web-hosting/)  100 GB, PHP-FPM, mini CDN
 - [gandi](https://www.gandi.net/hosting/simple) varnish
 - https://www.nearlyfreespeech.net/signup/ Florida,US
 - https://www.feralhosting.com/pricing 10 Gbps, 500 GB
 - https://timmehosting.de/ nginx, pagespeed
-
 - https://blazingfast.io/ fast (DDoS page)
 - http://www.hostinger.co.uk/ free, latest hardware
 - https://ifastnet.com/portal/sharedhosting.php free, 24 CPU cores

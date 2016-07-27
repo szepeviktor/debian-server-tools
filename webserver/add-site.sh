@@ -12,7 +12,7 @@ exit 0
 # See /monitoring/dns-watch.sh
 
 read -r -e -p "user name: " U
-read -r -e -p "domain name: (without WWW) " DOMAIN
+read -r -e -p "domain name without WWW: " DOMAIN
 
 adduser --disabled-password --gecos "" ${U}
 
@@ -118,7 +118,11 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-si
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
 # See https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
 openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
- | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
+ | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
+
+# Subresource integrity <link href="" integrity="sha384-SHA384_HASH" crossorigin="anonymous">
+# https://www.srihash.org/
+openssl dgst -sha384 -binary | openssl enc -base64 -A
 
 # In case of "www." set ServerAlias
 editor ${DOMAIN}.conf
