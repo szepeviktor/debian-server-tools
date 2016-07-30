@@ -14,9 +14,9 @@
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 
 Failures() {
-    # -intERRupt,-bERRy, -WARNer, -fail2ban, -MISSy
+    # -intERRupt,-bERRy, -WARNer, -fail2ban, -MISSy, -deFAULT
     grep -Ei "crit|err[^uy]|warn[^e]|fail[^2]|alert|unknown|unable|miss[^y]\
-|except|disable|invalid|fault|cannot|denied|broken|exceed|unsafe|unsolicited\
+|except|disable|invalid|[^e]fault|cannot|denied|broken|exceed|unsafe|unsolicited\
 |limit reach|unhandled|traps|bad\b|corrupt"
 }
 

@@ -261,4 +261,4 @@ ${D}/mail/add-mailaccount.sh USER@DOMAIN
 #     DH_BITS=2048 nice /usr/sbin/mkdhparams
 #     courier-restart.sh
 #     # Verify
-#     #openssl s_client -connect $(hostname -f):587 -starttls smtp
+#     openssl s_client -connect $(hostname -f):587 -starttls smtp < /dev/null

@@ -13,7 +13,7 @@ I am also a **WordPress** expert. I know the core and develop plugins: https://p
 You could give me feature (theme, plugin, UI) development jobs, but that is outside my daily routine.  
 Support videos are favourites of mine: https://www.youtube.com/user/szepeviktor (*there are English videos*)
 
-I hope I'll fit in your picture: viktor@szepe.net
+I hope I'll fit into your picture: viktor@szepe.net
 
 
 ## CV in English

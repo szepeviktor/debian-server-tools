@@ -22,9 +22,9 @@ set -e
 
 # Debian packages
 sudo apt-get update -qq
-sudo apt-get install -y curl build-essential pkg-config \
-    python3-pkg-resources python3-systemd kmod fuse \
-    python3-dev libattr1-dev libfuse-dev libsqlite3-dev libjs-sphinxdoc mercurial
+sudo apt-get install -y kmod fuse libattr1-dev libfuse-dev libsqlite3-dev \
+    python3-pkg-resources python3-systemd \
+    curl build-essential pkg-config mercurial python3-dev libjs-sphinxdoc
 
 # Get pip
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
@@ -41,7 +41,10 @@ apsw == 3.8.7.1-r1
 # Any version between 1.0 (inclusive) and 2.0 (exclusive) will do
 llfuse >= 1.0, < 2.0
 # You need at least version 3.4
-dugong >= 3.4
+dugong >= 3.4, < 4.0
+# optional, to run unit tests
+pytest >= 2.3.3
+pytest-catchlog
 EOF
 sudo pip3 install -r requirements.txt
 
@@ -57,4 +60,7 @@ gpg --verify "${RELEASE_FILE}.asc"
 # Install s3ql
 sudo pip3 install "$RELEASE_FILE"
 s3qlctrl --version
+
+rm -f "$RELEASE_FILE" "${RELEASE_FILE}.asc"
+
 echo "OK."

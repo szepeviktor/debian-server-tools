@@ -3,6 +3,5 @@
 # Execute git with options.
 #
 # VERSION       :0.1.0
-# LOCATION      :/usr/local/bin/git-example.sh
 
 GIT_DIR=~/.git GIT_WORK_TREE=~/website/html /usr/bin/git "$@"

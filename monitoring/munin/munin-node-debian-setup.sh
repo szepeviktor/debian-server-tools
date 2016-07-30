@@ -20,6 +20,8 @@ ENABLED_PLUGIN_PATH="/etc/munin/plugins"
 # Plugin types
 #     http://guide.munin-monitoring.org/en/latest/architecture/syntax.html
 
+# munin cron += /usr/bin/nice
+
 # non-autoconf + /usr/local/share/munin/plugins/* -> write .config and .script
 
 # Does autoconf/suggest work?

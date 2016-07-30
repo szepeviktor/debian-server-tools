@@ -74,7 +74,7 @@ Do_install() {
             return
         fi
 
-        echo "Replacing ${SCRIPT}"
+        echo "Updating ${SCRIPT}"
     else
         echo "Installing ${FILE} to ${SCRIPT}"
     fi
@@ -102,7 +102,6 @@ Do_install() {
     # Check APT dependencies
     Get_meta "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
-            PKG="$1"
             if [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" != "install ok installed" ]; then
                 #if ! grep-status -sPackage -FProvides "$PKG" | grep -qx "Package: \S\+"; then
                 echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2

@@ -1,3 +1,9 @@
+Installation of system tables failed!
+
+```bash
+mcedit /var/lib/dpkg/info/mariadb-server-10.0.postinst:227
+```
+
 ### Drop all tables
 
 http://nathan.rambeck.org/blog/28-drop-all-mysql-tables-command-line

@@ -1,5 +1,5 @@
-# NO root files (EN, HU)
-<FilesMatch "^(licenc\.txt|olvasdel\.html|license\.txt|readme\.html|wp-config\.php|wp-config-sample\.php)$">
+# NO root files and en_US, hu_HU documents (no dollar sign at the end)
+<FilesMatch "^(licenc\.txt|olvasdel\.html|license\.txt|readme\.html|wp-(config|config-sample|blog-header|load|settings)\.php)">
     # Apache < 2.3
     <IfModule !mod_authz_core.c>
         Order Allow,Deny
@@ -12,25 +12,4 @@
     </IfModule>
 </FilesMatch>
 
-# # NO readme-s (site-wide) http://perldoc.perl.org/perlre.html#Extended-Patterns
-# <FilesMatch "^.*(?i)readme\.txt$">
-#     # Apache < 2.3
-#     <IfModule !mod_authz_core.c>
-#         Order Allow,Deny
-#         Deny from all
-#         Satisfy All
-#     </IfModule>
-#     # Apache ≥ 2.3
-#     <IfModule mod_authz_core.c>
-#         Require all denied
-#     </IfModule>
-# </FilesMatch>
-#
-# # Frontend
-# # BEGIN WordPress
-# RewriteEngine On
-# RewriteRule ^/index\.php$ - [L]
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteRule ^ /index.php [L]
-# # END WordPress
+# Add the above .htaccess file's contents here if site_url === home

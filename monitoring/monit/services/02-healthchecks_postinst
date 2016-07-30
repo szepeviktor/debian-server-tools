@@ -1,0 +1,5 @@
+# Remove service when not configured
+if [ -z "$HEALTHCHECKS_URL" ]; then
+    echo "Removing healthchecks service" 1>&2
+    rm -f /usr/local/bin/healthchecks-test.sh /etc/monit/conf-available/courier-mta
+fi

@@ -25,6 +25,7 @@ set -e
 #     echo "Missing: ${PACKAGE}"; fi; done
 
 # @TODO
+# - add healthchecks.io: every "* * cron style timing"
 # - integrate cert-expiry/openssl
 # - document putty port-forward 2812+N (web interface)
 # - add "/etc/init.d/SERVICE status" checks
@@ -140,6 +141,7 @@ Monit_config() {
 
 Monit_system() {
     Monit_enable 01-system
+    Monit_enable 02-healthchecks
 }
 
 Monit_all_packages() {
@@ -244,7 +246,7 @@ if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-
     exit 1
 fi
 if Is_pkg_installed systemd; then
-    echo "Systemd AND Monit?"
+    echo "systemd AND Monit?"
     exit 2
 fi
 if ! Is_pkg_installed monit; then

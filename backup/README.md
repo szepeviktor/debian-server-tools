@@ -70,14 +70,42 @@ cat github.repos|xargs -L 1 git clone
 - upload: sync && s3qlctrl flushcache
 - unmount: umount.s3ql
 
-### S3QL on OVH (~/.s3ql/authinfo2)
+### S3QL on OVH
+
+Paste OpenStack configuration into `openrc.sh`, set `OS_PASSWORD`
+
+```bash
+chmod -v 0600 openrc.sh
+source openrc.sh
+read -r -e -p "OS_CONTAINER=" OS_CONTAINER
+cat > ~/.s3ql/authinfo2 <<EOF
+[swiftks]
+storage-url: swiftks://auth.cloud.ovh.net/${OS_REGION_NAME}:${OS_CONTAINER}
+backend-login: ${OS_TENANT_NAME}:${OS_USERNAME}
+backend-password: ${OS_PASSWORD}
+fs-passphrase: $(apg -m32 -n1)
+EOF
+chmod -v 0600 ~/.s3ql/authinfo2
+```
+
+### OpenStack client
 
 ```
-[swiftks]
-storage-url: swiftks://auth.cloud.ovh.net/REGION_NAME:CT_NAME
-backend-login: TENANT_NAME:USERNAME
-backend-password: PASSWORD
-fs-passphrase: PASSPHRASE
+pip3 install -U python-openstackclient
+openstack --os-cloud system-backup complete > /etc/bash_completion.d/openstack
+mkdir -p ~/.config/openstack
+cat > ~/.config/openstack/clouds.yaml <<EOF
+clouds:
+  CLOUD-NAME:
+    auth:
+      auth_url: ${OS_AUTH_URL}
+      project_name: ${OS_TENANT_NAME}
+      username: ${OS_USERNAME}
+      password: ${OS_PASSWORD}
+    region_name: ${OS_REGION_NAME}
+EOF
+openstack --os-cloud CLOUD-NAME container list
+openstack --os-cloud CLOUD-NAME object list CONTAINER-NAME
 ```
 
 ### Storage

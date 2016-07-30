@@ -27,10 +27,6 @@
 #
 # Package versioning
 #     ${UPSTREAM_VERSION}[-${DEBIAN_REVISION}]~bpo${DEBIAN_RELEASE}+${BUILD_INT}
-#
-# Apache backport: ?openssl/sid? spdylay nghttp2 apr-util apache2
-# Courier backport: courier-unicode courier-authlib courier
-# S3ql backport: python3-pytest-catchlog python3-llfuse python3-dugong cython3/jessie-backports s3ql
 
 set -e
 

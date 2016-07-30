@@ -281,7 +281,7 @@ D="/root/src/debian-server-tools-master"
 
 # Download architecture-independent packages
 Getpkg() { local P="$1"; local R="${2-sid}"; local WEB="https://packages.debian.org/${R}/all/${P}/download";
-    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.fr.debian.org/debian[^"]\+\.deb')";
+    local URL="$(wget -qO- "$WEB"|grep -o '[^"]\+ftp.de.debian.org/debian[^"]\+\.deb')";
     [ -z "$URL" ] && return 1; wget -qO "${P}.deb" "$URL" && dpkg -i "${P}.deb"; echo "Ret=$?"; }
 
 # Hardware
@@ -571,9 +571,6 @@ declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 
 # Make cron log all failed jobs (exit status != 0)
 sed -i "s/^#\s*\(EXTRA_OPTS='-L 5'\)/\1/" /etc/default/cron || echo "ERROR: cron-default"
-# Add healthchecks.io check
-read -r -e -p "hchk.io URL=" HCHK_URL
-echo -e "03 *\t* * *\tnobody\twget -q -t 3 -O- ${HCHK_URL} | grep -qFx 'OK'" > /etc/cron.d/healthchecks
 service cron restart
 
 # Time synchronization
@@ -962,7 +959,8 @@ apt-get install -y libmail-dkim-perl \
 wget -nv https://admin.dc3.arubacloud.hu/Installers/debian/aruba-serclient_0.01-1_all.deb
 dpkg -i aruba-serclient_*_all.deb
 # Set log level
-echo -e "[LOG]\nlevel = 20" >> /opt/serclient/serclient.ini
+# INFO 20, WARNING 30
+echo -e "[LOG]\n#level = 20\nlevel = 30" >> /opt/serclient/serclient.ini
 # Comment out "if getRestartGUID(remove=False) == None: rf.doRollover()"
 editor /opt/serclient/tools.py:159
 md5sum /opt/serclient/tools.py

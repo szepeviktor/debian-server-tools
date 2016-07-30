@@ -17,11 +17,18 @@
     </IfModule>
 </FilesMatch>
 
-# Frontend
-# BEGIN WordPress
 RewriteEngine On
-RewriteRule ^/index\.php$ - [L]
+
+# Block direct access to plugins and themes (no dollar sign)
+# WARNING!!!
+# Exclude custom entry points created by poorly written plugins and themes
+#RewriteCond "%{REQUEST_URI}" "!=/static/plugins/entry-point.php"
+RewriteRule "/(mu-plugins|plugins|themes)/.*\.php" - [F]
+
+# Core
+# BEGIN WordPress
+RewriteRule "^/index\.php$" - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ /index.php [L]
+RewriteRule "^" "/index.php" [L]
 # END WordPress

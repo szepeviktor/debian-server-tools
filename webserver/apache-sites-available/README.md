@@ -1,6 +1,8 @@
 ### Site configs diff
 
-`colordiff Skeleton-site.conf Skeleton-site-ssl.conf`
+```bash
+colordiff Skeleton-site.conf Skeleton-site-ssl.conf
+```
 
 ### Apache variables
 

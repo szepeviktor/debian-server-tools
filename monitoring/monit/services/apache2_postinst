@@ -1,4 +1,4 @@
-# @TODO grep "Location .*/server-status" /etc/apache2/sites-enabled/*
+# @TODO grep "<Location .*/server-status" /etc/apache2/sites-enabled/*
 
 wget -q -T 10 -S -O /dev/null "http://${APACHE_SERVER_NAME}/server-status"
 

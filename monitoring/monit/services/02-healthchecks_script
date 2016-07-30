@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Ping healthchecks.io.
+#
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/bin/healthchecks-test.sh
+
+set -e
+
+HEALTHCHECKS_URL="$1"
+
+[ -n "$HEALTHCHECKS_URL" ]
+
+wget -q -t 3 -O- "$HEALTHCHECKS_URL" | grep -Fx "OK"

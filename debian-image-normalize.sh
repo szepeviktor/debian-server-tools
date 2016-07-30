@@ -15,7 +15,7 @@
 # - installed-by-size.pkgs
 
 # @TODO
-#       What to do on critical errors?
+#   See https://sources.debian.net/src/upgrade-system/1.7.3.0/upgrade-system/
 
 STANDARD_BLACKLIST="exim.*|procmail|bsd-mailx|mutt\
 |nfs-common|rpcbind\

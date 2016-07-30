@@ -32,11 +32,14 @@
 # szepenet
 #     http://ca.szepe.net/szepenet-ca.pem
 #
-# Saving certificate from the issuer
-#     D=$(date +%Y%m%d); read -r -p "? " DOMAIN; cd /root/ssl/; mkdir "${D}-${DOMAIN}"; cd "${D}-${DOMAIN}"
-#     editor "priv-key-${D}-encrypted.key"
+# Getting certificate from the issuer
+#     D=$(date +%Y%m%d);read -r -p "SUBJ=" SUBJ;cd /root/ssl/;mkdir -m 0700 "${D}-${SUBJ}";cd "${D}-${SUBJ}"
+#     #editor "priv-key-${D}-encrypted.key"
+#     openssl req -newkey rsa:2048 -keyout "priv-key-${D}-encrypted.key" -out "request-${D}.csr"
 #     openssl rsa -in "priv-key-${D}-encrypted.key" -out "priv-key-${D}.key"
+#     editor "intermediate-${D}.pem"
 #     editor "pub-key-${D}.pem"
+#     openssl verify -purpose sslserver -CAfile "intermediate-${D}.pem" "pub-key-${D}.pem"
 
 # @TODO Add apache SSLOpenSSLConfCmd for OpenSSL 1.0.2+
 

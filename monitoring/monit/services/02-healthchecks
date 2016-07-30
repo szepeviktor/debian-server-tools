@@ -1,0 +1,4 @@
+ check program "healthchecks_test" with path "/usr/local/bin/healthchecks-test.sh '@@HEALTHCHECKS_URL@@'"
+   as uid "nobody" and gid "nogroup" with timeout 10 seconds every "03,04 *  * * *"
+   group "healthchecks"
+   if status != 0 then alert

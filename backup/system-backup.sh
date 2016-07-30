@@ -2,37 +2,61 @@
 #
 # Backup a server.
 #
-# VERSION       :1.1.1
-# DATE          :2015-12-08
+# VERSION       :2.0.0
+# DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install mariadb-client-10.0 s3ql rsync
+# DEPENDS       :apt-get install s3ql rsync mariadb-client-10.0 percona-xtrabackup
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # OWNER         :root:root
 # PERMISSION    :700
+# CI            :shellcheck -e SC2086 system-backup.sh
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
-# CONFIG        :~/.config/system-backup/configuration
 
 # Usage
 #
 # Format storage
 #     /usr/bin/mkfs.s3ql --authfile "$AUTHFILE" "$STORAGE_URL"
+# Save encryption master key!
+#
+# Edit DB_EXCLUDE, STORAGE_URL, TARGET
+#     editor /usr/local/sbin/system-backup.sh
+#
+# Create target directory
+#     mkdir "$TARGET"
 #
 # Mount storage
 #     system-backup.sh -m
 #
+# Save /root files to "${TARGET}/root"
+#
 # Unmount storage
 #     system-backup.sh -u
 
-DB_EXCLUDE="excluded-db1|excluded-db2"
-TARGET="/media/s3ql-provider"
-STORAGE_URL="swiftks://auth.cloud.ovh.net/SBG1:company.server.s3ql"
+# @TODO
+# CONFIG        :~/.config/system-backup/configuration
+# source "${HOME}/.config/system-backup/configuration"
+
+#DB_EXCLUDE="excluded-db1|excluded-db2"
+DB_EXCLUDE=""
+
+STORAGE_URL="swiftks://auth.cloud.ovh.net/REGION:COMPANY-SERVER-s3ql"
+TARGET="/media/provider.s3ql"
+# [swiftks]
+# storage-url: STORAGE_URL
+# backend-login: OS_TENANT_NAME:OS_USERNAME
+# backend-password: OS_PASSWORD
+# fs-passphrase: $(apg -m32 -n1)
+# #chmod 0600 /root/.s3ql/authinfo2
 AUTHFILE="/root/.s3ql/authinfo2"
+
+set -e
 
 Error() {
     local STATUS="$1"
+
     shift
 
     echo "ERROR ${STATUS}: $*" 1>&2
@@ -48,7 +72,6 @@ Error() {
 
 Rotate_weekly() {
     local DIR="$1"
-    local -i CURRENT="$(date --utc "+%w")"
     local -i PREVIOUS
 
     if [ -z "$DIR" ]; then
@@ -56,38 +79,31 @@ Rotate_weekly() {
     fi
 
     if ! [ -d "${TARGET}/${DIR}/6" ]; then
-        mkdir -p "${TARGET}/${DIR}"/{0..6} 1>&2 || Error 61 "Cannot create weekly directories"
+        mkdir -p "${TARGET}/${DIR}"/{0..6} 1>&2 || Error 61 "Cannot create weekday directories"
     fi
 
-    PREVIOUS="$((CURRENT - 1))"
+    PREVIOUS="$((CURRENT_DAY - 1))"
     if [ "$PREVIOUS" -lt 0 ]; then
         PREVIOUS="6"
     fi
 
-    /usr/bin/s3qlrm ${S3QL_OPT} "${TARGET}/${DIR}/${CURRENT}" 1>&2 \
-        || Error 62 "Failed to remove current weekly directory"
-    /usr/bin/s3qlcp ${S3QL_OPT} "${TARGET}/${DIR}/${PREVIOUS}" "${DIR}/${CURRENT}" 1>&2 \
-        || Error 63 "Cannot duplicate last weekly backup"
+    /usr/bin/s3qlrm ${S3QL_OPT} "${TARGET}/${DIR}/${CURRENT_DAY}" 1>&2 \
+        || Error 62 "Failed to remove current day's directory"
+    /usr/bin/s3qlcp ${S3QL_OPT} "${TARGET}/${DIR}/${PREVIOUS}" "${TARGET}/${DIR}/${CURRENT_DAY}" 1>&2 \
+        || Error 63 "Cannot duplicate last daily backup"
 
     # Return current directory
-    echo "${TARGET}/${DIR}/${CURRENT}"
+    echo "${TARGET}/${DIR}/${CURRENT_DAY}"
 }
 
 Check_paths() {
-    [ -d "$TARGET" ] || Error 3 "Target does not exist"
     [ -r "$AUTHFILE" ] || Error 4 "Authentication file cannot be read"
+    [ -d "$TARGET" ] || Error 3 "Target does not exist"
 }
 
 List_dbs() {
     echo "SHOW DATABASES;" | mysql --skip-column-names \
         | grep -E -v "information_schema|mysql|performance_schema"
-}
-
-Check_mount() {
-    [ -d "${TARGET}/homes" ] || Error 41 "Target 'homes' dir does not exist"
-    [ -d "${TARGET}/email" ] || Error 42 "Target 'email' dir does not exist"
-    [ -d "${TARGET}/innodb" ] || Error 43 "Target 'innodb' dir does not exist"
-    [ -d "${TARGET}/db" ] || Error 44 "Target 'db' dir does not exist"
 }
 
 Backup_system_dbs() {
@@ -99,17 +115,20 @@ Backup_system_dbs() {
         || Error 7 "MySQL system databases backup failed"
 }
 
-Check_schemas() {
+Check_db_schemas() {
     local DBS
     local DB
     local SCHEMA
     local TEMP_SCHEMA="$(mktemp)"
 
-    # No `return` within a pipe
+    # `return` is not available within a pipe
     DBS="$(List_dbs)"
 
+    if ! [ -d "${TARGET}/db" ];then
+        mkdir "${TARGET}/db" || Error 43 "Failed to create 'db' directory in target"
+    fi
     while read -r DB; do
-        if [[ "$DB" =~ ${DB_EXCLUDE} ]]; then
+        if [ -n "$DB_EXCLUDE" ] && [[ "$DB" =~ ${DB_EXCLUDE} ]]; then
             continue
         fi
 
@@ -123,7 +142,7 @@ Check_schemas() {
             if ! diff "$SCHEMA" "$TEMP_SCHEMA" 1>&2; then
                 echo "Database schema CHANGED for ${DB}" 1>&2
             fi
-            rm "$TEMP_SCHEMA"
+            rm -f "$TEMP_SCHEMA"
         else
             mv "$TEMP_SCHEMA" "$SCHEMA" || Error 11 "New schema saving failed for ${DB}"
             echo "New schema created for ${DB}"
@@ -131,9 +150,10 @@ Check_schemas() {
     done <<< "$DBS"
 }
 
-Get_base_dir() {
+Get_base_db_backup_dir() {
     local XTRAINFO
 
+    # shellcheck disable=SC2012
     ls -tr "${TARGET}/innodb" \
         | while read -r BASE; do
             XTRAINFO="${TARGET}/innodb/${BASE}/xtrabackup_info"
@@ -148,10 +168,18 @@ Get_base_dir() {
 
 Backup_innodb() {
     local BASE
+    local -i ULIMIT_FD
+    local -i MYSQL_TABLES
 
+    ULIMIT_FD="$(ulimit -n)"
+    MYSQL_TABLES="$(find /var/lib/mysql/ -type f | wc -l)"
+    MYSQL_TABLES+="10"
+    if [ "$ULIMIT_FD" -lt "$MYSQL_TABLES" ]; then
+        ulimit -n "$MYSQL_TABLES"
+    fi
     if [ -d "${TARGET}/innodb" ]; then
         # Get base directory
-        BASE="$(Get_base_dir)"
+        BASE="$(Get_base_db_backup_dir)"
         if [ -z "$BASE" ] || ! [ -d "${TARGET}/innodb/${BASE}" ]; then
             Error 12 "No base InnoDB backup"
         fi
@@ -159,7 +187,7 @@ Backup_innodb() {
             "${TARGET}/innodb" \
             2>> "${TARGET}/innodb/backupex.log" || Error 13 "Incremental InnoDB backup failed"
     else
-        # Create base
+        # Create base backup
         echo "Creating base InnoDB backup"
         mkdir "${TARGET}/innodb"
         nice innobackupex --throttle=100 \
@@ -169,32 +197,56 @@ Backup_innodb() {
 }
 
 Backup_files() {
-    # See: Check_mount()
     local WEEKLY_ETC
     local WEEKLY_HOME
     local WEEKLY_MAIL
 
+    # /etc
     WEEKLY_ETC="$(Rotate_weekly "etc")"
-    tar -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
+    if [ -n "$WEEKLY_ETC" ]; then
+        tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
+    fi
 
+    # /home
+    if ! [ -d "${TARGET}/homes" ]; then
+        mkdir "${TARGET}/homes" || Error 41 "Failed to create 'homes' directory in target"
+    fi
     WEEKLY_HOME="$(Rotate_weekly "homes")"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
-    rsync -a --delete /home/ "$WEEKLY_HOME"
+    if [ -n "$WEEKLY_HOME" ]; then
+        rsync -a --delete /home/ "$WEEKLY_HOME"
+    fi
 
+    # /var/mail
+    if ! [ -d "${TARGET}/email" ]; then
+        mkdir "${TARGET}/email" || Error 42 "Failed to create 'email' directory in target"
+    fi
     WEEKLY_MAIL="$(Rotate_weekly "email")"
-    rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    if [ -n "$WEEKLY_MAIL" ]; then
+        rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    fi
+
+    # /usr/local
+    if ! [ -d "${TARGET}/usr" ]; then
+        mkdir "${TARGET}/usr" || Error 42 "Failed to create 'usr' directory in target"
+    fi
+    WEEKLY_USR="$(Rotate_weekly "usr")"
+    if [ -n "$WEEKLY_USR" ]; then
+        rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
+    fi
 }
 
 Mount() {
+    [ -z "$(find "$TARGET" -type f)" ] || Error 5 "Target directory is not empty"
+
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
     /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2
 
-    /usr/bin/mount.s3ql ${S3QL_OPT} \
+    # OVH fix? --threads 4
+    nice /usr/bin/mount.s3ql ${S3QL_OPT} --threads 4 \
         "$STORAGE_URL" "$TARGET" || Error 1 "Cannot mount storage"
 
     /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null || Error 2 "Cannot stat storage"
-
-    Check_mount
 }
 
 Umount() {
@@ -202,7 +254,9 @@ Umount() {
     /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 32 "Umount failed"
 }
 
-# Terminal?
+declare -i CURRENT_DAY="$(date --utc "+%w")"
+
+# On terminal?
 if [ -t 1 ]; then
     read -e -p "Start backup? "
     S3QL_OPT=""
@@ -225,7 +279,7 @@ fi
 
 Backup_system_dbs
 
-Check_schemas
+Check_db_schemas
 
 Backup_innodb
 

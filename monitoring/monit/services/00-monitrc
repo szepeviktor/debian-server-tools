@@ -9,3 +9,6 @@ set alert @@ALERT_ADDRESS@@ with reminder on 2 cycles
 set httpd port 2812
     use address localhost
     allow localhost
+    allow cpa:cpa
+# https://bitbucket.org/tildeslash/monit/issues/427
+#set httpd unixsocket /run/monit.sock
