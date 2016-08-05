@@ -68,6 +68,20 @@ define( 'WP_POST_REVISIONS', 10 );
 define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
+/** Multisite */
+
+/*
+define( 'WP_ALLOW_MULTISITE', true );
+define( 'MULTISITE', true );
+define( 'SUBDOMAIN_INSTALL', true );
+$base = '/';
+define( 'DOMAIN_CURRENT_SITE', 'example.com' );
+define( 'PATH_CURRENT_SITE', '/' );
+define( 'SITE_ID_CURRENT_SITE', 1 );
+define( 'BLOG_ID_CURRENT_SITE', 1 );
+//define( 'WP_DEFAULT_THEME', 'theme-slug' );
+*/
+
 /** Plugins */
 
 //define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT' );
@@ -80,8 +94,12 @@ define( 'AUTOMATIC_UPDATER_DISABLED', true );
 //define( 'WPCF7_LOAD_JS', false );
 //define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 define( 'ENABLE_FORCE_CHECK_UPDATE', true );
+//define( 'YIKES_MC_API_KEY', '00000000-us3' );
 //define( 'ITSEC_FILE_CHECK_CRON', true );
 //define( 'ITSEC_BACKUP_CRON', true );
+//  Non-free
+//define( 'GF_LICENSE_KEY', '' );
+
 
 /** DB */
 

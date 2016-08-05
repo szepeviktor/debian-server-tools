@@ -205,19 +205,21 @@ $redis_server = array(
 Resource optimization
 
 ```bash
+# CDN, Page Cache, Minify
+wp plugin install w3-total-cache --activate
+wp plugin install https://github.com/szepeviktor/fix-w3tc/releases/download/v0.9.4.2/w3-total-cache.0.9.4.2.zip --activate
+
 # safe redirect manager
 wp plugin install safe-redirect-manager --activate
 
-# ?
-wp plugin install resource-versioning <--> autoptimize --activate
-# define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
-
-# Redis or ngx_http_memcached_module
+# WP-FFPC
+# backends: APCu, Redis, Memcached with ngx_http_memcached_module
 # https://github.com/petermolnar/wp-ffpc
 wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --activate
 
-# CDN, Page Cache, Minify
-wp plugin install w3-total-cache --activate
+# Autoptimize ?
+#wp plugin install resource-versioning <--> autoptimize --activate
+# define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 ```
 
 Set up CDN.

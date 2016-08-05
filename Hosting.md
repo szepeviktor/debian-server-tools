@@ -36,7 +36,7 @@
 
 ## CDN
 
-- [keycdn](https://www.keycdn.com/cdn-europe) 10×Europe, Made in Switzerland
+- [keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
 
 ## Shared hosting
 

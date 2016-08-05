@@ -79,7 +79,8 @@ https://toolbox.googleapps.com/apps/checkmx/
 
 - Encoded (base64 or QP) headers: `conv2047.pl -d`
 - Body and attachments: `munpack -t`
-- Syntax highlight: headers.vim for vim, email.syntax for mcedit
+- Syntax highlight: `headers.vim` for vim, `/input/mc/email.syntax` for mcedit
+- Enveloped-data (application/pkcs7-mime): `cat smime.p7m | base64 -d | openssl smime -verify -inform DER`
 
 
 ## Settings

@@ -46,6 +46,30 @@ I hope I'll fit into your picture: viktor@szepe.net
   an English video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - make mistakes
 
+# Szépe Viktor dolgozna egy Vállalatnak
+
+HTTP alapú szolgáltatások üzemeltetésével foglalkozok: applikációk, API-k, honlapok.  
+Ezirányú tapasztalataim értékes visszacsatolást jelenthetnek a fejlesztő csapatuknak.  
+(A közlekedési jelzőlámpa példával élve: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
+A figyelmem az üzembiztonságon és a sebességen van.
+
+ Úgy szoktam mondani, hogy *pozitív jövőképe legyen a projektnek*.
+
+Debian alapú webszervereket építek és üzemeltetek. Email kézbesítéssel is foglalkozok.  
+A jegyzeteim és a programjaim nyílt forrásúak: https://github.com/szepeviktor/
+
+Emellett WordPress - jobb szó híján - szakértő is vagyok.
+Ismerem a magot (core) és bővítményeket is fejlesztek: https://profiles.wordpress.org/szepeviktor#content-plugins
+
+Rám bízhatnak *feature* fejleszést is (sablon, bővítmény, UI) de az nem része a napi rutinomnak.
+
+A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolul is vannak)
+
+ Annyit írnék még, hogy tömegtermelésben nem sok hasznomat veszik, mert alapos munkát végzek,
+ és úgy érzékelem, hogy ez a kettő üti egymást.
+
+Remélem bele illek a képbe valahogyan: viktor@szepe.net
+
 ## Magyarul az önéletrajz
 
 - webhely sebesség tervezés és optimalizálás (mobilon is)

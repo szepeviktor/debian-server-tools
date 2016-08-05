@@ -18,7 +18,8 @@
 # Usage
 #
 # Format storage
-#     /usr/bin/mkfs.s3ql --authfile "$AUTHFILE" "$STORAGE_URL"
+#     /usr/bin/mkfs.s3ql "$STORAGE_URL"
+#
 # Save encryption master key!
 #
 # Edit DB_EXCLUDE, STORAGE_URL, TARGET
@@ -42,6 +43,7 @@
 #DB_EXCLUDE="excluded-db1|excluded-db2"
 DB_EXCLUDE=""
 
+#STORAGE_URL="local:///media/backup-server.sshfs"
 STORAGE_URL="swiftks://auth.cloud.ovh.net/REGION:COMPANY-SERVER-s3ql"
 TARGET="/media/provider.s3ql"
 # [swiftks]
@@ -54,18 +56,33 @@ AUTHFILE="/root/.s3ql/authinfo2"
 
 set -e
 
-Error() {
-    local STATUS="$1"
+Onexit() {
+    local -i RET="$1"
+    local BASH_CMD="$2"
 
-    shift
-
-    echo "ERROR ${STATUS}: $*" 1>&2
+    set +e
 
     #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null; then
     if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
         /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET"
         /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET"
     fi
+
+    if [ "$RET" -ne 0 ]; then
+        echo "COMMAND: ${BASH_CMD}" 1>&2
+    fi
+
+    exit "$RET"
+}
+
+Error() {
+    local STATUS="$1"
+
+    set +e
+
+    shift
+
+    echo "ERROR ${STATUS}: $*" 1>&2
 
     exit "$STATUS"
 }
@@ -151,19 +168,20 @@ Check_db_schemas() {
 }
 
 Get_base_db_backup_dir() {
+    local BACKUP_DIRS
     local XTRAINFO
 
     # shellcheck disable=SC2012
-    ls -tr "${TARGET}/innodb" \
-        | while read -r BASE; do
-            XTRAINFO="${TARGET}/innodb/${BASE}/xtrabackup_info"
-            # First non-incremental is the base
-            if [ -r "$XTRAINFO" ] && grep -qFx "incremental = N" "$XTRAINFO"; then
-                echo "$BASE"
-                return 0
-            fi
-        done
-        return 1
+    BACKUP_DIRS="$(ls -tr "${TARGET}/innodb")"
+    while read -r BASE; do
+        XTRAINFO="${TARGET}/innodb/${BASE}/xtrabackup_info"
+        # First non-incremental is the base
+        if [ -r "$XTRAINFO" ] && grep -qFx "incremental = N" "$XTRAINFO"; then
+            echo "$BASE"
+            return 0
+        fi
+    done <<< "$BACKUP_DIRS"
+    return 1
 }
 
 Backup_innodb() {
@@ -253,6 +271,8 @@ Umount() {
     /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET" || Error 31 "Flush failed"
     /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 32 "Umount failed"
 }
+
+trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 
 declare -i CURRENT_DAY="$(date --utc "+%w")"
 

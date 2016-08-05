@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.2.0
+# VERSION       :2.2.1
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,25 +16,28 @@ HOST="$1"
 
 set -e
 
-[ -n "$HOST" ]
-
 Onexit() {
     local -i RET="$1"
     local BASH_CMD="$2"
 
     set +e
 
+    # Cleanup
     rm -f "$CERTIFICATE" "$CA_ISSUER_CERT" &> /dev/null
 
     if [ "$RET" -ne 0 ]; then
-        echo "ERROR: ${BASH_CMD}" 1>&2
-        exit 100
+        echo "COMMAND WITH ERROR: ${BASH_CMD}" 1>&2
     fi
+
+    exit "$RET"
 }
+
+trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
+
+[ -n "$HOST" ]
 
 CERTIFICATE="$(mktemp -t "${0##*/}.XXXXXXXX")"
 CA_ISSUER_CERT="$(mktemp -t "${0##*/}.XXXXXXXX")"
-trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 
 # Get certificate
 openssl s_client -connect "${HOST}:443" -servername "$HOST" < /dev/null > "$CERTIFICATE" 2> /dev/null
