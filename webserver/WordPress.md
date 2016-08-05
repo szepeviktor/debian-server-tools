@@ -7,28 +7,67 @@
 - Production environment: /webserver/Production-website.md
 - Production on cPanel and migration to cPanel: wordpress-plugin-construction/shared-hosting-aid/cPanel/cPanel-WordPress-setup.md
 - Content plugins: wordpress-plugin-construction/README.md
-- WordPress installation: here + secret dir + git + migration
+- WordPress installation: (here) + secret dir + git + migration
+
 
 ### Secret Directory structure
 
 ```
-$DOCROOT─┬─index.php
+wp-cli.yml
+$DOCROOT─┬─index.php (modified)
          ├─wp-config.php
-         ├─$CORE─┬─wp-load.php
-         │       ├─wp-login.php
-         │       ├─wp-admin/
-         │       └─wp-includes/
+         ├─wp-login.php (trap)
+         ├─xmlrpc.php (trap)
+         ├─$CORE/─┬─index.php
+         │        ├─wp-load.php
+         │        ├─wp-login.php
+         │        ├─wp-admin/
+         │        └─wp-includes/
          └─static/
 ```
 
-wp-cli.yml options: path, user ...
 
-`./wp-createdb.sh`
+### Normal Directory structure
+
+```
+wp-cli.yml
+wp-config.php
+$DOCROOT─┬─index.php
+         ├─wp-load.php
+         ├─wp-login.php
+         ├─xmlrpc.php
+         ├─wp-admin/
+         ├─wp-includes/
+         └─wp-content/
+```
+
+
+### Installation by WP-CLI
+
+`wp-cli.yml`
+
+```yaml
+path: $WPROOT
+url: $WPHOMEURL
+debug: true
+user: viktor
+core update:
+    locale: hu_HU
+skip-plugins:
+    # Version randomizer
+    - better-wp-security
+```
 
 ```bash
+# Existing database
+./wp-createdb.sh
+
+# New installation
 wp core config --dbname="$DBNAME" --dbuser="$DBUSER" --dbpass="$DBPASS" \
     --dbhost="$DBHOST" --dbprefix="prod" --dbcharset="$DBCHARSET" --extra-php <<EOF
+// Extra PHP code
 EOF
+
 wp option set home "$WPHOMEURL"
 wp option set blog_public "0"
 wp option set admin_email "support@company.net"
@@ -37,8 +76,6 @@ wp option set admin_email "support@company.net"
 @TODO Migrate to wp-lib
 
 
-
-@TODO Move to add-prg-site...
 ### Redis object cache
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
@@ -47,13 +84,13 @@ wp option set admin_email "support@company.net"
 # Redis server
 apt-get install -y redis-server
 
-# PHP 5.6 extension
+# PHP 5 extension from PECL
 pecl install redis
 echo -e "; priority=20\nextension=redis.so" > /etc/php5/mods-available/redis.ini
 php5enmod redis
 php -m | grep -Fx "redis"
 
-# PHP 7 extension
+# PHP 7 extension from source
 apt-get install php7.0-dev re2c
 git clone https://github.com/phpredis/phpredis.git
 cd phpredis/ && git checkout php7
@@ -70,32 +107,11 @@ echo "FLUSHALL" | nc -C -q 10 localhost 6379
 apt-get install -y php7.0-redis
 ```
 
-### Memcached control panel
-
-```bash
-echo stats | nc localhost 11211 | grep bytes
-mkdir phpMemAdmin; cd phpMemAdmin/
-echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
-    [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] } }' > composer.json
-composer install; composer install
-mv web memadmin
-mv ./app/.config.dist ./app/.config
-sed -i -e '0,/"username":.*/s//"username": null,/' ./app/.config
-sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
-```
-
-Apache config
-
-```apache
-# phpMemAdmin
-Alias "/memadmin" "/home/${SITE_USER}/website/phpMemAdmin/memadmin"
-SetEnvIfNoCase Authorization "(.+)" HTTP_AUTHORIZATION=$1
-ProxyPassMatch "^/memadmin/.+\.php$" "unix:///run/php/php7.0-fpm-${SITE_USER}.sock|fcgi://localhost/home/${SITE_USER}/website/phpMemAdmin"
-```
 
 ### Development
 
 See /webserver/Wp-config-dev.md
+
 
 ### Plugins
 
@@ -170,11 +186,10 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 #### Object cache
 
 ```bash
-# APCu
-# DANGER! apcu is not available from CLI by default during WP-Cron/WP-CLI
-wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
+# Redis @danielbachhuber
+wp plugin install wp-redis
+ln -sv plugins/wp-redis/object-cache.php wp-content/
 wp transient delete-all
-# Worse plugin: wp plugin install apcu
 
 # Memcached @tollmanz
 #wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/blob/develop/src/object-cache.php
@@ -186,19 +201,21 @@ rm -rf wordpress-pecl-memcached-object-cache-develop
 wp mem install
 wp transient delete-all
 
-# Redis @danielbachhuber
-wp plugin install wp-redis
-ln -sv plugins/wp-redis/object-cache.php wp-content/
+# APCu
+# DANGER! apcu is not available from CLI by default during WP-Cron/WP-CLI
+wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
 wp transient delete-all
+# Worse plugin: wp plugin install apcu
 ```
 
 ```php
-// Remember adding WP_CACHE_KEY_SALT in wp-config.php
+// WP_CACHE_KEY_SALT in wp-config.php
 $redis_server = array(
     'host' => '127.0.0.1',
     'port' => 6379,
 );
 ```
+
 
 #### Optimize HTML + HTTP
 
@@ -223,6 +240,7 @@ wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --ac
 ```
 
 Set up CDN.
+
 
 #### Plugin fixes
 
@@ -277,6 +295,7 @@ Envato Market plugin for ThemeForest updates
 wp plugin install https://envato.github.io/wp-envato-market/dist/envato-market.zip --activate
 ```
 
+
 ### On deploy and Staging->Production Migration
 
 @TODO Move to Production-website.md
@@ -290,6 +309,7 @@ Also in /webserver/Production-website.md
 - `wp db optimize`
 - WP Cleanup
 
+
 #### Settings
 
 - General Settings
@@ -299,19 +319,21 @@ Also in /webserver/Production-website.md
 - Permalink Settings
 - WP Mail From
 
+
 #### Search & replace items
 
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix`
 `wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix`
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix`
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
+`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
 
 1. http://DOMAIN.TLD or https (no trailing slash)
 1. /home/PATH/TO/SITE (no trailing slash)
 1. EMAIL@ADDRESS.ES (all addresses)
 1. DOMAIN.TLD (now without http)
 
-Manual replace constants in `wp-config.php`
+Manually replace constants in `wp-config.php`
+
 
 ### Moving a site to a subdirectory
 
@@ -320,6 +342,3 @@ Manual replace constants in `wp-config.php`
 1. search-and-replace: /wp-content/ -> /static/
 
 S&R links...
-
-
-@TODO wp-lib

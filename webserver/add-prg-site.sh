@@ -84,6 +84,23 @@ composer create-project --no-interaction --stability=dev erik-dubbelboer/php-red
 cd radmin/
 cp -v includes/config.sample.inc.php includes/config.inc.php
 
+# Memcached control panel
+echo stats | nc localhost 11211 | grep "bytes"
+cd /home/${U}/website/
+mkdir phpMemAdmin; cd phpMemAdmin/
+echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
+    [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] } }' > composer.json
+composer install; composer install
+mv web memadmin
+mv ./app/.config.dist ./app/.config
+sed -i -e '0,/"username":.*/s//"username": null,/' ./app/.config
+sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
+# Apache config
+#     # phpMemAdmin
+#     Alias "/memadmin" "/home/${SITE_USER}/website/phpMemAdmin/memadmin"
+#     SetEnvIfNoCase Authorization "(.+)" HTTP_AUTHORIZATION=$1
+#     ProxyPassMatch "^/memadmin/.+\.php$" "unix:///run/php/php7.0-fpm-${SITE_USER}.sock|fcgi://localhost/home/${SITE_USER}/website/phpMemAdmin"
+
 # Set owner
 chown -cR root:root /home/${U}/
 

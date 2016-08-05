@@ -48,7 +48,7 @@ I hope I'll fit into your picture: viktor@szepe.net
 
 # Szépe Viktor dolgozna egy Vállalatnak
 
-HTTP alapú szolgáltatások üzemeltetésével foglalkozok: applikációk, API-k, honlapok.  
+HTTP alapú szolgáltatások **proaktív** üzemeltetésével foglalkozok: applikációk, API-k, honlapok.  
 Ezirányú tapasztalataim értékes visszacsatolást jelenthetnek a fejlesztő csapatuknak.  
 (A közlekedési jelzőlámpa példával élve: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
 A figyelmem az üzembiztonságon és a sebességen van.

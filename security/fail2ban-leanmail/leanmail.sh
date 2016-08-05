@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.3.0
+# VERSION       :0.3.1
 # DATE          :2016-07-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -92,7 +92,7 @@ LIST_AVAULT="https://reputation.alienvault.com/reputation.snort"
 #LIST_ABUSE_FEODO="https://feodotracker.abuse.ch/blocklist/?download=ipblocklist"
 #LIST_ABUSE_ZEUS="https://zeustracker.abuse.ch/blocklist.php?download=badips"
 
-# Hosting only, no humans
+# Servers only, no humans
 declare -a AS_HOSTING=(
     AS14618 # Amazon.com, Inc.
     AS16509 # Amazon.com, Inc.
@@ -106,6 +106,7 @@ declare -a AS_HOSTING=(
     AS8972  # PlusServer AG
     AS46606 # Unified Layer
     AS45055 # NForce Entertainment B.V.
+    AS26496 # GoDaddy.com, LLC
 )
 
 # Labs
