@@ -2,8 +2,8 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.3.3
-# DATE          :2015-11-27
+# VERSION       :0.4.0
+# DATE          :2016-08-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -38,6 +38,13 @@ if [ -f /etc/courier/userdb ]; then
 fi
 
 makealiases || Error $? "aliases/*"
+
+# Wait for active courierfilters
+if [ -f "/run/courier/courierfilter.pid" ]; then
+    while [ -n "$(pgrep --parent "$(head -n 1 /run/courier/courierfilter.pid)")" ]; do
+        sleep 1
+    done
+fi
 
 # Restart courier-mta-ssl also
 if [ "$(dpkg-query --showformat="\${Status}" --show courier-mta-ssl 2> /dev/null)" == "install ok installed" ]; then

@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,7 +16,7 @@ set -e
 # Usage
 #
 # Use example defaults file or edit your own
-#     install --mode=0640 -D -t /etc/monit monit.defaults
+#     install --mode=0600 -D -t /etc/monit monit.defaults
 # Exclude packages
 #     EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm ./monit-debian-setup.sh
 # Check missing service configs
@@ -49,7 +49,7 @@ Monit_template() {
     local DEFAULT_NAME
     local VALUE
 
-    if ! install --no-target-directory --mode=600 "$TPL" "$OUT"; then
+    if ! install --no-target-directory --mode=0600 "$TPL" "$OUT"; then
         echo "Writing to service configuration failed (${OUT})" 1>&2
         exit 11
     fi
@@ -250,7 +250,7 @@ if Is_pkg_installed systemd; then
     exit 2
 fi
 if ! Is_pkg_installed monit; then
-    apt-get install -q -y monit
+    apt-get install -q -y -t jessie-backports monit
 fi
 service monit stop || true
 # Disable all services

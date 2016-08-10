@@ -100,6 +100,9 @@ editor ${U}.conf
 read -e -p "Common Name: " -i "$DOMAIN" CN
 editor /etc/ssl/localcerts/${CN}-public.pem
 editor /etc/ssl/private/${CN}-private.key
+#cat /etc/letsencrypt/live/${CN}/privkey.pem > /etc/ssl/private/${CN}-private.key
+#cat /etc/letsencrypt/live/${CN}/cert.pem /etc/letsencrypt/live/${CN}/chain.pem > /etc/ssl/localcerts/${CN}-public.pem
+#nice openssl dhparam 2048 >> /etc/ssl/localcerts/${CN}-public.pem
 
 # Apache vhost
 # CloudFlase, Incapsula

@@ -1,4 +1,5 @@
 set daemon 120
+  start delay 10
 
 # Alert emails
 set mailserver localhost port 25, @@SMARTHOST@@ port @@SMARTHOST_PORT@@
@@ -6,9 +7,5 @@ set mail-format { from: @@FROM_ADDRESS@@ }
 set alert @@ALERT_ADDRESS@@ with reminder on 2 cycles
 
 # Web interface
-set httpd port 2812
-    use address localhost
-    allow localhost
-    allow cpa:cpa
-# https://bitbucket.org/tildeslash/monit/issues/427
-#set httpd unixsocket /run/monit.sock
+set httpd unixsocket /run/monit.sock
+  allow cpa:cpa

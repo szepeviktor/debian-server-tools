@@ -31,10 +31,10 @@ set -e
 Disk_partitions() {
     local VDISK
 
-    # OpenVZ: no disk devices, empty string (but no CloudLinux)
-    # OpenVZ states in /proc/self/status:
-    #     envID == 0 -> openvzhn
-    #     envID present but > 0 -> openvzve
+    # OpenVZ: no disk devices, empty string (but not on CloudLinux)
+    # OpenVZ states in /proc/self/status
+    #     envID == 0 -> openvzhn https://openvz.org/Hardware_Node
+    #     envID present but > 0 -> openvzve https://openvz.org/Container
     if [ -f /proc/vz/vzquota ] && ! [ -f /proc/lve/list ]; then
         echo ""
         return 0

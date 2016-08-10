@@ -86,6 +86,16 @@ https://toolbox.googleapps.com/apps/checkmx/
 ## Settings
 
 
+### Malware (virus) scanning
+
+- ClamAV (CCTTS, Safe Browsing)
+- clamav-unofficial-sigs (paid: SecuriteInfo, MalwarePatrol, Sanesecurity)
+- clamav pythonfilter through pyClamd for Courier MTA
+
+clamav-unofficial-sigs needs 1 GB of memory.
+
+"Best clamd.conf" in SecuriteInfo FAQ.
+
 ### Send all messages in an mbox file to an email address
 
 See: [mbox_send2.py](./mbox_send2.py)

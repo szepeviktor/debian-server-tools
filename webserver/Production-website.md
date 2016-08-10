@@ -17,6 +17,7 @@
 - A, CNAME (for [CDN](http://www.cdnplanet.com/cdns/))
 - MX
 - SPF, DKIM
+- Proper TTL values
 
 ### SSL certificate
 
@@ -61,19 +62,20 @@ MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 - favicon.ico
 - apple-touch-icon.png
 - browserconfig.xml
-- etc.
+- [other files in the document root](https://github.com/szepeviktor/RootFiles)
 
-### Maintenance
+### Maintenance mode
 
-Custom maintenance page
+Static maintenance page
 
 ### Set up CDN
 
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
+- CSS, JS aggregation
 - HTML caching or no-cache?
 - Disallow HTML pages on CDN (robots-cdn.txt)
 - https://aws.amazon.com/console/
-- https://www.cloudflare.com/a/login see also CloudFlare.md
+- https://www.cloudflare.com/a/login see also [/webserver/CloudFlare.md](/webserver/CloudFlare.md)
 
 ### Set up mail sending
 
@@ -109,7 +111,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - Sucuri SiteCheck (Google Safe Browsing), Virustotal (HTTP API @daily)
 - Can-send-email (monitoring/cse @6 hours)
 - Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
-- Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js | openssl dgst -sha256 -binary | openssl enc -base64)" crossorigin="anonymous"`
+- Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`
 
 ### Set up cron jobs
 
