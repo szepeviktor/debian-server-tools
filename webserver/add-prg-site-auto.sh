@@ -1,7 +1,12 @@
 #!/bin/bash
 #
-# Apache add prg site.
+# Add utility site.
 #
+# VERSION       :0.1.0
+# DEPENDS       :apt-get install apache2 php5-cli php5-fpm courier-mta apg git
+# DEPENDS       :/usr/local/bin/composer
+# DEPENDS       :/usr/local/sbin/apache-resolve-hostnames.sh
+# DEPENDS       :/usr/local/sbin/webrestart.sh
 
 # Usage
 #
@@ -12,7 +17,7 @@
 # editor /etc/ssl/localcerts/${CN}-public.pem
 #
 # export CN
-# export D=/usr/local/src/debian-server-tools/webserver
+# export D=/usr/local/src/debian-server-tools
 # HTTP_USER=user HTTP_PASSWORD=secret ./add-prg-site-auto.sh
 
 set -e
@@ -76,7 +81,7 @@ wget -nv -O ${PRG_ROOT}/pif.php \
 
 # PHPMyAdmin
 cd ${PRG_ROOT}/
-${D}/webserver/package/phpmyadmin-get.sh
+${D}/package/phpmyadmin-get.sh
 rm -f phpMyAdmin-*-english.tar.xz
 cd phpMyAdmin-*-english/
 cp -v config.sample.inc.php config.inc.php
@@ -110,9 +115,9 @@ if echo stats | nc -q 3 localhost 11211 | grep -F "bytes"; then
     echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
         [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] } }' > composer.json
     composer install || true
-    composer install
-    mv web memadmin
-    mv ./app/.config.dist ./app/.config
+    yes "y" | composer install
+    mv -v web memadmin
+    mv -v ./app/.config.dist ./app/.config
     sed -i -e '0,/"username":.*/s//"username": null,/' ./app/.config
     sed -i -e '0,/"password":.*/s//"password": null,/' ./app/.config
 fi
