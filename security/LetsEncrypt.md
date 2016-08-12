@@ -8,8 +8,12 @@ apt-get install -t jessie-backports -y python-six
 pip2 install --upgrade certbot
 
 read -r DOMAIN
-# -d DOMAIN2 -d DOMAIN3 --agree-tos --email EMAIL
-certbot certonly -v --no-self-upgrade --standalone -d $DOMAIN
+read -r EMAIL
+# -d $DOMAIN2
+certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-logging-ok --email $EMAIL -d $DOMAIN
+#certbot certonly --verbose --text --standalone --agree-tos --email $EMAIL -d $DOMAIN
+#certbot certonly --verbose --text --webroot --agree-tos --email $EMAIL -d $DOMAIN --webroot-path=$DOC_ROOT
+
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > priv-pub-int.pem
 ```
@@ -18,8 +22,9 @@ cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/
 
 ```bash
 # https://certbot.eff.org/docs/using.html
-certbot renew -v --standalone
-#certbot renew -v --webroot --webroot-path=/path/to/doc-root
+certbot renew --verbose --manual --manual-public-ip-logging-ok
+#certbot renew --verbose --standalone
+#certbot renew --verbose --webroot --webroot-path=/path/to/doc-root
 ```
 
 ### Alternatives

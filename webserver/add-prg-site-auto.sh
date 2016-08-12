@@ -12,6 +12,7 @@
 #
 # Custom SSL certificate or Let’s Encrypt certificate
 #
+# certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-logging-ok --email $EMAIL -d $DOMAIN
 # read -e -p "Common Name: " CN
 # editor /etc/ssl/private/${CN}-private.key
 # editor /etc/ssl/localcerts/${CN}-public.pem
@@ -45,6 +46,7 @@ cd /home/${U}/
 install -o ${U} -g ${U} -m 0750 -d website
 cd website/
 mkdir session tmp html backup pagespeed
+chmod 0555 html
 
 # HTTP authentication
 htpasswd -bBc ./htpasswords "$HTTP_USER" "$HTTP_PASSWORD"

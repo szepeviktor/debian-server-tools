@@ -3,7 +3,7 @@
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
 # VERSION       :0.4.0
-# DATE          :2016-08-10
+# DATE          :2016-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -41,9 +41,16 @@ makealiases || Error $? "aliases/*"
 
 # Wait for active courierfilters
 if [ -f "/run/courier/courierfilter.pid" ]; then
-    while [ -n "$(pgrep --parent "$(head -n 1 /run/courier/courierfilter.pid)")" ]; do
-        sleep 1
-    done
+    COURIERFILTER_PID="$(head -n 1 /run/courier/courierfilter.pid)"
+    FILTER_PIDS="$(pgrep --parent "$COURIERFILTER_PID" || true)"
+    if [ -n "$FILTER_PIDS" ]; then
+        for PID in ${FILTER_PIDS}; do
+            while [ -n "$(pgrep --parent "$PID")" ]; do
+                echo -n "Filter: "; ps --no-headers -o comm= --pid "$PID"
+                sleep 1
+            done
+        done
+    fi
 fi
 
 # Restart courier-mta-ssl also

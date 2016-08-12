@@ -135,8 +135,8 @@ apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certifi
 apt-get install -t jessie-backports -y python-six
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 pip2 install certbot
-# -d DOMAIN2 -d DOMAIN3 --agree-tos --email EMAIL
-certbot certonly --no-self-upgrade --standalone -d $(cat /etc/courier/me)
+# -d DOMAIN2 -d DOMAIN3 --email EMAIL
+certbot certonly --agree-tos --standalone -d $(cat /etc/courier/me)
 cat /etc/letsencrypt/live/$(cat /etc/courier/me)/privkey.pem /etc/letsencrypt/live/$(cat /etc/courier/me)/fullchain.pem \
     > /etc/courier/esmtpd.pem
 ( cd ${D}; ./install.sh monitoring/cert-expiry.sh )

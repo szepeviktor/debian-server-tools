@@ -165,7 +165,9 @@ Check home and siteurl.
 
 ### Uploads, media
 
-`wp media regenerate --yes`
+`wp media regenerate --skip-delete --only-missing`
+
+Remove missing (base) images.
 
 ### Clean up database
 
@@ -384,6 +386,12 @@ Gain access, set up and test.
 
 
 https://wiki.apache.org/httpd/ListOfErrors
+
+### Site integrity
+
+- tripwire-fake.sh (wp core verify-checksums; git diff)
+- tripwire.php
+- /monitoring/siteprotection.sh
 
 1. Domain expiry
 1. DNS records
