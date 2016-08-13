@@ -2,8 +2,8 @@
 #
 # Add utility site.
 #
-# VERSION       :0.1.0
-# DEPENDS       :apt-get install apache2 php5-cli php5-fpm courier-mta apg git
+# VERSION       :0.1.1
+# DEPENDS       :apt-get install apache2 php5-cli php5-fpm php5-mysqlnd courier-mta apg git
 # DEPENDS       :/usr/local/bin/composer
 # DEPENDS       :/usr/local/sbin/apache-resolve-hostnames.sh
 # DEPENDS       :/usr/local/sbin/webrestart.sh
@@ -27,7 +27,8 @@ set -e
 [ -n "$HTTP_USER" ]
 [ -n "$HTTP_PASSWORD" ]
 [ -n "$CN" ]
-[ -f "${D}/debian-setup.sh" ]
+[ -f "${D}/package/phpmyadmin-get.sh" ]
+getent passwd web &> /dev/null
 
 U="prg$((RANDOM % 1000))"
 DOMAIN="prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io"

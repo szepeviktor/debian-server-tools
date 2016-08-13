@@ -8,6 +8,6 @@ failregex = ^<HOST> \S+ \S+ \[\] ".+" \d{3} \d+ ".+" ".+"$
 #             request for /robots.txt
 #             timeout
 ignoreregex = ^<HOST> \S+ \S+ \[\] "GET /robots\.txt HTTP/[0-9.]+" 200 \d{3} ".+" ".+"$
-              ^<HOST> \S+ \S+ \[\] "-" 408 0 "-" "-"$
+              ^<HOST> \S+ \S+ \[\] "-" 408 0 "-" "-(\|Host:-)?"$
 
 # Author: Viktor Szépe

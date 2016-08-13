@@ -161,11 +161,16 @@ Replace constants in `wp-config.php`.
 
 Check home and siteurl.
 
-`wp option get home; wp option get siteurl`
+```
+wp option get home
+wp option get siteurl
+```
 
 ### Uploads, media
 
-`wp media regenerate --skip-delete --only-missing`
+```
+wp media regenerate --skip-delete --only-missing
+```
 
 Remove missing (base) images.
 
@@ -202,7 +207,9 @@ wp comment list --status=trash --format=count
 
 Optimize database tables.
 
-`wp db optimize`
+```
+wp db optimize
+```
 
 ### Remove development and testing stuff
 

@@ -70,6 +70,58 @@ A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolu
 
 Remélem bele illek a képbe valahogyan: viktor@szepe.net
 
+
+## WordPress honlap/sablon készítés HTML kódból
+
+#### Tartalom kezelés
+
+- UX tervezés szerkesztőknek (egérrel építhető oldalak)
+- Minden tartalmi elem könnyen szerkeszthető
+- "Sablon beállítások" oldal készítés plugin nélkül
+- Többnyelvűsítés (egy-nyelvű honlaphoz is)
+- Egyeztetés a sitebuilderrel WP HTML struktúrákról (body_class, wp_nav_menu stb.)
+
+#### Biztonság
+
+- Saját fejlesztésű WAF WordPress-hez (applikációs tűzfal)
+- Sérülékeny kód kerülése
+- Spam védelem (kapcsolat űrlap, hozzászólás, regisztráció)
+- Erős felhasználói jelszó megkövetelés
+
+#### Sebesség
+
+- HTTP kérések számának csökkentése
+- Üzembiztos, biztonságos és gyors bővítmények (minél kevesebb)
+- Cache használata (gyorsítótár)
+
+
+## WordPress telepítés, üzemeltetés
+
+#### Sebesség
+
+- Gyors szerver vagy tárhely választás vagy mérés (oprendszer, SSD, PHP verió, adatbázis)
+- PHP OPcache bekapcsolás
+- Memória cache használat (Redis)
+- HTTP/2
+- Statikus fájlok cache-elése
+- CDN, azaz tartalom kiszolgáló hálózat (Amazon CloudFront)
+
+#### Biztonság
+
+- Saját fejlesztésű WAF WordPress-hez (applikációs tűzfal)
+- HTTPS (zöld lakat bal felül a böngészőben)
+- Audit napló
+- Felhasználó menedzsment (erős jelszó, KeePass ajánlás)
+- Integritás ellenőrzés (fájl változás észlelés)
+- Napi mentés
+
+#### Üzembiztonság
+
+- Honlap monitorozás (HTTP)
+- Domain, DNS figyelés
+- Webszerver hibanapló figyelés
+
+
 ## Magyarul az önéletrajz
 
 - webhely sebesség tervezés és optimalizálás (mobilon is)

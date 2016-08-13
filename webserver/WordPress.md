@@ -2,15 +2,31 @@
 
 ## Where do I find ...?
 
-- Development environment: /webserver/Wp-config-dev.md
+- Development environment: [/webserver/Wp-config-dev.md](/webserver/Wp-config-dev.md)
 - Development tools: wordpress-sitebuild/
-- Production environment: /webserver/Production-website.md
-- Production on cPanel and migration to cPanel: wordpress-plugin-construction/shared-hosting-aid/cPanel/cPanel-WordPress-setup.md
-- Content plugins: wordpress-plugin-construction/README.md
-- WordPress installation: (here) + secret dir + git + migration
+- Production environment: [/webserver/Production-website.md](/webserver/Production-website.md)
+- Production on cPanel and migration to cPanel: [wordpress-plugin-construction/shared-hosting-aid/cPanel/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/shared-hosting-aid/cPanel/README.md)
+- Content plugins: [wordpress-plugin-construction/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/README.md)
+- WordPress installation: standard, subdirectory (optionally using git) [in this document](#standard-directory-structure)
+- WordPress imigration: dev->live, live->other domain [/webserver/Production-website.md](/webserver/Production-website.md#migration)
 
 
-### Secret Directory structure
+### Standard Directory structure
+
+```
+wp-cli.yml
+wp-config.php
+$DOCROOT─┬─index.php
+         ├─wp-load.php
+         ├─wp-login.php
+         ├─xmlrpc.php
+         ├─wp-admin/
+         ├─wp-includes/
+         └─wp-content/
+```
+
+
+### Subdirectory structure
 
 ```
 wp-cli.yml
@@ -23,22 +39,7 @@ $DOCROOT─┬─index.php (modified)
          │        ├─wp-login.php
          │        ├─wp-admin/
          │        └─wp-includes/
-         └─static/
-```
-
-
-### Normal Directory structure
-
-```
-wp-cli.yml
-wp-config.php
-$DOCROOT─┬─index.php
-         ├─wp-load.php
-         ├─wp-login.php
-         ├─xmlrpc.php
-         ├─wp-admin/
-         ├─wp-includes/
-         └─wp-content/
+         └─static/ (wp-content)
 ```
 
 
@@ -73,7 +74,7 @@ wp option set blog_public "0"
 wp option set admin_email "support@company.net"
 ```
 
-@TODO Migrate to wp-lib
+@TODO Move to wp-lib
 
 
 ### Redis object cache
@@ -163,6 +164,8 @@ wp plugin install user-session-control --activate
 # https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-totp-login
 # user role editor
 wp plugin install user-role-editor --activate
+# keepass-button
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-keepass-button/keepass-button.php
 
 # security suite + audit
 wp plugin install custom-sucuri sucuri-scanner --activate

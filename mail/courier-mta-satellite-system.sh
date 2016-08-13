@@ -45,6 +45,8 @@ if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-tr
     exit 1
 fi
 
+echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
+echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
 apt-get install -y aptitude courier-mta courier-ssl
 # Fix dependency on courier-authdaemon
 if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courier-mta)" lt "0.75.0-11"; then
