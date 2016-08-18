@@ -44,14 +44,13 @@
 
 - LiteSpeed webserver with HTTP/2
 - Free SSL certificate
-- 180 seconds long PHP OPcache
+- 180 seconds long PHP 7.0 OPcache
 - Memcached for WordPress object-cache
-- Fast disks
+- Fast disks (SSD)
 - MariaDB version 10 database
 - Modern cPanel with SSH access thus you can use WP-CLI
 - European and US location
-- Stability of SoftLayer, an IBM company
-
+- Server stability of SoftLayer, an IBM company
 
 - [OVH](https://www.ovh.ie/web-hosting/)  100 GB, PHP-FPM, mini CDN
 - [gandi](https://www.gandi.net/hosting/simple) varnish

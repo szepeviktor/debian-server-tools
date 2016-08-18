@@ -634,6 +634,7 @@ echo "This is a test mail."|mailx -s "[first] Subject of the first email" ADDRES
 
 # Apache 2.4 with mpm-events
 apt-get install -y apache2 apache2-utils
+# Consider libapache2-mod-qos (testing backport)
 adduser --disabled-password --gecos "" web
 editor /etc/apache2/envvars
 #     export APACHE_RUN_USER=web

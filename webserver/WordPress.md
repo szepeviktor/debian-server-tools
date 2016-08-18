@@ -152,7 +152,8 @@ wp plugin install polylang --activate
 wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
 
-# users
+# users/login
+
 wp plugin install password-bcrypt
 cp wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
 wp plugin uninstall password-bcrypt
@@ -160,6 +161,8 @@ wp plugin uninstall password-bcrypt
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-lock-session-ip/lock-session-ip.php
 wp plugin install prevent-concurrent-logins --activate
 wp plugin install user-session-control --activate
+# mu-disallow-weak-passwords
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disallow-weak-passwords/disallow-weak-passwords.php
 # mu-totp-login
 # https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-totp-login
 # user role editor
@@ -168,11 +171,13 @@ wp plugin install user-role-editor --activate
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-keepass-button/keepass-button.php
 
 # security suite + audit
+
 wp plugin install custom-sucuri sucuri-scanner --activate
 # simple audit
 wp plugin install simple-history --activate
 
 # mail/spam
+
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # Install: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php

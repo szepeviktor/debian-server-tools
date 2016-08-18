@@ -1,0 +1,2 @@
+# Read HTML email
+set pipe-text/html="elinks -dump -force-html /dev/stdin"
