@@ -29,3 +29,5 @@ INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP1 -h "$INTEGR
 #INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP2 -h "$INTEGRITY_NEAREST_DEFAULT")"
 INTEGRITY_REVERSE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PTR1)"
 INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c MX1 || true)"
+INTEGRITY_RESOLVERS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c RES)"
+INTEGRITY_ROOTLIST_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c ROOT)"

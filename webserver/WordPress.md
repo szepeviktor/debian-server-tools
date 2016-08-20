@@ -182,6 +182,9 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 # Install: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php
 wp plugin install obfuscate-email --activate
+
+# media
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control.php
 ```
 
 #### Forcing

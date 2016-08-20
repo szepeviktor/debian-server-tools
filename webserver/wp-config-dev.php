@@ -14,7 +14,7 @@ Values: production, staging, development
 define( 'WP_ENV', ( getenv( 'WP_ENV' ) ? : 'development' ) );
 
 /** Development environment */
-if ( defined( 'WP_ENV' ) && 'development' === WP_ENV ) {
+if ( 'development' === WP_ENV ) {
     // WP_LOCAL_DEV by Mark Jaquith  https://gist.github.com/markjaquith/1044546
     define( 'WP_LOCAL_DEV', true );
 
@@ -23,7 +23,7 @@ if ( defined( 'WP_ENV' ) && 'development' === WP_ENV ) {
     // EDIT core directory
     define( 'WP_SITEURL', sprintf( '%s%s/wordpress', _REQUEST_SCHEME, $_SERVER['HTTP_HOST'] ) );
     define( 'WP_HOME', _REQUEST_SCHEME . $_SERVER['HTTP_HOST'] );
-    // EDIT wp-content directory
+    // EDIT wp-content directory (WP_CONTENT_DIR is absolute)
     define( 'WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . '/static' );
     // EDIT wp-content directory
     define( 'WP_CONTENT_URL', sprintf( '%s%s/static', _REQUEST_SCHEME, $_SERVER['HTTP_HOST'] ) );
@@ -42,16 +42,14 @@ if ( defined( 'WP_ENV' ) && 'development' === WP_ENV ) {
     */
 }
 // EDIT production domain name
-if ( 'production.com' === $_SERVER['SERVER_NAME'] ) {
-    exit( 'Environment failure: no production on this domain!' );
+if ( 'production.tld' === $_SERVER['HTTP_HOST'] || 'production' === WP_ENV ) {
+    exit( 'Environment failure: use production configuration!' );
 }
 
-/** Constants from Production environment */
+/** Constants from production environment */
 define( 'WP_USE_EXT_MYSQL', false );
 define( 'WP_POST_REVISIONS', 10 );
 define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
-/*
-   See /webserver/Wp-config-dev.md for complete how-to
-*/
+// See /webserver/Wp-config-dev.md for complete how-to

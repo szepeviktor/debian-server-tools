@@ -110,4 +110,14 @@
    group integrity
    if status != 0 then alert
 
-# @TODO RES
+ # Number of resolvers
+ check program network_resolv
+    with path "/usr/local/sbin/server-integrity.sh -c RES -r '@@INTEGRITY_RESOLVERS@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # List of files in /
+ check program fs_rootlist
+    with path "/usr/local/sbin/server-integrity.sh -c ROOT -r '@@INTEGRITY_ROOTLIST@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert

@@ -25,7 +25,6 @@ set -e
 #     echo "Missing: ${PACKAGE}"; fi; done
 
 # @TODO
-# - add healthchecks.io: every "* * cron style timing"
 # - integrate cert-expiry/openssl
 # - document putty port-forward 2812+N (web interface)
 # - add "/etc/init.d/SERVICE status" checks

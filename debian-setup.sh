@@ -712,8 +712,8 @@ PHP_TZ="Europe/Budapest"
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time\s*=.*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit\s*=.*$/memory_limit = 384M/' /etc/php5/fpm/php.ini
-sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php5/fpm/php.ini
-sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php5/fpm/php.ini
+sed -i 's/^post_max_size\s*=.*$/post_max_size = 4M/' /etc/php5/fpm/php.ini
+sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 4M/' /etc/php5/fpm/php.ini # FullHD JPEG
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 sed -i "s|^;mail.add_x_header\s*=.*\$|mail.add_x_header = Off|" /etc/php5/fpm/php.ini
@@ -801,8 +801,9 @@ PHP_TZ="Europe/Budapest"
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^max_execution_time=.*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^memory_limit\s*=.*$/memory_limit = 128M/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^post_max_size\s*=.*$/post_max_size = 20M/' /etc/php/7.0/fpm/php.ini
-sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 20M/' /etc/php/7.0/fpm/php.ini
+sed -i 's/^post_max_size\s*=.*$/post_max_size = 4M/' /etc/php/7.0/fpm/php.ini
+# FullHD random image:  rawtoppm < /dev/urandom 1920 1080 > random-fullhd.ppm
+sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 4M/' /etc/php/7.0/fpm/php.ini # FullHD JPEG
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/php.ini
 sed -i "s|^;mail.add_x_header\s*=.*\$|mail.add_x_header = Off|" /etc/php/7.0/fpm/php.ini

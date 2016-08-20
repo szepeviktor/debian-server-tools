@@ -32,7 +32,7 @@ wp db import wp-database.sql
 #zcat wp-database.sql.gz | wp db import -
 ```
 
-Create /robots.txt
+Create /robots.txt and /favicon.ico
 
 ```bash
 cd $DOCUMENT_ROOT/
@@ -40,7 +40,7 @@ wget https://my.brand.site/favicon.ico
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > robots.txt
 ```
 
-Upload /robots.txt and your developer /favicon.ico
+*FTP* Upload /robots.txt and your developer /favicon.ico
 
 ```
 User-agent: *
@@ -72,12 +72,12 @@ DEV_DOMAIN="${DEV_URL#*//}"
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "${ORIG_URL%%/*}" "${DEV_URL%%/*}"
 ```
 
-Force site URL (see /webserver/wp-config-dev.php) or download Search-Replace-DB
+*FTP* Force site URL (see /webserver/wp-config-dev.php) or download Search-Replace-DB
 
 1. https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
 1. https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
 
-Upload index.php as srdb.php (delete both files after replace).
+*FTP* Upload index.php as srdb.php (delete both files after replace).
 
 1. `http://DOMAIN.TLD` → `https://DEV.SITE.COM` (no trailing slash)
 1. `//DOMAIN.TLD` → `//DEV.SITE.COM` (no trailing slash)
@@ -90,7 +90,7 @@ Change salts.
 - If you have apg installed: `wordpress-plugin-construction/wp-safe-salt.sh >> wp-config.php`
 - Using PHP's OpenSSL support: `php wordpress-plugin-construction/wp-safe-salt.php >> wp-config.php`
 - From Automattic: `wget -qO- https://api.wordpress.org/secret-key/1.1/salt/ >> wp-config.php`
-- Get salts from Automattic: https://api.wordpress.org/secret-key/1.1/salt/
+- *FTP* Get salts from Automattic: https://api.wordpress.org/secret-key/1.1/salt/
 
 Constants for [debugging](https://codex.wordpress.org/Debugging_in_WordPress):
 
@@ -152,7 +152,7 @@ Development tools:
 
 Block all outgoing HTTP traffic: `airplane-mode`
 
-`wp install plugin "https://github.com/norcross/airplane-mode/archive/master.zip" --activate`
+`wp install plugin https://github.com/norcross/airplane-mode/archive/master.zip --activate`
 
 @TODO Block HTTP traffic on admin and on frontend:
 
@@ -197,13 +197,13 @@ By SMTP
 
 ### Media
 
-Use production Media Library from a staging/development site.
+If you must use production Media Library from a staging/development site.
 
 ```apache
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond "%{REQUEST_FILENAME}" !-f
-    RewriteRule "wp-content/uploads/(.*)$" "https://www.PRODUCTION.NET/wp-content/uploads/$1" [R,L]
+    RewriteRule "wp-content/uploads/(.*)$" "https://www.PRODUCTION.TLD/wp-content/uploads/$1" [R,L]
 </IfModule>
 ```
 

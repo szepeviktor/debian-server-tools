@@ -279,26 +279,26 @@ http://google-public-dns.appspot.com/cache
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - Missing resource version in `grep -E "wp_(register|enqueue)_.*\("` calls
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
-- Always require admin code (fix: `whats-running`)
+- Always requiring admin code (fix: `whats-running`)
 - Lack of `grep -E "\\\$_(GET|POST)"` sanitization
 - PHP short opentags `grep -F "<?="`
-- PHP errors, WP deprecated (fix: `define( 'WP_DEBUG', true );`)
-- Permissions for WP editors
-- Non-200 HTTP response
+- PHP errors, deprecated WP code (fix: `define( 'WP_DEBUG', true );`)
+- Lack of permissions for WP editors
+- Non-200 HTTP responses
 - Extra server-side requests: HTTP, DNS, file access
 - Independent e-mail sending (fix: `grep -E "\b(wp_)?mail\("`)
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
-- Home call, external URL-s (fix: search for URL-s, use Snitch plugin and tcpdump)
+- Home call, external URL-s (fix: search for URL-s, use Snitch plugin and `tcpdump`)
 - Insufficient or excessive font character sets (fix: `&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
 - Form field for file upload: `<input type="file" />`
-- BOM (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
+- [BOM](https://en.wikipedia.org/wiki/Byte_order_mark) (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
 - Characters before `<!DOCTYPE html>`
-- JavaScript code parsable as HTML link (e.g. `<a>` or `<iframe>`)
+- JavaScript code parsable (by dummy crawlers) as HTML (e.g. `<a>` `<iframe>` `<script>`)
 - Display content by JavaScript (causes FOUC)
 - Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
-- Firefox carot
+- Unnecessary Firefox caret
 - Email header and content check with https://www.mail-tester.com/
 
 ### 404 page
@@ -306,6 +306,7 @@ http://google-public-dns.appspot.com/cache
 - Informative
 - Cooperative (search form, automatic suggestions, Google's fixurl.js)
 - Attractive
+- Adaptive `Content-Type` header for non-HTML 404-s
 
 ### Resource optimization
 
@@ -351,11 +352,13 @@ Send to Analytics, report to `/js-error.php`
 - Privacy policy + opt out
 - Terms & Conditions
 - Cookie consent + opt out
-- "Operated by", "Hosted at"
+- *Operated by*, *Hosted at*
 
-### Print friendly
+### Compatiblitity
 
-http://www.printfriendly.com/
+- [Printer](http://www.printfriendly.com/)
+- [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
+- [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 
 ### External resources (3rd party services)
 
@@ -396,7 +399,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 ### Site integrity
 
-- tripwire-fake.sh (wp core verify-checksums; git diff)
+- tripwire-fake.sh (wp --quiet core verify-checksums; git diff --name-status)
 - tripwire.php
 - /monitoring/siteprotection.sh
 

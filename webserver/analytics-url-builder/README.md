@@ -17,8 +17,8 @@ Lehet a mezőkben ékezetes betű és szóköz is.
 
 Mi micsoda?
 
-- cikk: http://www.annielytics.com/guides/definitive-guide-campaign-tagging-google-analytics/
-- cikk: http://blog.davingranroth.com/2011/11/how-i-use-utm_source-utm_medium-utm_campaign-from-google-analytics/
+- http://www.annielytics.com/guides/definitive-guide-campaign-tagging-google-analytics/
+- http://blog.davingranroth.com/2011/11/how-i-use-utm_source-utm_medium-utm_campaign-from-google-analytics/
 
 A nagyobb kategóriától a kisebb felé:
 
@@ -55,5 +55,5 @@ Disallow: /
 Forrás: http://fortawesome.github.io/Font-Awesome/icon/share/
 
 ```bash
-xzcat favicon.b64.xz | base64 -d > favicon.ico
+base64 -d < favicon.xz.b64 | xzcat > favicon.ico
 ```

@@ -1,7 +1,21 @@
-#!/bin/bash --version
+#!/bin/sh
 #
-# LSB init script for interpreted scripts using start-stop-daemon
-# @TODO LSB init script for executables
+# LSB init script for ELF binaries using start-stop-daemon
+
+exit 0
+
+https://wiki.debian.org/LSBInitScripts
+
+Feature list
+* runs on any shell
+* /etc/defaults
+* /lib/lsb/init-functions
+* exit status codes
+* http://refspecs.linuxfoundation.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
+* pid file
+* lock file?
+* 
+
 #
 # VERSION       :0.1.0
 # UPSTREAM      :https://gist.github.com/bcap/5397674
@@ -15,9 +29,7 @@
 #     editor /etc/init.d/${SERVICE_NAME}
 #     update-rc.d ${SERVICE_NAME} defaults
 
-exit 0
-
-#!/bin/bash
+#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          <SERVICE-NAME>
 # Required-Start:    $remote_fs $syslog

@@ -8,4 +8,4 @@ set alert @@ALERT_ADDRESS@@ with reminder on 2 cycles
 
 # Web interface
 set httpd unixsocket /run/monit.sock
-  allow cpa:cpa
+  allow mon:it

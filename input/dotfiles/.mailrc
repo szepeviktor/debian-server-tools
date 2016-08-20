@@ -1,2 +1,6 @@
+# IMAP account
+set folder=imaps://user%40domain@imapserver
 # Read HTML email
 set pipe-text/html="elinks -dump -force-html /dev/stdin"
+# Support PuTTY 256 colors
+set colour-terms=linux,xterm,putty-256color
