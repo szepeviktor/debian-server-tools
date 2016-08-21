@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Restore database dumps.
+# Restore a database backup made with bck-dbz.sh
 #
 # VERSION       :1.0.1
 # DATE          :2015-06-12

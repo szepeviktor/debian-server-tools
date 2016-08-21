@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Backup a remote database.
+# Backup a remote database over FTP.
 #
-# VERSION       :1.4.4
+# VERSION       :1.4.5
 # DATE          :2015-08-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -173,5 +173,7 @@ SWIFT_BYTES="$(echo "$SWIFT_BYTES" | grep -m 1 "Bytes:" | cut -d ":" -f 2)"
 if [ -n "$SWIFT_BYTES" ] && [ ${SWIFT_BYTES} -gt "$BYTE_LIMIT" ]; then
     echo "Swift usage greater than ${GBYTE_LIMIT} GiB." 1>&2
 fi
+
+#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
 
 exit 0

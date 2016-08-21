@@ -39,6 +39,8 @@ REMOTE_TARGET="${REMOTE_ROOT}/s3ql"
 # @TODO
 #source "${HOME}/.config/system-backup/configuration" || ...
 
+set -e
+
 Remote_copy() {
     local FROM="$1"
     local TO="$2"
@@ -301,5 +303,7 @@ Backup_files
 Umount
 
 logger -t "system-backup" "Finished. $*"
+
+#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
 
 exit 0

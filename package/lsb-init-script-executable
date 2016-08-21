@@ -1,0 +1,248 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          SERVICE-NAME
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: LSB init script for executables (SysVinit)
+# Description:       Provide a more complete description of the actions of the init
+#                    script. May span mulitple lines. In a multiline description, each
+#                    continuation line shall begin with a '#' followed by tab character or
+#                    a '#' followed by at least two space characters.
+### END INIT INFO
+
+# VERSION       :0.1.0
+# DATE          :2016-08-22
+# REFS          :http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/tocsysinit.html
+# DOCS          :https://wiki.debian.org/LSBInitScripts
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# LICENSE       :The MIT License (MIT)
+#
+# Installation
+#
+#     install SERVICE-NAME /etc/init.d/
+#     # Starting with Debian 6.0, the insserv command is used instead, if dependency-based booting is enabled
+#     insserv SERVICE-NAME
+
+# Init scripts may be run manually by a system administrator with non-standard environment variable values
+PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+
+NAME="SERVICE-NAME"
+DESC="SERVICE-DESCRIPTION"
+DAEMON="/usr/bin/DAEMON-BINARY"
+# Used only in do_start
+#DAEMON_ARGS="-c /etc/SERVICE-NAME/config.ini"
+DAEMON_ARGS="-c /etc/SERVICE-NAME.ini"
+
+# Used only in START_STOP_DAEMON_OPTIONS
+WORK_DIR="/var/lib/${NAME}"
+# Used only in START_STOP_DAEMON_OPTIONS
+#USER="${NAME}"
+#GROUP="${NAME}"
+PIDFILE="/run/${NAME}.pid"
+SCRIPTNAME="/etc/init.d/${NAME}"
+
+# Run as root
+START_STOP_DAEMON_OPTIONS="--chdir=${WORK_DIR}"
+# Run as a user
+#START_STOP_DAEMON_OPTIONS="--chuid=${USER}:${GROUP} --chdir=${WORK_DIR}"
+# Force forking
+#START_STOP_DAEMON_OPTIONS="--chdir=${WORK_DIR} --background"
+
+# Exit if the package is not installed
+if ! test -x "$DAEMON"; then
+    case "$1" in
+        status)
+            # For status "program is not running"
+            exit 3
+            ;;
+        *)
+            # For non-status "program is not installed"
+            exit 5
+            ;;
+    esac
+fi
+
+# Make sure umask is correct
+umask 0022
+
+# Set defaults values for the service
+#SERVICE_VAR="value"
+
+# Read configuration file if it is present
+if test -r /etc/default/${NAME}; then
+    . /etc/default/${NAME}
+fi
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define Init Script Functions
+# start_daemon, killproc, pidofproc, status_of_proc, get_lsb_header_val, log_*
+# http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptfunc.html
+. /lib/lsb/init-functions
+
+# Conforming scripts shall *not* specify the "exit on error" option
+##set -e
+
+#######################################
+# Exit if Upstart is present
+#######################################
+check_for_upstart() {
+    if init_is_upstart; then
+        exit "$1"
+    fi
+}
+
+#######################################
+# Start the service
+#######################################
+do_start() {
+    # Return 0 if daemon has been started
+    # Return 1 if daemon was already running
+    # Return 2 if daemon could not be started
+
+    # Is the service running?
+    if ! start-stop-daemon ${START_STOP_DAEMON_OPTIONS} --start --quiet \
+        --pidfile "$PIDFILE" --exec "$DAEMON" --test > /dev/null; then
+        return 1
+    fi
+
+    # Start
+    # shellcheck disable=SC2086
+    start-stop-daemon ${START_STOP_DAEMON_OPTIONS} --start --quiet \
+        --pidfile "$PIDFILE" --exec "$DAEMON" -- ${DAEMON_ARGS}
+}
+
+#######################################
+# Stop the service
+#######################################
+do_stop() {
+    # Return 0 if daemon has been stopped
+    # Return 1 if daemon was already stopped
+    # Return 2 if daemon could not be stopped
+    # Return other if a failure occurred
+
+    local RETVAL
+
+    # Wait 30 seconds and send SIGTERM, then wait 5 seconds and send SIGKILL
+    start-stop-daemon ${START_STOP_DAEMON_OPTIONS} --stop --quiet \
+        --pidfile "$PIDFILE" --retry=TERM/30/KILL/5
+    RETVAL="$?"
+    if [ "$RETVAL" = 2 ]; then
+        return 2
+    fi
+
+    # Remove PID file
+    rm -f "$PIDFILE"
+    return "$RETVAL"
+}
+
+#######################################
+# Reload configuration
+#######################################
+do_reload() {
+    # Cause the configuration of the service to be reloaded without actually stopping and restarting the service
+    # Send SIGHUP
+    start-stop-daemon ${START_STOP_DAEMON_OPTIONS} --stop --quiet \
+        --pidfile "$PIDFILE" --name "$NAME" --signal HUP
+    return $?
+}
+
+#######################################
+# main case statement
+#######################################
+case "$1" in
+    start)
+        check_for_upstart 1
+        [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+        do_start
+        case "$?" in
+            0|1)
+                # Considered successful: running start on a service already running
+                [ "$VERBOSE" != no ] && log_end_msg 0
+                ;;
+            2)
+                [ "$VERBOSE" != no ] && log_end_msg 1
+                exit 1
+                ;;
+        esac
+        ;;
+    stop)
+        check_for_upstart 0
+        [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+        do_stop
+        case "$?" in
+            0|1)
+                # Considered successful: running stop on a service already stopped or not running
+                [ "$VERBOSE" != no ] && log_end_msg 0
+                ;;
+            2)
+                [ "$VERBOSE" != no ] && log_end_msg 1
+                exit 1
+                ;;
+        esac
+        ;;
+    status)
+        # https://wiki.debian.org/LSBInitScripts/StatusSupport
+        check_for_upstart 1
+        if status_of_proc "$DAEMON" "$NAME"; then
+            exit 0
+        else
+            exit $?
+        fi
+        ;;
+    reload)
+        check_for_upstart 1
+        [ "$VERBOSE" != no ] && log_daemon_msg "Reloading $DESC" "$NAME"
+        if do_reload; then
+            [ "$VERBOSE" != no ] && log_end_msg $?
+        else
+            [ "$VERBOSE" != no ] && log_end_msg $?
+            exit $?
+        fi
+        ;;
+    restart|force-reload)
+        check_for_upstart 1
+        [ "$VERBOSE" != no ] && log_daemon_msg "Restarting $DESC" "$NAME"
+        do_stop
+        case "$?" in
+            0|1)
+                # Considered successful: running restart on a service already stopped or not running
+                do_start
+                case "$?" in
+                    0)
+                        # Started
+                        [ "$VERBOSE" != no ] && log_end_msg 0
+                        ;;
+                    1)
+                        # Old process is still running
+                        [ "$VERBOSE" != no ] && log_end_msg 1
+                        exit 1
+                        ;;
+                    *)
+                        # Failed to start
+                        [ "$VERBOSE" != no ] && log_end_msg 1
+                        exit 7
+                        ;;
+                esac
+                ;;
+            *)
+                # Failed to stop
+                [ "$VERBOSE" != no ] && log_end_msg 1
+                exit 1
+                ;;
+        esac
+        ;;
+    *)
+        # The start, stop, restart, force-reload, and status actions shall be supported by all init scripts;
+        # the reload and the try-restart actions are optional.
+        log_action_msg "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload|status}"
+        # Unimplemented feature
+        exit 3
+        ;;
+esac
+
+exit 0

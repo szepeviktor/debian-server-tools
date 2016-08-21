@@ -2,7 +2,10 @@
 #
 # Very simple obnam script (without LVM or BTRFS snapshot)
 #
-# VERSION       :0.2
+# VERSION       :0.2.1
+
+# Mount volumes
+#     cd /media/backup/.obnam && for C in fsroot boot homes kozos;do echo -- $C;obnam --client=$C generations;done|most
 
 declare -a VOLUMES=( fsroot:/ boot:/boot/ homes:/home/ shared:/storage/ )
 MOUNT_POINT="/media/backup"
@@ -53,6 +56,6 @@ for VOLUME in ${VOLUMES[*]}; do
     fi
 done
 
-exit 0
+#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
 
-# cd /media/backup/.obnam && for C in fsroot boot homes kozos;do echo -- $C;obnam --client=$C generations;done|most
+exit 0

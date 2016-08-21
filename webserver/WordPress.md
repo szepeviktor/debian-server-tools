@@ -197,6 +197,8 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 #### Object cache
 
 ```bash
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-cache-flush-button/flush-cache-button.php
+
 # Redis @danielbachhuber
 wp plugin install wp-redis
 ln -sv plugins/wp-redis/object-cache.php wp-content/
@@ -273,6 +275,7 @@ exit;
 TGM-Plugin-Activation plugin
 
 ```php
+// Disable TGMPA
 add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
 function o1_disable_tgmpa() {
     remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );

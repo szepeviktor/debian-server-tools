@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -77,5 +77,7 @@ sudo -u broadbandly -- /usr/local/bin/wp --path="$ABSPATH" db dump - \
 cd /
 #Echo "umount"
 #umount "$BACKUP_DIR"
+
+#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
 
 exit 0

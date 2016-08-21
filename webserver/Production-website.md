@@ -71,7 +71,7 @@ Static maintenance page
 ### Set up CDN
 
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
-- CSS, JS aggregation
+- Combine and minify CSS and JavaScript files
 - HTML caching or no-cache?
 - Disallow HTML pages on CDN (robots-cdn.txt)
 - https://aws.amazon.com/console/
@@ -278,6 +278,8 @@ http://google-public-dns.appspot.com/cache
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - Missing resource version in `grep -E "wp_(register|enqueue)_.*\("` calls
+- Missing theme meta tags in `style.cs`
+- Script/style printing (instead of using `wp_localize_script(); wp_add_inline_script(); wp_add_inline_style();`
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
 - Always requiring admin code (fix: `whats-running`)
 - Lack of `grep -E "\\\$_(GET|POST)"` sanitization
@@ -289,16 +291,16 @@ http://google-public-dns.appspot.com/cache
 - Independent e-mail sending (fix: `grep -E "\b(wp_)?mail\("`)
 - Propiertary install/update (fix: comment out TGM-Plugin-Activation)
 - Home call, external URL-s (fix: search for URL-s, use Snitch plugin and `tcpdump`)
+- Form field for file upload: `<input type="file" />`
 - Insufficient or excessive font character sets (fix: `&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
-- Form field for file upload: `<input type="file" />`
 - [BOM](https://en.wikipedia.org/wiki/Byte_order_mark) (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
 - Characters before `<!DOCTYPE html>`
 - JavaScript code parsable (by dummy crawlers) as HTML (e.g. `<a>` `<iframe>` `<script>`)
-- Display content by JavaScript (causes FOUC)
+- Display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
+- Unnecessary Firefox caret
 - Mobile views
 - Confusion in colors: normal text color, link and call2action color, accent color
-- Unnecessary Firefox caret
 - Email header and content check with https://www.mail-tester.com/
 
 ### 404 page

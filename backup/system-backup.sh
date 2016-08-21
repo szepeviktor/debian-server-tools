@@ -2,7 +2,7 @@
 #
 # Backup a server.
 #
-# VERSION       :2.0.0
+# VERSION       :2.0.1
 # DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -306,5 +306,7 @@ Backup_innodb
 Backup_files
 
 Umount
+
+#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
 
 exit 0
