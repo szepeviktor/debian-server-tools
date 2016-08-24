@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e -x
+
+# FIXME Is it the same as "enable_auto_updates"?
+echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/20download-upgrade
+
+# Automatic security updates
+echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections -v
+dpkg-reconfigure -f noninteractive unattended-upgrades

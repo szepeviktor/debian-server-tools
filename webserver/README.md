@@ -72,6 +72,10 @@ http://ninenines.eu/
 
 http://caucho.com/products/resin/problem
 
+#### Caddy
+
+https://caddyserver.com/
+
 ### Apache slow loris protection
 
 [RequestReadTimeout](https://httpd.apache.org/docs/2.4/mod/mod_reqtimeout.html)

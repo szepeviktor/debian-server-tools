@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# No "22" in port number
+SSH_PORT="22"
+while [ "${SSH_PORT}" != "${SSH_PORT/22/}" ]; do
+    read -r -e -p "SSH port: " -i "$((3100 + RANDOM % 900))" SSH_PORT
+done
+
+set -e -x
+
+# Change port
+sed -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" -i /etc/ssh/sshd_config
+sshd -T | grep -qFx "port ${SSH_PORT}"
+
+# Disable root login
+sed -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' -i /etc/ssh/sshd_config
+sshd -T | grep -qFx "permitrootlogin yes"
+
+# Disable password login for sudoers
+echo -e "\nMatch Group sudo\n    PasswordAuthentication no" >> /etc/ssh/sshd_config
+
+# Disable DSA host key
+sed -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' -i /etc/ssh/sshd_config
+! sshd -T | grep -qFx "hostkey /etc/ssh/ssh_host_dsa_key"
+
+# Add blocked networks
+HOSTS_CHINA="https://github.com/szepeviktor/debian-server-tools/raw/master/security/hosts.deny.sshd.China"
+wget -nv -O- "$HOSTS_CHINA" >> /etc/hosts.deny
+
+# Regenerate host keys
+rm -f /etc/ssh/ssh_host_*
+dpkg-reconfigure -f noninteractive openssh-server
+service ssh restart
+
+# Check sshd running and listening
+service ssh status
+netstat -n -a -t -p | grep ":${SSH_PORT}\s.*/sshd\s*\$"
+
+# Check password authentication for (the first) sudoer
+if SSH_U="$(getent group "sudo")"; then
+    SSH_U="$(cut -d ":" -f 4 <<< "$SSH_U")"
+    # Warning! CRLF line ends in the output
+    SSH_ASKPASS=/bin/echo setsid -w -- \
+        ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1 -p "$SSH_PORT" "${SSH_U}@localhost" 2>&1 \
+        | grep -q -F "Permission denied (publickey)."
+fi
+
+# Empty root's known_hosts file
+rm -f /root/.ssh/known_hosts

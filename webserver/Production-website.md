@@ -263,11 +263,11 @@ http://google-public-dns.appspot.com/cache
 
 ### Theme and plugin check
 
-1. Theme meta and version in style.css
+1. Theme meta and version in `style.css`
 1. `query-monitor` errors and warnings
 1. `theme-check` and http://themecheck.org/
 1. `vip-scanner`
-1. Frontend Debugger `?remove-scripts`
+1. Frontend Debugger with `?remove-scripts`
 1. `p3-profiler`
 1. https://validator.w3.org
 1. https://validator.nu/
@@ -278,7 +278,7 @@ http://google-public-dns.appspot.com/cache
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - Missing resource version in `grep -E "wp_(register|enqueue)_.*\("` calls
-- Missing theme meta tags in `style.cs`
+- Missing theme meta tags in `style.css`
 - Script/style printing (instead of using `wp_localize_script(); wp_add_inline_script(); wp_add_inline_style();`
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
 - Always requiring admin code (fix: `whats-running`)
@@ -351,7 +351,7 @@ Send to Analytics, report to `/js-error.php`
 
 ### Legal
 
-- Privacy policy + opt out
+- Privacy policy
 - Terms & Conditions
 - Cookie consent + opt out
 - *Operated by*, *Hosted at*
@@ -361,6 +361,7 @@ Send to Analytics, report to `/js-error.php`
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
+- Microsoft/Libre Office (copy-and-paste content or open URL)
 
 ### External resources (3rd party services)
 
@@ -384,6 +385,7 @@ Gain access, set up and test.
 - Facebook pixel
 - Piwik
 - Clicktale
+- Hotjar
 - URL shortening: Link tracking, Download tracking
 
 ### Last checks

@@ -1,0 +1,1453 @@
+#! /usr/bin/perl
+#
+#
+# Copyright 2004-2016 Double Precision, Inc.  See COPYING for
+# distribution information.
+
+# Courier log analyzer v0.17
+
+use strict;
+use Getopt::Long;
+use Math::BigInt;
+
+BEGIN
+{
+    die "Need at least Math::BigInt v1.68"
+        unless ($Math::BigInt::VERSION || 0) >= 1.68;
+}
+
+local $main::NOISE=10;
+local $main::NOISY;
+local $main::REPORTTITLE="Courier Usage Report";
+
+my $help;
+my $html;
+
+my $bynet;
+my $bytime;
+my $smtperr;
+my $outfail;
+my $outsuccess;
+my $outdefer;
+my $imapbynet;
+my $imapbytime;
+my $pop3bynet;
+my $pop3bytime;
+my $imapbylength;
+my $imapbyuser;
+my $imapbyxfer;
+my $pop3bylength;
+my $pop3byuser;
+my $pop3byxfer;
+
+GetOptions("noise=i" => \$main::NOISE,
+	   "noisy" => \$main::NOISY,
+	   "html=s" => \$html,
+	   "smtpinet" => \$bynet,
+	   "smtpitime" => \$bytime,
+	   "smtpierr" => \$smtperr,
+	   "smtpos" => \$outsuccess,
+	   "smtpod" => \$outdefer,
+	   "smtpof" => \$outfail,
+	   "title=s" => \$main::REPORTTITLE,
+	   "imapnet" => \$imapbynet,
+	   "imaptime" => \$imapbytime,
+	   "pop3net" => \$pop3bynet,
+	   "pop3time" => \$pop3bytime,
+	   "imapbylength" => \$imapbylength,
+	   "imapbyuser" => \$imapbyuser,
+	   "imapbyxfer" => \$imapbyxfer,
+	   "pop3bylength" => \$pop3bylength,
+	   "pop3byuser" => \$pop3byuser,
+	   "pop3byxfer" => \$pop3byxfer,
+	   "help", \$help);
+
+$bynet=1 unless $bytime || $smtperr || $outfail || $outsuccess || $outdefer
+    || $pop3bynet || $pop3bytime || $imapbynet || $imapbytime
+    || $imapbyuser || $imapbyxfer || $pop3byuser || $pop3byxfer
+    || $imapbylength || $pop3bylength;
+
+if ($help)
+{
+    print "Usage: $0 [options]\n";
+    print "  --noise=n    Consider <= n connections to be background noise (10).\n";
+    print "  --noisy      Include background noise (off).\n";
+    print "  --html=dir   HTML report to dir, creating it.  Default is\n";
+    print "               plain text to stdout.  dir must not exist, it will be\n";
+    print "               automatically created.\n";
+    print "  --smtpinet   Inbound SMTP by network to stdout (default).\n";
+    print "  --smtpitime  Inbound SMTP by time to stdout.\n";
+    print "  --smtpierr   Inbound SMTP by error message to stdout.\n";
+    print "  --smtpos     Succesful outbound SMTP deliveries.\n";
+    print "  --smtpod     Deferred outbound SMTP deliveries.\n";
+    print "  --smtpof     Failed outbound SMTP deliveries.\n";
+    print "  --imapnet    IMAP connections by network to stdout.\n";
+    print "  --imaptime   IMAP connections by time to stdout.\n";
+    print "  --imapbyuser IMAP logins by userid.\n";
+    print "  --imapbyxfer IMAP logins by transfer bandwidth.\n";
+    print "  --pop3net    POP3 connections by network to stdout.\n";
+    print "  --pop3time   POP3 connections by time to stdout.\n";
+    print "  --pop3byuser POP3 logins by userid.\n";
+    print "  --pop3byxfer POP3 logins by transfer bandwidth.\n";
+    print "  --imapbylength IMAP logins by session length.\n";
+    print "  --pop3bylength POP3 logins by session length.\n";
+
+    print "  --title=n    Use 'n' as the report's title.\n";
+    exit 1;
+}
+
+# Determine the "network" of an address in the log.
+#
+# For IPv4 addresses, it's the /24
+#
+# For IPv6 addresses, it's the /64
+
+sub ip2net {
+    my $ip_addr=shift @_;
+
+    $ip_addr =~ s/^::ffff://;
+
+    unless ($ip_addr =~ /:/)
+    {
+	$ip_addr =~ s/\.\d+$//;
+	return $ip_addr; # IPv4 /24 network
+    }
+
+
+    my @ipv6_words;
+
+    if ($ip_addr =~ /(.*)::(.*)/)
+    {
+	my @hi=split(/:/, $1);
+	my @lo=split(/:/, $2);
+
+	# hi+lo should be 8, $# is 0 based, so + should be six (3 and 3).
+	while ($#hi + $#lo < 6)
+	{
+	    push @hi, 0;
+	}
+	@ipv6_words=@hi;
+	push @ipv6_words, @lo;
+    }
+    else
+    {
+	@ipv6_words=split(/:/, $ip_addr);
+    }
+
+    splice @ipv6_words,4,4;  # Dump words 5-8
+
+    grep { s/^0*//; s/^$/0/; } @ipv6_words; # Just in case
+
+    my $ipv6_net=join(":", @ipv6_words);
+
+    $ipv6_net =~ s/(:0)*$/::/;
+
+    return $ipv6_net;
+}
+
+# Template for connection summaries
+
+sub conn_template {
+
+    return ( "ip" => {}, # Detail by IP address
+	     "time" => {} # Detail by time
+	     );
+}
+
+sub htmlescape {
+    my $str=shift @_;
+
+    $str =~ s/&/\&amp\;/g;
+    $str =~ s/</\&lt\;/g;
+    $str =~ s/>/\&gt\;/g;
+    return $str;
+}
+
+sub htmlescape_sp {
+    my $n=htmlescape(shift @_);
+
+    $n =~ s/ /\&nbsp;/g;
+    return $n;
+}
+
+# Record a connection.  The connection is recorded on a per-net and per-time
+# basis.
+
+sub track_conn {
+    my $hash=shift @_;
+    my $time=shift @_; # Mmm DD hh:mm:ss
+    my $ip=shift @_; # IP address
+    my $line=shift @_; # Entire log line
+
+
+# Compute the IP's network name, and record this connection for this network.
+
+    my $ip_detail=$$hash{"ip"};  # Network detail of the hash.
+
+    my $netnumber=ip2net($ip);
+    $$ip_detail{$netnumber}=[] unless defined $$ip_detail{$netnumber};
+    push @{$$ip_detail{$netnumber}}, $line;
+
+# Record this connection in its timestamp's hour.
+
+    $time =~ s/:.*/:00:00/; # Make time an hour
+
+    my $time_detail=$$hash{"time"};
+    $$time_detail{$time}=[] unless defined $$time_detail{$time};
+    $time_detail=$$time_detail{$time};
+
+    push @$time_detail, $line;
+}
+
+#
+# Similarly track a SMTP error.  Record the error in per-IP address,
+# per-sender, per-recipient, and per-message lists.
+
+sub track_esmtp_err {
+
+    my ($hash, $timestamp, $ip, $sender, $recipient, $errmsg, $record)=@_;
+
+    unless ($ip eq "(unknown)")
+    {
+
+# Keep track of errors from the same network.
+
+	my $net=ip2net($ip);
+	my $nethash=$$hash{"ip"};
+	$$nethash{$net}=[] unless defined $$nethash{$net};
+	push @{$$nethash{$net}}, $record;
+    }
+
+# Keep track of errors with the same return address.
+
+    my $senderhash=$$hash{"sender"};
+    $$senderhash{$sender}=[] unless defined $$senderhash{$sender};
+    push @{$$senderhash{$sender}}, $record;
+
+# Keep track of errors for the same recipient.
+
+    if ($recipient =~ /./)
+    {
+	my $rhash=$$hash{"recipient"};
+	$$rhash{$recipient}=[] unless defined $$rhash{$recipient};
+	push @{$$rhash{$recipient}}, $record;
+    }
+
+# Keep track of all errors with the same message.
+
+    my $msgtype=$errmsg;
+
+# Some messages have a variable part - we want to lump all of them together.
+
+    $msgtype="517 HELO mismatch"
+	if $msgtype =~/^\d\d\d HELO/ || $msgtype =~ /^\d\d\d DNS lookup on HELO/;
+    $msgtype="517 Sender Policy Framework error"
+	if $msgtype =~/^\d\d\d SPF/;
+
+    $msgtype="551 DNS lookup failure"
+	if $msgtype =~ /DNS lookup failure|rfc1035/;
+
+    $msgtype="554 Syntax error - your mail software violates RFC 821"
+	if $msgtype =~ /RFC 821/i;
+
+    $msgtype="502 ESMTP command error"
+	if $msgtype =~ /^502 ESMTP command error/;
+
+    $msgtype="535 Authentication required"
+	if $msgtype =~ /^535 Authentication required/;
+
+    $msgtype="523 Message length exceeds administrative limit"
+	if $msgtype =~ /^523 Message length.*administrative/;
+
+# take care of 511 errors generated by blocklists
+
+    if ($msgtype =~ /^(511) ([\w\s]+) (- see |See: )?http:\/\/([\w\d\.\-]+)\/?/) {
+	$msgtype = "$1 Blocked by $4 : $2" ;
+    }
+
+    my $errmsghash=$$hash{"msg"};
+    $$errmsghash{$msgtype}=[] unless defined $$errmsghash{$msgtype};
+    push @{$$errmsghash{$msgtype}}, $record;
+}
+
+#
+# Track outbound SMTP deliveries.  Successes, failures, and deferrals are
+# tracked separately.  This function records the delivery on a per-sender
+# domain and per-recipient domain basis.
+
+sub track_esmtp_out {
+    my ($hash, $sender, $recipient, $line)=@_;
+
+    my $sdomain="";
+    my $rdomain="";
+
+    $sdomain=$1 if $sender =~ /\@(.*)\>$/;
+    $rdomain=$1 if $recipient =~ /\@(.*)\>$/;
+
+    $sdomain = "<>" if $sdomain eq "";
+
+    my $s=$$hash{"s"};
+    my $r=$$hash{"r"};
+
+    $$s{$sdomain}=[] unless defined $$s{$sdomain};
+    push @{$$s{$sdomain}}, $line;
+
+    $$r{$rdomain}=[] unless defined $$r{$rdomain};
+    push @{$$r{$rdomain}}, $line;
+}
+
+# Generate a frameset for a report.  There are two frames: the index, and
+# the detail.
+
+sub gen_report_frame {
+    my ($htmldir, $framename, $indexname)=@_;
+    my $indexfile=$htmldir ? "$htmldir/$framename":"/dev/null";
+
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+    print INDEX "<html><head><title>$main::REPORTTITLE</title></head>"
+	. "<frameset rows='30%,*'>"
+	. "<frame src='$indexname' name='main'>"
+	. "<frame name='detail'>"
+	. "<noframes><a href='$indexname'>Enter without frame support</a>"
+	. "</noframes></frameset></html>\n";
+    close(INDEX);
+}
+
+#
+# Default sort order - in order of decreasing frequency.
+
+my $DEFAULT_SORT_ORDER=0;
+my $BYNAME_SORT_ORDER=1;
+my $BYXFER_SORT_ORDER=2;
+my $BYLENGTH_SORT_ORDER=3;
+
+
+#
+# Remove noise from the main hash.
+#
+
+sub remove_noise {
+
+    my $hash=shift @_;
+
+    my $noise_net=0;
+
+    my @noise;
+
+    foreach (keys %$hash)
+    {
+	my $netname=$_;
+	my $log=$$hash{$netname};
+
+	my $n=$#{$log}+1;
+
+	next unless $n <= $main::NOISE;
+
+	push @noise,@$log;
+	++$noise_net;
+    }
+
+    return [$noise_net, \@noise];
+}
+
+
+# Common entry point for report generator.
+# Generates the index and the detail files.
+# Assume the detail files are generated in the top level directory.
+
+sub gen_report {
+
+    my ($txt_fd,	# File descriptor for plain text output
+	$hash,		# Hash where report data comes from.
+	$noise,		# Removed noise from the hash.
+	$title,
+	$htmldir,	# HTML output directory, or undefined
+	$indexname,	# Name for the report index file
+	$detailfiles,	# Filename pattern for detail files
+	$descr,		# How to describe the detail being reported.
+	$othertitle,    # Description for the 'noise' index entry.
+	$sort_order,	# Index sort order.
+
+	$extra_indexcols, # Extra index columns
+	$extra_indexcolfmt, # Colgroup formatting for extra index columns
+	$hash_extradata,  # Extra data for the hash
+	$hash_extranoise,  # Extra data for the noise
+	$extra_formatter  # Extra data's formatting function
+	)=@_;
+
+    my $label;
+
+    my $indexfile=$htmldir ? "$htmldir/$indexname":"/dev/null";
+
+    open(MAIN, ">$indexfile") || die "$indexfile: $!\n";
+
+    print MAIN "<html><head><link rel='stylesheet' type='text/css' href='report.css' /><title>$main::REPORTTITLE - $title</title></head>" .
+	"<body><h1>$main::REPORTTITLE - $title</h1>";
+
+
+    gen_report_2($txt_fd, $hash, $noise,
+		 $sort_order, $title, $htmldir, $detailfiles,
+		 $descr, $othertitle, "width='1%'", "../report.css",
+		 $extra_indexcols,
+		 $extra_indexcolfmt,
+		 $hash_extradata,
+		 $hash_extranoise,
+		 $extra_formatter);
+
+    print MAIN "</body></html>";
+    close (MAIN);
+}
+
+# This entry point by-passes the generation of the index file and the
+# main table.  Only the <table> for the index is generated here.  This is
+# used to cram multiple indexes in the same HTML page.
+
+sub gen_report_2 {
+
+    my ($txt_fd,	# Note if no plain text, this is opened to /dev/null
+	$hash,
+	$noiseinfo,
+	$sort_order,
+	$title,
+	$htmldir,
+	$detailfiles,
+	$descr,
+	$othertitle,
+	$table_width, # Used to properly format the <table>
+	$stylesheet,  # Pathname to the stylesheet
+	$extra_indexcols,
+	$extra_indexcolfmt,
+	$hash_extradata,
+	$hash_extranoise,
+	$extra_formatter)=@_;
+
+    my $label;
+
+    my %filenamemap;
+    my $filenamecnt=0;
+    my $indexfile;
+
+    $extra_indexcols=[] unless defined $extra_indexcols;
+    $extra_indexcolfmt="" unless defined $extra_indexcolfmt;
+
+    print MAIN "<table class='summary' $table_width><colgroup span='1' width='0*'/><colgroup span='1' width='*' />$extra_indexcolfmt<tbody><tr><th align='right'>Count</th><th align='left'>$descr</th>";
+
+    grep { print MAIN ("<th>" . htmlescape_sp($_) . "</th>"); } @$extra_indexcols;
+
+    print MAIN ("</tr><tr><td><hr/></td><td colspan='" .
+		(2 + $#{$extra_indexcols}) . "'><hr/></td></tr>");
+
+    my $grand_total=0;
+
+    $label=$title;
+
+    print $txt_fd ("\n" . ("-" x length($label)) . "\n$label\n"
+		   . ("-" x length($label)) . "\n\n");
+
+    print $txt_fd "   Count  $descr";
+
+    grep { print $txt_fd "/$_"; } @$extra_indexcols;
+    print $txt_fd "\n";
+    print $txt_fd "--------  ---------------------------------------\n";
+
+    my $noise_net=$$noiseinfo[0];
+
+    foreach (keys %$hash)
+    {
+	my $netname=$_;
+	my $log=$$hash{$netname};
+
+	my $n=$#{$log}+1;
+
+	$grand_total += $n;
+    }
+
+    # Sort by largest count first.
+
+    my $sort_order_func=
+	$sort_order == $BYNAME_SORT_ORDER ?
+	sub {
+	    lc($a) cmp lc($b);
+	}
+    : $sort_order == $BYXFER_SORT_ORDER ?
+	sub {
+	    ${$$hash_extradata{$b}}[3] <=> ${$$hash_extradata{$a}}[3];
+	}
+    : $sort_order == $BYLENGTH_SORT_ORDER ?
+	sub {
+	    ${$$hash_extradata{$b}}[0] <=> ${$$hash_extradata{$a}}[0];
+	}
+    : sub {
+	$#{$$hash{$b}} <=> $#{$$hash{$a}} || $a cmp $b;
+    };
+
+
+    my @SORT_ORDER=sort $sort_order_func keys %$hash;
+
+    my $row_alt=0;
+    foreach (@SORT_ORDER)
+    {
+	my $netname=$_;
+	my $log=$$hash{$netname};
+
+	my $n=$#{$log}+1;
+
+	next if $n <= $main::NOISE;
+
+	printf $txt_fd ("%8d  %s", $n, $netname);
+
+	$filenamemap{$netname}= ++$filenamecnt;
+
+	my $detfilename=sprintf($detailfiles, $filenamemap{$netname});
+
+	my $a="<a href='$detfilename' target='detail'>";
+
+	print MAIN "<tr class='"
+	    . substr("AB", $row_alt, 1)
+	    . "'><td align='right'>$a$n</a></td><td>$a"
+	    . htmlescape_sp($netname) . "</a></td>";
+
+	my $txt_pfix=" (";
+	my $txt_sfix="";
+
+	grep { print $txt_fd "$txt_pfix$_"; $txt_pfix="/"; $txt_sfix=")";
+	       print MAIN "<td align='right'>" . htmlescape_sp($_) . "</td>"; }
+	&$extra_formatter($$hash_extradata{$netname})
+	    if defined $hash_extradata;
+
+	print MAIN "</tr>\n";
+	print $txt_fd "$txt_sfix\n";
+
+	$row_alt=1-$row_alt;
+    }
+
+    if ($noise_net > 0)
+    {
+	my $noisearray=$$noiseinfo[1];
+
+	my $cnt= $#{$noisearray}+1;
+
+	printf $txt_fd ("%8s  %s", "<= $main::NOISE",
+			sprintf($othertitle, $cnt, $noise_net));
+
+	my $detfilename=sprintf($detailfiles, "other");
+	my $a="<a href='$detfilename' target='detail'>";
+	my $na="</a>";
+
+	$a=$na="" unless $main::NOISY;
+
+	print MAIN "<tr class='"
+	    . substr("AB", $row_alt, 1)
+	    . "'><td align='right'>$a&lt;=&nbsp;$main::NOISE$na</td><td>$a"
+	    . htmlescape_sp(sprintf($othertitle, $cnt, $noise_net))
+	    . "$na</td>";
+
+	my $txt_pfix=" (";
+	my $txt_sfix="";
+
+	grep { print $txt_fd "$txt_pfix$_"; $txt_pfix="/"; $txt_sfix=")";
+	       print MAIN "<td align='right'>$_</td>"; }
+	&$extra_formatter($hash_extranoise)
+	    if defined $hash_extranoise;
+
+	print MAIN "</tr>\n";
+	print $txt_fd "$txt_sfix\n";
+    }
+
+    print $txt_fd (("-" x 79) . "\n");
+    printf $txt_fd ("%8d  Grand Total\n", $grand_total);
+
+    print MAIN "<tr class='A'><td colspan='" . (3+$#{$extra_indexcols})
+	. "'><hr /></td></tr>"
+	. "<tr class='B'><td align='right'>$grand_total</td><td colspan='"
+	. (2+$#{$extra_indexcols})
+	. "'>Grand&nbsp;Total</td></tr></tbody></table>";
+
+    foreach (@SORT_ORDER)
+    {
+	my $netname=$_;
+	my $log=$$hash{$netname};
+
+	my $n=$#{$log}+1;
+
+	next if $n <= $main::NOISE;
+
+	my $detfilename=sprintf($detailfiles, $filenamemap{$netname});
+
+	$indexfile=$htmldir ? "$htmldir/$detfilename":"/dev/null";
+
+	open(DETAIL, ">$indexfile") || die "$indexfile: $!\n";
+
+	$label="$descr: $netname";
+	printf $txt_fd "\n\n$label\n";
+	printf $txt_fd (("-" x length($label)) . "\n");
+
+	print DETAIL "<html><head><link rel='stylesheet' type='text/css' href='$stylesheet' /><title>$main::REPORTTITLE - $label</title></head>" .
+	    "<body><h1>$main::REPORTTITLE - $label</h1>";
+
+	foreach (@$log)
+	{
+	    my $row=$_;
+
+	    $row=$$row[0] if ref($row) eq "ARRAY";
+
+	    print $txt_fd "  $row\n";
+
+	    foreach (split /\n/, $row)
+	    {
+		my $nn=htmlescape_sp("  $_");
+
+		print DETAIL "<span class='detail'>$nn</span><br/>\n";
+	    }
+	}
+
+	printf $txt_fd ("-" x 79) . "\n";
+	printf $txt_fd ("%8d total\n", $n);
+
+	printf DETAIL ("<hr><span class='detail'>%8d total</span></body></html>\n", $n);
+	close(DETAIL);
+    }
+
+    if ($main::NOISY && $noise_net > 0)
+    {
+	printf $txt_fd "\n\nOther\n";
+	printf $txt_fd     "-----\n";
+
+	my $detfilename=sprintf($detailfiles, "other");
+	$indexfile=$htmldir ? "$htmldir/$detfilename":"/dev/null";
+
+	open(DETAIL, ">$indexfile") || die "$indexfile: $!\n";
+
+	$label="Other";
+
+	print DETAIL "<html><head><link rel='stylesheet' type='text/css' href='$stylesheet' /><title>$label</title></head>" .
+	    "<body><h1>$label</h1>";
+
+	my @noise=sort { return $$a[1] <=> $$b[1]; } @{$$noiseinfo[1]};
+	# Sort by original order.
+
+	foreach (@noise)
+	{
+	    my $row=$_;
+	    $row=$$row[0] if ref($row) eq "ARRAY";
+
+	    print $txt_fd "  $row\n";
+	    foreach (split /\n/, $row)
+	    {
+		my $nn=htmlescape_sp("  $_");
+
+		print DETAIL "<span class='detail'>$nn</span><br/>\n";
+	    }
+	}
+
+	printf $txt_fd ("-" x 79) . "\n";
+	printf $txt_fd ("%8d total\n", $#noise + 1);
+	printf DETAIL ("<hr><span class='detail'>%8d total</span></body></html>\n", $#noise + 1);
+	close(DETAIL);
+    }
+}
+
+# We begin by reporting on the incoming connections.
+
+sub report_conn {
+    my $smtp_hash=shift @_;
+    my $imap_hash=shift @_;
+    my $pop3_hash=shift @_;
+    my $htmldir=shift @_;
+    my $net_fd=shift @_; # SMTP by Network summary output
+    my $time_fd=shift @_; # SMTP by Hourly summary output
+
+    my $imap_net_fd=shift @_; # IMAP by network summary output
+    my $imap_time_fd=shift @_; # IMAP by time summary output
+    my $pop3_net_fd=shift @_; # POP3 by network summary output
+    my $pop3_time_fd=shift @_; # POP3 by time summary output
+
+    my $indexfile=$htmldir ? "$htmldir/index.html":"/dev/null";
+
+    # Generate index.html
+
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+    print INDEX "<html><head><title>$main::REPORTTITLE</title></head>"
+	. "<frameset rows='24,*' border='0'>"
+	. "<frame src='header.html' name='main' scrollin='no'>"
+	. "<frame name='body' scrollin='no'>"
+	. "<noframes><a href='header.html'>Enter without frame support</a>"
+	. "</noframes></frameset></html>\n";
+    close(INDEX);
+
+    # Copy over the stylesheet from down below.
+
+    $indexfile=$htmldir ? "$htmldir/report.css":"/dev/null";
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+
+    while (<main::DATA>)
+    {
+	print INDEX;
+    }
+    close(INDEX);
+    close(main::DATA);
+
+    # Navigation header, on the top.
+
+    $indexfile=$htmldir ? "$htmldir/header.html":"/dev/null";
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+
+    print INDEX "<html><head><title>Navigation Header</title>"
+	. "<link rel='stylesheet' type='text/css' href='report.css' /></head>"
+	. "<body class='header'>"
+	. "<table class='headerrow'><tbody><tr>"
+	. "<td><a href='headersmtp.html'>SMTP</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='headerimap.html'>IMAP</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='headerpop3.html'>POP3</a></td>"
+	. "</tr></tbody></table></body></html>\n";
+    close (INDEX);
+
+    $indexfile=$htmldir ? "$htmldir/headersmtp.html":"/dev/null";
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+
+    print INDEX "<html><head><title>Navigation Header</title>"
+	. "<link rel='stylesheet' type='text/css' href='report.css' /></head>"
+	. "<body class='header'>"
+	. "<table class='headerrow'><tbody><tr>"
+	. "<td><a href='header.html'><em>Main&nbsp;Menu</em></a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtpbynet.html' target='body'>By&nbsp;network</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtpbytime.html' target='body'>By&nbsp;time</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtperrbynet.html' target='body'>Errs/net</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtperrbyfrom.html' target='body'>Errs/from</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtperrbyto.html' target='body'>Errs/to</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtperrbymsg.html' target='body'>Errs/type</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='smtpout.html' target='body'>Outbound</a></td>"
+	. "</tr></tbody></table></body></html>\n";
+    close (INDEX);
+
+    $indexfile=$htmldir ? "$htmldir/headerimap.html":"/dev/null";
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+
+    print INDEX "<html><head><title>Navigation Header</title>"
+	. "<link rel='stylesheet' type='text/css' href='report.css' /></head>"
+	. "<body class='header'>"
+	. "<table class='headerrow'><tbody><tr>"
+	. "<td><a href='header.html'><em>Main&nbsp;Menu</em></a></td>"
+	. "<td>|</td>"
+	. "<td><a href='imapbynet.html' target='body'>By&nbsp;network</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='imapbytime.html' target='body'>By&nbsp;time</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='imapbyuser.html' target='body'>By&nbsp;login</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='imapbyxfer.html' target='body'>By&nbsp;usage</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='imapbylength.html' target='body'>By&nbsp;length</a></td>"
+	. "</tr></tbody></table></body></html>\n";
+    close (INDEX);
+
+    $indexfile=$htmldir ? "$htmldir/headerpop3.html":"/dev/null";
+    open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
+
+    print INDEX "<html><head><title>Navigation Header</title>"
+	. "<link rel='stylesheet' type='text/css' href='report.css' /></head>"
+	. "<body class='header'>"
+	. "<table class='headerrow'><tbody><tr>"
+	. "<td><a href='header.html'><em>Main&nbsp;Menu</em></a></td>"
+	. "<td>|</td>"
+	. "<td><a href='pop3bynet.html' target='body'>By&nbsp;network</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='pop3bytime.html' target='body'>By&nbsp;time</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='pop3byuser.html' target='body'>By&nbsp;login</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='pop3byxfer.html' target='body'>By&nbsp;usage</a></td>"
+	. "<td>|</td>"
+	. "<td><a href='pop3bylength.html' target='body'>By&nbsp;length</a></td>"
+	. "</tr></tbody></table></body></html>\n";
+    close (INDEX);
+
+    if ($html)
+    {
+	mkdir ("$htmldir/smtpbynet", 0777);
+	mkdir ("$htmldir/smtpbytime", 0777);
+	mkdir ("$htmldir/imapbynet", 0777);
+	mkdir ("$htmldir/imapbytime", 0777);
+	mkdir ("$htmldir/pop3bynet", 0777);
+	mkdir ("$htmldir/pop3bytime", 0777);
+    }
+
+    gen_report_frame($htmldir, "smtpbynet.html", "smtpbynetindex.html");
+    gen_report($net_fd, $$smtp_hash{"ip"},
+	       remove_noise($$smtp_hash{"ip"}),
+	       "SMTP CONNECTIONS BY NETWORK",
+	       $htmldir,
+	       "smtpbynetindex.html",
+	       "smtpbynet/%s.html",
+	       "Network",
+	       "%d connections from %d networks",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "smtpbytime.html", "smtpbytimeindex.html");
+    gen_report($time_fd, $$smtp_hash{"time"},
+	       remove_noise($$smtp_hash{"time"}),
+	       "SMTP CONNECTIONS BY TIME",
+	       $htmldir,
+	       "smtpbytimeindex.html",
+	       "smtpbytime/%s.html",
+	       "Time",
+	       "%d other connections",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "imapbynet.html", "imapbynetindex.html");
+    gen_report($imap_net_fd, $$imap_hash{"ip"},
+	       remove_noise($$imap_hash{"ip"}),
+	       "IMAP CONNECTIONS BY NETWORK",
+	       $htmldir,
+	       "imapbynetindex.html",
+	       "imapbynet/%s.html",
+	       "Network",
+	       "%d connections from %d networks",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "imapbytime.html", "imapbytimeindex.html");
+    gen_report($imap_time_fd, $$imap_hash{"time"},
+	       remove_noise($$imap_hash{"time"}),
+	       "IMAP CONNECTIONS BY TIME",
+	       $htmldir,
+	       "imapbytimeindex.html",
+	       "imapbytime/%s.html",
+	       "Time",
+	       "%d other connections",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "pop3bynet.html", "pop3bynetindex.html");
+    gen_report($pop3_net_fd, $$pop3_hash{"ip"},
+	       remove_noise($$pop3_hash{"ip"}),
+	       "POP3 CONNECTIONS BY NETWORK",
+	       $htmldir,
+	       "pop3bynetindex.html",
+	       "pop3bynet/%s.html",
+	       "Network",
+	       "%d connections from %d networks",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "pop3bytime.html", "pop3bytimeindex.html");
+    gen_report($pop3_time_fd, $$pop3_hash{"time"},
+	       remove_noise($$pop3_hash{"time"}),
+	       "POP3 CONNECTIONS BY TIME",
+	       $htmldir,
+	       "pop3bytimeindex.html",
+	       "pop3bytime/%s.html",
+	       "Time",
+	       "%d other connections",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+}
+
+# Multiline error message to plaintext output.
+
+sub print_err_txt {
+    my $fd=shift @_;
+    my $err=shift @_;
+
+    $err=$$err;
+
+    foreach (split (/\n/, $err))
+    {
+	print $fd "  $_\n";
+    }
+}
+
+sub report_smtperr {
+    my $hash=shift @_;
+    my $htmldir=shift @_;
+    my $err_fd=shift @_;
+
+    if ($html)
+    {
+	mkdir("$htmldir/smtperrbynet", 0777);
+	mkdir("$htmldir/smtperrbyfrom", 0777);
+	mkdir("$htmldir/smtperrbyto", 0777);
+	mkdir("$htmldir/smtperrbymsg", 0777);
+    }
+
+    gen_report_frame($htmldir, "smtperrbynet.html", "smtperrbynetindex.html");
+    gen_report($err_fd, $$hash{"ip"},
+	       remove_noise($$hash{"ip"}),
+	       "SMTP ERRORS BY NETWORK",
+	       $htmldir,
+	       "smtperrbynetindex.html",
+	       "smtperrbynet/%s.html",
+	       "Network",
+	       "%d errors from %d networks",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "smtperrbyfrom.html",
+		     "smtperrbyfromindex.html");
+    gen_report($err_fd, $$hash{"sender"},
+	       remove_noise($$hash{"sender"}),
+	       "SMTP ERRORS BY FROM",
+	       $htmldir,
+	       "smtperrbyfromindex.html",
+	       "smtperrbyfrom/%s.html",
+	       "From: address",
+	       "%d errors for %d addresses",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "smtperrbyto.html", "smtperrbytoindex.html");
+    gen_report($err_fd, $$hash{"recipient"},
+	       remove_noise($$hash{"recipient"}),
+	       "SMTP ERRORS BY TO",
+	       $htmldir,
+	       "smtperrbytoindex.html",
+	       "smtperrbyto/%s.html",
+	       "To: address",
+	       "%d errors for %d addresses",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+
+    gen_report_frame($htmldir, "smtperrbymsg.html", "smtperrbymsgindex.html");
+    gen_report($err_fd, $$hash{"msg"},
+	       remove_noise($$hash{"msg"}),
+	       "SMTP ERRORS BY TYPE",
+	       $htmldir,
+	       "smtperrbymsgindex.html",
+	       "smtperrbymsg/%s.html",
+	       "Type",
+	       "%d errors for %d types",
+	       $DEFAULT_SORT_ORDER,
+	       undef, undef, undef, undef, undef);
+}
+
+# Report on outbound SMTP.  Cram in all summaries into a single frame.
+
+sub report_smtpout {
+
+    my ($hash, $html, $msg_count, $msg_size, $out_success_fd,
+	$out_fail_fd, $out_defer_fd)=@_;
+
+    gen_report_frame($html, "smtpout.html", "smtpoutindex.html");
+
+    my $indexfile=$html ? "$html/smtpoutindex.html":"/dev/null";
+
+    open(MAIN, ">$indexfile") || die "$indexfile: $!\n";
+
+    print MAIN "<html><head><link rel='stylesheet' type='text/css' href='report.css' /><title>$main::REPORTTITLE - Outbound SMTP</title></head>" .
+	"<body><h1>$main::REPORTTITLE - Outbound SMTP</h1>" .
+	"<ul><li><a href='#completions'>Completions</a></li>" .
+	"<li><a href='#failures'>Failures</a></li>" .
+	"<li><a href='#deferrals'>Deferrals</a></li></ul>\n" .
+
+	"<table border='0'><tbody>\n";
+
+    report_smtpout_2($$hash{"success"}, $html, $out_success_fd,
+		     "$msg_count messages delivered, average size: $msg_size bytes.",
+		     "COMPLETED SMTP DELIVERIES",
+		     "socomp", "Completions");
+
+    print MAIN "<tr><td colspan='2'><hr /></td></tr>\n";
+    report_smtpout_2($$hash{"fail"}, $html, $out_fail_fd,
+		     "",
+		     "FAILED SMTP DELIVERIES",
+		     "sofail", "Failures");
+    print MAIN "<tr><td colspan='2'><hr /></td></tr>\n";
+    report_smtpout_2($$hash{"defer"}, $html, $out_defer_fd,
+		     "",
+		     "DEFERRED SMTP DELIVERIES",
+		     "sodefer", "Deferrals");
+
+    print MAIN "</tbody></table></body></html>";
+    close (MAIN);
+
+}
+
+sub report_smtpout_2 {
+    my ($hash, $html, $txt_fd, $subtitle, $maintitle, $htmlsubdir, $result)=@_;
+
+
+    print MAIN "<tr><th colspan='2'><h2><a name='"
+	. lc($result) . "'>$result</a></h2>";
+
+    print MAIN "<p>$subtitle</p>" if $subtitle;
+
+    print MAIN "</th></tr>\n"
+	. "<tr><th><h3>By&nbsp;Sender</h3></th><th><h3>By&nbsp;Recipient</h3></th></tr><tr valign='top'>";
+
+    print $txt_fd "\n$subtitle\n" if $subtitle;
+
+    report_smtpout_3($$hash{"s"}, "$maintitle - BY SENDER",
+		     $html, "$htmlsubdir" . "s", $txt_fd);
+
+    report_smtpout_3($$hash{"r"}, "$maintitle - BY RECEIPIENT",
+		     $html, "$htmlsubdir" . "r", $txt_fd);
+    print MAIN "</tr>\n";
+}
+
+sub report_smtpout_3 {
+    my ($hash, $title, $htmldir, $htmlsubdir, $txt_fd)=@_;
+
+    mkdir("$htmldir/$htmlsubdir", 0777) if $html;
+    print MAIN "<td>";
+    gen_report_2($txt_fd, $hash, remove_noise($hash),
+		 $DEFAULT_SORT_ORDER, $title, $htmldir,
+		 "$htmlsubdir/addr-%s.html", "Address",
+		 "%d messages for %d addresses",
+		 "width='100%'","../report.css",
+		 undef, undef, undef, undef, undef);
+    print MAIN "</td>\n";
+}
+
+sub compute_userstats {
+    my $records=shift @_;
+
+    my $header_cnt=Math::BigInt->bzero();
+    my $body_cnt=Math::BigInt->bzero();
+    my $n=0;
+    my $time_cnt=Math::BigInt->bzero();
+
+    foreach (@$records)
+    {
+	my $h=$$_[2];
+	my $b=$$_[3];
+	my $t=$$_[4];
+
+	$header_cnt->badd(new Math::BigInt $h);
+	$body_cnt->badd(new Math::BigInt $b);
+	$time_cnt->badd(new Math::BigInt $t);
+	++$n;
+    }
+
+    my $total=$header_cnt->copy->badd($body_cnt);
+
+    # Need a real copy of the following:
+    my $header_avg=$header_cnt->copy;
+    my $body_avg=$body_cnt->copy;
+    my $total_avg=$total->copy;
+    my $time_avg=$time_cnt->copy;
+
+    if ($n)
+    {
+	$header_avg->bdiv(new Math::BigInt $n);
+	$body_avg->bdiv(new Math::BigInt $n);
+	$total_avg->bdiv(new Math::BigInt $n);
+	$time_avg->bdiv(new Math::BigInt $n);
+    }
+
+    return [$time_cnt->as_number,
+	    $header_cnt->as_number,
+	    $body_cnt->as_number,
+	    $total->as_number,
+	    $time_avg->as_number,
+	    $header_avg->as_number,
+	    $body_avg->as_number,
+	    $total_avg->as_number];
+}
+
+sub report_user {
+    my $htmldir=shift @_;
+    my $hash=shift @_;
+    my $name=shift @_;
+    my $lname=shift @_;
+    my $byuser_fd=shift @_;
+    my $byxfer_fd=shift @_;
+    my $bylength_fd=shift @_;
+
+    if ($html)
+    {
+	mkdir ($htmldir . "/$lname" . "byuser", 0777);
+	mkdir ($htmldir . "/$lname" . "byxfer", 0777);
+	mkdir ($htmldir . "/$lname" . "bylength", 0777);
+    }
+
+    my $noise=remove_noise($hash);
+    my @extra_indexcols=("Length","Headers","Body","Total","Avg Length","Avg headers","Avg body","Avg");
+    my $extra_indexcolfmt="<colgroup span='8' width='0*'></colgroup>";
+    my %hash_extradata;
+
+    foreach (keys %$hash)
+    {
+	$hash_extradata{$_}=compute_userstats($$hash{$_});
+    }
+
+    my $noise_extradata=compute_userstats($$noise[1]);
+    my $fmt_func= sub {
+	my $array=shift @_;
+
+	my @b;
+
+	my $i;
+
+	for ($i=0; $i <= $#{$array}; $i++)
+	{
+	    my $v=$$array[$i];
+
+	    if ($i == 0 || $i == 4)
+	    {
+		my $h;
+		my $m;
+		my $s;
+
+		$s= $v % 60;
+
+		$v=int($v / 60);
+
+		$m= $v % 60;
+		$h=int($v / 60);
+
+		$v=sprintf("%d:%02d:%02d",$h,$m,$s);
+	    }
+	    else
+	    {
+		if ($v >= 1024)
+		{
+		    if ($v >= 1048576)
+		    {
+			if ($v >= 1073741824)
+			{
+			    my $bv=new Math::BigInt $v;
+			    my ($qu,$re)=$bv->bdiv(1073741824);
+
+			    $re->bmul(100);
+			    $re->bdiv(1073741824);
+
+			    $v=$bv->as_number . "."
+				. int(($re->as_number+5)/10)
+				. "&nbsp;Gb";
+			}
+			else
+			{
+			    $v=sprintf("%1.1f&nbsp;Mb","$v"/1048576.0);
+			}
+		    }
+		    else
+		    {
+			$v=sprintf("%1.1f&nbsp;Kb","$v"/1024.0);
+		    }
+		}
+		else
+		{
+		    $v = "$v&nbsp;&nbsp;&nbsp;";
+		}
+	    }
+	    push @b, $v;
+	}
+	return @b;
+    };
+
+    gen_report_frame($htmldir, $lname . "byuser.html",
+		     $lname . "byuserindex.html");
+    gen_report($byuser_fd, $hash, $noise,
+	       "$name LOGINS", $htmldir, $lname . "byuserindex.html",
+	       $lname . "byuser/%s.html",
+	       "Userid",
+	       "%d logins from %d userids",
+	       $BYNAME_SORT_ORDER,
+	       \@extra_indexcols, $extra_indexcolfmt,
+	       \%hash_extradata, $noise_extradata, $fmt_func);
+
+    gen_report_frame($htmldir, $lname . "byxfer.html",
+		     $lname . "byxferindex.html");
+    gen_report($byxfer_fd, $hash, $noise,
+	       "$name DATA TRANSFERS", $htmldir, $lname . "byxferindex.html",
+	       $lname . "byxfer/%s.html",
+	       "Userid",
+	       "%d logins from %d userids",
+	       $BYXFER_SORT_ORDER,
+	       \@extra_indexcols, $extra_indexcolfmt,
+	       \%hash_extradata, $noise_extradata, $fmt_func);
+
+    gen_report_frame($htmldir, $lname . "bylength.html",
+		     $lname . "bylengthindex.html");
+    gen_report($bylength_fd, $hash, $noise,
+	       "$name SESSION LENGTHS",
+	       $htmldir, $lname . "bylengthindex.html",
+	       $lname . "bylength/%s.html",
+	       "Userid",
+	       "%d logins from %d userids",
+	       $BYLENGTH_SORT_ORDER,
+	       \@extra_indexcols, $extra_indexcolfmt,
+	       \%hash_extradata, $noise_extradata, $fmt_func);
+}
+
+# Here we read the log file.
+
+my %CONN_ESMTP= conn_template;
+my %CONN_IMAP= conn_template;
+my %CONN_POP3= conn_template;
+
+my $prev_esmtp_errmsg_ip;
+my $prev_sender;
+my $prev_recipient;
+my $prev_errmsg;
+my $prev_timestamp;
+my $prev_line;
+
+my %ESMTP_ERR=("ip" => {},
+	       "sender" => {},
+	       "recipient" => {},
+	       "msg" => {});
+
+my %ESMTP_OUTBOUND=("success" => {"s" => {}, "r" => {}},
+		    "fail" => {"s" => {}, "r" => {}},
+		    "defer" => {"s" => {}, "r" => {}});
+my $msg_count=0;
+my $msg_size=Math::BigInt->bzero();
+
+$CONN_IMAP{"user"}={};
+$CONN_POP3{"user"}={};
+
+my $linenum=0;
+
+while (<>)
+{
+    chomp;
+
+    # Log format: Mmm dd hh:mm:ss
+
+    my $line=$_;
+
+    ++$linenum;
+
+    my $logrecord=[$line, $linenum];
+
+    if (/^(...............)[^:]*(imapd|pop3d)(-ssl)?[\[\]\d]*:\s*(.*)/)
+    {
+	my ($timestamp,$service,$msg)=($1,$2,$4);
+	my $conn= $service eq "imapd" ? \%CONN_IMAP:\%CONN_POP3;
+
+	if ($msg =~ /user=(.*), ip=\[([^\]]*)\], (port=\[[^\]]*\], )?(headers|top)=(\d+), (body|retr)=(\d+)(, time=(\d+))?(, (starttls|stls)=1)?/)
+	{
+	    my ($login,$ip,$headers,$body,$seconds,$tls)=($1,$2,$5,$7,$9,$10);
+
+	    my $hash=$$conn{"user"};
+
+	    $$hash{$login}=[] unless defined $$hash{$login};
+
+	    push @{$$hash{$login}}, [$line,$linenum,$headers,$body,$seconds,$tls];
+	    next;
+	}
+	if ($msg =~ /^Connection, ip=\[(.*)\]/)
+	{
+	    track_conn($conn, $timestamp, $1, $logrecord);
+	    next;
+	}
+    }
+
+    if (/^(...............)[^:]*courieresmtp[\[\]\d]*:\s*(.*)/)
+    {
+	my $timestamp=$1;
+	my $logline=$2;
+
+	if ($logline =~ /^id=[^,]*,from=(<.*>),addr=(<.*>),size=(\d+),status: success/)
+	{
+	    my ($sender,$recipient,$size)=($1,$2,$3);
+
+	    $msg_size=$msg_size->badd($size);
+	    ++$msg_count;
+
+	    track_esmtp_out($ESMTP_OUTBOUND{"success"}, $sender, $recipient,
+			    $logrecord);
+	    next;
+	}
+
+	if ($logline =~ /^id=[^,]*,from=(<>),addr=(<.*>),status: defer/)
+	{
+	    my ($sender,$recipient)=($1,$2);
+	    track_esmtp_out($ESMTP_OUTBOUND{"defer"}, $sender, $recipient,
+			    $logrecord);
+	    next;
+	}
+
+	if ($logline =~ /^id=[^,]*,from=(<>),addr=(<.*>),status: fail/)
+	{
+	    my ($sender,$recipient)=($1,$2);
+	    track_esmtp_out($ESMTP_OUTBOUND{"fail"}, $sender, $recipient,
+			    $logrecord);
+	    next;
+	}
+    }
+
+    next unless /^(...............)[^:]*courieresmtpd[\[\]\d]*: (.*)/;
+
+    my $timestamp=$1;
+    my $logline=$2;
+
+    if ($logline =~ /^started,ip=\[(.*)\]/)
+    {
+	track_conn(\%CONN_ESMTP, $timestamp, $1, $logrecord);
+	next;
+    }
+
+    if ($logline =~ /^error,relay=([^,]*),(.*)/)
+    {
+	my $ip=$1;
+	my $detail=$2;
+
+	my $sender="(unknown)";
+	my $recipient="";
+	my $msg="";
+
+	if ($detail =~ /(ident=.*,)?from=(<.*>),to=(<.*>):\s*(.*)/)
+	{
+	    ($sender,$recipient,$msg)=($2,$3,$4);
+	}
+	elsif ($detail =~ /(ident=.*,)?from=(<.*>):\s*(.*)/)
+	{
+	    ($sender,$msg)=($2,$3);
+	}
+	elsif ($detail =~ /(ident=.*,)?msg=\"(.*)\",cmd:\s*(.*)/)
+	{
+	    $msg=$2;
+	    my $cmd=$3;
+
+	    # Ignore PIPELINING-generated spurious error
+
+	    next if $msg eq "502 ESMTP command error" && $cmd eq "DATA";
+
+	    $sender="(unknown)";
+	    $msg .= " ($cmd)";
+	}
+
+	if ($prev_esmtp_errmsg_ip eq $ip &&
+	    $prev_sender eq $sender &&
+	    $prev_recipient eq $recipient &&
+	    $prev_errmsg =~ /^(\d\d\d)-/ &&
+	    $1 eq substr($msg,0,3))
+	{
+	    $prev_line .= $line; # Append to multiline errmsg
+	    $prev_errmsg .= $msg;
+	    next;
+	}
+
+	if ($prev_esmtp_errmsg_ip)
+	{
+	    $prev_errmsg =~ s/^(.*)\(RCPT TO:[^\)]*\)$/$1(RCPT TO)/;
+
+	    track_esmtp_err(\%ESMTP_ERR, $prev_timestamp,
+			    $prev_esmtp_errmsg_ip, $prev_sender,
+			    $prev_recipient,
+			    $prev_errmsg, [$prev_line, $linenum]);
+	}
+
+	($prev_esmtp_errmsg_ip, $prev_sender, $prev_recipient,
+	 $prev_errmsg,$prev_timestamp,$prev_line)=
+	     ($ip,$sender,$recipient,$msg,$timestamp,$line);
+	next;
+    }
+
+    if ($logline =~ /^\[(.*)\]:\s+(Connection timed out)/)
+    {
+	track_esmtp_err(\%ESMTP_ERR, $timestamp,
+			$1, "(unknown)",
+			"",
+			$2, $logrecord);
+	next;
+    }
+
+    next if $logline =~ /^writev:/;
+    next if $logline =~ /^Unexpected SSL connection shutdown/;
+    next if $logline =~ /STARTTLS failed: DEBUG/;
+
+    track_esmtp_err(\%ESMTP_ERR, $timestamp,
+		    "(unknown)", "(unknown)",
+		    "",
+		    "Other messages from courieresmtpd", $logrecord);
+}
+
+if ($prev_esmtp_errmsg_ip)
+{
+    track_esmtp_err(\%ESMTP_ERR, $prev_timestamp,
+		    $prev_esmtp_errmsg_ip, $prev_sender,
+		    $prev_recipient,
+		    $prev_errmsg,[ $prev_line, $linenum ]);
+}
+
+if ($msg_count)
+{
+    $msg_size=$msg_size->bdiv(new Math::BigInt $msg_count);
+}
+
+# $msg_size=$msg_size->as_number;
+
+mkdir($html, 0777) if $html;
+
+open(DEVNULL, ">/dev/null") || die "/dev/null: $!\n";
+
+my $net_fd= $bynet ? *STDOUT:*DEVNULL;
+my $time_fd= $bytime ? *STDOUT:*DEVNULL;
+
+my $out_success_fd= $outsuccess ? *STDOUT:*DEVNULL;
+my $out_fail_fd= $outfail ? *STDOUT:*DEVNULL;
+my $out_defer_fd= $outdefer ? *STDOUT:*DEVNULL;
+
+my $imap_net_fd=$imapbynet ? *STDOUT:*DEVNULL;
+my $imap_time_fd=$imapbytime ? *STDOUT:*DEVNULL;
+my $pop3_net_fd=$pop3bynet ? *STDOUT:*DEVNULL;
+my $pop3_time_fd=$pop3bytime ? *STDOUT:*DEVNULL;
+
+my $imapbylength_fd=$imapbylength ? *STDOUT:*DEVNULL;
+my $imapbyuser_fd=$imapbyuser ? *STDOUT:*DEVNULL;
+my $imapbyxfer_fd=$imapbyxfer ? *STDOUT:*DEVNULL;
+my $pop3bylength_fd=$pop3bylength ? *STDOUT:*DEVNULL;
+my $pop3byuser_fd=$pop3byuser ? *STDOUT:*DEVNULL;
+my $pop3byxfer_fd=$pop3byxfer ? *STDOUT:*DEVNULL;
+
+$net_fd=$time_fd=$out_success_fd=$out_fail_fd=$out_defer_fd=
+    $imap_net_fd=$imap_time_fd=$pop3_net_fd=$pop3_time_fd=
+    $imapbyuser_fd=$imapbyxfer_fd=
+    $imapbylength_fd=$pop3bylength_fd=
+    $pop3byuser_fd=$pop3byxfer_fd=*DEVNULL if $html;
+
+unless ($html)
+{
+    print "$main::REPORTTITLE\n";
+    print (("-" x length($main::REPORTTITLE)) . "\n");
+}
+
+report_conn(\%CONN_ESMTP, \%CONN_IMAP, \%CONN_POP3,
+	    $html, $net_fd, $time_fd,
+	    $imap_net_fd, $imap_time_fd,
+	    $pop3_net_fd, $pop3_time_fd);
+report_user($html, $CONN_IMAP{"user"}, "IMAP", "imap",
+	    $imapbyuser_fd, $imapbyxfer_fd, $imapbylength_fd);
+report_user($html, $CONN_POP3{"user"}, "POP3", "pop3",
+	    $pop3byuser_fd, $pop3byxfer_fd, $pop3bylength_fd);
+
+report_smtperr(\%ESMTP_ERR, $html, $smtperr ? *STDOUT:*DEVNULL);
+report_smtpout(\%ESMTP_OUTBOUND, $html, $msg_count, $msg_size, $out_success_fd,
+	       $out_fail_fd, $out_defer_fd);
+
+__END__
+html .header { margin-top: 0px ; background-color: #CCCCFF; color: #00000000 }
+
+html .header table tbody tr td a { padding-left: 2pt; padding-right: 2pt }
+html .header table tbody tr td a:link,
+html .header table tbody tr td a:visited { color: #000080; text-decoration: none }
+html .header table tbody tr td a:hover { background-color: #ffff00; text-decoration: none; color: #000000 }
+html .header { font-family: verdana,arial,helvetica,sans-serif; font-size: 16px }
+
+html body { background-color: #ffffff; color: #000000; }
+a:link {color: #0000cc; text-decoration: none}
+a:visited {color: #0000cc; text-decoration: none}
+a:active {color: #990000; text-decoration: none}
+a:hover {background-color: #ffff00; color: #000000; text-decoration: none }
+
+.summary { border-style: solid; border-width: 1px; border-spacing: 0px }
+.summary tbody tr td {font-family: courier, fixed; }
+.detail {font-family: courier, fixed; }
+.summary tbody tr td,
+.summary tbody tr th { padding-left: .5em; padding-right: .5em }
+.summary tbody .A { background-color: #dddddd }
+.summary tbody .B { background-color: #cccccc }

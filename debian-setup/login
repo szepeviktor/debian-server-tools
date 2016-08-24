@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e -x
+
+# Create missing lastlog
+if ! [ -f /var/log/lastlog ]; then
+    install -o root -g utmp -m 0664 /dev/null /var/log/lastlog
+fi

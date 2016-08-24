@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e -x
+
+# debsums weekly cron job
+sed -i 's/^CRON_CHECK=never.*$/CRON_CHECK=weekly/' /etc/default/debsums

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e -x
+
+update-alternatives --set pager /usr/bin/most

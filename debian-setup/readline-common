@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e -x
+
+sed -i -e 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc

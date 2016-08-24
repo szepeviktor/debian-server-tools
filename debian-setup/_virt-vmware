@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e -x
+
+if vmtoolsd --version; then
+    # Uninstall vmtools from ISO
+    vmware-uninstall-tools.pl 2>&1 | tee /root/vmware-uninstall.log
+    rm -rf /usr/lib/vmware-tools
+fi
+
+# Open VMware tools
+apt-get install -t jessie-backports -y open-vm-tools

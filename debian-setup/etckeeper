@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e -x
+
+cd /etc/
+git config --global user.name "root"
+git config --global user.email "admin@szepe.net"

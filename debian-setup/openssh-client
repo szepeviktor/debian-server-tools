@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e -x
+
+ssh -Q cipher       # List supported ciphers
+ssh -Q mac          # List supported MACs
+ssh -Q key          # List supported public key types
+ssh -Q kex          # List supported key exchange algorithms

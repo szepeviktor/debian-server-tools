@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Create a swap file
+#
+
+SWAP_FILE="${$1:-/swap0}"
+SWAP_SIZE="${$2:-768}"
+
+set -e -x
+
+dd if=/dev/zero of=${SWAP_FILE} bs=1M count=${SWAP_SIZE}
+chmod 0600 ${SWAP_FILE}
+mkswap $SWAP_FILE
+echo "${SWAP_FILE}    none    swap    sw    0   0" >> /etc/fstab

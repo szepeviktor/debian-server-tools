@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e -x
+
+# Xen Serial Console
+if [ "$(dpkg-query --showformat="\${Status}" --show systemd 2> /dev/null)" == "install ok installed" ]; then
+    # Systemd
+    systemctl enable serial-getty@ttyS0.service
+    systemctl start serial-getty@ttyS0.service
+else
+    # SysVinit
+    cat >> /etc/inittab <<EOF
+
+s1:2345:respawn:/sbin/agetty -L ttyS0 115200 vt102
+
+EOF
+fi

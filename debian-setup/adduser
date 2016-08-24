@@ -1,0 +1,159 @@
+#!/bin/bash
+
+# First user
+
+#read -r -e -p "User: " -i "viktor" U
+U="viktor"
+SSH_KEY="ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa"
+
+set -e -x
+
+# GECOS: Full name,Room number,Work phone,Home phone
+adduser --gecos "" "$U"
+HOME_DIR="$(getent passwd "$U" | cut -d ":" -f 6)/.ssh"
+
+# Add SSH key
+SSH_DIR="${HOME_DIR}/.ssh"
+mkdir --mode 0700 "$SSH_DIR"
+echo "$SSH_KEY" >> "${SSH_DIR}/authorized_keys2"
+chown -R ${U}:${U} "$SSH_DIR"
+
+# Add to sudoers
+adduser ${U} sudo
+
+# Expire password
+#passwd -e ${U}
+
+# Disable root password
+echo "root:*" | chpasswd -c NONE
+# Check passwords for other users
+PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)$')"
+# Only one may have a password
+[ "$(wc -l <<< "$PASSWORD_USERS")" == 1 ]
+# It is the first user
+[ "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS" ]
+
+# Wget defaults
+echo -e "\ncontent_disposition = on" >> "${HOME_DIR}/.wgetrc"
+
+# TODO /etc/skel/.profile
+
+
+
+# Root user
+
+# Wget defaults
+echo -e "\ncontent_disposition = on" >> /root/.wgetrc
+
+# @FIXME Which to choose? /root/.bashrc or /etc/skel/.bashrc
+# @FIXME Where to put PS1? .bashrc or .profile
+
+# User settings for non-login shells
+cat > /root/.bashrc <<"EOF"
+
+#export LANG=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
+
+#export IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
+export IP="$(ifconfig|sed -ne '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+export LS_OPTIONS='--color=auto'
+eval "$(dircolors)"
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+export GREP_OPTIONS="--color"
+#alias grep='grep $GREP_OPTIONS'
+alias iotop='iotop -d 0.1 -qqq -o'
+alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
+alias transit='xz -9|base64 -w $((COLUMNS-1))'
+alias transit-receive='base64 -d|xz -d'
+alias changelog='xargs -I% -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
+#alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
+#     apt-get install -y tcpdump tcpflow
+#alias httpdump='tcpdump -i eth0 -nn -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
+# http://www.vim.org/scripts/script.php?script_id=658
+#alias email='vim -c "startinsert" /tmp/e.eml'
+EOF
+
+# User settings for login shells
+cat > /root/.profile <<"EOF"
+# ~/.profile: executed by Bourne-compatible login shells.
+
+if [ "$BASH" ]; then
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
+fi
+
+mesg n
+
+PS1exitstatus() { local RET="$?";if [ "$RET" -ne 0 ];then echo -n "$(tput setaf 7;tput setab 1)"'!'"$RET";fi; }
+# Yellow + Cyan: $(tput setaf 3) \u $(tput bold;tput setaf 6)
+export PS1="\[$(tput sgr0)\][\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@\h\[$(tput sgr0)\]:\
+\[$(tput setaf 8;tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
+\[$(tput bold)\]\!\[\$(PS1exitstatus;tput sgr0)\]]\n"
+
+# Set the title on putty terminals also
+case "$TERM" in
+    putty*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
+esac
+
+# putty Connection / Data / Terminal-type string: putty-256color
+# ls -1 /usr/share/mc/skins/|sed "s/\.ini$//g"
+if [ "${TERM/256/}" == "$TERM" ]; then
+    if [ "$(id -u)" == 0 ]; then
+        export MC_SKIN="modarcon16root-defbg-thin"
+    else
+        export MC_SKIN="modarcon16"
+    fi
+else
+    if [ "$(id -u)" == 0 ]; then
+        export MC_SKIN="modarin256root-defbg-thin"
+    else
+        export MC_SKIN="xoria256"
+    fi
+fi
+
+# Colorized man pages with less
+#     update-alternatives --set pager /usr/bin/less
+#     man termcap # String Capabilities
+man() {
+    #
+    #     so   Start standout mode (search)
+    #     se   End standout mode
+    #     us   Start underlining (italic)
+    #     ue   End underlining
+    #     md   Start bold mode (highlight)
+    #     me   End all mode like so, us, mb, md and mr
+    env \
+        LESS_TERMCAP_so="$(tput setab 230)" \
+        LESS_TERMCAP_se="$(tput sgr0)" \
+        LESS_TERMCAP_us="$(tput setaf 2)" \
+        LESS_TERMCAP_ue="$(tput sgr0)" \
+        LESS_TERMCAP_md="$(tput bold)" \
+        LESS_TERMCAP_me="$(tput sgr0)" \
+        man "$@"
+}
+EOF
+
+# Markdown for mc
+#cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
+#editor ~/.config/mc/mc.ext
+#    regex/\.md(own)?$
+#    	View=pandoc -s -f markdown -t man %p | man -l -
+
+# Add INI extensions for mc syntax highlighting
+cp -v /usr/share/mc/syntax/Syntax /root/.config/mc/mcedit/Syntax
+sed -i -e 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' /root/.config/mc/mcedit/Syntax
+sed -i -e 's;^\(file .*(\)py|PY\().*\)$;\1py|PY|yml|yaml\2;' /root/.config/mc/mcedit/Syntax
+sed -i -e 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\slist;' /root/.config/mc/mcedit/Syntax
+# FIXME Double "syntax highlighting" "INI / INI ..."

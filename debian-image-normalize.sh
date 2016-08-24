@@ -3,7 +3,7 @@
 # Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages
 #
 # VERSION       :1.0.6
-# DEPENDS       :apt-get install apt aptitude debian-archive-keyring
+# DEPENDS       :apt-get install aptitude
 
 # Generated lists
 #
@@ -45,9 +45,10 @@ export APT_LISTCHANGES_FRONTEND="none"
 
 APTI_SEARCH="aptitude --disable-columns --display-format %p search"
 
-set -x -e
+set -e -x
 
-mkdir "${HOME}/os-normalize"; cd "${HOME}/os-normalize/"
+mkdir "${HOME}/os-normalize"
+cd "${HOME}/os-normalize/"
 
 Info "List what boot packages are installed"
 
@@ -74,7 +75,7 @@ debconf-show tasksel
 tasksel --list-tasks | grep -v "^u " || true
 # shellcheck disable=SC2046
 apt-get purge -qq -y $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))')
-#tasksel --task-packages ssh-server; tasksel --task-packages standard '
+#tasksel --task-packages ssh-server; tasksel --task-packages standard #'
 echo "tasksel tasksel/first select" | debconf-set-selections -v
 echo "tasksel tasksel/desktop multiselect" | debconf-set-selections -v
 echo "tasksel tasksel/first multiselect ssh-server, standard" | debconf-set-selections -v

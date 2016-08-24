@@ -1,0 +1,23 @@
+#!/bin/bash
+
+IMAGE_APTRECOMMENDS='APT::Install-Recommends "1";'
+
+set -e -x
+
+[ -n "$SETUP_APTSOURCESLIST_URL" ]
+
+# Backup current APT sources
+mv -f /etc/apt/sources.list "/etc/apt/sources.list~"
+# @TODO Handle sources.list.d/
+
+# Set APT sources
+wget -nv -O /etc/apt/sources.list "$SETUP_APTSOURCESLIST_URL"
+
+# APT settings
+echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
+
+# Check Install-Recommends option
+#     apt-get install -o APT::AutoRemove::RecommendsImportant=false
+CURRENT_APTRECOMMENDS="$(apt-config dump APT::Install-Recommends)"
+[ "$CURRENT_APTRECOMMENDS" == "$IMAGE_APTRECOMMENDS" ]
+# @TODO Fix it

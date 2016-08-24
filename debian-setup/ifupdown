@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e -x
+
+# @TODO Backup!
+
+# From providers/*yml
+
+cat > /etc/network/interfaces <<EOF
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+source-directory interfaces.d
+EOF

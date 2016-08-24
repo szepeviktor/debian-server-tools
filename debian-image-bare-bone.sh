@@ -12,8 +12,6 @@
 # - per instance values:
 #   - systemd or sysvinit
 
-#WITHOUT_SYSTEMD="1"
-
 # Debian Installer steps (Expert Install) -> package sources/release
 #
 #  1. Default language and location (English/United States) -> users/lang
@@ -37,9 +35,8 @@
 
 # OS image
 #
-# - normalized image
-# - normalization on first boot
-# - clean up things from kernel messages
+# 1. normalized image OR normalization on first boot
+# 2. clean up things from kernel messages
 
 
 # First boot (OS image normalization and services)
@@ -93,75 +90,11 @@
 # - populate /root/server.yml for every installed component
 #   - list of custom shell scripts + cron jobs
 
-set -e -x
-
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
 export APT_LISTCHANGES_FRONTEND="none"
 
-# Package sources
-
-# Release
-IMAGE_ARCH="amd64"
-IMAGE_MACHINE="x86_64"
-IMAGE_ID="Debian"
-IMAGE_CODENAME="jessie"
-LATEST_RELEASE="$(wget -qO- ftp://ftp.debian.org/debian/dists/${IMAGE_CODENAME}/Release|sed -ne 's;^Version: \(.*\)$;\1;p')"
-# @TODO Or curl ...
-CURRENT_ARCH="$(dpkg --print-architecture)"
-CURRENT_MACHINE="$(uname --machine)"
-if [ "$(dpkg-query --showformat="\${Status}" --show lsb-release)" != "install ok installed" ] \
-    || ! which lsb_release &> /dev/null; then
-    apt-get update -qq
-    apt-get install -qq -y -f lsb-release
-    apt-mark auto lsb-release
-fi
-CURRENT_ID="$(lsb_release -s --id)"
-CURRENT_CODENAME="$(lsb_release -s --codename)"
-#CURRENT_RELEASE="$(cat /etc/debian_version)"
-CURRENT_RELEASE="$(lsb_release -s --release)"
-[ "$CURRENT_ARCH" == "$IMAGE_ARCH" ]
-[ "$CURRENT_MACHINE" == "$IMAGE_MACHINE" ]
-[ "$CURRENT_ID" == "$IMAGE_ID" ]
-[ "$CURRENT_CODENAME" == "$IMAGE_CODENAME" ]
-
-
-# APT sources
-# Check Install-Recommends
-#apt-get install -o APT::AutoRemove::RecommendsImportant=false
-IMAGE_APTRECOMMENDS='APT::Install-Recommends "1";'
-CURRENT_APTRECOMMENDS="$(apt-config dump APT::Install-Recommends)"
-[ "$CURRENT_APTRECOMMENDS" == "$IMAGE_APTRECOMMENDS" ]
-# Set sources
-# @TODO Handle sources.list.d/
-mv -vf /etc/apt/sources.list /etc/apt/sources.list~
-wget -nv -O /etc/apt/sources.list "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/${IMAGE_CODENAME}-azure.list"
-apt-get update -qq
-if [ "$CURRENT_RELEASE" != "$LATEST_RELEASE" ]; then
-    apt-get dist-upgrade -qq -y -f
-fi
-# Fix broken packages
-apt-get install -y -f
-# Install dependencies
-apt-get install -qq -y apt-utils aptitude debian-archive-keyring
-#Ubuntu: apt-get install -qq -y apt-utils aptitude ubuntu-keyring
-
-# Normalization
-
-./debian-image-normalize.sh
-#  1. Default language and location (English/United States) -> users/lang
-#  2. Locale (en_US.UTF-8) -> users/locale
-#  3. Keyboard (American English) -> users/keyboard
-#  4. Network (DHCP or static IP, DNS resolver, host name) -> kernel/network
-#  5. Users (no root login, "debian" user, standard password) -> users/root, users/users
-#  6. Timezone (use NTP, UTC) -> kernel/timezone
-#  7. Disks (300MB boot part, use LVM: 2GB swap, 3GB root) -> hardware/disks,partitions,volumes
-#  8. Base system (linux-image-amd64) -> kernel
-#  8. APT sources: per country mirror, non-free and backports, no popcon -> package sources/APT sources
-#  9. Tasksel (SSH + standard) -> packages/tasks
-# 10. Boot loader (GRUB, no EFI) -> boot
-
-set +e
+set -e -x
 
 # Boot
 
