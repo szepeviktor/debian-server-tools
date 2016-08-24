@@ -34,16 +34,16 @@ BOOT_PACKAGES="grub-pc|grub-efi-amd64|extlinux|syslinux-common|linux-image-amd64
 OLD_PACKAGE_QUERY='?and(?installed, ?or(?version(~~squeeze), ?version(\+deb6), ?version(python2\.6), ?version(~~wheezy), ?version(\+deb7)))'
 TILDE_VERSION="cloud-init|grub-common|grub-pc|grub-pc-bin|grub2-common|libgraphite2-3:amd64|intel-microcode"
 
-Info() {
-    # Informational messages displayed only during `set -x`
-    > /dev/null
-}
-
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
 export APT_LISTCHANGES_FRONTEND="none"
 
 APTI_SEARCH="aptitude --disable-columns --display-format %p search"
+
+Info() {
+    # Informational messages displayed only during `set -x`
+    > /dev/null
+}
 
 set -e -x
 
@@ -129,7 +129,7 @@ Info "Remove packages on standard-blacklist"
 # shellcheck disable=SC2046
 apt-get purge -qq -y $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST" || true)
 # Exim bug
-getent passwd Debian-exim &> /dev/null && deluser --force --remove-home Debian-exim
+getent passwd "Debian-exim" > /dev/null && deluser --force --remove-home "Debian-exim"
 
 Info "Do dist-upgrade finally"
 

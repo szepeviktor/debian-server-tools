@@ -80,12 +80,16 @@ debian-setup/base-files
 apt-get install -y aptitude
 ./debian-image-normalize.sh
 
+# Remove wheezy packages
+apt-get purge -y libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
+    libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
+
 # Packages used during setup
 apt-get install -y ssh sudo apt-transport-https
 
 # Custom repos
 for REPO in ${CUSTOM_REPOS}; do
-    wget -nv -P /etc/apt/sources.list.d/ "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
+    wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
 done
 # Import signing keys
 eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " -f 2-)"

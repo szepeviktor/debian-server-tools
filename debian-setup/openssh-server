@@ -14,7 +14,7 @@ sshd -T | grep -qFx "port ${SSH_PORT}"
 
 # Disable root login
 sed -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' -i /etc/ssh/sshd_config
-sshd -T | grep -qFx "permitrootlogin yes"
+sshd -T | grep -qFx "permitrootlogin no"
 
 # Disable password login for sudoers
 echo -e "\nMatch Group sudo\n    PasswordAuthentication no" >> /etc/ssh/sshd_config

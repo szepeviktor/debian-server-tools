@@ -8,21 +8,26 @@ SSH_KEY="ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAAB
 
 set -e -x
 
-# GECOS: Full name,Room number,Work phone,Home phone
-adduser --gecos "" "$U"
-HOME_DIR="$(getent passwd "$U" | cut -d ":" -f 6)/.ssh"
+if [ -z "$(getent passwd "$U")" ]; then
+    # GECOS: Full name,Room number,Work phone,Home phone
+    adduser --gecos "" "$U"
+    HOME_DIR="$(getent passwd "$U" | cut -d ":" -f 6)/.ssh"
 
-# Add SSH key
-SSH_DIR="${HOME_DIR}/.ssh"
-mkdir --mode 0700 "$SSH_DIR"
-echo "$SSH_KEY" >> "${SSH_DIR}/authorized_keys2"
-chown -R ${U}:${U} "$SSH_DIR"
+    # Add SSH key
+    SSH_DIR="${HOME_DIR}/.ssh"
+    mkdir --mode 0700 "$SSH_DIR"
+    echo "$SSH_KEY" >> "${SSH_DIR}/authorized_keys2"
+    chown -R ${U}:${U} "$SSH_DIR"
 
-# Add to sudoers
-adduser ${U} sudo
+    # Add to sudoers
+    adduser ${U} sudo
 
-# Expire password
-#passwd -e ${U}
+    # Expire password
+    #passwd -e ${U}
+
+    # Wget defaults
+    echo -e "\ncontent_disposition = on" >> "${HOME_DIR}/.wgetrc"
+fi
 
 # Disable root password
 echo "root:*" | chpasswd -c NONE
@@ -32,9 +37,6 @@ PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)
 [ "$(wc -l <<< "$PASSWORD_USERS")" == 1 ]
 # It is the first user
 [ "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS" ]
-
-# Wget defaults
-echo -e "\ncontent_disposition = on" >> "${HOME_DIR}/.wgetrc"
 
 # TODO /etc/skel/.profile
 
