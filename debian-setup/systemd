@@ -12,10 +12,13 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
         # Schedule removal of systemd
         echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
 @reboot root apt-get purge -qq -y --auto-remove systemd > /dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
-        echo "Log on this port: $(netstat -n -a -t -p | grep -m 1 "/sshd\s*\$")"
-        read -r -s -e -p 'Ctrl + D to reboot ' || reboot
+
+        set +x
+        echo
+        echo "Are you sure you are able to log in? Port: $(netstat -n -a -t -p | grep -m 1 "/sshd\s*\$")"
+        read -r -s -e -p "Hit Ctrl + D to reboot " || reboot
     fi
 elif [ "$(dpkg-query --showformat="\${Status}" --show sysvinit-core 2> /dev/null)" == "install ok installed" ]; then
     # Remove SysVinit
-    apt-get purge -qq -y sysvinit-core
+    apt-get purge -y sysvinit-core
 fi

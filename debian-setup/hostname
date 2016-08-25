@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Set A record and PTR record
-# Consider: http://www.iata.org/publications/Pages/code-search.aspx
-#           http://www.world-airport-codes.com/
-read -r -e -p "Host name: " H
+# Host name ideas:
+#     http://www.iata.org/publications/Pages/code-search.aspx
+#     http://www.world-airport-codes.com/
 
 set -e -x
 
+H="$(Data get-value networking.ipv4)"
 IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
 
 # Search for the old host name
@@ -31,6 +31,9 @@ ff02::2 ip6-allrouters
 # Original PTR=$(host "$IP" || true)
 ${IP} ${H} ${H%%.*}
 EOF
+
+# @TODO Support IPv6
+
 
 # Check A and MX record
 host "$H"

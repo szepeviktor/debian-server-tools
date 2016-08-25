@@ -1,11 +1,28 @@
-# Server installation
+---
+# Server datasheet
+system:
+    fqdn: host.domain.tld
+    os: Debian jessie
+    hosting-company: Provider
+    install-date: 2016-MM-DD
 
-# todo: y2j + jq
+# APT repositories
+apt:
+    # See /package/apt-sources/
+    repository:
+        - dotdeb
+        - nodejs
+        - percona
+        - goaccess
+        - szepeviktor
 
-install:
-  name: hostname.domain.tld
-  date: 2016-MM-DD
-  operating-system: Debian jessie
+# Custom data directories
+data dirs:
+
+  directory name: /path/to/dir
+  configuration files: /etc
+  local data: /usr/local
+  variable files: /var
 
 # Clients using this server
 clients:
@@ -108,15 +125,7 @@ dependencies:
       transport: udp/53
       identify: $IP
 
-# Custom data directories
-data dirs:
-
-  directory name: /path/to/dir
-  configuration files: /etc
-  local data: /usr/local
-  variable files: /var
-
-# Installed systems
+# Packaging systems
 packaging:
 
   #name:
@@ -143,6 +152,6 @@ packaging:
     location: /usr/lib/ruby/vendor_ruby
 
 
-#YAML editor: http://yaml-online-parser.appspot.com/
-#php -r 'var_export(yaml_parse(file_get_contents("server.yml")));'
+# YAML editor: http://yaml-online-parser.appspot.com/
+#     php -r 'var_export(yaml_parse(file_get_contents("server.yml")));'
 ...

@@ -1,0 +1,31 @@
+# Provider configuration
+networking:
+    #method: dhcp
+    method: static
+    ipv4: 1.2.3.4
+    netmask: 255.255.252.0
+    gateway: 1.2.3.255
+    ipv6: 2a00:3055:1000:900:8000:e2ff:feee:beef
+    resolver:
+        - dnsc1.ezit.hu.
+        - dnsc2.ezit.hu.
+    ntp:
+        - ntp.ezit.hu.
+    ssh-port: 2222
+    # Second interface
+    eth1:
+        method: static
+        ipv4: 10.0.0.103
+        netmask: 255.255.255.0
+        gateway: 10.0.0.255
+software:
+    ovhrc: Instance data in /etc/ovhrc
+    serclient.deb: Aruba ExtraControl
+documentation:
+    - http://help.ovh.com/InstallOvhKey
+    - http://help.ovh.com/RealTimeMonitoring
+provider-package:
+    # Soft restart needs
+    - acpid
+    # Provides VirtIO RNG
+    - rng-tools

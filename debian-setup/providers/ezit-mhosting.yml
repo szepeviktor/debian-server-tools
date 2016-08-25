@@ -1,0 +1,7 @@
+# EZIT configuration
+networking:
+    resolver:
+        - dnsc1.ezit.hu.
+        - dnsc2.ezit.hu.
+    ntp:
+        - ntp.ezit.hu.

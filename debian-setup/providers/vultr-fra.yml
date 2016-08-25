@@ -1,0 +1,3 @@
+provider-package:
+    # Provides VirtIO RNG
+    - rng-tools

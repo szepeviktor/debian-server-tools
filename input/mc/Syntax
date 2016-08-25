@@ -1,15 +1,20 @@
 # ~/.config/mc/mcedit/Syntax
 
-file ..\*\\.(md|markdown)$ Markdown\sdocument
-include /root/.config/mc/mcedit/markdown.syntax
-
-file ..\*(\\.([iI][nN][iI]|conf|cfg|zone|local|cf|htaccess)|Dockerfile)$ INI\sfile
+file ..\*(\\.(conf|cfg|zone|local|cf|htaccess)|Dockerfile)$ Configuration\sFile
 include ini.syntax
 
-file ..\*\\.(eml|msg)$ Email\ssource
+file ..\*\\.(md|mdown|markdown)$ Markdown\sDocument
+include markdown.syntax
+
+file ..\*\\.(eml|msg)$ Email\sSource
 include email.syntax
+
+file ..\*\\.(less)$ Less\sStylesheet
+include css.syntax
+
+file ..\*\\.(yml|yaml)$ YAML\sDocument
+include python.syntax
 
 # Append /usr/share/mc/syntax/Syntax here!
 # Alt + U cat /usr/share/mc/syntax/Syntax
-
 

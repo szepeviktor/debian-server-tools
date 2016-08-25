@@ -1,0 +1,13 @@
+# UpCloud datacenters: defra1, fihel1, uklon1, uschi1
+networking:
+    method: dhcp
+    ssh-port: 
+    # Private network
+    eth1:
+        method: dhcp
+    # IPv6 interface
+    eth2:
+        method: dhcp
+provider-package:
+    # Soft restart needs
+    - acpid

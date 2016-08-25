@@ -11,7 +11,7 @@ set -e -x
 if [ -z "$(getent passwd "$U")" ]; then
     # GECOS: Full name,Room number,Work phone,Home phone
     adduser --gecos "" "$U"
-    HOME_DIR="$(getent passwd "$U" | cut -d ":" -f 6)/.ssh"
+    HOME_DIR="$(getent passwd "$U" | cut -d ":" -f 6)"
 
     # Add SSH key
     SSH_DIR="${HOME_DIR}/.ssh"
@@ -26,7 +26,7 @@ if [ -z "$(getent passwd "$U")" ]; then
     #passwd -e ${U}
 
     # Wget defaults
-    echo -e "\ncontent_disposition = on" >> "${HOME_DIR}/.wgetrc"
+    echo -e "content_disposition = on" >> "${HOME_DIR}/.wgetrc"
 fi
 
 # Disable root password
@@ -45,7 +45,7 @@ PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)
 # Root user
 
 # Wget defaults
-echo -e "\ncontent_disposition = on" >> /root/.wgetrc
+echo -e "content_disposition = on" >> /root/.wgetrc
 
 # @FIXME Which to choose? /root/.bashrc or /etc/skel/.bashrc
 # @FIXME Where to put PS1? .bashrc or .profile
@@ -154,8 +154,11 @@ EOF
 #    	View=pandoc -s -f markdown -t man %p | man -l -
 
 # Add INI extensions for mc syntax highlighting
-cp -v /usr/share/mc/syntax/Syntax /root/.config/mc/mcedit/Syntax
-sed -i -e 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' /root/.config/mc/mcedit/Syntax
-sed -i -e 's;^\(file .*(\)py|PY\().*\)$;\1py|PY|yml|yaml\2;' /root/.config/mc/mcedit/Syntax
-sed -i -e 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\slist;' /root/.config/mc/mcedit/Syntax
+mkdir -p /root/.config/mc/mcedit
+#cp -v /usr/share/mc/syntax/Syntax /root/.config/mc/mcedit/Syntax
+ROOT_MC_SYNTAX="/root/.config/mc/mcedit/Syntax"
+wget -nv -O "$ROOT_MC_SYNTAX" https://github.com/MidnightCommander/mc/raw/master/misc/syntax/Syntax.in
+sed -i -e 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' "$ROOT_MC_SYNTAX"
+sed -i -e 's;^\(file .*(\)py|PY\().*\)$;\1py|PY|yml|yaml\2;' "$ROOT_MC_SYNTAX"
+sed -i -e 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\slist;' "$ROOT_MC_SYNTAX"
 # FIXME Double "syntax highlighting" "INI / INI ..."

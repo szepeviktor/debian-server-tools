@@ -22,9 +22,9 @@ export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME
 #export SETUP_SOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
 #export SETUP_SOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 export SETUP_PACKAGES="lsb-release ca-certificates wget debian-archive-keyring apt apt-utils"
+export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
 #:ubuntu
 #export SETUP_PACKAGES="lsb-release ca-certificates wget ubuntu-keyring apt apt-utils"
-export CUSTOM_REPOS="dotdeb nodejs percona goaccess szepeviktor"
 
 export WITHOUT_SYSTEMD="yes"
 
@@ -47,6 +47,11 @@ Getpkg() {
     dpkg -i "${P}.deb"
     echo "Ret=$?"
 }
+
+Data() {
+    shyaml "$@" < /root/server.yml
+}
+export -f Data
 
 set -e -x
 
@@ -85,15 +90,24 @@ apt-get purge -y libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
     libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
 
 # Packages used during setup
-apt-get install -y ssh sudo apt-transport-https
+apt-get install -y ssh sudo apt-transport-https python-yaml
+# Install SHYAML
+wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
+chmod +x /usr/local/bin/shyaml
 
-# Custom repos
-for REPO in ${CUSTOM_REPOS}; do
+# APT repositories
+for REPO in $(Data get-values apt.repository); do
     wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
 done
 # Import signing keys
 eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " -f 2-)"
+# Get package lists
 apt-get update -qq
+
+# Provider packages
+if [ -n "$(Data get-value provider-package)" ]; then
+    apt-get install -y $(Data get-values provider-package)
+fi
 
 # Virtualization environment
 debian-setup/virt-what
@@ -103,11 +117,13 @@ debian-setup/login
 debian-setup/dash
 debian-setup/readline-common
 
+# Root user and first user
 debian-setup/adduser
 # After adduser
 debian-setup/openssh-server
 
+# Optionally switch to SysVinit
 debian-setup/systemd
 
-# Log in on a new terminal and log out as root
+# Log in on a new terminal and log out here
 exit 0

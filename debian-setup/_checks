@@ -72,8 +72,6 @@ editor /etc/inittab
 editor /etc/rc.local
 editor /etc/profile
 ls -l /etc/profile.d/
-# Aruba needs arping package for /etc/rc.local
-apt-get install -y arping
 # See /input/motd-install.sh
 
 # Networking
@@ -157,7 +155,7 @@ for L in /var/lib/dpkg/info/*.list;do P=$(basename "$L" .list);[ -r "/var/lib/dp
 rm -vrf /var/lib/clamav /var/log/clamav
 
 # Customized files
-read -r -e -p "Hosting company? " HOSTING_COMPANY
+HOSTING_COMPANY="$(Data get-value system.hosting-company)"
 find / -iname "*${HOSTING_COMPANY}*"
 grep -ir "${HOSTING_COMPANY}" /etc/
 dpkg -l | grep -i "${HOSTING_COMPANY}"

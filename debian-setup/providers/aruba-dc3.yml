@@ -1,0 +1,6 @@
+software:
+    rc.local: Arp Cache Broadcast Request in /etc/rc.local
+    serclient.deb: Aruba ExtraControl
+provider-package:
+    # used in /etc/rc.local
+    - arping

@@ -464,35 +464,6 @@ apt-get install -y libmail-dkim-perl \
 # Munin - network-wide graphing
 # See /monitoring/munin/munin-debian-setup.sh
 
-# Aruba ExtraControl (serclient)
-#     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx
-wget -nv https://admin.dc3.arubacloud.hu/Installers/debian/aruba-serclient_0.01-1_all.deb
-dpkg -i aruba-serclient_*_all.deb
-# Set log level
-# INFO 20, WARNING 30
-echo -e "[LOG]\n#level = 20\nlevel = 30" >> /opt/serclient/serclient.ini
-# Comment out "if getRestartGUID(remove=False) == None: rf.doRollover()"
-editor /opt/serclient/tools.py:159
-md5sum /opt/serclient/tools.py
-editor /var/lib/dpkg/info/aruba-serclient.md5sums
-# Add logrotate
-editor /etc/logrotate.d/serclient
-#     /var/log/serclient.log {
-#         weekly
-#         rotate 15
-#         compress
-#         delaycompress
-#         notifempty
-#         create 640 root root
-#         postrotate
-#                     if /etc/init.d/serclient status > /dev/null ; then \
-#                         /etc/init.d/serclient restart > /dev/null; \
-#                     fi;
-#         endscript
-#     }
-# Aruba ExtraControl activation
-#     https://admin.dc3.arubacloud.hu/Manage/Serial/SerialActivation.aspx
-
 # node.js
 apt-get install -y nodejs
 # Make sure packages are installed under /usr/local

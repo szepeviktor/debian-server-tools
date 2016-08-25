@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# No "22" in port number
-SSH_PORT="22"
-while [ "${SSH_PORT}" != "${SSH_PORT/22/}" ]; do
-    read -r -e -p "SSH port: " -i "$((3100 + RANDOM % 900))" SSH_PORT
-done
-
 set -e -x
+
+# SSH port
+SSH_PORT="$(Data get-value networking.ssh-port)"
+# No "22" in port number
+[ "${SSH_PORT}" == "${SSH_PORT/22/}"
 
 # Change port
 sed -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" -i /etc/ssh/sshd_config

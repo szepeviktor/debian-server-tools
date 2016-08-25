@@ -1,0 +1,21 @@
+# OVH configuration
+networking:
+    method: static
+    ipv4: 
+    netmask: 255.255.255.0
+    gateway: 
+    ipv6: 
+    ssh-port: 
+    resolver:
+        - cdns.ovh.net.
+    ntp:
+        - ntp.ovh.net.
+        - id-co.in.
+        - ntp.cornuwel.net.
+        - ntp.syari.net.
+        - fry.helpfulhosting.net.
+software:
+    ovhrc: Instance data in /etc/ovhrc
+documentation:
+    - http://help.ovh.com/InstallOvhKey
+    - http://help.ovh.com/RealTimeMonitoring
