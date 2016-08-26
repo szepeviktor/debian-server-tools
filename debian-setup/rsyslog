@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e -x
+
+# Enable immark plugin
+#     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
+sed -i -e 's|^#\(\$ModLoad immark.*\)$|\1\n$MarkMessagePeriod 1800|' /etc/rsyslog.conf
+
+# Always alert root
+echo -e "\n# Alert root\n*.warn  :omusrmsg:root" >> /etc/rsyslog.conf
+
+# Restart
+service rsyslog restart
+
+# Simple syslog monitoring
+Dinstall monitoring/syslog-errors.sh

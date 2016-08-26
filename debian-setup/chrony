@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e -x
+
+editor /etc/chrony/chrony.conf
+#     pool 0.de.pool.ntp.org offline iburst
+#     pool 0.cz.pool.ntp.org offline iburst
+#     pool 0.hu.pool.ntp.org offline iburst
+#     pool 0.fr.pool.ntp.org offline iburst
+#     pool 0.uk.pool.ntp.org offline iburst
+#     # OVH
+#     server ntp.ovh.net offline iburst
+#     # EZIT
+#     server ntp.ezit.hu offline iburst
+#
+#     logchange 0.010
+#     cmdport 0
+#     # Don't set hardware clock (RTC)
+#     ##rtcsync
+
+service chrony restart

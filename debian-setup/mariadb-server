@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e -x
+
+apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
+# OR Percona server
+#apt-get install -y percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
+
+# Disable the binary log
+sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
+
+# Root password
+read -r -s -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
+echo -e "[mysql]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
+echo -e "[mysqldump]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
+chmod 600 /root/.my.cnf
+
+# @TODO Config for repl? bin_log? xtrabackup?

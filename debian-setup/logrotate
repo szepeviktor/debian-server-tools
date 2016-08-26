@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e -x
+
+# Logrotate periods
+editor /etc/logrotate.d/rsyslog
+#     weekly
+#     rotate 15
+#     # /var/log/mail.log
+#     weekly
+#     rotate 15
+
+editor /etc/logrotate.d/apache2
+#     daily
+#     rotate 90

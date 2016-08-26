@@ -1,0 +1,13 @@
+# in Alfa Victor Hugo Office
+hosting-company: ATW
+networking:
+    netmask: 255.255.255.0
+    resolver:
+        - 88.151.96.15
+        - 88.151.96.16
+    inet6:
+        method: static
+        name: eth0
+        resolver:
+            - 2a01:270::15
+            - 2a01:270::16

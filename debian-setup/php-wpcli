@@ -1,0 +1,16 @@
+#!/bin/bash
+
+WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
+WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash"
+
+set -e -x
+
+wget -O /usr/local/bin/wp "$WPCLI_URL"
+chmod +x /usr/local/bin/wp
+
+wget -O- "$WPCLI_COMPLETION_URL" \
+    | sed 's/wp cli completions/wp --allow-root cli completions/' \
+    > /etc/bash_completion.d/wp-cli
+
+# If you have suhosin in PHP-CLI configuration
+#     grep "[^;#]*suhosin\.executor\.include\.whitelist.*phar" /etc/php5/cli/conf.d/*suhosin*.ini || Error "Whitelist phar"

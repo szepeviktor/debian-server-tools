@@ -1,0 +1,13 @@
+# DC1 in Arezzo, Italy
+hosting-company: Aruba
+virtualization: vmware
+networking:
+    resolver:
+        - 62.149.128.4
+        - 62.149.132.4
+software:
+    rc-local: Arp Cache Broadcast Request in /etc/rc.local
+    serclient-deb: Aruba ExtraControl
+provider-package:
+    # used in /etc/rc.local
+    - arping

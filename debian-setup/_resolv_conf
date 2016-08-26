@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Google Public DNS
+# DNS Advantage by Neustar
+
+declare -i RESOLVERS="0"
+# See resolv.conf(5)
+declare -i MAXNS="3"
+EXAMPLECOM_IP="93.184.216.34"
+
+Check_resolver() {
+    local NS="$1"
+
+    host -v -t A example.com "$NS" \
+        | grep -E "^example\.com\.\s+[0-9]+\s+IN\s+A\s+${EXAMPLECOM_IP//./\\.}\$"
+}
+
+set -e -x
+
+# Backup original configuration
+cp -f /etc/resolv.conf /root/resolv.conf.orig
+
+{
+    # IPv4
+    for NS in $(Data get-values networking.resolver); do
+        echo "nameserver ${NS}"
+        Check_resolver "$NS"
+        RESOLVERS+="1"
+    done
+
+    # IPv6
+    if [ -n "$(Data get-value networking.inet6)" ]; then
+        for NS in $(Data get-values networking.inet6.resolver); do
+            echo "nameserver ${NS}"
+            Check_resolver "$NS"
+            RESOLVERS+="1"
+        done
+    fi
+
+    # Options
+    echo "options timeout:2"
+    #echo "options rotate"
+
+    # Check number of resolvers
+    [ "$RESOLVERS" -gt 0 ]
+    [ "$RESOLVERS" -le "$MAXNS" ]
+} > /etc/resolv.conf
+
+# Check IPv6 connectivity
+if [ -n "$(Data get-value networking.inet6)" ]; then
+    ping6 -c 4 ipv6.google.com
+fi

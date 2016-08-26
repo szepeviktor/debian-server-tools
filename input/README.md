@@ -1,6 +1,9 @@
-### pam_motd
+### pam_motd scripts installation
 
-`./motd-install.sh`
+```bash
+. debian-setup-functions
+debian-setup/libpam-modules
+```
 
 ### "Rainbows and unicorns!"
 
@@ -12,10 +15,10 @@
 
 To root-s only: `logger -p user.error "MSG"`
 
-### Debg terminal keyboard codes
+### Debug terminal keyboard codes
 
-`sed -n l`
+`sed -n -e 'l'`
 
 ### Reload .inputrc
 
-`Ctrl + X CTRL + R`
+`Ctrl + X and Ctrl + R`

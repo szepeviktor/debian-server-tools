@@ -3,6 +3,7 @@
 # First part of motd: Welcome
 #
 # DEPENDS       :apt-get install figlet
+# LOCATION      :/etc/update-motd.d/00-header
 
 export TERM="xterm-color"
 

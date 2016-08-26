@@ -218,11 +218,15 @@ Backup_files() {
     local WEEKLY_ETC
     local WEEKLY_HOME
     local WEEKLY_MAIL
+    local WEEKLY_USR
 
     # /etc
     WEEKLY_ETC="$(Rotate_weekly "etc")"
     if [ -n "$WEEKLY_ETC" ]; then
         tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
+        # debconf
+        debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
+        dpkg --get-selections > "${WEEKLY_ETC}/packages.selections"
     fi
 
     # /home

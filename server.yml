@@ -3,8 +3,11 @@
 system:
     fqdn: host.domain.tld
     os: Debian jessie
-    hosting-company: Provider
     install-date: 2016-MM-DD
+    # tput sgr0;for C in 1 2 3 4 5 6 7;do tput setaf $C;echo -n "■${C}■ ";tput sgr0;done;echo
+    host-color: 7
+    trespass-warning: Ez a szerver A/AZ CÉG használatában áll. Másoknak a belépés tilos.
+    #trespass-warning: This server is used by COMPANY. Unauthorized entry is prohibited.
 
 # APT repositories
 apt:
@@ -15,6 +18,9 @@ apt:
         - percona
         - goaccess
         - szepeviktor
+    ca-certificates:
+        # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
+        install-testing: true
 
 # Custom data directories
 data dirs:

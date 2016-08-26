@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e -x
+
+# When the default locale for your system is not en_US.UTF-8
+# be sure to add this to /etc/default/proftpd for fail2ban to understand dates.
+#     export LC_TIME="en_US.UTF-8"

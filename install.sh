@@ -64,7 +64,7 @@ Do_install() {
     fi
     PERMS="$(Get_meta "$FILE" PERMISSION)"
     if [ -z "$PERMS" ] || [ "$PERMS" == "(unknown)" ]; then
-        PERMS="755"
+        PERMS="0755"
     fi
 
     # Check for existence

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e -x
+
+# msmtp (has no queue!)
+apt-get install -y msmtp-mta
+
+# /usr/share/doc/msmtp/examples/msmtprc-system.example
+cp -vf mail/msmtprc /etc/
+
+# Configure Mandrill
+#     https://www.mandrill.com/signup/
+#     http://msmtp.sourceforge.net/doc/msmtp.html
+echo "This is a t3st mail." | mailx -s "[first] Subject of the first email" admin@szepe.net

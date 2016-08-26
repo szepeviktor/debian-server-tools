@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# Last part of motd: /etc/motd.tail
+#
+# LOCATION      :/etc/update-motd.d/20-tail
 
 [ -f /etc/motd.tail ] || exit 0
 

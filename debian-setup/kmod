@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e -x
+
+# Blacklist intel_rapl module
+echo "blacklist intel_rapl" > /etc/modprobe.d/intel_rapl-blacklist.conf

@@ -25,8 +25,11 @@ if [ -z "$(getent passwd "$U")" ]; then
     # Expire password
     #passwd -e ${U}
 
-    # Wget defaults
+    # wget
     echo -e "content_disposition = on" >> "${HOME_DIR}/.wgetrc"
+
+    # sensible-utils
+    echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > "${HOME_DIR}/.selected_editor"
 fi
 
 # Disable root password
@@ -44,8 +47,14 @@ PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)
 
 # Root user
 
-# Wget defaults
+# Non-distribution files
+mkdir /root/dist-mod
+
+# wget
 echo -e "content_disposition = on" >> /root/.wgetrc
+
+# sensible-utils
+echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > /root/.selected_editor
 
 # @FIXME Which to choose? /root/.bashrc or /etc/skel/.bashrc
 # @FIXME Where to put PS1? .bashrc or .profile

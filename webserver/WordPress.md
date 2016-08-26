@@ -81,33 +81,6 @@ wp option set admin_email "support@company.net"
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
 
-```bash
-# Redis server
-apt-get install -y redis-server
-
-# PHP 5 extension from PECL
-pecl install redis
-echo -e "; priority=20\nextension=redis.so" > /etc/php5/mods-available/redis.ini
-php5enmod redis
-php -m | grep -Fx "redis"
-
-# PHP 7 extension from source
-apt-get install php7.0-dev re2c
-git clone https://github.com/phpredis/phpredis.git
-cd phpredis/ && git checkout php7
-# igbinary disables inc() and dec()
-#phpize7.0 && ./configure --enable-redis-igbinary && make && make install
-phpize7.0 && ./configure && make && make install
-chmod -c -x /usr/lib/php/20151012/redis.so
-echo -e "; priority=20\nextension=redis.so" > /etc/php/7.0/mods-available/redis.ini
-phpenmod -v 7.0 -s ALL redis
-php -m | grep -Fx "redis" && php tests/TestRedis.php --class Redis
-echo "FLUSHALL" | nc -C -q 10 localhost 6379
-
-# PHP 7 extension from dotdeb
-apt-get install -y php7.0-redis
-```
-
 
 ### Development
 

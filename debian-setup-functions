@@ -1,0 +1,36 @@
+# Common functions for debian-setup
+
+Error() {
+    echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)${*}$(tput sgr0)" 1>&2
+}
+
+# Download architecture-independent packages
+Getpkg() {
+    local P="$1"
+    local R="${2-sid}"
+    local WEB="https://packages.debian.org/${R}/all/${P}/download"
+    local URL
+
+    URL="$(wget -q -O- "$WEB" | grep -o '[^"]\+ftp.de.debian.org/debian[^"]\+\.deb')"
+
+    [ -z "$URL" ] && return 1
+
+    cd /root/dist-mod/
+    wget -q -O "${P}.deb" "$URL"
+    dpkg -i "${P}.deb"
+}
+export -f Getpkg
+
+# Install a script from debian-server-tools
+Dinstall() {
+    (
+        cd /usr/local/src/
+        if ! [ -d "debian-server-tools" ]; then
+            git clone https://github.com/szepeviktor/debian-server-tools.git
+        fi
+        cd debian-server-tools/
+
+        ./install.sh "$@"
+    )
+}
+export -f Dinstall

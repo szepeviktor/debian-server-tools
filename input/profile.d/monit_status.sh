@@ -3,6 +3,8 @@
 #
 # DEPENDS       :apt-get install monit
 # LOCATION      :/etc/profile.d/monit_status.sh
+# OWNER         :root:root
+# PERMISSION    :0644
 
 if [ "$(id -u)" == 0 ] && which monit &> /dev/null; then
     IGNORED_STATUSES="Running|Accessible|Status ok|Waiting"

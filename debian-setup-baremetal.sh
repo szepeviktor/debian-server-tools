@@ -44,3 +44,8 @@ apt-get install -y ipmitool
 # Munin/router ping IP
 
 apt-get install linux-cpupower
+
+# CPU frequency scaling governor
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+# Set performance mode
+for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance" > $SG;done

@@ -10,3 +10,7 @@ fi
 
 # Open VMware tools
 apt-get install -t jessie-backports -y open-vm-tools
+
+# Time synchronization
+vmware-toolbox-cmd timesync enable
+vmware-toolbox-cmd timesync status

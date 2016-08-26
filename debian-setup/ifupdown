@@ -1,15 +1,59 @@
 #!/bin/bash
 
+declare -a INTERFACES
+
 set -e -x
 
-# @TODO Backup!
+# Backup original configuration
+cp -f /etc/network/interfaces /root/interfaces.orig
 
-# From providers/*yml
+{
+    # Loopback interface
+    echo "# The loopback network interface"
+    echo "auto lo"
+    echo "iface lo inet loopback"
+    echo
 
-cat > /etc/network/interfaces <<EOF
-# The loopback network interface
-auto lo
-iface lo inet loopback
+    # Primary IPv4 interface
+    PRIMARY_METHOD="$(Data get-value networking.method)"
+    PRIMARY_NAME="$(Data get-value networking.name)"
+    INTERFACES+=( ${PRIMARY_NAME} )
+    if [ "$PRIMARY_METHOD" == static ]; then
+        echo "auto ${PRIMARY_NAME}"
+        echo "iface ${PRIMARY_NAME} inet static"
+        echo "address $(Data get-value networking.ipv4)"
+        echo "netmask $(Data get-value networking.netmask)"
+        echo "gateway $(Data get-value networking.gateway)"
+        echo "dns-nameservers $(Data get-values networking.resolver | paste -d " " -s)"
+    elif [ "$PRIMARY_METHOD" == dhcp ]; then
+        echo "auto ${PRIMARY_NAME}"
+        echo "iface ${PRIMARY_NAME} inet dhcp"
+    fi
+    echo
 
-source-directory interfaces.d
-EOF
+    # Primary IPv6 interface
+    if [ -n "$(Data get-value networking.inet6)" ]; then
+        INET6_METHOD="$(Data get-value networking.inet6.method)"
+        INET6_NAME="$(Data get-value networking.inet6.name)"
+        INTERFACES+=( ${INET6_NAME} )
+        if [ "$INET6_METHOD" == auto ]; then
+            echo "iface ${INET6_NAME} inet6 auto"
+        elif [ "$INET6_METHOD" == static ]; then
+            echo "iface ${INET6_NAME} inet6 static"
+            echo "address $(Data get-value networking.inet6.ipv6)"
+            echo "netmask $(Data get-value networking.inet6.netmask)"
+            echo "gateway $(Data get-value networking.inet6.gateway)"
+        fi
+        if [ -n "$(Data get-value networking.inet6.resolver)" ]; then
+            echo "dns-nameservers $(Data get-valuess networking.resolver | paste -d " " -s)"
+        fi
+        echo
+    fi
+
+    echo "#source-directory interfaces.d"
+} > /etc/network/interfaces
+
+# Check syntax
+for INTERFACE in "${INTERFACES[@]}"; do
+    ifquery -v "$INTERFACE"
+done

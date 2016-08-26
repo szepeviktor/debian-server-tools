@@ -39,6 +39,8 @@ Get_pool_ips() {
     echo "${!IPS[*]}"
 }
 
+set -e
+
 if [ -r /etc/default/ntpdate ]; then
     source /etc/default/ntpdate
 fi

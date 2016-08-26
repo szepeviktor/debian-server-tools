@@ -1,0 +1,117 @@
+#!/bin/bash
+#
+# Manual system checks
+#
+
+Titled_pager() {
+    local TITLE="$1"
+
+    {
+        echo "$TITLE"
+        printf "%*s" "${#TITLE}" | tr " " "-"
+        echo
+
+        cat
+    } | pager
+}
+
+set -e -x
+
+# Hardware
+lspci | Titled_pager "PCI Device List"
+
+# Disk configuration
+if [ -f /proc/mdstat ]; then
+    Titled_pager "MD Arrays" < /proc/mdstat
+fi
+Titled_pager "Disk Partitions" < /proc/partitions
+if [ "$(dpkg-query --showformat="\${Status}" --show lvm2 2> /dev/null)" == "install ok installed" ]; then
+    { pvdisplay && vgdisplay && lvdisplay; } | Titled_pager "LVM Configuration"
+fi
+
+# All defaults
+find /etc/default/* -type f | Titled_pager "All default files"
+head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep -A 1000 "^==> " | Titled_pager "All defaults"
+
+# Mount points
+# <file system> <mount point>             <type>          <options>                               <dump> <pass>
+Titled_pager "Filesystems" < /etc/fstab
+Titled_pager "Mount points" < /proc/mounts
+
+Titled_pager "Swap area" < /proc/swaps
+
+# relAtime option for filesystems
+grep "\S\+\s\+/\s.*relatime" /proc/mounts | Titled_pager "relatime Enabled"
+
+# Kernel
+uname -a | Titled_pager "Kernel version"
+# List available kernel versions
+apt-cache policy "linux-image-[3456789].*" | Titled_pager "Available Kernels"
+# More than 1 kernel?
+aptitude --disable-columns --display-format "%p" search '?and(?installed, ?name(^linux-image-))' \
+    | grep -vFx "linux-image-$(dpkg --print-architecture)" \
+    | Titled_pager "Installed Kernels"
+ls -l /lib/modules/ | Titled_pager "Kernel module files"
+if [ -f /proc/modules ]; then
+    lsmod | Titled_pager "Loaded modules"
+else
+    echo "WARNING: monolithic kernel"
+fi
+
+# Boot
+ls -ltr /boot/ | Titled_pager "Boot Directory"
+
+# GRUB
+dpkg -l | grep "grub" | Titled_pager "Installed GRUB Versions"
+
+Titled_pager "Kernel Modules to Load" < /etc/modules
+Titled_pager "Kernel Parameters" < /etc/sysctl.conf
+find /etc/sysctl.d/ -type f | grep -vF "README.sysctl" | Titled_pager "Kernel Parameters in conf.d/"
+
+# Miscellaneous configuration
+Titled_pager "Local Boot Script" < /etc/rc.local
+Titled_pager "System-wide .profile file" < /etc/profile
+find /etc/profile.d/ -type f | Titled_pager "System-wide .profile conf.d/"
+
+# Networking
+Titled_pager "Interface Configuration" < /etc/network/interfaces
+{ ifconfig -a; route -n -4; route -n -6; } | Titled_pager "Network configurations"
+netstat -antup | Titled_pager "Open ports"
+Titled_pager "Resolver Configuration" < /etc/resolv.conf
+
+# Show modified debconf values
+debconf-show --listowners | xargs -n 1 debconf-show | grep "^\*" \
+    | Titled_pager "Modified debconf Values"
+
+# Find broken symlinks
+find / -type l -xtype l -not -path "/proc/*" | Titled_pager "Broken symlinks"
+
+# Check the presence of MD5 hashes of installed packages
+for L in /var/lib/dpkg/info/*.list; do
+    P=$(basename "$L" .list)
+    [ -r "/var/lib/dpkg/info/${P}.md5sums" ] || echo "$P"
+done | Titled_pager "Packages missing MD5 hashes"
+
+# Check user cron jobs
+grep -Ev '^\s*#|^\s*$' /etc/crontab /var/spool/cron/crontabs/* | Titled_pager "Cron jobs"
+
+# Customized files
+HOSTING_COMPANY="$(Data get-value hosting-company)"
+[ -n "$HOSTING_COMPANY" ]
+{
+    find / -iname "*${HOSTING_COMPANY}*"
+    grep -i -r "$HOSTING_COMPANY" /etc/
+    dpkg -l | grep -i "$HOSTING_COMPANY"
+} | Titled_pager "Hosting company customizations (${HOSTING_COMPANY})"
+
+# Inspect users
+#     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
+#     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
+# w3m /usr/share/doc/base-passwd/users-and-groups.html
+{
+    tabs 20,+3,+8,+8,+20,+21,+8,+8,+8
+    sort -t ":" -k 3 -g /etc/passwd | tr ":" '\t'
+    tabs -8
+} | Titled_pager "All Linux users"
+Titled_pager "All passwords" < /etc/shadow
+# Update passwd: update-passwd -v --dry-run

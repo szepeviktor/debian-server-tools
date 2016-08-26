@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -15,7 +15,7 @@ BACKUP_DIR="/media/backup"
 #BACKUP_DIR="/media/backup.ssh"
 INNOBCK_FULL_BACKUP="YYYY-MM-DD"
 
-set -e
+declare -i CURRENT_DAY
 
 Echo() {
     if [ -t 0 ]; then
@@ -28,7 +28,8 @@ Error() {
     echo "Failed: ${*}" 1>&2
 }
 
-declare -i CURRENT_DAY
+set -e
+
 CURRENT_DAY="$(date --utc "+%w")"
 
 Echo "mount"
@@ -49,8 +50,10 @@ Echo "fsroot"
 nice tar --exclude=/etc --exclude=/run --exclude=/var/cache/apt --exclude=/var/lib/mysql \
     --one-file-system -czPf "${CURRENT_DAY}/fsroot.tar.gz" / || Error "fsroot"
 
-Echo "etc"
+Echo "etc+debcong"
 nice tar --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
+debconf-get-selections > "${CURRENT_DAY}/debconf.selections"
+dpkg --get-selections > "${CURRENT_DAY}/packages.selections"
 
 Echo "usr"
 nice tar --one-file-system -cPzf "${CURRENT_DAY}/usr.tar.gz" /usr/local/ || Error "usr"

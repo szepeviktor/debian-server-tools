@@ -52,7 +52,7 @@
 - European and US location
 - Server stability of SoftLayer, an IBM company
 
-- [OVH](https://www.ovh.ie/web-hosting/)  100 GB, PHP-FPM, mini CDN
+- [OVH](https://www.ovh.ie/web-hosting/) 100 GB, PHP-FPM, mini CDN
 - [gandi](https://www.gandi.net/hosting/simple) varnish
 - https://www.nearlyfreespeech.net/signup/ Florida,US
 - https://www.feralhosting.com/pricing 10 Gbps, 500 GB

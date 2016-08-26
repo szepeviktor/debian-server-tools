@@ -4,6 +4,8 @@
 # DOCS          :https://github.com/liske/needrestart/blob/master/perl/lib/NeedRestart/Kernel.pm#L33
 # DEPENDS       :apt-get install needrestart
 # LOCATION      :/etc/profile.d/reboot_required.sh
+# OWNER         :root:root
+# PERMISSION    :0644
 
 if [ "$(id -u)" == 0 ]; then
     NEEDRESTART="$(needrestart -b -k | grep -x "NEEDRESTART-KSTA: [0-9]")"

@@ -1,13 +1,23 @@
-# OVH configuration
+# OVH in SBG1
+hosting-company: OVH
 networking:
     method: static
+    name: eth0
     ipv4: 
     netmask: 255.255.255.0
     gateway: 
-    ipv6: 
+    inet6:
+        method: static
+        name: eth0
+        ipv6: 2a000:120:9800::1
+        netmask: 120
+        gateway: 2a000:120:9800::7f
+        resolver:
+            - dns6.ovh.net.
     ssh-port: 
     resolver:
-        - cdns.ovh.net.
+        # cdns.ovh.net.
+        - 213.186.33.99
     ntp:
         - ntp.ovh.net.
         - id-co.in.
@@ -15,6 +25,7 @@ networking:
         - ntp.syari.net.
         - fry.helpfulhosting.net.
 software:
+    ovh-kernel: Install /security/ovh-kernel-update.sh
     ovhrc: Instance data in /etc/ovhrc
 documentation:
     - http://help.ovh.com/InstallOvhKey

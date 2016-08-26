@@ -22,7 +22,7 @@ Colon at column :16
 # UPSTREAM      :url
 # LOCATION      :/usr/local/sbin/deny-ip.sh
 # OWNER         :root:root
-# PERMISSION    :755
+# PERMISSION    :0755
 # SYMLINK       :/usr/local/sbin/deny-http.sh
 # CRON-HOURLY   :/usr/local/sbin/command
 # CRON-DAILY    :/usr/local/bin/command

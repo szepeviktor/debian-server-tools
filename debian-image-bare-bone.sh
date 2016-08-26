@@ -403,7 +403,7 @@ cloud-init cloud-initramfs-growroot
 #xe-guest-utilities
 #xenstore-utils
 intel-microcode amd64-microcode
-cron (rendomize)
+cron (randomize)
 
 # On hypervisors?
 

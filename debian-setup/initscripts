@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e -x
+
+# Verbose boot
+sed -i -e 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
+
+# Mount /tmp in RAM
+TOTAL_MEM="$(grep "MemTotal" /proc/meminfo | sed -e 's;.*[[:space:]]\([0-9]\+\)[[:space:]]kB.*;\1;')"
+if [ "$TOTAL_MEM" -gt $((4097 * 1024)) ]; then
+    echo "Moving /tmp in RAM"
+    sed -i -e 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
+fi

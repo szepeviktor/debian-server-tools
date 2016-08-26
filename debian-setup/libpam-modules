@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Install motd scripts.
+#
+# VERSION       :0.1.1
+
+set -e -x
+
+# Dependencies
+apt-get install -y bc figlet cowsay
+
+# @FIXME Python 2 does not handle UTF-8 in YAML
+echo -e "*\n*** $(Data get-value system.trespass-warning) ***\n*\n" > /etc/motd.tail
+
+echo "$(Data get-value system.host-color)" > /etc/hostcolor
+
+if [ -d /etc/update-motd.d ]; then
+    # Halt on non-empty script directory
+    [ -z "$(find /etc/update-motd.d/ -type f -prune)" ]
+else
+    mkdir /etc/update-motd.d
+fi
+
+# Backup original motd
+mv /etc/motd "/etc/motd~"
+
+# Make motd a symlink
+ln -sf /var/run/motd /etc/motd
+
+# Install scripts
+Dinstall input/update-motd.d/00-header
+Dinstall input/update-motd.d/10-sysinfo
+Dinstall input/update-motd.d/20-tail
+
+Dinstall input/profile.d/motd_user.sh
+Dinstall input/profile.d/reboot_required.sh
+Dinstall input/profile.d/monit_status.sh

@@ -231,6 +231,9 @@ Backup_files() {
 
     WEEKLY_ETC="$(Rotate_weekly "etc")"
     tar -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
+    # debconf
+    debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
+    dpkg --get-selections > "${WEEKLY_ETC}/packages.selections"
 
     WEEKLY_HOME="$(Rotate_weekly "homes")"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("

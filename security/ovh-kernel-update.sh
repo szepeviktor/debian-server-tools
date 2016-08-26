@@ -14,11 +14,11 @@
 # LOCATION      :/usr/local/sbin/ovh-kernel-update.sh
 # CRON-DAILY    :/usr/local/sbin/ovh-kernel-update.sh
 
-# grsecurity + IPv6 + amd64 VPS
 OVH_KERNELS="ftp://ftp.ovh.net/made-in-ovh/bzImage/latest-production/"
 
 CURRENT="$(ls /boot/*-xxxx-grs-ipv6-64-vps)"
 
+# grsecurity + IPv6 + amd64 VPS
 lftp -e "lcd /boot/; mirror -i '.*-xxxx-grs-ipv6-64-vps$'; bye" "$OVH_KERNELS"
 
 NEW="$(ls /boot/*-xxxx-grs-ipv6-64-vps)"

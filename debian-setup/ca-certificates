@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Review changelog of ca-certificates!
+#     http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
+
+set -e -x
+
+# Update ca-certificates
+if [ "$(Data get-value apt.ca-certificates.install-testing)" == "True" ]; then
+    Getpkg ca-certificates testing
+fi

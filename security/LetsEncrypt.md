@@ -1,5 +1,11 @@
 # Let's Encrypt
 
+# SSL certificate for web, mail etc.
+# See /security/new-ssl-cert.sh
+
+# Test TLS connections
+# See /security/README.md
+
 [Certbot client](https://github.com/certbot/certbot)
 
 ```bash
@@ -10,12 +16,25 @@ pip2 install --upgrade certbot
 read -r DOMAIN
 read -r EMAIL
 # -d $DOMAIN2
+
+# Manual for webservers
 certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-logging-ok --email $EMAIL -d $DOMAIN
-#certbot certonly --verbose --text --standalone --agree-tos --email $EMAIL -d $DOMAIN
+
+# Webroot for webservers with port 80 open
 #certbot certonly --verbose --text --webroot --agree-tos --email $EMAIL -d $DOMAIN --webroot-path=$DOC_ROOT
+
+# Standalone for non-webservers
+#certbot certonly --verbose --text --standalone --agree-tos --email $EMAIL -d $DOMAIN
 
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > priv-pub-int.pem
+
+# DNS-based challenge
+#     https://github.com/veeti/manuale
+apt-get install -y dialog ca-certificates \
+    gcc python3-dev libssl-dev libffi-dev
+pip3 install manuale
+manuale -h
 ```
 
 ### Renew

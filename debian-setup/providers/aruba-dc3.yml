@@ -1,6 +1,12 @@
+# DC3 in Ktiš, Czech Republic
+hosting-company: Aruba
+networking:
+    resolver:
+        - 81.2.192.131
+        - 81.2.193.227
 software:
-    rc.local: Arp Cache Broadcast Request in /etc/rc.local
-    serclient.deb: Aruba ExtraControl
+    rc-local: Arp Cache Broadcast Request in /etc/rc.local
+    serclient-deb: Aruba ExtraControl
 provider-package:
     # used in /etc/rc.local
     - arping

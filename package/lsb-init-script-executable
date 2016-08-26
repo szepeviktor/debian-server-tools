@@ -19,6 +19,7 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
+# LOCATION      :/etc/init.d/SERVICE-NAME
 #
 # Installation
 #

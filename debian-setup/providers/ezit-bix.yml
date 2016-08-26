@@ -1,0 +1,12 @@
+# EZIT in BIX
+hosting-company: EZIT
+networking:
+    method: static
+    name: eth0
+    resolver:
+        # dnsc1.ezit.hu.
+        - 87.229.108.201
+        # dnsc2.ezit.hu.
+        - 80.249.168.18
+    ntp:
+        - ntp.ezit.hu.

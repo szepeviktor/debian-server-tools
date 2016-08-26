@@ -12,6 +12,7 @@
 # LOCATION      :/usr/local/bin/ghurl
 
 # $1 is empty or does not exist
+
 # test for a git repo
 ORIGIN_URL="$(git config --get remote.origin.url)"
 # empty URL?
@@ -20,6 +21,8 @@ USER_REPO="${ORIGIN_URL#*:}"
 USER_REPO="${USER_REPO%.git}"
 # should look like "[.A-Za-z0-9_-]\+\.[.A-Za-z0-9_-]\+"
 
-wget -qO- "https://api.github.com/repos/${USER_REPO}/contents/${1}" \
+# convert $1 to relative path: git ls-tree --full-name --name-only HEAD $1
+
+wget -q -O- "https://api.github.com/repos/${USER_REPO}/contents/${1}" \
     | jq -r ".download_url"
 # check URL
