@@ -2,11 +2,10 @@
 
 set -e -x
 
-Getpkg geoip-database-contrib
-apt-get install -y geoip-bin python3-pyinotify
-
 # https://packages.qa.debian.org/f/fail2ban.html
-apt-get install -y fail2ban
+
+Getpkg geoip-database-contrib
+apt-get install -y geoip-bin python3-pyinotify fail2ban
 
 mc security/fail2ban-conf/ /etc/fail2ban/
 # Config:     fail2ban.local

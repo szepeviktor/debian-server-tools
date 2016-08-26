@@ -1,5 +1,5 @@
 # AS197226 - SPRINT-SDC
-#: ipset -exist restore < ering.pl.ipset
+#: ipset -exist restore < ipset/ering.pl.ipset
 #: iptables -I myattackers-ipset -m set --match-set ering.pl src -j REJECT
 create ering.pl hash:net family inet hashsize 256 maxelem 32
 flush ering.pl

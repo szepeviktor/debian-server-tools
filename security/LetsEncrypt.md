@@ -9,7 +9,7 @@
 [Certbot client](https://github.com/certbot/certbot)
 
 ```bash
-apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
+apt-get install -y dialog ca-certificates python-dev gcc libssl-dev libffi-dev
 apt-get install -t jessie-backports -y python-six
 pip2 install --upgrade certbot
 

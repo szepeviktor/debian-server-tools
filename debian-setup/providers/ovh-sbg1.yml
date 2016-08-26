@@ -14,7 +14,6 @@ networking:
         gateway: 2a000:120:9800::7f
         resolver:
             - dns6.ovh.net.
-    ssh-port: 
     resolver:
         # cdns.ovh.net.
         - 213.186.33.99

@@ -21,6 +21,12 @@ apt:
     ca-certificates:
         # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
         install-testing: true
+    openssh-server:
+        port: 2222
+    apache2:
+        prg-http-user: user
+        prg-http-pwd: secret
+        prg-ssl-cn: prg.1.2.3.4.xip.io
 
 # Custom data directories
 data dirs:

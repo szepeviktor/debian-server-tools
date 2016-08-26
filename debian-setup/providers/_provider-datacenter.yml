@@ -26,7 +26,6 @@ networking:
         ipv4: 10.0.0.103
         netmask: 255.255.255.0
         gateway: 10.0.0.255
-    ssh-port: 2222
     ntp:
         - ntp.ezit.hu.
 software:

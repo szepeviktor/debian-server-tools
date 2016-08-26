@@ -1,5 +1,5 @@
 # AS198540 - ELAN Andrzej Niechcial
-#: ipset -exist restore < elan.pl.ipset
+#: ipset -exist restore < ipset/elan.pl.ipset
 #: iptables -I myattackers-ipset -m set --match-set elan.pl src -j REJECT
 create elan.pl hash:net family inet hashsize 256 maxelem 32
 flush elan.pl

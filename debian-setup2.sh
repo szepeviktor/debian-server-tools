@@ -12,6 +12,10 @@ set -e -x
 VIRT="$(Data get-value virtualization)"
 export VIRT
 
+# _check-system needs most
+apt-get install -y most
+debian-setup/most
+
 # Manual checks
 debian-setup/_check-system
 
@@ -19,28 +23,28 @@ debian-setup/_check-system
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     ipset time netcat-openbsd lftp \
     ncurses-term bash-completion mc htop most less \
-    localepurge unattended-upgrades apt-listchanges cruft debsums etckeeper \
+    localepurge unattended-upgrades apt-listchanges cruft debsums \
     gcc libc6-dev make strace \
     moreutils logtail whois unzip heirloom-mailx \
     apg dos2unix ccze git colordiff mtr-tiny ntpdate \
 
 # Backports
-apt-get install -t jessie-backports -y needrestart unscd
+DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    -t jessie-backports needrestart unscd
 # sid
 debian-setup/ca-certificates
 # From custom repos
-apt-get install -y goaccess ipset-persistent
+DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    goaccess ipset-persistent
 
 # Provider packages
-if [ -n "$(Data get-value provider-package)" ]; then
+if [ -n "$(Data get-value provider-package "")" ]; then
     # shellcheck disable=SC2046
     apt-get install -y $(Data get-values provider-package)
 fi
 
 # Restore sudoers file
 debian-setup/sudo
-
-debian-setup/most
 
 debian-setup/locales
 
@@ -66,8 +70,6 @@ debian-setup/unscd
 
 debian-setup/kmod
 
-debian-setup/_swap
-
 debian-setup/mount
 
 debian-setup/initscripts
@@ -83,14 +85,17 @@ CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 if [ "$CPU_COUNT" -gt 1 ]; then
     apt-get install -y irqbalance
     cat /proc/interrupts
+else
+    if Is_installed "irqbalance"; then
+        apt-get purge -y irqbalance
+    fi
 fi
 
 # Time synchronization
-# (util-linux)
-sed -i -e 's|^#*HWCLOCKACCESS\b.*$|HWCLOCKACCESS=no|' /etc/default/hwclock
+debian-setup/util-linux
 # @TODO
-# if dmesg | grep -w "kvm-clock" \
-#     || grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksource; then
+# if grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksource \
+#     || dmesg | grep -w "kvm-clock"; then
 #     # Display clock sources
 #     cat /sys/devices/system/clocksource/clocksource0/available_clocksource
 #     echo "https://s19n.net/articles/2011/kvm_clock.html"
@@ -124,20 +129,15 @@ if [ "$VIRT" == "vmware" ]; then
     debian-setup/_virt-vmware
 fi
 
-if [ -n "$(Data get-value software.serclient)" ]; then
+if [ -n "$(Data get-value software.serclient "")" ]; then
     debian-setup/serclient
 fi
 
 debian-setup/cron
 
-debian-setup/logrotate
-
 debian-setup/debsums
 
 debian-setup/openssh-client
-
-# Nice welcome message
-debian-setup/libpam-modules
 
 debian-setup/mc
 
@@ -160,27 +160,13 @@ if Is_installed "msmtp-mta"; then
     debian-setup/msmtp-mta
 fi
 
-# Monit - monitoring
-# @FIXME Dependencies in ${D}
-( cd /usr/local/src/debian-server-tools/monitoring/monit/; \
-    install --mode=0640 -D -t /etc/monit monit.defaults; ./monit-debian-setup.sh )
-
-# Munin - network-wide graphing
-# @TODO See /monitoring/munin/munin-debian-setup.sh
-
-#debian-setup/proftpd-basic
-
-debian-setup/_package-python-pip
-#debian-setup/_package-php-composer
-debian-setup/php-wpcli
-#debian-setup/php-drush
-#debian-setup/nodejs
-
 # Tools
 for TOOL in catconf cnet hosthost hostinfo ip.sh lsrev msec reboot revip \
     sortip swap-usage.sh u udrush uwp whichdo whoistop; do
-    Dinstall "$TOOL"
+    Dinstall "tools/${TOOL}"
 done
+
+#debian-setup/proftpd-basic
 
 
 
@@ -188,10 +174,17 @@ done
 
 # Apache 2.4
 webserver/apache-httpd.sh
-#debian-setup/mod-pagespeed-stable
+Dinstall webserver/apache-resolve-hostnames.sh
+if Is_installed "mod-pagespeed-stable"; then
+    debian-setup/mod-pagespeed-stable
+fi
 # PHP-FPM
 #webserver/php5-fpm.sh
 webserver/php7-fpm.sh
+# WordPress cron
+Dinstall webserver/wp-cron-cli.sh
+# Webserver reload
+Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
 webserver/redis-php.sh
 # MariaDB
@@ -203,9 +196,26 @@ webserver/add-prg-site-auto.sh
 
 # @TODO Backup
 
+debian-setup/_package-python-pip
+#debian-setup/_package-php-composer
+debian-setup/php-wpcli
+#debian-setup/php-drush
+#debian-setup/nodejs
+
 
 
 ### END
+
+# Monit - monitoring
+# @FIXME Dependencies in ${D}
+( cd /usr/local/src/debian-server-tools/monitoring/monit/; \
+    install --mode=0640 -D -t /etc/monit monit.defaults; ./monit-debian-setup.sh )
+
+# After monit
+debian-setup/libpam-modules
+
+# Munin - network-wide graphing
+# @TODO See /monitoring/munin/munin-debian-setup.sh
 
 # Clean up
 apt-get autoremove --purge
@@ -214,6 +224,7 @@ apt-get autoremove --purge
 echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
 # At last
+apt-get install -y etckeeper
 debian-setup/etckeeper
 
 # Clear history

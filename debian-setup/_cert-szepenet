@@ -1,11 +1,15 @@
 #!/bin/bash
+#
+# Install szepenet CA
+#
+
+CA_NAME="szepenet"
+CA_FILE="szepenet_ca.crt"
 
 set -e -x
 
-# Install szepenet CA
-CA_NAME="szepenet"
-CA_FILE="szepenet_ca.crt"
-mkdir -v /usr/local/share/ca-certificates/${CA_NAME}
-cp -v ${D}/security/ca/ca-web/szepenet-ca.pem /usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}
+mkdir "/usr/local/share/ca-certificates/${CA_NAME}"
+cp -f security/ca/ca-web/szepenet-ca.pem "/usr/local/share/ca-certificates/${CA_NAME}/${CA_FILE}"
+
 # Update certificates
 update-ca-certificates -v -f

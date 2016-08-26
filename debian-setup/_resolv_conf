@@ -29,7 +29,7 @@ cp -f /etc/resolv.conf /root/resolv.conf.orig
     done
 
     # IPv6
-    if [ -n "$(Data get-value networking.inet6)" ]; then
+    if [ -n "$(Data get-value networking.inet6 "")" ]; then
         for NS in $(Data get-values networking.inet6.resolver); do
             echo "nameserver ${NS}"
             Check_resolver "$NS"
@@ -47,6 +47,6 @@ cp -f /etc/resolv.conf /root/resolv.conf.orig
 } > /etc/resolv.conf
 
 # Check IPv6 connectivity
-if [ -n "$(Data get-value networking.inet6)" ]; then
+if [ -n "$(Data get-value networking.inet6 "")" ]; then
     ping6 -c 4 ipv6.google.com
 fi

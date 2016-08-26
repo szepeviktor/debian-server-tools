@@ -1,5 +1,5 @@
 # AS44050 - LeonLundberg etc. !shadow net! @PIN
-#: ipset -exist restore < leonlundberg.ipset
+#: ipset -exist restore < ipset/leonlundberg.ipset
 #: iptables -I myattackers-ipset -m set --match-set leonlundberg src -j REJECT
 create leonlundberg hash:net family inet hashsize 256 maxelem 32
 flush leonlundberg

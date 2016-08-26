@@ -14,6 +14,10 @@ apt-get install -y apache2 apache2-utils
 # No snakeoil
 apt-get purge -y ssl-cert
 
+editor /etc/logrotate.d/apache2
+#     daily
+#     rotate 90
+
 adduser --disabled-password --gecos "" web
 
 editor /etc/apache2/envvars
@@ -40,11 +44,3 @@ editor /etc/apache2/apache2.conf
 
 # robots.txt
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
-
-Dinstall webserver/apache-resolve-hostnames.sh
-# WordPress cron
-Dinstall webserver/wp-cron-cli.sh
-# Webserver restart
-Dinstall webserver/webrestart.sh
-
-#debian-setup/mod-pagespeed-stable

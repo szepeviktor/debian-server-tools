@@ -3,7 +3,7 @@
 set -e -x
 
 # Get pip
-apt-get install -y python3-dev
+apt-get install -y python3-dev python-dev
 wget -nv "https://bootstrap.pypa.io/get-pip.py"
 python3 get-pip.py
 python2 get-pip.py

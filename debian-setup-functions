@@ -22,9 +22,11 @@ Getpkg() {
 
     [ -z "$URL" ] && return 1
 
-    cd /root/dist-mod/
-    wget -q -O "${P}.deb" "$URL"
-    dpkg -i "${P}.deb"
+    (
+        cd /root/dist-mod/
+        wget -q -O "${P}.deb" "$URL"
+        dpkg -i "${P}.deb"
+    )
 }
 export -f Getpkg
 

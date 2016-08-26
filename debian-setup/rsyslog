@@ -14,3 +14,11 @@ service rsyslog restart
 
 # Simple syslog monitoring
 Dinstall monitoring/syslog-errors.sh
+
+# Logrotate periods
+editor /etc/logrotate.d/rsyslog
+#     weekly
+#     rotate 15
+#     # /var/log/mail.log
+#     weekly
+#     rotate 15

@@ -9,6 +9,8 @@
 
 # Steps
 #
+#   wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
+#   cd debian-server-tools-master/
 # - View Network Graph v4/v6 http://bgp.he.net/
 # - Aquire settings (custom kernel, user names, SSH keys, hostname, networking, resolvers, NTP servers)
 # - Set up DNS (PTR, A, MX)
@@ -41,7 +43,7 @@ set -e -x
 IS_FUNCTIONAL="yes"
 [ -n "$(which dpkg-query)" ]
 for PKG in ${SETUP_PACKAGES}; do
-    if Is_installed "$PKG"; then
+    if ! Is_installed "$PKG"; then
         IS_FUNCTIONAL="no"
         break
     fi

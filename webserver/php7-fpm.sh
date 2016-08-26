@@ -34,9 +34,9 @@ echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php/7.0/fpm/php.i
 
 grep -Ev "^\s*#|^\s*;|^\s*\$" /etc/php/7.0/fpm/php.ini | pager
 # Disable "www" pool
-mv -v /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.default
+mv /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.default
 # Add skeletons
-cp -v ${D}/webserver/phpfpm-pools/* /etc/php/7.0/fpm/
+cp webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 # PHP session cleaning
 #/usr/lib/php/sessionclean
 

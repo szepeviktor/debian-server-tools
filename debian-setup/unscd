@@ -6,6 +6,5 @@ set -e -x
 editor /etc/nscd.conf
 #     enable-cache            hosts   yes
 #     positive-time-to-live   hosts   60
-#     negative-time-to-live   hosts   20
 
 service unscd --full-restart

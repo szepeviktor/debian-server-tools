@@ -14,7 +14,7 @@ networking:
         # @Sigmatic
         #- 80.69.171.167
         # google-public-dns-b.google.com.
-        - 8.8.4.4
+        #- 8.8.4.4
     # IPv6 interface
     inet6:
         method: auto
@@ -29,7 +29,6 @@ networking:
     eth1:
         method: dhcp
         name: eth1
-    ssh-port: 
 provider-package:
     # Soft restart needs
     - acpid

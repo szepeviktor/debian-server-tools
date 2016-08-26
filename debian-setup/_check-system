@@ -86,7 +86,7 @@ debconf-show --listowners | xargs -n 1 debconf-show | grep "^\*" \
     | Titled_pager "Modified debconf Values"
 
 # Find broken symlinks
-find / -type l -xtype l -not -path "/proc/*" | Titled_pager "Broken symlinks"
+find / -type l -xtype l -not -path "/proc/*" -not -path "/run/*" | Titled_pager "Broken symlinks"
 
 # Check the presence of MD5 hashes of installed packages
 for L in /var/lib/dpkg/info/*.list; do

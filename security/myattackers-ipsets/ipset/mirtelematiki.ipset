@@ -1,5 +1,5 @@
 # AS49335 - Mir Telematiki Ltd.
-#: ipset -exist restore < mirtelematiki.ipset
+#: ipset -exist restore < ipset/mirtelematiki.ipset
 #: iptables -I myattackers-ipset -m set --match-set mirtelematiki src -j REJECT
 create mirtelematiki hash:net family inet hashsize 256 maxelem 32
 flush mirtelematiki

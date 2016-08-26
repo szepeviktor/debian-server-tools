@@ -4,6 +4,13 @@ Installation of system tables failed!
 mcedit /var/lib/dpkg/info/mariadb-server-10.0.postinst:227
 ```
 
+### UNIX_SOCKET Authentication Plugin
+
+```sql
+INSTALL PLUGIN unix_socket SONAME 'auth_socket';
+CREATE USER username IDENTIFIED VIA unix_socket;
+```
+
 ### Drop all tables
 
 http://nathan.rambeck.org/blog/28-drop-all-mysql-tables-command-line

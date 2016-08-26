@@ -3,12 +3,13 @@
 set -e -x
 
 # SSH port
-SSH_PORT="$(Data get-value networking.ssh-port)"
+SSH_PORT="$(Data get-value apt.openssh-server.port "")"
+[ -n "${SSH_PORT}" ]
 # No "22" in port number
 [ "${SSH_PORT}" == "${SSH_PORT/22/}" ]
 
 # Change port
-sed -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" -i /etc/ssh/sshd_config
+sed -i -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
 sshd -T | grep -qFx "port ${SSH_PORT}"
 
 # Disable root login

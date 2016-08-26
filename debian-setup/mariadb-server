@@ -3,6 +3,12 @@
 set -e -x
 
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
+# Steal root password
+MYSQL_PASSWORD="$(echo "GET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0 | cut -d " " -f 2-)"
+#MYSQL_PASSWORD="$(Data get-value apt.mariadb-server.root-pwd)"
+# Remove password from debconf
+echo "RESET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0
+
 # OR Percona server
 #apt-get install -y percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
 
@@ -10,9 +16,17 @@ apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
 
 # Root password
-read -r -s -e -p "MYSQL_PASSWORD? " MYSQL_PASSWORD
-echo -e "[mysql]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
-echo -e "[mysqldump]\nuser=root\npassword=${MYSQL_PASSWORD}\ndefault-character-set=utf8" >> /root/.my.cnf
-chmod 600 /root/.my.cnf
+cat >> /root/.my.cnf <<EOF
+[mysql]
+user=root
+password=${MYSQL_PASSWORD}
+default-character-set=utf8"
+
+[mysqldump]
+user=root
+password=${MYSQL_PASSWORD}
+default-character-set=utf8
+EOF
+chmod 0600 /root/.my.cnf
 
 # @TODO Config for repl? bin_log? xtrabackup?

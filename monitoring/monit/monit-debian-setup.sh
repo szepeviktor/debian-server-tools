@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.6.1
+# VERSION       :0.6.2
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -228,7 +228,9 @@ Monit_start() {
     MONIT_SYNTAX_CHECK="$(monit -t 2>&1)"
     if [ "$MONIT_SYNTAX_CHECK" == "Control file syntax OK" ]; then
         service monit start
-        sleep 3
+        # Must equal to start delay
+        # sed -n -e 's|^.*start delay \([0-9]\+\)$|\1|p' services/00-monitrc
+        sleep 10
         monit summary
         echo "OK."
         echo "tail -f /var/log/monit.log"
@@ -249,7 +251,7 @@ if Is_pkg_installed systemd; then
     exit 2
 fi
 if ! Is_pkg_installed monit; then
-    apt-get install -q -y -t jessie-backports monit
+    apt-get install -t jessie-backports -y monit
 fi
 service monit stop || true
 # Disable all services

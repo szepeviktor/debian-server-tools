@@ -36,10 +36,10 @@ grep -Ev "^\s*#|^\s*;|^\s*$" /etc/php5/fpm/php.ini | pager
 # Disable "www" pool
 #sed -i 's/^/;/' /etc/php5/fpm/pool.d/www.conf
 mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf.default
-cp -v ${D}/webserver/phpfpm-pools/* /etc/php5/fpm/
+cp webserver/phpfpm-pools/* /etc/php5/fpm/
 # PHP 5.6+ session cleaning
 mkdir -p /usr/local/lib/php5
-cp -v ${D}/webserver/sessionclean5.5 /usr/local/lib/php5/
+cp webserver/sessionclean5.5 /usr/local/lib/php5/
 # PHP 5.6+
 echo -e "15 *\t* * *\troot\t[ -x /usr/local/lib/php5/sessionclean5.5 ] && /usr/local/lib/php5/sessionclean5.5" \
     > /etc/cron.d/php5-user

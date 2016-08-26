@@ -32,7 +32,7 @@ cp -f /etc/network/interfaces /root/interfaces.orig
     echo
 
     # Primary IPv6 interface
-    if [ -n "$(Data get-value networking.inet6)" ]; then
+    if [ -n "$(Data get-value networking.inet6 "")" ]; then
         INET6_METHOD="$(Data get-value networking.inet6.method)"
         INET6_NAME="$(Data get-value networking.inet6.name)"
         INTERFACES+=( ${INET6_NAME} )
@@ -44,7 +44,7 @@ cp -f /etc/network/interfaces /root/interfaces.orig
             echo "netmask $(Data get-value networking.inet6.netmask)"
             echo "gateway $(Data get-value networking.inet6.gateway)"
         fi
-        if [ -n "$(Data get-value networking.inet6.resolver)" ]; then
+        if [ -n "$(Data get-value networking.inet6.resolver "")" ]; then
             echo "dns-nameservers $(Data get-valuess networking.resolver | paste -d " " -s)"
         fi
         echo

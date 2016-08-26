@@ -3,7 +3,7 @@
 set -e -x
 
 # Create swap file
-[ -z "$(cat /proc/swaps)" ] && debian-setup/_swap
+[ -z "$(tail -n +2 /proc/swaps)" ] && debian-setup/_swap
 
 # Check swap
 swapoff -a

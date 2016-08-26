@@ -45,6 +45,10 @@ https://wiki.debian.org/BuildingFormalBackports
 - https://packages.debian.org/testing/dgit
 - http://honk.sigxcpu.org/projects/git-buildpackage/manual-html/gbp.intro.html
 
+### debconf - Configuration management
+
+https://www.debian.org/doc/packaging-manuals/debconf_specification.html#AEN106
+
 ### APT repository concepts
 
 Find actual values in `debian/dists/stable/Release`
