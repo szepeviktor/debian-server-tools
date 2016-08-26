@@ -66,7 +66,9 @@ dpkg -l | grep "grub" | Titled_pager "Installed GRUB Versions"
 
 Titled_pager "Kernel Modules to Load" < /etc/modules
 Titled_pager "Kernel Parameters" < /etc/sysctl.conf
-find /etc/sysctl.d/ -type f | grep -vF "README.sysctl" | Titled_pager "Kernel Parameters in conf.d/"
+if [ "$(find /etc/sysctl.d/ -mindepth 1)" != "/etc/sysctl.d/README.sysctl" ]; then
+    find /etc/sysctl.d/ -type f -not -name "README.sysctl" | Titled_pager "Kernel Parameters in conf.d/"
+fi
 
 # Miscellaneous configuration
 Titled_pager "Local Boot Script" < /etc/rc.local

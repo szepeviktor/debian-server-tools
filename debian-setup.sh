@@ -18,6 +18,7 @@ export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
 export IMAGE_CODENAME="jessie"
+export WITHOUT_SYSTEMD="yes"
 
 export SETUP_PACKAGES="lsb-release ca-certificates wget debian-archive-keyring apt apt-utils"
 #:ubuntu
@@ -29,14 +30,9 @@ export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME
 
 export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
 
-export WITHOUT_SYSTEMD="yes"
-
-Data() {
-    shyaml "$@" < /root/server.yml
-}
-export -f Data
-
 set -e -x
+
+. debian-setup-functions
 
 # Am I root?
 [ "$(id -u)" == 0 ]
@@ -45,7 +41,7 @@ set -e -x
 IS_FUNCTIONAL="yes"
 [ -n "$(which dpkg-query)" ]
 for PKG in ${SETUP_PACKAGES}; do
-    if [ "$(dpkg-query --showformat="\${Status}" --show "${PKG}" 2> /dev/null)" != "install ok installed" ]; then
+    if Is_installed "$PKG"; then
         IS_FUNCTIONAL="no"
         break
     fi
@@ -69,7 +65,7 @@ apt-get install -y aptitude
 ./debian-image-normalize.sh
 
 # Remove wheezy packages
-if [ "$(dpkg-query --showformat="\${Status}" --show "libgnutls26" 2> /dev/null)" == "install ok installed" ]; then
+if Is_installed "libgnutls26"; then
     apt-get purge -y libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
         libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
 fi

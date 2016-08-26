@@ -2,9 +2,6 @@
 
 set -e -x
 
-# node.js
-apt-get install -y nodejs
-
 # Make sure packages are installed under /usr/local
 npm config -g set prefix "/usr/local"
 npm config -g set unicode true

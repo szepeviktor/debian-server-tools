@@ -8,3 +8,13 @@ install --mode=0644 ./menu ~/.config/mc/mcedit/
 ```
 
 Per directory menu file: `.cedit.menu`
+
+### Markdown viewer
+
+```bash
+apt-get install -y pandoc
+cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext
+editor ~/.config/mc/mc.ext
+#    regex/\.md(own)?$
+#    	View=pandoc -s -f markdown -t man %p | man -l -
+```

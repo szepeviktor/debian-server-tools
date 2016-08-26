@@ -3,7 +3,6 @@
 set -e -x
 
 # msmtp (has no queue!)
-apt-get install -y msmtp-mta
 
 # /usr/share/doc/msmtp/examples/msmtprc-system.example
 cp -vf mail/msmtprc /etc/

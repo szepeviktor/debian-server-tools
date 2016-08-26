@@ -5,7 +5,7 @@ set -e -x
 # SSH port
 SSH_PORT="$(Data get-value networking.ssh-port)"
 # No "22" in port number
-[ "${SSH_PORT}" == "${SSH_PORT/22/}"
+[ "${SSH_PORT}" == "${SSH_PORT/22/}" ]
 
 # Change port
 sed -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" -i /etc/ssh/sshd_config

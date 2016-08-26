@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install mariadb-client-10.0 s3ql sshfs rsync
+# DEPENDS       :apt-get install debconf-utils mariadb-client-10.0 s3ql sshfs rsync
 # LOCATION      :/usr/local/sbin/system-backup-remote.sh
 # OWNER         :root:root
 # PERMISSION    :700

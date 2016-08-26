@@ -156,18 +156,11 @@ man() {
 }
 EOF
 
-# Markdown for mc
-#cp -v /etc/mc/mc.ext ~/.config/mc/mc.ext && apt-get install -y pandoc
-#editor ~/.config/mc/mc.ext
-#    regex/\.md(own)?$
-#    	View=pandoc -s -f markdown -t man %p | man -l -
-
-# Add INI extensions for mc syntax highlighting
+# Add mc syntax highlights
 mkdir -p /root/.config/mc/mcedit
-#cp -v /usr/share/mc/syntax/Syntax /root/.config/mc/mcedit/Syntax
 ROOT_MC_SYNTAX="/root/.config/mc/mcedit/Syntax"
-wget -nv -O "$ROOT_MC_SYNTAX" https://github.com/MidnightCommander/mc/raw/master/misc/syntax/Syntax.in
-sed -i -e 's;^\(file .*\[nN\]\[iI\]\)\(.*\)$;\1|cf|conf|cnf|local|htaccess\2;' "$ROOT_MC_SYNTAX"
-sed -i -e 's;^\(file .*(\)py|PY\().*\)$;\1py|PY|yml|yaml\2;' "$ROOT_MC_SYNTAX"
-sed -i -e 's;^file sources.list\$ sources\\slist$;file (sources)?\\.list$ sources\\slist;' "$ROOT_MC_SYNTAX"
-# FIXME Double "syntax highlighting" "INI / INI ..."
+{
+    wget -nv -O- https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/Syntax
+    #cat /usr/share/mc/syntax/Syntax
+    wget -nv -O- https://github.com/MidnightCommander/mc/raw/master/misc/syntax/Syntax.in
+} > "$ROOT_MC_SYNTAX"

@@ -6,8 +6,8 @@ networking:
         - 62.149.128.4
         - 62.149.132.4
 software:
-    rc-local: Arp Cache Broadcast Request in /etc/rc.local
-    serclient-deb: Aruba ExtraControl
+    rclocal: Arp Cache Broadcast Request in /etc/rc.local
+    serclient: Aruba ExtraControl
 provider-package:
     # used in /etc/rc.local
     - arping

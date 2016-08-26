@@ -3,6 +3,12 @@ debian-server-tools
 
 Various scripts and tools for mainly Debian servers.
 
+```bash
+wget https://github.com/szepeviktor/debian-server-tools/archive/master.zip
+unzip master.zip
+cd debian-server-tools-master/
+```
+
 Check shell scripts: http://www.shellcheck.net/
 
 Code styling: https://google.github.io/styleguide/shell.xml

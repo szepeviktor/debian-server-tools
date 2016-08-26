@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e -x
+
+echo "localepurge localepurge/nopurge debconf-set-selections en_US.UTF-8" | debconf-set-selections -v
+echo "localepurge localepurge/use-dpkg-feature boolean true" | debconf-set-selections -v
+dpkg-reconfigure -f noninteractive localepurge

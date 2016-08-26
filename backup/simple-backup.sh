@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install sshfs percona-xtrabackup
+# DEPENDS       :apt-get install debconf-utils sshfs percona-xtrabackup
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/simple-backup.sh
 
 BACKUP_DIR="/media/backup"

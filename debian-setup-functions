@@ -4,6 +4,13 @@ Error() {
     echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)${*}$(tput sgr0)" 1>&2
 }
 
+Is_installed() {
+    local PKG="$1"
+
+    [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed" ]
+}
+export -f Is_installed
+
 # Download architecture-independent packages
 Getpkg() {
     local P="$1"
@@ -34,3 +41,8 @@ Dinstall() {
     )
 }
 export -f Dinstall
+
+Data() {
+    shyaml "$@" < /root/server.yml
+}
+export -f Data

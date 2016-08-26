@@ -31,7 +31,7 @@ networking:
         - ntp.ezit.hu.
 software:
     ovhrc: Instance data in /etc/ovhrc
-    serclient.deb: Aruba ExtraControl
+    serclient-deb: Aruba ExtraControl
 documentation:
     - http://help.ovh.com/InstallOvhKey
     - http://help.ovh.com/RealTimeMonitoring

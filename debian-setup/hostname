@@ -6,7 +6,7 @@
 
 set -e -x
 
-H="$(Data get-value networking.ipv4)"
+H="$(Data get-value system.fqdn)"
 IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
 
 # Search for the old host name
@@ -38,4 +38,4 @@ EOF
 # Check A and MX record
 host "$H"
 # Check PTR (reverse DNS) record
-host "$IP"
+host -t PTR "$IP"

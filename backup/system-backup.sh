@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install s3ql rsync mariadb-client-10.0 percona-xtrabackup
+# DEPENDS       :apt-get install debconf-utils s3ql rsync mariadb-client-10.0 percona-xtrabackup
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # OWNER         :root:root
 # PERMISSION    :700
