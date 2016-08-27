@@ -2,7 +2,7 @@
 #
 # Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages
 #
-# VERSION       :1.0.6
+# VERSION       :1.0.7
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists
@@ -52,8 +52,8 @@ cd "${HOME}/os-normalize/"
 
 Info "List what boot packages are installed"
 
-${APTI_SEARCH} '?and(?installed, ?not(?automatic))' \
- | grep -Ex "$BOOT_PACKAGES" | sed 's/$/ # boot/' | tee boot.pkgs
+${APTI_SEARCH} '?installed' \
+ | grep -Ex "$BOOT_PACKAGES" | sed -e 's/$/ # boot/' | tee boot.pkgs
 
 Info "APT status"
 
@@ -140,7 +140,7 @@ Info "Check package integrity and cruft"
 
 apt-get install -qq -y debsums cruft > /dev/null
 # Should be empty
-debsums --all --changed 2>&1 | sed 's/$/ # integrity/' | tee integrity.log
+debsums --all --changed 2>&1 | sed -e 's/$/ # integrity/' | tee integrity.log
 cruft --ignore /root > cruft.log 2>&1
 
 Info "Check for missing and extra packages"
@@ -155,15 +155,15 @@ set +e +x
 } 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2
 
 {
-    ${APTI_SEARCH} '?garbage' | sed 's/$/ # garbage/'
-    ${APTI_SEARCH} '?broken' | sed 's/$/ # broken/'
-    ${APTI_SEARCH} '?obsolete' | sed 's/$/ # obsolete/'
-    ${APTI_SEARCH} "$OLD_PACKAGE_QUERY" | sed 's/$/ # old/'
-    ${APTI_SEARCH} '?and(?installed, ?not(?origin(Debian)))' | sed 's/$/ # non-Debian/'
-    #Ubuntu: ${APTI_SEARCH} '?and(?installed, ?not(?origin(Ubuntu)))' | sed 's/$/ # non-Ubuntu/'
-    dpkg -l | grep "\~[a-z]\+" | grep -Ev "^ii  (${TILDE_VERSION})\s" | cut -c 1-55 | sed 's/$/ # tilde version/'
+    ${APTI_SEARCH} '?garbage' | sed -e 's/$/ # garbage/'
+    ${APTI_SEARCH} '?broken' | sed -e 's/$/ # broken/'
+    ${APTI_SEARCH} '?obsolete' | sed -e 's/$/ # obsolete/'
+    ${APTI_SEARCH} "$OLD_PACKAGE_QUERY" | sed -e 's/$/ # old/'
+    ${APTI_SEARCH} '?and(?installed, ?not(?origin(Debian)))' | sed -e 's/$/ # non-Debian/'
+    #Ubuntu: ${APTI_SEARCH} '?and(?installed, ?not(?origin(Ubuntu)))' | sed -e 's/$/ # non-Ubuntu/'
+    dpkg -l | grep "\~[a-z]\+" | grep -Ev "^ii  (${TILDE_VERSION})\s" | cut -c 1-55 | sed -e 's/$/ # tilde version/'
     # "-dev" versioned packages
-    ${APTI_SEARCH} '?and(?installed, ?name(-dev))' | sed 's/$/ # development/'
+    ${APTI_SEARCH} '?and(?installed, ?name(-dev))' | sed -e 's/$/ # development/'
 } 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2
 
 # List packages by size

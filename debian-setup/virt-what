@@ -3,4 +3,4 @@
 set -e -x
 
 virt-what > /root/virt-what.log
-apt-get purge -y virt-what
+apt-get purge -qq -y virt-what

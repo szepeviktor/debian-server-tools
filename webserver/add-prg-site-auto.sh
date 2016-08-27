@@ -162,5 +162,6 @@ chown -R ${U}:${U} /home/${U}/website
 a2ensite ${DOMAIN}
 webserver/apache-resolve-hostnames.sh
 
-# Reload services
-webserver/webrestart.sh
+# Reload webserver
+# We may not have the certificate in place
+apache2ctl configtest && webserver/webrestart.sh

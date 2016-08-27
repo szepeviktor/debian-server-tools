@@ -97,19 +97,20 @@ debian-setup/apt
 debian-setup/base-files
 
 # OS image normalization (does dist-upgrade)
-apt-get install -y aptitude
+apt-get install -qq -y aptitude
 ./debian-image-normalize.sh
 
 # Remove wheezy packages
 if Is_installed "libgnutls26"; then
-    apt-get purge -y libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
+    apt-get purge -qq -y \
+        libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
         libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
 fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav || true
 
 # Packages used during setup
-apt-get install -y ssh sudo apt-transport-https virt-what python-yaml
+apt-get install -qq -y ssh sudo apt-transport-https virt-what python-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
@@ -122,6 +123,9 @@ done
 eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " -f 2-)"
 # Get package lists
 apt-get update -qq
+
+IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+export IP
 
 # Virtualization environment
 debian-setup/virt-what

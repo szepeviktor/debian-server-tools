@@ -7,7 +7,7 @@
 set -e -x
 
 H="$(Data get-value system.fqdn)"
-IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+[ -n "$IP" ]
 
 # Search for the old host name
 grep -i -r "$(hostname)" /etc/ > /root/hostname-in-etc.log
@@ -36,6 +36,11 @@ EOF
 
 
 # Check A and MX record
-host "$H"
-# Check PTR (reverse DNS) record
+host -t A "$H"
+host -t MX "$H"
+# Optionally AAAA
+if [ -n "$(Data get-value networking.inet6 "")" ]; then
+    host -t AAAA "$H"
+fi
+# Check PTR (reverse DNS)
 host -t PTR "$IP"

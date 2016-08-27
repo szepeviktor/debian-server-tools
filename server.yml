@@ -24,6 +24,8 @@ apt:
         install-testing: true
     openssh-server:
         port: 2222
+    fail2ban:
+        sender: admin@DOMAIN.TLD
     apache2:
         prg-http-user: user
         prg-http-pwd: secret

@@ -51,34 +51,36 @@ apt-cache policy "linux-image-[3456789].*" | Titled_pager "Available Kernels"
 aptitude --disable-columns --display-format "%p" search '?and(?installed, ?name(^linux-image-))' \
     | grep -vFx "linux-image-$(dpkg --print-architecture)" \
     | Titled_pager "Installed Kernels"
-ls -l /lib/modules/ | Titled_pager "Kernel module files"
-if [ -f /proc/modules ]; then
-    lsmod | Titled_pager "Loaded modules"
-else
-    echo "WARNING: monolithic kernel"
-fi
-
-# Boot
-ls -ltr /boot/ | Titled_pager "Boot Directory"
-
-# GRUB
-dpkg -l | grep "grub" | Titled_pager "Installed GRUB Versions"
-
 Titled_pager "Kernel Modules to Load" < /etc/modules
+find /lib/modules/ -maxdepth 1 | Titled_pager "Kernel module files"
+{
+    if [ -f /proc/modules ]; then
+        lsmod
+    else
+        echo "WARNING: monolithic kernel"
+    fi
+} | Titled_pager "Loaded modules"
 Titled_pager "Kernel Parameters" < /etc/sysctl.conf
 if [ "$(find /etc/sysctl.d/ -mindepth 1)" != "/etc/sysctl.d/README.sysctl" ]; then
     find /etc/sysctl.d/ -type f -not -name "README.sysctl" | Titled_pager "Kernel Parameters in conf.d/"
 fi
 
+# Boot
+# shellcheck disable=SC2012
+ls -ltr /boot/ | Titled_pager "Boot Directory"
+
+# GRUB
+dpkg -l | grep "grub" | Titled_pager "Installed GRUB Versions"
+
 # Miscellaneous configuration
 Titled_pager "Local Boot Script" < /etc/rc.local
 Titled_pager "System-wide .profile file" < /etc/profile
-find /etc/profile.d/ -type f | Titled_pager "System-wide .profile conf.d/"
+find /etc/profile.d/ -type f | Titled_pager "System-wide .profile in conf.d/"
 
 # Networking
 Titled_pager "Interface Configuration" < /etc/network/interfaces
 { ifconfig -a; route -n -4; route -n -6; } | Titled_pager "Network configurations"
-netstat -antup | Titled_pager "Open ports"
+netstat -antupW | Titled_pager "Open ports"
 Titled_pager "Resolver Configuration" < /etc/resolv.conf
 
 # Show modified debconf values
@@ -89,10 +91,16 @@ debconf-show --listowners | xargs -n 1 debconf-show | grep "^\*" \
 find / -type l -xtype l -not -path "/proc/*" -not -path "/run/*" | Titled_pager "Broken symlinks"
 
 # Check the presence of MD5 hashes of installed packages
+BROKEN_HASH_PKGS=""
 for L in /var/lib/dpkg/info/*.list; do
-    P=$(basename "$L" .list)
-    [ -r "/var/lib/dpkg/info/${P}.md5sums" ] || echo "$P"
-done | Titled_pager "Packages missing MD5 hashes"
+    PKG="$(basename "$L" .list)"
+    if ! [ -r "/var/lib/dpkg/info/${PKG}.md5sums" ]; then
+        BROKEN_HASH_PKGS+="${PKG} "
+    fi
+done
+if [ -n "$BROKEN_HASH_PKGS" ]; then
+    echo "$BROKEN_HASH_PKGS" | tr ' ' '\n' | Titled_pager "Packages missing MD5 hashes"
+fi
 
 # Check user cron jobs
 grep -Ev '^\s*#|^\s*$' /etc/crontab /var/spool/cron/crontabs/* | Titled_pager "Cron jobs"
@@ -110,10 +118,13 @@ HOSTING_COMPANY="$(Data get-value hosting-company)"
 #     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
 #     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
 # w3m /usr/share/doc/base-passwd/users-and-groups.html
-{
-    tabs 20,+3,+8,+8,+20,+21,+8,+8,+8
-    sort -t ":" -k 3 -g /etc/passwd | tr ":" '\t'
-    tabs -8
-} | Titled_pager "All Linux users"
 Titled_pager "All passwords" < /etc/shadow
 # Update passwd: update-passwd -v --dry-run
+
+# This is visible only without pager
+clear
+echo "All Linux users"
+echo "---------------"
+tabs 20,+3,+8,+8,+20,+21,+8,+8,+8
+sort -t ":" -k 3 -g /etc/passwd | tr ":" '\t'
+tabs -8

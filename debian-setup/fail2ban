@@ -4,15 +4,24 @@ set -e -x
 
 # https://packages.qa.debian.org/f/fail2ban.html
 
+[ -n "$IP" ]
+
 Getpkg geoip-database-contrib
 apt-get install -y geoip-bin python3-pyinotify fail2ban
 
-mc security/fail2ban-conf/ /etc/fail2ban/
-# Config:     fail2ban.local
-# Jails:      jail.local
-# /filter.d:  apache-combined.local, apache-instant.local, courier-smtp.local, recidive.local
-# /action.d:  cloudflare.local
-#
-# Search for "@@"
+for CONFIG in fail2ban.local jail.local; do
+    cp -f security/fail2ban-conf/${CONFIG} /etc/fail2ban/
+done
+for FILTER in apache-combined.local apache-default.local apache-instant.local \
+    courier-auth.local courier-smtp.local recidive.local; do
+    cp -f security/fail2ban-conf/filter.d/${FILTER} /etc/fail2ban/filter.d/
+done
+for ACTION in cloudflare.local sendmail-geoip-lines.local; do
+    cp -f security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
+done
+sed -i -e "s|@@IP@@|${IP}" /etc/fail2ban/jail.local
+sed -i -e "s|@@SENDER@@|$(Data get-value apt.fail2ban.sender "root")" /etc/fail2ban/jail.local
+# Already checked in debian-setup/openssh-server
+sed -i -e "s|@@IP@@|$(Data get-value apt.openssh-server.port "")" /etc/fail2ban/jail.local
 
 service fail2ban restart

@@ -3,6 +3,10 @@
 # Continue Debian setup on a virtual server.
 #
 
+# Advise
+#
+# Prepare two terminals.
+
 declare -i CPU_COUNT
 
 set -e -x
@@ -11,6 +15,9 @@ set -e -x
 
 VIRT="$(Data get-value virtualization)"
 export VIRT
+
+IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+export IP
 
 # _check-system needs most
 apt-get install -y most
@@ -189,23 +196,26 @@ fi
 # PHP-FPM
 #webserver/php5-fpm.sh
 webserver/php7-fpm.sh
+
+# Package managers
+debian-setup/_package-python-pip
+# Needs PHP-CLI
+debian-setup/_package-php-composer
+#debian-setup/nodejs
+
 # Webserver reload
 Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
 webserver/redis-php.sh
 # MariaDB
 debian-setup/mariadb-server
-# Add the development website
+
+# Add the development website, needs composer
 webserver/add-prg-site-auto.sh
 # Add a production website
 # See /webserver/add-site.sh
 
 # @TODO Backup
-
-# Package managers
-debian-setup/_package-python-pip
-#debian-setup/_package-php-composer
-#debian-setup/nodejs
 
 # CLI tools
 debian-setup/php-wpcli
@@ -214,6 +224,7 @@ Dinstall webserver/wp-cron-cli.sh
 #debian-setup/php-drush
 
 # Monit - monitoring
+# @FIXME Need a production website for apache2 and php7.0-fpm
 # @FIXME Depends on repo
 (
     cd /usr/local/src/debian-server-tools/monitoring/monit/
@@ -229,7 +240,7 @@ debian-setup/libpam-modules
 #monitoring/munin/munin-debian-setup.sh
 
 # Clean up
-apt-get autoremove --purge
+apt-get autoremove --purge -y
 
 # Throttle automatic package downloads
 echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download

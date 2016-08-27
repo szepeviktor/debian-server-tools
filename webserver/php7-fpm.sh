@@ -32,6 +32,7 @@ echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php/7.0/fpm/php.i
 # @TODO Measure: realpath_cache_size = 16k  realpath_cache_ttl = 120
 #       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
 
+# Display PHP directives
 grep -Ev "^\s*#|^\s*;|^\s*\$" /etc/php/7.0/fpm/php.ini | pager
 # Disable "www" pool
 mv /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf.default

@@ -3,8 +3,9 @@
 set -e -x
 
 # µnscd
-editor /etc/nscd.conf
-#     enable-cache            hosts   yes
-#     positive-time-to-live   hosts   60
+#   enable-cache            hosts   yes
+#   positive-time-to-live   hosts   60
+sed -i -e 's|^enable-cache            hosts   no|enable-cache            hosts   yes|' /etc/nscd.conf
+sed -i -e 's|^positive-time-to-live   hosts   3600|positive-time-to-live   hosts   60|' /etc/nscd.conf
 
 service unscd --full-restart

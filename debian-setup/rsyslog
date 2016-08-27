@@ -16,9 +16,12 @@ service rsyslog restart
 Dinstall monitoring/syslog-errors.sh
 
 # Logrotate periods
-editor /etc/logrotate.d/rsyslog
-#     weekly
-#     rotate 15
-#     # /var/log/mail.log
-#     weekly
-#     rotate 15
+# /var/log/syslog
+#   rotate 15
+#   weekly
+sed -i -e 's|\brotate 7$|rotate 15|' /etc/logrotate.d/rsyslog
+sed -i -e 's|\bdaily$|weekly|' /etc/logrotate.d/rsyslog
+# /var/log/mail.info ...
+#   rotate 15
+# Already "weekly"
+sed -i -e 's|\brotate 4$|rotate 15|' /etc/logrotate.d/rsyslog
