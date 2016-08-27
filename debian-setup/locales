@@ -2,7 +2,7 @@
 
 set -e -x
 
-# Locales
+# Display locales
 locale
 locale -a
 

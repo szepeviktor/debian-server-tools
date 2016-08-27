@@ -12,4 +12,6 @@ echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
 rm -f /etc/timezone
 
 dpkg-reconfigure -f noninteractive tzdata
-service rsyslog restart
+
+# Later in debian-setup/rsyslog
+#service rsyslog restart

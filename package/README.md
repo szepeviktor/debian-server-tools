@@ -11,8 +11,8 @@ Colon at column :16
 #
 # VERSION       :semver
 # DATE          :2016-12-31
-# AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install package

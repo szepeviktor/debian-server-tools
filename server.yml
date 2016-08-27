@@ -13,6 +13,7 @@ system:
 apt:
     # See /package/apt-sources/
     repository:
+        - apache-backports
         - dotdeb
         - nodejs
         - percona

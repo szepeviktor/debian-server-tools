@@ -30,18 +30,19 @@ if [ -z "$(getent passwd "$U")" ]; then
 
     # sensible-utils
     echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > "${HOME_DIR}/.selected_editor"
+
+    # TODO /etc/skel/.profile
 fi
 
 # Disable root password
 echo "root:*" | chpasswd -c NONE
+
 # Check passwords for other users
 PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)$')"
 # Only one may have a password
 [ "$(wc -l <<< "$PASSWORD_USERS")" == 1 ]
 # It is the first user
 [ "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS" ]
-
-# TODO /etc/skel/.profile
 
 
 

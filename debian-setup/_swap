@@ -11,4 +11,5 @@ set -e -x
 dd if=/dev/zero of=${SWAP_FILE} bs=1M seek=${SWAP_SIZE} count=0
 chmod 0600 ${SWAP_FILE}
 mkswap $SWAP_FILE
+
 echo "${SWAP_FILE}    none    swap    sw    0   0" >> /etc/fstab

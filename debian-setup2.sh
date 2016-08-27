@@ -31,7 +31,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
 # Backports
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     -t jessie-backports needrestart unscd
-# sid
+# testing
 debian-setup/ca-certificates
 # From custom repos
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
@@ -40,17 +40,18 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
     # shellcheck disable=SC2046
-    apt-get install -y $(Data get-values provider-package)
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+        $(Data get-values provider-package)
 fi
 
-# Restore sudoers file
+# Restore original sudoers file
 debian-setup/sudo
 
 debian-setup/locales
 
-# Before tzdata
-debian-setup/rsyslog
+# tzdata first as it may modify system time
 debian-setup/tzdata
+debian-setup/rsyslog
 
 debian-setup/localepurge
 debian-setup/unattended-upgrades
@@ -58,14 +59,19 @@ debian-setup/unattended-upgrades
 # Custom APT repository script
 Dinstall package/apt-add-repo.sh
 
+# @FIXME
 #debian-setup/ifupdown
 
 debian-setup/_resolv_conf
 
 # Block dangerous networks
-# @FIXME Dependencies in ${D}
-( cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/; ./ipset-install.sh )
+# @FIXME Depends on repo
+(
+    cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/
+    ./ipset-install.sh
+)
 
+# Micro Name Service Caching
 debian-setup/unscd
 
 debian-setup/kmod
@@ -122,6 +128,10 @@ else
     cat /proc/sys/kernel/random/entropy_avail
 fi
 
+# @TODO
+#if [ "$VIRT" == "kvm" ]; then
+#    debian-setup/_virt-kvm
+#fi
 if [ "$VIRT" == "xen" ]; then
     debian-setup/_virt-xen
 fi
@@ -129,6 +139,7 @@ if [ "$VIRT" == "vmware" ]; then
     debian-setup/_virt-vmware
 fi
 
+# For Aruba Cloud
 if [ -n "$(Data get-value software.serclient "")" ]; then
     debian-setup/serclient
 fi
@@ -146,12 +157,12 @@ Dinstall security/myattackers.sh
 # Initialize iptables chain
 myattackers.sh -i
 
+# After security/myattackers.sh
 debian-setup/fail2ban
 
 #debian-setup/_cert-szepenet
 
-# Monitor certificates
-Dinstall monitoring/cert-expiry.sh
+#debian-setup/proftpd-basic
 
 # Courier MTA - deliver all messages to a smarthost
 # See /mail/courier-mta-satellite-system.sh
@@ -160,17 +171,14 @@ if Is_installed "msmtp-mta"; then
     debian-setup/msmtp-mta
 fi
 
+# Monitor certificates
+Dinstall monitoring/cert-expiry.sh
+
 # Tools
 for TOOL in catconf cnet hosthost hostinfo ip.sh lsrev msec reboot revip \
     sortip swap-usage.sh u udrush uwp whichdo whoistop; do
     Dinstall "tools/${TOOL}"
 done
-
-#debian-setup/proftpd-basic
-
-
-
-### WEBSERVER
 
 # Apache 2.4
 webserver/apache-httpd.sh
@@ -181,8 +189,6 @@ fi
 # PHP-FPM
 #webserver/php5-fpm.sh
 webserver/php7-fpm.sh
-# WordPress cron
-Dinstall webserver/wp-cron-cli.sh
 # Webserver reload
 Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
@@ -196,36 +202,43 @@ webserver/add-prg-site-auto.sh
 
 # @TODO Backup
 
+# Package managers
 debian-setup/_package-python-pip
 #debian-setup/_package-php-composer
-debian-setup/php-wpcli
-#debian-setup/php-drush
 #debian-setup/nodejs
 
-
-
-### END
+# CLI tools
+debian-setup/php-wpcli
+# WordPress cron
+Dinstall webserver/wp-cron-cli.sh
+#debian-setup/php-drush
 
 # Monit - monitoring
-# @FIXME Dependencies in ${D}
-( cd /usr/local/src/debian-server-tools/monitoring/monit/; \
-    install --mode=0640 -D -t /etc/monit monit.defaults; ./monit-debian-setup.sh )
+# @FIXME Depends on repo
+(
+    cd /usr/local/src/debian-server-tools/monitoring/monit/
+    install --mode=0640 -D -t /etc/monit monit.defaults
+    ./monit-debian-setup.sh
+)
 
 # After monit
 debian-setup/libpam-modules
 
+# @TODO
 # Munin - network-wide graphing
-# @TODO See /monitoring/munin/munin-debian-setup.sh
+#monitoring/munin/munin-debian-setup.sh
 
 # Clean up
 apt-get autoremove --purge
 
-# Throttle package downloads (1000 kB/s)
-echo 'Acquire::Queue-mode "access"; Acquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
+# Throttle automatic package downloads
+echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
 
-# At last
+# etckeeper at last
 apt-get install -y etckeeper
 debian-setup/etckeeper
 
-# Clear history
+# Clear Bash history
 history -c
+
+echo "OK."

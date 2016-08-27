@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Google Public DNS
-# DNS Advantage by Neustar
+# Free DNS resolvers
+#
+# - Google Public DNS
+# - DNS Advantage by Neustar
 
 declare -i RESOLVERS="0"
 # See resolv.conf(5)
@@ -12,7 +14,7 @@ Check_resolver() {
     local NS="$1"
 
     host -v -t A example.com "$NS" \
-        | grep -E "^example\.com\.\s+[0-9]+\s+IN\s+A\s+${EXAMPLECOM_IP//./\\.}\$"
+        | grep -E "^example\.com\.\s+[0-9]+\s+IN\s+A\s+${EXAMPLECOM_IP//./\\.}\$" 1>&2
 }
 
 set -e -x

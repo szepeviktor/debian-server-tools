@@ -2,19 +2,50 @@
 #
 # Debian jessie setup on a virtual server.
 #
+# VERSION       :1.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
-# AUTORUN       :wget -O ds.sh http://git.io/vtcLq && . ds.sh
+# BASH-VERSION  :4.2+
+# CI            :shellcheck
+# CONFIG        :/root/server.yml
 
-# Steps
+# Execution Steps
 #
-#   wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
-#   cd debian-server-tools-master/
-# - View Network Graph v4/v6 http://bgp.he.net/
-# - Aquire settings (custom kernel, user names, SSH keys, hostname, networking, resolvers, NTP servers)
-# - Set up DNS (PTR, A, MX)
-# - Make up /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
+# 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
+#    cd debian-server-tools-master/
+# 2. Evaluate Network Graph v4 and v6 http://bgp.he.net/
+# 3. Aquire settings (custom kernel, user names, SSH keys, hostname, networking, resolvers, NTP servers)
+# 4. Make up /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
+# 5. Set up DNS (PTR, A, AAAA, MX)
+# 6. Start!  ./debian-setup.sh
+# 7. Continue  ./debian-setup2.sh
+
+# Features
+#
+# - YAML configuration file with provider profiles
+# - OS image normalization
+# - Optionally switch to SysVinit
+# - Boot and Halt alert
+# - UTC timezone
+# - Micro Name Service Caching
+# - IRQ balance
+# - Time synchronization
+# - Hardware TRNG or HAVEGE generator
+# - Fail2ban and block dangerous networks
+# - Monit monitoring
+# - Courier MTA
+# - System backup
+# - Nice motd welcome
+# - Package managers (composer, pip, npm)
+#
+# Webserver
+#
+# - Apache 2.4 latest with HTTP/2 and event MPM
+# - PHP 5.6 or 7.0 through PHP-FPM
+# - CLI tools
+# - Redis in-memory cache
+# - MariaDB 10
 
 export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
@@ -22,12 +53,15 @@ export IMAGE_ID="Debian"
 export IMAGE_CODENAME="jessie"
 export WITHOUT_SYSTEMD="yes"
 
-export SETUP_PACKAGES="lsb-release ca-certificates wget debian-archive-keyring apt apt-utils"
+export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils"
 #:ubuntu
-#export SETUP_PACKAGES="lsb-release ca-certificates wget ubuntu-keyring apt apt-utils"
+#export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils"
 export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources"
+# Microsoft Azure Traffic Manager
 export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
+# Amazon CloudFront
 #export SETUP_SOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
+# Hungarian Debian mirror
 #export SETUP_SOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
 export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
@@ -52,7 +86,7 @@ if [ "$IS_FUNCTIONAL" != "yes" ]; then
     apt-get update -qq || true
     # shellcheck disable=SC2086
     apt-get install -y --force-yes ${SETUP_PACKAGES} || true
-    # These packages should be auto installed
+    # These packages should be auto-installed
     apt-mark auto lsb-release ca-certificates || true
 fi
 
@@ -76,11 +110,11 @@ rm -rf /var/lib/clamav /var/log/clamav || true
 
 # Packages used during setup
 apt-get install -y ssh sudo apt-transport-https virt-what python-yaml
-# Install SHYAML
+# Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
 
-# APT repositories
+# Add APT repositories
 for REPO in $(Data get-values apt.repository); do
     wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
 done
@@ -94,15 +128,16 @@ debian-setup/virt-what
 
 debian-setup/hostname
 debian-setup/login
-debian-setup/dash
 debian-setup/readline-common
+# Set Bash as default
+debian-setup/dash
 
 # Root user and first user
 debian-setup/adduser
 # After adduser
 debian-setup/openssh-server
 
-# Optionally switch to SysVinit
+# Optionally (WITHOUT_SYSTEMD) switch to SysVinit
 debian-setup/systemd
 
 # Log in on a new terminal and log out here
