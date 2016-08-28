@@ -26,7 +26,8 @@ host -t MX $(hostname -f)
 
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
-apt-get install -y aptitude apg courier-mta courier-ssl courier-mta-ssl
+# Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
+apt-get install -y aptitude apg courier-mta courier-ssl courier-mta-ssl -o APT::Install-Recommends=false
 
 # Check for other MTA-s
 aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))'

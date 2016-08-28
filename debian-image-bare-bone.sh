@@ -142,6 +142,7 @@ fi
 
 # @TODO Is kernel by APT running?
 # linux-image-amd64 initramfs-tools firmware-.* open-vm-tools open-vm-tools-dkms dkms
+
 if [ -d /sys/bus/usb ]; then
     apt-get install -qq -y usbutils
 elif Is_installed usbutils; then

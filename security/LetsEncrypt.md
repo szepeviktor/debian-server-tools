@@ -33,7 +33,7 @@ cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/
 #     https://github.com/veeti/manuale
 apt-get install -y dialog ca-certificates \
     gcc python3-dev libssl-dev libffi-dev
-pip3 install manuale
+pip3 install --upgrade manuale
 manuale -h
 ```
 

@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.6.2
+# VERSION       :0.6.3
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,11 +18,11 @@ set -e
 # Use example defaults file or edit your own
 #     install --mode=0600 -D -t /etc/monit monit.defaults
 # Exclude packages
-#     EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm ./monit-debian-setup.sh
-# Check missing service configs
-#     dpkg-query --showformat="\${Package}\n" --show|while read -r PACKAGE; do
-#     if [ -f "services/${PACKAGE}" ] && ! [ -f "/etc/monit/conf-enabled/${PACKAGE}" ]; then
-#     echo "Missing: ${PACKAGE}"; fi; done
+#     MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm ./monit-debian-setup.sh
+# List not yet enabled service configs for installed packages
+#     dpkg-query --showformat="\${Package}\n" --show | while read -r PKG; do
+#     if [ -f "services/${PKG}" ] && ! [ -f "/etc/monit/conf-enabled/${PKG}" ]; then
+#     echo "Missing: ${PKG}"; fi; done
 
 # @TODO
 # - integrate cert-expiry/openssl
@@ -148,7 +148,7 @@ Monit_all_packages() {
     local PACKAGE
 
     while read -r PACKAGE <&4; do
-        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -qF ":${PACKAGE}:" <<< ":${EXCLUDED_PACKAGES}:"; then
+        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -qF ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
             Monit_enable "$PACKAGE"
         fi
     done 4<<< "$PACKAGES"
@@ -167,7 +167,7 @@ Monit_virtual_packages() {
             continue
         fi
         for PACKAGE in ${VPACKAGES[$MAIN_PACKAGE]//,/ }; do
-            if Is_pkg_installed "$PACKAGE" && ! grep -qF ":${PACKAGE}:" <<< ":${EXCLUDED_PACKAGES}:"; then
+            if Is_pkg_installed "$PACKAGE" && ! grep -qF ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
                 Monit_enable "$MAIN_PACKAGE"
                 break
             fi

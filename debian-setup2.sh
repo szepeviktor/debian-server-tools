@@ -224,11 +224,13 @@ Dinstall webserver/wp-cron-cli.sh
 #debian-setup/php-drush
 
 # Monit - monitoring
-# @FIXME Need a production website for apache2 and php7.0-fpm
+# @FIXME Needs a production website for apache2 and php7.0-fpm
+# @FIXME Defaults editor
 # @FIXME Depends on repo
 (
     cd /usr/local/src/debian-server-tools/monitoring/monit/
     install --mode=0640 -D -t /etc/monit monit.defaults
+    editor /etc/monit monit.defaults
     ./monit-debian-setup.sh
 )
 

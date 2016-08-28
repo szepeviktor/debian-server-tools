@@ -19,7 +19,9 @@
 # 4. Make up /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
 # 5. Set up DNS (PTR, A, AAAA, MX)
 # 6. Start!  ./debian-setup.sh
-# 7. Continue  ./debian-setup2.sh
+# @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
+# 7. Consider creating a disk or vm template with isc-dhcp-client installed
+# 8. Continue  ./debian-setup2.sh
 
 # Features
 #
@@ -38,6 +40,7 @@
 # - System backup
 # - Nice motd welcome
 # - Package managers (composer, pip, npm)
+# - 155 MB memory usage, 2 GB disk usage
 #
 # Webserver
 #

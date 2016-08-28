@@ -1,5 +1,8 @@
 # Provider in DataCenter
 hosting-company: Provider
+virtualization: kvm
+#virtualization: baremetal
+#virtualization: hypervisor
 networking:
     #method: dhcp
     method: static
@@ -12,13 +15,17 @@ networking:
         # rdns1.ultradns.net.
         - 156.154.70.1
         - $local.NS1
+        # MAXNS=3
+        #- $local.NS2
         # rdns2.ultradns.net.
-        - 156.154.71.1
+        #- 156.154.71.1
     inet6:
         #method: auto
         method: static
         name: eth0
         ipv6: 2a00:3055:1000:900:8000:e2ff:feee:aeef
+        resolver:
+            - 2a00:3055:1000:900:1
     # Second interface
     eth1:
         method: static

@@ -26,7 +26,7 @@ networking:
             # google-public-dns-b.google.com.
             #- 2001:4860:4860:0:0:0:0:8844
     # Private network
-    eth1:
+    private:
         method: dhcp
         name: eth1
 provider-package:

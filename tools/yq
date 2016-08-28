@@ -2,13 +2,14 @@
 #
 # Wraps jq to be able to process YAML.
 #
-# https://github.com/fadado/jq-learn
+# https://github.com/fadado/jqt
 
 # Options
 set -o errexit -o noglob -o nounset -o pipefail
 
 # Script name
-declare -r SELF="$(basename "$0")"
+declare -r SELF
+SELF="${0##*/}"
 
 # Show help
 help() {

@@ -1,4 +1,4 @@
-#!/bin/bash --version
+#!/bin/bash
 #
 # Courier MTA - deliver all messages to a smarthost.
 #
@@ -12,16 +12,20 @@
 #     MTA --> smarthost
 #     MTA --> transactional providers
 
-exit 0
+set -e -x
+
+. debian-setup-functions
 
 #################### 'smarthost' configuration ####################
 
+if false; then # smarthost
+
 # Bounce handling
-host -t MX $(hostname -f)
+host -t MX "$(hostname -f)"
 # Receive (bounce) mail for the satellite system (alias, acceptmailfor)
 
 # Add the 'smarthost' to the SPF record of all sending domains
-host -t TXT $SENDING_DOMAIN
+host -t TXT "$SENDING_DOMAIN"
 
 # Allow receiving mail from the satellite system
 editor /etc/courier/smtpaccess/default
@@ -35,6 +39,8 @@ editor /var/mail/DOMAIN/LOCAL-USER/.courier-default
 
 courier-restart.sh
 
+fi # smarthost
+
 ################## END 'smarthost' configuration ##################
 
 
@@ -47,15 +53,16 @@ fi
 
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
-apt-get install -y aptitude courier-mta courier-ssl
+# Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
+apt-get install -y aptitude ca-certificates courier-mta courier-ssl -o APT::Install-Recommends=false
 # Fix dependency on courier-authdaemon
-if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courier-mta)" lt "0.75.0-11"; then
-    sed -i '1,20s/^\(#\s\+Required-Start:\s.*\)$/\1 courier-authdaemon/' /etc/init.d/courier-mta
+if dpkg --compare-versions "$(dpkg-query --show --showformat="\${Version}" courier-mta)" lt "0.75.0-11"; then
+    sed -i -e '1,20s|^#\s\+Required-Start:\s.*$|& courier-authdaemon|' /etc/init.d/courier-mta
     update-rc.d courier-mta defaults
 fi
 
 # Restart script
-( cd ${D}; ./install.sh mail/courier-restart.sh )
+Dinstall mail/courier-restart.sh
 
 # Route mail to the smarthost
 editor /etc/courier/esmtproutes
@@ -72,10 +79,13 @@ editor /etc/courier/courierd
 # Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready (jessie) for it
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/
 #     TLS_PROTOCOL="TLSv1.2"
-#     TLS_CIPHER_LIST="" # Modern profile
+#     # Modern profile as of 2016-08-28
+#     TLS_CIPHER_LIST="ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
 #
 #     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
-#     TLS_CIPHER_LIST="" # Intermediate profile
+#     # Intermediate profile as of 2016-08-28
+#     TLS_CIPHER_LIST="ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS"
+#
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
 #     TLS_CACHEFILE=/var/lib/courier/tmp/ssl_cache
 #     TLS_CACHESIZE=524288
@@ -84,7 +94,7 @@ editor /etc/courier/courierd
 rm -f /etc/courier/dhparams.pem
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
-( cd ${D}; ./install.sh mail/courier-dhparams.sh )
+Dinstall mail/courier-dhparams.sh
 
 # STARTTLS in client mode and 'smarthost' certificate verification
 editor /etc/courier/courierd
@@ -96,7 +106,7 @@ editor /etc/courier/courierd
 # Listen on localhost and disable authentication
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
-#     TCPDOPTS=" ... ... -noidentlookup"
+#     TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger -noidentlookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
 
@@ -124,4 +134,4 @@ editor /etc/courier/aliases/system
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail."|mailx -s "[first] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | mailx -s "[first] The 1st outgoing mail" admin@szepe.net
