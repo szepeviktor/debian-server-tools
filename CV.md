@@ -2,7 +2,7 @@
 
 My main activity is **proactive** maintenance of HTTP-based services: an application, an API or a website.  
 These experiences could mean valuable feedback for your development team.  
-(*Traffic light example: a developer sees the green light, I see red and amber.*)  
+(*Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.*)  
 My focus is on security&safety and performance.
 
 I build and monitor Debian-based web-servers. Email delivery is on my radar.  
@@ -50,7 +50,7 @@ I hope I'll fit into your picture: viktor@szepe.net
 
 HTTP alapú szolgáltatások **proaktív** üzemeltetésével foglalkozok: applikációk, API-k, honlapok.  
 Ezirányú tapasztalataim értékes visszacsatolást jelenthetnek a fejlesztő csapatuknak.  
-(A közlekedési jelzőlámpa példával élve: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
+(A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
 A figyelmem az üzembiztonságon és a sebességen van.
 
  Úgy szoktam mondani, hogy *pozitív jövőképe legyen a projektnek*.
