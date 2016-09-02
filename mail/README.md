@@ -89,12 +89,39 @@ https://toolbox.googleapps.com/apps/checkmx/
 ### Malware (virus) scanning
 
 - ClamAV (CCTTS, Safe Browsing)
-- clamav-unofficial-sigs (paid: SecuriteInfo, MalwarePatrol, Sanesecurity)
-- clamav pythonfilter through pyClamd for Courier MTA
+- clamav-unofficial-sigs (paid: SecuriteInfo, MalwarePatrol, free: Sanesecurity)
+- `clamav.py` pythonfilter through pyClamd for Courier MTA
 
 clamav-unofficial-sigs needs 1 GB of memory.
 
-"Best clamd.conf" in SecuriteInfo FAQ.
+See "Best clamd.conf" in [SecuriteInfo](https://www.securiteinfo.com/services/anti-spam-anti-virus/improve-detection-rate-of-zero-day-malwares-for-clamav.shtml) FAQ.
+
+### Block executables
+
+courier-pythonfilter module: `attachments.py`
+
+```ini
+[attachments.py]
+blockedPattern = r'^.*\.(ade|adp|bat|chm|cmd|com|cpl|dll|exe|hta|inf|ins|isp|jar|js|jse|lib|lnk|mde|msc|msp|mst|pif|reg|scf|scr|sct|shb|shs|sys|url|xxe|vb|vbe|vbs|vxd|wsc|wsf|wsh)$'
+```
+
+### GMail's blocked file types
+
+https://support.google.com/mail/answer/6590
+
+[Spamassassin rule](https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Plugin_MIMEHeader.html)
+
+`20_gmail-blocked-filetypes.cf`
+
+```
+# GMail's blocked file types
+ifplugin Mail::SpamAssassin::Plugin::MIMEHeader
+mimeheader GMAIL_BLOCKED_ATTACH Content-Type =~ /\.(ADE|ADP|BAT|CHM|CMD|COM|CPL|EXE|HTA|INS|ISP|JAR|JSE|LIB|LNK|MDE|MSC|MSP|MST|PIF|SCR|SCT|SHB|SYS|VB|VBE|VBS|VXD|WSC|WSF|WSH)/i
+mimeheader GMAIL_BLOCKED_ATTACH_CD Content-Disposition =~ /\.(ADE|ADP|BAT|CHM|CMD|COM|CPL|EXE|HTA|INS|ISP|JAR|JSE|LIB|LNK|MDE|MSC|MSP|MST|PIF|SCR|SCT|SHB|SYS|VB|VBE|VBS|VXD|WSC|WSF|WSH)/i
+score GMAIL_BLOCKED_ATTACH 20
+score GMAIL_BLOCKED_ATTACH_CD 20
+endif
+```
 
 ### Send all messages in an mbox file to an email address
 

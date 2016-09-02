@@ -308,7 +308,7 @@ http://google-public-dns.appspot.com/cache
 - Informative
 - Cooperative (search form, automatic suggestions, Google's fixurl.js)
 - Attractive
-- Adaptive `Content-Type` header for non-HTML 404-s
+- [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
 
 ### Resource optimization
 

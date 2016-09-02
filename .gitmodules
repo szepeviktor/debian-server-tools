@@ -40,3 +40,6 @@
 [submodule "mysql/mysql2sqlite"]
 	path = mysql/mysql2sqlite
 	url = https://github.com/dumblob/mysql2sqlite.git
+[submodule "mail/courier-pythonfilter"]
+	path = mail/courier-pythonfilter
+	url = git@github.com:szepeviktor/courier-pythonfilter.git

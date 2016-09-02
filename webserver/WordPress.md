@@ -76,6 +76,18 @@ wp option set admin_email "support@company.net"
 
 @TODO Move to wp-lib
 
+### Remove default content
+
+```bash
+wp post delete $(wp post list --name="$(wp eval 'echo sanitize_title( _x( "hello-world", "Default post slug" ) );')" --posts_per_page=1 --format=ids)
+wp post delete $(wp post list --post_type=page --name="$(wp eval 'echo __( "sample-page" );')" --posts_per_page=1 --format=ids)
+wp comment delete 1
+wp option update blogdescription ""
+wp plugin uninstall akismet
+wp plugin uninstall hello-dolly
+wp theme delete twentyfifteen
+wp theme delete twentyfourteen
+```
 
 ### Redis object cache
 

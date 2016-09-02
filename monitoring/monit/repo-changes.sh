@@ -27,6 +27,7 @@ Latest_commit "perusio/monit-miscellaneous"
 
 # 03.
 # Services from Debian: git clone https://anonscm.debian.org/git/collab-maint/monit.git
+# Web: https://anonscm.debian.org/cgit/collab-maint/monit.git/tree/debian/conf-available
 
 # 04.
 # Monit examples: https://mmonit.com/wiki/Monit/ConfigurationExamples

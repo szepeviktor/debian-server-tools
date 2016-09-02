@@ -2,7 +2,7 @@
 #
 # SHYAML: YAML for the command line
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # AUTHOR        :Valentin Lab.
 # URL           :https://github.com/0k/shyaml/
 # LICENSE       :BSD License
@@ -21,6 +21,7 @@ import yaml
 import os.path
 import re
 
+PY3 = sys.version_info[0] >= 3
 
 EXNAME = os.path.basename(sys.argv[0])
 
@@ -335,7 +336,7 @@ def die(msg, errlvl=1, prefix="Error: "):
     stderr("%s%s\n" % (prefix, msg))
     sys.exit(errlvl)
 
-SIMPLE_TYPES = (str, int, float)
+SIMPLE_TYPES = (str, int, float) if PY3 else (basestring, int, float)
 COMPLEX_TYPES = (list, dict)
 
 

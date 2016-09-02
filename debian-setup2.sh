@@ -96,12 +96,11 @@ insserv -v halt-alert
 # IRQ balance
 CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 if [ "$CPU_COUNT" -gt 1 ]; then
-    apt-get install -y irqbalance
+    # Stable has a bug, it exits
+    apt-get install -t jessie-backports -y irqbalance
     cat /proc/interrupts
-else
-    if Is_installed "irqbalance"; then
-        apt-get purge -y irqbalance
-    fi
+elif Is_installed "irqbalance"; then
+    apt-get purge -y irqbalance
 fi
 
 # Time synchronization
@@ -177,6 +176,9 @@ debian-setup/fail2ban
 if Is_installed "msmtp-mta"; then
     debian-setup/msmtp-mta
 fi
+#if Is_installed "nullmailer"; then
+#    debian-setup/nullmailer
+#fi
 
 # Monitor certificates
 Dinstall monitoring/cert-expiry.sh

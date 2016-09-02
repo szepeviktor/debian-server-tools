@@ -89,7 +89,9 @@ which optipng jpeginfo &> /dev/null || exit 99
 
 export -f Optimize_jpeg
 export -f Optimize_png
-find -maxdepth 1 '(' -iname "*.jpg" -o -iname "*.jpeg" ')' -type f -print0 \
-    | xargs -r -0 -I '{}' bash -c 'Optimize_jpeg "{}"'
+
+find -maxdepth 1 -type f "(" -iname "*.jpg" -o -iname "*.jpeg" ")" -print0 \
+    | xargs -r -0 -I % bash -c 'Optimize_jpeg "%"'
+
 find -maxdepth 1 -iname "*.png" -type f -print0 \
-    | xargs -r -0 -I '{}' bash -c 'Optimize_png "{}"'
+    | xargs -r -0 -I % bash -c 'Optimize_png "%"'

@@ -90,6 +90,8 @@ msgid "Log in"
 msgstr "Log in to szepe.net"
 ```
 
+### Magnification
+
 `magnification.css`
 
 ```css
@@ -145,4 +147,23 @@ class Horde_Hooks
     }
 
 }
+```
+
+### Virus alert
+
+`imp/config/mime_drivers.local.php`
+
+```php
+    /* Zip file display. */
+    'zip' => array(
+        'handles' => array(
+            'application/x-compressed',
+            'application/x-zip-compressed',
+            'application/zip'
+        ),
+        'icons' => array(
+            //'default' => 'compressed.png'
+            'default' => 'virus.png' // 49px × 20px
+        )
+    ),
 ```

@@ -45,6 +45,7 @@ if [ -f "/run/courier/courierfilter.pid" ]; then
     FILTER_PIDS="$(pgrep --parent "$COURIERFILTER_PID" || true)"
     if [ -n "$FILTER_PIDS" ]; then
         for PID in ${FILTER_PIDS}; do
+            # Wait for running filter children
             while [ -n "$(pgrep --parent "$PID")" ]; do
                 echo -n "Filter: "; ps --no-headers -o comm= --pid "$PID"
                 sleep 1

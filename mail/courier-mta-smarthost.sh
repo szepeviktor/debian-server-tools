@@ -20,6 +20,8 @@
 
 exit 0
 
+COURIER_PYTHONFILTER_URL="http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/courier-pythonfilter-1.11.tar.gz"
+
 # Add an MX record
 host -t MX $(hostname -f)
 # Receive mail on a mailserver with accounts (alias, acceptmailfor)
@@ -187,7 +189,7 @@ wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 adduser clamav daemon
 # Install pythonfilter
 #pip2 install courier-pythonfilter
-pip2 install http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/courier-pythonfilter-1.10.tar.gz
+pip2 install "$COURIER_PYTHONFILTER_URL"
 cat <<EOF > /etc/pythonfilter.conf
 clamav
 attachments

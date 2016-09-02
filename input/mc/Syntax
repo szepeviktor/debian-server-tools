@@ -9,7 +9,7 @@ include markdown.syntax
 file ..\*\\.(eml|msg)$ Email\sSource
 include email.syntax
 
-file ..\*\\.(less)$ Less\sStylesheet
+file ..\*\\.(less|scss)$ Dynamic\sStylesheet
 include css.syntax
 
 file ..\*\\.(yml|yaml)$ YAML\sDocument
