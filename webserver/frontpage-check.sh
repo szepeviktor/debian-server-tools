@@ -3,7 +3,7 @@
 # Check front page of a website.
 #
 
-# CRON.D        :02 *	* * *	web	/usr/local/bin/frontpage-check.sh CONFIG-FILE
+# CRON.D        :02 *	* * *	nobody	/usr/local/bin/frontpage-check.sh CONFIG-FILE
 
 SITE_CONFIG="$1"
 #FPCHK_WEBSITE_NAME=""

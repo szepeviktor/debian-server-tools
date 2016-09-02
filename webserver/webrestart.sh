@@ -12,7 +12,7 @@
 # DEPENDS7      :apt-get install php7.0-fpm apache2
 # LOCATION      :/usr/local/sbin/webrestart.sh
 
-APACHE_GROUP="web"
+APACHE_USER="_web"
 
 Error() {
     echo "ERROR: $1" 1>&2
@@ -35,7 +35,7 @@ while read -r CONFIG_FILE; do
         SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
         if [ -n "$SITE_USER" ]; then
             # Is Apache in this user's group?
-            groups "$APACHE_GROUP" | grep -qw "$SITE_USER" || Error "Apache is not in ${SITE_USER} group"
+            groups "$APACHE_USER" | grep -qw "$SITE_USER" || Error "Apache is not in ${SITE_USER} group"
         fi
     fi
 done <<< "$APACHE_CONFIGS"

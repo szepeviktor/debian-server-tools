@@ -18,10 +18,10 @@ apt-get purge -y ssl-cert
 # Already "daily"
 sed -i -e 's|\brotate 14$|rotate 90|' /etc/logrotate.d/apache2
 
-# Run as "web" user
-adduser --disabled-password --gecos "" web
-sed -i -e 's|^export APACHE_RUN_USER=www-data|export APACHE_RUN_USER=web|' /etc/apache2/envvars
-sed -i -e 's|^export APACHE_RUN_GROUP=www-data|export APACHE_RUN_GROUP=web|' /etc/apache2/envvars
+# Run as "_web" user
+adduser --disabled-password --no-create-home --gecos "" _web
+sed -i -e 's|^export APACHE_RUN_USER=www-data|export APACHE_RUN_USER=_web|' /etc/apache2/envvars
+sed -i -e 's|^export APACHE_RUN_GROUP=www-data|export APACHE_RUN_GROUP=_web|' /etc/apache2/envvars
 
 a2enmod actions rewrite headers deflate expires proxy_fcgi
 
@@ -29,8 +29,8 @@ a2enmod actions rewrite headers deflate expires proxy_fcgi
 sed -i -e '/<Location \/server-status>/,/</Location>/d' /etc/apache2/mods-available/status.conf
 
 a2enmod ssl
-yes|cp -f webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
-yes|cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
+yes | cp -f webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
+yes | cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
 
 # Use php-fpm.conf settings per site
 a2enconf h5bp

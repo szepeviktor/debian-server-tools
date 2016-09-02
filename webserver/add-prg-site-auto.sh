@@ -29,8 +29,8 @@ SSL_CN="$(Data get-value apt.apache2.prg-ssl-cn "")"
 # Check debian-server-tools
 [ -f "package/phpmyadmin-get.sh" ]
 
-# Apache user
-getent passwd web &> /dev/null
+# Apache user exists
+getent passwd _web &> /dev/null
 
 U="prg$((RANDOM % 1000))"
 DOMAIN="prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io"
@@ -39,7 +39,7 @@ DOMAIN="prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p'
 adduser --disabled-password --gecos "" ${U}
 
 # Add webserver to this group
-adduser web ${U}
+adduser _web ${U}
 
 # For bounce messages
 echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user

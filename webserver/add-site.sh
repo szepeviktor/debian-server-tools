@@ -17,7 +17,7 @@ read -r -e -p "domain name without WWW: " DOMAIN
 adduser --disabled-password --gecos "" ${U}
 
 # Add webserver to this group
-adduser web ${U}
+adduser _web ${U}
 
 # Add system mail alias to deliver bounces to one address
 # E.g. VIRTUAL-USERGROUP could be one client
