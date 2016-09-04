@@ -16,6 +16,7 @@ set -e
 # Exclude
 #   WordPress cache
 #   Joomla cache
+#   Joomla admin cache
 find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" ")" -mmin -61 \
     | grep -v -x "/home/[[:alnum:]]\+/website/html/wp-content/cache/.*\.php" \
     | grep -v -x "/home/[[:alnum:]]\+/public_html/server/cache/.*\.php" \

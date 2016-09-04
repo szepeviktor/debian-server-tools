@@ -119,7 +119,7 @@ wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
 
 # Add APT repositories
-for REPO in $(Data get-values apt.repository); do
+for REPO in $(Data get-values package.apt.sources); do
     wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
 done
 # Import signing keys

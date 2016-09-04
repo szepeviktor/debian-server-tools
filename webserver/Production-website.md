@@ -365,10 +365,10 @@ Send to Analytics, report to `/js-error.php`
 
 ### External resources (3rd party services)
 
-Document in README.md and check functionality.
+Document in 3rd-PARTY-README.md and check functionality.
 
 - External search
-- Analytics (make UA-number `'UN'+'parse'+'able'`), tracking
+- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
 - Social media
 - Video
 - Advertisement
@@ -381,8 +381,8 @@ Document in README.md and check functionality.
 
 Gain access, set up and test.
 
-- Google Analytics, Remarketing
-- Facebook pixel
+- Google Analytics, Remarketing tag
+- Facebook Pixel
 - Piwik
 - Clicktale
 - Hotjar
@@ -403,7 +403,7 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 ### Site integrity
 
-- tripwire-fake.sh (wp --quiet core verify-checksums; git diff --name-status)
+- tripwire-fake.sh (wp --quiet core verify-checksums; git status --short)
 - tripwire.php
 - /monitoring/siteprotection.sh
 

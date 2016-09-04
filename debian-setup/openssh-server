@@ -3,7 +3,7 @@
 set -e -x
 
 # SSH port
-SSH_PORT="$(Data get-value apt.openssh-server.port "")"
+SSH_PORT="$(Data get-value package.openssh-server.port "")"
 [ -n "${SSH_PORT}" ]
 # No "22" in port number
 [ "${SSH_PORT}" == "${SSH_PORT/22/}" ]

@@ -1,12 +1,11 @@
 #!/bin/bash
 
+set -e -x
+
 # First user
 
-#read -r -e -p "User: " -i "viktor" U
-U="viktor"
-SSH_KEY="ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa"
-
-set -e -x
+U="$(Data get-value package.adduser.firstuser.name)"
+SSH_KEY="$(Data get-value package.adduser.firstuser.ssh-key)"
 
 if [ -z "$(getent passwd "$U")" ]; then
     # GECOS: Full name,Room number,Work phone,Home phone
@@ -39,7 +38,7 @@ echo "root:*" | chpasswd -c NONE
 
 # Check passwords for other users
 PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)$')"
-# Only one may have a password
+# Only the first user may have a password
 [ "$(wc -l <<< "$PASSWORD_USERS")" == 1 ]
 # It is the first user
 [ "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS" ]

@@ -71,30 +71,6 @@ A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolu
 Remélem bele illek a képbe valahogyan: viktor@szepe.net
 
 
-## WordPress honlap/sablon készítés HTML kódból
-
-#### Tartalom kezelés
-
-- UX tervezés szerkesztőknek (egérrel építhető oldalak)
-- Minden tartalmi elem könnyen szerkeszthető
-- "Sablon beállítások" oldal készítés plugin nélkül
-- Többnyelvűsítés (egy-nyelvű honlaphoz is)
-- Egyeztetés a sitebuilderrel WP HTML struktúrákról (body_class, wp_nav_menu stb.)
-
-#### Biztonság
-
-- Saját fejlesztésű WAF WordPress-hez (applikációs tűzfal)
-- Sérülékeny kód kerülése
-- Spam védelem (kapcsolat űrlap, hozzászólás, regisztráció)
-- Erős felhasználói jelszó megkövetelés
-
-#### Sebesség
-
-- HTTP kérések számának csökkentése
-- Üzembiztos, biztonságos és gyors bővítmények (minél kevesebb)
-- Cache használata (gyorsítótár)
-
-
 ## WordPress telepítés, üzemeltetés
 
 #### Sebesség
@@ -120,6 +96,30 @@ Remélem bele illek a képbe valahogyan: viktor@szepe.net
 - Honlap monitorozás (HTTP)
 - Domain, DNS figyelés
 - Webszerver hibanapló figyelés
+
+
+## WordPress honlap/sablon készítés HTML kódból
+
+#### Tartalom kezelés
+
+- UX tervezés szerkesztőknek (egérrel építhető oldalak)
+- Minden tartalmi elem könnyen szerkeszthető
+- "Sablon beállítások" oldal készítés plugin nélkül
+- Többnyelvűsítés (egy-nyelvű honlaphoz is)
+- Egyeztetés a sitebuilderrel WP HTML struktúrákról (body_class, wp_nav_menu stb.)
+
+#### Biztonság
+
+- Saját fejlesztésű WAF WordPress-hez (applikációs tűzfal)
+- Sérülékeny kód kerülése
+- Spam védelem (kapcsolat űrlap, hozzászólás, regisztráció)
+- Erős felhasználói jelszó megkövetelés
+
+#### Sebesség
+
+- HTTP kérések számának csökkentése
+- Üzembiztos, biztonságos és gyors bővítmények (minél kevesebb)
+- Cache használata (gyorsítótár)
 
 
 ## Magyarul az önéletrajz

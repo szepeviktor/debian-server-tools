@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.6.3
+# VERSION       :0.6.4
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -196,7 +196,7 @@ Monit_wake() {
 #
 # Monit_wake
 #
-# VERSION       :0.5.0
+# VERSION       :0.6.0
 
 if ! /etc/init.d/monit status | grep -qF "monit is running"; then
     echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
@@ -207,12 +207,12 @@ fi
 IGNORED_STATUSES="Running|Accessible|Status ok|Waiting"
 /usr/bin/monit -B summary | tail -n +3 \
     | grep -vE "\sSystem\s*\$|\s(${IGNORED_STATUSES})\s*\S+\s*\$" \
-    | sed -n -e "s;^\s*\(\S\+\)\s\+\S\+\s\+\S\+\s*\$;\1;p" \
+    | sed -n -e "s;^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*\$;\1;p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 
 # Exit status 0 means it was OK
-if [ $? != 0 ]; then
-    [ -x /usr/local/sbin/swap-refresh.sh ] && /usr/local/sbin/swap-refresh.sh
+if [ $? != 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
+    /usr/local/sbin/swap-refresh.sh
 fi
 
 exit 0

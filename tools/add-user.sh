@@ -2,18 +2,25 @@
 #
 # Add a user with password and SSH key.
 #
-# VERSION       :0.1.0
-# DATE          :2016-08-29
+# VERSION       :0.2.0
+# DATE          :2016-09-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install sudo
 
-# Usage
+# Add user with sudo privilege, password and SSH key will be asked for
 #
-# add-user.sh -s username
-# cat public.key | add-user.sh -p password username
+#     add-user.sh -s username
+#
+# Add user with password and piped SSH key
+#
+#     cat public.key | add-user.sh -p password username
+#
+# Add user with expired password
+#
+#     add-user.sh -e username
 
 # Options
 set -o errexit -o noglob -o nounset -o pipefail
@@ -24,6 +31,7 @@ main() {
     # From /etc/adduser.conf
     local NAME_REGEX="^[a-z][-a-z0-9_]*\$"
     local SUDO="no"
+    local EXPIRED="no"
     local PASSWORD=""
     local OPT
     local HOME_DIR
@@ -34,6 +42,9 @@ main() {
         case $OPT in
             s)
                 SUDO="yes"
+                ;;
+            e)
+                EXPIRED="yes"
                 ;;
             p)
                 PASSWORD="$OPTARG"
@@ -69,6 +80,13 @@ main() {
     else
         # Add user without a password
         adduser --gecos "" --disabled-password "$U"
+        # Not possible to change password
+        EXPIRED="no"
+    fi
+
+    # Expire password, force the user to change his password
+    if [ "$EXPIRED" == yes ]; then
+        passwd -e "$U"
     fi
 
     # Create SSH directory
@@ -78,9 +96,6 @@ main() {
 
     # File that contains the user's public keys for authentication
     SSH_AUTHKEYS="${SSH_DIR}/authorized_keys2"
-
-    # Expire password
-    #passwd -e "$U"
 
     # Is stdin a TTY?
     if [[ -t 0 ]]; then

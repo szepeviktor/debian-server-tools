@@ -6,6 +6,6 @@
 set -e -x
 
 # Update ca-certificates
-if [ "$(Data get-value apt.ca-certificates.install-testing)" == "True" ]; then
+if [ "$(Data get-value package.ca-certificates.install-testing)" == "True" ]; then
     Getpkg ca-certificates testing
 fi

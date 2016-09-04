@@ -9,19 +9,24 @@ system:
     trespass-warning: Ez a szerver A/AZ CÉG használatában áll. Másoknak a belépés tilos.
     #trespass-warning: This server is used by COMPANY. Unauthorized entry is prohibited.
 
-# APT repositories
-apt:
-    # See /package/apt-sources/
-    repository:
-        - apache-backports
-        - dotdeb
-        - nodejs
-        - percona
-        - goaccess
-        - szepeviktor
+# Package settings
+package:
+    apt:
+        # See /package/apt-sources/
+        sources:
+            - apache-backports
+            - dotdeb
+            - nodejs
+            - percona
+            - goaccess
+            - szepeviktor
     ca-certificates:
         # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
         install-testing: true
+    adduser:
+        firstuser:
+            name: viktor
+            ssh-key: ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa
     openssh-server:
         port: 2222
     fail2ban:
@@ -140,7 +145,7 @@ dependencies:
       transport: udp/53
       identify: $IP
 
-# Packaging systems
+# Package handlers
 packaging:
 
   #name:

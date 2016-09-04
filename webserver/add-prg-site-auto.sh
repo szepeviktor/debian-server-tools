@@ -19,11 +19,11 @@
 set -e
 
 # Check HTTP/auth credentials
-HTTP_USER="$(Data get-value apt.apache2.prg-http-user "")"
+HTTP_USER="$(Data get-value package.apache2.prg-http-user "")"
 [ -n "$HTTP_USER" ]
-HTTP_PASSWORD="$(Data get-value apt.apache2.prg-http-pwd "")"
+HTTP_PASSWORD="$(Data get-value package.apache2.prg-http-pwd "")"
 [ -n "$HTTP_PASSWORD" ]
-SSL_CN="$(Data get-value apt.apache2.prg-ssl-cn "")"
+SSL_CN="$(Data get-value package.apache2.prg-ssl-cn "")"
 [ -n "$SSL_CN" ]
 
 # Check debian-server-tools
