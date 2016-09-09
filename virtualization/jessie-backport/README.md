@@ -1,4 +1,24 @@
-### Apache backport
+# Backport Debian packages
+
+Executes a shell script that builds a Debian package in the mounted volume.
+
+### Usage
+
+```bash
+./_start.sh "http://domain.tld/path/to/package.dsc"
+# Or package name and release name
+./_start.sh package/testing
+```
+
+### Hooks
+
+See hooks documented in the Bash script.
+
+Example hook usage in `docker-backport-munin.sh`
+
+Packages dependencies should be places in the mounted volume, by default `/opt/results`
+
+### Backport Apache httpd
 
 - openssl/jessie-backports
 - spdylay
@@ -6,13 +26,13 @@
 - apr-util
 - apache2
 
-### Courier backport
+### Backport Courier MTA
 
 - courier-unicode
 - courier-authlib
 - courier
 
-### S3QL backport
+### Backport S3QL
 
 ```bash
 cat > /opt/results/debackport-init <<"EOF"

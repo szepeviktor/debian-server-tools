@@ -34,6 +34,10 @@ nmap --script ssl-cert,ssl-enum-ciphers -p 443 <TARGET>
 
 [SSL Server Test](https://www.ssllabs.com/ssltest/index.html)
 
+### HTTP response security headers
+
+https://securityheaders.io/
+
 ### OWASP Testing Guide
 
 [Testing for Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection](https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_(OTG-CRYPST-001))

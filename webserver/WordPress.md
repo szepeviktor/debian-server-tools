@@ -16,13 +16,13 @@
 ```
 wp-cli.yml
 wp-config.php
-$DOCROOT─┬─index.php
-         ├─wp-load.php
-         ├─wp-login.php
-         ├─xmlrpc.php
-         ├─wp-admin/
-         ├─wp-includes/
-         └─wp-content/
+$DOCROOT/─┬─index.php
+          ├─wp-load.php
+          ├─wp-login.php
+          ├─xmlrpc.php
+          ├─wp-admin/
+          ├─wp-includes/
+          └─wp-content/
 ```
 
 
@@ -30,16 +30,16 @@ $DOCROOT─┬─index.php
 
 ```
 wp-cli.yml
-$DOCROOT─┬─index.php (modified)
-         ├─wp-config.php
-         ├─wp-login.php (trap)
-         ├─xmlrpc.php (trap)
-         ├─$CORE/─┬─index.php
-         │        ├─wp-load.php
-         │        ├─wp-login.php
-         │        ├─wp-admin/
-         │        └─wp-includes/
-         └─static/ (wp-content)
+$DOCROOT/─┬─index.php (modified)
+          ├─wp-config.php
+          ├─wp-login.php (trap)
+          ├─xmlrpc.php (trap)
+          ├─$CORE/─┬─index.php
+          │        ├─wp-load.php
+          │        ├─wp-login.php
+          │        ├─wp-admin/
+          │        └─wp-includes/
+          └─static/ (wp-content)
 ```
 
 

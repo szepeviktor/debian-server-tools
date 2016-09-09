@@ -3,7 +3,7 @@
 # Backport a Debian package.
 #
 # DOCKER        :szepeviktor/jessie-backport
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
