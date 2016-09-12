@@ -271,7 +271,6 @@ http://google-public-dns.appspot.com/cache
 1. `p3-profiler`
 1. https://validator.w3.org
 1. https://validator.nu/
-1. https://www.webpagetest.org/
 
 #### Typical theme and plugin errors
 
@@ -303,6 +302,14 @@ http://google-public-dns.appspot.com/cache
 - Confusion in colors: normal text color, link and call2action color, accent color
 - Email header and content check with https://www.mail-tester.com/
 
+### Duplicate content
+
+- www -> non-www redirection
+- Custom subdomain with same content
+- Development domains
+- Early access domain by the hosting company (`cpanel.server.com/~user`, `somename.hosting.com/`)
+- Access by the server's IP address (`http://1.2.3.4/`)
+
 ### 404 page
 
 - Informative
@@ -319,6 +326,12 @@ http://google-public-dns.appspot.com/cache
 - Conditional, lazy or late loading (slider, map, facebook content, image gallery)
 - Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
+
+### HTTP headers
+
+- https://www.webpagetest.org/
+- https://securityheaders.io/
+- https://redbot.org/
 
 ### PHP errors
 

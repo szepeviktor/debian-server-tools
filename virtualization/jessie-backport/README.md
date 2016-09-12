@@ -16,7 +16,7 @@ See hooks documented in the Bash script.
 
 Example hook usage in `docker-backport-munin.sh`
 
-Packages dependencies should be places in the mounted volume, by default `/opt/results`
+Packages dependencies should be placed in the mounted volume, by default `/opt/results`
 
 ### Backport Apache httpd
 

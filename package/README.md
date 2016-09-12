@@ -191,3 +191,20 @@ http://stephanepeter.com/makeself/
 ### Unattended cpan install
 
 PERL_MM_USE_DEFAULT=1 cpan -i Alien::RRDtool
+
+### Switch to LLVM/clang
+
+```bash
+# jessie
+VERSION=4.9
+echo "gcc-$VERSION hold" | dpkg --set-selections
+echo "cpp-$VERSION hold" | dpkg --set-selections
+echo "g++-$VERSION hold" | dpkg --set-selections
+cd /usr/bin/
+rm -v g++-$VERSION gcc-$VERSION cpp-$VERSION
+ln -vs clang++ g++-$VERSION
+ln -vs clang gcc-$VERSION
+ln -vs clang cpp-$VERSION
+cd -
+gcc --version | grep "clang"
+```
