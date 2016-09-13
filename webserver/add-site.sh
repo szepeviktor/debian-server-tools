@@ -28,17 +28,14 @@ adduser _web ${U}
 echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user
 makealiases
 
-# * Add sudo permissions for real users to become this user
-cd /etc/sudoers.d/
-
-# * Allow SSH keys
+# * Install SSH key
 S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
 editor "${S}/authorized_keys2"
-# Git URL
+# * Git URL
 echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
-mkdir -v --mode=0750 /home/${U}/website
+mkdir -v --mode=0550 /home/${U}/website
 mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
 chmod 0555 /home/${U}/website/html
 
@@ -53,7 +50,7 @@ cd /home/${U}/website/html/
 # Repair permissions, line ends
 find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
 find -type f -exec chmod --changes 0644 "{}" ";"
-find -type d -exec chmod --changes 0755 "{}" ";"
+find -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"
 find -name wp-config.php -exec chmod -v 0400 "{}" ";"
 #find -name settings.php -exec chmod -v 0400 "{}" ";"
 find -name .htaccess -exec chmod -v 0640 "{}" ";"
@@ -92,8 +89,8 @@ uwp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-ru
 wp-lib.sh --root="/home/${U}/website/html/static/cache/" mount 100
 
 # PHP pool
-cd /etc/php5/fpm/pool.d/
-#cd /etc/php/7.0/fpm/pool.d/
+#cd /etc/php5/fpm/pool.d/
+cd /etc/php/7.0/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
 editor ${U}.conf
 
@@ -109,14 +106,14 @@ editor /etc/ssl/private/${CN}-private.key
 # CloudFlase, Incapsula
 #a2enmod remoteip
 cd /etc/apache2/sites-available/
-# Non-SSL
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 # * SSL
 # "001-${DOMAIN}.conf" non-SNI site
 # See /webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+# Non-SSL
+sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 
 # Include the HPKP header: backup key, "Public-Key-Pins-Report-Only:" "Public-Key-Pins:"
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning

@@ -20,7 +20,7 @@ cat >> /root/.my.cnf <<EOF
 [mysql]
 user=root
 password=${MYSQL_PASSWORD}
-default-character-set=utf8"
+default-character-set=utf8
 
 [mysqldump]
 user=root

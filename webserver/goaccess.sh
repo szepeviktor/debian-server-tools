@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.1.2
+# VERSION       :0.1.3
 
 U="$(stat . -c %U)"
 #U="${1:-default-user}"
@@ -15,6 +15,7 @@ Goaccess() {
     goaccess \
         --agent-list \
         --http-method=yes \
+        --all-static-files \
         --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
         --date-format='%d/%b/%Y' \

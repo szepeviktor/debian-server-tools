@@ -2,14 +2,14 @@
 #
 # Reload PHP FPM and Apache dependently.
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install php5-fpm apache2
-# DEPENDS7      :apt-get install php7.0-fpm apache2
+# DEPENDS5      :apt-get install php5-fpm apache2
+# DEPENDS       :apt-get install php7.0-fpm apache2
 # LOCATION      :/usr/local/sbin/webrestart.sh
 
 APACHE_USER="_web"

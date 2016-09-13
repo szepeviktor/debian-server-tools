@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,6 +14,7 @@
 BACKUP_DIR="/media/backup"
 #BACKUP_DIR="/media/backup.ssh"
 INNOBCK_FULL_BACKUP="YYYY-MM-DD"
+HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
 declare -i CURRENT_DAY
 
@@ -81,6 +82,6 @@ cd /
 #Echo "umount"
 #umount "$BACKUP_DIR"
 
-#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
+wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"
 
 exit 0

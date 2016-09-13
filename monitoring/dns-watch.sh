@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.8
+# VERSION       :0.2.9
 # DATE          :2016-02-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -370,7 +370,8 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
                         "CHANGED answer to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT})" \
                         ", (${ANSWERS_SORTED}) <> (${RRVALUES_SORTED})"
-                    continue
+                    # Other nameservers must have the same difference, instead of `continue`
+                    break 2
                 fi
             done
         done <<< "$NSS"

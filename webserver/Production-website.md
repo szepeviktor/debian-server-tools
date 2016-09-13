@@ -326,6 +326,7 @@ http://google-public-dns.appspot.com/cache
 - Conditional, lazy or late loading (slider, map, facebook content, image gallery)
 - Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
+- YouTube custom video thumbnail (FullHD)
 
 ### HTTP headers
 

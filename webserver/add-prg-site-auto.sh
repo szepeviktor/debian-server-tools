@@ -98,7 +98,7 @@ cp package/phpmyadmin-get.sh ${PRG_ROOT}/
     # http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
     sed -i -e 's/^.*\$cfg\[.blowfish_secret.\].*$/\/\/ cfg-blowfish_secret/' config.inc.php
     sed -i -e "s|cfg-blowfish_secret|cfg-blowfish_secret\n\
-\$cfg['blowfish_secret'] = '$(apg -n 1 -m 30)';\n\
+\$cfg['blowfish_secret'] = '$(apg -n 1 -m 33)';\n\
 \$cfg['MemoryLimit'] = '384M';\n\
 \$cfg['DefaultLang'] = 'en';\n\
 \$cfg['PmaNoRelation_DisableWarning'] = true;\n\

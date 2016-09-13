@@ -37,6 +37,22 @@ pip3 install --upgrade manuale
 manuale -h
 ```
 
+Add TXT record by AWS CLI
+
+`aws route53 change-resource-record-sets --hosted-zone-id "/hostedzone/AAAAAAAAA" --change-batch file://acme-challenge.json`
+
+```json
+{ "Changes": [ {
+  "Action": "CREATE",
+  "ResourceRecordSet": {
+    "Name": "_acme-challenge.DOMAIN.TLD.",
+    "Type": "TXT",
+    "ResourceRecords": [ { "Value": "\"AAAAAAAAAAAAAAAA\"" } ],
+    "TTL": 86400
+  }
+} ] }
+```
+
 ### Renew
 
 ```bash

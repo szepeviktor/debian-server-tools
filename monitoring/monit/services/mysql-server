@@ -4,8 +4,10 @@
    group mysql
    start program = "/etc/init.d/mysql start"
    stop program = "/etc/init.d/mysql stop"
-   if failed host localhost port 3306 protocol mysql username "@@MYSQL_USER@@" password "@@MYSQL_PASS@@" with timeout 15 seconds for 3 times within 4 cycles then restart
-   if failed unixsocket /run/mysqld/mysqld.sock protocol mysql username "@@MYSQL_USER@@" password "@@MYSQL_PASS@@" for 3 times within 4 cycles then restart
+   if failed host localhost port 3306 protocol mysql username "@@MYSQL_USER@@" password "@@MYSQL_PASS@@"
+     with timeout 15 seconds for 3 times within 4 cycles then restart
+   if failed unixsocket /run/mysqld/mysqld.sock protocol mysql username "@@MYSQL_USER@@" password "@@MYSQL_PASS@@"
+     for 3 times within 4 cycles then restart
    if 5 restarts with 5 cycles then unmonitor
    depends on mysqld_bin
    depends on mysqld_init

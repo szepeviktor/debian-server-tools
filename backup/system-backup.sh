@@ -2,7 +2,7 @@
 #
 # Backup a server.
 #
-# VERSION       :2.0.1
+# VERSION       :2.0.3
 # DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,45 +14,53 @@
 # PERMISSION    :700
 # CI            :shellcheck -e SC2086 system-backup.sh
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
+# CONFIG        :/root/.config/system-backup/configuration
 
 # Usage
+#
+# Create S3QL configuration file
+#     mkdir /root/.s3ql; editor /root/.s3ql/authinfo2; chmod 0600 /root/.s3ql/authinfo2
+#
+# Create configuration file
+#     mkdir /root/.config/system-backup; editor /root/.config/system-backup/configuration
+#
+# Add an [xtrabackup] section to /root/.my.cnf
+#     editor /root/.my.cnf
 #
 # Format storage
 #     /usr/bin/mkfs.s3ql "$STORAGE_URL"
 #
 # Save encryption master key!
 #
-# Edit DB_EXCLUDE, STORAGE_URL, TARGET
-#     editor /usr/local/sbin/system-backup.sh
-#
 # Create target directory
 #     mkdir "$TARGET"
 #
-# Mount storage
+# Mount storage manually
 #     system-backup.sh -m
 #
-# Save /root files to "${TARGET}/root"
+# Save /root files to "${TARGET}/_root"
 #
 # Unmount storage
 #     system-backup.sh -u
+#
+# Example S3QL configuration (authinfo2)
+#     #[s3]
+#     [swiftks]
+#     storage-url: STORAGE_URL
+#     backend-login: OS_TENANT_NAME:OS_USERNAME
+#     backend-password: OS_PASSWORD
+#     fs-passphrase: $(apg -m32 -n1)
+#
+# Example configuration
+#     #STORAGE_URL="local:///media/backup-server.sshfs"
+#     #STORAGE_URL="s3://BUCKET/PREFIX_"
+#     STORAGE_URL="swiftks://auth.cloud.ovh.net/REGION:COMPANY-SERVER-s3ql"
+#     TARGET="/media/server-backup.s3ql"
+#     AUTHFILE="/root/.s3ql/authinfo2"
+#     DB_EXCLUDE="excluded-db1|excluded-db2"
+#     HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
-# @TODO
-# CONFIG        :~/.config/system-backup/configuration
-# source "${HOME}/.config/system-backup/configuration"
-
-#DB_EXCLUDE="excluded-db1|excluded-db2"
-DB_EXCLUDE=""
-
-#STORAGE_URL="local:///media/backup-server.sshfs"
-STORAGE_URL="swiftks://auth.cloud.ovh.net/REGION:COMPANY-SERVER-s3ql"
-TARGET="/media/provider.s3ql"
-# [swiftks]
-# storage-url: STORAGE_URL
-# backend-login: OS_TENANT_NAME:OS_USERNAME
-# backend-password: OS_PASSWORD
-# fs-passphrase: $(apg -m32 -n1)
-# #chmod 0600 /root/.s3ql/authinfo2
-AUTHFILE="/root/.s3ql/authinfo2"
+CONFIG="/root/.config/system-backup/configuration"
 
 set -e
 
@@ -62,13 +70,13 @@ Onexit() {
 
     set +e
 
-    #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null; then
-    if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
-        /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET"
-        /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET"
-    fi
-
     if [ "$RET" -ne 0 ]; then
+        #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null; then
+        if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
+            /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET"
+            /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET"
+        fi
+
         echo "COMMAND: ${BASH_CMD}" 1>&2
     fi
 
@@ -124,11 +132,15 @@ List_dbs() {
 }
 
 Backup_system_dbs() {
-    mysqldump --skip-lock-tables mysql > "${TARGET}/mysql-mysql.sql" \
+    if ! [ -d "${TARGET}/db-system" ];then
+        mkdir "${TARGET}/db-system" || Error 44 "Failed to create 'db-system' directory in target"
+    fi
+
+    mysqldump --skip-lock-tables mysql > "${TARGET}/db-system/mysql-mysql.sql" \
         || Error 5 "MySQL system databases backup failed"
-    mysqldump --skip-lock-tables information_schema > "${TARGET}/mysql-information_schema.sql" \
+    mysqldump --skip-lock-tables information_schema > "${TARGET}/db-system/mysql-information_schema.sql" \
         || Error 6 "MySQL system databases backup failed"
-    mysqldump --skip-lock-tables performance_schema > "${TARGET}/mysql-performance_schema.sql" \
+    mysqldump --skip-lock-tables performance_schema > "${TARGET}/db-system/mysql-performance_schema.sql" \
         || Error 7 "MySQL system databases backup failed"
 }
 
@@ -288,6 +300,10 @@ else
     S3QL_OPT="--quiet"
 fi
 
+# Read configuration
+[ -r "$CONFIG" ] || Error 100 "Unconfigured"
+source "$CONFIG"
+
 Check_paths
 
 if [ "$1" == "-u" ]; then
@@ -311,6 +327,8 @@ Backup_files
 
 Umount
 
-#wget -q -t 3 -O- "https://hchk.io/${UUID}" | grep -Fx "OK"
+if [ -n "$HCHK_UUID" ]; then
+    wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"
+fi
 
 exit 0

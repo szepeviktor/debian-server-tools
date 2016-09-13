@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.2.1
+# VERSION       :2.3.0
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -58,11 +58,18 @@ if openssl x509 -inform DER -in "$CA_ISSUER_CERT" -noout 2> /dev/null; then
     # FIXME Input and output files are the same
     openssl x509 -inform DER -in "$CA_ISSUER_CERT" -outform PEM -out "$CA_ISSUER_CERT"
 fi
+# Certificate validity
 openssl x509 -inform PEM -in "$CA_ISSUER_CERT" -noout
+# Verify certificate is signed by issuer
+openssl verify -purpose "sslserver" -CAfile "$CA_ISSUER_CERT" "$CERTIFICATE" \
+    | grep -qFx "${CERTIFICATE}: OK"
 
 # Get OCSP response
-OCSP_RESPONSE="$(openssl ocsp -no_nonce -timeout 10 -CAfile "$CA_ISSUER_CERT" -issuer "$CA_ISSUER_CERT" \
-    -url "$OCSP_URI" -header "Host" "$OCSP_HOST" -cert "$CERTIFICATE" 2>&1)"
+# https://community.letsencrypt.org/t/unable-to-verify-ocsp-response/7264/5
+OCSP_RESPONSE="$(openssl ocsp -no_nonce -timeout 10 \
+    -CAfile "$CA_ISSUER_CERT" -issuer "$CA_ISSUER_CERT" -verify_other "$CA_ISSUER_CERT" \
+    -cert "$CERTIFICATE" \
+    -header "Host" "$OCSP_HOST" -url "$OCSP_URI" 2>&1)"
 if ! grep -qFx "Response verify OK" <<< "$OCSP_RESPONSE"; then
     echo "Invalid OCSP response" 1>&2
     exit 101
@@ -74,8 +81,10 @@ fi
 
 THIS_UPDATE="$(sed -n -e '0,/^\s*This Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
 NEXT_UPDATE="$(sed -n -e '0,/^\s*Next Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
-declare -i THIS_UPDATE_SECOND="$(date --date "$THIS_UPDATE" "+%s")"
-declare -i NEXT_UPDATE_SECOND="$(date --date "$NEXT_UPDATE" "+%s")"
+declare -i THIS_UPDATE_SECOND
+declare -i NEXT_UPDATE_SECOND
+THIS_UPDATE_SECOND="$(date --date "$THIS_UPDATE" "+%s")"
+NEXT_UPDATE_SECOND="$(date --date "$NEXT_UPDATE" "+%s")"
 
 # Check expiry
 [ "$NEXT_UPDATE_SECOND" -ge "$(date "+%s")" ]

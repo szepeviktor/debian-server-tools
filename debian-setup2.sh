@@ -203,7 +203,10 @@ webserver/php7-fpm.sh
 debian-setup/_package-python-pip
 # Needs PHP-CLI
 debian-setup/_package-php-composer
-#debian-setup/nodejs
+# Node.js
+if Is_installed "nodejs"; then
+    debian-setup/nodejs
+fi
 
 # Webserver reload
 Dinstall webserver/webrestart.sh
@@ -217,7 +220,9 @@ webserver/add-prg-site-auto.sh
 # Add a production website
 # See /webserver/add-site.sh
 
-# @TODO Backup
+# Backup
+apt-get install -t jessie-backports -y python3-requests
+apt-get install -y s3ql
 
 # CLI tools
 debian-setup/php-wpcli

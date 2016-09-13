@@ -88,6 +88,18 @@ EOF
 chmod -v 0600 ~/.s3ql/authinfo2
 ```
 
+### S3QL on Amazon S3
+
+```
+cat > ~/.s3ql/authinfo2 <<EOF
+[s3]
+storage-url: s3://${BUCKET/${PREFIX}
+backend-login:
+backend-password:
+EOF
+chmod -v 0600 ~/.s3ql/authinfo2
+```
+
 ### OpenStack client
 
 ```
