@@ -8,13 +8,13 @@ SWAP_SIZE="${2:-768}"
 
 set -e -x
 
-dd if=/dev/zero of=${SWAP_FILE} bs=1M seek=${SWAP_SIZE} count=0
+dd if=/dev/zero of="$SWAP_FILE" bs=1M seek="$SWAP_SIZE" count=0
 # Swap file can’t be a sparse file
 # http://www.lucas-nussbaum.net/blog/?p=332
-fallocate --length $(stat --format=%s ${SWAP_FILE}) ${SWAP_FILE}
-chmod 0600 ${SWAP_FILE}
+fallocate --length "$(stat --format=%s "$SWAP_FILE")" "$SWAP_FILE"
+chmod 0600 "$SWAP_FILE"
 # Autogenerate a label
-mkswap --label "${SWAP_FILE#/}" $SWAP_FILE
+mkswap --label "${SWAP_FILE#/}" "$SWAP_FILE"
 
 # Enable
 echo "${SWAP_FILE}    none    swap    sw    0   0" >> /etc/fstab

@@ -134,6 +134,7 @@ DH_BITS=2048 nice /usr/sbin/mkdhparams
 ( cd ${D}; ./install.sh mail/courier-dhparams.sh )
 
 # Let's Encrypt certificate
+# @TODO manuale
 apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
 apt-get install -t jessie-backports -y python-six
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
@@ -142,6 +143,7 @@ pip2 install certbot
 certbot certonly --agree-tos --standalone -d $(cat /etc/courier/me)
 cat /etc/letsencrypt/live/$(cat /etc/courier/me)/privkey.pem /etc/letsencrypt/live/$(cat /etc/courier/me)/fullchain.pem \
     > /etc/courier/esmtpd.pem
+chmod 0600 /etc/courier/esmtpd.pem
 ( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
 
 # DKIM signature (zdkimfilter)
@@ -236,7 +238,7 @@ install -b -o root -g root -m 600 /dev/null /etc/courier/userdb; makeuserdb
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail."|mailx -s "[first] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | mailx -s "[first] The 1st outgoing mail" admin@szepe.net
 #tail -f /var/log/syslog
 journalctl -f
 
@@ -254,14 +256,3 @@ systemctl --user start "failure-monitor@postmaster@szepe.net.service"
 
 # User accounts for sending mail
 ${D}/mail/add-mailaccount.sh USER@DOMAIN
-
-# Let's Encrypt renew
-#     #pip2 install --upgrade certbot
-#     certbot renew
-#     ( cd /etc/letsencrypt/live/mail.radiomedinstruments.hu
-#     cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
-#     rm -f /etc/courier/dhparams.pem
-#     DH_BITS=2048 nice /usr/sbin/mkdhparams
-#     courier-restart.sh
-#     # Verify
-#     openssl s_client -connect $(hostname -f):587 -starttls smtp < /dev/null

@@ -8,6 +8,7 @@
    if 5 restarts within 10 cycles then unmonitor
    depends on courier-mta_bin
    depends on courier-mta_init
+   depends on courier-mta_cert
 
  check process courier-mta-msa with pidfile /run/courier/esmtpd-msa.pid
    group mail
@@ -25,6 +26,10 @@
  check file courier-mta_init with path /etc/init.d/courier-mta
    group mail
    include /etc/monit/templates/rootbin
+
+ check file courier-mta_cert with path /etc/courier/esmtpd.pem
+   group mail
+   include /etc/monit/templates/rootstrict
 
  check process courierfilter with pidfile /run/courier/courierfilter.pid
    group mail

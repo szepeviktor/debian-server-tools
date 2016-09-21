@@ -1,3 +1,7 @@
+# For the CREATE USER command suggestion
+if [ -z "$MYSQL_USER_DEFAULT" ]; then
+    MYSQL_USER_DEFAULT="monitu"
+fi
 if Is_pkg_installed apg; then
     MYSQL_PASS_DEFAULT="$(apg -a 1 -M LCN -m 30 -n 1)"
 elif Is_pkg_installed pwgen; then

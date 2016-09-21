@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.6.4
+# VERSION       :0.6.5
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -17,15 +17,17 @@ set -e
 #
 # Use example defaults file or edit your own
 #     install --mode=0600 -D -t /etc/monit monit.defaults
+#
 # Exclude packages
 #     MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm ./monit-debian-setup.sh
+#
 # List not yet enabled service configs for installed packages
 #     dpkg-query --showformat="\${Package}\n" --show | while read -r PKG; do
 #     if [ -f "services/${PKG}" ] && ! [ -f "/etc/monit/conf-enabled/${PKG}" ]; then
 #     echo "Missing: ${PKG}"; fi; done
 
 # @TODO
-# - integrate cert-expiry/openssl
+# - integrate cert-expiry as "openssl"
 # - document putty port-forward 2812+N (web interface)
 # - add "/etc/init.d/SERVICE status" checks
 # - list permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
@@ -62,7 +64,7 @@ Monit_template() {
         # Strip @-s
         VAR_NAME="${VAR_NAME//@@/}"
         if [[ "$VAR_NAME" =~ _DEFAULT$ ]]; then
-            echo "Invalid variable name (${VAR_NAME}) in template: ${TPL}"
+            echo "Invalid variable name (${VAR_NAME}) in template: ${TPL}" 1>&2
             exit 10
         fi
         # _preinst script could set default value
@@ -77,6 +79,7 @@ Monit_template() {
             read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
             # Save value as next default
             echo "${VAR_NAME}_DEFAULT=\"${!VAR_NAME}\"" >> "$MONIT_DEFAULTS"
+            chmod 0600 "$MONIT_DEFAULTS"
         fi
         VALUE="${!VAR_NAME}"
         # Escape for sed
@@ -144,8 +147,10 @@ Monit_system() {
 }
 
 Monit_all_packages() {
-    local PACKAGES="$(dpkg-query --showformat="\${Package}\n" --show)"
+    local PACKAGES
     local PACKAGE
+
+    PACKAGES="$(dpkg-query --showformat="\${Package}\n" --show)"
 
     while read -r PACKAGE <&4; do
         if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -qF ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
@@ -196,11 +201,15 @@ Monit_wake() {
 #
 # Monit_wake
 #
-# VERSION       :0.6.0
+# VERSION       :0.7.0
 
-if ! /etc/init.d/monit status | grep -qF "monit is running"; then
-    echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
-    /etc/init.d/monit restart || /etc/init.d/monit start
+# If apt is not in progress
+if ! fuser /var/lib/dpkg/lock > /dev/null 2>&1; then
+    # Monit is stopped
+    if ! /etc/init.d/monit status | grep -qF "monit is running"; then
+        echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
+        /etc/init.d/monit restart || /etc/init.d/monit start
+    fi
 fi
 
 # Try remonitor failed services
@@ -243,12 +252,16 @@ Monit_start() {
 trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 
 if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.18"; then
-    echo "Minimum Monit version needed: 5.18"
+    echo "Minimum Monit version needed: 5.18" 1>&2
     exit 1
 fi
 if Is_pkg_installed systemd; then
-    echo "systemd AND Monit?"
+    echo "systemd AND Monit?" 1>&2
     exit 2
+fi
+if ! [ -f "$MONIT_DEFAULTS" ]; then
+    echo "Missing defaults file" 1>&2
+    exit 3
 fi
 if ! Is_pkg_installed monit; then
     apt-get install -t jessie-backports -y monit

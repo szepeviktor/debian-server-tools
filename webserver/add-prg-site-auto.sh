@@ -94,9 +94,10 @@ cp package/phpmyadmin-get.sh ${PRG_ROOT}/
     ./phpmyadmin-get.sh
     rm -f phpMyAdmin-*-english.tar.xz
     cd phpMyAdmin-*-english/
-    cp config.sample.inc.php config.inc.php
+    cp config.sample.inc.php ../config.inc.php
+    ln -sf ../config.inc.php .
     # http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
-    sed -i -e 's/^.*\$cfg\[.blowfish_secret.\].*$/\/\/ cfg-blowfish_secret/' config.inc.php
+    sed -i -e 's/^.*\$cfg\[.blowfish_secret.\].*$/\/\/ cfg-blowfish_secret/' ../config.inc.php
     sed -i -e "s|cfg-blowfish_secret|cfg-blowfish_secret\n\
 \$cfg['blowfish_secret'] = '$(apg -n 1 -m 33)';\n\
 \$cfg['MemoryLimit'] = '384M';\n\
@@ -104,7 +105,7 @@ cp package/phpmyadmin-get.sh ${PRG_ROOT}/
 \$cfg['PmaNoRelation_DisableWarning'] = true;\n\
 \$cfg['SuhosinDisableWarning'] = true;\n\
 // \$cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin >';\n\
-// \$cfg['CaptchaLoginPrivateKey'] = '<Secret key>';\n|" config.inc.php
+// \$cfg['CaptchaLoginPrivateKey'] = '<Secret key>';\n|" ../config.inc.php
 )
 
 # PHP Secure Configuration Checker

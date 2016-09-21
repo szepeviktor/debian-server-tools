@@ -328,11 +328,12 @@ http://google-public-dns.appspot.com/cache
 - HTTP/2 server push
 - YouTube custom video thumbnail (FullHD)
 
-### HTTP headers
+### HTTP
 
 - https://www.webpagetest.org/
 - https://securityheaders.io/
 - https://redbot.org/
+- HTTP methods `GET POST HEAD` `OPTIONS PUT DELETE TRACE ...`
 
 ### PHP errors
 
@@ -359,6 +360,7 @@ Send to Analytics, report to `/js-error.php`
 - Images: alt, title
 - Breadcrumbs
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
+- Miltilingual site (`hreflang` attribute)
 - Structured data: https://schema.org/ http://microformats.org/
 - Content Keywords
 - [Google My Business](https://www.google.com/business/)

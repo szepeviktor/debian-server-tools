@@ -54,11 +54,14 @@ export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
 export IMAGE_CODENAME="jessie"
+
 export WITHOUT_SYSTEMD="yes"
 
 export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils"
 #:ubuntu
 #export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils"
+
+# APT sources must be hardcoded as shyaml is unavailable before OS image normalization
 export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources"
 # Microsoft Azure Traffic Manager
 export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
@@ -71,10 +74,11 @@ export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
 
 set -e -x
 
-. debian-setup-functions
-
 # Am I root?
 [ "$(id -u)" == 0 ]
+
+# Common functions
+source debian-setup-functions
 
 # Necessary packages
 IS_FUNCTIONAL="yes"
@@ -112,7 +116,7 @@ fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav || true
 
-# Packages used during setup
+# Packages used on top of SETUP_PACKAGES
 apt-get install -qq -y ssh sudo apt-transport-https virt-what python-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"

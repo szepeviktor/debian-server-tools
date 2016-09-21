@@ -45,3 +45,6 @@ sed -i -e 's|^LogLevel warn|LogLevel info|' /etc/apache2/apache2.conf
 
 # robots.txt
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
+
+# Log search
+Dinstall monitoring/logsearch.sh

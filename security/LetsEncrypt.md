@@ -56,10 +56,19 @@ Add TXT record by AWS CLI
 ### Renew
 
 ```bash
+pip2 install --upgrade certbot
 # https://certbot.eff.org/docs/using.html
 certbot renew --verbose --manual --manual-public-ip-logging-ok
 #certbot renew --verbose --standalone
 #certbot renew --verbose --webroot --webroot-path=/path/to/doc-root
+
+( cd /etc/letsencrypt/live/mail.radiomedinstruments.hu
+cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
+rm -f /etc/courier/dhparams.pem
+DH_BITS=2048 nice /usr/sbin/mkdhparams
+courier-restart.sh
+# Verify
+openssl s_client -connect $(hostname -f):587 -starttls smtp < /dev/null
 ```
 
 ### Alternatives

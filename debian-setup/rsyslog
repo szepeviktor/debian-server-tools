@@ -4,6 +4,7 @@ set -e -x
 
 # Enable immark plugin
 #     http://www.rsyslog.com/doc/rsconf1_markmessageperiod.html
+# shellcheck disable=SC2016
 sed -i -e 's|^#\(\$ModLoad immark.*\)$|\1\n$MarkMessagePeriod 1800|' /etc/rsyslog.conf
 
 # Always alert root

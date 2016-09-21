@@ -165,5 +165,8 @@ editor /etc/courier/esmtpauthclient
 #     smarthost.foreign.com,587 username password
 #     #smarthost.foreign.com,465 username password
 
+# Monit
+# See /monitoring/monit/services/.website
+
 # Goaccess
 # See /webserver/goaccess.sh

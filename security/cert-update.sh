@@ -37,6 +37,7 @@
 #     #editor "priv-key-${D}-encrypted.key"
 #     openssl req -newkey rsa:2048 -keyout "priv-key-${D}-encrypted.key" -out "request-${D}.csr"
 #     openssl rsa -in "priv-key-${D}-encrypted.key" -out "priv-key-${D}.key"
+#     cat "request-${D}.csr"
 #     editor "intermediate-${D}.pem"
 #     editor "pub-key-${D}.pem"
 #     openssl verify -purpose sslserver -CAfile "intermediate-${D}.pem" "pub-key-${D}.pem"

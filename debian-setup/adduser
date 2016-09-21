@@ -16,13 +16,13 @@ if [ -z "$(getent passwd "$U")" ]; then
     SSH_DIR="${HOME_DIR}/.ssh"
     mkdir --mode 0700 "$SSH_DIR"
     echo "$SSH_KEY" >> "${SSH_DIR}/authorized_keys2"
-    chown -R ${U}:${U} "$SSH_DIR"
+    chown -R "${U}:${U}" "$SSH_DIR"
 
     # Add to sudoers
-    adduser ${U} sudo
+    adduser "$U" sudo
 
     # Expire password
-    #passwd -e ${U}
+    #passwd -e "$U"
 
     # wget
     echo -e "content_disposition = on" >> "${HOME_DIR}/.wgetrc"
