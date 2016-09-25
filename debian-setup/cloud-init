@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e -x
+
+if ! [ -s /var/lib/cloud/data/instance-id ]; then
+    apt-get purge -qq -y cloud-init cloud-initramfs-growroot
+fi
+
+# @TODO
+
+# git clone https://git.launchpad.net/cloud-init
+
+# # Newer Cloud init
+# echo "cloud-init cloud-init/datasources multiselect NoCloud, ConfigDrive, None" | debconf-set-selections -v
+# apt-get install -y -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
+# editor /etc/cloud/cloud.cfg.d/10_fakeconfigdrive.cfg
+
+# Cloud init YAML
+
+# #cloud-config
+# hostname: myhostname
+# ssh_authorized_keys:
+#   - ssh-rsa AAAAB
+# packages:
+#   - htop
+
+#  Network (DHCP or static IP, DNS resolver, host name)
+#- Change IP, set resolver, change hostname (/etc/hosts too)
+#  Users (no root login, "debian" user, standard password)
+#- Rename "debian" user and change password
+#- Install an SSH key, disable password authentication
+#  Disks (300MB boot part, use LVM: 2GB swap, 5GB root)
+#- Resize LVM partition to full disk, grow root lv, grow root fs
+#- Resize swap
+
+# Cloud init examples
+
+#- Fail2ban and disable DSA keys for SSH
+#- Separate /var vg
+#- Separate /home vg
+#- Change server locale, keyboard
+
+# cloud: https://docs.saltstack.com/en/latest/topics/cloud/index.html
+# https://docs.saltstack.com/en/latest/topics/best_practices.html
+# master: https://docs.saltstack.com/en/latest/topics/installation/debian.html

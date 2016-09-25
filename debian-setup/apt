@@ -4,7 +4,7 @@ IMAGE_APTRECOMMENDS='APT::Install-Recommends "1";'
 
 set -e -x
 
-[ -n "$SETUP_APTSOURCESLIST_URL" ]
+test -n "$SETUP_APTSOURCESLIST_URL"
 
 # Backup current APT sources
 mv -f /etc/apt/sources.list "/etc/apt/sources.list~"
@@ -19,5 +19,5 @@ echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 # Check Install-Recommends option
 #     apt-get install -o APT::AutoRemove::RecommendsImportant=false
 CURRENT_APTRECOMMENDS="$(apt-config dump APT::Install-Recommends)"
-[ "$CURRENT_APTRECOMMENDS" == "$IMAGE_APTRECOMMENDS" ]
+test "$CURRENT_APTRECOMMENDS" == "$IMAGE_APTRECOMMENDS"
 # @TODO Fix it

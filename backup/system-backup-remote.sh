@@ -246,6 +246,9 @@ Backup_files() {
 Mount() {
     Remote_copy "${RBACKUP}/.s3ql/authinfo2" "${REMOTE_ROOT}/s3ql.authinfo2"
 
+    # Upgrade fs
+    #Remote_run s3qladm --authfile "${REMOTE_ROOT}/s3ql.authinfo2" upgrade "$STORAGE_URL"
+
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
     Remote_run /usr/bin/fsck.s3ql ${S3QL_OPT} --authfile "${REMOTE_ROOT}/s3ql.authinfo2" \
         "$STORAGE_URL" 1>&2

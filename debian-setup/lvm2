@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+if ! pvdisplay -s &> /dev/null; then
+    apt-get purge -qq -y lvm2
+fi

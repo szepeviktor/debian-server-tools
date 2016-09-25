@@ -1,5 +1,4 @@
-token_store.txt
 .bzr
-debian-setup/cloud-init
+token_store.txt
 security/fail2ban-conf/filter.d/apache-common.conf
 TODO.md

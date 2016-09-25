@@ -46,3 +46,5 @@ provider-package:
     - acpid
     # Provides VirtIO RNG
     - rng-tools
+    # For HyperV
+    - hyperv-demons

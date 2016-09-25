@@ -1,0 +1,19 @@
+grub-efi-amd64
+extlinux
+syslinux-common
+# Is a kernel by APT running?
+# if Is_installed_regexp "^linux-image-"; then
+linux-image-amd64
+initramfs-tools
+firmware-.*
+xfsprogs
+isc-dhcp-client
+ethtool
+vlan
+dkms
+elasticstack-container
+# Azure
+scx
+omi
+# Don't remove if mount --types nfs4; then
+#apt-get install -qq -y nfs-common rpcbind

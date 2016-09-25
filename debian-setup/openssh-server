@@ -4,9 +4,9 @@ set -e -x
 
 # SSH port
 SSH_PORT="$(Data get-value package.openssh-server.port "")"
-[ -n "${SSH_PORT}" ]
+test -n "${SSH_PORT}"
 # No "22" in port number
-[ "${SSH_PORT}" == "${SSH_PORT/22/}" ]
+test "${SSH_PORT}" == "${SSH_PORT/22/}"
 
 # Change port
 sed -i -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" /etc/ssh/sshd_config

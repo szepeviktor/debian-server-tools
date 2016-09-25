@@ -39,9 +39,9 @@ echo "root:*" | chpasswd -c NONE
 # Check passwords for other users
 PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)$')"
 # Only the first user may have a password
-[ "$(wc -l <<< "$PASSWORD_USERS")" == 1 ]
+test "$(wc -l <<< "$PASSWORD_USERS")" == 1
 # It is the first user
-[ "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS" ]
+test "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS"
 
 
 

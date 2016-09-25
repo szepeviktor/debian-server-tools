@@ -29,6 +29,9 @@ if [ "$(dpkg-query --showformat="\${Status}" --show lvm2 2> /dev/null)" == "inst
     { pvdisplay && vgdisplay && lvdisplay; } | Titled_pager "LVM Configuration"
 fi
 
+# Kernel parameters
+Titled_pager "Kernel parameters" < /proc/cmdline
+
 # All defaults
 find /etc/default/* -type f | Titled_pager "All default files"
 head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep -A 1000 "^==> " | Titled_pager "All defaults"
@@ -107,7 +110,7 @@ grep -Ev '^\s*#|^\s*$' /etc/crontab /var/spool/cron/crontabs/* | Titled_pager "C
 
 # Customized files
 HOSTING_COMPANY="$(Data get-value hosting-company)"
-[ -n "$HOSTING_COMPANY" ]
+test -n "$HOSTING_COMPANY"
 {
     find / -iname "*${HOSTING_COMPANY}*"
     grep -i -r "$HOSTING_COMPANY" /etc/

@@ -2,119 +2,16 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.9.2
+# VERSION       :0.10.0
 # DATE          :2016-05-03
+# URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
-# URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install openssl ca-certificates
-
-# Intermediate certificates and root certificates
-#
-# StartSSL Class 1 DV (Domain and Email Validation)
-#     https://www.startssl.com/root "Intermediate CA Certificates"
-#     wget https://www.startssl.com/certs/sca.server1.crt && dos2unix sca.server1.crt
-# StartSSL Class 2 IV (Identity Validation)
-#     wget https://www.startssl.com/certs/sca.server2.crt && dos2unix sca.server2.crt
-# StartSSL Class 3 OV (Organization Validation)
-#     wget https://www.startssl.com/certs/sca.server3.crt && dos2unix sca.server3.crt
-# Comodo, PositiveSSL
-#     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
-# GeoTrust
-#     https://www.geotrust.com/resources/root-certificates/
-# CAcert
-#     http://www.cacert.org/index.php?id=3
-# NetLock
-#     https://www.netlock.hu/html/cacrl.html
-# Microsec
-#     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
-# szepenet
-#     http://ca.szepe.net/szepenet-ca.pem
-#
-# Getting certificate from the issuer
-#     D=$(date +%Y%m%d);read -r -p "SUBJ=" SUBJ;cd /root/ssl/;mkdir -m 0700 "${D}-${SUBJ}";cd "${D}-${SUBJ}"
-#     #editor "priv-key-${D}-encrypted.key"
-#     openssl req -newkey rsa:2048 -keyout "priv-key-${D}-encrypted.key" -out "request-${D}.csr"
-#     openssl rsa -in "priv-key-${D}-encrypted.key" -out "priv-key-${D}.key"
-#     cat "request-${D}.csr"
-#     editor "intermediate-${D}.pem"
-#     editor "pub-key-${D}.pem"
-#     openssl verify -purpose sslserver -CAfile "intermediate-${D}.pem" "pub-key-${D}.pem"
+# LOCATION      :/usr/local/sbin/cert-update.sh
 
 # @TODO Add apache SSLOpenSSLConfCmd for OpenSSL 1.0.2+
-
-TODAY="$(date +%Y%m%d)"
-INT="sca.server1.crt"
-#touch null.crt; INT="null.crt"
-PRIV="priv-key-${TODAY}.key"
-PUB="pub-key-${TODAY}.pem"
-CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
-PRIV_DIR="/etc/ssl/private"
-PUB_DIR="/etc/ssl/localcerts"
-
-# Apache2: public + intermediate
-# "include intermediate CA certificates, sorted from leaf to root"
-#
-# Use Common Name
-APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')"
-#
-# Use last Subject Alternative Name
-#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
-#
-# Replace wildcard prefix
-APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
-#
-# Use $APACHE_DOMAIN
-APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
-#
-# Use apache.vhost file for determining name of the virtual host config file
-[ -r apache.vhost ] && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 apache.vhost).conf"
-#
-#APACHE_PUB="${PUB_DIR}/${APACHE_DOMAIN}-public.pem"
-#APACHE_PRIV="${PRIV_DIR}/${APACHE_DOMAIN}-private.key"
-
-# Nginx: public + intermediate
-# "the primary certificate comes first, then the intermediate certificates"
-#
-# Use Common Name
-NGINX_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')"
-#
-# Replace wildcard prefix
-NGINX_DOMAIN="${NGINX_DOMAIN/\*./wildcard.}"
-#
-NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
-#
-# Use nginx.vhost
-[ -r nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
-#
-#NGINX_PUB="${PUB_DIR}/${NGINX_DOMAIN}-public.pem"
-#NGINX_DHPARAM="${PRIV_DIR}/${NGINX_DOMAIN}-dhparam.pem"
-#NGINX_PRIV="${PRIV_DIR}/${NGINX_DOMAIN}-private.key"
-
-# Courier MTA: public + intermediate + private
-# From Debian jessie on: private + public + intermediate
-#
-#COURIER_COMBINED="/etc/courier/esmtpd.pem"
-#COURIER_DHPARAMS="/etc/courier/dhparams.pem"
-
-# Dovecot: public + intermediate
-# http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
-#
-#DOVECOT_PUB="/etc/dovecot/dovecot.pem"
-#DOVECOT_PRIV="/etc/dovecot/private/dovecot.key"
-
-# Proftpd
-#
-#PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
-#PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
-#PROFTPD_INT="/etc/proftpd/sub.class1.server.ca.pem"
-
-# Webmin: private + public
-# SSL check: https://www.digicert.com/help/
-#
-#WEBMIN_COMBINED="/etc/webmin/miniserv.pem"
-#WEBMIN_INT="/etc/webmin/sub.class1.server.ca.pem"
 
 Die() {
     local RET="$1"
@@ -124,7 +21,7 @@ Die() {
 }
 
 Readkey() {
-    read -p "Press any key ..." -n 1 -s
+    read -r -p "Press any key ..." -n 1 -s
     echo
 }
 
@@ -136,8 +33,8 @@ Check_requirements() {
         || [ "$(stat --format=%u .)" != 0 ]; then
         Die 2 "This directory needs to be private (0700) and owned by root."
     fi
-    if ! [ -f "$INT" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ]; then
-        Die 3 "Missing cert."
+    if ! [ -f "$INT" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ] || ! [ -f "$CABUNDLE" ]; then
+        Die 3 "Missing cert or CA bundle."
     fi
     if ! [ -d "$PRIV_DIR" ] || ! [ -d "$PUB_DIR" ]; then
         Die 4 "Missing cert directory."
@@ -166,7 +63,7 @@ Check_requirements() {
 Protect_certs() {
     # Are certificates readable?
     chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
-    chmod 600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
+    chmod 0600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
 }
 
 Courier_mta() {
@@ -179,11 +76,11 @@ Courier_mta() {
     # From Debian jessie on: private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     chown daemon:root "$COURIER_COMBINED" || Die 22 "courier owner"
-    chmod 600 "$COURIER_COMBINED" || Die 23 "courier perms"
+    chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
 
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
     chown daemon:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
-    chmod 600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
+    chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
@@ -234,7 +131,7 @@ Apache2() {
     } > "$APACHE_PUB" || Die 41 "apache cert creation"
     cp "$PRIV" "$APACHE_PRIV" || Die 42 "apache private"
     chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 43 "apache owner"
-    chmod 640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
+    chmod 0640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
 
     # Check config
     if sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
@@ -273,7 +170,7 @@ Nginx() {
     nice openssl dhparam 2048 > "$NGINX_DHPARAM" || Die 72 "nginx private"
     cp "$PRIV" "$NGINX_PRIV" || Die 73 "nginx private"
     chown root:root "$NGINX_PUB" "$NGINX_PRIV" || Die 74 "nginx owner"
-    chmod 640 "$NGINX_PUB" "$NGINX_PRIV" || Die 75 "nginx perms"
+    chmod 0640 "$NGINX_PUB" "$NGINX_PRIV" || Die 75 "nginx perms"
 
     # Check config
     if  grep -q "^\s*ssl_certificate\s\+${NGINX_PUB}\$" "$NGINX_VHOST_CONFIG" \
@@ -302,7 +199,7 @@ Proftpd() {
     cp "$PRIV" "$PROFTPD_PRIV" || Die 32 "proftpd private"
     cp "$INT" "$PROFTPD_INT" || Die 33 "proftpd intermediate"
     chown root:root "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_INT" || Die 34 "proftpd owner"
-    chmod 600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_INT" || Die 35 "proftpd perms"
+    chmod 0600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_INT" || Die 35 "proftpd perms"
 
     # Check config
     if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
@@ -329,7 +226,7 @@ Dovecot() {
     cat "$PUB" "$INT" > "$DOVECOT_PUB" || Die 51 "dovecot cert creation"
     cat "$PRIV" > "$DOVECOT_PRIV" || Die 52 "dovecot private cert creation"
     chown root:root "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 53 "dovecot owner"
-    chmod 600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 54 "dovecot perms"
+    chmod 0600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 54 "dovecot perms"
 
     # Check config files for ssl_cert, ssl_key
     if grep -q "^ssl_cert\s*=\s*<${DOVECOT_PUB}\$" /etc/dovecot/conf.d/10-ssl.conf \
@@ -365,7 +262,7 @@ Webmin() {
     cat "$PRIV" "$PUB" > "$WEBMIN_COMBINED" || Die 61 "webmin public"
     cp "$INT" "$WEBMIN_INT" || Die 62 "webmin intermediate"
     chown root:root "$WEBMIN_COMBINED" "$WEBMIN_INT" || Die 63 "webmin owner"
-    chmod 600 "$WEBMIN_COMBINED" "$WEBMIN_INT" || Die 64 "webmin perms"
+    chmod 0600 "$WEBMIN_COMBINED" "$WEBMIN_INT" || Die 64 "webmin perms"
 
     # Check config
     if  grep -q "^keyfile=${WEBMIN_COMBINED}\$" /etc/webmin/miniserv.conf \
@@ -395,6 +292,5 @@ Nginx && Readkey
 Dovecot && Readkey
 
 Webmin
-# no ReadKey here
 
-echo "Done."
+echo "OK."

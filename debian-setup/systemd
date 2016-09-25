@@ -23,7 +23,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
     fi
 elif [ "$(dpkg-query --showformat="\${Status}" --show sysvinit-core 2> /dev/null)" == "install ok installed" ]; then
     # Remove SysVinit
-    apt-get purge -y sysvinit-core
+    apt-get purge -qq -y sysvinit-core
     # Time synchronization
     timedatectl set-ntp 1
 fi

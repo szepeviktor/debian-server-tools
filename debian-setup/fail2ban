@@ -4,7 +4,7 @@ set -e -x
 
 # https://packages.qa.debian.org/f/fail2ban.html
 
-[ -n "$IP" ]
+test -n "$IP"
 
 Getpkg geoip-database-contrib
 apt-get install -y geoip-bin python3-pyinotify fail2ban

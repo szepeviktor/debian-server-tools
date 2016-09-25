@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e -x
+
+# @FIXME pppoe also
+
+if ! ps --no-headers -C pppd > /dev/null; then
+    apt-get purge -qq -y pppoeconf
+fi

@@ -49,3 +49,9 @@ apt-get install linux-cpupower
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 # Set performance mode
 for SG in /sys/devices/system/cpu/*/cpufreq/scaling_governor;do echo "performance" > $SG;done
+
+# Firmware
+if [ -d /dev/.udev/firmware-missing ] || [ -d /run/udev/firmware-missing ]; then
+    echo "Probably missing firmware" 1>&2
+    exit 1
+fi

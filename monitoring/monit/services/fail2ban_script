@@ -2,7 +2,7 @@
 #
 # Check Fail2ban iptables chains.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # LOCATION      :/usr/local/sbin/fail2ban-test.sh
 
 set -e

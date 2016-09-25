@@ -192,7 +192,7 @@ http://stephanepeter.com/makeself/
 
 PERL_MM_USE_DEFAULT=1 cpan -i Alien::RRDtool
 
-### Switch to LLVM/clang
+### Switch to LLVM/clang compiler
 
 ```bash
 # jessie

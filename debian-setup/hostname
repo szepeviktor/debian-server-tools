@@ -7,7 +7,7 @@
 set -e -x
 
 H="$(Data get-value system.fqdn)"
-[ -n "$IP" ]
+test -n "$IP"
 
 # Search for the old host name
 grep -i -r "$(hostname)" /etc/ > /root/hostname-in-etc.log

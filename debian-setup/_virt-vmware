@@ -2,6 +2,13 @@
 
 set -e -x
 
+# Detect VMware
+if ! [ -c /dev/mem ]; then
+    exit 1
+fi
+# VMware UUID
+dmidecode -s system-uuid
+
 if vmtoolsd --version; then
     # Uninstall vmtools from ISO
     vmware-uninstall-tools.pl 2>&1 | tee /root/vmware-uninstall.log

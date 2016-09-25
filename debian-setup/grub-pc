@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e -x
+
+# @FIXME
+# # GRUB and PyGrub
+# if ! [ -f /boot/grub/grub.cfg ] || ! grep -q "^menuentry\s" /boot/grub/grub.cfg; then
+#     apt-get purge -qq -y grub-pc
+# fi
+
+# Check MBR
+MBR_GRUB="$(dd if="$DISK" bs=1 skip=$((0x188)) count=4 2> /dev/null)"
+test "$MBR_GRUB" == "GRUB"
+
+# Check root device (copied from /tools/reboot)
+GRUB_CONFIG="/boot/grub/grub.cfg"
+# shellcheck disable=SC2016
+FIRST_ROOT="$(sed -ne '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
+DISK=""
+# Block device
+if [ "${FIRST_ROOT:0:5}" == "/dev/" ]; then
+    DISK="$(realpath "$FIRST_ROOT")"
+fi
+# UUID
+if [ "${FIRST_ROOT:0:5}" == "UUID=" ]; then
+    DISK="$(readlink -e "/dev/disk/by-uuid/${FIRST_ROOT#UUID=}")"
+fi
+# Mounted block device
+test -b "$DISK"
+grep -q "^${DISK}\s" /proc/mounts

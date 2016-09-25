@@ -9,10 +9,10 @@ CURRENT_CODENAME="$(lsb_release -s --codename)"
 #CURRENT_RELEASE="$(cat /etc/debian_version)"
 CURRENT_RELEASE="$(lsb_release -s --release)"
 
-[ "$CURRENT_ARCH" == "$IMAGE_ARCH" ]
-[ "$CURRENT_MACHINE" == "$IMAGE_MACHINE" ]
-[ "$CURRENT_ID" == "$IMAGE_ID" ]
-[ "$CURRENT_CODENAME" == "$IMAGE_CODENAME" ]
+test "$CURRENT_ARCH" == "$IMAGE_ARCH"
+test "$CURRENT_MACHINE" == "$IMAGE_MACHINE"
+test "$CURRENT_ID" == "$IMAGE_ID"
+test "$CURRENT_CODENAME" == "$IMAGE_CODENAME"
 LATEST_RELEASE="$(wget -q -O- "ftp://ftp.debian.org/debian/dists/${IMAGE_CODENAME}/Release" | sed -n -e 's;^Version: \(.*\)$;\1;p')"
 if [ "$CURRENT_RELEASE" != "$LATEST_RELEASE" ]; then
     echo "Dist-upgrade is necessary."

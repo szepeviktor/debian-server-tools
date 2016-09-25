@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e -x
+
+# Detect OpenVZ
+grep -a "container=" /proc/1/environ | tr -d -c '[:print:]'
+
+# /proc/vz/veinfo
+# /proc/vz/vestat

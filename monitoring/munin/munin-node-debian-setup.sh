@@ -443,3 +443,5 @@ echo "Disable apt_all cron job:  editor /etc/cron.d/munin-node"
 
 # Debug
 #     munin-run --servicedir /usr/local/share/munin/plugins --debug $PLUGIN_NAME
+
+# git --git-dir=/root/src/munstrap.git --work-tree=/etc/munin/munstrap "$@"

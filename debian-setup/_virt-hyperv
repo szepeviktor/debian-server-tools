@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e -x
+
+# Detect HyperV
+if ! [ -c /dev/mem ]; then
+    exit 1
+fi
+# HyperV UUID
+dmidecode -s system-uuid

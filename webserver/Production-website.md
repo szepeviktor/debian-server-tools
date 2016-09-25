@@ -330,10 +330,11 @@ http://google-public-dns.appspot.com/cache
 
 ### HTTP
 
-- https://www.webpagetest.org/
-- https://securityheaders.io/
+- HTTP methods `GET POST HEAD` and `OPTIONS PUT DELETE TRACE ...`
 - https://redbot.org/
-- HTTP methods `GET POST HEAD` `OPTIONS PUT DELETE TRACE ...`
+- https://securityheaders.io/
+- https://www.webpagetest.org/
+- https://speedcurve.com/
 
 ### PHP errors
 
