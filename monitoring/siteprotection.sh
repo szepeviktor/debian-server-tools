@@ -2,7 +2,7 @@
 #
 # List /home files modified in the last hour.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -17,7 +17,7 @@ set -e
 #   WordPress cache
 #   Joomla cache
 #   Joomla admin cache
-find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" ")" -mmin -61 \
+find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" ")" -mmin -61 -printf "%p @%TH:%TM:%TS\n" \
     | grep -v -x "/home/[[:alnum:]]\+/website/html/wp-content/cache/.*\.php" \
     | grep -v -x "/home/[[:alnum:]]\+/public_html/server/cache/.*\.php" \
     | grep -v -x "/home/[[:alnum:]]\+/public_html/server/administrator/cache/.*\.php" \

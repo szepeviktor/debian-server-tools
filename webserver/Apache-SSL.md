@@ -18,6 +18,14 @@ See [/webserver/apache-conf-available/ssl-mozilla-intermediate.default](/webserv
 
 See [/security/ca/README.md](/security/ca/README.md)
 
+### Sending client certificate to iOS devices
+
+- Import to be exported client certificates
+- Download IPCU http://mirror.szepe.net/software/iPhoneConfigUtilitySetup.exe
+- Extract .msi packages
+- Install `AppleApplicationSupport.msi` and `AppleMobileDeviceSupport64.msi` and `iPhoneConfigUtility.msi`
+- `copy "C:\Program Files (x86)\Common Files\Apple\Apple Application Support\SQLite3.dll" "C:\Program Files (x86)\iPhone Configuration Utility\"`
+
 ### HTTP/2, SPDY
 
 - https://github.com/icing/mod_h2

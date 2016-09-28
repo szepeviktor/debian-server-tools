@@ -139,6 +139,11 @@ Use real cron job.
 - Modify post and page authors
 - Enable/disable author sitemaps
 
+### Signature as HTML comment
+
+```html
+<!-- Setup & Maintenance: Viktor Szépe <viktor@szepe.net> -->
+```
 
 ## Migration
 
