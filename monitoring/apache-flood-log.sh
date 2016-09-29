@@ -41,7 +41,7 @@ grep "^$(LC_ALL=C date --date="1 day ago" "+%b %e ")" "$LOGFILE" \
     | grep -o "\bHTTP flood: .*" \
     | cut -d' ' -f6 | uniq -c \
     | grep -v "^\s\+[0-9] " \
-    | mail -E S from="Apache floods" -s "[ad.min] Apache floods on $(hostname -f)" webmaster
+    | mail -E S from="apache floods <root>" -s "[ad.min] Apache floods on $(hostname -f)" webmaster
 
 
 high:

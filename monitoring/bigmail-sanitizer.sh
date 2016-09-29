@@ -2,7 +2,7 @@
 #
 # Remove BIG attachments.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-02-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,6 +21,8 @@ set -e
 Daily_warning() {
     local MPATH="$1"
     local MDIR
+    local MSG
+    local ATTACHMENT
 
     # Find BIG messages from the past day
     find "${MPATH}" -type f -mtime -1 -size +${MAX_SIZE} \
@@ -44,7 +46,7 @@ Daily_warning() {
 
             popd > /dev/null
             rm -rf "$MDIR"
-        done | mailx -E -S "from=Message size exceeded <root>" -s "${MPATH} on $(hostname -f)" root
+        done | mailx -E -S "from=message size exceeded <root>" -s "${MPATH} on $(hostname -f)" root
 }
 
 find "$MAIL_ROOT" -mindepth 2 -maxdepth 2 -type d \

@@ -213,7 +213,7 @@ case "$1" in
             [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" 1>&2
 
             # 2. E-mail
-            echo "Failures: ${FAILURES}" | mailx -S from="Can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
+            echo "Failures: ${FAILURES}" | mailx -S from="can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
 
             # 3. Syslog
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"

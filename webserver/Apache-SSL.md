@@ -18,6 +18,26 @@ See [/webserver/apache-conf-available/ssl-mozilla-intermediate.default](/webserv
 
 See [/security/ca/README.md](/security/ca/README.md)
 
+### Certificate authentications
+
+```apache
+SSLCACertificateFile /etc/ssl/localcerts/company-ca.pem
+<Location /auth>
+    SSLVerifyClient require
+</Location>
+```
+
+```php
+    // Check verification result, CA and client CN
+    $verified = ( array_key_exists( 'SSL_CLIENT_VERIFY', $_SERVER )
+        && 'SUCCESS' === $_SERVER['SSL_CLIENT_VERIFY']
+        && array_key_exists( 'SSL_CLIENT_I_DN', $_SERVER )
+        && $client_issuer_dn === $_SERVER['SSL_CLIENT_I_DN']
+        && array_key_exists( 'SSL_CLIENT_S_DN', $_SERVER )
+        && in_array( $_SERVER['SSL_CLIENT_S_DN'], $ok_client_dns )
+    );
+```
+
 ### Sending client certificate to iOS devices
 
 - Import to be exported client certificates

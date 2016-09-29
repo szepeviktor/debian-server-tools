@@ -44,7 +44,7 @@ Smart_error() {
         echo "[${LEVEL}] ${MESSAGE}" 1>&2
     else
         echo "$MESSAGE" \
-            | mailx -S from="S.M.A.R.T. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
+            | mailx -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
     fi
 }
 

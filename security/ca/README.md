@@ -35,6 +35,12 @@ cp -v $OLDC ${C}/priv-key-$(date +%Y%m%d).key
 rm -v newcert.pem newreq.pem && ls -l ${C}
 ```
 
+### Export PKCS#12 client certificate
+
+```bash
+openssl pkcs12 -export -in newcert.pem -inkey newkey-decrypted.pem -out email@addre.ss-szepenet.p12 -name friendlyname
+```
+
 ### Install a CA
 
 ```bash
