@@ -1,5 +1,6 @@
 # EZIT in BIX
 hosting-company: EZIT
+virtualization: kvm
 networking:
     method: static
     name: eth0

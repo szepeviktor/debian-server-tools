@@ -1,5 +1,6 @@
 # in Alfa Victor Hugo Office
 hosting-company: ATW
+virtualization: kvm
 networking:
     netmask: 255.255.255.0
     resolver:

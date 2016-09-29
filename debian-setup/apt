@@ -19,5 +19,10 @@ echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
 # Check Install-Recommends option
 #     apt-get install -o APT::AutoRemove::RecommendsImportant=false
 CURRENT_APTRECOMMENDS="$(apt-config dump APT::Install-Recommends)"
-test "$CURRENT_APTRECOMMENDS" == "$IMAGE_APTRECOMMENDS"
-# @TODO Fix it
+
+# Disable config file containing Install-Recommends
+if [ "$CURRENT_APTRECOMMENDS" != "$IMAGE_APTRECOMMENDS" ]; then
+    APTRECOMMENDS_CONFIG="$(grep -irH "APT::Install-Recommends" /etc/apt/*)"
+    test -f "${APTRECOMMENDS_CONFIG%%:*}"
+    mv -f "${APTRECOMMENDS_CONFIG%%:*}" "${APTRECOMMENDS_CONFIG%%:*}.disabled"
+fi

@@ -2,7 +2,7 @@
 #
 # Install and set up monit
 #
-# VERSION       :0.6.5
+# VERSION       :0.6.6
 # DATE          :2016-05-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -262,6 +262,9 @@ fi
 if ! [ -f "$MONIT_DEFAULTS" ]; then
     echo "Missing defaults file" 1>&2
     exit 3
+fi
+if ! Is_pkg_installed usbutils; then
+    apt-get install -y usbutils
 fi
 if ! Is_pkg_installed monit; then
     apt-get install -t jessie-backports -y monit

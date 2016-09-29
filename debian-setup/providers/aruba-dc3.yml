@@ -1,5 +1,6 @@
 # DC3 in Ktiš, Czech Republic
 hosting-company: Aruba
+virtualization: vmware
 networking:
     resolver:
         - 81.2.192.131

@@ -2,13 +2,14 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.7.2
+# VERSION       :0.8.0
 # DATE          :2015-07-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install php5-cli
+# DEPENDS5      :apt-get install php5-cli
+# DEPENDS       :apt-get install php7.0-cli
 # LOCATION      :/usr/local/bin/wp-cron-cli.sh
 
 # Disable wp-cron in your wp-config.php

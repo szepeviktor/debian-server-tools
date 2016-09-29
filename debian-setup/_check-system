@@ -12,10 +12,16 @@ Titled_pager() {
         echo
 
         cat
-    } | pager
+    } | if [ "$DISABLE_TITLED_PAGER" == True ]; then
+        cat
+    else
+        pager
+    fi
 }
 
 set -e -x
+
+DISABLE_TITLED_PAGER="$(Data get-value auto-check-system "False")"
 
 # Hardware
 lspci | Titled_pager "PCI Device List"

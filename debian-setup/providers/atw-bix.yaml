@@ -1,5 +1,6 @@
 # ATW in BIX
 hosting-company: ATW
+virtualization: kvm
 networking:
     method: static
     name: eth0

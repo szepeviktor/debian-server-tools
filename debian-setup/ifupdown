@@ -45,7 +45,7 @@ cp -f /etc/network/interfaces /root/interfaces.orig
             echo "gateway $(Data get-value networking.inet6.gateway)"
         fi
         if [ -n "$(Data get-value networking.inet6.resolver "")" ]; then
-            echo "dns-nameservers $(Data get-values networking.resolver | paste -d " " -s)"
+            echo "dns-nameservers $(Data get-values networking.inet6.resolver | paste -d " " -s)"
         fi
         echo
     fi

@@ -1,5 +1,6 @@
 # OVH in SBG1
 hosting-company: OVH
+virtualization: kvm
 networking:
     method: static
     name: eth0

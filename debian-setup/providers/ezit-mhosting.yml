@@ -1,5 +1,6 @@
 # Magyar Hosting by EZIT
 hosting-company: Magyar Hosting
+virtualization: kvm
 networking:
     method: static
     name: eth0

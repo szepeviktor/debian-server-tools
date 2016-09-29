@@ -20,14 +20,14 @@ set -e
 
 # Check HTTP/auth credentials
 HTTP_USER="$(Data get-value package.apache2.prg-http-user "")"
-[ -n "$HTTP_USER" ]
+test -n "$HTTP_USER"
 HTTP_PASSWORD="$(Data get-value package.apache2.prg-http-pwd "")"
-[ -n "$HTTP_PASSWORD" ]
+test -n "$HTTP_PASSWORD"
 SSL_CN="$(Data get-value package.apache2.prg-ssl-cn "")"
-[ -n "$SSL_CN" ]
+test -n "$SSL_CN"
 
 # Check debian-server-tools
-[ -f "package/phpmyadmin-get.sh" ]
+test -f "package/phpmyadmin-get.sh"
 
 # Apache user exists
 getent passwd _web &> /dev/null
@@ -97,6 +97,7 @@ cp package/phpmyadmin-get.sh ${PRG_ROOT}/
     cp config.sample.inc.php ../config.inc.php
     ln -sf ../config.inc.php .
     # http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
+    # shellcheck disable=SC2016
     sed -i -e 's/^.*\$cfg\[.blowfish_secret.\].*$/\/\/ cfg-blowfish_secret/' ../config.inc.php
     sed -i -e "s|cfg-blowfish_secret|cfg-blowfish_secret\n\
 \$cfg['blowfish_secret'] = '$(apg -n 1 -m 33)';\n\
@@ -156,13 +157,17 @@ chown -R ${U}:${U} /home/${U}/website
 # Create Apache site
 (
     cd /etc/apache2/sites-available/
-    sed -e "s/@@CN@@/${SSL_CN}/g" -e "s/@@PRG_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Prg-site.conf > ${DOMAIN}.conf
+    sed -e "s/@@CN@@/${SSL_CN}/g" -e "s/@@PRG_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Prg-site.conf > "${DOMAIN}.conf"
 )
 
 # Enable site
-a2ensite ${DOMAIN}
+a2ensite "${DOMAIN}"
 webserver/apache-resolve-hostnames.sh
 
 # Reload webserver
 # We may not have the certificate in place
-apache2ctl configtest && webserver/webrestart.sh
+if apache2ctl configtest; then
+    webserver/webrestart.sh
+else
+    echo "Have prg certificate installed at /etc/ssl/localcerts/${SSL_CN}-public.pem and /etc/ssl/private/${SSL_CN}-private.key" 1>&2
+fi

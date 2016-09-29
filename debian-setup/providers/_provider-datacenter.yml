@@ -1,6 +1,10 @@
 # Provider in DataCenter
 hosting-company: Provider
 virtualization: kvm
+#virtualization: vmware
+#virtualization: xen
+#virtualization: hyperv
+#virtualization: openvz
 #virtualization: baremetal
 #virtualization: hypervisor
 networking:
@@ -48,3 +52,4 @@ provider-package:
     - rng-tools
     # For HyperV
     - hyperv-demons
+#auto-check-system: true

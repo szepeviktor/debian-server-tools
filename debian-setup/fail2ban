@@ -19,9 +19,10 @@ done
 for ACTION in cloudflare.local sendmail-geoip-lines.local; do
     cp -f security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
 done
-sed -i -e "s|@@IP@@|${IP}" /etc/fail2ban/jail.local
-sed -i -e "s|@@SENDER@@|$(Data get-value package.fail2ban.sender "root")" /etc/fail2ban/jail.local
+sed -i -e "s|@@IP@@|${IP}|" /etc/fail2ban/jail.local
+sed -i -e "s|@@SENDER@@|$(Data get-value package.fail2ban.sender "root")|" /etc/fail2ban/jail.local
 # Already checked in debian-setup/openssh-server
-sed -i -e "s|@@IP@@|$(Data get-value package.openssh-server.port "22")" /etc/fail2ban/jail.local
+sed -i -e "s|@@SSHPORT@@|$(Data get-value package.openssh-server.port "22")|" /etc/fail2ban/jail.local
 
-service fail2ban restart
+# Apache may not be installed yet
+service fail2ban stop

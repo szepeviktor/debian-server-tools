@@ -18,8 +18,8 @@ set -e
 #   Joomla cache
 #   Joomla admin cache
 find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" ")" -mmin -61 -printf "%p @%TH:%TM:%TS\n" \
-    | grep -v -x "/home/[[:alnum:]]\+/website/html/wp-content/cache/.*\.php" \
-    | grep -v -x "/home/[[:alnum:]]\+/public_html/server/cache/.*\.php" \
-    | grep -v -x "/home/[[:alnum:]]\+/public_html/server/administrator/cache/.*\.php" \
+    | grep -v -x "/home/[[:alnum:]]\+/website/html/wp-content/cache/.*\.php @[0-9:.]*" \
+    | grep -v -x "/home/[[:alnum:]]\+/public_html/server/cache/.*\.php @[0-9:.]*" \
+    | grep -v -x "/home/[[:alnum:]]\+/public_html/server/administrator/cache/.*\.php @[0-9:.]*" \
 
 exit 0

@@ -2,6 +2,13 @@
 #
 # Continue Debian setup on a virtual server.
 #
+# VERSION       :1.0.0
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# CI            :shellcheck -x debian-setup2.sh
+# CONFIG        :/root/server.yml
 
 # Advise
 #
@@ -171,7 +178,7 @@ debian-setup/fail2ban
 #debian-setup/proftpd-basic
 
 # Courier MTA - deliver all messages to a smarthost
-# See /mail/courier-mta-satellite-system.sh
+mail/courier-mta-satellite-system.sh
 
 if Is_installed "msmtp-mta"; then
     debian-setup/msmtp-mta
@@ -220,6 +227,9 @@ webserver/add-prg-site-auto.sh
 # Add a production website
 # See /webserver/add-site.sh
 
+# apache-default, apache-combined and apache-instant Fail2ban jails are enabled by default
+service fail2ban restart
+
 # Backup
 apt-get install -t jessie-backports -y python3-requests
 apt-get install -y s3ql
@@ -232,12 +242,12 @@ Dinstall webserver/wp-cron-cli.sh
 
 # Monit - monitoring
 # @FIXME Needs a production website for apache2 and php7.0-fpm
-# @FIXME Defaults editor
+# @FIXME Defaults config file editor
 # @FIXME Depends on repo
 (
     cd /usr/local/src/debian-server-tools/monitoring/monit/
     install --mode=0640 -D -t /etc/monit monit.defaults
-    editor /etc/monit monit.defaults
+    editor /etc/monit/monit.defaults
     ./monit-debian-setup.sh
 )
 
@@ -250,6 +260,7 @@ debian-setup/libpam-modules
 
 # Clean up
 apt-get autoremove --purge -y
+apt-get clean
 
 # Throttle automatic package downloads
 echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download

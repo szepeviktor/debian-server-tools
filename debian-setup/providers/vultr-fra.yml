@@ -1,6 +1,19 @@
 # Vultr in Frankfurt
 hosting-company: Vultr
+virtualization: kvm
 networking:
+    method: dhcp
+    name: eth0
+    # IPv6 interface
+    inet6:
+        method: auto
+        name: eth0
+        resolver:
+            - 2001:19f0:300:1704::6
+    # Private network
+#    private:
+#        method: dhcp
+#        name: eth1
     resolver:
         - 108.61.10.10
 provider-package:
