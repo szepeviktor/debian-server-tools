@@ -2,7 +2,7 @@
 #
 # List /home files modified in the last hour.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,8 +10,6 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/siteprotection.sh
 # CRON.D        :00 *	* * *	root	/usr/local/sbin/siteprotection.sh
-
-set -e
 
 # Exclude
 #   WordPress cache

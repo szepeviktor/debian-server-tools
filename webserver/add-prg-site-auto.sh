@@ -153,6 +153,8 @@ chown -R ${U}:${U} /home/${U}/website
     # PHP Secure Configuration Checker allowed IP address
     #     env[PCC_ALLOW_IP] = 1.2.3.*
 )
+#sed -i "s|^;\?opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" /etc/php5/fpm/php.ini
+sed -i "s|^;\?opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" /etc/php/7.0/fpm/php.ini
 
 # Create Apache site
 (

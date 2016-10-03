@@ -365,6 +365,7 @@ OK response: "IP Unlisted in the spam sender list None"
 - http://www.barracudacentral.org/lookups
 - http://www.cyren.com/ip-reputation-check.html
 - http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx
+- http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4
 - http://ipremoval.sms.symantec.com/lookup/
 - https://postmaster.aol.com/ip-reputation
 - https://ers.trendmicro.com/reputations

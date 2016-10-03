@@ -15,6 +15,9 @@ include css.syntax
 file ..\*\\.(yml|yaml)$ YAML\sDocument
 include python.syntax
 
+file ..\*\\.(json)$ JavaScript\sObject\sNotation
+include js.syntax
+
 # Append /usr/share/mc/syntax/Syntax here!
 # Alt + U cat /usr/share/mc/syntax/Syntax
 

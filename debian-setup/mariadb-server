@@ -9,7 +9,7 @@ MYSQL_PASSWORD="$(echo "GET mysql-server/root_password_again" | debconf-communic
 # Remove password from debconf
 echo "RESET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0
 
-# OR Percona server
+# @TODO Clone for percona-server-server
 #apt-get install -y percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
 
 # Disable the binary log
@@ -23,6 +23,11 @@ password=${MYSQL_PASSWORD}
 default-character-set=utf8
 
 [mysqldump]
+user=root
+password=${MYSQL_PASSWORD}
+default-character-set=utf8
+
+[xtrabackup]
 user=root
 password=${MYSQL_PASSWORD}
 default-character-set=utf8

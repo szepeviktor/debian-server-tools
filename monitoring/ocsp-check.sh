@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.3.0
+# VERSION       :2.4.0
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,6 +11,13 @@
 # DEPENDS       :apt-get install openssl
 # UPSTREAM      :https://github.com/matteocorti/check_ssl_cert
 # LOCATION      :/usr/local/bin/ocsp-check.sh
+
+# Usage
+#
+#     editor /etc/cron.hourly/ocsp-check-SITE.sh
+#         #!/bin/bash
+#         set -e;/usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;exit 0
+#     chmod +x /etc/cron.hourly/ocsp-check-*.sh
 
 HOST="$1"
 
@@ -34,7 +41,7 @@ Onexit() {
 
 trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 
-[ -n "$HOST" ]
+test -n "$HOST"
 
 CERTIFICATE="$(mktemp -t "${0##*/}.XXXXXXXX")"
 CA_ISSUER_CERT="$(mktemp -t "${0##*/}.XXXXXXXX")"
@@ -42,15 +49,18 @@ CA_ISSUER_CERT="$(mktemp -t "${0##*/}.XXXXXXXX")"
 # Get certificate
 openssl s_client -connect "${HOST}:443" -servername "$HOST" < /dev/null > "$CERTIFICATE" 2> /dev/null
 
-OCSP_URI="$(openssl x509 -in "$CERTIFICATE" -noout -ocsp_uri)"
-[ -n "$OCSP_URI" ]
+# First OCSP URI
+OCSP_URI="$(openssl x509 -in "$CERTIFICATE" -noout -ocsp_uri | head -n 1)"
+test -n "$OCSP_URI"
 
 OCSP_HOST="$(sed -e 's;^.*//\([^/]\+\)\(/.*\)\?$;\1;' <<< "$OCSP_URI")"
-[ -n "$OCSP_HOST" ]
+test -n "$OCSP_HOST"
 
+# First issuer certificate
 CA_ISSUER_CERT_URI="$(openssl x509 -in "${CERTIFICATE}" -text -noout \
-    | sed -n -e '/^\s*Authority Information Access:\s*$/,/^\s*$/s/^\s*CA Issuers - URI:\(.\+\)$/\1/p')"
-[ -n "$CA_ISSUER_CERT_URI" ]
+    | sed -n -e '/^\s*Authority Information Access:\s*$/,/^\s*$/s/^\s*CA Issuers - URI:\(.\+\)$/\1/p' \
+    | head -n 1)"
+test -n "$CA_ISSUER_CERT_URI"
 
 # Download issuer certificate
 wget -q -t 1 -O "$CA_ISSUER_CERT" "$CA_ISSUER_CERT_URI"
@@ -81,18 +91,22 @@ fi
 
 THIS_UPDATE="$(sed -n -e '0,/^\s*This Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
 NEXT_UPDATE="$(sed -n -e '0,/^\s*Next Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
+# Missing update dates
+test -n "$THIS_UPDATE"
+test -n "$NEXT_UPDATE"
+
 declare -i THIS_UPDATE_SECOND
 declare -i NEXT_UPDATE_SECOND
 THIS_UPDATE_SECOND="$(date --date "$THIS_UPDATE" "+%s")"
 NEXT_UPDATE_SECOND="$(date --date "$NEXT_UPDATE" "+%s")"
 
 # Check expiry
-[ "$NEXT_UPDATE_SECOND" -ge "$(date "+%s")" ]
+test "$NEXT_UPDATE_SECOND" -ge "$(date "+%s")"
 
 # Check expiration time
 declare -i OCSP_HOURS="$(( ( NEXT_UPDATE_SECOND - THIS_UPDATE_SECOND ) / 3600 ))"
-[ "$OCSP_HOURS" -ge 24 ]
-[ "$OCSP_HOURS" -le 240 ]
+test "$OCSP_HOURS" -ge 24
+test "$OCSP_HOURS" -le 240
 
 echo "${HOST} OCSP period: ${OCSP_HOURS} hours"
 

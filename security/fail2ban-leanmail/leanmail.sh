@@ -23,6 +23,9 @@
 # Restart fail2ban
 #     fail2ban-client reload
 #
+# Testing
+#     echo "X-Fail2ban: 1.2.3.4,admin@szepe.net" | time bash -x leanmail.sh
+#
 # Serving a website over HTTPS reduces attacks!
 
 
@@ -431,6 +434,10 @@ Match_multi_AS() {
 
 Match_any() {
     # Local
+    if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then # High hit rate
+        Log_match "hosting"
+        return 0
+    fi
     if Match_list "$LIST_GREENSNOW" "$IP"; then
         Log_match "greensnow"
         return 0
@@ -451,13 +458,9 @@ Match_any() {
         Log_match "anonymous-proxy"
         return 0
     fi
-    if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then
-        Log_match "hosting"
-        return 0
-    fi
 
     # Network
-    if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
+    if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then # High hit rate
         Log_match "spamhaus"
         return 0
     fi
@@ -474,7 +477,7 @@ Match_any() {
         return 0
     fi
 
-    # Labs :::::::::::::::::
+    # Labs ::::::::::::::::::
 
     # Labs/network ::::::::::
 
@@ -537,7 +540,7 @@ else
         SENDER="${IP_SENDER##*,}"
     else
         # Missing X-Fail2ban header
-        sed "1s/^/${FIRST_LINE}\n/" | /usr/sbin/sendmail "$DEST"
+        sed -e "1s/^/${FIRST_LINE}\n/" | /usr/sbin/sendmail "$DEST"
         exit
     fi
 fi

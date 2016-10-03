@@ -21,8 +21,7 @@ sed -i "s|^;mail.add_x_header\s*=.*\$|mail.add_x_header = Off|" /etc/php/7.0/fpm
 # Only Prg site is allowed
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php/7.0/fpm/php.ini
-# Set username in $U
-sed -i "s|^;opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" /etc/php/7.0/fpm/php.ini
+# Set opcache.restrict_api
 
 # OPcache - There may be more than 2k files
 #     find /home/ -type f -name "*.php"|wc -l

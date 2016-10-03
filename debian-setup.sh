@@ -46,7 +46,7 @@
 #
 # - Apache 2.4 latest with HTTP/2 and event MPM
 # - PHP 5.6 or 7.0 through PHP-FPM
-# - CLI tools
+# - CLI tools (WP-CLI, Drush)
 # - Redis in-memory cache
 # - MariaDB 10
 

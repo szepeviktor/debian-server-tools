@@ -18,7 +18,7 @@ sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php5/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php5/fpm/php.ini
 sed -i "s|^;mail.add_x_header\s*=.*\$|mail.add_x_header = Off|" /etc/php5/fpm/php.ini
 # OPcache - only "prg" site is allowed
-sed -i 's|^;opcache.restrict_api\s*=.*$|opcache.restrict_api = /home/web/website/|' /etc/php5/fpm/php.ini
+# Set opcache.restrict_api
 sed -i 's/^;opcache.memory_consumption\s*=.*$/opcache.memory_consumption = 256/' /etc/php5/fpm/php.ini
 sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buffer = 16/' /etc/php5/fpm/php.ini
 # There may be more than 10k files

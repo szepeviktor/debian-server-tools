@@ -248,7 +248,7 @@ Backup_files() {
     WEEKLY_HOME="$(Rotate_weekly "homes")"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
     if [ -n "$WEEKLY_HOME" ]; then
-        rsync -a --delete /home/ "$WEEKLY_HOME"
+        nice rsync -a --delete /home/ "$WEEKLY_HOME"
     fi
 
     # /var/mail
@@ -257,7 +257,7 @@ Backup_files() {
     fi
     WEEKLY_MAIL="$(Rotate_weekly "email")"
     if [ -n "$WEEKLY_MAIL" ]; then
-        rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+        nice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
     fi
 
     # /usr/local
@@ -266,7 +266,7 @@ Backup_files() {
     fi
     WEEKLY_USR="$(Rotate_weekly "usr")"
     if [ -n "$WEEKLY_USR" ]; then
-        rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
+        nice rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
     fi
 }
 

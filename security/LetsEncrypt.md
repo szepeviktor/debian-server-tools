@@ -1,12 +1,10 @@
 # Let's Encrypt
 
-# SSL certificate for web, mail etc.
-# See /security/new-ssl-cert.sh
+SSL certificate for web, mail etc. see /security/new-ssl-cert.sh
 
-# Test TLS connections
-# See /security/README.md
+Test TLS connections see /security/README.md
 
-[Certbot client](https://github.com/certbot/certbot)
+[Certbot](https://github.com/certbot/certbot)
 
 ```bash
 apt-get install -y dialog ca-certificates python-dev gcc libssl-dev libffi-dev
@@ -28,13 +26,21 @@ certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-loggin
 
 cat /etc/letsencrypt/live/${DOMAIN}/privkey.pem /etc/letsencrypt/live/${DOMAIN}/fullchain.pem \
     > priv-pub-int.pem
+```
 
-# DNS-based challenge
-#     https://github.com/veeti/manuale
+[ManuaLE](https://github.com/veeti/manuale)
+
+A fully manual Let's Encrypt/ACME client with DNS-based challenge.
+
+```bash
 apt-get install -y dialog ca-certificates \
     gcc python3-dev libssl-dev libffi-dev
 pip3 install --upgrade manuale
-manuale -h
+
+#manuale register $EMAIL && manuale info
+# Renew
+manuale authorize $DOMAIN $DOMAIN2
+manuale issue --key-file ${DOMAIN}.pem $DOMAIN $DOMAIN2
 ```
 
 Add TXT record by AWS CLI
@@ -62,8 +68,8 @@ certbot renew --verbose --manual --manual-public-ip-logging-ok
 #certbot renew --verbose --standalone
 #certbot renew --verbose --webroot --webroot-path=/path/to/doc-root
 
-( cd /etc/letsencrypt/live/mail.radiomedinstruments.hu
-cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
+( cd /etc/letsencrypt/live/${CN}
+  cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
 rm -f /etc/courier/dhparams.pem
 DH_BITS=2048 nice /usr/sbin/mkdhparams
 courier-restart.sh

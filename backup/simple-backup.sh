@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.3
+# VERSION       :0.2.4
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -51,13 +51,13 @@ Echo "fsroot"
 nice tar --exclude=/etc --exclude=/run --exclude=/var/cache/apt --exclude=/var/lib/mysql \
     --one-file-system -czPf "${CURRENT_DAY}/fsroot.tar.gz" / || Error "fsroot"
 
-Echo "etc+debcong"
-nice tar --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
+Echo "/etc + debconf"
+nice tar --exclude=/etc/.git --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
 debconf-get-selections > "${CURRENT_DAY}/debconf.selections"
 dpkg --get-selections > "${CURRENT_DAY}/packages.selections"
 
-Echo "usr"
-nice tar --one-file-system -cPzf "${CURRENT_DAY}/usr.tar.gz" /usr/local/ || Error "usr"
+Echo "/usr"
+nice tar --exclude=/usr/local/src --one-file-system -cPzf "${CURRENT_DAY}/usr.tar.gz" /usr/local/ || Error "usr"
 
 Echo "Email"
 nice tar --one-file-system -czPf "${CURRENT_DAY}/email.tar.gz" /var/mail/ || Error "Email"

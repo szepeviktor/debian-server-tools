@@ -32,8 +32,9 @@ set -e
 Check_cert() {
     local CERT="$1"
     local -i END_SEC
-    local CERT_SUBJECT
     local END_CHECK
+    local CERT_SUBJECT
+    local EXPIRY_DATE
 
     # Not a base64 encoded certificate
     if ! grep -q -- "-BEGIN CERTIFICATE-" "$CERT"; then
