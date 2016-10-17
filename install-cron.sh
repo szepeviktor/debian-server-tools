@@ -56,6 +56,7 @@ while read -r JOB; do
 
     if Valid_cron_interval "$CRON_INTERVAL"; then
         CRON_FILE="/etc/${CRON_INTERVAL}/$(basename "${SCRIPT%.*}")$(( ++JOB_ID ))"
+        # Create simple shell script
         {
             echo "#!/bin/bash"
             echo "$JOB" | cut -d ":" -f 2-
@@ -70,6 +71,7 @@ while read -r JOB; do
             rm -f "$CRON_FILE"
             touch "$CRON_FILE"
         fi
+        # Append job to cron.d file
         echo "${JOB}" | cut -d ":" -f 2- >> "$CRON_FILE"
 
         echo "[cron] ${SCRIPT} -> ${CRON_FILE}"

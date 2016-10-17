@@ -2,7 +2,7 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.5.3
+# VERSION       :0.5.4
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -42,7 +42,7 @@ Check_cert() {
     fi
 
     END_SEC="$((ALERT_DAYS * 86400))"
-    END_CHECK="$(openssl x509 -in "$CERT" -checkend "$END_SEC")"
+    END_CHECK="$(openssl x509 -in "$CERT" -checkend "$END_SEC" || true)"
 
     # Alert
     if [ "$END_CHECK" != "Certificate will not expire" ]; then
@@ -53,6 +53,7 @@ Check_cert() {
 }
 
 if [ -r "$CERT_EXPIRY_CONFIG" ]; then
+    # shellcheck disable=SC1090
     source "$CERT_EXPIRY_CONFIG"
 fi
 

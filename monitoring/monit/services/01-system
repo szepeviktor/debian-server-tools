@@ -12,6 +12,12 @@
  check filesystem rootfs with path /
    if space usage > 90% then alert
 
+ # Available entropy at first
+ check program kernel_entropy
+    with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
  # Number of CPU cores
  check program hardware_cpu
     with path "/usr/local/sbin/server-integrity.sh -c CPU -r '@@INTEGRITY_CPU@@'" every 33 cycles
@@ -56,12 +62,6 @@
  # Kernel clock source
  check program kernel_clocksource
     with path "/usr/local/sbin/server-integrity.sh -c CLOCKSOURCE -r '@@INTEGRITY_CLOCKSOURCE@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
-
- # Available entropy
- check program kernel_entropy
-    with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'" every 33 cycles
    group integrity
    if status != 0 then alert
 

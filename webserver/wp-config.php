@@ -89,6 +89,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 // https://polylang.wordpress.com/documentation/documentation-for-developers/list-of-options-which-can-be-set-in-wp-config-php/
 //define( 'PLL_LINGOTEK_AD', false );
 //define( 'PLL_WPML_COMPAT', false );
+define( 'PODS_LIGHT', true );
 //define( 'PODS_SESSION_AUTO_START', false );
 //define( 'WPCF7_LOAD_CSS', false );
 //define( 'WPCF7_LOAD_JS', false );

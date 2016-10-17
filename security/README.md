@@ -4,7 +4,27 @@
 
 ### Malware analysis
 
-https://www.payload-security.com/
+https://www.hybrid-analysis.com/ malware analysis (file upload) by [Payload Security](https://www.payload-security.com/)
+
+### Shared server server-wide security
+
+Proactive
+
+- mod_security
+- [WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban)
+- File modification monitoring + reverting from snapshot
+- [ConfigServer Security & Firewall (csf)](https://configserver.com/cp/csf.html)
+- HTTP authentication
+- Honeypots [Nofollow Robot Trap](https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap)
+- https://bitninja.io/modules/
+- http://nintechnet.com/ninjafirewall/ (for applications only)
+
+Post incident
+
+- [ConfigServer eXploit Scanner (cxs)](https://configserver.com/cp/cxs.html) $$$
+- [SecuriteInfo Clamav signatures](https://www.securiteinfo.com/services/anti-spam-anti-virus/improve-detection-rate-of-zero-day-malwares-for-clamav.shtml)
+- [VirusTotal](https://www.virustotal.com/) API (checksum of changed files)
+- [VxStream Sandbox](https://www.hybrid-analysis.com/) API (checksum of changed files)
 
 ### Store secret data in shares
 
@@ -58,7 +78,13 @@ https://securityheaders.io/
 
 ### Cipherli.st
 
-[Strong Ciphers for Apache, nginx and Lighttpd](https://cipherli.st/)
+[Strong Ciphers for Apache, nginx and Lighttpd and OpenSSH server settings](https://cipherli.st/)
+
+Queries for supported algorithms
+
+```bash
+for Q in key kex cipher cipher-auth mac; do echo "--- ${Q} ---"; ssh -Q "$Q"; done
+```
 
 ### Mozilla Server side TLS Tools
 

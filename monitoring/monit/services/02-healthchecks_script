@@ -11,4 +11,4 @@ HEALTHCHECKS_URL="$1"
 
 [ -n "$HEALTHCHECKS_URL" ]
 
-wget -q -t 3 -O- "$HEALTHCHECKS_URL" | grep -Fx "OK"
+wget --quiet --tries=3 --output-document=- "$HEALTHCHECKS_URL" | grep -Fx "OK"

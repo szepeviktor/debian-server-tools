@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.10.0
+# VERSION       :0.10.1
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -30,8 +30,10 @@ Check_requirements() {
         Die 1 "You need to be root."
     fi
     if [ "$(stat --format=%a .)" != 700 ] \
-        || [ "$(stat --format=%u .)" != 0 ]; then
-        Die 2 "This directory needs to be private (0700) and owned by root."
+        #|| [ "$(stat --format=%u .)" != 0 ]; then
+        #Die 2 "This directory needs to be private (0700) and owned by root."
+        then
+        Die 2 "This directory needs to be private (0700)."
     fi
     if ! [ -f "$INT" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ] || ! [ -f "$CABUNDLE" ]; then
         Die 3 "Missing cert or CA bundle."

@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# CI            :shellcheck -e SC2034 cert-update-config-CN.sh
+# CI            :shellcheck -e SC2034 cert-update-manuale-CN.sh
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 
 # Create a new account and register
@@ -22,6 +22,9 @@
 # Int:     ${CN}.intermediate.crt
 # Chain:   ${CN}.chain.crt
 
+# Python user install
+#manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
+
 set -e
 
 # Check account file
@@ -31,7 +34,7 @@ manuale info
 # Enter domain names
 read -r -p "CN=" CN
 [ -n "$CN" ]
-read -r -p "Additional domain names " DOMAIN_NAMES
+read -r -p "Additional domain names: " DOMAIN_NAMES
 
 # Issue certificate
 # shellcheck disable=SC2086
@@ -64,6 +67,9 @@ APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/
 #
 # Use last Subject Alternative Name as domain name
 #APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
+#
+# Use first Subject Alternative Name as domain name
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}')"
 #
 # Replace wildcard prefix in domain name
 APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
@@ -133,4 +139,5 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 
 
 # Execute cert-update
+# shellcheck disable=SC1091
 source /usr/local/sbin/cert-update.sh

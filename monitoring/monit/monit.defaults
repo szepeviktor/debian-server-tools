@@ -1,3 +1,5 @@
+# /etc/monit/monit.defaults
+
 # 00-monitrc
 SMARTHOST_DEFAULT="mail.szepe.net"
 SMARTHOST_PORT_DEFAULT="587"

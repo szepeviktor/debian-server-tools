@@ -7,7 +7,7 @@ Colon at column :16
 ```
 #!/bin/bash
 #
-# One-line description.
+# One line description for this script.
 #
 # VERSION       :semver
 # DATE          :2016-12-31
@@ -20,14 +20,14 @@ Colon at column :16
 # DOCS          :url
 # SOURCE        :url
 # UPSTREAM      :url
-# LOCATION      :/usr/local/sbin/deny-ip.sh
+# LOCATION      :/usr/local/sbin/script.sh
 # OWNER         :root:root
 # PERMISSION    :0755
-# SYMLINK       :/usr/local/sbin/deny-http.sh
-# CRON-HOURLY   :/usr/local/sbin/command
-# CRON-DAILY    :/usr/local/bin/command
-# CRON-WEEKLY   :/usr/local/bin/command
-# CRON-MONTHLY  :/usr/local/sbin/script.sh | mailx -s "subject" root
+# SYMLINK       :/usr/local/sbin/alias.sh
+# CRON-HOURLY   :/usr/local/sbin/script.sh
+# CRON-DAILY    :/usr/local/sbin/script.sh
+# CRON-WEEKLY   :/usr/local/sbin/script.sh
+# CRON-MONTHLY  :/usr/local/sbin/script.sh | mailx -E -s "subject" root
 # CRON.D        :2 2	* * *	root	/usr/local/sbin/script.sh
 # CONFIG        :~/.config/script/configuration
 

@@ -2,7 +2,7 @@
 #
 # Show update instruction for installed tools.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2015-07-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -34,7 +34,7 @@ which colordiff &> /dev/null || unset PARAM
 #Input_motd Get_meta input/update-motd.d - Get_meta /etc/update-motd.d/update-motd.d
 
 D="$(dirname "$0")"
-find -type f -size -100k -not -name README.md -printf '%P\n' \
+find -type f -size -100k -not -name README.md -not -path "*/.git*" -printf '%P\n' \
     | while read -r FILE; do
         SCRIPT="$(Get_meta "$FILE" LOCATION)"
         if [ -z "$SCRIPT" ] || [ "$SCRIPT" == "(unknown)" ] || ! [ -f "$SCRIPT" ]; then

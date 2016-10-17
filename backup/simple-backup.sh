@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.4
+# VERSION       :0.2.5
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -32,6 +32,8 @@ Error() {
 set -e
 
 CURRENT_DAY="$(date --utc "+%w")"
+
+logger -t "simple-backup" "Started. $*"
 
 Echo "mount"
 ! grep -w "$BACKUP_DIR" /proc/mounts
@@ -81,6 +83,8 @@ sudo -u broadbandly -- /usr/local/bin/wp --path="$ABSPATH" db dump - \
 cd /
 #Echo "umount"
 #umount "$BACKUP_DIR"
+
+logger -t "simple-backup" "Finished. $*"
 
 wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"
 

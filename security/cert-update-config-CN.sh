@@ -58,7 +58,7 @@ INT="sca.server1.crt"
 read -r -p "CN=" CN
 [ -n "$CN" ]
 CERT_DIR="/root/ssl/${TODAY}-${CN}"
-mkdir -p -m 0700 "$CERT_DIR"
+mkdir -m 0700 "$CERT_DIR"
 cd "$CERT_DIR"
 
 # Generate request
@@ -164,4 +164,5 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 
 
 # Execute cert-update
+# shellcheck disable=SC1091
 source /usr/local/sbin/cert-update.sh

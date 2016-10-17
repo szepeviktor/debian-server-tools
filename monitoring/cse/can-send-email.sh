@@ -2,7 +2,7 @@
 #
 # Can-send-email triggers and checks.
 #
-# VERSION       :1.3.2
+# VERSION       :1.3.3
 # DATE          :2015-10-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -12,7 +12,7 @@
 # DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
 # CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh trigger
-# CRON.D        :55 *	* * *	daemon	/usr/local/sbin/can-send-email.sh check
+# CRON.D        :57 *	* * *	daemon	/usr/local/sbin/can-send-email.sh check
 
 # Adjust these variables.
 #

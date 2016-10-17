@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Backup a server.
+# Backup a server with S3QL.
 #
-# VERSION       :2.0.3
+# VERSION       :2.0.4
 # DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -304,6 +304,8 @@ fi
 [ -r "$CONFIG" ] || Error 100 "Unconfigured"
 source "$CONFIG"
 
+logger -t "system-backup" "Started. $*"
+
 Check_paths
 
 if [ "$1" == "-u" ]; then
@@ -326,6 +328,9 @@ Backup_innodb
 Backup_files
 
 Umount
+
+# Log file: /root/.s3ql/mount.log
+logger -t "system-backup" "Finished. $*"
 
 if [ -n "$HCHK_UUID" ]; then
     wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"

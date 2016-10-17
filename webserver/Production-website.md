@@ -327,6 +327,7 @@ http://google-public-dns.appspot.com/cache
 - Image format `convert PNG --quality 100 JPG`
 - Image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
 - Image optimization `jpeg-recompress JPG OPTI_JPG`
+- [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
 - JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, image gallery)
 - Light loading, e.g. `&controls=2` for YouTube
@@ -387,7 +388,7 @@ Send to Analytics, report to `/js-error.php`
 
 ### External resources (3rd party services)
 
-Document in 3rd-PARTY-README.md and check functionality.
+Document in 3rd-party-README.md and check functionality.
 
 - External search
 - Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
@@ -407,6 +408,7 @@ Gain access, set up and test.
 - Facebook Pixel
 - Piwik
 - Clicktale
+- Smartlook
 - Hotjar
 - URL shortening: Link tracking, Download tracking
 

@@ -22,7 +22,8 @@ Get_pool_ips() {
     local A_RECORDS
     local -A IPS
 
-    while [ "${#IPS[*]}" -lt 4 ] && [ -n "${SERVERS[$SERVER_INDEX]}" ]; do
+    # Get at least 4 IP addresses
+    while [ -n "${SERVERS[$SERVER_INDEX]}" ] && [ "${#IPS[*]}" -lt 4 ]; do
         A_RECORDS="$(host -t A "${SERVERS[$SERVER_INDEX]}" 2>&1 | sed -ne 's;^\S\+ has \(IPv4 \)\?address \([.0-9]\+\)$;\2;p')"
         # Retry on DNS failure
         if [ -z "$A_RECORDS" ]; then
@@ -33,6 +34,7 @@ Get_pool_ips() {
             # Prevent duplication by using array indices
             IPS[$A]="1"
         done <<< "$A_RECORDS"
+
         SERVER_INDEX+="1"
     done
 

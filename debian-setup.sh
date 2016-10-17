@@ -2,7 +2,7 @@
 #
 # Debian jessie setup on a virtual server.
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.1
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -37,7 +37,7 @@
 # - Fail2ban and block dangerous networks
 # - Monit monitoring
 # - Courier MTA
-# - System backup
+# - System backup with S3QL
 # - Nice motd welcome
 # - Package managers (composer, pip, npm)
 # - 155 MB memory usage, 2 GB disk usage
@@ -57,7 +57,7 @@ export IMAGE_CODENAME="jessie"
 
 export WITHOUT_SYSTEMD="yes"
 
-export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils"
+export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils aptitude"
 #:ubuntu
 #export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils"
 
@@ -104,7 +104,6 @@ debian-setup/apt
 debian-setup/base-files
 
 # OS image normalization (does dist-upgrade)
-apt-get install -qq -y aptitude
 ./debian-image-normalize.sh
 
 # Remove wheezy packages

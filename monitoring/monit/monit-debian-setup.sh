@@ -15,7 +15,7 @@ set -e
 
 # Usage
 #
-# Use example defaults file or edit your own
+# Use example defaults file or create your own
 #     install --mode=0600 -D -t /etc/monit monit.defaults
 #
 # Exclude packages
@@ -199,7 +199,7 @@ Monit_wake() {
     cat > "$CRONJOB" <<"EOF"
 #!/bin/bash
 #
-# Monit_wake
+# Wake up Monit.
 #
 # VERSION       :0.7.0
 
