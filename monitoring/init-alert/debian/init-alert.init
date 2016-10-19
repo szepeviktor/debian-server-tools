@@ -1,0 +1,115 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          init-alert
+# Required-Start:    $all
+# Required-Stop:     $remote_fs courier-mta
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Send alert mail on boot and shutdown.
+# Description:       Send boot alert with pstree and halt alert with w.
+### END INIT INFO
+
+# Author: root <root@szerver4>
+
+# Do NOT "set -e"
+
+PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+NAME="init-alert"
+SCRIPTNAME="/etc/init.d/${NAME}"
+INIT_ALERT_MAIL="root"
+INIT_ALERT_BOOT_ALERT="yes"
+INIT_ALERT_HALT_ALERT="yes"
+
+# Read configuration variable file if it is present
+# shellcheck disable=SC1090
+[ -r /etc/default/${NAME} ] && . /etc/default/${NAME}
+
+# Load the VERBOSE setting and other rcS variables
+# shellcheck disable=SC1091
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+# shellcheck disable=SC1091
+. /lib/lsb/init-functions
+
+do_start() {
+  # Return
+  #   0 if daemon has been started
+  #   1 if daemon was already running
+  #   2 if daemon could not be started
+  #   other if a failure occurred
+  if [ "$INIT_ALERT_BOOT_ALERT" != "yes" ]; then
+    return 0
+  fi
+
+  if printf "Host FULLY BOOTED at %s\n\n%s\n\n%s\n" "$(date -R)" "$(last -x -n 10)" "$(COLUMNS=120 pstree -aA)" \
+    | mailx -s "Host $(hostname -f) is BOOTED" ${INIT_ALERT_MAIL}; then
+    # Wait for message delivery
+    sleep 5
+    return 0
+  else
+    return 3
+  fi
+}
+
+do_stop() {
+  # Return
+  #   0 if daemon has been stopped
+  #   1 if daemon was already stopped
+  #   2 if daemon could not be stopped
+  #   other if a failure occurred
+  if [ "$INIT_ALERT_HALT_ALERT" != "yes" ]; then
+    return 0
+  fi
+
+  if printf "Host HALTED at %s\n\n%s\n" "$(date -R)" "$(COLUMNS=120 w --ip-addr)" \
+    | mailx -s "Host $(hostname -f) is HALTED" ${INIT_ALERT_MAIL}; then
+    # Wait for message delivery
+    sleep 5
+    return 0
+  else
+    return 3
+  fi
+}
+
+case "$1" in
+
+  start)
+    [ "$VERBOSE" != no ] && log_daemon_msg "Sending alert" "$NAME"
+    do_start
+    case "$?" in
+      0|1)
+        [ "$VERBOSE" != no ] && log_end_msg 0
+        ;;
+      2)
+        [ "$VERBOSE" != no ] && log_end_msg 1
+        ;;
+    esac
+    ;;
+
+  stop)
+    [ "$VERBOSE" != no ] && log_daemon_msg "Sending alert" "$NAME"
+    do_stop
+    case "$?" in
+      0|1)
+        [ "$VERBOSE" != no ] && log_end_msg 0
+        ;;
+      2)
+        [ "$VERBOSE" != no ] && log_end_msg 1
+        ;;
+    esac
+    ;;
+
+  restart|reload|force-reload)
+    echo "Error: argument '$1' not supported" 1>&2
+    exit 3
+    ;;
+
+  *)
+    echo "Usage: ${SCRIPTNAME} start|stop" 1>&2
+    exit 3
+    ;;
+
+esac
+
+:

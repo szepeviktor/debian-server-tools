@@ -1,0 +1,2 @@
+init-alert: init.d-script-depends-on-all-virtual-facility
+init-alert: init.d-script-does-not-implement-optional-option

@@ -18,6 +18,7 @@ declare -i CPU_COUNT
 
 set -e -x
 
+# shellcheck disable=SC1091
 . debian-setup-functions
 
 VIRT="$(Data get-value virtualization)"
@@ -35,21 +36,20 @@ debian-setup/_check-system
 
 # Basic packages
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    ipset time netcat-openbsd lftp \
-    ncurses-term bash-completion mc htop most less \
     localepurge unattended-upgrades apt-listchanges cruft debsums \
+    ncurses-term bash-completion mc htop most less time moreutils unzip \
+    logtail apg dos2unix ccze git colordiff \
+    whois ntpdate ipset netcat-openbsd lftp mtr-tiny heirloom-mailx \
     gcc libc6-dev make strace \
-    moreutils logtail whois unzip heirloom-mailx \
-    apg dos2unix ccze git colordiff mtr-tiny ntpdate \
 
-# Backports
+# From backports
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     -t jessie-backports needrestart unscd
-# testing
+# From testing
 debian-setup/ca-certificates
 # From custom repos
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    goaccess ipset-persistent
+    init-alert goaccess ipset-persistent
 
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
@@ -93,12 +93,6 @@ debian-setup/kmod
 debian-setup/mount
 
 debian-setup/initscripts
-
-# Alert on boot and on halt
-Dinstall monitoring/boot-alert
-Dinstall monitoring/halt-alert
-insserv -v boot-alert
-insserv -v halt-alert
 
 # IRQ balance
 CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"

@@ -1,0 +1,6 @@
+init-alert (0.3.0) stable; urgency=low
+
+  * Initial release
+  * Merge boot-alert and halt-alert
+
+ -- Viktor Szépe <viktor@szepe.net>  Tue, 18 Oct 2016 00:44:41 +0000

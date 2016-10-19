@@ -2,8 +2,8 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.3.1
-# DATE          :2016-07-16
+# VERSION       :0.4.0
+# DATE          :2016-10-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -140,6 +140,9 @@ TIMEOUT="3"
 
 # List cache path
 CACHE_DIR="/var/lib/fail2ban"
+
+# Previously unmatched attackers
+KNOWN_IP="${CACHE_DIR}/known.list"
 
 # GeoIP database
 COUNTRY_GEOIP="/usr/share/GeoIP/GeoIP.dat"
@@ -432,8 +435,22 @@ Match_multi_AS() {
     return 10
 }
 
+Match_known() {
+    local IP="$1"
+
+    if [ -r "$KNOWN_IP" ] && grep -qFx "$IP" "$KNOWN_IP"; then
+        return 0
+    fi
+
+    return 10
+}
+
 Match_any() {
     # Local
+    if Match_known "$IP"; then
+        Log_match "known-attacker"
+        return 0
+    fi
     if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then # High hit rate
         Log_match "hosting"
         return 0
@@ -485,6 +502,9 @@ Match_any() {
 }
 
 Match_all() {
+    if Match_known "$IP"; then
+        echo "known-attacker"
+    fi
     if Match_country A1 "$IP"; then
         echo "anonymous-proxy"
     fi
@@ -554,6 +574,9 @@ if Match_any; then
 fi
 
 if [ "$DEST" != cron ]; then
+    # Add to known list
+    echo "$IP" >> "$KNOWN_IP"
+
     # @TODO Report IP
     # if sed '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'; then
     #     INSTANT_SECRET=""

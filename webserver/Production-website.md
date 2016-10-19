@@ -29,7 +29,7 @@
 - For receiving referrer information (up to April 2012)
 - Very cheap
 
-Providers: Let's Encrypt, StartSSL, RapidSSL, CloudFlare SSL
+Providers: Let's Encrypt, StartSSL, RapidSSL, CloudFlare SSL, [SSL Certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
 
 OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 

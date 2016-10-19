@@ -16,6 +16,7 @@
 # DATE          :2016-08-22
 # REFS          :http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/tocsysinit.html
 # DOCS          :https://wiki.debian.org/LSBInitScripts
+# HOWTO         :https://www.debian.org/doc/debian-policy/ch-opersys.html#s-writing-init
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)

@@ -41,7 +41,7 @@ SSLCACertificateFile /etc/ssl/localcerts/company-ca.pem
 ### Sending client certificate to iOS devices
 
 - Import to be exported client certificates
-- Download IPCU http://mirror.szepe.net/software/iPhoneConfigUtilitySetup.exe
+- [Download IPCU](http://mirror.szepe.net/software/iPhoneConfigUtilitySetup.exe)
 - Extract .msi packages
 - Install `AppleApplicationSupport.msi` and `AppleMobileDeviceSupport64.msi` and `iPhoneConfigUtility.msi`
 - `copy "C:\Program Files (x86)\Common Files\Apple\Apple Application Support\SQLite3.dll" "C:\Program Files (x86)\iPhone Configuration Utility\"`
@@ -63,6 +63,7 @@ SSLCACertificateFile /etc/ssl/localcerts/company-ca.pem
 - SPDY CLI: https://github.com/tatsuhiro-t/spdylay
 - HTTP/2: https://tools.keycdn.com/http2-test
 - SSL: https://github.com/mozilla/tls-observatory
+- SSL: [Browser warnings](https://cryptoreport.websecurity.symantec.com/checker/views/sslCheck.jsp)
 
 ### Moving to HTTPS
 

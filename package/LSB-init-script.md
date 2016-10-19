@@ -4,6 +4,8 @@
 
 ### Features
 
+- Takes (last) /usr/share/debhelper/dh_make/debian/init.d.ex as a base (contains /etc/init.d/skeleton)
+- Includes LSB headers
 - Runs on any shell
 - shellcheck OK
 - Takes /etc/init.d/skeleton as a base
