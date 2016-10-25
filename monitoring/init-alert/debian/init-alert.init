@@ -100,7 +100,7 @@ case "$1" in
     esac
     ;;
 
-  restart|reload|force-reload)
+  status|restart|reload|force-reload)
     echo "Error: argument '$1' not supported" 1>&2
     exit 3
     ;;

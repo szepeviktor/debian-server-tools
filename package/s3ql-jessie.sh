@@ -1,9 +1,9 @@
 #!/bin/bash -x
 #
-# Install s3ql systemwide by pip only.
+# Install s3ql systemwide by pip.
 #
-# VERSION       :2.19
-# DATE          :2016-04-24
+# VERSION       :2.20
+# DATE          :2016-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -16,7 +16,7 @@
 #     cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
 #     docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
 
-RELEASE_FILE="s3ql-2.19.tar.bz2"
+RELEASE_FILE="s3ql-2.20.tar.bz2"
 
 set -e
 
@@ -29,7 +29,8 @@ sudo apt-get install -y kmod fuse libattr1-dev libfuse-dev libsqlite3-dev \
 # Get pip
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
-# Python packages
+# Required packages
+# https://bitbucket.org/nikratio/s3ql/src/default/setup.py#setup.py-130
 cat > requirements.txt <<"EOF"
 pycrypto
 defusedxml

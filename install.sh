@@ -86,7 +86,7 @@ Do_install() {
         || Die 11 "Installation failure (${FILE})"
 
     # Create symlink
-    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d':' -f 2- \
+    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d ":" -f 2- \
         | while read SYMLINK; do
             echo -n "Symlinking "
             ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"

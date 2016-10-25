@@ -8,7 +8,17 @@ cat /proc/sys/kernel/random/entropy_avail
 
 ### Edit mods-enabled/ssl.conf
 
-https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
+- Entropy source
+- Protocol
+- Ciphersuites
+- DH Parameters
+- SSL cache
+- OCSP Stapling
+- SNI
+- HSTS
+- HTTP/2
+
+https://wiki.mozilla.org/Security/Server_Side_TLS
 
 [Current master in Debian](https://anonscm.debian.org/cgit/pkg-apache/apache2.git/tree/debian/config-dir/mods-available/ssl.conf)
 
@@ -18,7 +28,7 @@ See [/webserver/apache-conf-available/ssl-mozilla-intermediate.default](/webserv
 
 See [/security/ca/README.md](/security/ca/README.md)
 
-### Certificate authentications
+### Client certificate authentication
 
 ```apache
 SSLCACertificateFile /etc/ssl/localcerts/company-ca.pem
@@ -46,6 +56,10 @@ SSLCACertificateFile /etc/ssl/localcerts/company-ca.pem
 - Install `AppleApplicationSupport.msi` and `AppleMobileDeviceSupport64.msi` and `iPhoneConfigUtility.msi`
 - `copy "C:\Program Files (x86)\Common Files\Apple\Apple Application Support\SQLite3.dll" "C:\Program Files (x86)\iPhone Configuration Utility\"`
 
+### DH parameters
+
+https://weakdh.org/sysadmin.html
+
 ### HTTP/2, SPDY
 
 - https://github.com/icing/mod_h2
@@ -72,12 +86,8 @@ Search & Replace URL-s.
 - Set CDN to HTTP/HTTPS
 - Database
 - Local files
-- Links on other websites pointing to this one
+- Inbound links on other websites
 - Analytics does not detect referer on redirection
-
-### DH parameters
-
-https://weakdh.org/sysadmin.html
 
 ### Clear HSTS settings
 

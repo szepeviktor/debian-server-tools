@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.0.4
+# VERSION       :2.0.5
 # DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -104,7 +104,7 @@ Rotate_weekly() {
     fi
 
     if ! [ -d "${TARGET}/${DIR}/6" ]; then
-        mkdir -p "${TARGET}/${DIR}"/{0..6} 1>&2 || Error 61 "Cannot create weekday directories"
+        mkdir "${TARGET}/${DIR}"/{0..6} 1>&2 || Error 61 "Cannot create weekday directories"
     fi
 
     PREVIOUS="$((CURRENT_DAY - 1))"
@@ -148,7 +148,9 @@ Check_db_schemas() {
     local DBS
     local DB
     local SCHEMA
-    local TEMP_SCHEMA="$(mktemp)"
+    local TEMP_SCHEMA
+
+    TEMP_SCHEMA="$(mktemp)"
 
     # `return` is not available within a pipe
     DBS="$(List_dbs)"
@@ -209,20 +211,21 @@ Backup_innodb() {
     fi
     if [ -d "${TARGET}/innodb" ]; then
         # Get base directory
+        # @TODO Use last incremental as base?
         BASE="$(Get_base_db_backup_dir)"
         if [ -z "$BASE" ] || ! [ -d "${TARGET}/innodb/${BASE}" ]; then
             Error 12 "No base InnoDB backup"
         fi
-        nice innobackupex --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
+        innobackupex --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
             "${TARGET}/innodb" \
             2>> "${TARGET}/innodb/backupex.log" || Error 13 "Incremental InnoDB backup failed"
     else
         # Create base backup
         echo "Creating base InnoDB backup"
         mkdir "${TARGET}/innodb"
-        nice innobackupex --throttle=100 \
+        innobackupex --throttle=100 \
             "${TARGET}/innodb" \
-            2>> "${TARGET}/innodb/backupex.log" || Error 14 "First InnoDB backup failed"
+            2>> "${TARGET}/innodb/backupex.log" || Error 14 "Base InnoDB backup failed"
     fi
 }
 
@@ -233,8 +236,11 @@ Backup_files() {
     local WEEKLY_USR
 
     # /etc
+    if ! [ -d "${TARGET}/etc" ]; then
+        mkdir "${TARGET}/etc" || Error 40 "Failed to create 'etc' directory in target"
+    fi
     WEEKLY_ETC="$(Rotate_weekly "etc")"
-    if [ -n "$WEEKLY_ETC" ]; then
+    if [ -n "$WEEKLY_ETC" ] && [ -d "$WEEKLY_ETC" ]; then
         tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
         # debconf
         debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
@@ -247,8 +253,8 @@ Backup_files() {
     fi
     WEEKLY_HOME="$(Rotate_weekly "homes")"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
-    if [ -n "$WEEKLY_HOME" ]; then
-        nice rsync -a --delete /home/ "$WEEKLY_HOME"
+    if [ -n "$WEEKLY_HOME" ] && [ -d "$WEEKLY_HOME" ]; then
+        ionice rsync -a --delete /home/ "$WEEKLY_HOME"
     fi
 
     # /var/mail
@@ -256,8 +262,8 @@ Backup_files() {
         mkdir "${TARGET}/email" || Error 42 "Failed to create 'email' directory in target"
     fi
     WEEKLY_MAIL="$(Rotate_weekly "email")"
-    if [ -n "$WEEKLY_MAIL" ]; then
-        nice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    if [ -n "$WEEKLY_MAIL" ] && [ -d "$WEEKLY_MAIL" ]; then
+        ionice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
     fi
 
     # /usr/local
@@ -265,8 +271,8 @@ Backup_files() {
         mkdir "${TARGET}/usr" || Error 42 "Failed to create 'usr' directory in target"
     fi
     WEEKLY_USR="$(Rotate_weekly "usr")"
-    if [ -n "$WEEKLY_USR" ]; then
-        nice rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
+    if [ -n "$WEEKLY_USR" ] && [ -d "$WEEKLY_USR" ]; then
+        ionice rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
     fi
 }
 
@@ -274,7 +280,7 @@ Mount() {
     [ -z "$(find "$TARGET" -type f)" ] || Error 5 "Target directory is not empty"
 
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
-    /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2
+    /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test $? == 128
 
     # OVH fix? --threads 4
     nice /usr/bin/mount.s3ql ${S3QL_OPT} --threads 4 \
@@ -290,11 +296,12 @@ Umount() {
 
 trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 
-declare -i CURRENT_DAY="$(date --utc "+%w")"
+declare -i CURRENT_DAY
+CURRENT_DAY="$(date --utc "+%w")"
 
 # On terminal?
 if [ -t 1 ]; then
-    read -e -p "Start backup? "
+    read -r -s -e -p "Start backup? "
     S3QL_OPT=""
 else
     S3QL_OPT="--quiet"
@@ -302,6 +309,7 @@ fi
 
 # Read configuration
 [ -r "$CONFIG" ] || Error 100 "Unconfigured"
+# shellcheck disable=SC1090
 source "$CONFIG"
 
 logger -t "system-backup" "Started. $*"
@@ -316,6 +324,7 @@ fi
 Mount
 
 if [ "$1" == "-m" ]; then
+    echo "cd ${TARGET}/"
     exit 0
 fi
 

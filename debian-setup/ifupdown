@@ -21,10 +21,10 @@ cp -f /etc/network/interfaces /root/interfaces.orig
     if [ "$PRIMARY_METHOD" == static ]; then
         echo "auto ${PRIMARY_NAME}"
         echo "iface ${PRIMARY_NAME} inet static"
-        echo "address $(Data get-value networking.ipv4)"
-        echo "netmask $(Data get-value networking.netmask)"
-        echo "gateway $(Data get-value networking.gateway)"
-        echo "dns-nameservers $(Data get-values networking.resolver | paste -d " " -s)"
+        echo "    address $(Data get-value networking.ipv4)"
+        echo "    netmask $(Data get-value networking.netmask)"
+        echo "    gateway $(Data get-value networking.gateway)"
+        echo "    dns-nameservers $(Data get-values networking.resolver | paste -d " " -s)"
     elif [ "$PRIMARY_METHOD" == dhcp ]; then
         echo "auto ${PRIMARY_NAME}"
         echo "iface ${PRIMARY_NAME} inet dhcp"
@@ -40,12 +40,14 @@ cp -f /etc/network/interfaces /root/interfaces.orig
             echo "iface ${INET6_NAME} inet6 auto"
         elif [ "$INET6_METHOD" == static ]; then
             echo "iface ${INET6_NAME} inet6 static"
-            echo "address $(Data get-value networking.inet6.ipv6)"
-            echo "netmask $(Data get-value networking.inet6.netmask)"
-            echo "gateway $(Data get-value networking.inet6.gateway)"
+            echo "    address $(Data get-value networking.inet6.ipv6)"
+            echo "    netmask $(Data get-value networking.inet6.netmask)"
+            if [ -n "$(Data get-value networking.inet6.gateway "")" ]; then
+                echo "    gateway $(Data get-value networking.inet6.gateway)"
+            fi
         fi
         if [ -n "$(Data get-value networking.inet6.resolver "")" ]; then
-            echo "dns-nameservers $(Data get-values networking.inet6.resolver | paste -d " " -s)"
+            echo "    dns-nameservers $(Data get-values networking.inet6.resolver | paste -d " " -s)"
         fi
         echo
     fi

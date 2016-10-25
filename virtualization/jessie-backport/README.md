@@ -1,6 +1,6 @@
 # Backport Debian packages
 
-Executes a shell script that builds a Debian package in the mounted volume.
+Executes a shell script that builds a Debian package in the mounted Docker volume.
 
 ### Usage
 
@@ -39,11 +39,13 @@ cat > /opt/results/debackport-init <<"EOF"
 echo "deb http://debian-archive.trafficmanager.net/debian jessie-backports main" | sudo tee /etc/apt/sources.list.d/jessie-backports.list
 EOF
 cat > /opt/results/debackport-pre-deps <<"EOF"
-sudo apt-get install -t jessie-backports -y cython3 python3-py python3-pytest
+sudo apt-get install -t jessie-backports -y cython3 python3-py python3-pytest python-pytest
 EOF
 ```
 
-- pytest-catchlog/testing -> python3-pytest-catchlog
-- python-llfuse/testing -> python3-llfuse, python3-llfuse-dbg
-- python-dugong/testing -> python3-dugong
-- s3ql/testing
+1. PKG=pytest-catchlog/testing #-> python3-pytest-catchlog
+1. PKG=python-llfuse/testing #-> python3-llfuse, python3-llfuse-dbg
+1. PKG=python-dugong/testing #-> python3-dugong
+1. PKG=s3ql/testing
+
+`docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="$PKG" szepeviktor/jessie-backport`

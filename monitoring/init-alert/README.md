@@ -1,3 +1,5 @@
+# Send alert mail on system boot and on shutdown
+
 https://www.debian.org/doc/manuals/maint-guide/dother.en.html
 
 ```bash
