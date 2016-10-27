@@ -1,0 +1,15 @@
+http://mirror.ewr1.packet.net/debian
+http://mirrors.linode.com/debian
+http://debian.mirrors.ovh.net/debian
+http://debian.intergenia.de/debian
+http://debian.apt-get.eu/debian
+http://deb.debian.org/debian
+http://http.debian.net/debian
+http://ftp.debian.org/debian
+http://ftp.hu.debian.org/debian
+http://ftp.de.debian.org/debian
+http://ftp.cz.debian.org/debian
+http://cdn-fastly.deb.debian.org/debian
+http://cdn-aws.deb.debian.org/debian
+http://cloudfront.debian.net/debian
+http://debian-archive.trafficmanager.net/debian

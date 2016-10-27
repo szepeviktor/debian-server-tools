@@ -1,20 +1,21 @@
-# Packet:           http://mirror.ewr1.packet.net/debian
-# Linode:           http://mirrors.linode.com/debian
-# OVH:              http://debian.mirrors.ovh.net/debian
-# server4you:       http://debian.intergenia.de/debian
-# PCextreme:        http://debian.apt-get.eu/debian
-# Closest mirror:   http://http.debian.net/debian
-# National mirror:  http://ftp.COUNTRY-CODE.debian.org/debian
-# Fastest mirror:   netselect-apt -c de stable
-deb @@MIRROR@@ jessie main contrib non-free
+# Packet:            http://mirror.ewr1.packet.net/debian
+# Linode:            http://mirrors.linode.com/debian
+# OVH:               http://debian.mirrors.ovh.net/debian
+# server4you:        http://debian.intergenia.de/debian
+# PCextreme:         http://debian.apt-get.eu/debian
+# Fastly/CloudFront: http://deb.debian.org/debian
+# Closest mirror:    http://http.debian.net/debian
+# National mirror:   http://ftp.COUNTRY-CODE.debian.org/debian
+# Fastest mirror:    netselect-apt -c de stable
+deb @@MIRROR@@ stable main contrib non-free
 
-# Security
-deb http://security.debian.org/ jessie/updates main contrib non-free
+# Security updates
+deb http://security.debian.org/ stable/updates main contrib non-free
 
 # Updates
 # (previously known as 'volatile')
-deb @@MIRROR@@ jessie-updates main contrib non-free
+deb @@MIRROR@@ stable-updates main contrib non-free
 
 # Backports
-# http://backports.debian.org/changes/jessie-backports.html
-deb @@MIRROR@@ jessie-backports main contrib non-free
+# http://backports.debian.org/changes/stable-backports.html
+deb @@MIRROR@@ stable-backports main contrib non-free

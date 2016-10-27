@@ -3,7 +3,7 @@
 # Backport a Debian package.
 #
 # DOCKER        :szepeviktor/jessie-backport
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
@@ -20,7 +20,7 @@
 # Hooks
 #
 # 1. init - Before everything else
-# 2. source - Provide custom source, should cd to source directory and set CHANGELOG_MSG
+# 2. source - Provide custom source, should change to source directory and set CHANGELOG_MSG
 # 3. pre-deps - Just before dependency installation
 # 4. changes - Custom changelog entry
 # 5. post-build - After build
@@ -30,8 +30,8 @@
 
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
 
-ARCHIVE_URL="http://ftp.hu.debian.org/debian"
-#ARCHIVE_URL="http://archive.ubuntu.com/ubuntu/"
+ARCHIVE_URL="http://debian-archive.trafficmanager.net/debian"
+#ARCHIVE_URL="http://archive.ubuntu.com/ubuntu"
 
 ALLOW_UNAUTH="--allow-unauthenticated"
 
@@ -52,6 +52,7 @@ Execute_hook() {
         return 0
     fi
 
+    # shellcheck disable=SC1090
     if source "/opt/results/${HOOK}"; then
         return 0
     else
@@ -87,8 +88,12 @@ elif [ "${PACKAGE//[^\/]/}" == "/" ]; then
     RELEASE="${PACKAGE#*/}"
     {
         echo "deb-src ${ARCHIVE_URL} ${RELEASE} main"
+        # Release updates if available
         wget -q --spider "${ARCHIVE_URL}/dists/${RELEASE}-updates/" \
             && echo "deb-src ${ARCHIVE_URL} ${RELEASE}-updates main"
+        # Security updates if available
+        wget -q --spider "http://security.debian.org/dists/${RELEASE}/updates/" \
+            && echo "deb-src http://security.debian.org/ ${RELEASE}/updates main"
     } | sudo tee -a /etc/apt/sources.list
     sudo apt-get update -qq
     apt-get source "$PACKAGE"
@@ -97,9 +102,9 @@ elif [ "${PACKAGE//[^\/]/}" == "/" ]; then
     CHANGELOG_MSG="Built from ${PACKAGE}"
 else
     # From a custom source
-    # Should cd to source directory and set CHANGELOG_MSG
+    # Should change to source directory and set CHANGELOG_MSG
     Execute_hook source
-    if ! [ -d "debian" ]; then
+    if ! [ -d "debian" ] || [ -z "$CHANGELOG_MSG" ]; then
         Error 3 "Custom source not available"
     fi
 fi
@@ -111,6 +116,7 @@ Execute_hook pre-deps
 DEPENDENCIES="$(dpkg-checkbuilddeps 2>&1 \
     | sed -e 's/^.*Unmet build dependencies: //' -e 's/ ([^)]\+)//g' -e 's/\(\S\+\)\( | \S\+\)\+/\1/g')"
 if [ -n "$DEPENDENCIES" ]; then
+    # shellcheck disable=SC2086
     sudo apt-get install -y ${DEPENDENCIES}
 fi
 
@@ -120,6 +126,7 @@ dpkg-checkbuilddeps
 # Hook: changes (e.g. dch --edit, edit files, debcommit --message $TEXT --all)
 ORIG_HASH="$(md5sum debian/changelog)"
 if ! Execute_hook changes || echo "$ORIG_HASH" | md5sum --status -c - ; then
+    # If 'changes' hook fails/is missing or does nothing to changelog
     dch --bpo --distribution "${CURRENT_RELEASE}-backports" "$CHANGELOG_MSG"
 fi
 
@@ -129,7 +136,7 @@ dpkg-buildpackage -us -uc
 Execute_hook post-build
 
 cd ../
-#lintian --info
 lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
 sudo cp -av ./*.deb /opt/results/
+
 echo "OK."

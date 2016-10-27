@@ -71,6 +71,7 @@ Static maintenance page
 
 ### Set up CDN
 
+- Consider multiple A records `host -t A cdn.example.com`
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 - Combine and minify CSS and JavaScript files
 - HTML caching or no-cache?
@@ -333,6 +334,7 @@ http://google-public-dns.appspot.com/cache
 - Conditional, lazy or late loading (slider, map, facebook content, image gallery)
 - Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
+- [DNS Prefetch, Preconnect, Prefetch, Prerender](http://w3c.github.io/resource-hints/#resource-hints)
 - YouTube custom video thumbnail (FullHD)
 
 ### HTTP

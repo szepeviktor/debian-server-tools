@@ -42,3 +42,4 @@ Build s3ql/testing
 rm -f /opt/results/{debackport-init,debackport-pre-deps}
 
 echo "4×OK."
+echo "scp -r root@94.237.28.148:/opt/results/ ./"
