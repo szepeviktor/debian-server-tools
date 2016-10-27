@@ -2,7 +2,7 @@
 #
 # Build a Debian package from a Python package.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-10-21
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,6 +18,8 @@
 #     pip3 install --upgrade requests stdeb
 
 PACKAGE="$1"
+
+set -e
 
 Error() {
     local RET="$1"
@@ -39,3 +41,5 @@ fi
 # --no-python2-scripts=true means "exclude /bin scripts from Python2 package"
 python3 /usr/local/bin/py2dsc-deb --with-python2=true --with-python3=true --no-python2-scripts=true \
     --suite $(lsb_release -cs) "${TARBALL:4}"
+
+echo "OK."

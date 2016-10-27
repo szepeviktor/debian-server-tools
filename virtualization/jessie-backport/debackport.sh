@@ -28,14 +28,14 @@
 # Package versioning
 #     ${UPSTREAM_VERSION}[-${DEBIAN_REVISION}]~bpo${DEBIAN_RELEASE}+${BUILD_INT}
 
-set -e
-
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
 
 ARCHIVE_URL="http://ftp.hu.debian.org/debian"
 #ARCHIVE_URL="http://archive.ubuntu.com/ubuntu/"
 
 ALLOW_UNAUTH="--allow-unauthenticated"
+
+set -e
 
 Error() {
     local RET="$1"

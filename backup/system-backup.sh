@@ -54,7 +54,7 @@
 # Example configuration
 #     #STORAGE_URL="local:///media/backup-server.sshfs"
 #     #STORAGE_URL="s3://BUCKET/PREFIX_"
-#     STORAGE_URL="swiftks://auth.cloud.ovh.net/REGION:COMPANY-SERVER-s3ql"
+#     STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER"
 #     TARGET="/media/server-backup.s3ql"
 #     AUTHFILE="/root/.s3ql/authinfo2"
 #     DB_EXCLUDE="excluded-db1|excluded-db2"

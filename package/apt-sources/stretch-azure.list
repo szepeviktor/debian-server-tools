@@ -1,0 +1,11 @@
+# Microsoft Azure Traffic Manager mirror
+deb http://debian-archive.trafficmanager.net/debian stretch main contrib non-free
+
+# Security
+deb http://security.debian.org/ stretch/updates main contrib non-free
+
+# Updates
+deb http://debian-archive.trafficmanager.net/debian stretch-updates main contrib non-free
+
+# Backports
+##deb http://debian-archive.trafficmanager.net/debian stretch-backports main contrib non-free

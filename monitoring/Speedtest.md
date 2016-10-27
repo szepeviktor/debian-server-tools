@@ -1,10 +1,10 @@
 # Global networking tools
 
-### Target country speedtest
+### Target country speed test
 
 - speedtest-cli 100+
-- apt-spy -d stable -a Europe
-- Cachefly "1" http://cachefly.cachefly.net/100mb.test
+- `netselect-apt -c hu stable`
+- Cachefly CDN http://cachefly.cachefly.net/100mb.test
 
 - keycdn https://tools.keycdn.com/ping `P`
 - Aruba.cz http://speedtest.forpsi.net/ `PTS6`

@@ -69,7 +69,7 @@ Tools related to building webservers.
 1. Disk access time (~1 ms)
 1. CPU speed (PassMark CPU Mark 2000+, sysbench < 20 ms, WordPress Speedtest 100-150 ms)
 1. Memory speed (bandwidth64)
-1. Network: worldwide and regional bandwidth, port speed, D/DoS mitigation
+1. Network: worldwide and regional bandwidth, port speed, D/DoS mitigation, IPv6
 1. Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
 1. Daytime technical and billing support
 

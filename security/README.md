@@ -124,7 +124,15 @@ https://incapsula.zendesk.com/hc/en-us/articles/200627570-Restricting-direct-acc
 resp_format: json | apache | nginx | iptables | text
 
 ```
-curl -k -s --data 'resp_format=apache' 'https://my.incapsula.com/api/integration/v1/ips'
+curl -s --data 'resp_format=apache' 'https://my.incapsula.com/api/integration/v1/ips'
+```
+
+### StackPath IP ranges
+
+https://support.stackpath.com/hc/en-us/articles/224785167-IP-Blocks
+
+```
+curl -s https://www.maxcdn.com/one/assets/ips.txt
 ```
 
 ### Difference between “BEGIN RSA PRIVATE KEY” and “BEGIN PRIVATE KEY”

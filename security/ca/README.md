@@ -45,6 +45,7 @@ openssl pkcs12 -export -in newcert.pem -inkey newkey-decrypted.pem -out email@ad
 
 ```bash
 CA_NAME="szepenet"
+# Must have "crt" extension
 CA_FILE="szepenet_ca.crt"
 CA_URL="http://ca.szepe.net/szepenet-ca.pem"
 

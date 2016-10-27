@@ -5,6 +5,7 @@
 # PCextreme:        http://debian.apt-get.eu/debian
 # Closest mirror:   http://http.debian.net/debian
 # National mirror:  http://ftp.COUNTRY-CODE.debian.org/debian
+# Fastest mirror:   netselect-apt -c de stable
 deb @@MIRROR@@ jessie main contrib non-free
 
 # Security

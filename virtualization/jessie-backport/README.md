@@ -34,12 +34,18 @@ Packages dependencies should be placed in the mounted volume, by default `/opt/r
 
 ### Backport S3QL
 
+http://pythonhosted.org/llfuse/install.html
+
 ```bash
 cat > /opt/results/debackport-init <<"EOF"
+sudo chmod 0666 /dev/fuse
 echo "deb http://debian-archive.trafficmanager.net/debian jessie-backports main" | sudo tee /etc/apt/sources.list.d/jessie-backports.list
 EOF
+
 cat > /opt/results/debackport-pre-deps <<"EOF"
-sudo apt-get install -t jessie-backports -y cython3 python3-py python3-pytest python-pytest
+sudo apt-get install -t jessie-backports -y python3-pytest \
+    python3-py python3-pytest python3-setuptools \
+    python-pytest cython3
 EOF
 ```
 

@@ -44,8 +44,8 @@ llfuse >= 1.0, < 2.0
 # You need at least version 3.4
 dugong >= 3.4, < 4.0
 # optional, to run unit tests
-pytest >= 2.3.3
-pytest-catchlog
+#pytest >= 2.3.3
+#pytest-catchlog
 EOF
 sudo pip3 install -r requirements.txt
 
@@ -62,6 +62,6 @@ gpg --verify "${RELEASE_FILE}.asc"
 sudo pip3 install "$RELEASE_FILE"
 s3qlctrl --version
 
-rm -f "$RELEASE_FILE" "${RELEASE_FILE}.asc"
+rm -f requirements.txt "$RELEASE_FILE" "${RELEASE_FILE}.asc"
 
 echo "OK."

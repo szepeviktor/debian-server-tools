@@ -6,10 +6,10 @@
 Titled_pager() {
     local TITLE="$1"
 
+    # @TODO Compare content with Debian's default.
     {
         echo "$TITLE"
-        printf "%*s" "${#TITLE}" | tr " " "-"
-        echo
+        printf "%*s\n" "${#TITLE}" | tr " " "-"
 
         cat
     } | if [ "$DISABLE_TITLED_PAGER" == True ]; then

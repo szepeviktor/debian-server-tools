@@ -103,7 +103,7 @@ editor /etc/ssl/private/${CN}-private.key
 #nice openssl dhparam 2048 >> /etc/ssl/localcerts/${CN}-public.pem
 
 # Apache vhost
-# CloudFlase, Incapsula
+# CloudFlase, Incapsula, StackPath
 #a2enmod remoteip
 cd /etc/apache2/sites-available/
 # * SSL

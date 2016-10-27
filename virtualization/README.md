@@ -22,7 +22,7 @@ Use `conf.d` style configurations!
 
 Simple and secure container cloud https://hyper.sh/
 
-### Manual backportinh
+### Manual backporting
 
 ```bash
 # read -r DSC

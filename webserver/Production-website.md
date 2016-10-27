@@ -46,9 +46,10 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### Install plugins
 
-`wp plugin install --activate classic-smilies`
-
-`wp plugin install --activate wordpress-seo w3-total-cache contact-form-7`
+```bash
+wp plugin install --activate classic-smilies
+wp plugin install --activate wordpress-seo w3-total-cache contact-form-7
+```
 
 Disable comments? `mu-disable-comments`
 
@@ -79,9 +80,10 @@ Static maintenance page
 
 ### Set up mail sending
 
-`wp plugin install --activate wp-mailfrom-ii smtp-uri`
-
-`wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'`
+```bash
+wp plugin install --activate wp-mailfrom-ii smtp-uri
+wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
+```
 
 - Obfuscate email addresses `antispambot( 'e@ma.il' )`
 - [JavaScript href fallback](https://gist.github.com/joshdick/961154): https://www.google.com/recaptcha/admin#mailhide
@@ -100,8 +102,8 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Security
 
+- WAF: `wordpress-fail2ban`
 - Allow loading in an IFRAME? (Google translate, Facebook app)
-- `wordpress-fail2ban`
 - Option: Sucuri Scanner plugin
 - Option: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
 - Option: ionCube24 `ic24.enable = on` (PHP file modification time protection)
@@ -166,14 +168,14 @@ Replace constants in `wp-config.php`.
 
 Check home and siteurl.
 
-```
+```bash
 wp option get home
 wp option get siteurl
 ```
 
 ### Uploads, media
 
-```
+```bash
 wp media regenerate --skip-delete --only-missing
 ```
 
@@ -187,9 +189,8 @@ See [alter-table.sql](/mysql/alter-table.sql)
 
 Delete transients and object cache.
 
-`wp plugin install --activate wp-sweep`
-
-```
+```bash
+wp plugin install --activate wp-sweep
 wp transient delete-all
 wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')options WHERE option_name LIKE '%_transient_%'"
 wp cache flush
@@ -197,7 +198,7 @@ wp cache flush
 
 Purge page cache.
 
-```
+```bash
 wp w3-total-cache flush
 ls -l /home/${U}/website/html/static/cache/
 ls -l /home/${U}/website/pagespeed/; touch /home/${U}/website/pagespeed/cache.flush
@@ -205,14 +206,14 @@ ls -l /home/${U}/website/pagespeed/; touch /home/${U}/website/pagespeed/cache.fl
 
 Check spam and trash comments.
 
-```
+```bash
 wp comment list --status=spam --format=count
 wp comment list --status=trash --format=count
 ```
 
 Optimize database tables.
 
-```
+```bash
 wp db optimize
 ```
 

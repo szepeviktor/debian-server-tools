@@ -8,6 +8,8 @@ cat /proc/sys/kernel/random/entropy_avail
 
 ### Edit mods-enabled/ssl.conf
 
+https://wiki.mozilla.org/Security/Server_Side_TLS
+
 - Entropy source
 - Protocol
 - Ciphersuites
@@ -17,8 +19,6 @@ cat /proc/sys/kernel/random/entropy_avail
 - SNI
 - HSTS
 - HTTP/2
-
-https://wiki.mozilla.org/Security/Server_Side_TLS
 
 [Current master in Debian](https://anonscm.debian.org/cgit/pkg-apache/apache2.git/tree/debian/config-dir/mods-available/ssl.conf)
 

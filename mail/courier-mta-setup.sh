@@ -171,7 +171,7 @@ editor /etc/courier/smtpaccess/default
 
 # @TODO Where to whitelist: courier domain,IP; sa domain; dnsbl known_hosts;
 #       What: own IP, servers, (smtp.timeweb.ru), broken SMTP servers
-#             providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare)
+#             providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare/StackPath)
 #             subscriptions, account (ifttt, linkedin, hubiC)
 #             freemail?? (gmail, freemail, citromail, indamail)
 

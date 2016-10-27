@@ -2,11 +2,11 @@
 
 set -e -x
 
-mkdir -p /opt/drush
+mkdir /opt/drush
 cd /opt/drush/
 
 # https://github.com/drush-ops/drush/releases
-composer require drush/drush:7.*
+composer require "drush/drush:7.*"
 ln -s /opt/drush/vendor/bin/drush /usr/local/bin/drush
 
 # Set up Drupal site

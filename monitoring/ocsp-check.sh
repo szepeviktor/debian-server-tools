@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.4.0
+# VERSION       :2.4.1
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,7 +16,7 @@
 #
 #     editor /etc/cron.hourly/ocsp-check-SITE.sh
 #         #!/bin/bash
-#         set -e;/usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;exit 0
+#         set -e;while ! /usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;do sleep 30;done;exit 0
 #     chmod +x /etc/cron.hourly/ocsp-check-*.sh
 
 HOST="$1"

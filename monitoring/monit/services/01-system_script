@@ -2,7 +2,7 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.7
+# VERSION       :1.0.8
 # DATE          :2016-05-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -103,13 +103,13 @@ case "$CHECK" in
         RESULT="$(sed -e '1d;s;^\(\S\+\s\+\)\{2\}\(\S\+\).*$;\2;' /proc/swaps | sort | paste -s -d ":")"
         ;;
     CLOCKSOURCE)
-        RESULT="$(< /sys/devices/system/clocksource/clocksource0/current_clocksource)"
+        RESULT="$(cat /sys/devices/system/clocksource/clocksource0/current_clocksource)"
         ;;
     ENTROPY)
         # Visualize available entropy
         # while :;do ENTR=$(cat /proc/sys/kernel/random/entropy_avail);printf -v BAR "%*s" $((ENTR/25));echo ${BAR// /_} $ENTR;sleep 10;done
         declare -i ENTROPY
-        ENTROPY="$(< /proc/sys/kernel/random/entropy_avail)"
+        ENTROPY="$(cat /proc/sys/kernel/random/entropy_avail)"
         if [ "$ENTROPY" -ge 1000 ]; then
             RESULT="min1000"
         else

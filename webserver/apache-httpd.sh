@@ -32,6 +32,7 @@ a2enmod actions rewrite headers deflate expires proxy_fcgi http2
 sed -i -e '/<Location \/server-status>/,/<\/Location>/d' /etc/apache2/mods-available/status.conf
 
 a2enmod ssl
+# @TODO Add '<IfModule !module.c> Error "We need that module"' to confs and sites.
 yes | cp -f webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
 yes | cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
 
