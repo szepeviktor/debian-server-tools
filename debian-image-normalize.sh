@@ -74,13 +74,13 @@ Info "Reinstall tasks"
 debconf-show tasksel
 tasksel --list-tasks | grep -v "^u " || true
 # shellcheck disable=SC2046
-apt-get purge -qq -y $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))')
+apt-get purge -qq $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))')
 #tasksel --task-packages ssh-server; tasksel --task-packages standard #'
 echo "tasksel tasksel/first select" | debconf-set-selections -v
 echo "tasksel tasksel/desktop multiselect" | debconf-set-selections -v
 echo "tasksel tasksel/first multiselect ssh-server, standard" | debconf-set-selections -v
 echo "tasksel tasksel/tasks multiselect ssh-server" | debconf-set-selections -v
-apt-get install -qq -y tasksel
+apt-get install -qq tasksel
 # May take a while
 tasksel --new-install
 
@@ -106,14 +106,14 @@ STANDARD_PACKAGES="$(${APTI_SEARCH} \
 # '?and(?architecture(native), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)))' \
 # | grep -Evx "$STANDARD_BLACKLIST")"
 # shellcheck disable=SC2086
-apt-get -qq -y install ${STANDARD_PACKAGES}
+apt-get -qq install ${STANDARD_PACKAGES}
 
 Info "Install missing recommended packages"
 
 MISSING_RECOMMENDS="$(${APTI_SEARCH} \
  '?and(?reverse-recommends(?installed), ?version(TARGET), ?not(?installed))' | grep -Evx "$STANDARD_BLACKLIST" || true)"
 # shellcheck disable=SC2086
-apt-get -qq -y install ${MISSING_RECOMMENDS}
+apt-get -qq install ${MISSING_RECOMMENDS}
 echo "$MISSING_RECOMMENDS" | xargs -r -L 1 apt-mark auto
 
 Info "Remove non-standard packages"
@@ -122,23 +122,23 @@ MANUALLY_INSTALLED="$(${APTI_SEARCH} \
  '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' \
  | grep -Evx "$BOOT_PACKAGES" | tee removed.pkgs || true)"
 # shellcheck disable=SC2086
-apt-get purge -qq -y ${MANUALLY_INSTALLED}
+apt-get purge -qq ${MANUALLY_INSTALLED}
 
 Info "Remove packages on standard-blacklist"
 
 # shellcheck disable=SC2046
-apt-get purge -qq -y $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST" || true)
+apt-get purge -qq $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST" || true)
 # Exim bug
 getent passwd "Debian-exim" > /dev/null && deluser --force --remove-home "Debian-exim"
 
 Info "Do dist-upgrade finally"
 
-apt-get dist-upgrade -qq -y
-apt-get autoremove -qq --purge -y
+apt-get dist-upgrade -qq
+apt-get autoremove -qq --purge
 
 Info "Check package integrity and cruft"
 
-apt-get install -qq -y debsums cruft > /dev/null
+apt-get install -qq debsums cruft > /dev/null
 # Should be empty
 debsums --all --changed 2>&1 | sed -e 's/$/ # integrity/' | tee integrity.log
 cruft --ignore /root > cruft.log 2>&1

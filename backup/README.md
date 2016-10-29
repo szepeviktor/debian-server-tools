@@ -90,19 +90,35 @@ chmod -v 0600 ~/.s3ql/authinfo2
 
 ### S3QL on Amazon S3
 
-```
+```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [s3]
-storage-url: s3://${BUCKET/${PREFIX}
+storage-url: s3://${S3_BUCKET}/${S3_PREFIX}
 backend-login:
 backend-password:
+fs-passphrase: $(apg -m32 -n1)
+EOF
+chmod -v 0600 ~/.s3ql/authinfo2
+```
+
+### S3QL on any S3
+
+http://www.rath.org/s3ql-docs/backends.html
+
+```bash
+cat > ~/.s3ql/authinfo2 <<EOF
+[s3]
+storage-url: s3c://${S3_HOST}/${S3_BUCKET}/${S3_PREFIX}
+backend-login:
+backend-password:
+fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
 ```
 
 ### OpenStack client
 
-```
+```bash
 pip3 install -U python-openstackclient
 openstack --os-cloud system-backup complete > /etc/bash_completion.d/openstack
 mkdir -p ~/.config/openstack

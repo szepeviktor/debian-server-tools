@@ -3,5 +3,5 @@
 set -e -x
 
 if ! [ -f /proc/mdstat ]; then
-    apt-get purge -qq -y mdadm
+    apt-get purge -qq mdadm
 fi

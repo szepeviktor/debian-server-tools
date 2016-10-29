@@ -3,5 +3,5 @@
 set -e
 
 if ! pvdisplay -s &> /dev/null; then
-    apt-get purge -qq -y lvm2
+    apt-get purge -qq lvm2
 fi

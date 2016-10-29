@@ -108,7 +108,7 @@ debian-setup/base-files
 
 # Remove wheezy packages
 if Is_installed "libgnutls26"; then
-    apt-get purge -qq -y \
+    apt-get purge -qq \
         libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
         libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
 fi
@@ -116,7 +116,7 @@ fi
 rm -rf /var/lib/clamav /var/log/clamav || true
 
 # Packages used on top of SETUP_PACKAGES
-apt-get install -qq -y ssh sudo apt-transport-https virt-what python-yaml
+apt-get install -qq ssh sudo apt-transport-https virt-what python-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml

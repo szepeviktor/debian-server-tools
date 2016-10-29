@@ -73,13 +73,13 @@ clear; dpkg -l | grep -E "^\S+\s+linux-image"
 grep "^linux-image" packages.selection
 
 # Remove systemd??
-apt-get update -qq -y
-apt-get install -qq -y sysvinit-core sysvinit-utils
+apt-get update -qq
+apt-get install -qq sysvinit-core sysvinit-utils
 cp -v /usr/share/sysvinit/inittab /etc/inittab
 echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
 # Schedule removal of systemd
 echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
-@reboot root apt-get purge -qq -y --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
+@reboot root apt-get purge -qq --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
 
 # Normalize OS
 ../debian-image-normalize.sh
@@ -94,7 +94,7 @@ xargs -I%% cp -vf /root%% %% < etc-blacklist.txt
 # Recreate homes
 sed -ne 's/^\(\S\+\):x:1[0-9][0-9][0-9]:.*$/\1/p' /etc/passwd | xargs -n1 mkhomedir_helper
 #tar -C /home/ -xvf ./homes.tar.gz
-apt-get update -qq -y
+apt-get update -qq
 
 # Kernel modules
 ls -l /etc/modprobe.d/
@@ -121,7 +121,7 @@ pvdisplay && lvs
 ifconfig
 
 # Restore packages
-apt-get install -qq -y apt-transport-https apt-utils dselect debsums
+apt-get install -qq apt-transport-https apt-utils dselect debsums
 dselect update
 clear; debconf-set-selections < debconf.selections
 # @FIXME Question type: error

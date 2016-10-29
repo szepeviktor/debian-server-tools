@@ -65,8 +65,9 @@ cat > /root/.bashrc <<"EOF"
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
 
-#export IP="$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
-export IP="$(ifconfig|sed -ne '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+#export IP="$(ip addr show dev eth0|sed -n -e 's/^\s*inet \([0-9.]\+\)\b.*$/\1/p')"
+#export IP="$(ifconfig|sed -n -e '/^eth/{n;s/^\s*inet addr:\([0-9.]\+\)\b.*$/\1/p;q}')"
+export IP="$(ifconfig|sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
 export LS_OPTIONS='--color=auto'
 eval "$(dircolors)"
 alias ls='ls $LS_OPTIONS'

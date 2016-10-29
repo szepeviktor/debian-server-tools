@@ -64,4 +64,7 @@ s3qlctrl --version
 
 rm -f requirements.txt "$RELEASE_FILE" "${RELEASE_FILE}.asc"
 
+# Optionally remove these packages
+#apt-get purge -y libattr1-dev libfuse-dev libsqlite3-dev build-essential dpkg-dev pkg-config mercurial python3-dev
+
 echo "OK."

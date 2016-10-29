@@ -5,7 +5,7 @@ set -e -x
 # @FIXME
 # # GRUB and PyGrub
 # if ! [ -f /boot/grub/grub.cfg ] || ! grep -q "^menuentry\s" /boot/grub/grub.cfg; then
-#     apt-get purge -qq -y grub-pc
+#     apt-get purge -qq grub-pc
 # fi
 
 # Check MBR

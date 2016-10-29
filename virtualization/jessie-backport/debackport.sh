@@ -19,6 +19,7 @@
 #
 # Hooks
 #
+# 0. Install all Debian packages from /opt/results/
 # 1. init - Before everything else
 # 2. source - Provide custom source, should change to source directory and set CHANGELOG_MSG
 # 3. pre-deps - Just before dependency installation

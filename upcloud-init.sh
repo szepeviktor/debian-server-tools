@@ -1,16 +1,19 @@
 #!/bin/bash
 #
-# nano upcloud-init.sh
+# Prepare UpCloud server with docker and pip.
 #
-# bash -x upcloud-init.sh
+# Initialization script: https://github.com/szepeviktor/debian-server-tools/raw/master/upcloud-init.sh
 
 # http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/
 GEOIP_VERSION="1.19"
 
+export LC_ALL="C"
+export DEBIAN_FRONTEND="noninteractive"
+
 Auto_country() {
     apt-get clean
     apt-get update
-    apt-get install -qq -y geoip-bin netselect-apt
+    apt-get install -qq geoip-bin netselect-apt
     wget -nv "http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/geoip-database-contrib_${GEOIP_VERSION}_all.deb"
     dpkg -i geoip-database-contrib_*_all.deb
 
@@ -27,36 +30,40 @@ Auto_country() {
         | sed -e "s|@@MIRROR@@|${MIRROR}|" > /etc/apt/sources.list
 }
 
-set -e
+set -e -x
 
-# Change to home directory
-cd || exit 100
+# Create temporary files in /tmp
+[ -d /tmp ] && cd /tmp/
+
+# Output may end up in a log file
+echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty
 
 # LeaseWeb sources
 wget -nv -O /etc/apt/sources.list \
     "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/jessie-for-upcloud.list"
-#Auto_country
 
-apt-get clean
-apt-get update
+apt-get clean -q
+apt-get update -q
 # Prevent kernel update
 #apt-mark hold linux-image-amd64 "linux-image-[0-9].*-amd64"
-apt-get dist-upgrade -y
+apt-get dist-upgrade -q -y
 
 # docker
-apt-get install -qq -y apt-transport-https
-apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 2C52609D
+apt-get install -qq apt-transport-https
+apt-key adv --keyserver "hkp://p80.pool.sks-keyservers.net:80" --recv-keys 2C52609D
 echo "deb https://apt.dockerproject.org/repo debian-jessie main" \
     > /etc/apt/sources.list.d/docker.list
-apt-get update
-apt-get install -qq -y docker-engine
+apt-get update -q
+apt-get install -qq docker-engine
 docker version
 
 # pip
-apt-get install -qq -y python3-dev
+apt-get install -qq python3-dev
 wget -nv "https://bootstrap.pypa.io/get-pip.py"
 python3 get-pip.py
-pip3 --version
 rm -f get-pip.py
+pip3 --version
+
+rm -f /etc/apt/apt.conf.d/00usepty
 
 echo "OK."

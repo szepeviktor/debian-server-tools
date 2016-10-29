@@ -41,5 +41,8 @@ Build s3ql/testing
 # Clean up hook files
 rm -f /opt/results/{debackport-init,debackport-pre-deps}
 
+set +x
+# First interface by name eth* with an IPv4 address
+IP="$(ifconfig|sed -n -e '/^eth/{n;s/^\s*inet addr:\([0-9.]\+\)\s.*$/\1/p;q}')"
 echo "4×OK."
-echo "scp -r root@94.237.28.148:/opt/results/ ./"
+echo "scp -r root@${IP}:/opt/results/ ./"

@@ -8,7 +8,7 @@ exit 0
 # On the "donor" before snapshoting
 
 # Switch to DHCP
-apt-get install -qq -y isc-dhcp-client
+apt-get install -qq isc-dhcp-client
 cp -a /etc/network/interfaces /etc/network/interfaces.clone
 cp -a /etc/resolv.conf /etc/resolv.conf.clone
 editor /etc/network/interfaces

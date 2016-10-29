@@ -14,7 +14,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
         echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
         # Schedule removal of systemd
         echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
-@reboot root apt-get purge -qq -y --auto-remove systemd > /dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
+@reboot root apt-get purge -qq --auto-remove systemd > /dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
 
         set +x
         echo
@@ -23,7 +23,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
     fi
 elif [ "$(dpkg-query --showformat="\${Status}" --show sysvinit-core 2> /dev/null)" == "install ok installed" ]; then
     # Remove SysVinit
-    apt-get purge -qq -y sysvinit-core
+    apt-get purge -qq sysvinit-core
     # Time synchronization
     timedatectl set-ntp 1
 fi

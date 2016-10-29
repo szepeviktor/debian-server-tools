@@ -3,5 +3,5 @@
 set -e -x
 
 if ! lsmod | grep -q "^bonding\s"; then
-    apt-get purge -qq -y ifenslave
+    apt-get purge -qq ifenslave
 fi

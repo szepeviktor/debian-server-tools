@@ -6,5 +6,5 @@ set -e -x
 AZURE_DHCP_LEASES="/var/lib/dhcp/dhclient.eth0.leases"
 if [ -f "$AZURE_DHCP_LEASES" ] && ! grep -q "unknown-245" "$AZURE_DHCP_LEASES"; then
     # https://github.com/Azure/WALinuxAgent
-    apt-get purge -qq -y waagent
+    apt-get purge -qq waagent
 fi

@@ -384,14 +384,15 @@ Send to Analytics, report to `/js-error.php`
 
 ### Compatiblitity
 
+- Toolbar color of Chrome for Android (`theme-color` meta)
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 - Microsoft/Libre Office (copy-and-paste content or open URL)
 
-### External resources (3rd party services)
+### Integration (3rd party services)
 
-Document in 3rd-party-README.md and check functionality.
+Document in `3rd-party-README.md` and check functionality.
 
 - External search
 - Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
