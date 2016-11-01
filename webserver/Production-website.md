@@ -395,9 +395,12 @@ Send to Analytics, report to `/js-error.php`
 Document in `3rd-party-README.md` and check functionality.
 
 - External search
-- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
+- External resources (fonts)
 - Social media
 - Video
+- Maps
+- Widgets
+- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
 - Advertisement
 - Live chat
 - Newsletter subscription

@@ -12,12 +12,12 @@
 - **Exclusion** support (file list, glob, regexp)
 - Backup/no-backup **[tag files](http://www.brynosaurus.com/cachedir/spec.html)** for directories
 - **One filesystem** restriction
-- Backup target handling on incremental backups (**read and create only** or updating also), uploading to cold storage
+- Backup target handling on incremental backups (**read and create/append only** or updating also), uploading to cold storage
 - **Remote** source, remote target support
 - **Low network traffic**
-- Network **protocols** (S3, Glacier, swift, hubiC, S/FTP, SMTP, Dropbox)
+- Network **protocols** (S3, Amazon Glacier, OpenStack swift, hubiC, S/FTP, SMTP, Dropbox)
 - **Keep policy** (days, weeks, months, years), deletion of old versions
-- **List** backups, backup contents, mount as fuse
+- **List** backups, backup contents, mount as FUSE
 - **Logging**, debugging
 - Responsive **support forum**
 
@@ -69,6 +69,17 @@ cat github.repos|xargs -L 1 git clone
 - synchronize: fsync(2)
 - upload: sync && s3qlctrl flushcache
 - unmount: umount.s3ql
+
+### S3QL recover metadata from backup
+
+Add to `/usr/lib/s3ql/s3ql/fsck.py` in `main()` after `if param['seq_no'] > seq_no:`
+
+```python
+        elif 's3ql_metadata' not in backend:
+            log.warn('No remote metadata, recovering backup...')
+            backend.rename('s3ql_metadata_bak_0', 's3ql_metadata')
+            param['needs_fsck'] = True
+```
 
 ### S3QL on OVH
 

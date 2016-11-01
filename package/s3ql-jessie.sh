@@ -2,7 +2,7 @@
 #
 # Install s3ql systemwide by pip.
 #
-# VERSION       :2.20
+# VERSION       :2.21
 # DATE          :2016-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,55 +16,43 @@
 #     cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
 #     docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
 
-RELEASE_FILE="s3ql-2.20.tar.bz2"
+RELEASE_FILE="s3ql-2.21.tar.bz2"
 
 set -e
 
 # Debian packages
 sudo apt-get update -qq
-sudo apt-get install -y kmod fuse libattr1-dev libfuse-dev libsqlite3-dev \
-    python3-pkg-resources python3-systemd \
-    curl build-essential pkg-config mercurial python3-dev libjs-sphinxdoc
+sudo apt-get install -y fuse python3-pkg-resources python3-systemd libjs-sphinxdoc \
+    curl build-essential pkg-config python3-dev libattr1-dev libfuse-dev libsqlite3-dev
 
 # Get pip
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
 # Required packages
 # https://bitbucket.org/nikratio/s3ql/src/default/setup.py#setup.py-130
-cat > requirements.txt <<"EOF"
-pycrypto
-defusedxml
-requests
+sudo pip3 install pycrypto defusedxml requests "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0"
 # Must be the same version as libsqlite3
 # dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed 's/-.*$/-r1/'
 # 3.8.7.1-r1 for Debian jessie
-apsw == 3.8.7.1-r1
-# Any version between 1.0 (inclusive) and 2.0 (exclusive) will do
-llfuse >= 1.0, < 2.0
-# You need at least version 3.4
-dugong >= 3.4, < 4.0
-# optional, to run unit tests
-#pytest >= 2.3.3
-#pytest-catchlog
-EOF
-sudo pip3 install -r requirements.txt
+sudo pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.7.1-r1/apsw-3.8.7.1-r1.zip
 
 # Import key "Nikolaus Rath <Nikolaus@rath.org>"
-gpg --keyserver pgp.mit.edu --recv-keys 3C4E599F || gpg --import "$(dirname "$0")/s3ql-3C4E599F.asc"
+gpg --batch --keyserver pgp.mit.edu --keyserver-options timeout=10 --recv-keys 3C4E599F \
+    || gpg --batch --import "$(dirname "$0")/s3ql-3C4E599F.asc"
 
 # Download s3ql
 curl -s -L -O -J "https://bitbucket.org/nikratio/s3ql/downloads/${RELEASE_FILE}"
 curl -s -L -O -J "https://bitbucket.org/nikratio/s3ql/downloads/${RELEASE_FILE}.asc"
 # Verify tarball integrity
-gpg --verify "${RELEASE_FILE}.asc"
+gpg --batch --verify "${RELEASE_FILE}.asc" "$RELEASE_FILE"
 
 # Install s3ql
 sudo pip3 install "$RELEASE_FILE"
 s3qlctrl --version
 
-rm -f requirements.txt "$RELEASE_FILE" "${RELEASE_FILE}.asc"
+rm -f "$RELEASE_FILE" "${RELEASE_FILE}.asc"
 
 # Optionally remove these packages
-#apt-get purge -y libattr1-dev libfuse-dev libsqlite3-dev build-essential dpkg-dev pkg-config mercurial python3-dev
+#apt-get purge -y curl libattr1-dev libfuse-dev libsqlite3-dev build-essential dpkg-dev pkg-config python3-dev
 
 echo "OK."

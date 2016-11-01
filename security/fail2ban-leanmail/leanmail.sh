@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2016-10-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,6 +22,8 @@
 #     actionban = printf %%b "X-Fail2ban: <ip>,<sender>
 # Restart fail2ban
 #     fail2ban-client reload
+# Create known list with read/write permission for MTA
+#     install -o root -g daemon -m 0660 /dev/null /var/lib/fail2ban/known.list
 #
 # Testing
 #     echo "X-Fail2ban: 1.2.3.4,admin@szepe.net" | time bash -x leanmail.sh

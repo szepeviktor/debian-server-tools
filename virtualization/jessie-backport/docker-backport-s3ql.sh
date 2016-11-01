@@ -25,16 +25,13 @@ EOF
 
 # pre-deps hook ----------
 cat > /opt/results/debackport-pre-deps <<"EOF"
-sudo apt-get install -t jessie-backports -y cython3 python3-py \
+sudo apt-get install -q -t jessie-backports -y cython3 python3-py \
     python3-pytest python3-setuptools python-pytest python-setuptools
 EOF
 
 # Build it ----------
-# python3-pytest-catchlog
 Build pytest-catchlog/testing
-# python3-llfuse, python3-llfuse-dbg
 Build python-llfuse/testing
-# python3-dugong
 Build python-dugong/testing
 Build s3ql/testing
 
@@ -42,7 +39,7 @@ Build s3ql/testing
 rm -f /opt/results/{debackport-init,debackport-pre-deps}
 
 set +x
-# First interface by name eth* with an IPv4 address
+# First interface by name the eth* with an IPv4 address
 IP="$(ifconfig|sed -n -e '/^eth/{n;s/^\s*inet addr:\([0-9.]\+\)\s.*$/\1/p;q}')"
 echo "4×OK."
 echo "scp -r root@${IP}:/opt/results/ ./"
