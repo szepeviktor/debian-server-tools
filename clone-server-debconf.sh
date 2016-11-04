@@ -20,7 +20,7 @@ echo "/etc/modprobe.d/
 /etc/hosts
 /etc/resolv.conf
 /etc/mailname
-/etc/courier/me" | xargs -I%% find %% -type f > etc-blacklist.txt
+/etc/courier/me" | xargs -I % find % -type f > etc-blacklist.txt
 ls /etc/ssh/ssh_host_*_key* >> etc-blacklist.txt
 
 debconf-get-selections > debconf.selections

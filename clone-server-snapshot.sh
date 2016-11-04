@@ -50,7 +50,7 @@ dpkg-reconfigure -f noninteractive openssh-server
 editor /root/server.yml
 
 # Cron jobs
-mc /etc/ /etc/cron.d/
+mc /etc/cron.d/ /var/spool/cron/crontabs/
 
 # Courier MTA
 editor /etc/courier/me
@@ -75,5 +75,3 @@ courier-restart.sh
 
 # When finished
 reboot
-
-# @TODO Develop dpkg-way

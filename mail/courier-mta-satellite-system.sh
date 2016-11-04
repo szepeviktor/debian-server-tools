@@ -134,6 +134,6 @@ editor /etc/courier/aliases/system
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail." | mailx -s "[first] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | mailx -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
 
 echo "Outbound SMTP (port 25) may be blocked."

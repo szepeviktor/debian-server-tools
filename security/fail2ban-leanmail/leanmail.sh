@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Don't send Fail2ban notification emails of IP-s with records
+# Don't send Fail2ban notification emails of IP-s with records.
 #
 # VERSION       :0.4.1
 # DATE          :2016-10-19
@@ -34,7 +34,7 @@
 DEST="${1:-admin@szepe.net}"
 
 
-# DNS blacklists
+# DNS blacklist
 
 # https://www.projecthoneypot.org/httpbl_api.php
 DNSBL1_HTTPBL_ACCESSKEY="hsffbftuslgh"
@@ -54,7 +54,7 @@ DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"
 # http://www.abuseat.org/faq.html
 #DNSBL5_ABUSEAT="%s.cbl.abuseat.org"
 
-# HTTP API-s
+# HTTP API
 
 # http://www.stopforumspam.com/usage
 #HTTPAPI1_SFS="http://api.stopforumspam.org/api?ip=%s"
@@ -66,7 +66,7 @@ DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"
 # handlers-a-t-isc.sans.edu
 HTTPAPI3_DSHIELD="https://dshield.org/api/ip/%s"
 
-# IP lists
+# IP list
 
 # https://www.openbl.org/lists.html
 LIST_OPENBL="https://www.openbl.org/lists/base.txt"
@@ -143,7 +143,7 @@ TIMEOUT="3"
 # List cache path
 CACHE_DIR="/var/lib/fail2ban"
 
-# Previously unmatched attackers
+# Last 100 unmatched attackers
 KNOWN_IP="${CACHE_DIR}/known.list"
 
 # GeoIP database
@@ -546,16 +546,22 @@ Match_all() {
     exit
 }
 
-
 # Main
 if [ "$DEST" == cron ]; then
     # Cron job
     IP="10.0.0.2"
+    # Keep last 100 known IP-s
+    if [ -r "$KNOWN_IP" ]; then
+        # shellcheck disable=SC2016
+        sed -i -e ':a;$q;N;101,$D;ba' "$KNOWN_IP"
+    fi
 else
+    # Strip Received: headers
     FIRST_LINE=""
     while [ -z "$FIRST_LINE" ] || [ "${FIRST_LINE#Received: }" != "$FIRST_LINE" ] || [ "${FIRST_LINE:0:1}" == " " ]; do
         IFS='' read -r FIRST_LINE
     done
+    # Find X-Fail2ban header
     if grep -qx "X-Fail2ban: [0-9a-fA-F:.]\+,\S\+@\S\+" <<< "$FIRST_LINE"; then
         IP_SENDER="${FIRST_LINE#X-Fail2ban: }"
         IP="${IP_SENDER%%,*}"
@@ -567,10 +573,13 @@ else
     fi
 fi
 
+# Check cache
 [ -d "$CACHE_DIR" ] || exit 1
 
+# cat message.eml | LEANMAIL_DEBUG=1 leanmail.sh
 [ -z "$LEANMAIL_DEBUG" ] || CACHE_UPDATE="1" Match_all
 
+# Check IP
 if Match_any; then
     exit 0
 fi

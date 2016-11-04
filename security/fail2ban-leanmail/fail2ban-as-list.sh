@@ -22,3 +22,9 @@ Hostname_AS() {
         | xargs -I %% bash -c "echo -n %%;geoiplookup -f ${AS_GEOIP} %%|recode -f l2..utf8|cut -d: -f2-" \
         | grep -w "$AS" | cut -d' ' -f1 | xargs -r -L1 host -tA
 }
+
+# List country of unmatched attackers
+Known_countries() {
+    GEOIP="/usr/share/GeoIP/GeoIP.dat"
+    cat /var/lib/fail2ban/known.list | xargs -n1 geoiplookup -f "$GEOIP" | sort | uniq -c
+}

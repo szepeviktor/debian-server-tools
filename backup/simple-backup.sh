@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.5
+# VERSION       :0.2.6
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -26,7 +26,8 @@ Echo() {
 }
 
 Error() {
-    echo "Failed: ${*}" 1>&2
+    echo "ERROR: ${*}" 1>&2
+    exit 10
 }
 
 set -e

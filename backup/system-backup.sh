@@ -132,7 +132,7 @@ List_dbs() {
 }
 
 Backup_system_dbs() {
-    if ! [ -d "${TARGET}/db-system" ];then
+    if ! [ -d "${TARGET}/db-system" ]; then
         mkdir "${TARGET}/db-system" || Error 44 "Failed to create 'db-system' directory in target"
     fi
 
@@ -155,7 +155,7 @@ Check_db_schemas() {
     # `return` is not available within a pipe
     DBS="$(List_dbs)"
 
-    if ! [ -d "${TARGET}/db" ];then
+    if ! [ -d "${TARGET}/db" ]; then
         mkdir "${TARGET}/db" || Error 43 "Failed to create 'db' directory in target"
     fi
     while read -r DB; do
@@ -239,41 +239,53 @@ Backup_files() {
     if ! [ -d "${TARGET}/etc" ]; then
         mkdir "${TARGET}/etc" || Error 40 "Failed to create 'etc' directory in target"
     fi
-    WEEKLY_ETC="$(Rotate_weekly "etc")"
-    if [ -n "$WEEKLY_ETC" ] && [ -d "$WEEKLY_ETC" ]; then
-        tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
-        # debconf
-        debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
-        dpkg --get-selections > "${WEEKLY_ETC}/packages.selections"
+    WEEKLY_ETC="$(Rotate_weekly etc)"
+    if [ -z "$WEEKLY_ETC" ] || ! [ -d "$WEEKLY_ETC" ]; then
+        Error 41 "Failed to create weekly directory for 'etc'"
     fi
+    tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
+    # Save debconf data
+    debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
+    dpkg --get-selections > "${WEEKLY_ETC}/packages.selections"
+    # Make directory tree immutable
+    /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_ETC"
 
     # /home
     if ! [ -d "${TARGET}/homes" ]; then
-        mkdir "${TARGET}/homes" || Error 41 "Failed to create 'homes' directory in target"
+        mkdir "${TARGET}/homes" || Error 42 "Failed to create 'homes' directory in target"
     fi
-    WEEKLY_HOME="$(Rotate_weekly "homes")"
+    WEEKLY_HOME="$(Rotate_weekly homes)"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
-    if [ -n "$WEEKLY_HOME" ] && [ -d "$WEEKLY_HOME" ]; then
-        ionice rsync -a --delete /home/ "$WEEKLY_HOME"
+    if [ -z "$WEEKLY_HOME" ] || ! [ -d "$WEEKLY_HOME" ]; then
+        Error 43 "Failed to create weekly directory for 'home'"
     fi
+    ionice rsync -a --delete /home/ "$WEEKLY_HOME"
+    # Make directory tree immutable
+    /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_HOME"
 
     # /var/mail
     if ! [ -d "${TARGET}/email" ]; then
-        mkdir "${TARGET}/email" || Error 42 "Failed to create 'email' directory in target"
+        mkdir "${TARGET}/email" || Error 44 "Failed to create 'email' directory in target"
     fi
-    WEEKLY_MAIL="$(Rotate_weekly "email")"
-    if [ -n "$WEEKLY_MAIL" ] && [ -d "$WEEKLY_MAIL" ]; then
-        ionice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    WEEKLY_MAIL="$(Rotate_weekly email)"
+    if [ -z "$WEEKLY_MAIL" ] || ! [ -d "$WEEKLY_MAIL" ]; then
+        Error 45 "Failed to create weekly directory for 'mail'"
     fi
+    ionice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    # Make directory tree immutable
+    /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_MAIL"
 
     # /usr/local
     if ! [ -d "${TARGET}/usr" ]; then
-        mkdir "${TARGET}/usr" || Error 42 "Failed to create 'usr' directory in target"
+        mkdir "${TARGET}/usr" || Error 46 "Failed to create 'usr' directory in target"
     fi
-    WEEKLY_USR="$(Rotate_weekly "usr")"
-    if [ -n "$WEEKLY_USR" ] && [ -d "$WEEKLY_USR" ]; then
-        ionice rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
+    WEEKLY_USR="$(Rotate_weekly usr)"
+    if [ -z "$WEEKLY_USR" ] || ! [ -d "$WEEKLY_USR" ]; then
+        Error 47 "Failed to create weekly directory for 'usr'"
     fi
+    ionice rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
+    # Make directory tree immutable
+    /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_USR"
 }
 
 Mount() {
@@ -282,7 +294,7 @@ Mount() {
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
     /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test $? == 128
 
-    # OVH fix? --threads 4
+    # @FIXME OVH --threads 4
     nice /usr/bin/mount.s3ql ${S3QL_OPT} --threads 4 \
         "$STORAGE_URL" "$TARGET" || Error 1 "Cannot mount storage"
 

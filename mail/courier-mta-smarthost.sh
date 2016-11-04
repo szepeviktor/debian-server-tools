@@ -238,7 +238,7 @@ install -b -o root -g root -m 600 /dev/null /etc/courier/userdb; makeuserdb
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail." | mailx -s "[first] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | mailx -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
 #tail -f /var/log/syslog
 journalctl -f
 

@@ -126,9 +126,10 @@ $TTL 60
 185.109.169.171-255 :2: Neighbour of mail.*news.info. spammer block
 185.109.169.149-170 mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
 
-# Oancea-F-Cristian-Marius-PFA mail.*news.info. @AS61971
-93.119.106-107      RO_mail.katinanews.info. /23
-188.240.221.0/25    RO_m.tunatebiz.info. /25
+# VPSOPENVZ SRL-D / Oancea-F-Cristian-Marius-PFA, TENNET TELECOM SRL mail.*news.info. mail.*news.xyz. @AS61412
+89.33.193           RO_m.*news.info. @VPSOPENVZ/AS61412
+93.119.104.0/22     RO_mail.katinanews.info. @VPSOPENVZ/AS61412
+188.240.221         RO_m.tunatebiz.info. @VPSOPENVZ/AS61412
 
 # spammer: 93.158.206.23 DC: Serverius
 93.158.204.0/22     :2: Neighbour of intensdesign.com. @Serverius/AS50673
@@ -141,9 +142,6 @@ $TTL 60
 # GLOBAL-FRAG-SERVERS
 23.247.114          :2:Neighbour of GLOBAL-FRAG-SERVERS shop*.360jiank.com.
 23.247.114.60       US_shop60.360jiank.com. @GLOBAL-FRAG-SERVERS/AS46573
-
-# Oancea F. Cristian Marius
-89.33.193           RO_m.*news.info. @Oancea-F-Cristian-Marius-PFA/AS61971
 
 # Forex Binary Trader binarytrader.trade forexoptions.trade fxbinary.club fxbinaryrevenue.com
 146.0.232.0/26      DE_*fxbinary* @VELIANET-DE-KELLYSHARMA/AS29066
