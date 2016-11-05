@@ -394,6 +394,7 @@ Send to Analytics, report to `/js-error.php`
 
 Document in `3rd-party-README.md` and check functionality.
 
+- Certificate Authority (OCSP servers for obtaining SSL certificate revocation status)
 - External search
 - External resources (fonts)
 - Social media

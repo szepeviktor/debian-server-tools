@@ -64,10 +64,12 @@ skip-plugins:
 ./wp-createdb.sh
 
 # New installation
+wp core download --locale=hu_HU
 wp core config --dbname="$DBNAME" --dbuser="$DBUSER" --dbpass="$DBPASS" \
     --dbhost="$DBHOST" --dbprefix="prod" --dbcharset="$DBCHARSET" --extra-php <<EOF
 // Extra PHP code
 EOF
+wp core install --title="WP" --admin_user="viktor" --admin_email="viktor@szepe.net" --admin_password="12345"
 
 wp option set home "$WPHOMEURL"
 wp option set blog_public "0"
@@ -121,7 +123,7 @@ wget -P wp-content/mu-plugins/disable-comments-mu/ https://github.com/solarissmo
 wp plugin install classic-smilies --activate
 
 # mail
-wp plugin install classic-smilies wp-mailfrom-ii smtp-uri --activate
+wp plugin install wp-mailfrom-ii smtp-uri --activate
 #wget -P wp-content/mu-plugins/ https://github.com/danielbachhuber/mandrill-wp-mail/raw/master/mandrill-wp-mail.php
 wp eval 'var_dump(wp_mail("admin@szepe.net","First outgoing",site_url()));'
 # define( 'SMTP_URI', 'smtp://FOR-THE-WEBSITE%40DOMAIN.TLD:PWD@localhost' );
@@ -142,14 +144,7 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban
 wp plugin install password-bcrypt
 cp wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
 wp plugin uninstall password-bcrypt
-# mu-lock-session-ip
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-lock-session-ip/lock-session-ip.php
-wp plugin install prevent-concurrent-logins --activate
 wp plugin install user-session-control --activate
-# mu-disallow-weak-passwords
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disallow-weak-passwords/disallow-weak-passwords.php
-# mu-totp-login
-# https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-totp-login
 # user role editor
 wp plugin install user-role-editor --activate
 # keepass-button
@@ -167,19 +162,36 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 # Install: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php
 wp plugin install obfuscate-email --activate
-
-# media
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control.php
 ```
 
 #### Forcing
 
 ```bash
+# mu-lock-session-ip
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-lock-session-ip/lock-session-ip.php
+
+# prevent-concurrent-logins
+wp plugin install prevent-concurrent-logins --activate
+
+# mu-disallow-weak-passwords
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disallow-weak-passwords/disallow-weak-passwords.php
+
+# media
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control.php
+
 # protect plugins
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-protect-plugins/protect-plugins.php
 ```
 
 #### Object cache
+
+```php
+// WP_CACHE_KEY_SALT in wp-config.php
+$redis_server = array(
+    'host' => '127.0.0.1',
+    'port' => 6379,
+);
+```
 
 ```bash
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-cache-flush-button/flush-cache-button.php
@@ -204,14 +216,6 @@ wp transient delete-all
 wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
 wp transient delete-all
 # Worse plugin: wp plugin install apcu
-```
-
-```php
-// WP_CACHE_KEY_SALT in wp-config.php
-$redis_server = array(
-    'host' => '127.0.0.1',
-    'port' => 6379,
-);
 ```
 
 

@@ -35,7 +35,7 @@ editor "${S}/authorized_keys2"
 echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
-mkdir -v --mode=0550 /home/${U}/website
+mkdir -v --mode=0750 /home/${U}/website
 mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
 chmod 0555 /home/${U}/website/html
 
@@ -61,7 +61,7 @@ chown -cR ${U}:${U} /home/${U}/
 # WordPress wp-config.php skeleton
 #     define( 'ABSPATH', dirname( __FILE__ ) . '/html/' );
 
-# wordpress-fail2ban
+# Wordpress Fail2ban
 
 # Migrate database NOW!
 # Create WordPress database from wp-config

@@ -3,7 +3,7 @@
 # Test banned IP addresses.
 #
 
-# TOP 10 AS-s
+# List TOP 10 AS-s
 Top_10_AS() {
     AS_GEOIP="/usr/share/GeoIP/GeoIPASNum.dat"
     zgrep -Fv "[recidive]" /var/log/fail2ban.log | sed -ne 's/^.* Ban \([0-9.]\+\)$/\1/p' \

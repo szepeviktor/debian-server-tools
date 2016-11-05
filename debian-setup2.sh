@@ -181,9 +181,6 @@ fi
 #    debian-setup/nullmailer
 #fi
 
-# Monitor certificates
-Dinstall monitoring/cert-expiry.sh
-
 # Tools
 for TOOL in catconf cnet hosthost hostinfo ip.sh lsrev msec reboot revip \
     sortip swap-usage.sh u udrush uwp whichdo whoistop; do

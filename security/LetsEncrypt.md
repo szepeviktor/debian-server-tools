@@ -9,7 +9,7 @@ Test TLS connections see /security/README.md
 A fully manual Let's Encrypt/ACME client with DNS-based challenge.
 
 ```bash
-apt-get install -y ca-certificates \
+apt-get install -q -y ca-certificates \
     gcc python3-dev libssl-dev libffi-dev
 cd /home/prg[0-9]*/
 u nice pip3 install --upgrade --user manuale
@@ -21,7 +21,7 @@ u ../../.local/bin/manuale info
 
 # Issue or Renew
 cd /home/prg[0-9]*/ssl/lets-encrypt/
-read -r DOMAIN
+read -r -e -i $(hostname -f) DOMAIN
 #read -r $DOMAIN2
 u ../../.local/bin/manuale authorize $DOMAIN $DOMAIN2
 #u ../../.local/bin/manuale issue $DOMAIN $DOMAIN2

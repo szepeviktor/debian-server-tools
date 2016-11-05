@@ -9,3 +9,9 @@ set -e -x
 if [ "$(Data get-value package.ca-certificates.install-testing)" == "True" ]; then
     Getpkg ca-certificates testing
 fi
+
+# Install certificates
+Dinstall security/cert-update.sh
+
+# Monitor certificates
+Dinstall monitoring/cert-expiry.sh

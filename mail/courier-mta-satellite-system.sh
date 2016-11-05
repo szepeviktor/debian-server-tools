@@ -115,10 +115,8 @@ editor /etc/courier/smtpaccess/default
 #     127.0.0.1	allow,RELAYCLIENT
 #     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
 
-# No local domains
-editor /etc/courier/locals
-#     localhost
-#     # Remove own hostname!
+# Remove own hostname from locals
+echo "localhost" > /etc/courier/locals
 
 # Set hostname
 editor /etc/courier/me
@@ -127,8 +125,8 @@ editor /etc/courier/dsnfrom
 
 # Aliases
 editor /etc/courier/aliases/system
-#     nobody: postmaster
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
+#     nobody: postmaster
 #     postmaster: postmaster@szepe.net
 
 courier-restart.sh

@@ -15,7 +15,7 @@ if [ -z "$(getent passwd "$U")" ]; then
     # Add SSH key
     SSH_DIR="${HOME_DIR}/.ssh"
     mkdir --mode 0700 "$SSH_DIR"
-    echo "$SSH_KEY" >> "${SSH_DIR}/authorized_keys2"
+    echo "$SSH_KEY" > "${SSH_DIR}/authorized_keys2"
     chown -R "${U}:${U}" "$SSH_DIR"
 
     # Add to sudoers
@@ -25,7 +25,7 @@ if [ -z "$(getent passwd "$U")" ]; then
     #passwd -e "$U"
 
     # wget
-    echo -e "content_disposition = on" >> "${HOME_DIR}/.wgetrc"
+    echo -e "content_disposition = on" > "${HOME_DIR}/.wgetrc"
 
     # sensible-utils
     echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > "${HOME_DIR}/.selected_editor"
@@ -37,7 +37,7 @@ fi
 echo "root:*" | chpasswd -c NONE
 
 # Check passwords for other users
-PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[A-Za-z-]+:(\*|\!)$')"
+PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[^:]+:(\*|\!|\!\*)$')"
 # Only the first user may have a password
 test "$(wc -l <<< "$PASSWORD_USERS")" == 1
 # It is the first user
