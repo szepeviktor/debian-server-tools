@@ -2,13 +2,22 @@
 
 set -e -x
 
+# Do not use locales-all package
+if [ "$(dpkg-query --showformat="\${Status}" --show locales-all 2> /dev/null)" == "install ok installed" ]; then
+    export LANG="C"
+    export LC_ALL="C"
+    apt-get purge -qq locales-all
+    # If no locales are selected
+    if [ -z "$(grep -Ev '^\s*#|^\s*$' /etc/locale.gen)" ]; then
+        sed -i -e 's|^# \(en_US.UTF-8 UTF-8\)$|\1|' /etc/locale.gen
+    fi
+fi
+
 # Display locales
 locale
 locale -a
 
-export LC_ALL="C"
-export LANG="C"
-
+# Set en_US.UTF-8 as system locale
 echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections -v
 echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive locales
