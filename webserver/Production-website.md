@@ -305,7 +305,7 @@ http://google-public-dns.appspot.com/cache
 - JavaScript code parsable (by dummy crawlers) as HTML (e.g. `<a>` `<iframe>` `<script>`)
 - Display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
 - Unnecessary Firefox caret
-- Mobile views
+- [Mobile views](https://webmasters.googleblog.com/2016/11/mobile-first-indexing.html) (responsive design)
 - Confusion in colors: normal text color, link and call2action color, accent color
 - Email header and content check with https://www.mail-tester.com/
 

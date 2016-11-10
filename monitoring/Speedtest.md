@@ -1,12 +1,14 @@
 # Global networking tools
 
+[Timing details with curl](https://blog.josephscott.org/2011/10/14/timing-details-with-curl/)
+
 ### Target country speed test
 
 - speedtest-cli 100+
 - `netselect-apt -c hu stable`
 - Cachefly CDN http://cachefly.cachefly.net/100mb.test
 
-- keycdn https://tools.keycdn.com/ping `P`
+- Keycdn IPv6 https://tools.keycdn.com/ipv6-ping `P`
 - Aruba.cz http://speedtest.forpsi.net/ `PTS6`
 - Aruba.cz http://29.209.forpsi.net/ `PTS6`
 - OVH 3 http://ipv4.rbx.proof.ovh.net/ `PTS`

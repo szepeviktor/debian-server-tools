@@ -22,7 +22,7 @@ CURRENT_APTRECOMMENDS="$(apt-config dump APT::Install-Recommends)"
 
 # Disable config file containing Install-Recommends
 if [ "$CURRENT_APTRECOMMENDS" != "$IMAGE_APTRECOMMENDS" ]; then
-    APTRECOMMENDS_CONFIG="$(grep -irH "APT::Install-Recommends" /etc/apt/*)"
+    APTRECOMMENDS_CONFIG="$(grep -irH "^APT::Install-Recommends" /etc/apt/* | head -n 1)"
     test -f "${APTRECOMMENDS_CONFIG%%:*}"
     mv -f "${APTRECOMMENDS_CONFIG%%:*}" "${APTRECOMMENDS_CONFIG%%:*}.disabled"
 fi

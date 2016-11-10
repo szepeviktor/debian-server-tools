@@ -66,9 +66,9 @@ export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server
 # Microsoft Azure Traffic Manager
 export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
 # Amazon CloudFront
-#export SETUP_SOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
+#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
 # Hungarian Debian mirror
-#export SETUP_SOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
+#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
 export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
 
@@ -114,6 +114,9 @@ if Is_installed "libgnutls26"; then
 fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav || true
+
+# Only clean up OS image
+#exit 0
 
 # Packages used on top of SETUP_PACKAGES
 apt-get install -qq ssh sudo apt-transport-https virt-what python-yaml
