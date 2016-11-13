@@ -30,7 +30,7 @@ if [ -z "$(getent passwd "$U")" ]; then
     # sensible-utils
     echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > "${HOME_DIR}/.selected_editor"
 
-    # TODO /etc/skel/.profile
+    # @TODO /etc/skel/.profile
 fi
 
 # Disable root password
@@ -154,6 +154,16 @@ man() {
         LESS_TERMCAP_md="$(tput bold)" \
         LESS_TERMCAP_me="$(tput sgr0)" \
         man "$@"
+}
+
+# Take a look at the plugin changelog
+wp_changelog() {
+    local PLUGIN="$1"
+
+    wget -qO- "http://api.wordpress.org/plugins/info/1.0/${PLUGIN}" \
+        | php -r '$i=unserialize(stream_get_contents(STDIN)); echo $i->sections["changelog"];' \
+        | w3m -T text/html
+#        | elinks -force-html
 }
 EOF
 

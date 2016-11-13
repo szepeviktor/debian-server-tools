@@ -3,7 +3,9 @@
 set -e -x
 
 apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
+
 # Steal root password
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815599
 MYSQL_PASSWORD="$(echo "GET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0 | cut -d " " -f 2-)"
 #MYSQL_PASSWORD="$(Data get-value package.mariadb-server.root-pwd)"
 # Remove password from debconf

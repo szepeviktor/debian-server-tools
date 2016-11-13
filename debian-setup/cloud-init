@@ -4,6 +4,7 @@ set -e -x
 
 if ! [ -s /var/lib/cloud/data/instance-id ]; then
     apt-get purge -qq cloud-init cloud-initramfs-growroot
+    return 0
 fi
 
 # @TODO

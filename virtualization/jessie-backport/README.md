@@ -14,20 +14,33 @@ Executes a shell script that builds a Debian package in the mounted Docker volum
 
 See hooks documented in the Bash script.
 
-Example hook usage in `docker-backport-munin.sh`
-
 Packages dependencies should be placed in the mounted volume, by default `/opt/results`
+
+#### Hook example
+
+Download a tar.gz file of a Debian package.
+
+Enter the URL in `--env PACKAGE="$URL"`
+
+`/opt/results/debackport-source`
+
+```bash
+wget -qO- "$PACKAGE" | tar -xz
+# We hope it contains one directory
+cd *
+CHANGELOG_MSG="Built from tar: ${PACKAGE}"
+```
 
 ### Backport Apache httpd
 
 - openssl/jessie-backports
-- spdylay
-- nghttp2
-- apr-util
-- apache2
+- spdylay/testing
+- nghttp2/testing
+- apr-util/testing
+- apache2/testing
 
 ### Backport Courier MTA
 
-- courier-unicode
-- courier-authlib
-- courier
+- courier-unicode/testing
+- courier-authlib/testing
+- courier/testing

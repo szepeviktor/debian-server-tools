@@ -115,9 +115,6 @@ fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav || true
 
-# Only clean up OS image
-#exit 0
-
 # Packages used on top of SETUP_PACKAGES
 apt-get install -qq ssh sudo apt-transport-https virt-what python-yaml
 # Install SHYAML (config reader)

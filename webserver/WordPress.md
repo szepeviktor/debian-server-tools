@@ -91,6 +91,10 @@ wp theme delete twentyfifteen
 wp theme delete twentyfourteen
 ```
 
+### Use child theme
+
+Premade themes can be updated using a child theme.
+
 ### Redis object cache
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)

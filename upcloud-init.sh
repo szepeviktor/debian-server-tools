@@ -3,6 +3,7 @@
 # Prepare UpCloud server with docker and pip.
 #
 # Initialization script: https://github.com/szepeviktor/debian-server-tools/raw/master/upcloud-init.sh
+# Follow log: tail -f /var/log/upcloud_userdata.log
 
 # http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/
 GEOIP_VERSION="1.19"

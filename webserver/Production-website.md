@@ -38,26 +38,23 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### WordPress core, theme from git
 
+**Use child theme**
+
 `git clone --recursive ssh://user@server:port/path/to/git`
 
 1. Set up database connection in `wp-config.php`
 1. Define contants, generate salts based on [wp-config.php skeleton](./wp-config.php)
 1. Edit `../wp-cli.yml`
 
-### Install plugins
+### Plugins
 
-```bash
-wp plugin install --activate classic-smilies
-wp plugin install --activate wordpress-seo w3-total-cache contact-form-7
-```
-
-Disable comments? `mu-disable-comments`
+See [WordPress.md](./WordPress.md#plugins)
 
 Allow accents in URL-s? `mu-latin-accent-urls`
 
 MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 
-### Create root files
+### Root files
 
 - robots.txt
 - favicon.ico
@@ -69,7 +66,7 @@ MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
 
 Static maintenance page
 
-### Set up CDN
+### CDN
 
 - Consider multiple A records `host -t A cdn.example.com`
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
@@ -79,7 +76,7 @@ Static maintenance page
 - https://aws.amazon.com/console/
 - https://www.cloudflare.com/a/login see also [/webserver/CloudFlare.md](/webserver/CloudFlare.md)
 
-### Set up mail sending
+### Mail sending
 
 ```bash
 wp plugin install --activate wp-mailfrom-ii smtp-uri
@@ -116,7 +113,7 @@ Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 - Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`
 
-### Set up cron jobs
+### Cron jobs
 
 Remove left-over WP-Cron events.
 
@@ -126,7 +123,7 @@ Use real cron job.
 
 `wp-cron-cli.sh`
 
-### Settings
+### WordPress Settings
 
 - General Settings
 - Writing Settings
@@ -362,7 +359,7 @@ Send to Analytics, report to `/js-error.php`
 ### SEO
 
 - `blog_public` and robots.txt
-- XML sitemap
+- XML sitemaps (linked from robots.txt)
 - Page title (blue in SERP)
 - Permalink structure and slug optimization (green in SERP)
 - Page meta description (grey in SERP)

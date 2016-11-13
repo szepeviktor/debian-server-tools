@@ -8,13 +8,16 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
     if [ "$(dpkg-query --showformat="\${Status}" --show systemd 2> /dev/null)" == "install ok installed" ]; then
         apt-get install -y sysvinit-core sysvinit-utils bootlogd
         cp /usr/share/sysvinit/inittab /etc/inittab
+        # Consider /sbin/agetty
+        #sed -i -e 's|:/sbin/getty |:/sbin/agetty |' /etc/inittab
         # Disable terminals 2-6
-        # @TODO Consider /sbin/agetty
         sed -i -e '/^\([2-6]\):23:respawn:\/sbin\/getty 38400 tty\1$/d' /etc/inittab
         echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
         # Schedule removal of systemd
-        echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
-@reboot root apt-get purge -qq --auto-remove systemd > /dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
+        {
+            echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin"
+            echo "@reboot root apt-get purge -qq --auto-remove systemd > /dev/null;rm -f /etc/cron.d/withoutsystemd"
+        } > /etc/cron.d/withoutsystemd
 
         set +x
         echo
@@ -23,7 +26,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
     fi
 elif [ "$(dpkg-query --showformat="\${Status}" --show sysvinit-core 2> /dev/null)" == "install ok installed" ]; then
     # Remove SysVinit
-    apt-get purge -qq sysvinit-core
-    # Time synchronization
+    apt-get purge -qq --auto-remove sysvinit-core
+    # Enable time synchronization by systemd
     timedatectl set-ntp 1
 fi
