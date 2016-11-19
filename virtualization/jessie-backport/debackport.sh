@@ -32,7 +32,7 @@
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
 
 ARCHIVE_URL="http://debian-archive.trafficmanager.net/debian"
-#ARCHIVE_URL="http://archive.ubuntu.com/ubuntu"
+#:ubuntu ARCHIVE_URL="http://archive.ubuntu.com/ubuntu"
 
 ALLOW_UNAUTH="--allow-unauthenticated"
 

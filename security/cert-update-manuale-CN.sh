@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -36,10 +36,6 @@ read -r -p "CN=" CN
 [ -n "$CN" ]
 read -r -p "Additional domain names: " DOMAIN_NAMES
 
-# Issue certificate
-# shellcheck disable=SC2086
-manuale issue "$CN" ${DOMAIN_NAMES}
-
 # Private key file name
 PRIV="${CN}.pem"
 
@@ -48,6 +44,12 @@ PUB="${CN}.crt"
 
 # Intermediate certificate file name
 INT="${CN}.intermediate.crt"
+
+# Issue certificate
+# @TODO Is it secure to keep old private key?
+#manuale issue --key-file "$PRIV" "$CN" ${DOMAIN_NAMES}
+# shellcheck disable=SC2086
+manuale issue "$CN" ${DOMAIN_NAMES}
 
 # Verify signature
 openssl verify -purpose sslserver -CAfile "$INT" "$PUB"

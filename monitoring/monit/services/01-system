@@ -94,7 +94,7 @@
  check program network_hop
    with path "/usr/local/sbin/server-integrity.sh -c HOP1 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP@@'" every 33 cycles
  # Second hop
- #  with path "/usr/local/sbin/server-integrity.sh -c HOP2 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP@@'" every 33 cycles
+ #  with path "/usr/local/sbin/server-integrity.sh -c HOP2 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP2@@'" every 33 cycles
    group integrity
    if status != 0 then alert
 

@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.6
+# VERSION       :0.2.7
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,9 +11,14 @@
 # DEPENDS       :apt-get install debconf-utils sshfs percona-xtrabackup
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/simple-backup.sh
 
+# Prepare directories for one week rotation
+#    mkdir ./{0..6}
+
 BACKUP_DIR="/media/backup"
 #BACKUP_DIR="/media/backup.ssh"
 INNOBCK_FULL_BACKUP="YYYY-MM-DD"
+DOC_ROOT="/home/web-user"
+WP_SITE="site"
 HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
 declare -i CURRENT_DAY
@@ -32,9 +37,9 @@ Error() {
 
 set -e
 
-CURRENT_DAY="$(date --utc "+%w")"
-
 logger -t "simple-backup" "Started. $*"
+
+CURRENT_DAY="$(date --utc "+%w")"
 
 Echo "mount"
 ! grep -w "$BACKUP_DIR" /proc/mounts
@@ -46,21 +51,25 @@ Echo "fsroot"
 # /etc
 # /home
 # /run /var/run
+# /usr/local
 # /var/lib/mysql
 # /var/mail
 # /var/cache/apt
 # /var/cache/???
 # /var/spool/???
-nice tar --exclude=/etc --exclude=/run --exclude=/var/cache/apt --exclude=/var/lib/mysql \
+nice tar --exclude="$BACKUP_DIR" --exclude=/etc --exclude=/run --exclude=/usr/local \
+    --exclude=/var/cache/apt --exclude=/var/lib/mysql --exclude=/var/mail \
     --one-file-system -czPf "${CURRENT_DAY}/fsroot.tar.gz" / || Error "fsroot"
 
 Echo "/etc + debconf"
-nice tar --exclude=/etc/.git --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
+nice tar --exclude=/etc/.git \
+    --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
 debconf-get-selections > "${CURRENT_DAY}/debconf.selections"
 dpkg --get-selections > "${CURRENT_DAY}/packages.selections"
 
-Echo "/usr"
-nice tar --exclude=/usr/local/src --one-file-system -cPzf "${CURRENT_DAY}/usr.tar.gz" /usr/local/ || Error "usr"
+Echo "/usr/local"
+nice tar --exclude=/usr/local/src \
+    --one-file-system -cPzf "${CURRENT_DAY}/usr.tar.gz" /usr/local/ || Error "usr"
 
 Echo "Email"
 nice tar --one-file-system -czPf "${CURRENT_DAY}/email.tar.gz" /var/mail/ || Error "Email"
@@ -78,7 +87,7 @@ fi
 
 Echo "WordPress"
 nice tar --one-file-system -cPzf "${CURRENT_DAY}/${WP_SITE}-wp-files.tar.gz" "$DOC_ROOT" || Error "WP files"
-sudo -u broadbandly -- /usr/local/bin/wp --path="$ABSPATH" db dump - \
+{ cd "$DOC_ROOT"; sudo -u "$(stat -c %U .)" -- /usr/local/bin/wp db dump -; } \
     | nice gzip -1 > "${CURRENT_DAY}/${WP_SITE}-wp.sql.gz" || Error "WP db"
 
 cd /

@@ -8,7 +8,7 @@
    depends on SERVICE_bin
    depends on SERVICE_test
    depends on SERVICE_rc
-   depends on SERVICE_STICT
+   depends on SERVICE_STRICT
    depends on SERVICE_init
    depends on SERVICE_log
 

@@ -7,7 +7,8 @@ set -e -x
 test -n "$IP"
 
 Getpkg geoip-database-contrib
-apt-get install -y geoip-bin python3-pyinotify fail2ban
+apt-get install -t jessie-backports -y python3-pyinotify geoip-bin
+apt-get install -y fail2ban
 
 for CONFIG in fail2ban.local jail.local; do
     cp -f security/fail2ban-conf/${CONFIG} /etc/fail2ban/

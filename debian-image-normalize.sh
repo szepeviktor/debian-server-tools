@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages
+# Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages.
 #
 # VERSION       :1.0.7
 # DEPENDS       :apt-get install aptitude
@@ -160,7 +160,7 @@ set +e +x
     ${APTI_SEARCH} '?obsolete' | sed -e 's/$/ # obsolete/'
     ${APTI_SEARCH} "$OLD_PACKAGE_QUERY" | sed -e 's/$/ # old/'
     ${APTI_SEARCH} '?and(?installed, ?not(?origin(Debian)))' | sed -e 's/$/ # non-Debian/'
-    #Ubuntu: ${APTI_SEARCH} '?and(?installed, ?not(?origin(Ubuntu)))' | sed -e 's/$/ # non-Ubuntu/'
+    #:ubuntu ${APTI_SEARCH} '?and(?installed, ?not(?origin(Ubuntu)))' | sed -e 's/$/ # non-Ubuntu/'
     dpkg -l | grep "\~[a-z]\+" | grep -Ev "^ii  (${TILDE_VERSION})\s" | cut -c 1-55 | sed -e 's/$/ # tilde version/'
     # "-dev" versioned packages
     ${APTI_SEARCH} '?and(?installed, ?name(-dev))' | sed -e 's/$/ # development/'

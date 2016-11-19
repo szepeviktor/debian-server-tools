@@ -38,21 +38,18 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### WordPress core, theme from git
 
-**Use child theme**
-
-`git clone --recursive ssh://user@server:port/path/to/git`
-
 1. Set up database connection in `wp-config.php`
 1. Define contants, generate salts based on [wp-config.php skeleton](./wp-config.php)
 1. Edit `../wp-cli.yml`
+1. **Use child theme** for purchased themes
+1. Keep custom themes in git `git clone --recursive ssh://user@server:port/path/to/git`
 
 ### Plugins
 
-See [WordPress.md](./WordPress.md#plugins)
-
-Allow accents in URL-s? `mu-latin-accent-urls`
-
-MU plugins: https://github.com/szepeviktor/wordpress-plugin-construction
+- Plugin licences, access to support
+- See plugin list in [WordPress.md](./WordPress.md#plugins)
+- See MU plugins at https://github.com/szepeviktor/wordpress-plugin-construction
+- Allow accents in URL-s? `mu-latin-accent-urls`
 
 ### Root files
 
@@ -366,10 +363,10 @@ Send to Analytics, report to `/js-error.php`
 - Headings: h1, h2 / h3-h6
 - Images: alt, title
 - Breadcrumbs
+- Content keywords
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
-- Miltilingual site (`hreflang` attribute)
-- Structured data: https://schema.org/ http://microformats.org/
-- Content Keywords
+- Multilingual site (`hreflang` attribute)
+- Structured data https://schema.org/ http://microformats.org/
 - [Google My Business](https://www.google.com/business/)
 
 ### Legal

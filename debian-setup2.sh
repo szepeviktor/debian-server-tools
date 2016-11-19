@@ -39,12 +39,12 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     localepurge unattended-upgrades apt-listchanges cruft debsums \
     ncurses-term bash-completion mc htop most less time moreutils unzip \
     logtail apg dos2unix ccze git colordiff \
-    whois ntpdate ipset netcat-openbsd lftp mtr-tiny heirloom-mailx \
+    whois ntpdate ipset netcat-openbsd lftp heirloom-mailx \
     gcc libc6-dev make strace \
 
 # From backports
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    -t jessie-backports needrestart unscd
+    -t jessie-backports needrestart unscd mtr-tiny
 # From testing
 debian-setup/ca-certificates
 # From custom repos

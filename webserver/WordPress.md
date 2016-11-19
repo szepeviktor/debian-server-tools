@@ -16,13 +16,13 @@
 ```
 wp-cli.yml
 wp-config.php
-$DOCROOT/─┬─index.php
-          ├─wp-load.php
-          ├─wp-login.php
-          ├─xmlrpc.php
-          ├─wp-admin/
-          ├─wp-includes/
-          └─wp-content/
+DOCROOT/─┬─index.php
+         ├─wp-load.php
+         ├─wp-login.php
+         ├─xmlrpc.php
+         ├─wp-admin/
+         ├─wp-includes/
+         └─wp-content/
 ```
 
 
@@ -30,16 +30,16 @@ $DOCROOT/─┬─index.php
 
 ```
 wp-cli.yml
-$DOCROOT/─┬─index.php (modified)
-          ├─wp-config.php
-          ├─wp-login.php (trap)
-          ├─xmlrpc.php (trap)
-          ├─$CORE/─┬─index.php
-          │        ├─wp-load.php
-          │        ├─wp-login.php
-          │        ├─wp-admin/
-          │        └─wp-includes/
-          └─static/ (wp-content)
+DOCROOT/─┬─index.php (modified)
+         ├─wp-config.php
+         ├─wp-login.php (trap)
+         ├─xmlrpc.php (trap)
+         ├─CORE/─┬─index.php
+         │       ├─wp-load.php
+         │       ├─wp-login.php
+         │       ├─wp-admin/
+         │       └─wp-includes/
+         └─static/ (wp-content)
 ```
 
 
@@ -93,7 +93,7 @@ wp theme delete twentyfourteen
 
 ### Use child theme
 
-Premade themes can be updated using a child theme.
+Purchased themes can be updated using a child theme.
 
 ### Redis object cache
 
@@ -231,6 +231,10 @@ Resource optimization
 # CDN, Page Cache, Minify
 wp plugin install w3-total-cache --activate
 wp plugin install https://github.com/szepeviktor/fix-w3tc/releases/download/v0.9.4.2/w3-total-cache.0.9.4.2.zip --activate
+
+# minit
+https://github.com/kasparsd/minit/archive/master.zip
+
 
 # safe redirect manager
 wp plugin install safe-redirect-manager --activate

@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Reload PHP FPM and Apache dependently.
+# Reload PHP-FPM and Apache dependently.
 #
-# VERSION       :0.5.0
+# VERSION       :0.6.0
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,6 +11,7 @@
 # DEPENDS5      :apt-get install php5-fpm apache2
 # DEPENDS       :apt-get install php7.0-fpm apache2
 # LOCATION      :/usr/local/sbin/webrestart.sh
+# SYMLINK       :/usr/local/sbin/webreload.sh
 
 APACHE_USER="_web"
 
@@ -20,8 +21,11 @@ Error() {
 }
 
 # PHP-PFM config test
-#php5-fpm -t || Error "PHP5-FPM configuration test failed"
-php-fpm7.0 -t || Error "PHP7-FPM configuration test failed"
+if which php5-fpm > /dev/null; then
+    php5-fpm -t || Error "PHP5-FPM configuration test failed"
+else
+    php-fpm7.0 -t || Error "PHP7-FPM configuration test failed"
+fi
 echo "-----"
 
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
@@ -49,14 +53,25 @@ if [ -f /etc/apache2/mods-enabled/ssl.load ]; then
     done
 fi
 
+# Check robots.txt
+ROBOTS_URLS="$(apache2ctl -S | sed -n -e '/namevhost localhost/d' \
+    -e 's|^\s\+port 80 namevhost \(\S\+\) (.*)$|http://\1/robots.txt|p' \
+    -e 's|^\s\+port 443 namevhost \(\S\+\) (.*)$|https://\1/robots.txt|p')"
+while read -r ROBOTS_URL; do
+    wget -t 1 -q -O - "$ROBOTS_URL" | grep -qi "^User-agent:" \
+        || Error "robots.txt is not set up (${ROBOTS_URL})"
+done <<< "$ROBOTS_URLS"
+
 # Apache config test
 apache2ctl configtest || Error "Apache configuration test"
 echo "-----"
 
 # Reload!
-#service php5-fpm reload || Error 'PHP5-FPM reload failed, ACT NOW!'
-service php7.0-fpm reload || Error 'PHP7-FPM reload failed, ACT NOW!'
-
+if which php5-fpm > /dev/null; then
+    service php5-fpm reload || Error 'PHP5-FPM reload failed, ACT NOW!'
+else
+    service php7.0-fpm reload || Error 'PHP7-FPM reload failed, ACT NOW!'
+fi
 service apache2 reload || Error 'Apache reload failed, ACT NOW!'
 
-echo "Webserver reload OK."
+echo "OK."

@@ -2,7 +2,7 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.4.5
+# VERSION       :0.5.0
 # DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -102,17 +102,22 @@ else
 fi
 
 # Special folders
-if sudo -u virtual -- maildirmake -f Drafts "$NEW_MAILDIR"; then
+if sudo -u virtual -- maildirmake -f "Drafts" "$NEW_MAILDIR"; then
     echo "Drafts OK."
 else
     Error 20 "Cannot create Drafts folder"
 fi
-if sudo -u virtual -- maildirmake -f Sent "$NEW_MAILDIR"; then
+if sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
+    ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items"
+    #ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
     echo "Sent OK."
 else
     Error 21 "Cannot create Sent folder"
 fi
-if sudo -u virtual -- maildirmake -f Trash "$NEW_MAILDIR"; then
+if sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
+    ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items"
+    #ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
+    #ln -s ".Trash" "${NEW_MAILDIR}/.Junk E-mail"
     echo "Trash OK."
 else
     Error 22 "Cannot create Trash folder"

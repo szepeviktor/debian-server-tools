@@ -47,8 +47,19 @@
 # - Apache 2.4 latest with HTTP/2 and event MPM
 # - PHP 5.6 or 7.0 through PHP-FPM
 # - CLI tools (WP-CLI, Drush)
-# - Redis in-memory cache
+# - Redis in-memory cache (maxmemory 512mb, maxmemory-policy volatile-lru)
 # - MariaDB 10
+#
+# Tests
+#
+# - DNS test /monitoring/DNS.md
+# - Webpage test https://www.webpagetest.org/
+# - HTTP headers https://redbot.org/
+# - Security headers https://securityheaders.io/
+# - HTTPS https://www.ssllabs.com/ssltest/
+# - CRL and OCSP test https://certificate.revocationcheck.com/
+# - PHP configuration /webserver/php-env-check.php
+
 
 export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"

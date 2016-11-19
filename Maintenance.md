@@ -20,7 +20,7 @@
 - high grade website security, file change notification every 30 minutes
 - block vulnerability probes and attacks (firewall)
 - malware infection cleanup
-- domian expiry monitoring, new registration, modification
+- domain expiry monitoring, new registration, modification
 - DNS setup, hourly monitoring
 - SSL certificate setup with A+ [Qualys](https://www.ssllabs.com/ssltest/) grade and expiry monitoring
 - frontpage content monitoring and failure detection
@@ -50,7 +50,7 @@
 - * enabling [click heatmap](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png)
 - * supervision of new content weekly (typograhy and HTML usage)
 - * image optimization (smaller file size and nicer loading)
-- * update of embeddedd HTML content (e.g. Facebook like box)
+- * update of embedded HTML content (e.g. Facebook like box)
 
 Items marked with an asterisk ( * ) are available in the bigger plan and only on a VPS (with root access).
 

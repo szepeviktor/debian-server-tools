@@ -2,6 +2,12 @@
 
 @TODO https://github.com/CISOfy/lynis/
 
+### HTTP Content-Security-Policy
+
+- https://securityheaders.io/
+- https://report-uri.io/
+- https://report-uri.io/home/generate
+
 ### Malware analysis
 
 https://www.hybrid-analysis.com/ malware analysis (file upload) by [Payload Security](https://www.payload-security.com/)
@@ -73,6 +79,7 @@ https://securityheaders.io/
 ### SSL Breacher
 
 [SSL Breacher - Yet Another SSL Test Tool](http://bl0g.yehg.net/2014/07/ssl-breacher-yet-another-ssl-test-tool.html)
+
 
 ## Settings
 

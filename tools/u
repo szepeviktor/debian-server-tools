@@ -10,6 +10,6 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/u
 
-THIS_OWNER="$(stat . -c %U)"
+THIS_OWNER="$(stat -c %U .)"
 
 sudo -u "$THIS_OWNER" --  "$@"

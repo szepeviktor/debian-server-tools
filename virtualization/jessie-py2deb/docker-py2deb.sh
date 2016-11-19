@@ -2,7 +2,7 @@
 #
 # Build a Debian package from a Python package in Docker.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-03-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -34,11 +34,12 @@ fi
 python3 /usr/bin/py2dsc-deb --with-python2=true --with-python3=true --no-python2-scripts=true \
     --suite "$(lsb_release -s -c)" "${TARBALL:4}"
 
-if [ -d deb_dist ]; then
-    sudo cp -av deb_dist/*.deb /opt/results
-    lintian --color always --display-info --display-experimental --pedantic --show-overrides deb_dist/*.deb || true
-    echo "OK."
-else
+if ! [ -d deb_dist ]; then
     ls -la
     Error 11 "Missing/invalid package"
 fi
+
+sudo cp -av deb_dist/*.deb /opt/results
+lintian --color always --display-info --display-experimental --pedantic --show-overrides deb_dist/*.deb || true
+
+echo "OK."

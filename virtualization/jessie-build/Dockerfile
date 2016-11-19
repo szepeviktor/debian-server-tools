@@ -1,7 +1,7 @@
 #
 # szepeviktor/jessie-build
 #
-# VERSION       0.2.4
+# VERSION       0.2.5
 # BUILD         docker build -t szepeviktor/jessie-build jessie-build
 # RUN           docker run --rm -it -v /opt/results:/opt/results szepeviktor/jessie-build
 
@@ -11,10 +11,14 @@ ENV LC_ALL C
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN sed -i -e 's|deb\.debian\.org|debian-archive.trafficmanager.net|' /etc/apt/sources.list
-RUN apt-get update && apt-get install -y apt-utils && apt-get dist-upgrade -y --force-yes
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y apt-utils \
+    && apt-get install -y sudo dialog wget nano devscripts git
 
-RUN apt-get install -y sudo dialog wget nano devscripts git
-RUN apt-get clean
+RUN apt-get --purge -y autoremove \
+    && apt-get clean \
+    && find /var/lib/apt/lists -type f -delete
 
 RUN adduser --disabled-password --gecos "" debian
 RUN echo 'debian  ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
