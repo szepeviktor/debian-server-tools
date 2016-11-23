@@ -35,6 +35,8 @@ Error() {
     exit 10
 }
 
+declare CURRENT_DAY
+
 set -e
 
 logger -t "simple-backup" "Started. $*"
@@ -43,7 +45,7 @@ CURRENT_DAY="$(date --utc "+%w")"
 
 Echo "mount"
 ! grep -w "$BACKUP_DIR" /proc/mounts
-#sshfs -p $PORT "${SHFS_USER}@${SSHFS_HOST}:backup/${CURRENT_DAY}" "${BACKUP_DIR}" -o IdentityFile="/root/backup/id_ecdsa" -o idmap=user
+#sshfs -p $PORT "${SSHFS_USER}@${SSHFS_HOST}:backup/${CURRENT_DAY}" "${BACKUP_DIR}" -o IdentityFile="/root/backup/id_ecdsa" -o idmap=user
 cd "$BACKUP_DIR"
 
 Echo "fsroot"
@@ -91,6 +93,7 @@ nice tar --one-file-system -cPzf "${CURRENT_DAY}/${WP_SITE}-wp-files.tar.gz" "$D
     | nice gzip -1 > "${CURRENT_DAY}/${WP_SITE}-wp.sql.gz" || Error "WP db"
 
 cd /
+
 #Echo "umount"
 #umount "$BACKUP_DIR"
 

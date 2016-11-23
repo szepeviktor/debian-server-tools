@@ -3,7 +3,7 @@
 set -e -x
 
 # Do not use locales-all package
-if [ "$(dpkg-query --showformat="\${Status}" --show locales-all 2> /dev/null)" == "install ok installed" ]; then
+if Is_installed locales-all; then
     export LANG="C"
     export LC_ALL="C"
     apt-get purge -qq locales-all

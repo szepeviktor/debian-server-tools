@@ -31,7 +31,7 @@ if [ -f /proc/mdstat ]; then
     Titled_pager "MD Arrays" < /proc/mdstat
 fi
 Titled_pager "Disk Partitions" < /proc/partitions
-if [ "$(dpkg-query --showformat="\${Status}" --show lvm2 2> /dev/null)" == "install ok installed" ]; then
+if Is_installed lvm2; then
     { pvdisplay && vgdisplay && lvdisplay; } | Titled_pager "LVM Configuration"
 fi
 

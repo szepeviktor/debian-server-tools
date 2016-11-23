@@ -56,13 +56,12 @@
 #     #STORAGE_URL="s3://BUCKET/PREFIX_"
 #     STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER"
 #     TARGET="/media/server-backup.s3ql"
+#     #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
 #     AUTHFILE="/root/.s3ql/authinfo2"
 #     DB_EXCLUDE="excluded-db1|excluded-db2"
 #     HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
 CONFIG="/root/.config/system-backup/configuration"
-
-set -e
 
 Onexit() {
     local -i RET="$1"
@@ -294,8 +293,7 @@ Mount() {
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
     /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test $? == 128
 
-    # @FIXME OVH --threads 4
-    nice /usr/bin/mount.s3ql ${S3QL_OPT} --threads 4 \
+    nice /usr/bin/mount.s3ql ${S3QL_OPT} ${MOUNT_OPTIONS} \
         "$STORAGE_URL" "$TARGET" || Error 1 "Cannot mount storage"
 
     /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null || Error 2 "Cannot stat storage"
@@ -306,9 +304,12 @@ Umount() {
     /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 32 "Umount failed"
 }
 
+declare -i CURRENT_DAY
+
+set -e
+
 trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 
-declare -i CURRENT_DAY
 CURRENT_DAY="$(date --utc "+%w")"
 
 # On terminal?

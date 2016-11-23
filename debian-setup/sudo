@@ -2,7 +2,10 @@
 
 set -e -x
 
-# Restore original v1.8.10p3-1+deb8u3
+# Latest
+#     wget -qO- "https://anonscm.debian.org/cgit/collab-maint/sudo.git/plain/debian/sudoers"
+
+# Restore original from v1.8.10p3-1+deb8u3
 cat > /etc/sudoers <<"EOF"
 #
 # This file MUST be edited with the 'visudo' command as root.

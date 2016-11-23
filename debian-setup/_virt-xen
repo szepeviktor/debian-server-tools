@@ -28,7 +28,7 @@ xenstore-read "/local/domain/$(xenstore-read "domid")/unique-domain-id"
 xenstore-ls "/local/domain/$(xenstore-read "domid")"
 
 # Xen Serial Console
-if [ "$(dpkg-query --showformat="\${Status}" --show systemd 2> /dev/null)" == "install ok installed" ]; then
+if Is_installed systemd; then
     # Systemd
     systemctl enable serial-getty@ttyS0.service
     systemctl start serial-getty@ttyS0.service

@@ -7,3 +7,7 @@ apt-get install -y python3-dev python-dev
 wget -nv "https://bootstrap.pypa.io/get-pip.py"
 python3 get-pip.py
 python2 get-pip.py
+
+# Legacy list format
+#mkdir -p ~/.config/pip
+#echo -e "[list]\nformat=legacy" >> ~/.config/pip/pip.conf

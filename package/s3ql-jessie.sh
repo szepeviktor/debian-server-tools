@@ -15,6 +15,9 @@
 # Test in Docker
 #     cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
 #     docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
+# Install to the Python user install directory
+#     Replace `sudo pip3 install` with `pip3 install --user`
+#     And add set `export PATH="~/.local/bin:${PATH}"`
 
 RELEASE_FILE="s3ql-2.21.tar.bz2"
 
@@ -30,10 +33,10 @@ curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
 # Required packages
 # https://bitbucket.org/nikratio/s3ql/src/default/setup.py#setup.py-130
-sudo pip3 install pycrypto defusedxml requests "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0"
-# Must be the same version as libsqlite3
+sudo pip3 install pycrypto defusedxml requests "llfuse<2.0,>=1.0" "dugong<4.0,>=3.4"
+# Must be the same version as Debian package libsqlite3
 # dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed 's/-.*$/-r1/'
-# 3.8.7.1-r1 for Debian jessie
+# 3.8.7.1-r1 for jessie
 sudo pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.7.1-r1/apsw-3.8.7.1-r1.zip
 
 # Import key "Nikolaus Rath <Nikolaus@rath.org>"
