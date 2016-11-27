@@ -2,7 +2,7 @@
 #
 # Download and extract latest english-only phpMyAdmin.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2015-07-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,6 +11,7 @@
 # LOCATION      :/usr/local/bin/phpmyadmin-get.sh
 
 # Parse homepage
+#
 #HOMEPAGE_URL="https://www.phpmyadmin.net/downloads/"
 #wget -qO- "$HOMEPAGE_URL" \
 #    | grep -m1 -o 'href="https://files.phpmyadmin.net/phpMyAdmin/.*/phpMyAdmin-.*-english.tar.xz"' \
@@ -18,9 +19,11 @@
 #    | wget -nv -N --content-disposition -i-
 
 # Use DOAP file
+#
 #wget -qO- https://www.phpmyadmin.net/home_page/phpmyadmin-doap.xml \
 #    | sed '0,/xmlns=/{s//xmlns:doap=/}' phpmyadmin-doap.xml \
 #    | xmlstarlet sel -t -v '(/Project/release/Version/file-release[contains(@rdf:resource,"-english.tar.xz")]/@rdf:resource)[1]'
+#
 # Or by using `sed`
 #wget -qO- https://www.phpmyadmin.net/home_page/phpmyadmin-doap.xml \
 #    | sed -n '0,/^.*<file-release rdf:resource="\(\S\+-english\.tar\.xz\)" \/>.*$/{s//\1/p}'
@@ -32,7 +35,7 @@ LATEST_VERSION="$(wget -q -O- "$JSON_URL"|sed -n '0,/^.*"version":\s*"\([^"]\+\)
 if ! wget -nv -N --content-disposition \
     "https://files.phpmyadmin.net/phpMyAdmin/${LATEST_VERSION}/phpMyAdmin-${LATEST_VERSION}-english.tar.xz"; then
 
-    echo "Download error $?" >&2
+    echo "Download error $?" 1>&2
     exit 1
 fi
 
@@ -40,7 +43,7 @@ fi
 TARBALL="$(ls -t phpMyAdmin-*-english.tar.xz | tail -n 1)"
 
 if [ -z "$TARBALL" ]; then
-    echo "No tarball found." >&2
+    echo "No tarball found." 1>&2
     exit 2
 fi
 
@@ -49,6 +52,7 @@ tar --exclude=doc \
     --exclude=.scrutinizer.yml \
     --exclude=.coveralls.yml \
     --exclude=setup \
+    --exclude=test \
     --exclude=examples \
     --exclude=ChangeLog \
     --exclude=composer.json \

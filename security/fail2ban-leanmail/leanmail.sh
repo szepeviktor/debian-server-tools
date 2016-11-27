@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.1
+# VERSION       :0.4.2
 # DATE          :2016-10-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -112,6 +112,7 @@ declare -a AS_HOSTING=(
     AS46606 # Unified Layer
     AS45055 # NForce Entertainment B.V.
     AS26496 # GoDaddy.com, LLC
+    AS56322 # ServerAstra Kft.
 )
 
 # Labs

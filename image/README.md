@@ -17,7 +17,7 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 
 ### Lossy minification
 
-- https://github.com/danielgtaylor/jpeg-archive (mozjpeg)
+- https://github.com/danielgtaylor/jpeg-archive (mozjpeg) [online mozjpeg](https://imageoptim.com/mozjpeg)
 - https://github.com/rflynn/imgmin
 
 ### Lossless compression

@@ -222,7 +222,7 @@ webserver/add-prg-site-auto.sh
 service fail2ban restart
 
 # Backup
-apt-get install -t jessie-backports -y python3-requests
+apt-get install -t jessie-backports -y python3-requests python3-urllib3 python3-six
 apt-get install -y s3ql
 
 # CLI tools

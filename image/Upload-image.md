@@ -48,6 +48,7 @@ Save images as 100% JPEG ("10" in Photoshop) then optimize images.
 
 ##### Online optimization tools
 
+- [mozjpeg by ImageOptim API](https://imageoptim.com/mozjpeg) [mozjpeg](https://mozjpeg.codelove.de/)
 - [SHORTPIXEL](https://shortpixel.com/free-demo)
 - [JPEGmini](http://www.jpegmini.com/)
 - [Smush.it uploader](http://www.imgopt.com/)

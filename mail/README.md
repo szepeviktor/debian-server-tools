@@ -41,14 +41,14 @@ http://nincsmail.hu/ (inbox and sending)
 ## Problems
 
 
-### Outlook 2013 fixes
+### Outlook 2013 IMAP fixes
 
 - Root: "Inbox"
 - To recognize standard folder names [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
 after account setup
-- Fix folder subscription, see: ${D}/mail/courier-outlook-subscribe-bug.sh (Outlook 2007)
+- Fix folder subscription, see /mail/courier-outlook-subscribe-bug.sh (Outlook 2007)
 
-### MacOS Mail.app fixes
+### MacOS Mail.app IMAP fixes
 
 Advanced/IMAP Path Prefix: "INBOX"
 
@@ -56,9 +56,9 @@ Advanced/IMAP Path Prefix: "INBOX"
 
 https://github.com/Yeraze/ytnef
 
-See: ${D}/repo/debian/pool/main/y/ytnef/
+See /repo/debian/pool/main/y/ytnef/
 
-MIME type: application/ms-tnef
+MIME type: `application/ms-tnef`
 
 ### Set up Google Apps mailing
 
@@ -66,7 +66,7 @@ https://toolbox.googleapps.com/apps/checkmx/
 
 ### Online IMAP migration
 
-- see: mail/imapsync
+- See /mail/imapsync
 - [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
 - [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
@@ -125,13 +125,13 @@ endif
 
 ### Send all messages in an mbox file to an email address
 
-See: [mbox_send2.py](./mbox_send2.py)
+See [mbox_send2.py](./mbox_send2.py)
 
 ### Email forwarding (srs)
 
 Build Courier SRS
 
-See: `/package/couriersrs-jessie.sh`
+See /package/couriersrs-jessie.sh
 
 ### Courier catchall address
 
@@ -139,7 +139,11 @@ http://www.courier-mta.org/makehosteddomains.html
 
 http://www.courier-mta.org/dot-courier.html
 
-Add alias: `@target.tld:  foo`
+Add alias:
+
+```
+@target.tld:  foo
+```
 
 Delivery instructions:
 
@@ -163,9 +167,15 @@ http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
 
 See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
 
-`echo "" > /etc/courier/aliasdir/.courier-kitchensink`
+```bash
+echo > /etc/courier/aliasdir/.courier-kitchensink
+```
 
-Add alias: `ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost`
+Add alias:
+
+```
+ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost
+```
 
 
 ### Courier MTA message processing order on reception
@@ -201,7 +211,8 @@ D2 LOGOUT
 ```bash
 sudo -u daemon -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D < msg.eml
 
-# For specific tests see: man spamassassin-run
+# For specific tests issue
+#     man spamassassin-run
 sudo -u daemon -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D dkim < msg-signed.eml
 
 opendkim -vvv -t msg-signed.eml
@@ -272,14 +283,14 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 ### Bulk mail
 
-#### Body parts
+#### Headers and Body parts
 
 - :sunny: :sunny: :sunny: Descriptive From name "Firstname from Company"
 - :sunny: :sunny: Descriptive subject line
 - :sunny: Short preview line at top of the message
 - Link to online version (newsletter archive)
 - Short main header
-- :bulb: Sections: image + title + description + call2action, see: https://litmus.com/subscribe
+- :bulb: Sections: image + title + description + call2action, see https://litmus.com/subscribe
 - External resources should be able to load through HTTPS (opening in a HTTPS webmail)
 - :iphone: Mobile compatible
 
@@ -294,16 +305,16 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 - `List-Unsubscribe: URL` (invisible)
 - `Precedence: bulk` (invisible)
-- `Return-Path: bounce@addre.ss` (invisible)
-- `Reply-to: reply@addre.ss` (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
-- `From: sender@domain.net`
+- `Return-Path: bounce@example.com` (invisible)
+- `Reply-to: reply@example.com` (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
+- `From: sender@example.com`
 - `To: recipients@addre.ss`
 - bounce `X-Autoreply: yes`
 - bounce `Auto-Submitted: auto-replied`
 
 #### Others
 
-- SMTP `MAIL FORM: <user@domain.net>`
+- SMTP `MAIL FORM: <user@example.com>`
 - HTML and plain text payload
 - From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
@@ -316,7 +327,6 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
 - https://www.klaviyo.com/
 - https://litmus.com/subscribe
-- https://stamplia.com/
 
 ### Email tests
 
@@ -326,7 +336,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - checkmyauth@auth.returnpath.net
 - https://winning.email/checkup/DOMAIN
 
-#### HTML content
+#### HTML content and CSS inlining
 
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
@@ -335,7 +345,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 #### Blacklists
 
-- `BLACKLISTS="-block=bl.blocklist.de"`
+- Courier MTA `BLACKLISTS="-block=bl.blocklist.de"`
 - http://psky.me/
 - http://www.intra2net.com/en/support/antispam/index.php (Blacklist Monitor)
 - http://multirbl.valli.org/
@@ -388,16 +398,15 @@ OK response: "IP Unlisted in the spam sender list None"
 ### Feedback loops, postmaster tools, sender support
 
 - https://wordtothewise.com/isp-information/
-- [Smart Network Data Service (SNDS)](http://postmaster.live.com/snds/) + JMRP
+- Outlook.com [Smart Network Data Service (SNDS)](http://postmaster.live.com/snds/) + JMRP
 - [Sender Information for Outlook.com Delivery](http://go.microsoft.com/fwlink/?LinkID=614866)
-- https://www.dnswl.org/selfservice/
 - https://support.google.com/mail/contact/msgdelivery
 - https://postoffice.yandex.com/
 - http://yandexfbl.senderscore.net/
 - http://poczta.onet.pl/pomoc/en,odblokuj.html
 - [Report abuse from Gmail](https://support.google.com/mail/contact/abuse)
 - [Report abuse from Outlook.com](mailto:abuse@outlook.com)
-- [Abuse Contact DB](https://abusix.com/contactdb.html) `host -t TXT $(revip IP-ADDRESS).abuse-contacts.abusix.org`
+- [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip IP-ADDRESS).abuse-contacts.abusix.org`
 
 ### Free e-mail backup server
 
