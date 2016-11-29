@@ -53,9 +53,8 @@ Ezirányú tapasztalataim értékes visszacsatolást jelenthetnek a fejlesztő c
 (A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
 A figyelmem az üzembiztonságon és a sebességen van.
 
- Úgy szoktam mondani, hogy *pozitív jövőképe legyen a projektnek*,
- akkor lehet mérhető hasznomat venni.
-
+ Azt szoktam mondani, hogy azokhoz a dolgokhoz értek,
+ ami nem látszik a képernyőn, csak ha már baj van.
 
 Debian alapú webszervereket építek és üzemeltetek. Email kézbesítéssel is foglalkozok.  
 A jegyzeteim és a programjaim nyílt forrásúak: https://github.com/szepeviktor/

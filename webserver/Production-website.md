@@ -441,7 +441,8 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. Malware: [Sucuri SiteCheck (Safebrowsing)](https://sitecheck.sucuri.net/results/example.com), [Virustotal URL](https://www.virustotal.com/hu/domain/example.com/information/)
 1. Uptime: https://uptimerobot.com/signUp , `shared-hosting-aid/ping.php`, `ping.php?time=$(date "+%s")`
 1. @TODO Detect JavaScript errors
-  - Piwik
+  - https://bugsnag.com/
+  - Piwik, Google Analytics
   - http://jserrlog.appspot.com/
   - https://github.com/mperdeck/jsnlog.js
   - https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions

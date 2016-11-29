@@ -27,6 +27,7 @@ esac
 . /usr/share/initramfs-tools/hook-functions
 copy_exec /sbin/tune2fs /sbin
 EOF
+chmod +x /etc/initramfs-tools/hooks/tune2fs
 
 # Execute tune2fs before mounting root filesystem
 cat > /etc/initramfs-tools/scripts/init-premount/ext4 <<"EOF"
@@ -47,6 +48,7 @@ esac
 
 /sbin/tune2fs -O extents,uninit_bg,dir_index -f "$ROOT" || echo "tune2fs: $?"
 EOF
+chmod +x /etc/initramfs-tools/scripts/init-premount/ext4
 
 # Change specified filesystem
 sed -i -e 's|\sext3\s| ext4 |' /etc/fstab
