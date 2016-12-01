@@ -8,6 +8,7 @@ add ering.pl 155.133.38.0/24
 add ering.pl 155.133.64.0/24
 add ering.pl 155.133.82.0/24
 # E-RING-NET, Artur Grabowski (DELORIAN)
+# https://www.spamhaus.org/sbl/query/SBL274959
 add ering.pl 193.189.116.0/23
 # Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
 #   add ering.pl 185.125.4.0/23

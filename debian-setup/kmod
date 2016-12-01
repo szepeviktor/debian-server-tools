@@ -4,3 +4,23 @@ set -e -x
 
 # Blacklist intel_rapl module
 echo "blacklist intel_rapl" > /etc/modprobe.d/intel_rapl-blacklist.conf
+
+# Physical devices: parallel port, serial port, i2c, ps/2, sound, floppy
+# Idea from Oktawave.com
+cat > /etc/modprobe.d/physical-devices-blacklist.conf <<"EOF"
+blacklist floppy
+blacklist i2c_piix4
+blacklist lp
+blacklist serio_raw
+blacklist snd_pcm
+blacklist snd_timer
+blacklist snd_pcsp
+blacklist snd_page_alloc
+blacklist snd
+blacklist soundcore
+blacklist parport
+blacklist parport_pc
+blacklist pcspkr
+blacklist ppdev
+blacklist psmouse
+EOF

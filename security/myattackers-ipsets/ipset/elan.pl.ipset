@@ -3,5 +3,6 @@
 #: iptables -I myattackers-ipset -m set --match-set elan.pl src -j REJECT
 create elan.pl hash:net family inet hashsize 256 maxelem 32
 flush elan.pl
+# https://www.spamhaus.org/sbl/query/SBL176147
 add elan.pl 91.236.74.0/23
 # Also in -> dangerous.dnsbl.zone

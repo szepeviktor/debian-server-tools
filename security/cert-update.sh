@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.10.1
+# VERSION       :0.11.0
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -49,14 +49,14 @@ Check_requirements() {
         Die 6 "./install.sh monitoring/cert-expiry.sh"
     fi
 
-    # Check certs' moduli
+    # Check moduli of certificates
     PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl sha256)"
     PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl sha256)"
     if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
         Die 7 "Mismatching certs."
     fi
 
-    # Verify public cert is signed by the intermediate cert if intermediate is not null
+    # Verify public cert is signed by the intermediate cert if intermediate is present
     if [ -s "$INT" ] && ! openssl verify -purpose sslserver -CAfile "$INT" "$PUB" | grep -qFx "${PUB}: OK"; then
         Die 8 "Mismatching intermediate cert."
     fi
@@ -86,33 +86,41 @@ Courier_mta() {
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
-    # Check config files for SMTP STARTTLS, SMTPS, IMAPS and outgoing SMTP
-    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/courierd \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/courierd \
+    # Check config files for SMTP STARTTLS, SMTPS and outgoing SMTP
+    # By default don't check client certificate
+    #if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/courierd \
+    if grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/courierd \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
         && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd \
         && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd-ssl \
-        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/imapd-ssl; then
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd-ssl; then
 
         service courier-mta restart
         service courier-mta-ssl restart
-        service courier-imap-ssl restart
 
-        # Tests SMTP STARTTLS, SMTPS, IMAPS
+        # Tests SMTP STARTTLS, SMTPS
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
         Readkey
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:465"
         echo "SMTPS result=$?"
-        Readkey
+    else
+        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:465" 1>&2
+    fi
+
+    # Check config file for IMAPS
+    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl \
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/imapd-ssl; then
+
+        service courier-imap-ssl restart
+
+        # Tests IMAPS
         echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:993"
         echo "IMAPS result=$?"
     else
-        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl, imapd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:465" 1>&2
+        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config imapd-ssl" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:993" 1>&2
     fi
 

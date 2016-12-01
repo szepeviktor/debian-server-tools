@@ -89,6 +89,7 @@ debian-setup/_resolv_conf
 debian-setup/unscd
 
 debian-setup/kmod
+debian-setup/procps
 
 debian-setup/mount
 

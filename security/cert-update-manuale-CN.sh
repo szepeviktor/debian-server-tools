@@ -29,7 +29,7 @@ set -e
 
 # Check account file
 [ -f account.json ]
-manuale info
+manuale info; echo
 
 # Enter domain names
 read -r -p "CN=" CN

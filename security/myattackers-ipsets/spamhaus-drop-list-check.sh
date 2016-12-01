@@ -1,6 +1,8 @@
 #!/bin/bash
 
 Spamhaus_drop_check() {
+    local CIDR_LIST="$1"
+
     # List ipsets
     #   Determine first and last IP addresses
     #   Find in CIDR list
@@ -10,8 +12,7 @@ Spamhaus_drop_check() {
 }
 
 # https://www.spamhaus.org/drop/
-CIDR_LIST="drop.txt"
-Spamhaus_drop_check
-
-CIDR_LIST="edrop.txt"
-Spamhaus_drop_check
+wget -nv -N https://www.spamhaus.org/drop/drop.txt
+wget -nv -N https://www.spamhaus.org/drop/edrop.txt
+Spamhaus_drop_check "drop.txt"
+Spamhaus_drop_check "edrop.txt"
