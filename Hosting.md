@@ -14,10 +14,12 @@
 - [mobilx Cloud Tárhely](http://mobilxcloud.hu/ugyfelkapu/?affid=204) real cloud
 - http://www.profitarhely.hu/webtarhely fast CPU
 - https://www.mhosting.hu/tarhely/evo-ssd-tarhely PHP OPcache, SSH
-- https://online.spaceweb.hu/order/main/packages/ssd-premium/?group_id=12 Litespeed, SSD
+- https://spaceweb.hu/ssd-felho-webtarhely Litespeed, SSD
 
 ## VPS, cloud VPS
 
+- [UpCloud](https://www.upcloud.com/) fastest VPS
+- [Contabo](https://contabo.com/?show=vps) large memory
 - [Vultr](http://www.vultr.com/?ref=6815796) CPU, storage VPS
 - [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
 - [Linode](https://www.linode.com/?r=66de78b7ac99f79ec3a8e89a60c6c825dd107df1)
@@ -40,7 +42,7 @@
 
 ## Shared hosting
 
-**Hawk Host**
+**[Hawk Host](https://www.hawkhost.com/shared-web-hosting)**
 
 - LiteSpeed webserver with HTTP/2
 - Free SSL certificate
@@ -65,4 +67,4 @@
 
 ## Dedicated server
 
-https://www.worldstream.nl/more_info.php?id=14 €39
+https://www.worldstream.nl/more_info.php?id=14 €30

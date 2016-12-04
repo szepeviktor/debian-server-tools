@@ -256,7 +256,7 @@ https://ssl-tools.net/
 - dktest@exhalus.net
 - dkim-test@altn.com
 - dktest@blackops.org
-- http://www.brandonchecketts.com/emailtest.php
+- http://dkimvalidator.com/
 - http://www.appmaildev.com/en/dkim/
 - http://9vx.org/~dho/dkim_validate.php
 - https://protodave.com/tools/dkim-key-checker/ (DNS only)

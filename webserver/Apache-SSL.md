@@ -70,6 +70,8 @@ https://weakdh.org/sysadmin.html
 ### Tests
 
 - SSL: https://www.ssllabs.com/ssltest/
+- SSL: https://sslanalyzer.comodoca.com/
+- SSL: [Certificate Search](https://crt.sh/)
 - OCSP and CRL: https://certificate.revocationcheck.com/
 - SNI: https://sni.velox.ch/
 - HSTS: https://hstspreload.appspot.com/

@@ -160,6 +160,7 @@ editor zdkimfilter.conf
 #     default_domain = $DOMAIN
 #     add_auth_pass = Y
 #     tempfail_on_error = Y
+#     # Debug header z=
 #     #add_ztags = Y
 #     db_backend = sqlite3
 #     db_host = /etc/courier/filters/

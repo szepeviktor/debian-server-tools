@@ -2,8 +2,8 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.4.1
-# DATE          :2016-06-19
+# VERSION       :2.5.1
+# DATE          :2016-12-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -16,7 +16,8 @@
 #
 #     editor /etc/cron.hourly/ocsp-check-SITE.sh
 #         #!/bin/bash
-#         set -e;while ! /usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;do sleep 30;done;exit 0
+#         exec 200<$0;flock --nonblock 200 || exit 0
+#         while ! /usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;do sleep 30;done;exit 0
 #     chmod +x /etc/cron.hourly/ocsp-check-*.sh
 
 HOST="$1"
@@ -30,7 +31,7 @@ Onexit() {
     set +e
 
     # Cleanup
-    rm -f "$CERTIFICATE" "$CA_ISSUER_CERT" &> /dev/null
+    rm -f "$CERTIFICATE" "$CA_ISSUER_CERT" "$CA_ISSUER_CERT_PEM" &> /dev/null
 
     if [ "$RET" -ne 0 ]; then
         echo "COMMAND WITH ERROR: ${BASH_CMD}" 1>&2
@@ -45,6 +46,7 @@ test -n "$HOST"
 
 CERTIFICATE="$(mktemp -t "${0##*/}.XXXXXXXX")"
 CA_ISSUER_CERT="$(mktemp -t "${0##*/}.XXXXXXXX")"
+CA_ISSUER_CERT_PEM="$(mktemp -t "${0##*/}.XXXXXXXX")"
 
 # Get certificate
 openssl s_client -connect "${HOST}:443" -servername "$HOST" < /dev/null > "$CERTIFICATE" 2> /dev/null
@@ -64,22 +66,30 @@ test -n "$CA_ISSUER_CERT_URI"
 
 # Download issuer certificate
 wget -q -t 1 -O "$CA_ISSUER_CERT" "$CA_ISSUER_CERT_URI"
+# Convert DER to PEM
 if openssl x509 -inform DER -in "$CA_ISSUER_CERT" -noout 2> /dev/null; then
-    # FIXME Input and output files are the same
-    openssl x509 -inform DER -in "$CA_ISSUER_CERT" -outform PEM -out "$CA_ISSUER_CERT"
+    openssl x509 -inform DER -in "$CA_ISSUER_CERT" -outform PEM -out "$CA_ISSUER_CERT_PEM"
+    cp -f "$CA_ISSUER_CERT_PEM" "$CA_ISSUER_CERT"
 fi
 # Certificate validity
 openssl x509 -inform PEM -in "$CA_ISSUER_CERT" -noout
-# Verify certificate is signed by issuer
+# Verify whether certificate is signed by issuer
 openssl verify -purpose "sslserver" -CAfile "$CA_ISSUER_CERT" "$CERTIFICATE" \
     | grep -qFx "${CERTIFICATE}: OK"
 
 # Get OCSP response
 # https://community.letsencrypt.org/t/unable-to-verify-ocsp-response/7264/5
+# Syntax changed in 1.1.0: from `-header Host $host` to `-header Host=$host`
+if openssl version | grep -qFi "openssl 1.0."; then
+    HOST_SEPARATOR=" "
+else
+    HOST_SEPARATOR="="
+fi
+# shellcheck disable=SC2086
 OCSP_RESPONSE="$(openssl ocsp -no_nonce -timeout 10 \
     -CAfile "$CA_ISSUER_CERT" -issuer "$CA_ISSUER_CERT" -verify_other "$CA_ISSUER_CERT" \
     -cert "$CERTIFICATE" \
-    -header "Host" "$OCSP_HOST" -url "$OCSP_URI" 2>&1)"
+    -header Host${HOST_SEPARATOR}${OCSP_HOST} -url "$OCSP_URI" 2>&1)"
 if ! grep -qFx "Response verify OK" <<< "$OCSP_RESPONSE"; then
     echo "Invalid OCSP response" 1>&2
     exit 101
@@ -91,7 +101,7 @@ fi
 
 THIS_UPDATE="$(sed -n -e '0,/^\s*This Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
 NEXT_UPDATE="$(sed -n -e '0,/^\s*Next Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
-# Missing update dates
+# Check update dates
 test -n "$THIS_UPDATE"
 test -n "$NEXT_UPDATE"
 

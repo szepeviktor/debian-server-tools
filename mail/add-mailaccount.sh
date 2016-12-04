@@ -109,6 +109,7 @@ else
 fi
 if sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
     ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items"
+    ln -s ".Sent" "${NEW_MAILDIR}/.Sent Messages"
     #ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
     echo "Sent OK."
 else
@@ -116,6 +117,7 @@ else
 fi
 if sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
     ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items"
+    ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
     #ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
     #ln -s ".Trash" "${NEW_MAILDIR}/.Junk E-mail"
     echo "Trash OK."
