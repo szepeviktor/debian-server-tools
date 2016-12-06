@@ -1,5 +1,5 @@
 # Shodan.io, type: all protocols
-#     for S in "" census{1..9}. census1{0..2}. {atlantic,pacific,rim}.census. atlantic.dns. blog. hello.data. www.; do
+#     for S in "" census{1..9}. census1{0..2}. {atlantic,pacific,rim,ninja}.census. atlantic.dns. blog. hello.data. www.; do
 #         host -t A "${S}shodan.io"
 #     done | sed -e 's;^.* \(has address\|has IPv4 address\) ;;' | sortip | uniq
 #: ipset -exist restore < ipset/shodan-io.ipset
@@ -9,6 +9,7 @@ flush shodan-io
 add shodan-io 66.240.192.138
 add shodan-io 66.240.236.119
 add shodan-io 71.6.135.131
+add shodan-io 71.6.158.166
 add shodan-io 71.6.165.200
 add shodan-io 71.6.167.142
 add shodan-io 82.221.105.6

@@ -93,16 +93,19 @@ editor /etc/courier/aliases/system
 
 # Listen on 587 and 465 and allow only authenticated clients even without PTR record
 editor /etc/courier/esmtpd
+#     NOADDRREWRITE=2
 #     ADDRESS=127.0.0.1
 #     BLACKLISTS="-block=bl.blocklist.de"
 #     TCPDOPTS+="-noidentlookup -nodnslookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS="PLAIN LOGIN"
 editor /etc/courier/esmtpd-msa
+#     NOADDRREWRITE=2
 #     AUTH_REQUIRED=1
 #     ADDRESS=0
 #     ESMTPDSTART=YES
 editor /etc/courier/esmtpd-ssl
+#     NOADDRREWRITE=2
 #     BLACKLISTS="-block=bl.blocklist.de"
 #     AUTH_REQUIRED=1
 #     SSLADDRESS=0
@@ -149,7 +152,8 @@ chmod 0600 /etc/courier/esmtpd.pem
 # DKIM signature (zdkimfilter)
 #     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
 read -r -p "DKIM domain? " DOMAIN
-apt-get install -y opendkim-tools zdkimfilter libidn2-0 libunistring0 libnettle4 libopendbx1
+# Depends on backported libopendkim11
+apt-get install -y opendkim-tools zdkimfilter
 cd /etc/courier/filters/
 install -o daemon -g root -m 700 -d privs
 mkdir keys
@@ -176,7 +180,7 @@ cd ../keys/
 ln -vs "../privs/dkim${DKIM_SELECTOR}.private" "${DOMAIN}"
 cd ../
 # Add new key to DNS
-cat "/etc/courier/filters/privs/dkim${DKIM_SELECTOR}.txt"
+cat "/etc/courier/filters/privs/${DKIM_SELECTOR}.txt"
 host -t TXT "${DKIM_SELECTOR}._domainkey.${DOMAIN}"
 # Enable zdkimfilter
 filterctl start zdkimfilter; ls -l /etc/courier/filters/active
