@@ -56,7 +56,7 @@ A figyelmem az üzembiztonságon és a sebességen van.
  Azt szoktam mondani, hogy azokhoz a dolgokhoz értek,
  ami nem látszik a képernyőn, csak ha már baj van.
 
-Debian alapú webszervereket építek és üzemeltetek. Email kézbesítéssel is foglalkozok.  
+Debian alapú [webszervereket építek](http://xn--felhtrhely-w4a65k.hu/) és üzemeltetek. Email kézbesítéssel is foglalkozok.  
 A jegyzeteim és a programjaim nyílt forrásúak: https://github.com/szepeviktor/
 
 Emellett WordPress - jobb szó híján - szakértő is vagyok.

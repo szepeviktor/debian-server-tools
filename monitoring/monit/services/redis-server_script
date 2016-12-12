@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Get memcached version.
+# Ping Redis cache.
 #
 # VERSION       :0.1.0
 # DEPENDS       :apt-get install netcat-openbsd

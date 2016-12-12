@@ -1,0 +1,46 @@
+---
+# Website datasheet
+
+domain: example.com
+domain-alias:
+  - www.example.com
+  - example2.com
+#login-disabled: yes
+contact:
+  name: Gipsz Jakab
+  email: contact@example.com
+  company: ACME Ltd.
+domain-registrar: Domain Reg. Co.
+ssl:
+  enabled: yes
+  login: webmaster@example.com
+cms:
+  core: WordPress
+  plugin:
+    - paid-plugins
+    - purchased-plugin
+3rd-party:
+  high:
+    - Certificate Authority
+    - CDN
+    - Payment gateway
+    - Transactional email provider
+    - External resources (fonts, video, map)
+    - 3rd-party widget
+  low:
+    - External search
+    - Newsletter subscription
+    - Live chat
+    - Advertisement campaign
+    - Social campaign
+    - Tracking codes, Tag Manager
+    - Call Tracking
+    - Embedded social media content
+    - Mouse tracking
+remarks: |
+  1st line
+  2nd line
+
+# YAML editor: http://yaml-online-parser.appspot.com/
+#     php -r 'var_export(yaml_parse(file_get_contents("hosting.yml")));'
+...

@@ -1,7 +1,7 @@
 debian-server-tools
 ===================
 
-Various scripts and tools for mainly Debian servers.
+Various scripts and tools mainly for Debian servers.
 
 Check shell scripts: http://www.shellcheck.net/
 
@@ -59,21 +59,7 @@ Tools related to building webservers.
 
 ### How to choose VPS provider?
 
-1. Data center location
-1. Price
-1. Has own AS? Number of peers
-1. Redundancy (power, network, storage, hypervisor)
-1. Stores plain text passwords?
-1. Free scheduled backup
-1. Response time of nighttime technical support in case of network or hardware failure
-1. Disk access time (~1 ms)
-1. CPU speed (PassMark CPU Mark 2000+, sysbench < 20 ms, WordPress Speedtest 100-150 ms)
-1. Memory speed (bandwidth64)
-1. Network: worldwide and regional bandwidth, port speed, D/DoS mitigation, IPv6
-1. Spammer neighbors http://www.projecthoneypot.org/ http://www.senderbase.org/lookup/
-1. Daytime technical and billing support
-
-See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#results
+See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
 
 ### Install your own SSH key
 

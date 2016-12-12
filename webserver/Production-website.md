@@ -29,7 +29,8 @@
 - For receiving referrer information (up to April 2012)
 - Very cheap
 
-Providers: Let's Encrypt, StartSSL, RapidSSL, CloudFlare SSL, [SSL Certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
+Providers: Let's Encrypt, StartSSL, RapidSSL, CloudFlare SSL,
+[SSL Certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
 
 OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
@@ -136,6 +137,15 @@ Use real cron job.
 - Personal accounts for editors and authors
 - Modify post and page authors
 - Enable/disable author sitemaps
+
+### RSS feed
+
+@TODO
+
+- Number of posts
+- Full content
+- Images
+- Comment feeds
 
 ### Signature as HTML comment
 
@@ -387,12 +397,12 @@ Send to Analytics, report to `/js-error.php`
 
 ### Integration (3rd party services)
 
-Document in `3rd-party-README.md` and check functionality.
+Document in `hosting.md` and check functionality.
 
 - Certificate Authority (OCSP servers for obtaining SSL certificate revocation status)
 - External search
 - External resources (fonts)
-- Social media
+- Social media ([Twitter card](https://cards-dev.twitter.com/validator))
 - Video
 - Maps
 - Widgets
