@@ -397,7 +397,7 @@ Send to Analytics, report to `/js-error.php`
 
 ### Integration (3rd party services)
 
-Document in `hosting.md` and check functionality.
+Document in `hosting.yml` and check functionality.
 
 - Certificate Authority (OCSP servers for obtaining SSL certificate revocation status)
 - External search

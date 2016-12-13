@@ -1,0 +1,93 @@
+#!/bin/bash
+#
+# Show Debian changelog and other package documents.
+#
+# VERSION       :0.1.0
+# DATE          :2016-12-13
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install package
+# REFS          :url
+# DOCS          :url
+# SOURCE        :url
+# UPSTREAM      :url
+# LOCATION      :/usr/local/sbin/script.sh
+# OWNER         :root:root
+# PERMISSION    :0755
+# SYMLINK       :/usr/local/sbin/alias.sh
+# CRON-HOURLY   :/usr/local/sbin/script.sh
+# CRON-DAILY    :/usr/local/sbin/script.sh
+# CRON-WEEKLY   :/usr/local/sbin/script.sh
+# CRON-MONTHLY  :/usr/local/sbin/script.sh | mailx -E -s "subject" root
+# CRON.D        :2 2	* * *	root	/usr/local/sbin/script.sh
+# CONFIG        :~/.config/script/configuration
+
+set -e
+
+declare OPT
+declare SUFFIX
+declare PKG
+declare FILENAME="changelog"
+declare DEBIAN=".Debian"
+
+while getopts :urnh OPT; do
+    case "$OPT" in
+        u)
+            DEBIAN=""
+            ;;
+        r)
+            FILENAME="README"
+            ;;
+        n)
+            FILENAME="NEWS"
+            ;;
+        # You may add other files here like TODO or copyright
+        h)
+            cat <<"EOF"
+Usage: doc [OPTION]... [PACKAGE]
+Display package documentation for a Debian package.
+
+doc package       Show Debian changelog
+doc -u package    Show upstream changelog
+doc -r package    Show Debian readme
+doc -ur package   Show upstream readme
+doc -n package    Show Debian news
+doc -un package   Show upstream news
+doc -h            Display this help and exit
+EOF
+            exit 0
+            ;;
+        ?)
+            echo "Invalid option (${OPT})" 1>&2
+            exit 2
+            ;;
+    esac
+done
+
+shift "$((OPTIND - 1))"
+
+# Incorrect number of arguments
+test $# -eq 1
+
+# Last option must be the package name
+PKG="$1"
+
+# Incorrect package name
+test -n "$PKG"
+
+# Check documentation exists for the package
+test -d "/usr/share/doc/${PKG}"
+
+# changelog.gz or changelog or changelog.md.gz or changelog.md
+for SUFFIX in .gz "" .md.gz .md; do
+    if [ -f "/usr/share/doc/${PKG}/${FILENAME}${DEBIAN}${SUFFIX}" ]; then
+        # File is found, show its content in the default pager
+        pager "/usr/share/doc/${PKG}/${FILENAME}${DEBIAN}${SUFFIX}"
+        exit 0
+    fi
+done
+
+echo "File not found /usr/share/doc/${PKG}/${FILENAME}${DEBIAN}[.md][.gz]" 1>&2
+exit 3

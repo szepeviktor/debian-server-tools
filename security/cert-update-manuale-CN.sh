@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -44,6 +44,10 @@ PUB="${CN}.crt"
 
 # Intermediate certificate file name
 INT="${CN}.intermediate.crt"
+
+# Authorize or check authorization
+# shellcheck disable=SC2086
+manuale authorize "$CN" ${DOMAIN_NAMES}
 
 # Issue certificate
 # @TODO Is it secure to keep old private key?
