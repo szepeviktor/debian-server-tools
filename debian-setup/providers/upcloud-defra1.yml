@@ -32,3 +32,4 @@ networking:
 provider-package:
     # Soft restart needs
     - acpid
+auto-check-system: true

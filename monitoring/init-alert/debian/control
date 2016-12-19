@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 9)
 
 Package: init-alert
 Architecture: all
-Depends: ${misc:Depends}, bsd-mailx | mailx, psmisc, courier-mta
+Depends: ${misc:Depends}, lsb-base (>= 3.0-6), bsd-mailx | mailx, psmisc, courier-mta
 Description: Send alert mail on boot and on shutdown,
  on boot send pstree to know what services are started,
  on halt send a list of who is logged on

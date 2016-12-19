@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Test auruba-seclient serial port.
+#
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/sbin/aruba-serclient-test.sh
+
+set -e
+
+/usr/bin/lsof -p "$(cat /run/serclient.pid)" | grep -w "/dev/ttyS1"

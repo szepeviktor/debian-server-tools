@@ -9,6 +9,7 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install debconf-utils s3ql rsync mariadb-client-10.0 percona-xtrabackup
+# DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # OWNER         :root:root
 # PERMISSION    :700

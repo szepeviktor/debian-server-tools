@@ -3,11 +3,9 @@ debian-server-tools
 
 Various scripts and tools mainly for Debian servers.
 
-Check shell scripts: http://www.shellcheck.net/
+### Model of how systems work
 
-Code styling: https://google.github.io/styleguide/shell.xml
-
-Bashism: https://wiki.ubuntu.com/DashAsBinSh `checkbashisms -f bash-script.sh`
+[Richard Cook at Velocity NY 2013](https://youtu.be/PGLYEDpNu60?t=5m44s)
 
 ### Debian install with UTC as timezone
 
@@ -56,6 +54,12 @@ Docker containers.
 ### /webserver
 
 Tools related to building webservers.
+
+### Script development
+
+- Check shell scripts: http://www.shellcheck.net/
+- Code styling: https://google.github.io/styleguide/shell.xml
+- Bashism: https://wiki.ubuntu.com/DashAsBinSh `checkbashisms -f bash-script.sh`
 
 ### How to choose VPS provider?
 

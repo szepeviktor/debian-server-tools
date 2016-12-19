@@ -1,3 +1,32 @@
+### Incident (abuse) reporting
+
+https://www.csirt.cz/reportingrules/ and https://aws.amazon.com/forms/report-abuse
+
+> Subject should contain the **IP address** and **case type**
+> - Sending email spam
+> - Spamming online forums or other websites
+> - Hosting a site advertised in spam
+> - Excessive web crawling
+> - Intrusion attempts (ssh, FTP, etc)
+> - Exploit attacks (SQL injections, remote file inclusions, etc)
+> - Hosting unlicensed copyright-protected material
+> - Phishing website
+> - Pharming website
+> - Website hosting viruses/malware
+> - Credit card fraud
+> - Open proxy
+> - Port scanning
+> - IRC botnet activity
+> - Denial of Serice attack (DoS/DDoS)
+> - Alleged misuse of copyrighted work
+
+Details
+
+- URL
+- Source and destination IP addresses
+- Source and destination ports
+- Time zone
+
 ### Security audit
 
 @TODO https://github.com/CISOfy/lynis/

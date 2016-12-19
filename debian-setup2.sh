@@ -149,7 +149,7 @@ fi
 
 # For Aruba Cloud
 if [ -n "$(Data get-value software.serclient "")" ]; then
-    debian-setup/serclient
+    debian-setup/aruba-serclient
 fi
 
 debian-setup/cron

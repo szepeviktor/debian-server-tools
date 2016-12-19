@@ -1,4 +1,7 @@
-set daemon 120
+#set daemon 120
+# Work-around cron "03,04 *  * * *"
+# May run TWICE in two minutes!
+set daemon 115
   start delay 10
 
 # Alert emails

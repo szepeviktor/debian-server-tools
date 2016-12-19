@@ -7,7 +7,11 @@ networking:
         - 81.2.193.227
 software:
     rclocal: Arp Cache Broadcast Request in /etc/rc.local
-    serclient: Aruba ExtraControl
+    serclient: Aruba ExtraControl, Request an activation & Restart & Paste the token
+    routers: Cloud instances have two routers, use second hop in monit/01-system/network_hop
 provider-package:
-    # used in /etc/rc.local
+    # Used in /etc/rc.local
     - arping
+    # Available from szepeviktor
+    - aruba-serclient
+auto-check-system: true
