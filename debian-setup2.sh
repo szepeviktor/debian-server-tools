@@ -147,9 +147,8 @@ if [ "$VIRT" == "vmware" ]; then
     debian-setup/_virt-vmware
 fi
 
-# For Aruba Cloud
-if [ -n "$(Data get-value software.serclient "")" ]; then
-    debian-setup/aruba-serclient
+if [ -n "$(Data get-value software.aruba-arping "")" ]; then
+    Dinstall monitoring/aruba-arping.sh
 fi
 
 debian-setup/cron
@@ -260,6 +259,10 @@ echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/
 # etckeeper at last
 apt-get install -y etckeeper
 debian-setup/etckeeper
+
+# Manual inspection of old configuration files
+echo "### Old configs ###"
+find /etc -type f -iname "*old"
 
 # Clear Bash history
 history -c

@@ -69,6 +69,7 @@ See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how
 
 ```bash
 S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2"
+ssh-keygen -v -l -f "${S}/authorized_keys2"
 ```
 
 Parameters
@@ -80,7 +81,8 @@ no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please l
 ### Install a user's SSH key
 
 ```bash
-U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2";chown -R $U:$U "$S"
+u bash -c 'S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2"'
+U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";editor "${S}/authorized_keys2";chown -R $U:$U "$S"
 ```
 
 ### Fast and safe transit of scripts (or any data) via copy&paste

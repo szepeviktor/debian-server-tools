@@ -55,7 +55,7 @@ for V in EMAIL PASS DESC HOMEDIR; do
             ;;
     esac
 
-    read -e -p "${V}? " -i "$DEFAULT" "$V"
+    read -r -e -p "${V}? " -i "$DEFAULT" "$V"
 done
 
 # Check `virtual` user (1999:1999)
@@ -102,28 +102,34 @@ else
 fi
 
 # Special folders
-if sudo -u virtual -- maildirmake -f "Drafts" "$NEW_MAILDIR"; then
-    echo "Drafts OK."
-else
+if ! sudo -u virtual -- maildirmake -f "Drafts" "$NEW_MAILDIR"; then
     Error 20 "Cannot create Drafts folder"
 fi
-if sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
-    ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items"
-    ln -s ".Sent" "${NEW_MAILDIR}/.Sent Messages"
-    #ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
-    echo "Sent OK."
-else
-    Error 21 "Cannot create Sent folder"
+echo "Drafts OK."
+
+if ! sudo -u virtual -- maildirmake -f "Spam" "$NEW_MAILDIR"; then
+    Error 21 "Cannot create Spam folder"
 fi
-if sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
-    ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items"
-    ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
-    #ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
-    #ln -s ".Trash" "${NEW_MAILDIR}/.Junk E-mail"
-    echo "Trash OK."
-else
-    Error 22 "Cannot create Trash folder"
+ln -s ".Spam" "${NEW_MAILDIR}/.Junk"
+ln -s ".Spam" "${NEW_MAILDIR}/.Junk E-mail"
+#ln -s ".Spam" "${NEW_MAILDIR}/.Lev&AOk-lszem&AOk-t"
+echo "Spam OK."
+
+if ! sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
+    Error 22 "Cannot create Sent folder"
 fi
+ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items"
+ln -s ".Sent" "${NEW_MAILDIR}/.Sent Messages"
+#ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
+echo "Sent OK."
+
+if ! sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
+    Error 23 "Cannot create Trash folder"
+fi
+ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items"
+ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
+#ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
+echo "Trash OK."
 
 # Removal instruction
 echo "Remove home command:  rm -rf '${HOMEDIR}'"
@@ -131,7 +137,7 @@ echo "Remove home command:  rm -rf '${HOMEDIR}'"
 # MySQL authentication
 if which mysql &> /dev/null \
     && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
-    mysql "$COURIER_AUTH_DBNAME" <<EOF || Error 23 "Failed to insert into database"
+    mysql "$COURIER_AUTH_DBNAME" <<EOF || Error 24 "Failed to insert into database"
 -- USE ${COURIER_AUTH_DBNAME};
 REPLACE INTO \`${COURIER_AUTH_DBTABLE}\` (\`id\`, \`crypt\`, \`clear\`, \`name\`,
     \`uid\`, \`gid\`, \`home\`, \`maildir\`, \`defaultdelivery\`, \`quota\`,

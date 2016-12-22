@@ -68,6 +68,7 @@ Dinstall mail/courier-restart.sh
 editor /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #     : in-v3.mailjet.com,587 /SECURITY=REQUIRED
+#     : email-smtp.us-east-1.amazonaws.com,587 /SECURITY=REQUIRED
 #     : SMART-HOST,587 /SECURITY=REQUIRED
 # From jessie on
 #     : SMART-HOST,465 /SECURITY=SMTPS

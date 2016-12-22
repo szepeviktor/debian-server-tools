@@ -13,5 +13,5 @@ if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]; then
     exit 1
 fi
 
-php composer-setup.php --quiet
+php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
 rm -f composer-setup.php

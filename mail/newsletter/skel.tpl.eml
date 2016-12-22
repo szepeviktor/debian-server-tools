@@ -1,0 +1,26 @@
+Subject: $SUBJECT
+From: user@exmaple.com
+Reply-To: user@exmaple.com
+To: @@EMAIL@@
+X-Mailer: newsletter.sh
+X-Report-Abuse: Please report abuse here:
+	mailto:abuse@example.com
+List-ID: $(date -R | md5sum | cut -d" " -f1)
+List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_campaign_id>
+X-Precedence: bulk
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="_----------=_NLSH_112963458"
+
+This is a multi-part message in MIME format
+
+--_----------=_NLSH_112963458
+Content-Type: text/plain; charset="utf-8"; format="fixed"
+Content-Transfer-Encoding: quoted-printable
+
+@@PART1@@
+--_----------=_NLSH_112963458
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+@@PART2@@
+--_----------=_NLSH_112963458--

@@ -40,7 +40,7 @@ yes | cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available
 a2enconf h5bp http2
 
 # Security through obscurity
-sed -i -e 's|^ServerTokens OS|ServerTokens Prod|' /etc/apache2/conf-enabled/security.conf
+sed -i -e 's|^ServerTokens OS|ServerTokens Prod|' /etc/apache2/conf-available/security.conf
 # Log 404-s also
 sed -i -e 's|^LogLevel warn|LogLevel info|' /etc/apache2/apache2.conf
 

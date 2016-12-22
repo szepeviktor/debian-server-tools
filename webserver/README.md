@@ -1,7 +1,8 @@
 ### Instant webserver
 
 ```bash
-python -m SimpleHTTPServer 80
+python3 -m http.server 80
+python2 -m SimpleHTTPServer 80
 ```
 
 ### A web server written in Bash

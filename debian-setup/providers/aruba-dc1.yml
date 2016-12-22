@@ -6,12 +6,28 @@ networking:
         - 62.149.128.4
         - 62.149.132.4
 software:
-    rclocal: Arp Cache Broadcast Request in /etc/rc.local
-    serclient: Aruba ExtraControl, Request an activation & Restart & Paste the token
-    routers: Cloud instances have two routers, use second hop in monit/01-system/network_hop
+    aruba-arping: Fix duplicate IP problem
+    serclient: Aruba ExtraControl, Request an activation & Restart & Enter the token
+    monit: Cloud instances have two routers, use second hop in monit/01-system/network_hop
 provider-package:
-    # Used in /etc/rc.local
+    # Used in aruba-arping
     - arping
+    # Aruba ExtraControl (serclient)
     # Available from szepeviktor
+    #     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx
+    #     https://github.com/pmcloud/ExtraControl
+    #
+    # Activation
+    # - Request ExtraControl activation
+    #     https://admin.dc3.arubacloud.hu/Manage/Serial/SerialActivation.aspx
+    # - "Switch off" the server
+    # - "Switch on" the server
+    # - Enter token
+    #
+    # Contains
+    # - Set log level
+    # - Comment out custom logrotate
+    # - Add logrotate configuration
+    # - Fix lintian errors
     - aruba-serclient
 auto-check-system: true

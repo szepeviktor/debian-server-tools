@@ -117,7 +117,7 @@ wget -qO- https://github.com/szepeviktor/debian-server-tools/raw/master/mysql/al
  | mysql -N $(cd public_html/;wp eval 'echo DB_NAME;') | mysql
 
 # disable updates
-wget https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disable-updates/disable-updates.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disable-updates/disable-updates.php
 
 # disable comments
 wget -P wp-content/mu-plugins/ https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu.php
@@ -233,8 +233,8 @@ wp plugin install w3-total-cache --activate
 wp plugin install https://github.com/szepeviktor/fix-w3tc/releases/download/v0.9.4.2/w3-total-cache.0.9.4.2.zip --activate
 
 # minit
-https://github.com/kasparsd/minit/archive/master.zip
-
+wp plugin install https://github.com/kasparsd/minit/archive/master.zip
+wp plugin install https://github.com/markoheijnen/Minit-Pro/archive/master.zip
 
 # safe redirect manager
 wp plugin install safe-redirect-manager --activate
@@ -269,34 +269,52 @@ error_log( 'Break-in attempt detected: ' . 'revslider_update_plugin' );
 exit;
 ```
 
-TGM-Plugin-Activation plugin
+`disable-3rd-party-plugin-updates.php`
+
+TGM Plugin Activation
 
 ```php
-// Disable TGMPA
+// Disable TGMPA (procedural)
 add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
 function o1_disable_tgmpa() {
     remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
     remove_action( 'tgmpa_register', 'CUSTOM-FUNCTION' );
+}
+
+// Disable TGMPA (OOP)
+add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
+function o1_disable_tgmpa() {
+    global $wpoEngine;
+    if ( method_exists( $wpoEngine, 'initRequiredPlugin' ) ) {
+        remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
+        remove_action( 'tgmpa_register', array( $wpoEngine, 'initRequiredPlugin' ) );
+    }
 }
 ```
 
 WPBakery Visual Composer plugin
 
 ```php
+// Disable VC updates
 add_action( 'plugins_loaded', 'o1_disable_vc_plugin_updates' );
 function o1_disable_vc_plugin_updates() {
     global $vc_manager;
-    $vc_manager->disableUpdater( true );
+    if ( method_exists( $vc_manager, 'disableUpdater' ) ) {
+        $vc_manager->disableUpdater( true );
+    }
 }
 ```
 
 Easy Social Share Buttons plugin
 
 ```php
+// Disable ESSB updates
 add_action( 'plugins_loaded', 'o1_disable_essb_plugin_updates' );
 function o1_disable_essb_plugin_updates() {
     global $essb_manager;
-    $essb_manager->disableUpdates( true );
+    if ( method_exists( $essb_manager, 'disableUpdater' ) ) {
+        $essb_manager->disableUpdates( true );
+    }
 }
 ```
 
