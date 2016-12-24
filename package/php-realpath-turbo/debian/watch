@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/realpath_turbo-$1\.tar\.gz/ \
+  https://github.com/Whissi/realpath_turbo/tags .*/v?(\d\S+)\.tar\.gz

@@ -163,7 +163,7 @@ wp plugin install simple-history --activate
 # mail/spam
 
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php
-# Install: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
+# Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php
 wp plugin install obfuscate-email --activate
 ```
@@ -182,6 +182,7 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 
 # media
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control-hu.php
 
 # protect plugins
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-protect-plugins/protect-plugins.php
@@ -228,6 +229,9 @@ wp transient delete-all
 Resource optimization
 
 ```bash
+# resource-versioning
+wp plugin install resource-versioning --activate
+
 # CDN, Page Cache, Minify
 wp plugin install w3-total-cache --activate
 wp plugin install https://github.com/szepeviktor/fix-w3tc/releases/download/v0.9.4.2/w3-total-cache.0.9.4.2.zip --activate
@@ -371,3 +375,7 @@ Manually replace constants in `wp-config.php`
 1. search-and-replace: /wp-content/ -> /static/
 
 S&R links...
+
+### Signature
+
+`wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-sitebuild/raw/master/theme-development/Signature.php`

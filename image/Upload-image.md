@@ -56,7 +56,7 @@ Save images as 100% JPEG ("10" in Photoshop) then optimize images.
 ### Image file name
 
 Rename image file `categoryprefix-nice descriptive and SEO friendly name may include spaces.jpg`.
-Use dash `-` or space ` ` as separator.
+Use dash `-` or space "` `" as separator.
 Avoid underscore `_` character.
 Use only `.jpg` and `.png` (lowercase) extensions.
 

@@ -42,7 +42,7 @@ Disk_partitions() {
         return 0
     fi
 
-    # Physical /dev/[sh]d? (only hd?)
+    # Physical /dev/[sh]d?
     # VMware /dev/sd?
     # XEN /dev/xvd?
     # KVM dev/vd?
@@ -71,7 +71,7 @@ while getopts ":c:h:r:" OPT; do
             ;;
         *)
             # Incorrect usage
-            exit 6;
+            exit 6
             ;;
     esac
 done
@@ -162,7 +162,7 @@ case "$CHECK" in
         ;;
     *)
         # Missing check
-        exit 9;
+        exit 9
         ;;
 esac
 

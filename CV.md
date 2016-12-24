@@ -76,7 +76,7 @@ Remélem bele illek a képbe valahogyan: viktor@szepe.net
 
 #### Sebesség
 
-- Gyors szerver vagy tárhely választás vagy mérés (oprendszer, SSD, PHP verió, adatbázis)
+- Gyors szerver (vagy tárhely) választás mérések útján (oprendszer, SSD, PHP verió, adatbázis)
 - PHP OPcache bekapcsolás
 - Memória cache használat (Redis)
 - HTTP/2
@@ -106,7 +106,7 @@ Remélem bele illek a képbe valahogyan: viktor@szepe.net
 - UX tervezés szerkesztőknek (egérrel építhető oldalak)
 - Minden tartalmi elem könnyen szerkeszthető
 - "Sablon beállítások" oldal készítés plugin nélkül
-- Többnyelvűsítés (egy-nyelvű honlaphoz is)
+- Többnyelvűsítés (egynyelvű honlapon is)
 - Egyeztetés a sitebuilderrel WP HTML struktúrákról (body_class, wp_nav_menu stb.)
 
 #### Biztonság

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Install and set up monit
+# Install and set up Monit.
 #
 # VERSION       :0.6.6
 # DATE          :2016-05-20
@@ -10,8 +10,6 @@
 # BASH-VERSION  :4.2+
 # DOCS          :https://mmonit.com/monit/documentation/monit.html
 # DOCS          :https://mmonit.com/wiki/Monit/ConfigurationExamples
-
-set -e
 
 # Usage
 #
@@ -27,10 +25,10 @@ set -e
 #     echo "Missing: ${PKG}"; fi; done
 
 # @TODO
-# - integrate cert-expiry as "openssl"
-# - document putty port-forward 2812+N (web interface)
-# - add "/etc/init.d/SERVICE status" checks
-# - list permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
+# - Integrate cert-expiry as "openssl"
+# - Document putty port-forward 2812+N (Monit web interface)
+# - Add "/etc/init.d/SERVICE status" checks
+# - Check permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
 
 DEBIAN_SERVER_TOOLS_INSTALLER="../../install.sh"
 MONIT_SERVICES="./services"
@@ -248,6 +246,8 @@ Monit_start() {
         echo "$MONIT_SYNTAX_CHECK" | grep -vFx "Control file syntax OK" 1>&2
     fi
 }
+
+set -e
 
 trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 

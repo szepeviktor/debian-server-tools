@@ -1,0 +1,19 @@
+Source: php-realpath-turbo
+Section: web
+Priority: optional
+Maintainer: Viktor Szepe <viktor@szepe.net>
+Build-Depends: debhelper (>= 7), po-debconf, xsltproc, php-dev, dh-make-php (>= 0.6.2)
+Standards-Version: 3.9.1
+
+Package: php-realpath-turbo
+Architecture: any
+Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}, php-common (>= 1:42), phpapi-20151012
+Description: realpath_turbo extension for PHP 7
+ Use realpath cache despite open_basedir restriction
+ .
+ When PHP's open_basedir restriction is set, PHP disables the realpath
+ cache for security reasons. This may hurt your application
+ performance. The realpath_turbo PHP extension re-enables
+ the realpath cache. Warning: This could be a security
+ problem in your environment! Please read the README for
+ further information.

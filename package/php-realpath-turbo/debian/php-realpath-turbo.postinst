@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+[ "$1" = "configure" ] && phpenmod realpath_turbo
+
+#DEBHELPER#
+
+exit 0
