@@ -341,6 +341,10 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
 
+
+## Deliverability
+
+
 ### RBL-s (DNSBL)
 
 #### Blacklists
@@ -372,14 +376,14 @@ OK response: "IP Unlisted in the spam sender list None"
 
 - http://www.senderbase.org/lookup/
 - https://www.senderscore.org/lookup.php
+- https://postmaster.aol.com/ip-reputation
+- http://www.projecthoneypot.org/search_ip.php
 - http://www.barracudacentral.org/lookups
 - http://www.cyren.com/ip-reputation-check.html
 - http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx
 - http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4
 - http://ipremoval.sms.symantec.com/lookup/
-- https://postmaster.aol.com/ip-reputation
 - https://ers.trendmicro.com/reputations
-- http://www.projecthoneypot.org/search_ip.php
 
 #### IP reputation monitoring
 
@@ -395,7 +399,7 @@ OK response: "IP Unlisted in the spam sender list None"
 - https://ers.trendmicro.com/reputations/global_approved_list
 - [Whitelists in SpamAssassin](https://wiki.apache.org/spamassassin/DnsBlocklists#Whitelists)
 
-### Feedback loops, postmaster tools, sender support
+### Feedback loops, postmaster tools
 
 - https://wordtothewise.com/isp-information/
 - Outlook.com [Smart Network Data Service (SNDS)](http://postmaster.live.com/snds/) + JMRP

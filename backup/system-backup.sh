@@ -22,8 +22,25 @@
 # Create S3QL configuration file
 #     mkdir /root/.s3ql; editor /root/.s3ql/authinfo2; chmod 0600 /root/.s3ql/authinfo2
 #
+# Example S3QL configuration
+#     [provider]
+#     storage-url: STORAGE_URL/PREFIX
+#     backend-login: OS_TENANT_NAME:OS_USERNAME
+#     backend-password: OS_PASSWORD
+#     fs-passphrase: $(apg -m32 -n1)
+#
 # Create configuration file
 #     mkdir /root/.config/system-backup; editor /root/.config/system-backup/configuration
+#
+# Example configuration
+#     #STORAGE_URL="local:///media/backup-server.sshfs"
+#     #STORAGE_URL="s3://BUCKET/PREFIX_"
+#     STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_"
+#     TARGET="/media/server-backup.s3ql"
+#     #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
+#     AUTHFILE="/root/.s3ql/authinfo2"
+#     DB_EXCLUDE="excluded-db1|excluded-db2"
+#     HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 #
 # Add an [xtrabackup] section to /root/.my.cnf
 #     editor /root/.my.cnf
@@ -43,24 +60,6 @@
 #
 # Unmount storage
 #     system-backup.sh -u
-#
-# Example S3QL configuration (authinfo2)
-#     #[s3]
-#     [swiftks]
-#     storage-url: STORAGE_URL
-#     backend-login: OS_TENANT_NAME:OS_USERNAME
-#     backend-password: OS_PASSWORD
-#     fs-passphrase: $(apg -m32 -n1)
-#
-# Example configuration
-#     #STORAGE_URL="local:///media/backup-server.sshfs"
-#     #STORAGE_URL="s3://BUCKET/PREFIX_"
-#     STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER"
-#     TARGET="/media/server-backup.s3ql"
-#     #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
-#     AUTHFILE="/root/.s3ql/authinfo2"
-#     DB_EXCLUDE="excluded-db1|excluded-db2"
-#     HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
 CONFIG="/root/.config/system-backup/configuration"
 

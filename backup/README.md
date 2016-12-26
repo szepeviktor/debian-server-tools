@@ -99,6 +99,19 @@ EOF
 chmod -v 0600 ~/.s3ql/authinfo2
 ```
 
+### S3QL on Oktawave
+
+```bash
+cat > ~/.s3ql/authinfo2 <<EOF
+[oktawave]
+storage-url: swift://ocs-pl.oktawave.com/${OCS_CONTAINER}
+backend-login: ${OCS_ACCOUNT}:${OCS_USER}
+backend-password: ${OCS_PASSWORD}
+fs-passphrase: $(apg -m32 -n1)
+EOF
+chmod -v 0600 ~/.s3ql/authinfo2
+```
+
 ### S3QL on Amazon S3
 
 ```bash
@@ -147,7 +160,7 @@ openstack --os-cloud CLOUD-NAME container list
 openstack --os-cloud CLOUD-NAME object list CONTAINER-NAME
 ```
 
-### Object storage provider
+### Object storage providers
 
 Lists
 
@@ -155,11 +168,11 @@ Lists
 - http://gaul.org/object-store-comparison/
 
 - [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
-- [OVH/hubiC object storage](https://hubic.com/en/offers/) communication failures!
+- [hubiC object storage by OVH](https://hubic.com/en/offers/) communication failures!
 - [Exoscale Simple Object Storage](https://www.exoscale.ch/object-storage/)
-- https://www.cloudwatt.com/en/products.html by Orange
-- https://www.brightbox.com/cloud/storage/
-- https://www.oktawave.com/en/storage
+- [Cloudwatt by Orange](https://www.cloudwatt.com/en/products.html)
+- [Brightbox Orbit](https://www.brightbox.com/cloud/storage/)
+- [Oktawave OCS](https://www.oktawave.com/en/storage)
 - https://www.profitbricks.de/
 - https://www.pcextreme.com/aurora/objects
 - https://zetta.io/en/products/object-storage/
