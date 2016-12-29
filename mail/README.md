@@ -341,6 +341,13 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
 
+### Providers
+
+- https://tinyletter.com/
+- https://www.klaviyo.com/
+- https://mailchimp.com/
+- https://www.mailjet.com/
+- viktor@szepe.net (€6/1000 emails)
 
 ## Deliverability
 

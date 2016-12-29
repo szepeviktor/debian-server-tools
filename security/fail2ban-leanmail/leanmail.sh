@@ -2,8 +2,8 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.2
-# DATE          :2016-10-19
+# VERSION       :0.4.3
+# DATE          :2016-12-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -14,16 +14,18 @@
 
 # Usage and remarks
 #
+# Make sure your MTA runs as "daemon" user
+#     ps -A -o user,cmd | grep couriertls
 # Pipe destination address into leanmail.sh in MTA config
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
 # Set destination address in jail.local
 #     destemail = f2bleanmail
+# Create known list with read/write permission for MTA
+#     install -o root -g daemon -m 0660 /dev/null /var/lib/fail2ban/known.list
 # Prepend X-Fail2ban header to your action in sendmail-*.local
 #     actionban = printf %%b "X-Fail2ban: <ip>,<sender>
 # Restart fail2ban
 #     fail2ban-client reload
-# Create known list with read/write permission for MTA
-#     install -o root -g daemon -m 0660 /dev/null /var/lib/fail2ban/known.list
 #
 # Testing
 #     echo "X-Fail2ban: 1.2.3.4,admin@szepe.net" | time bash -x leanmail.sh
@@ -199,6 +201,8 @@ Update_cache() {
     if [ -s "$CACHE_FILE_TEMP" ]; then
         dos2unix --quiet "$CACHE_FILE_TEMP" 2> /dev/null
         mv -f "$CACHE_FILE_TEMP" "$CACHE_FILE"
+        chown root:daemon "$CACHE_FILE"
+        chmod 0660 "$CACHE_FILE"
     else
         rm -f "$CACHE_FILE_TEMP"
     fi
