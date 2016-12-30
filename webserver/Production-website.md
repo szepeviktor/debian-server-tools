@@ -349,6 +349,7 @@ http://google-public-dns.appspot.com/cache
 - https://securityheaders.io/
 - https://www.webpagetest.org/
 - https://speedcurve.com/
+- Does the website have a public API? (WP REST API, WooCommerce API)
 
 ### PHP errors
 

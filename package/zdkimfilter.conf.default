@@ -1,0 +1,155 @@
+# Config file for zdkimfilter
+# Syntax of each line: [ "#" comment ] | name [ "=" ] [ value ]
+# Backslashes ("\") can be used to wrap multiple physical lines into a single
+# logical one, also comments.
+#
+# Only a few name/value settings are shown below, see zdkimfilter.conf(5) and
+# zfilter_db(1) man pages for a comprehensive list.
+#
+# Use "dkimsign --config" to check whether the configuration file is valid.
+
+# all_mode (bool)
+# Courier runs all-mode filters after non-all-mode ones, in alphabetical order.
+# This determines in which directory zdkimfilter's socket is created.
+all_mode = Y
+
+# trust_a_r (bool)
+# Don't remove any Authentication-Results: (A-R) header field.
+# Courier renames existing A-R fields since 0.71.0, if ALLOW_EXCLUSIVE is set.
+# Set this parameter after enabling ALLOW_EXCLUSIVE.
+
+# verbose (int)
+# Default: verbose = 3
+
+# domain_keys (string)
+# Directory for domain private keys.  See zdkimfilter(8) for examples.
+# Default: domain_keys = /etc/courier/filters/keys
+
+# Canonicalization for header or body can be simple or relaxed.  Set it to
+# relaxed in order to lower the likelihood of breaking signatures.  Uncomment
+# the following two lines to do so.
+# Default: header_canon_relaxed = N
+# Default: body_canon_relaxed = N
+
+# (Y/N, N for rsa-sha256)
+# sign_rsa_sha1 = N
+
+# (key choice header)
+# key_choice_header = NULL
+
+# (dns)
+# default_domain = NULL
+
+# (global)
+# selector = NULL
+
+# (space-separated, no colon)
+# sign_hfields = NULL
+
+# (space-separated, no colon)
+# skip_hfields = NULL
+
+# (Y/N)
+# no_signlen = N
+
+# (int)
+# min_key_bits = 0
+
+# (any text)
+# redact_received_auth = NULL
+
+# (Y/N)
+# add_auth_pass = N
+
+# (temp directory)
+# tmp = NULL
+
+# (Y/N)
+# tempfail_on_error = N
+
+# (exec name)
+# split_verify = NULL
+
+# (Y/N, Y for debug z=)
+# add_ztags = N
+
+# (filename)
+# blocked_user_list = NULL
+
+# (Y/N)
+# no_spf = N
+
+# (Y/N)
+# save_from_anyway = N
+
+# (Y/N)
+# add_a_r_anyway = N
+
+# (Y/N)
+# report_all_sigs = N
+
+# (Y/N)
+# verify_one_domain = N
+
+# (int)
+# max_signatures = 128
+
+# (int)
+# log_dkim_order_above = 0
+
+# (filename)
+# publicsuffix = NULL
+
+# (seconds)
+# honored_report_interval = 86400
+
+# (Y/N)
+# honor_dmarc = N
+
+# (Y/N)
+# honor_author_domain = N
+
+# (Y=procrustean ADSP)
+# reject_on_nxdomain = N
+
+# (header field name)
+# action_header = NULL
+
+# (Y/N)
+# header_action_is_reject = N
+
+# (quarantine directory)
+# save_drop = NULL
+
+# (Y=do reputation lookup)
+# do_reputation = N
+
+# (high int)
+# reputation_fail = 32767
+
+# (low int)
+# reputation_pass = -32768
+
+# (lookup host)
+# reputation_root = NULL
+
+# (space-separated, no colon)
+# trusted_vouchers = NULL
+
+# (int)
+# dnswl_worthiness_pass = 1
+
+# (int)
+# dnswl_invalid_ip = -16777089
+
+# (int)
+# dnswl_octet_index = 3
+
+# (space-separated dns.zones)
+# trusted_dnswl = 0 list.dnswl.org
+
+# (int)
+# whitelisted_pass = 3
+
+# (secs)
+# dns_timeout = 0

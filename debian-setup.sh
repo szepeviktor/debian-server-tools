@@ -14,7 +14,7 @@
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    cd debian-server-tools-master/
-# 2. Evaluate Network Graph v4 and v6 http://bgp.he.net/
+# 2. Evaluate Graph, Prefixes, Peers http://bgp.he.net/ and RBL-s
 # 3. Aquire settings (custom kernel, user names, SSH keys, hostname, networking, resolvers, NTP servers)
 # 4. Make up /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
 # 5. Set up DNS (PTR, A, AAAA, MX)

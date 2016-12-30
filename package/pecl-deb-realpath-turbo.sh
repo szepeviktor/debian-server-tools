@@ -10,7 +10,7 @@ wget -qO- http://www.dotdeb.org/dotdeb.gpg | sudo apt-key add -
 echo "deb http://packages.dotdeb.org/ jessie all" | sudo tee /etc/apt/sources.list.d/dotdeb.list
 sudo apt-get update
 
-sudo apt-get install -qq wget ca-certificates devscripts xsltproc php-dev
+sudo apt-get install -qq wget ca-certificates devscripts xsltproc php-dev php-pear cdbs
 # @TODO szepeviktor/dh-make-php=0.6.2
 # sudo dpkg -i /opt/results/dh-make-php_0.6.2_all.deb
 sudo apt-get install -f -y
