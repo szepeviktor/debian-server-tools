@@ -2,7 +2,7 @@
 #
 # Check system time and alert on offset greater than +-128 ms.
 #
-# VERSION       :0.3.0
+# VERSION       :0.4.0
 # DATE          :2016-08-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,9 +10,6 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install ntpdate bc
 # LOCATION      :/usr/local/bin/ntp-alert.sh
-
-export NTPSERVERS="0.europe.pool.ntp.org"
-declare -i OFFSET_MSEC
 
 Error() {
     local RET="$1"
@@ -25,6 +22,9 @@ Error() {
 
 set -e
 
+export NTPSERVERS="${*:-0.europe.pool.ntp.org}"
+declare -i OFFSET_MSEC
+
 OFFSET="$(/usr/sbin/ntpdate-debian -q \
     | sed -n -e '0,/^.*: \(adjust\|step\) time server [0-9a-f.:]\+ offset \(-\?[0-9.]\+\) sec$/s//\2/p')"
 
@@ -36,7 +36,7 @@ fi
 OFFSET_MSEC="$(echo "( ${OFFSET#-} * 1000 )/1" | bc -q)"
 
 if [ "$OFFSET_MSEC" -gt 128 ]; then
-    logger -t "ntp-alert" "Measured offset is ${OFFSET} s"
+    logger -t "ntp-alert" "Measured offset is ${OFFSET} sec"
     Error 2 "Measured offset is greater than +-128 ms."
 fi
 

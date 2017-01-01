@@ -1,4 +1,4 @@
- check program ntpdate_test with path /usr/local/bin/ntp-alert.sh with timeout 30 seconds every 333 cycles
+ check program ntpdate_test with path "/usr/local/bin/ntp-alert.sh '@@NTP_SERVERS@@'" with timeout 30 seconds every 333 cycles
    group system
    group ntpdate
    if status != 0 then alert

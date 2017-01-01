@@ -23,6 +23,9 @@ APACHE_SSL_SERVER_NAME_DEFAULT=""
 # mysql-server
 MYSQL_USER_DEFAULT="monitu"
 
+# ntpdate
+NTP_SERVERS="0.europe.pool.ntp.org"
+
 # rbldnsd
 RBLDNSD_IP_DEFAULT="10.0.0.1"
 RBLDNSD_PORT_DEFAULT="8053"

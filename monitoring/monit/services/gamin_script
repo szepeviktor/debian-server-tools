@@ -2,7 +2,7 @@
 #
 # Connect to gamin server for session test.
 #
-# VERSION       :1.2.2
+# VERSION       :1.2.3
 # DOCS          :https://people.gnome.org/~veillard/gamin/debug.html
 # SOURCE        :gamin/tests/.lib/testgam
 # DEPENDS       :/usr/local/bin/testgam
@@ -14,10 +14,12 @@ IMAP_USER="virtual"
 
 set -e
 
-[ -x "$TESTGAM" ]
+test -x "$TESTGAM"
 
 Sudo_virtual() {
-    local GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
+    local GAMTMP
+
+    GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
     # shellcheck disable=SC2064
     trap "sudo -u '$IMAP_USER' -- rm -f '$GAMTMP'" EXIT HUP QUIT PIPE TERM
 

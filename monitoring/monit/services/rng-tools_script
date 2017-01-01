@@ -2,11 +2,11 @@
 #
 # Check the randomness of /dev/random.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # LOCATION      :/usr/local/sbin/rng-tools-test.sh
 
 set -e
 
-cat /dev/random | /usr/bin/rngtest --blockstats=10 --blockcount=10 2>&1 \
+/usr/bin/rngtest --blockstats=10 --blockcount=10 < /dev/random 2>&1 \
     | sed -n -e 's|^rngtest: FIPS 140-2 successes: \([0-9]\+\)$|\1|p' \
     | grep -Fx "10"

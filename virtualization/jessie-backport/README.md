@@ -44,3 +44,7 @@ CHANGELOG_MSG="Built from tar: ${PACKAGE}"
 - courier-unicode/testing
 - courier-authlib/testing
 - courier/testing
+
+- https://anonscm.debian.org/git/collab-maint/courier-unicode.git
+- https://anonscm.debian.org/git/collab-maint/courier-authlib.git
+- https://anonscm.debian.org/git/collab-maint/courier.git

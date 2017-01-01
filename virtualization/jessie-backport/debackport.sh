@@ -3,7 +3,7 @@
 # Backport a Debian package.
 #
 # DOCKER        :szepeviktor/jessie-backport
-# VERSION       :0.2.3
+# VERSION       :0.2.4
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
@@ -16,6 +16,10 @@
 #
 # Get the .dsc file at
 #     https://www.debian.org/distrib/packages#search_packages
+#
+# C) Build from .git URL
+#
+# See https://anonscm.debian.org/cgit/
 #
 # Hooks
 #
@@ -84,6 +88,19 @@ if [ "${PACKAGE%.dsc}" != "$PACKAGE" ]; then
     dget --extract ${ALLOW_UNAUTH} "$PACKAGE"
     cd "$(basename "$PACKAGE" | cut -d "_" -f 1)-"*
     CHANGELOG_MSG="Built from DSC file: ${PACKAGE}"
+elif [ "${PACKAGE%.git}" != "$PACKAGE" ]; then
+    # From .git URL
+    git clone "$PACKAGE"
+    PACKAGE_NAME="$(basename "$PACKAGE" | cut -d "." -f 1)"
+    cd "$PACKAGE_NAME"
+    git checkout origin/pristine-tar
+    # git --no-pager log -1 --pretty="%B"
+    ORIG_TAG="$(git tag --list "upstream/*" | tail -n 1)"
+    ORIG_VERSION="$(echo "$ORIG_TAG" | cut -d "/" -f 2)"
+    git checkout "$ORIG_TAG"
+    tar -czf "../${PACKAGE_NAME}_${ORIG_VERSION}.orig.tar.gz" .
+    git checkout origin/master
+    CHANGELOG_MSG="Built from git: ${PACKAGE}"
 elif [ "${PACKAGE//[^\/]/}" == "/" ]; then
     # From source "package name/release codename"
     RELEASE="${PACKAGE#*/}"

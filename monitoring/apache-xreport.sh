@@ -2,7 +2,7 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.1.1
+# VERSION       :1.1.2
 # DATE          :2015-12-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -15,11 +15,11 @@
 
 # Use package/dategrep-install.sh
 
-CCZE_CSS_URL="https://szepe.net/wp-ccze/ccze-apache.css"
+CCZE_CSS_URL="https://cdn.rawgit.com/szepeviktor/debian-server-tools/master/monitoring/apache-ccze.css"
 CCZE_BODY_BG="#fdf6e3"
 EMAIL_HEADER="Subject: [admin] HTTP xerrors from $(hostname -f)
 From: webserver <root>
-To: webmaster@szepe.net
+To: admin@szepe.net
 MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -40,7 +40,7 @@ Color_html() {
 Maybe_sendmail() {
     local STRIPPED_BYTE
 
-    read -n 1 STRIPPED_BYTE \
+    read -r -n 1 STRIPPED_BYTE \
         && {
             # stdin is not empty
             echo "$EMAIL_HEADER"
@@ -54,12 +54,13 @@ if [ -z "$APACHE_CONFIGS" ]; then
 fi
 
 # APACHE_LOG_DIR is defined here
+# shellcheck disable=SC1091
 source /etc/apache2/envvars
 
 # For non-existent previous log file
 shopt -s nullglob
 
-while read CONFIG_FILE; do
+while read -r CONFIG_FILE; do
     ERROR_LOG="$(sed -n '/^\s*ErrorLog\s\+\(\S\+\)\s*.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
 

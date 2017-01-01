@@ -79,7 +79,7 @@ done
 shift $((OPTIND - 1))
 
 # Stray option
-[ -z "$*" ] || exit 7
+test -z "$*" || exit 7
 
 case "$CHECK" in
     CPU)

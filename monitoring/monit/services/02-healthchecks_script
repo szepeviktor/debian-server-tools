@@ -9,6 +9,6 @@ set -e
 
 HEALTHCHECKS_URL="$1"
 
-[ -n "$HEALTHCHECKS_URL" ]
+test -n "$HEALTHCHECKS_URL"
 
 wget --quiet --tries=3 --output-document=- "$HEALTHCHECKS_URL" | grep -Fx "OK"

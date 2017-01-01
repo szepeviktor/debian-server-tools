@@ -1,10 +1,9 @@
 # See jail.conf(5) man page for more information
 
 [DEFAULT]
-#          localhost                        Googlebot
-#                      own IP                              Amazon CloudFront
-#                             proxy                                                                                                                 PayPal IPN
-ignoreip = 127.0.0.0/8 @@IP@@ 88.151.99.143 66.249.64.0/19 54.72.0.0/13 54.80.0.0/12 54.240.128.0/18 54.224.0.0/12 205.251.192.0/18 216.137.32.0/19 173.0.81.1
+#          localhost   own IP
+#                             proxy         Googlebot      PayPal IPN    Amazon CloudFront
+ignoreip = 127.0.0.0/8 @@IP@@ 88.151.99.143 66.249.64.0/19 173.0.80.0/22 54.72.0.0/13 54.80.0.0/12 54.240.128.0/18 54.224.0.0/12 205.251.192.0/18 216.137.32.0/19
 # WARNING! multiline error gh-1432
 
 # ignorecommand = /path/to/command <ip>
@@ -31,8 +30,8 @@ action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(por
 action = %(action_mgl)s
 
 # Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
-action_cf_mgl = cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
-                sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+action_cf1_mwl = cloudflare[cfuser="%(cf1email)s", cftoken="%(cf1apikey)s"]
+                 sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 
 # sendmail-geoip-lines = 2×geoip + host + grep log + sendmail
 timeout = 7
@@ -71,30 +70,24 @@ bantime  = 86400 ; 24h
 port     = http,https
 
 [apache-cf1-combined]
-#[apache-cf2-combined]
-#[apache-cf3-combined]
 #enabled  = true
 filter   = apache-combined
 logpath  = /var/log/apache2/CF*error.log
 maxretry = 6
 bantime  = 86400 ; 24h
-port     = http,https
-action   = %(action_cf_mgl)s
-cfemail  = 
-cfapikey = 
+action   = %(action_cf1_mgl)s
+cf1email = 
+cf1apikey= 
 
 [apache-cf1-instant]
-#[apache-cf2-instant]
-#[apache-cf3-instant]
 #enabled  = true
 filter   = apache-instant
 logpath  = /var/log/apache2/CF*error.log
 maxretry = 1
 bantime  = 86400 ; 24h
-port     = http,https
-action   = %(action_cf_mgl)s
-cfemail  = 
-cfapikey = 
+action   = %(action_cf1_mgl)s
+cf1email = 
+cf1apikey= 
 
 [suhosin]
 #enabled  = true
