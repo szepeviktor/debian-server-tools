@@ -9,6 +9,7 @@ apt-get install -y php7.0-cli php7.0-fpm \
     php7.0-xml php7.0-sqlite3 # Not for WP
 
 PHP_TZ="Europe/Budapest"
+sed -i 's/^user_ini.filename\s*=\s*$/user_ini.filename =/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^max_execution_time=.*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^memory_limit\s*=.*$/memory_limit = 128M/' /etc/php/7.0/fpm/php.ini

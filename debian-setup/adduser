@@ -90,8 +90,6 @@ alias changelog='xargs -I% -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
 #alias httpdump='tcpdump -i eth0 -nn -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 # http://www.vim.org/scripts/script.php?script_id=658
 #alias email='vim -c "startinsert" /tmp/e.eml'
-
-#echo "Long login HOTFIX: systemctl restart systemd-logind"
 EOF
 
 # User settings for login shells
@@ -123,15 +121,15 @@ esac
 
 # putty Connection / Data / Terminal-type string: putty-256color
 # ls -1 /usr/share/mc/skins/|sed "s/\.ini$//g"
-if [ "${TERM/256/}" == "$TERM" ]; then
-    if [ "$(id -u)" == 0 ]; then
+if [ "$(id -u)" == 0 ]; then
+    if [ "${TERM/256/}" == "$TERM" ]; then
         export MC_SKIN="modarcon16root-defbg-thin"
     else
-        export MC_SKIN="modarcon16"
+        export MC_SKIN="modarin256root-defbg-thin"
     fi
 else
-    if [ "$(id -u)" == 0 ]; then
-        export MC_SKIN="modarin256root-defbg-thin"
+    if [ "${TERM/256/}" == "$TERM" ]; then
+        export MC_SKIN="modarcon16"
     else
         export MC_SKIN="xoria256"
     fi
@@ -167,6 +165,8 @@ wp_changelog() {
         | w3m -T text/html
 #        | elinks -force-html
 }
+
+#echo "Long login HOTFIX: systemctl restart systemd-logind"
 EOF
 
 # Add mc syntax highlights

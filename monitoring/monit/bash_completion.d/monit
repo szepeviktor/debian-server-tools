@@ -1,0 +1,52 @@
+# https://github.com/davewongillies/puppet-module-monit/blob/master/files/monit-bash_completion
+have monit &&
+_monit() {
+    local cur prev special i
+
+    COMPREPLY=()
+    _get_comp_words_by_ref cur prev
+
+    for (( i=0; i < ${#COMP_WORDS[@]} - 1; i++ )); do
+        if [[ ${COMP_WORDS[i]} == @(start|stop|restart|monitor|unmonitor|status|summary|reload|quite|validate|procmatch|-c) ]]; then
+            local special=${COMP_WORDS[i]}
+        fi
+    done
+
+    if [ -n "$special" ]; then
+        case $special in
+            start|stop|restart)
+                # Don't bug the user for a password
+                sudo -n true > /dev/null 2>&1
+                if [ $? -eq 0 ]; then
+                    ALL="all"
+                    SERVICES=$(sudo monit summary -B | sed -n -e '1,2d;s|^\s*\(\S\+\)\s\+.*\s\+Process\s*$|\1|p')
+                    SERVICES+=" ${ALL}"
+                    COMPREPLY=( $(compgen -W "$SERVICES" -- "$cur"))
+                fi
+                return 0
+                ;;
+            monitor|unmonitor|status|summary)
+                # Don't bug the user for a password
+                sudo -n true > /dev/null 2>&1
+                if [ $? -eq 0 ]; then
+                    ALL="all"
+                    SERVICES=$(sudo monit summary -B | sed -n -e '1,2d;s|^\s*\(\S\+\)\s\+\S\+.*$|\1|p')
+                    SERVICES+=" ${ALL}"
+                    COMPREPLY=( $(compgen -W "$SERVICES" -- "$cur"))
+                fi
+                return 0
+                ;;
+            -c) # Specify config file
+                _filedir
+                return 0
+                ;;
+        esac
+    fi
+
+    if [[ "$cur" == -* ]]; then
+        COMPREPLY=( $(compgen -W '-c -d -g -l -p -s -I -t -v -vv -H -V -h' -- $cur))
+    else
+        COMPREPLY=( $(compgen -W "start stop restart monitor unmonitor status summary reload quit validate procmatch" -- $cur))
+    fi
+}
+complete -F _monit monit

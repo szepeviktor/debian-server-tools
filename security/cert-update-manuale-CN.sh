@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.2
+# VERSION       :0.1.3
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -34,7 +34,7 @@ manuale info; echo
 # Enter domain names
 read -r -p "CN=" CN
 [ -n "$CN" ]
-read -r -p "Additional domain names: " DOMAIN_NAMES
+read -r -p "Additional domain names=" DOMAIN_NAMES
 
 # Private key file name
 PRIV="${CN}.pem"
@@ -47,6 +47,7 @@ INT="${CN}.intermediate.crt"
 
 # Authorize or check authorization
 # shellcheck disable=SC2086
+#manuale authorize --method http "$CN" ${DOMAIN_NAMES}
 manuale authorize "$CN" ${DOMAIN_NAMES}
 
 # Issue certificate

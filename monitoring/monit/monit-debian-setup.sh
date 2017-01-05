@@ -2,8 +2,8 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.6.6
-# DATE          :2016-05-20
+# VERSION       :0.7.0
+# DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -33,6 +33,7 @@
 DEBIAN_SERVER_TOOLS_INSTALLER="../../install.sh"
 MONIT_SERVICES="./services"
 MONIT_DEFAULTS="/etc/monit/monit.defaults"
+MONIT_COMPLETION="./bash_completion.d/monit"
 
 Is_pkg_installed() {
     local PKG="$1"
@@ -227,6 +228,10 @@ EOF
     chmod +x "$CRONJOB"
 }
 
+Monit_completion() {
+    cp "$MONIT_COMPLETION" /etc/bash_completion.d/
+}
+
 Monit_start() {
     local MONIT_SYNTAX_CHECK
 
@@ -281,5 +286,6 @@ Monit_virtual_packages
 
 Monit_apt_config
 Monit_wake
+Monit_completion
 
 Monit_start

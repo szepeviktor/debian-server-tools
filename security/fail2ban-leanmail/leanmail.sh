@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.3
+# VERSION       :0.4.4
 # DATE          :2016-12-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -32,6 +32,7 @@
 #
 # Serving a website over HTTPS reduces attacks!
 
+# @TODO dnsbl() grep -q -E -x "$VAR" <<< "$ANSWER"
 
 DEST="${1:-admin@szepe.net}"
 
@@ -55,6 +56,9 @@ DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"
 # XBL includes CBL (result: 127.0.0.2)
 # http://www.abuseat.org/faq.html
 #DNSBL5_ABUSEAT="%s.cbl.abuseat.org"
+# Barracuda Reputation Block List
+# http://www.barracudacentral.org/rbl/how-to-use
+DNSBL6_BARRACUDA="%s.b.barracudacentral.org"
 
 # HTTP API
 
@@ -357,6 +361,27 @@ Match_dnsbl4() {
     [ "$ANSWER" == 127.0.0.2 ]
 }
 
+Match_dnsbl6() {
+    local DNSBL="$1"
+    local IP="$2"
+    local ANSWER
+
+    # shellcheck disable=SC2059
+    printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")"
+
+    ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
+    ANSWER="${ANSWER#* has address }"
+    ANSWER="${ANSWER#* has IPv4 address }"
+
+    if ! grep -q -E -x '([0-9]{1,3}\.){3}[0-9]{1,3}' <<< "$ANSWER"; then
+        # NXDOMAIN, network error or invalid IP
+        return 10
+    fi
+
+    # Listed
+    [ "$ANSWER" == 127.0.0.2 ]
+}
+
 Match_http_api1() {
     local HTTPAPI="$1"
     local IP="$2"
@@ -488,6 +513,10 @@ Match_any() {
         Log_match "spamhaus"
         return 0
     fi
+    if Match_dnsbl6 "$DNSBL6_BARRACUDA" "$IP"; then
+        Log_match "barracuda"
+        return 0
+    fi
     if Match_dnsbl3 "$DNSBL3_DANGEROUS" "$IP"; then
         Log_match "dangerous"
         return 0
@@ -544,6 +573,9 @@ Match_all() {
     fi
     if Match_dnsbl4 "$DNSBL4_TORDNSEL" "$IP"; then
         echo "tordnsel"
+    fi
+    if Match_dnsbl6 "$DNSBL6_BARRACUDA" "$IP"; then
+        echo "barracuda"
     fi
     if Match_http_api3 "$HTTPAPI3_DSHIELD" "$IP"; then
         echo "dshield"

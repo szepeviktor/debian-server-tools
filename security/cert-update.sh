@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.11.0
+# VERSION       :0.12.0
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -99,15 +99,17 @@ Courier_mta() {
         service courier-mta-ssl restart
 
         # Tests SMTP STARTTLS, SMTPS
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:25" -starttls smtp
+        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
         Readkey
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:465"
+        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:465"
         echo "SMTPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:465" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername "$SERVER_NAME" -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername "$SERVER_NAME" -connect ${SERVER_NAME}:465" 1>&2
     fi
 
     # Check config file for IMAPS
@@ -117,11 +119,12 @@ Courier_mta() {
         service courier-imap-ssl restart
 
         # Tests IMAPS
-        echo QUIT|openssl s_client -CAfile "$CABUNDLE" -crlf -connect "${SERVER_NAME}:993"
+        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:993"
         echo "IMAPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config imapd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -connect ${SERVER_NAME}:993" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername "$SERVER_NAME" -connect ${SERVER_NAME}:993" 1>&2
     fi
 
     echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
@@ -159,12 +162,12 @@ Apache2() {
         if [ "$SERVER_NAME" == "\${SITE_DOMAIN}" ]; then
             SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
         fi
-        echo | openssl s_client -CAfile "$CABUNDLE" -connect "${SERVER_NAME}:443"
+        echo | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
     else
         #echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
-        echo "echo | openssl s_client -CAfile ${CABUNDLE} -connect ${SERVER_NAME}:443" 1>&2
+        echo "echo | openssl s_client -CAfile ${CABUNDLE} -servername "$SERVER_NAME" -connect ${SERVER_NAME}:443" 1>&2
     fi
 }
 
@@ -191,7 +194,8 @@ Nginx() {
 
         # Test HTTPS
         SERVER_NAME="$(sed -ne '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_VHOST_CONFIG")"
-        timeout 3 openssl s_client -CAfile "$CABUNDLE" -connect "${SERVER_NAME}:443" < /dev/null
+        echo | openssl s_client -CAfile "$CABUNDLE" \
+            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
     else
         echo "Edit Nginx ssl_certificate and ssl_certificate_key and ssl_dhparam" 1>&2
@@ -219,7 +223,8 @@ Proftpd() {
         service proftpd restart
 
         # Test FTP
-        echo "QUIT"|openssl s_client -crlf -CAfile "$CABUNDLE" -connect localhost:21 -starttls ftp
+        echo "QUIT" | openssl s_client -crlf -CAfile "$CABUNDLE" \
+            -servername "$SERVER_NAME" -connect localhost:21 -starttls ftp
         echo "AUTH TLS result=$?"
     else
         echo "Edit ProFTPd TLSRSACertificateFile, TLSRSACertificateKeyFile and TLSCACertificateFile" 1>&2

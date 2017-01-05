@@ -9,6 +9,7 @@ apt-get install -y php5-cli php5-curl php5-fpm php5-gd \
 
 # System-wide strict values
 PHP_TZ="Europe/Budapest"
+sed -i 's/^user_ini.filename\s*=\s*$/user_ini.filename =/' /etc/php5/fpm/php.ini
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php5/fpm/php.ini
 sed -i 's/^max_execution_time\s*=.*$/max_execution_time = 65/' /etc/php5/fpm/php.ini
 sed -i 's/^memory_limit\s*=.*$/memory_limit = 384M/' /etc/php5/fpm/php.ini

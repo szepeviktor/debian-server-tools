@@ -16,7 +16,7 @@
 - https://www.mhosting.hu/tarhely/evo-ssd-tarhely PHP OPcache, SSH
 - https://spaceweb.hu/ssd-felho-webtarhely Litespeed, SSD
 
-## VPS, cloud VPS
+## VPS, cloud server
 
 - [UpCloud](https://www.upcloud.com/) fastest VPS
 - [Contabo](https://contabo.com/?show=vps) large memory
@@ -27,14 +27,6 @@
 - [OVH VPS SSD](https://www.ovh.ie/vps/vps-ssd.xml) OpenVZ
 - [OVH Cloud VPS](http://www.ovh.ie/vps/vps-cloud.xml) VMware
 - [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage VPS
-
-## PaaS
-
-- Pagodabox
-- Jelastic
-- OpenShift
-- CenturyLink (AppFog, WPaaS)
-- Heroku
 
 ## CDN
 
@@ -68,3 +60,11 @@
 ## Dedicated server
 
 https://www.worldstream.nl/more_info.php?id=14 €30
+
+## PaaS
+
+- Pagodabox
+- Jelastic
+- OpenShift
+- CenturyLink (AppFog, WPaaS)
+- Heroku

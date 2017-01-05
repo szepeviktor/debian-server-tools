@@ -106,13 +106,17 @@ editor /etc/ssl/private/${CN}-private.key
 # CloudFlase, Incapsula, StackPath
 #a2enmod remoteip
 cd /etc/apache2/sites-available/
-# * SSL
+# SSL
 # "001-${DOMAIN}.conf" non-SNI site
 # See /webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+# OCSP server monitoring
+( cd ..; ./install.sh monitoring/ocsp-check.sh
+editor /etc/cron.hourly/ocsp-check-${DOMAIN}.sh
+chmod +x /etc/cron.hourly/ocsp-check-*.sh )
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
-# Non-SSL
+# * Non-SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 
 # Include the HPKP header: backup key, "Public-Key-Pins-Report-Only:" "Public-Key-Pins:"
@@ -140,11 +144,11 @@ editor /etc/logrotate.d/apache2-${DOMAIN}
 # Prerotate & postrotate
 
 # Add to fail2ban
-fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-error.log
-fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
-# * SSL
 fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-ssl-error.log
 fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.log
+# * Non-SSL
+fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-error.log
+fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 
 # Add cron jobs
 # Mute cron errors

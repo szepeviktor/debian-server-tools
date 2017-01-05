@@ -8,7 +8,7 @@
  *     php /path/to/php-env-check.php
  *
  * @package php-env-check
- * @version 0.2.0
+ * @version 0.2.1
  * author Viktor Szépe <viktor@szepe.net>
  */
 
@@ -56,9 +56,10 @@ final class Check_Env {
         // http://wordpress.stackexchange.com/a/42212
 
         // Engine version
-        $this->assert( 'php', 70013, PHP_VERSION_ID );
+        $this->assert( 'php', 70014, PHP_VERSION_ID );
 
         // Core directives
+        $this->assert_directive( 'user_ini.filename', '' );
         $this->assert_directive( 'expose_php', '' );
         $this->assert_directive( 'allow_url_fopen', '' );
         $this->assert_directive( 'mail.add_x_header', '' );

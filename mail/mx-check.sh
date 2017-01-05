@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install bind9-host netcat-traditional courier-mta
+# DEPENDS       :apt-get install screen bind9-host netcat-traditional courier-mta
 # LOCATION      :/usr/local/bin/mx-check.sh
 
 # Watch job queue
@@ -67,8 +67,9 @@ Smtp_probe() {
     local MX="$1"
     local -i SMTP_TIMEOUT="$2"
     #local -i SMTP_PID
-    local FIFO="$(mktemp --dry-run)"
+    local FIFO
 
+    FIFO="$(mktemp --dry-run)"
     mkfifo --mode 600 "$FIFO"
 
     # Background SMTP process
@@ -105,7 +106,7 @@ Mx_test() {
     MXS="$(timeout 5 host -t MX "$DOMAIN" 2> /dev/null \
         | grep "is handled by" | sort -k 6 -n)"
 
-    while read MX; do
+    while read -r MX; do
         RESULT="FAIL.dns"
 
         [ -z "$MX" ] && continue
@@ -160,19 +161,20 @@ Conduct_mx_test() {
     fi
 }
 
-# Delete message without MX record from the mail queue
+# Delete message without MX record from Courier mail queue
 Cancel_mailq() {
     local FAILED="$1"
     local D
-    local MAILQ="$(mktemp)"
+    local MAILQ
 
+    MAILQ="$(mktemp)"
     mailq -batch > "$MAILQ"
 
     # Find pending mails ID-s
-    while read LINE; do
+    while read -r LINE; do
         D="${LINE%%:*}"
         grep "@${D};" "$MAILQ" | cut -d ";" -f 2,4 \
-            | while read ID_USER; do
+            | while read -r ID_USER; do
                 sudo -u "${ID_USER#*;}" -g "$MAIL_GROUP" -- cancelmsg "${ID_USER%;*}"
             done
     done < "$FAILED"
@@ -211,7 +213,7 @@ fi
 
 # Retest failed MX-s
 if [ -s "$SMTP_FAIL_LIST" ]; then
-    while read FAILED; do
+    while read -r FAILED; do
         D="${FAILED%%:*}"
         #title: domain name echo -n "$(tput tsl)${D}$(tput fsl)"
         if RESULT="$(Mx_test "$D" 30)"; then
