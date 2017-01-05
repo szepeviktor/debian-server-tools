@@ -66,7 +66,7 @@ https://toolbox.googleapps.com/apps/checkmx/
 
 ### Online IMAP migration
 
-- See /mail/imapsync
+- [imapsync](https://github.com/imapsync/imapsync)
 - [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
 - [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
