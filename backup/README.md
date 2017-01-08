@@ -167,6 +167,8 @@ Lists
 - https://cloudharmony.com/cloudsquare/cloud-storage-in-eu
 - http://gaul.org/object-store-comparison/
 
+Providers
+
 - [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
 - [hubiC object storage by OVH](https://hubic.com/en/offers/) communication failures!
 - [Exoscale Simple Object Storage](https://www.exoscale.ch/object-storage/)

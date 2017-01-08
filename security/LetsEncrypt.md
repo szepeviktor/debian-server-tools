@@ -12,12 +12,13 @@ A fully manual Let's Encrypt/ACME client with DNS-based challenge.
 apt-get install -q -y ca-certificates \
     gcc python3-dev libssl-dev libffi-dev
 cd /home/prg[0-9]*/
+# With --ignore-installed cryptography may conflict with global package
 u nice pip3 install --upgrade --user manuale
 u mkdir --parents --mode=700 ssl/lets-encrypt
 cd ssl/lets-encrypt/
 read -r EMAIL
 u ../../.local/bin/manuale register $EMAIL
-u ../../.local/bin/manuale info
+u ../../.local/bin/manuale info; echo
 
 # Issue or Renew
 cd /home/prg[0-9]*/ssl/lets-encrypt/

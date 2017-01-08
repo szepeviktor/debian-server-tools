@@ -1,12 +1,12 @@
 #!/usr/bin/python
 """Convert certbot private_key.json to manuale's account.json
 
-./jwk-convert.py private_key.json > private-key.asn1
+./jwk_convert.py private_key.json > private-key.asn1
 openssl asn1parse -genconf private-key.asn1 -noout -out private-key.der
 openssl rsa -inform DER -in private-key.der -outform PEM -out private-key.key
-echo '{"key": "' > account.json
-cat private-key.key | tr '\n' '|' | sed -e 's/|/\\n/g' >> account.json
-echo '", "uri": "https://acme-v01.api.letsencrypt.org/acme/reg/???????"}' >> account.json
+echo -n '{"key": "' > account.json
+paste -s -d '|' private-key.key | sed -e 's/|/\\n/g' >> account.json
+echo '", "uri": "https://acme-v01.api.letsencrypt.org/acme/reg/9999999"}' >> account.json # From regr.json
 """
 
 import sys

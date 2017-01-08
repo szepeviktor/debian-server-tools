@@ -76,3 +76,5 @@ cp webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 # https://www.ioncube.com/loaders.php
 #     zend_extension = ioncube_loader_lin_5.6.so
 #     ic24.enable = Off
+
+# @TODO /webserver/php-env-check.php

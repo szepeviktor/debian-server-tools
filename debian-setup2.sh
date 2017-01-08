@@ -229,6 +229,7 @@ apt-get install -y debconf-utils s3ql
 debian-setup/php-wpcli
 # WordPress cron
 Dinstall webserver/wp-cron-cli.sh
+debian-setup/php-cachetool
 #debian-setup/php-drush
 
 # Monit - monitoring

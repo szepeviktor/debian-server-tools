@@ -95,6 +95,10 @@ wp theme delete twentyfourteen
 
 Purchased themes can be updated using a child theme.
 
+```bash
+wp plugin install child-theme-configurator --activate
+```
+
 ### Redis object cache
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
@@ -203,8 +207,8 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 
 # Redis @danielbachhuber
 wp plugin install wp-redis
-ln -sv plugins/wp-redis/object-cache.php wp-content/
 wp transient delete-all
+ln -sv plugins/wp-redis/object-cache.php wp-content/
 
 # Memcached @tollmanz
 #wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/blob/develop/src/object-cache.php
@@ -258,16 +262,30 @@ Set up CDN.
 
 #### Plugin fixes
 
-Revolution Slider fix
+Template
+
+```php
+<?php
+/*
+Plugin Name: disable plugin updates (MU)
+Version: 0.0.0
+Description: This MU plugin contains hooks to disable various updates.
+Plugin URI: https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/WordPress.md#plugin-fixes
+Author: Viktor Szépe
+*/
+```
+
+Revolution Slider plugin security fix
 
 ```php
 /*
  * Trigger fail2ban on Revolution Slider upload attempt.
  *
- * @revslider/revslider_admin.php:389
+ * revslider/revslider_admin.php:389
+ *
  *     case "update_plugin":
- * Comment out
- *     //self::updatePlugin(self::DEFAULT_VIEW);
+ *
+ *     // self::updatePlugin(self::DEFAULT_VIEW);
  */
 error_log( 'Break-in attempt detected: ' . 'revslider_update_plugin' );
 exit;
@@ -279,47 +297,43 @@ TGM Plugin Activation
 
 ```php
 // Disable TGMPA (procedural)
-add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
-function o1_disable_tgmpa() {
+add_action( 'after_setup_theme', function () {
     remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
     remove_action( 'tgmpa_register', 'CUSTOM-FUNCTION' );
-}
+} );
 
 // Disable TGMPA (OOP)
-add_action( 'after_setup_theme', 'o1_disable_tgmpa' );
-function o1_disable_tgmpa() {
+add_action( 'after_setup_theme', function () {
     global $wpoEngine;
     if ( method_exists( $wpoEngine, 'initRequiredPlugin' ) ) {
         remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
         remove_action( 'tgmpa_register', array( $wpoEngine, 'initRequiredPlugin' ) );
     }
-}
+} );
 ```
 
 WPBakery Visual Composer plugin
 
 ```php
 // Disable VC updates
-add_action( 'plugins_loaded', 'o1_disable_vc_plugin_updates' );
-function o1_disable_vc_plugin_updates() {
+add_action( 'plugins_loaded', function () {
     global $vc_manager;
     if ( method_exists( $vc_manager, 'disableUpdater' ) ) {
         $vc_manager->disableUpdater( true );
     }
-}
+} );
 ```
 
 Easy Social Share Buttons plugin
 
 ```php
 // Disable ESSB updates
-add_action( 'plugins_loaded', 'o1_disable_essb_plugin_updates' );
-function o1_disable_essb_plugin_updates() {
+add_action( 'plugins_loaded', function () {
     global $essb_manager;
     if ( method_exists( $essb_manager, 'disableUpdater' ) ) {
         $essb_manager->disableUpdates( true );
     }
-}
+} );
 ```
 
 Envato Market plugin for ThemeForest updates
@@ -328,6 +342,12 @@ Envato Market plugin for ThemeForest updates
 wp plugin install https://envato.github.io/wp-envato-market/dist/envato-market.zip --activate
 ```
 
+Gravity Forms plugin
+
+```php
+// Disable Gravity Forms updates
+add_filter( 'pre_transient_gform_update_info', '__return_true' );
+```
 
 ### On deploy and Staging->Production Migration
 

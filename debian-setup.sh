@@ -34,11 +34,11 @@
 # - IRQ balance
 # - Time synchronization
 # - Hardware TRNG or HAVEGE generator
-# - Fail2ban and block dangerous networks
+# - Fail2ban and blocking dangerous networks
 # - Monit monitoring
 # - Courier MTA
 # - System backup with S3QL
-# - Nice motd welcome
+# - Nice motd welcome screen
 # - Package managers (composer, pip, npm)
 # - 155 MB memory usage, 2 GB disk usage
 #

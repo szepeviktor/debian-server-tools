@@ -6,7 +6,7 @@
 # AUTHOR        :Valentin Lab.
 # URL           :https://github.com/0k/shyaml/
 # LICENSE       :BSD License
-# DEPENDS       :apt-get install python2
+# DEPENDS       :apt-get install python
 # LOCATION      :/usr/local/bin/shyaml
 
 ## Note: to launch test, you can use:

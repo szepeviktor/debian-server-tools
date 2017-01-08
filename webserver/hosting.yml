@@ -11,7 +11,7 @@ contact:
   name: Gipsz Jakab
   email: contact@example.com
   company: ACME Ltd.
-domain-registrar: Domain Reg. Co.
+domain-registrar: Domain Reg. Co. <support@domain.com>
 ssl:
   enabled: yes
   login: webmaster@example.com
@@ -34,7 +34,7 @@ cms:
     - Live chat
     - Advertisement campaign
     - Social campaign
-    - Tracking codes, Tag Manager
+    - Tracking code, Tag Manager (UA-00000000-1)
     - Call Tracking
     - Embedded social media content
     - Mouse tracking

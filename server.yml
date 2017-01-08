@@ -2,12 +2,13 @@
 # Server datasheet
 system:
     fqdn: host.domain.tld
-    os: Debian jessie
-    install-date: 2016-MM-DD
+    os: Debian “jessie”
+    install-date: 2017-MM-DD
     # tput sgr0;for C in 1 2 3 4 5 6 7;do tput setaf $C;echo -n "■${C}■ ";tput sgr0;done;echo
     host-color: 7
     trespass-warning: Ez a szerver A/AZ CÉG használatában áll. Másoknak a belépés tilos.
     #trespass-warning: This server is used by COMPANY. Unauthorized entry is prohibited.
+    backup-provider: Oktawave OCS
 
 # Package settings
 package:
@@ -83,9 +84,9 @@ services:
       source: non-packaged
       description: /usr/lib/php5/20121212
     mod-pagespeed:
-      #daemon, apache module?
+      # daemon, apache module?
     drush:
-      source: non-packaged
+      source: composer
       location: /opt/drush
     courier-mta:
       type: daemon
@@ -126,26 +127,13 @@ services:
       type: daemon
       transport: [ tcp/80, tcp/443 ]
     antivirus mirror:
-        type: vhost
-        description: vhost.name
+      type: vhost
+      description: vhost.name
     can-send-email:
-        type: vhost
-        description: PHP script
+      type: vhost
+      description: PHP script
 
-# Connected external services
-dependencies:
-
-  #dependency name 1:
-  #    host: remote.host.fqdn.
-  #    transport: tcp/123
-  #    identify: $IP
-  dns resolver:
-      host: worker.szepe.net.
-      transport: tcp/53
-      transport: udp/53
-      identify: $IP
-
-# Package handlers
+# Package management
 packaging:
 
   #name:
@@ -155,10 +143,10 @@ packaging:
     list: dpkg -l
     location: /
   pip2:
-    list: pip2 freeze
+    list: pip2 list
     location: /usr/local/lib/python2.7
   pip3:
-    list: pip3 freeze
+    list: pip3 list
     location: /usr/local/lib/python3.4
   # Also pecl
   pear:

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Apache add new site.
+# Add new Apache site.
 #
 # Not a script but a manual.
 
@@ -11,8 +11,8 @@ exit 0
 # See /monitoring/domain-expiry.sh
 # See /monitoring/dns-watch.sh
 
-read -r -e -p "user name: " U
-read -r -e -p "domain name without WWW: " DOMAIN
+read -r -e -p "User name: " U
+read -r -e -p "Domain name without WWW: " DOMAIN
 
 adduser --disabled-password --gecos "" ${U}
 
@@ -36,7 +36,8 @@ echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
 mkdir -v --mode=0750 /home/${U}/website
-mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
+#mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
+mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup}
 chmod 0555 /home/${U}/website/html
 
 # Install WordPress
