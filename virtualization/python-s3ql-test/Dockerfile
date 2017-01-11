@@ -17,9 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install -U cython==0.24.1 sphinx pycrypto defusedxml requests \
     "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0" "pytest >= 2.3.3" pytest-catchlog
 # apsw must be the same version as libsqlite3
-# dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed 's/-.*$/-r1/'
-# "apsw == 3.15.0-r1" in stretch
-RUN pip install -U "https://github.com/rogerbinns/apsw/releases/download/3.15.0-r1/apsw-3.15.0-r1.zip"
+# dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed -e 's|-.*$|-r1|'
+# "apsw == 3.15.2-r1" in stretch
+# https://packages.debian.org/stretch/libsqlite3-dev
+RUN pip install -U "https://github.com/rogerbinns/apsw/releases/download/3.15.2-r1/apsw-3.15.2-r1.zip"
 
 # Tests
 CMD hg clone https://bitbucket.org/nikratio/s3ql \

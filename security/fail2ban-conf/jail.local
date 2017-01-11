@@ -72,7 +72,7 @@ port     = http,https
 [apache-cf1-combined]
 #enabled  = true
 filter   = apache-combined
-logpath  = /var/log/apache2/CF*error.log
+logpath  = /var/log/apache2/*errorCF.log
 maxretry = 6
 bantime  = 86400 ; 24h
 action   = %(action_cf1_mgl)s
@@ -82,7 +82,7 @@ cf1apikey=
 [apache-cf1-instant]
 #enabled  = true
 filter   = apache-instant
-logpath  = /var/log/apache2/CF*error.log
+logpath  = /var/log/apache2/*errorCF.log
 maxretry = 1
 bantime  = 86400 ; 24h
 action   = %(action_cf1_mgl)s

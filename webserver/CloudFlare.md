@@ -33,17 +33,15 @@ IPv4 list.
 wget -O /etc/apache2/conf-available/cloudflare-ipv4.list "https://www.cloudflare.com/ips-v4"
 ```
 
-Apache mod_remoteip module.
-
-Create `/etc/apache2/mods-available/remoteip.conf` before `a2enmod remoteip`
+Apache mod_remoteip module. Add to each site config.
 
 ```apache
-# CloudFlare is trusted by us
-RemoteIPHeader CF-Connecting-IP
-RemoteIPTrustedProxyList conf-available/cloudflare-ipv4.list
+    # mod_remoteip - CloudFlare is trusted by us
+    RemoteIPHeader CF-Connecting-IP
+    RemoteIPTrustedProxyList conf-available/cloudflare-ipv4.list
 ```
 
-`apache2ctl configtest && service apache2 reload`
+`a2enmod remoteip && apache2ctl configtest && service apache2 reload`
 
 ### Notes
 
