@@ -195,6 +195,7 @@ wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 # Not since v0.99.2 sed -i -e 's/^AllowSupplementaryGroups\s.*/AllowSupplementaryGroups true/' /etc/clamav/clamd.conf
 adduser clamav daemon
 # Install pythonfilter
+# Alternative: http://www.tana.it/sw/avfilter/
 #pip2 install courier-pythonfilter
 pip2 install "$COURIER_PYTHONFILTER_URL"
 cat <<EOF > /etc/pythonfilter.conf

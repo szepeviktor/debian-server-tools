@@ -206,9 +206,9 @@ $redis_server = array(
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-cache-flush-button/flush-cache-button.php
 
 # Redis @danielbachhuber
-wp plugin install wp-redis
 wp transient delete-all
-ln -sv plugins/wp-redis/object-cache.php wp-content/
+wp plugin install wp-redis --activate
+wp redis enable
 
 # Memcached @tollmanz
 #wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/blob/develop/src/object-cache.php
@@ -262,7 +262,9 @@ Set up CDN.
 
 #### Plugin fixes
 
-Template
+MU Plugin Template
+
+`disable-3rd-party-plugin-updates.php`
 
 ```php
 <?php
@@ -290,8 +292,6 @@ Revolution Slider plugin security fix
 error_log( 'Break-in attempt detected: ' . 'revslider_update_plugin' );
 exit;
 ```
-
-`disable-3rd-party-plugin-updates.php`
 
 TGM Plugin Activation
 

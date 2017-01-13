@@ -21,23 +21,21 @@ PHP_PEAR_SYSCONF_DIR=/home/horde/website php -d "include_path=.:/home/horde/webs
     /home/horde/website/pear/horde-db-migrate
 ```
 
-##### Apache configuration
-
-```apache
-SetEnv PHP_PEAR_SYSCONF_DIR /home/${SITE_USER}/website
-```
-
 ##### PHP configuration
 
 ```ini
 ; Horde - old: .:/usr/share/php:/usr/share/pear
 php_admin_value[include_path] = .:/home/horde/website/pear/php
+; PEAR
+env[PHP_PEAR_SYSCONF_DIR] = /home/horde/website
+env[TMPDIR] = /home/horde/website/tmp
 ```
 
 ##### Root files
 
 - robots.txt
-- favicon.ico ...
+- favicon.ico
+- ...
 
 ### Upgrade
 
