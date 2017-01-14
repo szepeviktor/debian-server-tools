@@ -17,6 +17,7 @@ ssl:
   login: webmaster@example.com
 cms:
   core: WordPress
+  theme: Theme Name
   plugin:
     - paid-plugins
     - purchased-plugin

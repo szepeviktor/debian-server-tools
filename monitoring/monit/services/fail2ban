@@ -11,7 +11,9 @@
 
  check file fail2ban_db with path /var/lib/fail2ban/fail2ban.sqlite3
    group services
-   include /etc/monit/templates/rootstrict
+   if failed permission 600 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
 
  check program fail2ban_test with path /usr/local/sbin/fail2ban-test.sh
    group services
