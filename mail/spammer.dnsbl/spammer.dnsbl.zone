@@ -28,7 +28,10 @@ $TTL 60
 23.238.16.159    HU_smartingatlan.info@HOSTWINDS-17-5/AS54290
 23.238.56.218    HU_Laszlo Nagypal/ujfej.com@HOSTWINDS-17-5/AS54290
 45.55.139.58     HU_aranyhold.tk@DIGITALOCEAN
+104.131.94.207   HU_aranyfo.ml@DIGITALOCEAN
 46.101.59.151    HU_holdhegy.tk@EU-DIGITALOCEAN-L1/AS202109
+178.62.48.185    HU_ezustnap.ga@DIGITALOCEAN-LON-1
+46.101.111.242   HU_faag.cf@EU-DIGITALOCEAN-L1
 79.172.239.117   HU_server1.bestofmarket.hu@TARHELYEU-NET/AS29278
 82.165.194.195   DE_ns2.ilovebroadband.net@SCHLUND-CUSTOMERS/AS8560
 149.154.152.242  HU_lttclub.org@EDIS-GMBH/AS3549
@@ -37,6 +40,11 @@ $TTL 60
 198.143.96.181   HU_arctic.gytcre.com@HOSTWINDS-17-5/AS54290
 199.59.62.53     HU_aback.gytcre.com@HOSTWINDS-17-5/AS54290
 212.83.143.177   HU_arousal.topaddlinkdir.com@ONLINE-SAS/AS12876
+85.25.37.53      HU_gruppi.hu@DE-HEG-MASS
+# greencoffeeplus.hu
+139.59.160.145   HU_msrvrone.com@DIGITALOCEAN-AP/AS202109
+# Infoline Register Kft. by LINUXHUNGARY
+87.229.55.137    :1:HU_w3.linuxhungary.com@DENINET
 
 # CHINANET-HE
 111.224.250      CHINANET-HE
@@ -44,7 +52,7 @@ $TTL 60
 117.41           CHINANET-JX
 
 # SYSTECH Global DC: Invitel
-91.82.84-85      :3:Neighbour of smtp*.mindenalove.hu/*.nyuszikaaaaa.hu
+91.82.84-85      :2:Neighbour of smtp*.mindenalove.hu/*.nyuszikaaaaa.hu
 91.82.84.143-152 HU_smtp*.mindenalove.hu@SYSTECH-GLOBAL/AS12301
 91.82.84.203-204 HU_vps.*-ad.com@SYSTECH-GLOBAL/AS12301
 91.82.85.85-99   HU_*.nyuszikaaaaa.hu@SYSTECH-GLOBAL/AS12301
@@ -86,6 +94,9 @@ $TTL 60
 212.129.32.0/19  :2:Neighbour of *.nyshkickball.com.
 212.129.55.1     gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 212.129.59.1     friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+163.172.133      :2:Neighbour of mailetor.xyz
+163.172.133.242  FR_mailetor.xyz@ONLINE_NET_DEDICATED_SERVERS/AS12876
+163.172.164.241  magyar FR_duozit.com@ONLINE_NET_DEDICATED_SERVERS/AS12876
 
 # Peter Krozser
 198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
@@ -167,3 +178,7 @@ $TTL 60
 # *.cegorszag.hu. DC: InterWare
 195.70.59.160 HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
 195.70.59.161 HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
+
+# *.newstoinbox-mail.eu
+5.56.23       :2:Neighbour of *.newstoinbox-mail.eu
+5.56.23.88    HU_*.newstoinbox-mail.eu@CORE-BACKBONE/AS33891

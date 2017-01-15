@@ -2,8 +2,8 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.4
-# DATE          :2016-12-28
+# VERSION       :0.4.5
+# DATE          :2017-01-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -42,9 +42,6 @@ DEST="${1:-admin@szepe.net}"
 # https://www.projecthoneypot.org/httpbl_api.php
 DNSBL1_HTTPBL_ACCESSKEY="hsffbftuslgh"
 DNSBL1_HTTPBL="${DNSBL1_HTTPBL_ACCESSKEY}.%s.dnsbl.httpbl.org"
-# Exploits Block List
-# https://www.spamhaus.org/xbl/
-#DNSBL2_SPAMHAUS="%s.xbl.spamhaus.org"
 # Combination of SBL, SBLCSS, XBL and PBL blocklists
 # https://www.spamhaus.org/zen/
 DNSBL2_SPAMHAUS="%s.zen.spamhaus.org"
@@ -311,8 +308,8 @@ Match_dnsbl2() {
     # SBL: 127.0.0.2 - The Spamhaus Block List
     # CSS: 127.0.0.3 - Spamhaus CSS Component
     # XBL: 127.0.0.4-7 - Exploits Block List
-    # PBL: 127.0.0.10-11 - The Policy Block List
-    grep -q -E -x "127.0.0.([234567]|1[01])" <<< "$ANSWER"
+    # No PBL: 127.0.0.10-11 - The Policy Block List
+    grep -q -E -x "127\.0\.0\.[234567]" <<< "$ANSWER"
 }
 
 Match_dnsbl3() {
@@ -335,7 +332,7 @@ Match_dnsbl3() {
     # 127.0.0.1   Dangerous network
     # 127.0.0.2   Tor exit node
     # 127.0.0.128 Blocked network
-    grep -q -E -x "127.0.0.(1|2|128)" <<< "$ANSWER"
+    grep -q -E -x "127\.0\.0\.(1|2|128)" <<< "$ANSWER"
 }
 
 Match_dnsbl4() {
@@ -358,7 +355,7 @@ Match_dnsbl4() {
     fi
 
     # Tor IP
-    [ "$ANSWER" == 127.0.0.2 ]
+    [ "$ANSWER" == "127.0.0.2" ]
 }
 
 Match_dnsbl6() {
@@ -379,7 +376,7 @@ Match_dnsbl6() {
     fi
 
     # Listed
-    [ "$ANSWER" == 127.0.0.2 ]
+    [ "$ANSWER" == "127.0.0.2" ]
 }
 
 Match_http_api1() {

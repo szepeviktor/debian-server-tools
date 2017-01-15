@@ -8,6 +8,8 @@
 # REFS          :http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/tocsysinit.html
 # DOCS          :https://wiki.debian.org/LSBInitScripts
 
+# @TODO https://github.com/asaif/socat-init
+
 # Installation
 #
 #     read -r SERVICE_NAME
