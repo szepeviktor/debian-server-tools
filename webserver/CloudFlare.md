@@ -2,7 +2,7 @@
 
 1. Set up cloudflare.local Fail2ban action
 1. Add new LogFormat
-1. Create IPv4 address list
+1. Create IPv4 address list + cloudflare-ipv4-update.sh
 1. Set up mod_remoteip
 1. Reload apache
 1. Install list update script

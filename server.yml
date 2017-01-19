@@ -4,7 +4,7 @@ system:
     fqdn: host.domain.tld
     os: Debian “jessie”
     install-date: 2017-MM-DD
-    # tput sgr0;for C in 1 2 3 4 5 6 7;do tput setaf $C;echo -n "■${C}■ ";tput sgr0;done;echo
+    # tput sgr0;for C in {1..7};do tput setaf $C;echo -n "■${C}■  ";tput sgr0;done;echo
     host-color: 7
     trespass-warning: Ez a szerver A/AZ CÉG használatában áll. Másoknak a belépés tilos.
     #trespass-warning: This server is used by COMPANY. Unauthorized entry is prohibited.
@@ -37,8 +37,20 @@ package:
         prg-http-pwd: secret
         prg-ssl-cn: prg.1.2.3.4.xip.io
 
+# Mail server reputation
+mail-server:
+    monitoring:
+        - http://www.projecthoneypot.org/
+        - https://mxtoolbox.com/
+        - https://www.rblmon.com/accounts/register/
+        - https://rbltracker.com/
+    registered:
+        - https://www.dnswl.org/selfservice/
+        - https://postmaster.live.com/snds/
+        - https://ers.trendmicro.com/reputations/global_approved_list
+
 # Custom data directories
-data dirs:
+data-dirs:
 
   directory name: /path/to/dir
   configuration files: /etc
@@ -136,27 +148,24 @@ services:
 # Package management
 packaging:
 
-  #name:
-  #  list: command to list installed packages
-  #  location: package location
   apt:
-    list: dpkg -l
+    list-command: dpkg -l
     location: /
   pip2:
-    list: pip2 list
+    list-command: pip2 list
     location: /usr/local/lib/python2.7
   pip3:
-    list: pip3 list
+    list-command: pip3 list
     location: /usr/local/lib/python3.4
-  # Also pecl
+  # Also PECL
   pear:
-    list: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
+    list-command: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
     location: /usr/share/php
   node:
-    list: npm -g list
+    list-command: npm -g list
     location: /usr/lib/node_modules
   ruby:
-    list: gem list
+    list-command: gem list
     location: /usr/lib/ruby/vendor_ruby
 
 

@@ -66,6 +66,19 @@ Rám bízhatnak *feature* fejleszést is (sablon, bővítmény, UI) de az nem r�
 
 A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolul is vannak)
 
+### Az alábbiakban veszi hasznomat
+
++ Webes szolgáltatás proaktív üzembentartása
++ Szerver és WordPress telepítés, monitorozás
++ Konstruktív hibajegy nyitás és megoldások ezekre:
+
+1. WordPress üzembiztonság, monitorozás - legyen gazdája a honlapnak
+2. WP betörés-biztonság https://github.com/szepeviktor/wordpress-fail2ban
+3. WP sebesség - szerver oldali megoldások, plugin és téma audit és javítás
+4. WP téma - akár utólagos - szerkeszthetősége, szerkesztők menedzselése, oktatása https://www.youtube.com/user/szepeviktor
+5. WP téma készítése HTML-ből (vagy PSD-ből sitebuilder segítségével) Bootstrap módon
+6. Komplex honlapoknál tanácsadás: adatstruktúrák WP-s ábrázolása biztonságosan és gyorsan (azaz cache-elhetően)
+
  Annyit írnék még, hogy tömegtermelésben nem sok hasznomat veszik, mert alapos munkát végzek,
  és úgy érzékelem, hogy ez a kettő üti egymást.
 

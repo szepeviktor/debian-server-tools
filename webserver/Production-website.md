@@ -95,6 +95,8 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 
 Consider transactional email service through HTTP API: Mailjet, Amazon SES etc.
 
+SparkPost API WordPress plugin: https://wordpress.org/plugins/sparkpost/
+
 Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Security
@@ -261,7 +263,7 @@ http://google-public-dns.appspot.com/cache
 - External URL-s should open in new window
 - Newsletter subscribe
 - Offer free download
-- Exit modal or Hijack box: coupon, free download, blog notification, newsletter etc.
+- Exit modal or Hijack box: *coupon, free download, blog notification, newsletter* etc.
 - Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
 - Content to share: https://paper.li/
@@ -271,7 +273,7 @@ http://google-public-dns.appspot.com/cache
 - UTF-8 encoding (no BOM)
 - Line ends
 - Indentation
-- Trailing spaces `sed -i 's;\s\+$;;' file.ext`
+- Trailing spaces `sed -i -e 's|\s\+$||' file.ext`
 
 ### Theme and plugin check
 
@@ -288,31 +290,32 @@ http://google-public-dns.appspot.com/cache
 
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
-- Missing resource version in `grep -E "wp_(register|enqueue)_.*\("` calls
-- Missing theme meta tags in `style.css`
-- Script/style printing (instead of using `wp_localize_script(); wp_add_inline_script(); wp_add_inline_style();`
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
+- Missing theme meta tags in `style.css`
+- Missing resource version in `grep -E "wp_(register|enqueue)_.*\("` calls
+- Script/style printing (instead of using `wp_localize_script(); wp_add_inline_script(); wp_add_inline_style();`
 - Always requiring admin code (fix: `whats-running`)
 - Lack of `grep -E "\\\$_(GET|POST)"` sanitization
-- PHP short opentags `grep -F "<?="`
+- Missing *nonce* on input
+- PHP short opentags (fix: `grep -F "<?="`)
 - PHP errors, deprecated WP code (fix: `define( 'WP_DEBUG', true );`)
 - Lack of permissions for WP editors
 - Non-200 HTTP responses
 - Extra server-side requests: HTTP, DNS, file access
 - Independent e-mail sending (fix: `grep -E "\b(wp_)?mail\("`)
-- Propiertary install/update (fix: comment out TGM-Plugin-Activation)
+- Propiertary install/update (fix: disable TGM-Plugin-Activation)
 - Home call, external URL-s (fix: search for URL-s, use Snitch plugin and `tcpdump`)
-- Form field for file upload: `<input type="file" />`
+- Form field for file upload `<input type="file" />`
 - Insufficient or excessive font character sets (fix: `&subset=latin,latin-ext`)
 - `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
 - [BOM](https://en.wikipedia.org/wiki/Byte_order_mark) (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
 - Characters before `<!DOCTYPE html>`
-- JavaScript code parsable (by dummy crawlers) as HTML (e.g. `<a>` `<iframe>` `<script>`)
-- Display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
+- JavaScript code parsable (by dummy crawlers) as HTML (`<a>` `<iframe>` `<script>`)
+- Page loading overlay, display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
 - Unnecessary Firefox caret
 - [Mobile views](https://webmasters.googleblog.com/2016/11/mobile-first-indexing.html) (responsive design)
 - Confusion in colors: normal text color, link and call2action color, accent color
-- Email header and content check with https://www.mail-tester.com/
+- Email header and content check https://www.mail-tester.com/
 
 ### Duplicate content
 
@@ -320,7 +323,7 @@ http://google-public-dns.appspot.com/cache
 - Custom subdomain with same content
 - Development domains
 - Early access domain by the hosting company (`cpanel.server.com/~user`, `somename.hosting.com/`)
-- Access by the server's IP address (`http://1.2.3.4/`)
+- Access by IP address (`http://1.2.3.4/`)
 
 ### 404 page
 
@@ -344,7 +347,7 @@ http://google-public-dns.appspot.com/cache
 
 ### HTTP
 
-- HTTP methods `GET POST HEAD` and `OPTIONS PUT DELETE TRACE ...`
+- HTTP methods `GET POST HEAD` and `OPTIONS PUT DELETE TRACE` etc.
 - https://redbot.org/
 - https://securityheaders.io/
 - https://www.webpagetest.org/
@@ -356,26 +359,26 @@ http://google-public-dns.appspot.com/cache
 wp-config.php: `define( 'WP_DEBUG', true );`
 
 ```bash
-tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's;\\n;\n●;g'
+tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 ```
 
 ### JavaScript errors
 
 @TODO
 
-Send to Analytics, report to `/js-error.php`
+Send to Analytics / report to `/js-error.php`
 
 ### SEO
 
 - `blog_public` and robots.txt
-- XML sitemaps (linked from robots.txt)
+- XML sitemaps with link from robots.txt
 - Page title (blue in SERP)
-- Permalink structure and slug optimization (green in SERP)
+- Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page))
 - Page meta description (grey in SERP)
-- Headings: h1, h2 / h3-h6
-- Images: alt, title
+- Headings: H1, H2 / H3-H6
+- Images: `alt`, `title`
 - Breadcrumbs
-- Content keywords
+- [Content keyword density](https://www.seoquake.com/)
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
 - Multilingual site (`hreflang` attribute)
 - Structured data https://schema.org/ http://microformats.org/
@@ -391,6 +394,7 @@ Send to Analytics, report to `/js-error.php`
 ### Compatiblitity
 
 - Toolbar color of Chrome for Android (`theme-color` meta)
+- Windows 8/10 tiles
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
@@ -441,9 +445,10 @@ https://wiki.apache.org/httpd/ListOfErrors
 
 ### Site integrity
 
-- tripwire-fake.sh (wp --quiet core verify-checksums; git status --short)
-- tripwire.php
 - /monitoring/siteprotection.sh
+- tripwire-fake.sh (`wp --quiet core verify-checksums; git status --short`)
+- tripwire.php
+
 
 1. Domain expiry
 1. DNS records
@@ -470,17 +475,17 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. Email delivery, also recipient accounts: `can-send-email`
 1. Also for email recipient domains: domain expiry, DNS, blacklist
 1. Speed: https://developers.google.com/speed/pagespeed/insights/ https://www.webpagetest.org/
-1. Google Search Console
-1. Traffic: Analytics
+1. Google Search Console (was Webmaster Tools)
+1. Traffic: Google Analytics
 1. SEO ranking: SEO Panel
 
 
 ## Backup
 
 
-1. DB
+1. Database
 1. Files
-1. Settings (connected services)
+1. Settings (connected 3rd party services)
 1. Authentication data
 
 

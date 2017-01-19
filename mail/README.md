@@ -19,6 +19,7 @@
 - https://www.mailjet.com/transactional Made with :heart: in Paris
 - https://www.mailgun.com/ by Rackspace
 - https://aws.amazon.com/ses/ by Amazon
+- https://www.sparkpost.com/
 - https://sendgrid.com/
 - https://www.sendinblue.com/
 - https://www.mandrill.com/ by MailChimp
@@ -354,20 +355,21 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 ### RBL-s (DNSBL)
 
-#### Blacklists
+- [List of blacklists](http://www.intra2net.com/en/support/antispam/index.php)
+- [Whitelists in SpamAssassin](https://wiki.apache.org/spamassassin/DnsBlocklists#Whitelists)
+- [Sender Support and Delivery and Filtering Details](https://wordtothewise.com/isp-information/)
 
-- Courier MTA `BLACKLISTS="-block=bl.blocklist.de"`
-- http://psky.me/
-- http://www.intra2net.com/en/support/antispam/index.php (Blacklist Monitor)
-- http://multirbl.valli.org/
-- https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
-- http://bgp.he.net/ip/1.2.3.4#_rbl
-- http://www.unifiedemail.net/Tools/RBLCheck/
 
 #### Check RBL-s
 
 ```bash
 rblcheck
+```
+
+Courier MTA
+
+```ini
+BLACKLISTS="-block=bl.blocklist.de"
 ```
 
 Trendmicro ERS check
@@ -377,47 +379,49 @@ wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.tren
     | sed -ne 's;.*<dd>\(.\+\)</dd>.*;\1;p' | tr '\n' ' '
 ```
 
-OK response: "IP Unlisted in the spam sender list None"
+OK response: `IP Unlisted in the spam sender list None`
 
-### IP reputation
 
-- http://www.senderbase.org/lookup/
-- https://www.senderscore.org/lookup.php
-- https://postmaster.aol.com/ip-reputation
-- http://www.projecthoneypot.org/search_ip.php
-- http://www.barracudacentral.org/lookups
-- http://www.cyren.com/ip-reputation-check.html
-- http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx
-- http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4
-- http://ipremoval.sms.symantec.com/lookup/
-- https://ers.trendmicro.com/reputations
+### Mail server reputation
 
-#### IP reputation monitoring
+- `B` - Blacklist a.k.a. RBL (lookup, delist)
+- `L` - Lookup(s)
+- `M` - Monitoring
+- `R` - Registered (whitelist etc.)
+- `F` - Feedback loop
+- `S` - Sender support
+- `A` - Abuse report
 
-- https://mxtoolbox.com/services_servermonitoring2.aspx
-- https://www.projecthoneypot.org/monitor_settings.php
-- https://www.rblmon.com/accounts/register/
-- https://rbltracker.com/
+- http://www.unifiedemail.net/Tools/RBLCheck/ `L`
+- http://bgp.he.net/ip/1.2.3.4#_rbl `L`
+- http://multirbl.valli.org/ `L`
+- http://psky.me/ `B`
+- http://www.senderbase.org/lookup/ `L`
+- https://www.senderscore.org/lookup.php `L`
+- http://www.barracudacentral.org/lookups `L`
+- http://www.cyren.com/ip-reputation-check.html `L`
+- http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx `L` [lookup](http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4)
+- https://support.google.com/mail/contact/msgdelivery `S`
+- https://postoffice.yandex.com/ `S`
+- https://poczta.onet.pl/pomoc/en,odblokuj.html `S`
+- http://ipremoval.sms.symantec.com/lookup/ `S`
+- [Report abuse from Gmail](https://support.google.com/mail/contact/abuse) `A`
+- [Report abuse from Outlook.com](mailto:abuse@outlook.com) `A`
+- [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` `A`
 
-### Whitelists
+Register here:
 
-- https://www.dnswl.org/selfservice/
-- http://www.emailreg.org/index.cgi?p=policy (Barracuda)
-- https://ers.trendmicro.com/reputations/global_approved_list
-- [Whitelists in SpamAssassin](https://wiki.apache.org/spamassassin/DnsBlocklists#Whitelists)
-
-### Feedback loops, postmaster tools
-
-- https://wordtothewise.com/isp-information/
-- Outlook.com [Smart Network Data Service (SNDS)](http://postmaster.live.com/snds/) + JMRP
-- [Sender Information for Outlook.com Delivery](http://go.microsoft.com/fwlink/?LinkID=614866)
-- https://support.google.com/mail/contact/msgdelivery
-- https://postoffice.yandex.com/
-- http://yandexfbl.senderscore.net/
-- http://poczta.onet.pl/pomoc/en,odblokuj.html
-- [Report abuse from Gmail](https://support.google.com/mail/contact/abuse)
-- [Report abuse from Outlook.com](mailto:abuse@outlook.com)
-- [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip IP-ADDRESS).abuse-contacts.abusix.org`
+- https://mxtoolbox.com/problem/blacklist/ `LM` [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
+- http://www.projecthoneypot.org/search_ip.php `LM`
+- https://rbltracker.com/ `M`
+- https://www.rblmon.com/accounts/register/ `M`
+- https://www.dnswl.org/selfservice/ `R`
+- https://ers.trendmicro.com/reputations `LR`
+- http://www.emailreg.org/index.cgi?p=policy (Barracuda) `R`
+- [Outlook.com Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) + JMRP `RF`
+- [AOL Postmaster](https://postmaster.aol.com/ip-reputation) `LR`
+- http://yandexfbl.senderscore.net/ `F`
+- [Sender Information for Outlook.com Delivery](https://go.microsoft.com/fwlink/?LinkID=614866) `S`
 
 ### Free e-mail backup server
 

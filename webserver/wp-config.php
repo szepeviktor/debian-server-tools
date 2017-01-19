@@ -35,7 +35,7 @@ ini_set( 'log_errors', 1 );
 //define( 'O1_BAD_REQUEST_CDN_HEADERS', 'HTTP_X_AMZ_CF_ID:HTTP_VIA:HTTP_X_FORWARDED_FOR' );
 //require_once __DIR__ . '/wp-miniban-htaccess.inc.php';
 require_once __DIR__ . '/wp-fail2ban-bad-request-instant.inc.php';
-new O1\Bad_Request();
+new \O1\Bad_Request();
 // wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
 // wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
 

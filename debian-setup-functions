@@ -22,16 +22,16 @@ export -f Is_installed_regexp
 # Download architecture-independent packages
 Getpkg() {
     local P="$1"
-    local R="${2-sid}"
-    local WEB="https://packages.debian.org/${R}/all/${P}/download"
+    local R="${2:-sid}"
+    local PKG_PAGE="https://packages.debian.org/${R}/all/${P}/download"
     local URL
 
-    URL="$(wget -q -O- "$WEB" | grep -o '[^"]\+ftp.de.debian.org/debian[^"]\+\.deb')"
+    URL="$(wget -q -O- "$PKG_PAGE" | grep -o '[^"]\+ftp.de.debian.org/debian[^"]\+\.deb')"
 
     [ -z "$URL" ] && return 1
 
     (
-        cd /root/dist-mod/
+        cd /root/dist-mod/ || return 1
         wget -q -O "${P}.deb" "$URL"
         dpkg -i "${P}.deb"
     )
@@ -41,11 +41,11 @@ export -f Getpkg
 # Install a script from debian-server-tools
 Dinstall() {
     (
-        cd /usr/local/src/
+        cd /usr/local/src/ || return 1
         if ! [ -d "debian-server-tools" ]; then
             git clone https://github.com/szepeviktor/debian-server-tools.git
         fi
-        cd debian-server-tools/
+        cd debian-server-tools/ || return 1
 
         ./install.sh "$@"
     )

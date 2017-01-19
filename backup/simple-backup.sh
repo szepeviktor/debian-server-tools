@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.7
+# VERSION       :0.2.8
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,8 +21,6 @@ DOC_ROOT="/home/web-user"
 WP_SITE="site"
 HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
-declare -i CURRENT_DAY
-
 Echo() {
     if [ -t 0 ]; then
         echo "$*"
@@ -35,7 +33,7 @@ Error() {
     exit 10
 }
 
-declare CURRENT_DAY
+declare -i CURRENT_DAY
 
 set -e
 
@@ -97,8 +95,8 @@ cd /
 #Echo "umount"
 #umount "$BACKUP_DIR"
 
-logger -t "simple-backup" "Finished. $*"
-
 wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"
+
+logger -t "simple-backup" "Finished. $*"
 
 exit 0

@@ -99,6 +99,8 @@ Purchased themes can be updated using a child theme.
 wp plugin install child-theme-configurator --activate
 ```
 
+Keep changes in git.
+
 ### Redis object cache
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
