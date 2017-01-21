@@ -3,7 +3,6 @@
 # Obfuscated password input.
 #
 # VERSION       :0.2.1
-# LOCATION      :/usr/local/bin/get-passwd-example.sh
 
 Get_passwd() {
     local PROMPT="$1"
@@ -15,7 +14,7 @@ Get_passwd() {
     local LETTER_POS
     local -a LETTERS=(
         a b c d e f g h i j k l m n o p q r s t u v w x y z
-        , . - _ = / % ! +
+        "," "." "-" "_" "=" "/" "%" "!" "+"
         A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
         0 1 2 3 4 5 6 7 8 9
     )

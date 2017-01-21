@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Explain Intel CPU flags
+# Explain Intel CPU flags.
 #
 # VERSION       :0.2.0
 # LOCATION      :/usr/local/bin/cpuflags.sh
@@ -17,6 +17,7 @@ grep -E "model name|cpu MHz|bogomips" /proc/cpuinfo
 # Download cpufeatures.h
 wget -nv -O "$CPUFEATURES" "$CPUFEATURES_URL"
 
+# shellcheck disable=SC2013
 for FLAG in $(grep -m 1 "^flags" /proc/cpuinfo | cut -d ":" -f 2-); do
     echo -n "$FLAG"
     grep -E -C 1 "^#define X86_(FEATURE|BUG)_" "$CPUFEATURES" \

@@ -16,11 +16,11 @@ Reverse_string() {
     local REV
 
     REV="$(
-        while read -d "$DELIM" PART; do
+        while read -r -d "$DELIM" PART; do
             echo "$PART"
         done <<< "${STRING}${DELIM}" \
         | tac \
-        | while read PART; do
+        | while read -r PART; do
             echo -n "${PART}${DELIM}"
         done
     )"

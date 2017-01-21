@@ -4,7 +4,7 @@
 #
 # VERSION       :0.1.0
 
-exec 200<$0
+exec 200<"$0"
 
 # Wait for other processes to finish
 #     flock 200 || exit 200

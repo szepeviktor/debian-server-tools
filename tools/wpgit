@@ -43,7 +43,7 @@ if [ $# == 1 ]; then
     git checkout "$TAG" -- .
 fi
 
-# [WIP]
+# @WIP
 
 # Show differences from a given tag
 #TAG_COMMIT="$(git rev-list "$TAG" | head -n 1)"

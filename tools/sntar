@@ -4,5 +4,6 @@
 #
 # VERSION       :0.1.0
 # DEPENDS       :apt-get install snzip
+# LOCATION      :/usr/local/bin/sntar
 
 tar -I /usr/bin/snzip "$@"

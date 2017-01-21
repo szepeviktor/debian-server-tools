@@ -8,7 +8,7 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install w3m
+# DEPENDS       :apt-get install php-cli w3m
 # SOURCE        :http://wp-cli.org/docs/shell-tips/
 # LOCATION      :/usr/local/bin/wp-changelog.sh
 
@@ -18,8 +18,9 @@ PLUGIN="$1"
 
 set -e
 
-[ -n "$PLUGIN" ]
+test -n "$PLUGIN"
 
-wget -q -O- http://api.wordpress.org/plugins/info/1.0/${PLUGIN} \
+# shellcheck disable=SC2016
+wget -q -O- "http://api.wordpress.org/plugins/info/1.0/${PLUGIN}" \
     | php -r '$s=unserialize(stream_get_contents(STDIN));echo $s->sections["changelog"];' \
-    | w3m -T text/html
+    | w3m -T "text/html"

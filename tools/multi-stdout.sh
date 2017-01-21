@@ -20,6 +20,7 @@ if [ $# -lt 2 ]; then
 fi
 
 TEMPFILE="$(mktemp)"
+# shellcheck disable=SC2064
 trap "rm -f '$TEMPFILE'" EXIT HUP INT QUIT PIPE TERM
 
 # Save stdin
