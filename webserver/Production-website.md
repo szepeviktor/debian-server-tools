@@ -349,7 +349,7 @@ http://google-public-dns.appspot.com/cache
 
 - HTTP methods `GET POST HEAD` and `OPTIONS PUT DELETE TRACE` etc.
 - https://redbot.org/
-- https://securityheaders.io/
+- https://securityheaders.io/ and see [Twitter's list](https://github.com/twitter/secureheaders/blob/master/README.md)
 - https://www.webpagetest.org/
 - https://speedcurve.com/
 - Does the website have a public API? (WP REST API, WooCommerce API)

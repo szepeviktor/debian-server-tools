@@ -2,7 +2,7 @@
 #
 # Show Debian changelog and other package documents.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-12-13
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -70,7 +70,11 @@ test -d "/usr/share/doc/${PKG}"
 for SUFFIX in .gz "" .md.gz .md; do
     if [ -f "/usr/share/doc/${PKG}/${FILENAME}${DEBIAN}${SUFFIX}" ]; then
         # File is found, show its content in the default pager
-        pager "/usr/share/doc/${PKG}/${FILENAME}${DEBIAN}${SUFFIX}"
+        if [ "${SUFFIX%.gz}" != "$SUFFIX" ]; then
+            zcat "/usr/share/doc/${PKG}/${FILENAME}${DEBIAN}${SUFFIX}" | pager
+        else
+            pager "/usr/share/doc/${PKG}/${FILENAME}${DEBIAN}${SUFFIX}"
+        fi
         exit 0
     fi
 done

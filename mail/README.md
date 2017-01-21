@@ -392,12 +392,11 @@ OK response: `IP Unlisted in the spam sender list None`
 - `S` - Sender support
 - `A` - Abuse report
 
-- http://www.unifiedemail.net/Tools/RBLCheck/ `L`
 - http://bgp.he.net/ip/1.2.3.4#_rbl `L`
 - http://multirbl.valli.org/ `L`
 - http://psky.me/ `B`
-- http://www.senderbase.org/lookup/ `L`
-- https://www.senderscore.org/lookup.php `L`
+- http://www.senderbase.org/lookup/ by Cisco `L`
+- https://www.senderscore.org/lookup.php by ReturnPath `L`
 - http://www.barracudacentral.org/lookups `L`
 - http://www.cyren.com/ip-reputation-check.html `L`
 - http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx `L` [lookup](http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4)
@@ -406,11 +405,12 @@ OK response: `IP Unlisted in the spam sender list None`
 - https://poczta.onet.pl/pomoc/en,odblokuj.html `S`
 - http://ipremoval.sms.symantec.com/lookup/ `S`
 - [Report abuse from Gmail](https://support.google.com/mail/contact/abuse) `A`
-- [Report abuse from Outlook.com](mailto:abuse@outlook.com) `A`
+- [Report abuse from Outlook.com](mailto:abuse@outlook.com) `A` See Sender Score
 - [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` `A`
 
 Register here:
 
+- http://www.unifiedemail.net/Tools/RBLCheck/ `LM` [registration](https://www.unifiedemail.net/Tools/RBLCheck/Monitoring/default.aspx)
 - https://mxtoolbox.com/problem/blacklist/ `LM` [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
 - http://www.projecthoneypot.org/search_ip.php `LM`
 - https://rbltracker.com/ `M`
@@ -418,9 +418,11 @@ Register here:
 - https://www.dnswl.org/selfservice/ `R`
 - https://ers.trendmicro.com/reputations `LR`
 - http://www.emailreg.org/index.cgi?p=policy (Barracuda) `R`
-- [Outlook.com Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) + JMRP `RF`
 - [AOL Postmaster](https://postmaster.aol.com/ip-reputation) `LR`
 - http://yandexfbl.senderscore.net/ `F`
+- [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx)
+    - [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) `RF`
+    - [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx) `RF`
 - [Sender Information for Outlook.com Delivery](https://go.microsoft.com/fwlink/?LinkID=614866) `S`
 
 ### Free e-mail backup server

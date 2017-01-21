@@ -15,6 +15,16 @@ http://www.symkat.com/sympull-cdn
 
 https://github.com/symkat/SymPullCDN
 
+### Measure latency/timing in Apache + PHP-FPM
+
+1. ICMP Ping: `ping -c 10 server.example.com`
+1. TCP Server: `mkfifo /tmp/fifo; cat /tmp/fifo | xargs -L 1 echo | nc -l -k 0.0.0.0 8080 > /tmp/fifo`
+   TCP Client: `{ echo " * 1" | ts -- "- %.S"; sleep 1; } | nc server.example.com 8080 | ts "%.S" | bc`
+1. Static HTTP Server: `echo -n "1" > onebyte.txt`
+   HTTP Client: `time wget -q -O /dev/null http://server.example.com/onebyte.txt`
+1. Dynmaic HTTP Server: `echo '<?php echo "1";' > onebyte.php`
+   HTTP Client: `time wget -q -O /dev/null http://server.example.com/onebyte.php`
+
 ### Debug PHP-FPM (FastCGI) unix domain socket
 
 ```bash

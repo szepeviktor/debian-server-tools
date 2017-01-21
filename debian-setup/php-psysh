@@ -1,0 +1,8 @@
+#!/bin/bash
+
+PSYSH_URL="https://git.io/psysh"
+
+set -e -x
+
+wget -O /usr/local/bin/psysh "$PSYSH_URL"
+chmod +x /usr/local/bin/psysh
