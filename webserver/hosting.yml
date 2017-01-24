@@ -15,6 +15,9 @@ domain-registrar: Domain Reg. Co. <support@domain.com>
 ssl:
   enabled: yes
   login: webmaster@example.com
+cdn:
+  enabled: yes
+  hostname: cdn.example.com
 cms:
   core: WordPress
   theme: Theme Name

@@ -114,7 +114,7 @@ main() {
     # Change owner of the SSH directory and its contents
     chown --recursive "${U}:${U}" "$SSH_DIR"
 
-    # Check key
+    # Display fingerprint
     ssh-keygen -l -v -f "$SSH_AUTHKEYS"
 
     # Add to sudoers group

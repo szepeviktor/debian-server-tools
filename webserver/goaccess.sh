@@ -2,17 +2,19 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.1.3
+# DEPENDS       :apt-get install goaccess
+# VERSION       :0.1.4
 
 U="$(stat . -c %U)"
 #U="${1:-default-user}"
 
 HTTPS="ssl-"
 
-IP="$IP"
+test -z "$IP" && exit 1
 
 Goaccess() {
     goaccess \
+        --ignore-crawlers \
         --agent-list \
         --http-method=yes \
         --all-static-files \
@@ -20,7 +22,8 @@ Goaccess() {
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
         --date-format='%d/%b/%Y' \
         --time-format='%T' \
-        --exclude-ip="$IP" "$@"
+        --exclude-ip="$IP" \
+        "$@"
 }
 
 Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log

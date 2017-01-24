@@ -152,8 +152,11 @@ case "$CHECK" in
         declare -i RESULT
         RESOLVERS="$(sed -n -e 's;^nameserver\s\+\(\S\+\)\s*$;\1;p' /etc/resolv.conf)"
         while read -r RESOLVER; do
-            if host -t PTR 8.8.8.8 "$RESOLVER" &> /dev/null; then
+            if host -W 3 -t PTR 8.8.8.8 "$RESOLVER" &> /dev/null; then
                 RESULT+="1"
+            else
+                # Show failing resolver
+                echo -n "R:${RESOLVER} "
             fi
         done <<< "$RESOLVERS"
         ;;

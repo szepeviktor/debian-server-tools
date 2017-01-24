@@ -48,11 +48,28 @@ location ~* ^(.+)\.\d\d+\.(js|css|png|jpg|jpeg|gif|ico)$ {
 }
 ```
 
+### CDN log format
+
+```apache
+# CDN with X-Forwarded-For header
+LogFormat "%h %l %u %t \"%r\" %>s %O \"Client-IP:%{X-Forwarded-For}i\" \"%{User-Agent}i\"" cdn
+```
+
 ### Remove all comments and indentation (compact) from a PHP script
 
 ```bash
 php -w SCRIPT.php | sed 's/;/;\n/g'
 ```
+
+### Apache slow loris protection
+
+[RequestReadTimeout](https://httpd.apache.org/docs/2.4/mod/mod_reqtimeout.html)
+
+### Disable mod_pagespeed
+
+`?PageSpeed=off`
+
+
 
 ### Experimenting with webservers
 
@@ -86,11 +103,3 @@ http://caucho.com/products/resin/problem
 #### Caddy
 
 https://caddyserver.com/
-
-### Apache slow loris protection
-
-[RequestReadTimeout](https://httpd.apache.org/docs/2.4/mod/mod_reqtimeout.html)
-
-### Disable mod_pagespeed
-
-`?PageSpeed=off`
