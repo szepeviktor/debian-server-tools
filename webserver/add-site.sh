@@ -130,6 +130,9 @@ openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
 # https://www.srihash.org/
 openssl dgst -sha384 -binary | openssl enc -base64 -A
 
+# CAA record to pin certificate authorities
+# https://sslmate.com/labs/caa/
+
 # In case of "www." set ServerAlias
 editor ${DOMAIN}.conf
 # Enable site

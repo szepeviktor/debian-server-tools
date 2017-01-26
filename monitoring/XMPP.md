@@ -1,3 +1,5 @@
+# XMPP
+
 ### Server
 
 https://prosody.im/doc/install
@@ -6,9 +8,9 @@ https://prosody.im/doc/install
 
 https://gajim.org/downloads.php
 
-Jingle client on Windows?
+Jingle (peer-to-peer media sessions) client on Windows?
 
 ### Test
 
 - https://xmpp.net/
-- ssl tester script.py
+- SSL tester script.py

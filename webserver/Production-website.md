@@ -422,7 +422,7 @@ Document in `hosting.yml` and check functionality.
 
 Gain access, set up and test.
 
-- Google Analytics, Remarketing tag
+- Google Analytics, Google Tag Manager
 - Facebook Pixel
 - Piwik
 - Clicktale
