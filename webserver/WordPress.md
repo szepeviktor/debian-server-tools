@@ -322,6 +322,7 @@ add_action( 'plugins_loaded', function () {
     global $vc_manager;
     if ( method_exists( $vc_manager, 'disableUpdater' ) ) {
         $vc_manager->disableUpdater( true );
+        add_filter( 'pre_option_wpb_js_js_composer_purchase_code', '__return_true' );
     }
 } );
 ```
@@ -344,11 +345,49 @@ Envato Market plugin for ThemeForest updates
 wp plugin install https://envato.github.io/wp-envato-market/dist/envato-market.zip --activate
 ```
 
+`envato-market-update.sh`
+
+```bash
+#!/bin/bash
+
+WP_CONTENT_DIR="$(wp --no-debug eval 'echo WP_CONTENT_DIR;')"
+
+if [ -n "$WP_CONTENT_DIR" ] && [ -d "$WP_CONTENT_DIR" ]; then
+    wp --no-debug plugin install "https://github.com/envato/wp-envato-market/archive/master.zip" --force
+fi
+```
+
 Gravity Forms plugin
 
 ```php
 // Disable Gravity Forms updates
+define( 'GRAVITY_MANAGER_URL', null );
+define( 'GRAVITY_MANAGER_PROXY_URL', null );
 add_filter( 'pre_transient_gform_update_info', '__return_true' );
+add_filter( 'option_gform_enable_background_updates', '__return_false' );
+```
+
+Unity theme
+
+`external-plugin-update.sh`
+
+```bash
+#!/bin/bash
+
+CURRENT="$(dirname "$0")/external-plugin-update.log"
+
+# From wp-content/themes/unity/inc/frontend.php
+EXTERNAL_PLUGINS=(
+    http://www.wpopal.com/thememods/appthemer-crowdfunding.zip
+    http://www.wpopal.com/thememods/js_composer.zip
+    http://www.wpopal.com/thememods/revslider.zip
+)
+
+for PLUGIN in ${EXTERNAL_PLUGINS[*]}; do
+    wget -q --spider -S "$PLUGIN" 2>&1 | grep "Last-Modified:"
+done | diff "$CURRENT" -
+
+#exit 0
 ```
 
 ### On deploy and Staging->Production Migration

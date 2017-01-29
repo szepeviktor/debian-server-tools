@@ -2,7 +2,7 @@
 #
 # Install a tool from debian-server-tools.
 #
-# VERSION       :0.4.2
+# VERSION       :0.4.3
 # DATE          :2015-05-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,7 +11,7 @@
 
 
 Die() {
-    local RET="$1"
+    local -i RET="$1"
 
     shift
     echo -e "$*" 1>&2
@@ -25,11 +25,13 @@ Die() {
 #   META
 #####################################################
 Get_meta() {
-    # defaults to self
+    # Defaults to self
     local FILE="${1:-$0}"
-    # defaults to "VERSION"
+    # Defaults to "VERSION"
     local META="${2:-VERSION}"
-    local VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d':' -f 2-)"
+    local VALUE
+
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -87,7 +89,7 @@ Do_install() {
 
     # Create symlink
     head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d ":" -f 2- \
-        | while read SYMLINK; do
+        | while read -r SYMLINK; do
             echo -n "Symlinking "
             ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
         done
@@ -103,7 +105,6 @@ Do_install() {
     Get_meta "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" != "install ok installed" ]; then
-                #if ! grep-status -sPackage -FProvides "$PKG" | grep -qx "Package: \S\+"; then
                 echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
             fi
         done
@@ -131,7 +132,7 @@ Do_dir() {
     local FILE
 
     find "$DIR" -maxdepth 1 -type f \
-        | while read FILE; do
+        | while read -r FILE; do
             Do_install "$FILE"
         done
 }

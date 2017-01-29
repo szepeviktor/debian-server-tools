@@ -1,8 +1,8 @@
 # From Fail2ban
  check process fail2ban with pidfile /run/fail2ban/fail2ban.pid
    group services
-   start program = "/etc/init.d/fail2ban force-start"
-   stop program = "/etc/init.d/fail2ban stop"
+   start program = "/etc/init.d/fail2ban force-start" with timeout 90 seconds
+   stop program = "/etc/init.d/fail2ban stop" with timeout 90 seconds
    if failed unixsocket /run/fail2ban/fail2ban.sock then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on fail2ban_db

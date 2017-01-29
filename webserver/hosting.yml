@@ -18,6 +18,9 @@ ssl:
 cdn:
   enabled: yes
   hostname: cdn.example.com
+email:
+  provider: Mailjet
+  login: webmaster@example.com
 cms:
   core: WordPress
   theme: Theme Name

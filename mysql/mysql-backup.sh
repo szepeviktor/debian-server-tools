@@ -2,7 +2,7 @@
 #
 # Complete MySQL backup daily.
 #
-# VERSION       :0.1
+# VERSION       :0.1.0
 # DATE          :2014-10-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,6 +15,6 @@
 
 BACKUP_TARGET="/root/backup/mysql-today.sql.gz"
 
-# IO nice and CPU nice
+# CPU nice
 /usr/bin/mysqldump --all-databases --single-transaction --events \
-    | ionice -c 3 nice gzip -9 > "$BACKUP_TARGET"
+    | nice gzip -9 > "$BACKUP_TARGET"

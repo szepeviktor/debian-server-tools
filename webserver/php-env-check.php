@@ -15,7 +15,7 @@
 namespace O1;
 
 // Local access only
-if ( php_sapi_name() !== 'cli' && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR'] ) {
+if ( 'cli' !== php_sapi_name() && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR'] ) {
     header( 'Status: 403 Forbidden' );
     header( 'HTTP/1.1 403 Forbidden', true, 403 );
     header( 'Connection: Close' );
@@ -52,16 +52,16 @@ final class Check_Env {
      */
     public function __construct() {
 
+        // Engine version
+        $this->assert( 'php', 70015, PHP_VERSION_ID );
+
         // Extensions for WordPress on PHP 7.0
         // http://wordpress.stackexchange.com/a/42212
-
-        // Engine version
-        $this->assert( 'php', 70014, PHP_VERSION_ID );
 
         // Core directives
         $this->assert_directive( 'user_ini.filename', '' );
         $this->assert_directive( 'expose_php', '' );
-        $this->assert_directive( 'allow_url_fopen', '' );
+        $this->assert_directive( 'allow_url_fopen', '0' );
         $this->assert_directive( 'mail.add_x_header', '' );
         $this->assert_directive( 'realpath_cache_size', '64k' );
         $this->assert_directive( 'max_execution_time', '30' );
@@ -128,10 +128,10 @@ final class Check_Env {
         // Disabled Extensions
         // calendar fileinfo pcntl PDO pdo_mysql Phar readline
         // shmop sysvmsg(System V messages) sysvsem(System V semaphore) sysvshm(System V shared memory) wddx xmlwriter xsl
-
         $this->assert_disabled_extension( 'calendar' );
         $this->assert_disabled_extension( 'fileinfo' );
-        $this->assert_disabled_extension( 'pcntl' );
+        // Compiled in
+        //$this->assert_disabled_extension( 'pcntl' );
         $this->assert_disabled_extension( 'PDO' );
         $this->assert_disabled_extension( 'pdo_mysql' );
         $this->assert_disabled_extension( 'Phar' );
@@ -157,6 +157,7 @@ final class Check_Env {
         // Not for WordPress
 
         // Session
+        $this->assert_extension( 'session' );
         $this->assert_directive( 'session.gc_maxlifetime', '1440' );
     }
 

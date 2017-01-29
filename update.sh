@@ -2,7 +2,7 @@
 #
 # Show update instruction for installed tools.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2015-07-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -21,7 +21,9 @@ Get_meta() {
     local FILE="${1:-$0}"
     # defaults to "VERSION"
     local META="${2:-VERSION}"
-    local VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d':' -f 2-)"
+    local VALUE
+
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -29,7 +31,7 @@ Get_meta() {
     echo "$VALUE"
 }
 
-which colordiff &> /dev/null || unset PARAM
+hash colordiff 2> /dev/null || unset PARAM
 
 #Input_motd Get_meta input/update-motd.d - Get_meta /etc/update-motd.d/update-motd.d
 

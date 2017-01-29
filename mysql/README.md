@@ -1,4 +1,4 @@
-Installation of system tables failed!
+MariaDB upgrade error message: *Installation of system tables failed!*
 
 ```bash
 mcedit /var/lib/dpkg/info/mariadb-server-10.0.postinst:227
@@ -19,7 +19,7 @@ http://nathan.rambeck.org/blog/28-drop-all-mysql-tables-command-line
 # check for credentials in ~/.my.cnf
 mysqldump --no-create-info --no-data information_schema > /dev/null && echo "USE information_schema;" | mysql
 
-mysqldump --no-data <DATABASE> | grep "^DROP TABLE IF EXISTS " | ionice mysql
+mysqldump --no-data <DATABASE> | grep "^DROP TABLE IF EXISTS " | mysql
 ```
 
 ### Check and optimize a databases
