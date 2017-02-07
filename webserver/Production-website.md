@@ -204,7 +204,7 @@ wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')op
 wp cache flush
 ```
 
-Purge page cache.
+Flush page cache.
 
 ```bash
 wp w3-total-cache flush
@@ -399,6 +399,7 @@ Send to Analytics / report to `/js-error.php`
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 - Microsoft/Libre Office (copy-and-paste content or open URL)
+- Adblock and filter lists
 
 ### Integration (3rd party services)
 
@@ -477,7 +478,6 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. Speed: https://developers.google.com/speed/pagespeed/insights/ https://www.webpagetest.org/
 1. Google Search Console (was Webmaster Tools)
 1. Traffic: Google Analytics
-1. SEO ranking: SEO Panel
 
 
 ## Backup

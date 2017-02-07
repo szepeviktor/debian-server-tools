@@ -39,7 +39,8 @@ SSLCACertificateFile /etc/ssl/localcerts/company-ca.pem
 
 ```php
     // Check verification result, CA and client CN
-    $verified = ( array_key_exists( 'SSL_CLIENT_VERIFY', $_SERVER )
+    $verified = (
+        array_key_exists( 'SSL_CLIENT_VERIFY', $_SERVER )
         && 'SUCCESS' === $_SERVER['SSL_CLIENT_VERIFY']
         && array_key_exists( 'SSL_CLIENT_I_DN', $_SERVER )
         && $client_issuer_dn === $_SERVER['SSL_CLIENT_I_DN']
