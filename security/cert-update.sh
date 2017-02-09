@@ -108,8 +108,8 @@ Courier_mta() {
         echo "SMTPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername "$SERVER_NAME" -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername "$SERVER_NAME" -connect ${SERVER_NAME}:465" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:465" 1>&2
     fi
 
     # Check config file for IMAPS
@@ -124,7 +124,7 @@ Courier_mta() {
         echo "IMAPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config imapd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername "$SERVER_NAME" -connect ${SERVER_NAME}:993" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:993" 1>&2
     fi
 
     echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
@@ -167,7 +167,7 @@ Apache2() {
     else
         #echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
-        echo "echo | openssl s_client -CAfile ${CABUNDLE} -servername "$SERVER_NAME" -connect ${SERVER_NAME}:443" 1>&2
+        echo "echo | openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
     fi
 }
 

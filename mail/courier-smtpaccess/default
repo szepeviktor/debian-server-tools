@@ -1,0 +1,6 @@
+# /etc/courier/smtpaccess/default
+# Documentation: http://www.courier-mta.org/makesmtpaccess.html
+
+# --- localhost
+127.0.0.1	allow,RELAYCLIENT
+:0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
