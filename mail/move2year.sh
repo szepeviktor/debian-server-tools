@@ -2,7 +2,7 @@
 #
 # Move old messages to a yearly folder.
 #
-# VERSION       :0.1
+# VERSION       :0.1.1
 # DATE          :2014-10-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -12,33 +12,38 @@
 
 # Create maildir folders for last year
 #
-# sudo -u virtual -- maildirmake -f archive.inbox-2014 /var/mail/user/Maildir
-# sudo -u virtual -- maildirmake -f archive.sent-2014 /var/mail/user/Maildir
+#     sudo -u virtual -- maildirmake -f archive.inbox-2014 /var/mail/user/Maildir
+#     sudo -u virtual -- maildirmake -f archive.sent-2014 /var/mail/user/Maildir
 #
 # Usage example
 #
-# ./move2year.sh 2014 /var/mail/user/Maildir/cur /var/mail/user/Maildir/archive.inbox-2014/cur
+#     move2year.sh 2016 /var/mail/user/Maildir/cur /var/mail/user/Maildir/archive.inbox-2016/cur
+#     move2year.sh 2016 /var/mail/user/Maildir/.Sent/cur /var/mail/user/Maildir/archive.sent-2016/cur
 #
 # Inbox message count
 #
-# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;ls {}/Maildir/cur|wc -l"
+#     find /var/mail -mindepth 2 -maxdepth 2 -type d \
+#         | xargs -I{} bash -c "echo -n {}:;ls {}/Maildir/cur|wc -l"
 #
 # Last five messages in the inbox
 #
-# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo {}:;ls -lt --full-time {}/Maildir/cur|tail -n5|cut -c1-100"
+#     find /var/mail -mindepth 2 -maxdepth 2 -type d \
+#         | xargs -I % bash -c "echo '%:'; ls -lt --full-time '%/Maildir/cur' | tail -n 5 | cut -c 1-100"
 #
 # This year's messages in the inbox
 #
-# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;find {}/Maildir/cur -type f -mtime -365|wc -l"
+#     find /var/mail -mindepth 2 -maxdepth 2 -type d \
+#         | xargs -I % bash -c "echo -n '%:'; find '%/Maildir/cur' -type f -mtime -365 | wc -l"
 #
 # 1 year old messages in the inbox
 #
-# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;find {}/Maildir/cur -type f -mtime -730 -mtime +365|wc -l"
+#     find /var/mail -mindepth 2 -maxdepth 2 -type d \
+#         | xargs -I % bash -c "echo -n '%:'; find '%/Maildir/cur' -type f -mtime -730 -mtime +365 | wc -l"
 #
 # 2+ years old messages in the inbox
 #
-# find /var/mail -mindepth 2 -maxdepth 2 -type d|xargs -I{} bash -c "echo -n {}:;find {}/Maildir/cur -type f -mtime +730|wc -l"
-
+#     find /var/mail -mindepth 2 -maxdepth 2 -type d \
+#         | xargs -I % bash -c "echo -n '%:'; find '%/Maildir/cur' -type f -mtime +730 | wc -l"
 
 YEAR="$1"
 FROM_FOLDER="$2"
@@ -54,20 +59,21 @@ YEAR_START="$(date -d"${YEAR}-01-01 00:00:00" "+%s")"
 YEAR_END="$(date -d"${YEAR}-12-31 23:59:59" "+%s")"
 
 find "$FROM_FOLDER" -type f \
-    | while read FILE; do
-        # determine date from timestamp in filename
-        DATE_STAMP="$(basename "${FILE}")"
+    | while read -r FILE; do
+        # Determine date from timestamp in filename
+        DATE_STAMP="$(basename "$FILE")"
         DATE_STAMP="${DATE_STAMP:0:10}"
-        # validity
+
+        # Validity
         if [ -z "$DATE_STAMP" ] || ! [ -z "${DATE_STAMP//[0-9]/}" ]; then
-            echo "Couldn't get timestamp from file name: ${FILE}" >&2
+            echo "Couldn't get timestamp from file name: ${FILE}" 1>&2
             continue
         fi
 
-        # in current year
+        # Move messages of the specified year
         if [ "$DATE_STAMP" -ge "$YEAR_START" ] && [ "$DATE_STAMP" -le "$YEAR_END" ]; then
-            echo -n "$(date -d"@${DATE_STAMP}" -R) "
-            # move keeps owner and permissions
+            echo -n "$(date -R -d "@${DATE_STAMP}") "
+            # `move` keeps owner and permissions
             mv -v "$FILE" "$TO_FOLDER"
         fi
     done

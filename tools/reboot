@@ -2,8 +2,8 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.1.2
-# DATE          :2016-02-08
+# VERSION       :0.2.0
+# DATE          :2017-02-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -43,6 +43,12 @@ if ! [ -b "$DISK" ] || ! grep -q "^${DISK}\s" /proc/mounts; then
 fi
 
 clear
+# Stop monit
+if [ "$(dpkg-query --showformat="\${Status}" --show monit 2> /dev/null)" == "install ok installed" ]; then
+    if service monit status | grep -qF "monit is running"; then
+        service monit stop
+    fi
+fi
 /sbin/reboot "$@" &
 # Follow syslog until actual reboot
 tail -f /var/log/syslog

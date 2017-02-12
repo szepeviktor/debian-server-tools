@@ -38,7 +38,7 @@ MONIT_COMPLETION="./bash_completion.d/monit"
 Is_pkg_installed() {
     local PKG="$1"
 
-    [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed" ]
+    test "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed"
 }
 
 Monit_template() {
@@ -205,9 +205,9 @@ Monit_wake() {
 # If apt is not in progress
 if ! fuser /var/lib/dpkg/lock > /dev/null 2>&1; then
     # Monit is stopped
-    if ! /etc/init.d/monit status | grep -qF "monit is running"; then
+    if ! service monit status | grep -qF "monit is running"; then
         echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
-        /etc/init.d/monit restart || /etc/init.d/monit start
+        service monit restart || service monit start
     fi
 fi
 

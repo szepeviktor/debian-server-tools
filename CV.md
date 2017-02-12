@@ -48,13 +48,12 @@ I hope I'll fit into your picture: viktor@szepe.net
 
 # Szépe Viktor dolgozna egy Vállalatnak
 
-HTTP alapú szolgáltatások **proaktív** üzemeltetésével foglalkozok: applikációk, API-k, honlapok.  
+HTTP alapú rendszerek **proaktív** üzemeltetésével foglalkozok,
+és a fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be.
+
 Ezirányú tapasztalataim értékes visszacsatolást jelenthetnek a fejlesztő csapatuknak.  
 (A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
 A figyelmem az üzembiztonságon és a sebességen van.
-
- Azt szoktam mondani, hogy azokhoz a dolgokhoz értek,
- ami nem látszik a képernyőn, csak ha már baj van.
 
 Debian alapú [webszervereket építek](http://xn--felhtrhely-w4a65k.hu/) és üzemeltetek. Email kézbesítéssel is foglalkozok.  
 A jegyzeteim és a programjaim nyílt forrásúak: https://github.com/szepeviktor/

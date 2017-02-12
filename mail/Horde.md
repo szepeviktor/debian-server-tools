@@ -1,6 +1,8 @@
 ### Install
 
 ```bash
+su --login horde
+
 H_PEARCONF="/home/horde/website/pear.conf"
 pear config-create /home/horde/website "$H_PEARCONF"
 pear -c "$H_PEARCONF" install pear
@@ -9,13 +11,20 @@ chmod +x /home/horde/website/pear.sh
 
 /home/horde/website/pear.sh channel-discover pear.horde.org
 /home/horde/website/pear.sh install horde/horde_role
-# Enter: /home/horde/website/html
+cd /home/horde/website/html/
 /home/horde/website/pear.sh run-scripts horde/Horde_Role
-/home/horde/website/pear.sh install -B horde/horde
+# Don't build C extensions
+/home/horde/website/pear.sh install --nobuild horde/horde
+
+# Tests
+/home/horde/website/pear.sh install --nobuild horde/Horde_Test
 # Open TNEF
-/home/horde/website/pear.sh install -B horde/Horde_Mapi
-# URL generation
-/home/horde/website/pear.sh install -B horde/Horde_Routes
+/home/horde/website/pear.sh install --nobuild horde/Horde_Mapi
+# Pretty URL-s
+/home/horde/website/pear.sh install --nobuild horde/Horde_Routes
+# IMP and Gravatar support
+/home/horde/website/pear.sh install --nobuild horde/imp horde/Horde_Service_Gravatar
+
 # Create database tables
 PHP_PEAR_SYSCONF_DIR=/home/horde/website php -d "include_path=.:/home/horde/website/pear/php" \
     /home/horde/website/pear/horde-db-migrate
@@ -31,6 +40,13 @@ env[PHP_PEAR_SYSCONF_DIR] = /home/horde/website
 env[TMPDIR] = /home/horde/website/tmp
 ```
 
+### Horde configuration
+
+```php
+// Allow webserver to read cached files in /static
+$conf['umask'] = 037;
+```
+
 ##### Root files
 
 - robots.txt
@@ -44,14 +60,11 @@ env[TMPDIR] = /home/horde/website/tmp
 pear -vvv update-channels
 pear list -c horde
 pear -vvv upgrade --nobuild --onlyreqdeps -c horde
-pear -vvv upgrade --nobuild --alldeps -c horde
-```
+#pear -vvv upgrade --nobuild --alldeps -c horde
 
-### Horde configuration
-
-```php
-// Allow webserver to read cached files in /static
-$conf['umask'] = 037;
+# $HORDE_URL/admin/config/
+# Upgrade database schema
+# Upgrade configuration
 ```
 
 ### Setup account defaults

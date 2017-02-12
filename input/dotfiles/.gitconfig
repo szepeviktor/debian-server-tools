@@ -1,0 +1,15 @@
+[user]
+	name = Name
+	email = user@example.com
+[push]
+	default = simple
+[credential]
+	helper = cache
+[core]
+	whitespace = trailing-space,space-before-tab
+[color]
+	ui = 1
+[alias]
+	remotes = remote -v
+	s = status
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --

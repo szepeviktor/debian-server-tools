@@ -353,6 +353,7 @@ http://google-public-dns.appspot.com/cache
 - https://www.webpagetest.org/
 - https://speedcurve.com/
 - Does the website have a public API? (WP REST API, WooCommerce API)
+- Test (REST) API [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
 
 ### PHP errors
 

@@ -1,8 +1,4 @@
 #!/bin/bash
-#
-# Install motd scripts.
-#
-# VERSION       :0.1.1
 
 set -e -x
 
@@ -16,7 +12,7 @@ Data get-value system.host-color "7" > /etc/hostcolor
 
 if [ -d /etc/update-motd.d ]; then
     # Halt on non-empty script directory
-    [ -z "$(find /etc/update-motd.d/ -type f -prune)" ]
+    test -z "$(find /etc/update-motd.d/ -type f -prune)"
 else
     mkdir /etc/update-motd.d
 fi
