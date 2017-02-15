@@ -2,7 +2,7 @@
 #
 # Optimize images in WordPress Media Library cron job.
 #
-# VERSION       :0.5.2
+# VERSION       :0.5.3
 # DATE          :2015-06-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -17,7 +17,7 @@
 # */5 *	* * *	USER	/usr/local/bin/wp-media-optimize.sh WP-ROOT
 
 WP_ROOT="$1"
-JPEG_RECOMPRESS="/usr/bin/jpeg-recompress --target 0.9995 --accurate --strip"
+JPEG_RECOMPRESS="/usr/bin/jpeg-recompress --target 0.9995 --subsample disable --accurate --strip"
 WP_CLI="/usr/local/bin/wp --quiet"
 META_NAME="optimized"
 LOGGER_TAG="$(basename --suffix=.sh "$0")"

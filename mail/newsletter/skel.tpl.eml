@@ -1,12 +1,12 @@
-Subject: $SUBJECT
-From: user@exmaple.com
-Reply-To: user@exmaple.com
+Subject: $(echo "$SUBJECT" | conv2047.pl -e)
+From: user@example.com
+Reply-To: user@example.com
 To: @@EMAIL@@
 X-Mailer: newsletter.sh
 X-Report-Abuse: Please report abuse here:
 	mailto:abuse@example.com
-List-ID: $(date -R | md5sum | cut -d" " -f1)
-List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_campaign_id>
+List-ID: ${ID}-$(date -R | md5sum | cut -d" " -f1)
+List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_campaign_id_@@EMAIL40@@>
 X-Precedence: bulk
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="_----------=_NLSH_112963458"

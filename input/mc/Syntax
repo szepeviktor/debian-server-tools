@@ -1,6 +1,6 @@
 # ~/.config/mc/mcedit/Syntax
 
-file ..\*(\\.(conf|cfg|zone|local|cf|htaccess)|Dockerfile)$ Configuration\sFile
+file ..\*(\\.(conf|cfg|zone|local|cf|htaccess|ipset)|Dockerfile)$ Configuration\sFile
 include ini.syntax
 
 file ..\*\\.(md|mdown|markdown)$ Markdown\sDocument

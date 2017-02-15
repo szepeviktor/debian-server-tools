@@ -329,6 +329,11 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 - https://www.klaviyo.com/
 - https://litmus.com/subscribe
 
+### Template design
+
+- https://mailchimp.com/
+- https://wireframe.cc/
+
 ### Email tests
 
 - https://www.mail-tester.com/ by Mailpoet

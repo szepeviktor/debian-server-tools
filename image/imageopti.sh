@@ -2,7 +2,7 @@
 #
 # Optimize images in the current directory.
 #
-# VERSION       :0.4.2
+# VERSION       :0.4.3
 # DATE          :2015-09-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,6 +23,7 @@
 #
 #     find wp-content/uploads/ -type d '(' -print -a -exec bash -c 'cd "{}";imageopti.sh' ';' -o -quit ')'
 
+# @TODO Move to /package/pbuilder_jpeg-archive.sh
 Build_tools() {
     local MOZJPEG_URL="https://github.com/mozilla/mozjpeg.git"
     local JPEG_ARCHIVE_URL="https://github.com/danielgtaylor/jpeg-archive.git"
@@ -53,7 +54,7 @@ Optimize_jpeg() {
     # Check original JPEG for errors
     jpeginfo --check "$JPG" | grep "\[OK\]$" || return 1
 
-    if ! nice "$JPEG_RECOMPRESS" --quiet --accurate --strip "$JPG" "$TMPIMG"; then
+    if ! nice "$JPEG_RECOMPRESS" --quiet --target 0.9995 --subsample disable --accurate --strip "$JPG" "$TMPIMG"; then
         rm "$TMPIMG" &> /dev/null
         echo "Minification error $? (${JPG})" >&2
         return 2

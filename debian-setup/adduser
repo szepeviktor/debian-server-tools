@@ -92,6 +92,7 @@ alias changelog='xargs -I% -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
 #alias httpdump='tcpdump -i eth0 -nn -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 # http://www.vim.org/scripts/script.php?script_id=658
 #alias email='vim -c "startinsert" /tmp/e.eml'
+LESS="-S"
 EOF
 
 # User settings for login shells

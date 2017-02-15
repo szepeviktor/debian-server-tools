@@ -331,6 +331,7 @@ http://google-public-dns.appspot.com/cache
 - Cooperative (search form, automatic suggestions, Google's fixurl.js)
 - Attractive
 - [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
+- [404 pages on AWWWARDS](http://www.awwwards.com/inspiration/search?text=404)
 
 ### Resource optimization
 

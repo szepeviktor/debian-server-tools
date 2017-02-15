@@ -12,7 +12,7 @@
 # LOCATION      :/usr/local/bin/mx-check.sh
 
 # Watch job queue
-#     watch -n1 'printf "%*s" $(cat $MKTEMP) | tr " " "_"'
+#     watch -n1 'printf "%*s" $(cat $JOBN) | tr " " "_"'
 
 # Assumed MTA user
 MAIL_GROUP="daemon"

@@ -2,7 +2,7 @@
 #
 # Send newsletter.
 #
-# VERSION       :0.1.1
+# VERSION       :0.2.0
 # DEPENDS       :apt-get install mpack qprint dos2unix uuid-runtime
 # DOCS          :https://ga-dev-tools.appspot.com/campaign-url-builder/
 # DOCS          :https://developers.google.com/analytics/devguides/collection/protocol/v1/email
@@ -12,19 +12,21 @@
 # 1. Unpack original email:  munpack -t original.eml
 # 2. Edit parts, insert utm links and tracker image
 # 3. Prepare message skeleton:  cp skel.tpl.eml skeleton.eml
-# 4. Set FROM address and LIST file name here
-# 5. Test send using addr-test
+# 4. Set BOUNCE_FROM address and LIST file name here
+# 5. Test send using addr-test and https://www.mail-tester.com/
 #
-# <img src="https://www.google-analytics.com/collect?v=1&
-# tid=UA-11111111-1&cid=@@UUID@@&t=event&ec=email&ea=open&cs=newsletter&cm=email&cn=2016_campaign"
+# <img src="https://www.google-analytics.com/collect?v=1&amp;
+# tid=UA-11111111-1&amp;cid=@@UUID@@&amp;t=event&amp;ec=email&amp;ea=open&amp;cs=newsletter&amp;cm=email&amp;cn=campaign_2017"
 # height="1" width="1" alt="" />
 #
-# <a href="https://example.com/es/gift?
-# utm_source=newsletter&utm_campaign=2016_campaign&utm_medium=email">
+# <a href="https://example.com/url?
+# utm_source=newsletter&amp;utm_campaign=campaign_2017&amp;utm_medium=email&amp;utm_content=toplink">
 #
-# <a href="mailto:add@re.ss?subject=unsubscribe_Campaign_@@EMAIL@@ -> url encode, @ -> %40">unsubscribe</a>
+# <a href="mailto:add@re.ss?subject=unsubscribe_Campaign_@@EMAIL40@@">unsubscribe</a>
 
-FROM="webmaster@example.com"
+# @FIXME Non-webmail email clients will have TWO sessions: email client + browser
+
+BOUNCE_FROM="webmaster@example.com"
 
 #LIST="addr"
 LIST="addr-test"
@@ -46,15 +48,19 @@ dos2unix -q part2.qp
 
 while read -r ADDRESS; do
     echo -n "$((++COUNT)). ${ADDRESS}"
+    UUID="$(uuidgen)"
 
+    # Log
+    echo "${ADDRESS}	${UUID}	@$(date "+%s")" >> send.log
     # Send
     # shellcheck disable=SC2002
     cat skeleton.eml \
         | sed -e '/@@PART1@@/{r part1.qp' -e ';d}' \
         | sed -e '/@@PART2@@/{r part2.qp' -e ';d}' \
         | sed -e "s|@@EMAIL@@|${ADDRESS}|g" \
-        | sed -e "s|@@UUID@@|$(uuidgen)|g" \
-        | /usr/sbin/sendmail -f "$FROM" "$ADDRESS"
+        | sed -e "s|@@EMAIL40@@|${ADDRESS/@/%40}|g" \
+        | sed -e "s|@@UUID@@|${UUID}|g" \
+        | /usr/sbin/sendmail -f "$BOUNCE_FROM" "$ADDRESS"
     RET="$?"
 
     if [ "$RET" != 0 ]; then
