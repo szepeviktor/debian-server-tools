@@ -1,5 +1,7 @@
 # See jail.conf(5) man page for more information
 
+# @TODO vallumd - central firewall
+
 [DEFAULT]
 #          localhost   own IP
 #                             proxy         Googlebot      PayPal IPN    Amazon CloudFront

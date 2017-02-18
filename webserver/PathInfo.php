@@ -42,7 +42,7 @@ if ( ! isset( $_GET['parameter'] ) ) {
 <table>
 
 <?php
-printf( $row_template, htmlspecialchars( 'cgi.fix_pathinfo' ), '', htmlspecialchars( ini_get( 'cgi.fix_pathinfo') ) );
+printf( $row_template, htmlspecialchars( 'cgi.fix_pathinfo' ), '', htmlspecialchars( ini_get( 'cgi.fix_pathinfo' ) ) );
 foreach ( $server_elements as $elem => $expected ) {
     $current = '';
     $class = '';

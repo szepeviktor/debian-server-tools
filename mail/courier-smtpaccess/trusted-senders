@@ -12,6 +12,13 @@
 88.151.96.10	allow,BLOCK
 # Magyar Hosting by EZIT - mhosting.hu.
 79.172.201.68	allow,BLOCK
+# EZIT - mx.ezit.hu., cp{1..5}.ezit.hu.
+87.229.108.250	allow,BLOCK
+94.199.180.228	allow,BLOCK
+94.199.180.193	allow,BLOCK
+94.199.178.86	allow,BLOCK
+94.199.180.120	allow,BLOCK
+94.199.178.222	allow,BLOCK
 # Integrity - host -t TXT _spf.integrity.hu.
 212.52.165.208	allow,BLOCK
 212.52.165.209	allow,BLOCK

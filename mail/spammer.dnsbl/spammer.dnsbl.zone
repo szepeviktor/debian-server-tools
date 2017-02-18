@@ -137,7 +137,7 @@ $TTL 60
 185.109.169.171-255 :2: Neighbour of mail.*news.info. spammer block
 185.109.169.149-170 mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
 
-# VPSOPENVZ SRL-D / Oancea-F-Cristian-Marius-PFA, TENNET TELECOM SRL mail.*news.info. mail.*news.xyz. @AS61412
+# VPSOPENVZ SRL-D / Oancea-F-Cristian-Marius-PFA, TENNET TELECOM SRL mail.*news.info. mail.*news.xyz.
 89.33.193           RO_m.*news.info. @VPSOPENVZ/AS61412
 93.119.104.0/22     RO_mail.katinanews.info. @VPSOPENVZ/AS61412
 188.240.221         RO_m.tunatebiz.info. @VPSOPENVZ/AS61412

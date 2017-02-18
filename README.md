@@ -85,6 +85,12 @@ u bash -c 'S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2
 U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";editor "${S}/authorized_keys2";chown -R $U:$U "$S"
 ```
 
+### Retrieve public key from private key
+
+```bash
+ssh-keygen -y -f ~/.ssh/id_ecdsa
+```
+
 ### Fast and safe transit of scripts (or any data) via copy&paste
 
 ##### Pack
