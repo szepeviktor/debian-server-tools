@@ -68,6 +68,7 @@
 84.2.42.63	allow,BLOCK
 84.2.42.64	allow,BLOCK
 84.2.42.65	allow,BLOCK
+84.2.227.160	allow,BLOCK
 # UPC - *.mx.upcmail.net.
 62.179.121	allow,BLOCK
 # OVH - *.mail-out.ovh.net. *.ovh.net.

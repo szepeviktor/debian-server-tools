@@ -10,7 +10,8 @@ set -e -x
 # - https://github.com/rfxn/linux-malware-detect
 # - https://github.com/Neohapsis/NeoPI
 
-apt-get install -y openssl apache2 apache2-utils
+#apt-get install -y openssl apache2 apache2-utils
+apt-get install -y openssl libssl1.0.0/jessie-backports apache2 apache2-bin apache2-utils
 # No snakeoil
 apt-get purge -y ssl-cert
 # Path to certificates

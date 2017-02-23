@@ -49,7 +49,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
 debian-setup/ca-certificates
 # From custom repos
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    init-alert goaccess ipset-persistent
+    goaccess ipset-persistent
 
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
@@ -173,6 +173,11 @@ debian-setup/fail2ban
 
 # Courier MTA - deliver all messages to a smarthost
 mail/courier-mta-satellite-system.sh
+
+# After courier-mta
+# From custom repos
+DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    init-alert
 
 if Is_installed "msmtp-mta"; then
     debian-setup/msmtp-mta

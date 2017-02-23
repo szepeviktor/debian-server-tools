@@ -2,7 +2,7 @@
 #
 # Sort syslog-style lines.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-05-21
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,4 +10,4 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/sortsyslog
 
-sort -k 1M -k 2n -k3
+exec sort -k 1M -k 2n -k3

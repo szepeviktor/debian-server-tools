@@ -63,8 +63,8 @@ https://www.worldstream.nl/more_info.php?id=14 €30
 
 ## PaaS
 
-- Pagodabox
+- Heroku
+- Pagodabox (Nanobox)
 - Jelastic
 - OpenShift
 - CenturyLink (AppFog, WPaaS)
-- Heroku

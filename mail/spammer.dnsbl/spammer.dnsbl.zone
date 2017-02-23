@@ -15,7 +15,7 @@
 #### http://dnsbl.aspnet.hu/About.aspx
 
 $NS 3600 worker.szepe.net
-# one minute TTL
+# One minute TTL
 $TTL 60
 
 # ---------------------------------------
@@ -47,9 +47,9 @@ $TTL 60
 87.229.55.137    :1:HU_w3.linuxhungary.com@DENINET
 
 # CHINANET-HE
-111.224.250      CHINANET-HE
+111.224.250      CN_CHINANET-HE/AS4134
 # CHINANET-JX
-117.41           CHINANET-JX
+117.41           CN_CHINANET-JX/AS4134
 
 # SYSTECH Global DC: Invitel
 91.82.84-85      :2:Neighbour of smtp*.mindenalove.hu/*.nyuszikaaaaa.hu
@@ -60,7 +60,7 @@ $TTL 60
 
 # Pénzáramlás DC: Invitel
 #91.82.226        :2:Neighbour of *.smtp.hu
-91.82.226.172     HU_penzaramlas.smtp.hu@Invitel-pool/AS12301
+91.82.226.172    HU_penzaramlas.smtp.hu@Invitel-pool/AS12301
 
 # smtp*.topszallasok.hu, smtp.wellness4youmail.hu DC: Invitel
 91.83.236         :2:Neighbour of topszallasok
@@ -69,18 +69,18 @@ $TTL 60
 91.83.93.127-137  HU_relocate:smtp*.topszallasok.hu@Invitel/AS12301
 
 # Hostkey / Mir Telematiki
-5.39.216.0/21    HOSTKEY-NET/AS57043
-46.17.96.0/21    Kryptos-Net/AS57043
-91.218.112-115   BERMOSCOM-NET/AS49335
-146.0.72.0/21    HOSTKEY-NET/AS57043
-158.255.0-7      RU-HOSTKEY-20111114/AS49335
-193.109.68.0/23  NCONNECT-NET/AS57043
-195.162.68.0/23  NCONNECT-NET/AS57043
+5.39.216.0/21    RU_HOSTKEY-NET/AS57043
+46.17.96.0/21    RU_Kryptos-Net/AS57043
+91.218.112-115   RU_BERMOSCOM-NET/AS49335
+146.0.72.0/21    RU_HOSTKEY-NET/AS57043
+158.255.0-7      RU_RU-HOSTKEY-20111114/AS49335
+193.109.68.0/23  RU_NCONNECT-NET/AS57043
+195.162.68.0/23  RU_NCONNECT-NET/AS57043
 
 # root.lu
-94.242.210       LU-ROOT/AS5577
+94.242.210       LU_LU-ROOT/AS5577
 188.42.252-254   :2:Neighbour of root.lu
-188.42.255       WZSG-1/AS45470@Singapure
+188.42.255       LU_WZSG-1/AS45470@Singapure
 
 # Tigernet Kft - Tigrishalál 2015.03.03.
 #194.165.26-27    HU_TigerNet
@@ -88,12 +88,12 @@ $TTL 60
 
 # Iliad (Online SAS, Dedibox servers)
 195.154          :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
-195.154.40       FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+195.154.40       FR_FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 62.4.15          :2:Neighbour of *.hoverstyle.com.
-62.4.15.221      *.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
+62.4.15.221      FR_*.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
 212.129.32.0/19  :2:Neighbour of *.nyshkickball.com.
-212.129.55.1     gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-212.129.59.1     friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+212.129.55.1     FR_gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+212.129.59.1     FR_friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 163.172.133      :2:Neighbour of mailetor.xyz
 163.172.133.242  FR_mailetor.xyz@ONLINE_NET_DEDICATED_SERVERS/AS12876
 163.172.164.241  magyar FR_duozit.com@ONLINE_NET_DEDICATED_SERVERS/AS12876
@@ -113,12 +113,12 @@ $TTL 60
 199.217.114.69-73   HU_m*.cutersfood.com@HSI-6/AS30083
 
 # Flipora forced signup
-#74.86.42.161-169 mail*.flipmailer.com@SOFTLAYER-74.86.32.0/AS36351
+#74.86.42.161-169    US_mail*.flipmailer.com@SOFTLAYER-74.86.32.0/AS36351
 
 # Black Fox Limited @VolumeDrive
 107.182.16.0/20     :2:Neighbour of Black Fox Limited
-107.182.16.0/26     *.getlatestnews.biz. @BFL-22/AS46664
-107.182.17.198-208  *.getlatestnews.biz. @BFL-22/AS46664
+107.182.16.0/26     US_*.getlatestnews.biz. @BFL-22/AS46664
+107.182.17.198-208  US_*.getlatestnews.biz. @BFL-22/AS46664
 
 # *.globalplaza.hu
 188.227.227         :2:Neighbour of HU_*.globalplaza.hu
@@ -130,12 +130,12 @@ $TTL 60
 
 # *news.info spammer block DC: SERVERDROID
 94.46.192-195       :2: Neighbour of mail.*news.info. spammer block
-94.46.193.222-255   mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
+94.46.193.222-255   GB_mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
 91.109.112.0/21     :2: Neighbour of *news.info. spammer block
-91.109.119.199-255  pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598
+91.109.119.199-255  GB_pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598
 185.109.169.1-148   :2: Neighbour of mail.*news.info. spammer block
 185.109.169.171-255 :2: Neighbour of mail.*news.info. spammer block
-185.109.169.149-170 mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
+185.109.169.149-170 GB_mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
 
 # VPSOPENVZ SRL-D / Oancea-F-Cristian-Marius-PFA, TENNET TELECOM SRL mail.*news.info. mail.*news.xyz.
 89.33.193           RO_m.*news.info. @VPSOPENVZ/AS61412
@@ -148,7 +148,7 @@ $TTL 60
 # HUMANICWEB @High Speed Web/Genesis 2 Networks
 # *.offersserve.xyz *.sendmasspress.xyz *.sendmasscampaign.xyz *.sendbulkcampaign.xyz
 216.189.122         :2:Neighbour of HUMANICWEB *.send*.xyz.
-216.189.122.193     ptp193.sendbulkcampaign.xyz. @HIGHSPEEDWEB-2/AS8175
+216.189.122.193     US_ptp193.sendbulkcampaign.xyz. @HIGHSPEEDWEB-2/AS8175
 
 # GLOBAL-FRAG-SERVERS
 23.247.114          :2:Neighbour of GLOBAL-FRAG-SERVERS shop*.360jiank.com.
@@ -170,15 +170,15 @@ $TTL 60
 79.172.210.223      HU_relay-gmail.famedia.hu@SZERVERPLEX/AS61998
 
 # MarketMix Reklámiroda Bt. by Webmuhely @Magyar Telekom
-195.228.247.20 HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
-195.228.247.25 HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
-79.143.189.215 HU_hirlev-smtp.webmuhely.hu.
-92.222.29.197  HU_ns2.webmuhely.hu.
+195.228.247.20      HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
+195.228.247.25      HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
+79.143.189.215      HU_hirlev-smtp.webmuhely.hu.
+92.222.29.197       HU_ns2.webmuhely.hu.
 
 # *.cegorszag.hu. DC: InterWare
-195.70.59.160 HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
-195.70.59.161 HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
+195.70.59.160       HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
+195.70.59.161       HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
 
 # *.newstoinbox-mail.eu
-5.56.23       :2:Neighbour of *.newstoinbox-mail.eu
-5.56.23.88    HU_*.newstoinbox-mail.eu@CORE-BACKBONE/AS33891
+5.56.23             :2:Neighbour of *.newstoinbox-mail.eu
+5.56.23.88          magyar DE_*.newstoinbox-mail.eu@CORE-BACKBONE/AS33891

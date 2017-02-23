@@ -102,6 +102,7 @@ else
 fi
 
 # Special folders
+# See Horde/imp/config/backends.php 'special_mboxes'
 if ! sudo -u virtual -- maildirmake -f "Drafts" "$NEW_MAILDIR"; then
     Error 20 "Cannot create Drafts folder"
 fi
@@ -112,7 +113,7 @@ if ! sudo -u virtual -- maildirmake -f "Spam" "$NEW_MAILDIR"; then
 fi
 ln -s ".Spam" "${NEW_MAILDIR}/.Junk"
 ln -s ".Spam" "${NEW_MAILDIR}/.Junk E-mail"
-#ln -s ".Spam" "${NEW_MAILDIR}/.Lev&AOk-lszem&AOk-t"
+#HU: ln -s ".Spam" "${NEW_MAILDIR}/.Lev&AOk-lszem&AOk-t"
 echo "Spam OK."
 
 if ! sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
@@ -120,7 +121,7 @@ if ! sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
 fi
 ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items"
 ln -s ".Sent" "${NEW_MAILDIR}/.Sent Messages"
-#ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
+#HU: ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
 echo "Sent OK."
 
 if ! sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
@@ -128,7 +129,7 @@ if ! sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
 fi
 ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items"
 ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
-#ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
+#HU: ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
 echo "Trash OK."
 
 # Removal instruction

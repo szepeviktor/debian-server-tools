@@ -16,4 +16,4 @@
 #     find -type f | total.sh
 #     find /var/mail/domain.com/ -type f -mtime -60 | total.sh
 
-xargs -I "%%" stat -c %s "%%" | paste -s -d "+" | bc
+xargs -I "%" stat -c %s "%" | paste -s -d "+" | bc
