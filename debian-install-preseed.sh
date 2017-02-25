@@ -20,6 +20,6 @@ exit 0
 #  6. Timezone = use NTP, UTC
 #  7. Disks = 300MB boot part, use LVM: 2GB swap, min. 3GB root
 #  8. Base system = linux-image-amd64
-#  8. APT sources = per country mirror, non-free and backports, no popcon
-#  9. Tasksel = SSH + standard
-# 10. Boot loader = GRUB, no EFI
+#  9. APT sources = per country mirror, non-free and backports, no popcon
+# 10. Tasksel = SSH + standard
+# 11. Boot loader = GRUB, no EFI

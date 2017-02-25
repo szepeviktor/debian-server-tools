@@ -2,7 +2,7 @@
 #
 # Continue Debian setup on a virtual server.
 #
-# VERSION       :1.0.0
+# VERSION       :1.1.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -114,7 +114,7 @@ debian-setup/util-linux
 #     cat /sys/devices/system/clocksource/clocksource0/available_clocksource
 #     echo "https://s19n.net/articles/2011/kvm_clock.html"
 # fi
-if [ "$VIRT" == "kvm" ] && [ "$WITHOUT_SYSTEMD" == "yes" ]; then
+if [ "$VIRT" == "kvm" ] && ! Is_installed systemd; then
     apt-get install -t jessie-backports -y libseccomp2
     apt-get install -y chrony
     debian-setup/chrony

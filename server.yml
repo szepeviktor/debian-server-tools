@@ -9,6 +9,7 @@ system:
     trespass-warning: Ez a szerver A/AZ CÉG használatában áll. Másoknak a belépés tilos.
     #trespass-warning: This server is used by COMPANY. Unauthorized entry is prohibited.
     backup-provider: Oktawave OCS
+    mail-provider: Mailjet
 
 # Package settings
 package:
@@ -108,7 +109,7 @@ services:
       transport: tcp/783
     monit:
       type: daemon
-      transport: tcp/28??
+      transport: uds
     VMware Tools:
       transport: VMCI socket
       description: ATW/autorent
@@ -120,13 +121,9 @@ services:
     mariadb:
       type: daemon
       transport: [ tcp/3306, uds ]
-    php5-fpm:
+    php7.0-fpm:
       type: daemon
       transport: uds
-    ntpdate:
-      type: cron job
-    vpscheck:
-      type: cron job
     syslog-errors:
       type: cron job
 

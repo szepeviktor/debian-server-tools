@@ -1,15 +1,21 @@
 #!/bin/bash
 #
-# Check Fail2ban iptables chains.
+# Check Fail2ban iptables chains and myattackers ipset chain.
 #
-# VERSION       :0.1.1
+# VERSION       :0.2.0
 # LOCATION      :/usr/local/sbin/fail2ban-test.sh
 
 set -e
 
 FAIL2BAN_JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's;, ; ;g' -e 's;^.*Jail list:\s\+\(.*\)$;\1;p')"
+MYA_IPSET_CHAIN="myattackers-ipset"
 
 test -n "$FAIL2BAN_JAILS"
+
+# Check myattackers-ipset
+if /sbin/iptables -n -L "$MYA_IPSET_CHAIN" &> /dev/null; then
+    /sbin/iptables -n -L "$MYA_IPSET_CHAIN" | grep -q " (1 references)\$"
+fi
 
 for JAIL in ${FAIL2BAN_JAILS}; do
     # No iptables chain for these jails

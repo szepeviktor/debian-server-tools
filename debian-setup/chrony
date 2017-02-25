@@ -14,8 +14,8 @@ editor /etc/chrony/chrony.conf
 #     server ntp.ezit.hu offline iburst
 #
 #     logchange 0.010
-#     cmdport 0
 #     # Don't set hardware clock (RTC)
 #     ##rtcsync
+#     cmdport 0
 
 service chrony restart
