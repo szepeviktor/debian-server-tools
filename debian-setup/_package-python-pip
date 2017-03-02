@@ -8,6 +8,11 @@ wget -nv "https://bootstrap.pypa.io/get-pip.py"
 python3 get-pip.py
 python2 get-pip.py
 
-# Legacy list format
+# @TODO Legacy list format
 #mkdir -p ~/.config/pip
 #echo -e "[list]\nformat=legacy" >> ~/.config/pip/pip.conf
+
+# Fix overwritten six
+pip2 uninstall -y six
+apt-get install -qq --reinstall -t jessie-backports python-six
+debsums -c python-six

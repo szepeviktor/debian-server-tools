@@ -49,9 +49,8 @@ I hope I'll fit into your picture: viktor@szepe.net
 # Szépe Viktor dolgozna egy Vállalatnak
 
 HTTP alapú rendszerek **proaktív** üzemeltetésével foglalkozok,
-és a fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be.
+és a fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be a tapasztalataim alapján.
 
-Ezirányú tapasztalataim értékes visszacsatolást jelenthetnek a fejlesztő csapatuknak.  
 (A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
 A figyelmem az üzembiztonságon és a sebességen van.
 

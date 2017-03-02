@@ -91,6 +91,13 @@ U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";
 ssh-keygen -y -f ~/.ssh/id_ecdsa
 ```
 
+### Record terminal session
+
+```bash
+script --timing=NAME.time --append NAME.script
+scriptreplay --maxdelay 1 NAME.time NAME.script
+```
+
 ### Fast and safe transit of scripts (or any data) via copy&paste
 
 ##### Pack

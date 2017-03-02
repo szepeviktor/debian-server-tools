@@ -22,9 +22,9 @@
 # Create S3QL configuration file
 #     mkdir /root/.s3ql; editor /root/.s3ql/authinfo2; chmod 0600 /root/.s3ql/authinfo2
 #
-# Example S3QL configuration
+# Example S3QL configuration for Swift
 #     [provider]
-#     storage-url: STORAGE_URL/PREFIX
+#     storage-url: STORAGE_URL/CONTAINER
 #     backend-login: OS_TENANT_NAME:OS_USERNAME
 #     backend-password: OS_PASSWORD
 #     fs-passphrase: $(apg -m32 -n1)

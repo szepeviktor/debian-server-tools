@@ -41,7 +41,7 @@ if [ "$(dpkg-query --showformat="\${Status}" --show php7.0-cli 2> /dev/null)" ==
 fi
 
 # Check extension
-php -m | grep -Fx "redis"
+php --ri redis
 
 # Check server
 echo "FLUSHALL" | nc -C -q 10 localhost 6379

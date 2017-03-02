@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Loop through sitemap and preload cache by scraping the site.
+# Loop through sitemap and preload page cache by scraping the site.
 #
 # VERSION       :0.3.0
 # DATE          :2015-04-16

@@ -2,7 +2,7 @@
 
 # 00-monitrc
 SMARTHOST_DEFAULT="mail.szepe.net"
-SMARTHOST_PORT_DEFAULT="587"
+SMARTHOST_PORT_DEFAULT="25"
 ALERT_ADDRESS_DEFAULT="admin@szepe.net"
 
 # 02-healthchecks
@@ -29,5 +29,3 @@ NTP_SERVERS_DEFAULT="0.europe.pool.ntp.org"
 # rbldnsd
 RBLDNSD_IP_DEFAULT="10.0.0.1"
 RBLDNSD_PORT_DEFAULT="8053"
-
-

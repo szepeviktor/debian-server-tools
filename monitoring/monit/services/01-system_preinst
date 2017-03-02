@@ -15,6 +15,7 @@ echo "Looking for nearest root server ..." 1>&2
 declare -i INTEGRITY_MIN_HOPS="10"
 # http://www.root-servers.org/
 for R in {a..z}; do
+    echo -n "$R"
     # ICMP pings, maximum 10 hops, 2 seconds timeout
     INTEGRITY_HOPS="$(traceroute -4 -n -m 10 -w 2 "${R}.root-servers.net." 2>&1 \
         | tail -n +2 | wc -l; echo ${PIPESTATUS[0]})"
@@ -25,6 +26,7 @@ for R in {a..z}; do
         INTEGRITY_NEAREST_DEFAULT="${R}.root-servers.net."
     fi
 done
+echo
 INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP1 -h "$INTEGRITY_NEAREST_DEFAULT")"
 INTEGRITY_HOP2_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP2 -h "$INTEGRITY_NEAREST_DEFAULT")"
 INTEGRITY_REVERSE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PTR1)"

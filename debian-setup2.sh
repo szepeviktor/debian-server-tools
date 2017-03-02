@@ -174,11 +174,6 @@ debian-setup/fail2ban
 # Courier MTA - deliver all messages to a smarthost
 mail/courier-mta-satellite-system.sh
 
-# After courier-mta
-# From custom repos
-DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    init-alert
-
 if Is_installed "msmtp-mta"; then
     debian-setup/msmtp-mta
 fi
@@ -186,8 +181,13 @@ fi
 #    debian-setup/nullmailer
 #fi
 
+# After MTA
+# From custom repos
+DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    init-alert
+
 # Tools
-for TOOL in catconf cnet hosthost hostinfo ip.sh lsrev msec reboot revip \
+for TOOL in catconf cnet doc hosthost hostinfo ip.sh lsrev msec reboot revip \
     sortip swap-usage.sh u udrush uwp whichdo whoistop; do
     Dinstall "tools/${TOOL}"
 done
@@ -272,5 +272,8 @@ find /etc -type f -iname "*old"
 
 # Clear Bash history
 history -c
+
+# @TODO Automate:
+echo "hosts, users, set up backup"
 
 echo "OK."

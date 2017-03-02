@@ -14,18 +14,22 @@
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    cd debian-server-tools-master/
-# 2. Evaluate Graph, Prefixes, Peers http://bgp.he.net/ and RBL-s
-# 3. Aquire settings (custom kernel, user names, SSH keys, hostname, networking, resolvers, NTP servers)
-# 4. Make up /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 5. Set up DNS (PTR, A, AAAA, MX)
-# 6. Start!  ./debian-setup.sh
+# 2. Evaluate Graph, Prefixes, Peers and RBL-s http://bgp.he.net/
+# 3. Aquire settings: hostname, networking, resolvers, NTP servers, custom kernel, user names, SSH keys
+# 4. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
+# 5. Set up DNS resource records: PTR, A, AAAA, MX (DNS provider)
+# 6. Start!
+#    script --timing=debian-setup.time debian-setup.script
+#    ./debian-setup.sh
 # 7. Consider creating a disk or vm template with isc-dhcp-client installed
-# @FIXME export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
-# 8. Continue  ./debian-setup2.sh
+# 8. Continue!
+#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
+#    script --timing=debian-setup2.time debian-setup2.script
+#    ./debian-setup2.sh
 
 # Features
 #
-# - YAML configuration file with provider profiles
+# - YAML configuration file with provider profiles (server provider)
 # - OS image normalization
 # - Optionally switch to SysVinit
 # - Boot and Halt alert
@@ -36,19 +40,19 @@
 # - Hardware TRNG or HAVEGE generator
 # - Fail2ban and blocking dangerous networks
 # - Monit monitoring
-# - Courier MTA
-# - System backup with S3QL
+# - Courier MTA (email provider)
+# - System backup with S3QL (storage provider)
 # - Nice motd welcome screen
-# - Package managers (composer, pip, npm)
+# - Package managers: composer, pip, npm
 # - 155 MB memory usage, 2 GB disk usage
 #
 # Webserver
 #
-# - Apache 2.4 latest with HTTP/2 and event MPM
+# - Apache 2.4 latest with HTTP/2 and event MPM (certificate provider)
 # - PHP 5.6 or 7.0 through PHP-FPM
-# - CLI tools (WP-CLI, Drush, CacheTool)
-# - Redis in-memory cache (maxmemory 512mb, maxmemory-policy allkeys-lru)
-# - MariaDB 10
+# - CLI tools: WP-CLI, Drush, CacheTool
+# - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]
+# - MariaDB 10 or Percona Server 5.7
 #
 # Tests
 #

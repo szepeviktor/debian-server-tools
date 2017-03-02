@@ -26,4 +26,4 @@ echo -e "; priority=20\nextension=realpath_turbo.so" > /etc/php/7.0/mods-availab
 phpenmod realpath_turbo
 
 # Check extension
-php -m | grep -Fx "realpath_turbo"
+php --ri realpath_turbo

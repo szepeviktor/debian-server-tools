@@ -99,14 +99,14 @@ EOF
 chmod -v 0600 ~/.s3ql/authinfo2
 ```
 
-### S3QL on Oktawave
+### S3QL on Oktawave OCS
 
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [oktawave]
-storage-url: swift://ocs-pl.oktawave.com/${OCS_CONTAINER}
-backend-login: ${OCS_ACCOUNT}:${OCS_USER}
-backend-password: ${OCS_PASSWORD}
+storage-url: swift://ocs-pl.oktawave.com/OCS_CONTAINER
+backend-login: OCS_ACCOUNT:OCS_USER
+backend-password: OCS_PASSWORD
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -117,9 +117,9 @@ chmod -v 0600 ~/.s3ql/authinfo2
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [s3]
-storage-url: s3://${S3_BUCKET}/${S3_PREFIX}
-backend-login:
-backend-password:
+storage-url: s3://S3_BUCKET/S3_PREFIX_
+backend-login: IAM_ACCESS_KEY_ID
+backend-password: IAM_SECRET_ACCESS_KEY
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -132,9 +132,9 @@ http://www.rath.org/s3ql-docs/backends.html
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [s3]
-storage-url: s3c://${S3_HOST}/${S3_BUCKET}/${S3_PREFIX}
-backend-login:
-backend-password:
+storage-url: s3c://S3_HOST/S3_BUCKET/S3_PREFIX_
+backend-login: ACCESS_KEY_ID
+backend-password: SECRET_ACCESS_KEY
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
