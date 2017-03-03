@@ -85,7 +85,8 @@ export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME
 # Hungarian Debian mirror
 #export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
-export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
+# Fixed UnicodeEncodeError  export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
+export SETUP_SHYAML_URL="https://github.com/szepeviktor/debian-server-tools/raw/master/tools/shyaml"
 
 set -e -x
 

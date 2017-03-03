@@ -2,7 +2,7 @@
 
 ## Where do I find ...?
 
-- Development environment: [/webserver/Wp-config-dev.md](/webserver/Wp-config-dev.md)
+- Development environment: [/webserver/WP-config-dev.md](/webserver/WP-config-dev.md)
 - Development tools: wordpress-sitebuild/
 - Production environment: [/webserver/Production-website.md](/webserver/Production-website.md)
 - Production on cPanel and migration to cPanel: [wordpress-plugin-construction/shared-hosting-aid/cPanel/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/shared-hosting-aid/cPanel/README.md)
@@ -145,10 +145,6 @@ wp plugin install polylang --activate
 #### Security
 
 ```bash
-# Fail2ban Wordpress
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
-
 # users/login
 
 wp plugin install password-bcrypt
@@ -160,13 +156,19 @@ wp plugin install user-role-editor --activate
 # keepass-button
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-keepass-button/keepass-button.php
 
+# Fail2ban Wordpress
+wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
+
 # security suite + audit
 
 wp plugin install custom-sucuri sucuri-scanner --activate
+# audit
+wp plugin install wp-user-activity --activate
 # simple audit
 wp plugin install simple-history --activate
 
-# mail/spam
+# prevent spam
 
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
@@ -418,10 +420,12 @@ Also in /webserver/Production-website.md
 
 #### Search & replace items
 
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
-`wp search-replace --precise --recurse-objects --all-tables-with-prefix ...`
+```bash
+wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
+wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
+wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
+wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
+```
 
 1. http://DOMAIN.TLD or https (no trailing slash)
 1. /home/PATH/TO/SITE (no trailing slash)
@@ -441,4 +445,6 @@ S&R links...
 
 ### Signature
 
-`wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-sitebuild/raw/master/theme-development/Signature.php`
+```bash
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-sitebuild/raw/master/theme-development/Signature.php
+```

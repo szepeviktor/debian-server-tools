@@ -142,7 +142,7 @@ Enable developer's user as administrator:
 
 Development tools:
 
-- `option-inspector`
+- `options-inspector`
 - `what-the-file`
 - `error-log-monitor`
 - `query-monitor`

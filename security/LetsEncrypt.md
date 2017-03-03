@@ -24,6 +24,10 @@ u ../../.local/bin/manuale info; echo
 cd /home/prg[0-9]*/ssl/lets-encrypt/
 read -r -e -i $(hostname -f) DOMAIN
 #read -r $DOMAIN2
+#     u ../../.local/bin/manuale authorize --method http $DOMAIN $DOMAIN2
+#     CHALLENGE=?????????*-?????????*
+#     install -D -m 644 $CHALLENGE .well-known/acme-challenge/$CHALLENGE
+#     python3 -m http.server 80
 u ../../.local/bin/manuale authorize $DOMAIN $DOMAIN2
 #u ../../.local/bin/manuale issue $DOMAIN $DOMAIN2
 u ../../.local/bin/manuale issue --key-file ${DOMAIN}.pem $DOMAIN $DOMAIN2

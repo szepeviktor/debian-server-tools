@@ -52,4 +52,4 @@ define( 'WP_POST_REVISIONS', 10 );
 define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
-// See /webserver/Wp-config-dev.md for complete how-to
+// See /webserver/WP-config-dev.md for complete how-to
