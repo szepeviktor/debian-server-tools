@@ -9,7 +9,7 @@
 # Description:       Send boot alert with pstree and halt alert with w.
 ### END INIT INFO
 
-# Author: root <root@szerver4>
+# Author: Viktor Szépe <viktor@szepe.net>
 
 # Do NOT "set -e"
 

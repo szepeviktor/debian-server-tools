@@ -3,7 +3,7 @@
 # installed at /etc/default/init-alert by the maintainer scripts
 
 # Alert mail address, you may specify more space-separated addresses
-INIT_ALERT_MAIL="sms@szepe.net"
+INIT_ALERT_MAIL="admin@szepe.net"
 
 # Skip alert at boot
 #INIT_ALERT_BOOT_ALERT="no"

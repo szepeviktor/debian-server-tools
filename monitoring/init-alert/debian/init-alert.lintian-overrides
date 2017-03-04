@@ -1,4 +1,2 @@
-# Boot alert sent afdter all services are up
+# Boot alert sent after all services are up
 init-alert: init.d-script-depends-on-all-virtual-facility
-# There is nothing running continously, no status is available
-init-alert: init.d-script-does-not-implement-optional-option

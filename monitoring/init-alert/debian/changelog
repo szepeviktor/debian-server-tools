@@ -1,3 +1,10 @@
+init-alert (0.3.1) stable; urgency=low
+
+  * Quieter default email address
+  * Fixed author in init script
+
+ -- Viktor Szépe <viktor@szepe.net>  Sat, 04 Mar 2017 22:25:18 +0000
+
 init-alert (0.3.0) stable; urgency=low
 
   * Initial release
