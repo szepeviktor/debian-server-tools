@@ -2,7 +2,7 @@
 #
 # Measure HTTPS response time.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2016-11-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -77,4 +77,5 @@ Connection: close
 
 EOF
     sleep 5
-} | /usr/bin/time --format "%e" nc "$IP" 80 | Hide
+} | sed -e 's|$|\r|' \
+    | /usr/bin/time --format "%e" nc "$IP" 80 | Hide

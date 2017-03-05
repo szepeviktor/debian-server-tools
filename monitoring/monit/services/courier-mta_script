@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Check mail queue length.
+#
+# VERSION       :0.1.0
+# LOCATION      :/usr/local/sbin/courier-mailq-test.sh
+
+declare -i MAIL_QUEUE_LENGTH_MAX="1000"
+declare -i MAIL_QUEUE_LENGTH
+
+set -e
+
+MAIL_QUEUE_LENGTH="$(/usr/bin/mailq -batch | head -n -1 | wc -l)"
+
+test "$MAIL_QUEUE_LENGTH" -lt "$MAIL_QUEUE_LENGTH_MAX"

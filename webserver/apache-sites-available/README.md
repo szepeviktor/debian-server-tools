@@ -7,7 +7,7 @@ colordiff Skeleton-site.conf Skeleton-site-ssl.conf
 ### Apache variables
 
 ```php
-<pre><?php var_export($_SERVER);
+<pre><?php var_export( $_SERVER );
 
 array (
   'WP_ENV' => 'development',

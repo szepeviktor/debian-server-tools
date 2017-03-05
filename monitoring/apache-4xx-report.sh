@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.2.4
-# DATE          :2015-11-08
+# VERSION       :1.3.0
+# DATE          :2017-03-05
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -48,6 +48,23 @@ Maybe_sendmail() {
         } | /usr/sbin/sendmail
 }
 
+In_array() {
+    local NEEDLE="$1"
+    local ELEMENT
+
+    shift
+
+    for ELEMENT; do
+        if [ "$ELEMENT" == "$NEEDLE" ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+declare -a PROCESSED_LOGS
+
 if [ -z "$APACHE_CONFIGS" ]; then
     echo "Apace log files could not be found." 1>&2
     exit 1
@@ -63,12 +80,16 @@ shopt -s nullglob
 while read -r CONFIG_FILE; do
     ACCESS_LOG="$(sed -n -e '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
-
     # Substitute variables
-    # @TODO Prevent double log processing -> remember processed log files
     ACCESS_LOG="$(echo "$ACCESS_LOG" | sed \
         -e "s;\${APACHE_LOG_DIR};${APACHE_LOG_DIR};g" \
         -e "s;\${SITE_USER};${SITE_USER};g")"
+
+    # Prevent double log processing
+    if In_array "$ACCESS_LOG" "${PROCESSED_LOGS[@]}"; then
+        continue
+    fi
+    PROCESSED_LOGS+=( "$ACCESS_LOG" )
 
     # Log lines for 1 day from Debian cron.daily
     nice /usr/local/bin/dategrep --format apache --multiline \

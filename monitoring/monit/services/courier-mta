@@ -9,6 +9,7 @@
    depends on courier-mta_bin
    depends on courier-mta_init
    depends on courier-mta_cert
+   depends on courier-mta_test
 
  check process courier-mta-msa with pidfile /run/courier/esmtpd-msa.pid
    group mail
@@ -30,6 +31,10 @@
  check file courier-mta_cert with path /etc/courier/esmtpd.pem
    group mail
    include /etc/monit/templates/rootstrict
+
+ check program courier-mta_test with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
+   group mail
+   if status != 0 then alert
 
  check process courierfilter with pidfile /run/courier/courierfilter.pid
    group mail
