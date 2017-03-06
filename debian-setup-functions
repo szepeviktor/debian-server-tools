@@ -53,6 +53,6 @@ Dinstall() {
 export -f Dinstall
 
 Data() {
-    shyaml "$@" < /root/server.yml
+    PYTHONIOENCODING="utf_8" shyaml "$@" < /root/server.yml
 }
 export -f Data

@@ -5,7 +5,7 @@
 # VERSION       :0.1.0
 # LOCATION      :/usr/local/sbin/courier-mailq-test.sh
 
-declare -i MAIL_QUEUE_LENGTH_MAX="1000"
+declare -i MAIL_QUEUE_LENGTH_MAX="100"
 declare -i MAIL_QUEUE_LENGTH
 
 set -e
