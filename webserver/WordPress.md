@@ -387,8 +387,8 @@ EXTERNAL_PLUGINS=(
     http://www.wpopal.com/thememods/revslider.zip
 )
 
-for PLUGIN in ${EXTERNAL_PLUGINS[*]}; do
-    wget -q --spider -S "$PLUGIN" 2>&1 | grep "Last-Modified:"
+for PLUGIN in ${EXTERNAL_PLUGINS[@]}; do
+    wget -q --spider -S "$PLUGIN" 2>&1 | grep -F "Last-Modified:"
 done | diff "$CURRENT" -
 
 #exit 0

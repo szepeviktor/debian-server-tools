@@ -2,7 +2,7 @@
 #
 # Display system status, fast.
 #
-# VERSION       :1.0.3
+# VERSION       :1.0.4
 # DOCS          :https://wiki.debian.org/motd
 # DOCS          :http://apt.armbian.com/pool/main/l/linux-jessie-root-odroidxu4/linux-jessie-root-odroidxu4_5.11_armhf.deb
 # DOCS          :http://archive.ubuntu.com/ubuntu/pool/main/u/update-notifier/update-notifier_3.168.dsc
@@ -110,6 +110,7 @@ UPTIME="${UPTIME%,  * user*}"
 UPTIME_SECONDS="$(< /proc/uptime)"
 UPTIME_SECONDS="${UPTIME_SECONDS%% *}"
 UPTIME_SECONDS="${UPTIME_SECONDS%.*}"
+# 180 days, 172 days
 Display_left "Up time" "$UPTIME" "$(Tl_limits "$UPTIME_SECONDS" 15552000 14860800)"
 
 LOAD_AVG="$(< /proc/loadavg)"
@@ -128,7 +129,7 @@ Display_left "Root fs usage" "${ROOT_USAGE} %" "$(Tl_limits "$ROOT_USAGE" 95 83)
 declare -i SWAP_USAGE="$(free | awk '/Swap/ { printf("%.0f", $3 / $2 * 100) }')"
 Display_left "Swap usage" "${SWAP_USAGE} %" "$(Tl_limits "$SWAP_USAGE" 75 50)"
 
-if which mailq &> /dev/null; then
+if hash mailq 2> /dev/null; then
     declare -i MAIL_QUEUE="$(mailq -batch | grep -vc "^messages: ")"
     Display_left "Mail queue" "$MAIL_QUEUE" "$(Tl_limits "$MAIL_QUEUE" 10 1)"
 fi
@@ -151,10 +152,13 @@ Display_right "Public IPv4" "$PUBLIC_IPV4" "$(if [ -z "$PUBLIC_IPV4" ]; then ech
 declare -i PACKAGE_UPGRADES="$(apt-get -s -o Debug::NoLocking=true upgrade | grep -c "^Inst ")"
 Display_right "Package upgrades" "$PACKAGE_UPGRADES" "$(Tl_limits "$PACKAGE_UPGRADES" 5 1)"
 
-if which hddtemp &> /dev/null; then
+if hash hddtemp 2> /dev/null; then
     declare -i HDD_TEMP
     for HARDDISK in /dev/sd? /dev/hd?; do
-        [ -b "$HARDDISK" ] || continue
+        if ! [ -b "$HARDDISK" ]; then
+            continue
+        fi
+        #HDD_TEMP="$(/usr/sbin/smartctl -A "$HARDDISK" | grep -w "Temperature_Celsius" | awk '{print $10}')"
         HDD_TEMP="$(/usr/sbin/hddtemp --quiet --numeric --wake-up "$HARDDISK")"
         Display_right "HDD temp" "${HDD_TEMP} °C" "$(Tl_limits "$HDD_TEMP" 50 45)"
     done
@@ -163,7 +167,6 @@ fi
 Do_display
 echo
 
-# TODO
-#   1 random slow stuff
+# @TODO
 #   sensors alert, ipmi alert
 #   apt_check.py --human-readable

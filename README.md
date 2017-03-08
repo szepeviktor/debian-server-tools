@@ -104,19 +104,21 @@ scriptreplay --maxdelay 1 NAME.time NAME.script
 
 ```bash
 cat $SCRIPT|xz -9|base64 -w $((COLUMNS-1))
-# alias: cat $SCRIPT|transit
+# alias: cat $SCRIPT | transit
 ```
 
 ##### Unpack
 
 ```bash
 cat $PASTED_FILE|base64 -d|xz -d > $SCRIPT
-# alias: cat $PASTED_FILE>|transit-receive
+# alias: cat $PASTED_FILE | transit-receive
 ```
 
 ### Moving away git-dir
 
-`git init --separate-git-dir=/home/user/gitdir`
+```bash
+git init --separate-git-dir=/home/user/gitdir
+```
 
 Produces:
 

@@ -6,14 +6,15 @@
 # OWNER         :root:root
 # PERMISSION    :0644
 
-if [ "$(id -u)" == 0 ] && which monit &> /dev/null; then
-    TAB=$'\t'
+if [ "$(id -u)" = 0 ] && [ -x /usr/bin/monit ]; then
     IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
+    # Convert to tabular output
     if /usr/bin/monit -B summary \
         | tail -n +3 | sed -e 's|^ ||' -e 's|\s\s\+|\t|g' \
-        | grep -Ev "${TAB}(${IGNORED_STATUSES})${TAB}"; then
+        | grep -vE "	(${IGNORED_STATUSES})	"; then
 
         echo
         echo "[ALERT] Monit status is NOT OK."
     fi
+    unset IGNORED_STATUSES
 fi

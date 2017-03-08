@@ -24,7 +24,7 @@ Die() {
     local RET="$1"
 
     shift
-    echo -e "$@" >&2
+    echo -e "$@" 1>&2
     exit "$RET"
 }
 
@@ -33,12 +33,12 @@ Check_expiration() {
     local -i MODIFY_SECONDS="0"
     local -i MONTH_AGO_SECONDS
 
-    if which swfmill &> /dev/null && [ -f "${MINI_PATH}/speedtest.swf" ]; then
+    if hash swfmill 2> /dev/null && [ -f "${MINI_PATH}/speedtest.swf" ]; then
         MODIFY_DATE="$(swfmill -n -e latin1 swf2xml "${MINI_PATH}/speedtest.swf" 2> /dev/null \
-            | sed -n 's|^.*<xmp:ModifyDate>\(.*\)</xmp:ModifyDate>.*$|\1|p')"
+            | sed -n -e 's|^.*<xmp:ModifyDate>\(.*\)</xmp:ModifyDate>.*$|\1|p')"
 
         if [ -n "$MODIFY_DATE" ]; then
-            MODIFY_SECONDS="$(date --date "$MODIFY_DATE" "+%s" 2> /dev/null || echo "0")"
+            MODIFY_SECONDS="$(date --date "$MODIFY_DATE" "+%s" 2> /dev/null || echo 0)"
         fi
     fi
 

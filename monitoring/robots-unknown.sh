@@ -30,12 +30,12 @@ APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Filter_ua() {
     cut -d '"' -f 6- \
-    | grep -v "^-\"$\|^Mozilla/5\.0 .* Firefox/\|^Mozilla/5\.0 .* AppleWebKit/\|^Mozilla/[4-5]\.0 .* MSIE\
+        | grep -v "^-\"\$\|^Mozilla/5\.0 .* Firefox/\|^Mozilla/5\.0 .* AppleWebKit/\|^Mozilla/[4-5]\.0 .* MSIE\
 \|^Mozilla/5\.0 .* Trident/7.0\|^Opera/[8-9]\.[0-9]* .* Presto/" \
-    | grep -E -v "Googlebot|Googlebot-Image|Feedfetcher-Google|AdsBot-Google|Googlebot-Mobile|bingbot\
+        | grep -E -v "Googlebot|Googlebot-Image|Feedfetcher-Google|AdsBot-Google|Googlebot-Mobile|bingbot\
 |BingPreview|msnbot|MJ12bot|AhrefsBot|YandexBot|YandexImages|yandex\.com/bots|ia_archiver|Baiduspider|Yahoo\! Slurp\
 |Pingdom\.com_bot|zerigo\.com/watchdog|ClickTale bot|facebookexternalhit|Wget|Feedstripes" \
-    | grep -E -v "Amazon CloudFront|Debian APT-HTTP|munin/2\.0\.6|W3 Total Cache" \
+        | grep -E -v "Amazon CloudFront|Debian APT-HTTP|munin/2\.0\.6|W3 Total Cache" \
 
 }
 
@@ -49,12 +49,13 @@ if [ -z "$APACHE_CONFIGS" ]; then
 fi
 
 # APACHE_LOG_DIR is defined in envvars
+# shellcheck disable=SC1091
 source /etc/apache2/envvars
 
 # For non-existent previous log file
 shopt -s nullglob
 
-while read CONFIG_FILE; do
+while read -r CONFIG_FILE; do
     ACCESS_LOG="$(sed -n '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
 
@@ -69,7 +70,7 @@ while read CONFIG_FILE; do
 done <<< "$APACHE_CONFIGS" \
     | Filter_ua \
     | Digest_ua \
-    | sed 's;^;|;' \
+    | sed -e 's;^;|;' \
     | mailx -E -S from="robots unknown <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
 
 exit 0

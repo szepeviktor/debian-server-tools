@@ -25,9 +25,9 @@ Exec_on_folders() {
 Top_579() {
     #          -f user,folder,size
     cut -d "/" -f 5,7,9 \
-    | sort -t "/" -n -r -k 3 \
-    | head \
-    | sed "s;/;\t/ ;g"
+        | sort -t "/" -n -r -k 3 \
+        | head \
+        | sed "s;/;\t/ ;g"
 }
 
 {

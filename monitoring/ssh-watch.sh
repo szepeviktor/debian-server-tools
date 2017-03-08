@@ -2,7 +2,7 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.5
+# VERSION       :0.1.6
 # DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,8 +13,6 @@
 # CRON-HOURLY   :/usr/local/bin/ssh-watch.sh
 # CONFIG        :/etc/ssh-watchrc
 
-# Usage
-#
 # Configuration syntax
 #
 #     SKIP_HOST="qss.qupdate.net"
@@ -27,13 +25,15 @@
 #     RETRY_TIME="40"
 #     SSH_WATCH=(
 #       HOSTNAME:PORT
-#       szepe.net:22
+#       2/szepe.net:22
 #     )
 #
 # Host names should have only DNS A records.
 
 DAEMON="ssh-watch"
 SSH_WATCH_RC="/etc/ssh-watchrc"
+
+# Defaults
 SKIP_HOST=""
 SKIP_UNTIL=""
 ALERT_ADDRESS="admin@szepe.net"
@@ -41,13 +41,12 @@ ALWAYS_ONLINE="8.8.8.8"
 INTERNET_IF="eth0"
 RETRY_TIME="40"
 SSH_WATCH=( )
-source "$SSH_WATCH_RC"
 
 Log() {
     local MESSAGE="$1"
 
-    if tty --quiet; then
-        echo "$MESSAGE" >&2
+    if [ -t 0 ]; then
+        echo "$MESSAGE" 1>&2
     else
         logger -t "${DAEMON}[$$]" "$MESSAGE"
     fi
@@ -68,6 +67,9 @@ Alert() {
     echo "$*" | mailx -S from="${DAEMON} <root>" -s "[alert] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
+# shellcheck disable=SC1090
+source "$SSH_WATCH_RC"
+
 Is_online
 
 # Check all hosts
@@ -83,14 +85,14 @@ for HOST in "${SSH_WATCH[@]}"; do
     fi
 
     # Skip a host
-    [ -n "$SKIP_HOST" ] && [ -n "$SKIP_UNTIL" ] \
+    if [ -n "$SKIP_HOST" ] && [ -n "$SKIP_UNTIL" ] \
         && [ "$HNAME" == "$SKIP_HOST" ] \
-        && [ $(date "+%s") -lt $(date --date="$SKIP_UNTIL" "+%s") ] \
-        && continue
+        && [ "$(date "+%s")" -lt "$(date --date="$SKIP_UNTIL" "+%s")" ]; then
+        continue
+    fi
 
     if LC_ALL=C host -W 2 -t A "$HNAME" 2>&1 | grep -qv " has\( IPv4\)\? address "; then
-        Alert "${HNAME}/DNS" \
-            "Failed to get address of ${HNAME}"
+        Alert "${HNAME}/DNS" "Failed to get address of ${HNAME}"
         continue
     fi
 
@@ -107,13 +109,13 @@ for HOST in "${SSH_WATCH[@]}"; do
         sleep "$RETRY_TIME"
     done
     if [ "$SCAN_RET" != 0 ]; then
-        Alert "${HNAME}/SSH" \
-            "Failed to scan host ${HNAME} on SSH port ${PORT}"
+        Alert "${HNAME}/SSH" "Failed to scan host ${HNAME} on SSH port ${PORT}"
         continue
     fi
 
     Log "${HNAME} OK"
-    # Pause scans
+
+    # Pause between scans
     sleep 1
 done
 

@@ -7,8 +7,8 @@
 # OWNER         :root:root
 # PERMISSION    :0644
 
-if [ "$(id -u)" == 0 ]; then
-    NEEDRESTART="$(needrestart -b -k | grep -x "NEEDRESTART-KSTA: [0-9]")"
+if [ "$(id -u)" = 0 ] && [ -x /usr/sbin/needrestart ]; then
+    NEEDRESTART="$(/usr/sbin/needrestart -b -k | grep -x "NEEDRESTART-KSTA: [0-9]")"
     NEEDRESTART="${NEEDRESTART#*: }"
     if [ "$NEEDRESTART" != 0 ] && [ "$NEEDRESTART" != 1 ]; then
         echo

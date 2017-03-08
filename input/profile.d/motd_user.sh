@@ -7,4 +7,6 @@
 # OWNER         :root:root
 # PERMISSION    :0644
 
-[ -f "${HOME}/.motd" ] && [ -x /usr/games/cowsay ] && /usr/games/cowsay -f apt < "${HOME}/.motd"
+if [ -f "${HOME}/.motd" ] && [ -x /usr/games/cowsay ]; then
+    /usr/games/cowsay -f apt < "${HOME}/.motd"
+fi

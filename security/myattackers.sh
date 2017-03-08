@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually
 #
-# VERSION       :0.5.8
+# VERSION       :0.5.9
 # DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -16,6 +16,12 @@
 # SYMLINK       :/usr/local/sbin/deny-ssh.sh
 # CRON-HOURLY   :/usr/local/sbin/myattackers.sh
 # CRON-MONTHLY  :/usr/local/sbin/myattackers.sh -z
+
+# Default rules.v4 content
+#
+#     :myattackers - [0:0]
+#     -A INPUT -j myattackers
+#     -A myattackers -j RETURN
 
 CHAIN="myattackers"
 SSH_PORT="22"
@@ -46,7 +52,11 @@ EOF
 
 # Output an error message
 Error_msg() {
-    echo -e "$(tput setaf 7;tput bold)${*}$(tput sgr0)" 1>&2
+    if [ -t 0 ]; then
+        echo -e "$(tput setaf 7;tput bold)${*}$(tput sgr0)" 1>&2
+    else
+        echo -e "${*}" 1>&2
+    fi
 }
 
 # Detect an IPv4 address

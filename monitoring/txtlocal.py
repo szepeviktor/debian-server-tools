@@ -16,54 +16,54 @@
 # Alternative Email to SMS method:
 #     txtlocal@mydomain.net: |/usr/sbin/sendmail -f AUTHORIZED@ADDRESS PHONE-NUMBER@txtlocal.co.uk
 
-USERNAME=''
-API_HASH=''
+USERNAME = ''
+API_HASH = ''
 
 import urllib.request
 import urllib.parse
 import json
 import sys
 
-def sendSMS(uname, hashCode, numbers, message):
+def send_sms(uname, hash_code, numbers, message):
     txtlocal_api = 'https://api.txtlocal.com/send/?'
-    parameters =  {
+    parameters = {
         'username': uname,
-        'hash': hashCode,
+        'hash': hash_code,
         'numbers': numbers,
         'message' : message,
         'sender': 'xreplyx',
         'format': 'json'
     }
-    postdata =  urllib.parse.urlencode(parameters)
+    postdata = urllib.parse.urlencode(parameters)
     postdata = postdata.encode('utf-8')
     request = urllib.request.Request(txtlocal_api)
     with urllib.request.urlopen(request, postdata) as response:
         body = response.read()
-    return(body)
+    return body
 
 def main(argv):
-    resp = sendSMS(USERNAME, API-HASH, argv[0], argv[1])
-    # Debug: # print(resp.decode('utf-8'))
+    resp = send_sms(USERNAME, API_HASH, argv[0], argv[1])
+    # Debug: print(resp.decode('utf-8'))
 
     try:
         resp_array = json.loads(resp.decode('utf-8'))
     except:
         print('JSON error')
-        return(10)
+        return 10
 
-    if 'status' in resp_array and 'success' == resp_array['status']:
+    if 'status' in resp_array and resp_array['status'] == 'success':
         print('OK')
-        return(0)
+        return 0
 
     if ('errors' in resp_array
-        and len(resp_array['errors'])
-        and 'message' in resp_array['errors'][0]
-        and 'code' in resp_array['errors'][0]):
+            and len(resp_array['errors'])
+            and 'message' in resp_array['errors'][0]
+            and 'code' in resp_array['errors'][0]):
         print(resp_array['errors'][0]['message'], file=sys.stderr)
-        return(resp_array['errors'][0]['code'])
+        return resp_array['errors'][0]['code']
     else:
         print('Unknown response', file=sys.stderr)
-        return(11)
+        return 11
 
 if __name__ == "__main__":
     exitcode = main(sys.argv[1:])

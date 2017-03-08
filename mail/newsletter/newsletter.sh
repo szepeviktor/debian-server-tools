@@ -10,23 +10,25 @@
 # Usage
 #
 # 1. Unpack original email:  munpack -t original.eml
-# 2. Edit parts, insert utm links and tracker image
-# 3. Prepare message skeleton:  cp skel.tpl.eml skeleton.eml
-# 4. Set BOUNCE_FROM address and LIST file name here
-# 5. Test send using addr-test and https://www.mail-tester.com/
+# 2. Edit part2, insert utm links and tracker image
+# 2. Edit part1
+# 3. Prepare message skeleton:  cp skel.tpl.eml skeleton.eml | /usr/local/src/debian-server-tools/mail/conv2047.pl -e
+# 4. Set ENVELOPE_FROM address CAMPAIGN name and LIST file name here
+# 5. Test send using addr-test
+# 6. mail-tester.com
+# 7. Save online version WITH Analytics snippet WITHOUT online link, unsub link, tracker image
+#
+# <a href="https://example.com/?
+# utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=@@CAMPAIGN@@&amp;utm_content=button">
+#
+# <a href="http://example.com/hirlevel/?c=@@CAMPAIGN@@&amp;e=@@EMAIL40@@&amp;h=@@CRYPT@@">unsubscribe</a>
 #
 # <img src="https://www.google-analytics.com/collect?v=1&amp;
-# tid=UA-11111111-1&amp;cid=@@UUID@@&amp;t=event&amp;ec=email&amp;ea=open&amp;cs=newsletter&amp;cm=email&amp;cn=campaign_2017"
+# tid=UA-11111111-1&amp;cid=@@UUID@@&amp;t=event&amp;ec=email&amp;ea=open&amp;cs=newsletter&amp;cm=email&amp;cn=@@CAMPAIGN@@"
 # height="1" width="1" alt="" />
-#
-# <a href="https://example.com/url?
-# utm_source=newsletter&amp;utm_campaign=campaign_2017&amp;utm_medium=email&amp;utm_content=toplink">
-#
-# <a href="mailto:add@re.ss?subject=unsubscribe_Campaign_@@EMAIL40@@">unsubscribe</a>
 
-# @FIXME Non-webmail email clients will have TWO sessions: email client + browser
-
-BOUNCE_FROM="webmaster@example.com"
+ENVELOPE_FROM="user-TAG@example.com"
+CAMPAIGN="NL_2017_campaign"
 
 #LIST="addr"
 LIST="addr-test"
@@ -49,9 +51,10 @@ dos2unix -q part2.qp
 while read -r ADDRESS; do
     echo -n "$((++COUNT)). ${ADDRESS}"
     UUID="$(uuidgen)"
+    CRYPT="$(php php/hash.php "$ADDRESS")"
 
-    # Log
     echo "${ADDRESS}	${UUID}	@$(date "+%s")" >> send.log
+
     # Send
     # shellcheck disable=SC2002
     cat skeleton.eml \
@@ -60,7 +63,9 @@ while read -r ADDRESS; do
         | sed -e "s|@@EMAIL@@|${ADDRESS}|g" \
         | sed -e "s|@@EMAIL40@@|${ADDRESS/@/%40}|g" \
         | sed -e "s|@@UUID@@|${UUID}|g" \
-        | /usr/sbin/sendmail -f "$BOUNCE_FROM" "$ADDRESS"
+        | sed -e "s|@@CAMPAIGN@@|${CAMPAIGN}|g" \
+        | sed -e "s|@@CRYPT@@|${CRYPT}|g" \
+        | /usr/sbin/sendmail -f "$ENVELOPE_FROM" "$ADDRESS"
     RET="$?"
 
     if [ "$RET" != 0 ]; then

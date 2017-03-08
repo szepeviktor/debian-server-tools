@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # First part of motd: Welcome
 #
@@ -11,16 +11,19 @@ if [ -x /usr/bin/lsb_release ]; then
     # Has point release
     DISTRIB_DESCRIPTION="$(/usr/bin/lsb_release -s -d)"
 elif [ -r /etc/os-release ]; then
-    DISTRIB_DESCRIPTION="$(sed -n -e 's;^PRETTY_NAME="\(.\+\)"$;\1;p' /etc/os-release)"
+    DISTRIB_DESCRIPTION="$(sed -n -e 's;^PRETTY_NAME="\(.\+\)"$;\1;p' /etc/os-release)" #'
 fi
 
-if [ -s /etc/hostcolor ] && [[ "$(< /etc/hostcolor)" =~ [0-9] ]]; then
+if [ -s /etc/hostcolor ] && [[ "$(< /etc/hostcolor)" =~ ^[0-9]$ ]]; then
     tput setaf "$(< /etc/hostcolor)"
 else
     echo "PLEASE set host color in /etc/hostcolor"
 fi
+
+# Host name
 figlet -w "117" "$(hostname -f)"
 tput sgr0
 echo
 
+# Welcome message
 printf "Welcome to %s (%s).\n\n" "$DISTRIB_DESCRIPTION" "$(uname -r)"

@@ -36,15 +36,17 @@ debian-setup/_check-system
 
 # Basic packages
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    localepurge unattended-upgrades apt-listchanges cruft debsums \
-    ncurses-term bash-completion mc htop most less time moreutils unzip \
-    logtail apg dos2unix ccze git colordiff \
+    localepurge unattended-upgrades apt-listchanges debsums \
+    ncurses-term mc most less time moreutils unzip \
+    logtail apg dos2unix ccze colordiff \
     whois ntpdate ipset netcat-openbsd lftp heirloom-mailx \
     gcc libc6-dev make strace \
 
 # From backports
+# List available backports: apt-get upgrade -t jessie-backports
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    -t jessie-backports needrestart unscd mtr-tiny
+    -t jessie-backports needrestart unscd mtr-tiny cruft git \
+    bash-completion htop
 # From testing
 debian-setup/ca-certificates
 # From custom repos
@@ -227,8 +229,8 @@ webserver/add-prg-site-auto.sh
 service fail2ban restart
 
 # Backup
-apt-get install -t jessie-backports -y python3-requests python3-urllib3 python3-six
-apt-get install -y debconf-utils s3ql
+apt-get install -y -t jessie-backports python3-requests python3-urllib3 python3-six s3ql
+apt-get install -y debconf-utils
 
 # CLI tools
 debian-setup/php-wpcli

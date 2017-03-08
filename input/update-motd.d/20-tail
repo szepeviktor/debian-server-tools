@@ -4,6 +4,6 @@
 #
 # LOCATION      :/etc/update-motd.d/20-tail
 
-[ -f /etc/motd.tail ] || exit 0
+test -f /etc/motd.tail || exit 0
 
 cat /etc/motd.tail

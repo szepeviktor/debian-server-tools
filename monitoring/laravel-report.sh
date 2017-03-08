@@ -24,13 +24,13 @@ set -e
 
 # Log directory
 LOG_PATH="$1"
-[ -d "$LOG_PATH" ]
+test -d "$LOG_PATH"
 
 # Today's log file
 LARAVEL_LOG="${LOG_PATH}/laravel-$(date "+%Y-%m-%d").log"
 
 # Must exists
-[ -f "$LARAVEL_LOG" ]
+test -f "$LARAVEL_LOG"
 
 # Take new lines and look for errors
 /usr/sbin/logtail2 "$LARAVEL_LOG" \

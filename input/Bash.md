@@ -6,18 +6,18 @@
 
 https://www.gnu.org/software/bash/manual/bash.html#Invoking-Bash
 
-| Command                | Shell type      | Executed files                 |
-| ---------------------- | --------------- | ------------------------------ |
-| Console login          | login           | /etc/profile /etc/bash.bashrc /root/.profile /root/.bashrc |
-| SSH login              | login           | /etc/profile /etc/bash.bashrc /root/.profile /root/.bashrc |
+| Command                  | Shell type      | Executed files                 |
+| ------------------------ | --------------- | ------------------------------ |
+| Console login            | login           | /etc/profile /etc/bash.bashrc /root/.profile /root/.bashrc |
+| SSH login                | login           | /etc/profile /etc/bash.bashrc /root/.profile /root/.bashrc |
 | `ssh -- bash -c command` | non-interactive | /etc/bash.bashrc /root/.bashrc |
-| `sudo -u user -- bash` | non-login       | /etc/bash.bashrc $HOME/.bashrc |
-| `mc`                   | non-login       | /etc/bash.bashrc /root/.bashrc |
-| `screen`               | non-login       | /etc/bash.bashrc /root/.bashrc |
-| `bash` (subshell)      | non-login       | /etc/bash.bashrc /root/.bashrc |
-| `bash -c command` (subshell) | non-login |                                |
-| `sh` (subshell)        | non-login       |                                |
-| Cron job               | non-interactive |                                |
+| `sudo -u user -- bash`   | non-login       | /etc/bash.bashrc $HOME/.bashrc |
+| `mc`                     | non-login       | /etc/bash.bashrc /root/.bashrc |
+| `screen`                 | non-login       | /etc/bash.bashrc /root/.bashrc |
+| `bash` (subshell)        | non-login       | /etc/bash.bashrc /root/.bashrc |
+| `bash -c command` (subshell) | non-login   |                                |
+| `sh` (subshell)          | non-login       |                                |
+| Cron job                 | non-interactive |                                |
 
 https://www.gnu.org/software/bash/manual/bash.html#Bash-Startup-Files
 
