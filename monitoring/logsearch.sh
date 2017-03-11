@@ -2,7 +2,7 @@
 #
 # Smart search Apache logs.
 #
-# VERSION       :0.6.2
+# VERSION       :0.6.3
 # DATE          :2015-04-27
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -25,7 +25,9 @@ FIELDS=""
 #####################################################
 Get_version() {
     local FILE="$1"
-    local VER="$(grep -m1 "^# VERSION\s*:" "$FILE" | cut -d":" -f2-)"
+    local VER
+
+    VER="$(grep -m 1 "^# VERSION\s*:" "$FILE" | cut -d ":" -f 2-)"
 
     if [ -z "$VER" ]; then
         VER="(unknown)"
@@ -69,12 +71,14 @@ EOF
 # Globals:
 #   FIELDS
 # Arguments:
-#   FIELD
+#   FIELD ...
 ##########################################################
 Add_field() {
     local FIELD="$*"
 
-    [ -z "$FIELDS" ] || FIELDS="${FIELDS}\t"
+    if [ -n "$FIELDS" ]; then
+        FIELDS="${FIELDS}\t"
+    fi
     FIELDS="${FIELDS}${FIELD}"
 }
 
@@ -83,13 +87,32 @@ Add_field() {
 # Globals:
 #   PIPE
 # Arguments:
-#   CMD
+#   CMD ...
 ##########################################################
 Add_pipe() {
     local CMD="$*"
 
-    [ -z "$PIPE" ] || PIPE="${PIPE}|"
+    if [ -n "$PIPE" ]; then
+        PIPE="${PIPE}|"
+    fi
     PIPE="${PIPE}${CMD}"
+}
+
+##########################################################
+# Complete all given file names
+# Arguments:
+#   LOG ...
+##########################################################
+Realpath_all() {
+    local LOG
+
+    for LOG; do
+        if ! [ -f "$LOG" ]; then
+            echo "$LOG"
+            continue
+        fi
+        realpath "$LOG"
+    done
 }
 
 ##########################################################
@@ -166,19 +189,23 @@ shift $((OPTIND - 1))
 
 # What left is the search phrase
 SEARCH="$*"
-[ "${IP_DOTS}" == 1 ] && SEARCH="$(sed 's|\.|\\.|g' <<< "$SEARCH")"
+if [ "${IP_DOTS}" == 1 ]; then
+    SEARCH="$(sed 's|\.|\\.|g' <<< "$SEARCH")"
+fi
 
 # Default fields = all
-[ -z "$FIELDS" ] && FIELDS="\1\/\2\t\3\t\4\t\5\t\6\t\7\t\8"
+if [ -z "$FIELDS" ]; then
+    FIELDS="\1\/\2\t\3\t\4\t\5\t\6\t\7\t\8"
+fi
 
 # access      222.255.28.000 - - [25/May/2014:06:54:27 +0200] "HEAD /siv/siv.zip HTTP/1.1" 200 294 "-" "-"
 # error       [Sun Jul 13 12:00:51 2014] [error] [client 192.99.200.213] File does not exist: /home/user/public_html
 
 if [ -z "$ERRORLOG" ]; then
     # Process access logs
-    # shellcheck disable=SC2086
-    grep "${SEARCH}" ${LOGS} \
-        | sed 's/^\([^:]*\)\/\([^\/]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
+    # shellcheck disable=SC2086,SC2046
+    grep -H -- "${SEARCH}" $(Realpath_all ${LOGS}) \
+        | sed -e 's/^\([^:]*\)\/\([^\/]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
         | eval "$PIPE"
 else
     # Process error logs
@@ -191,8 +218,8 @@ else
     FIELDS="${FIELDS//\\4/\3}"
     FIELDS="${FIELDS//\\X/\4}"
     #             log path:1,2          date:4                        IP:3               message:5
-    # shellcheck disable=SC2086
-    grep -- "${SEARCH}" ${ERROR_LOGS} \
-        | sed 's/^\([^:]*\)\/\([^\/]*\):\(\[.*\]\) \[error\] \[client \([0-9a-f:\.]*\)\] \(.*\)$/'"$FIELDS"'/' \
+    # shellcheck disable=SC2086,SC2046
+    grep -H -- "${SEARCH}" $(Realpath_all ${ERROR_LOGS}) \
+        | sed -e 's/^\([^:]*\)\/\([^\/]*\):\(\[.*\]\) \[error\] \[client \([0-9a-f:\.]*\)\] \(.*\)$/'"$FIELDS"'/' \
         | eval "$PIPE"
 fi

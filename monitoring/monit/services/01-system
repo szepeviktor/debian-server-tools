@@ -1,15 +1,22 @@
  check system $HOST
-   if loadavg (1min) > 4 then alert
+   # Overload
+   if cpu usage (user) > 70% then alert
+   if cpu usage (system) > 30% then alert
+   # Momentary overload (n+1)
+   if loadavg (1min) > 3 then alert
+   # Constant overload (n)
    if loadavg (5min) > 2 then alert
+   # Memory usage
    if memory usage > 75% then alert
    if swap usage > 25% then alert
    #if swap usage > 45% then alert
-   if cpu usage (user) > 70% then alert
-   if cpu usage (system) > 30% then alert
+   # IO overload
    if cpu usage (wait) > 20% then alert
+   # Uptime
    if uptime > 180 days then alert
 
- check filesystem rootfs with path /
+ # Disk full
+ check filesystem rootfs with path "/"
    if space usage > 90% then alert
 
  # Available entropy at first

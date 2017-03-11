@@ -326,11 +326,11 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 
 - https://litmus.com/community/templates
 - https://litmus.com/blog/go-responsive-with-these-7-free-email-templates-from-stamplia
-- https://www.klaviyo.com/
 - https://litmus.com/subscribe
 
-### Template design
+### Email design
 
+- https://www.klaviyo.com/
 - https://mailchimp.com/
 - https://wireframe.cc/
 

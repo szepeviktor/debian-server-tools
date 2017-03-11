@@ -2,7 +2,7 @@
 #
 # Clean up an email list.
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2016-01-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,14 +11,19 @@
 # DEPENDS       :apt-get install screen bind9-host netcat-traditional courier-mta
 # LOCATION      :/usr/local/bin/mx-check.sh
 
+# Gmail typo filter
+#     grep -ix -f gmail-typo.grep address.list
+# Banned role-based addresses
+#     grep -ix -f banned-addresses.grep address.list
 # Watch job queue
 #     watch -n1 'printf "%*s" $(cat $JOBN) | tr " " "_"'
 
-# Assumed MTA user
+# MTA user
 MAIL_GROUP="daemon"
 
 ORIG_LIST="$1"
-EMAIL_REGEXP='\b[a-zA-Z0-9._-]\+@[a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,8\}\b'
+#EMAIL_REGEXP='\b[a-zA-Z0-9_.+-]\+@[a-zA-Z0-9.-]\+\.[a-zA-Z]\{2,8\}\b'
+EMAIL_REGEXP='\b[a-zA-Z0-9][a-zA-Z0-9_.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9.-]*[a-zA-Z][a-zA-Z]\b'
 CLEAN_LIST="${ORIG_LIST}.0-clean.txt"
 LINES_FAILED="${ORIG_LIST}.0-FAILED-lines.txt"
 DOMAIN_LIST="${ORIG_LIST}.1-domains.txt"
@@ -111,13 +116,31 @@ Mx_test() {
 
         [ -z "$MX" ] && continue
 
+        # Skip localhost
+        if [ "$MX" == "localhost." ] || [ "$MX" == "mail." ]; then
+            RESULT="FAIL.localhost"
+            break
+        fi
+
         # First IP address
         MX_IP="$(getent ahostsv4 "$MX" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
         [ -z "$MX_IP" ] && continue
 
+        # Skip localhost
+        if [ "$MX_IP" == "127.0.0.1" ]; then
+            RESULT="FAIL.localhost"
+            break
+        fi
+
         # Already known working
         if [ -f "$IP_OK_LIST" ] && grep -qFx "$MX_IP" "$IP_OK_LIST"; then
             RESULT="OK.smtp"
+            break
+        fi
+
+        # Check disposable email MX-s
+        if grep -q -x "${MX//./\\.}\|${MX_IP//./\\.}" disposable-mx.list; then
+            RESULT="FAIL.disposable"
             break
         fi
 
