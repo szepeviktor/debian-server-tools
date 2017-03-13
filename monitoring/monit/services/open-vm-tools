@@ -14,6 +14,7 @@
  check program vmware-toolbox with path "/usr/bin/vmware-toolbox-cmd stat sessionid" with timeout 10 seconds
    group open-vm-tools
    if status != 0 then alert
+   if changed status then alert
 
  check file open-vm-tools_init with path /etc/init.d/open-vm-tools
    group open-vm-tools

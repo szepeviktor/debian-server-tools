@@ -2,7 +2,7 @@
 #
 # Reverse octets in an IPv4 address.
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.1
 # DATE          :2015-07-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -10,19 +10,23 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/revip
 
+# Alternative
+#     sed -e 's|^\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)$|\4.\3.\2.\1|'
+
 Reverse_string() {
     local STRING="$1"
     local DELIM="$2"
+    local PART
     local REV
 
     REV="$(
         while read -r -d "$DELIM" PART; do
             echo "$PART"
         done <<< "${STRING}${DELIM}" \
-        | tac \
-        | while read -r PART; do
-            echo -n "${PART}${DELIM}"
-        done
+            | tac \
+            | while read -r PART; do
+                echo -n "${PART}${DELIM}"
+            done
     )"
 
     echo "${REV%$DELIM}"

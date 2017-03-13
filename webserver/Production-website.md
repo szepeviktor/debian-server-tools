@@ -61,9 +61,10 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 - browserconfig.xml
 - [other files in the document root](https://github.com/szepeviktor/RootFiles)
 
-### Maintenance mode
+### Maintenance mode and placeholder page
 
-Static maintenance page
+- Static all-inline HTML page
+- `ErrorDocument 503 nice-page.html` + `RewriteRule "^" - [R=503,L]` + Retry-After header
 
 ### CDN
 

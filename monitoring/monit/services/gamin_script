@@ -2,7 +2,7 @@
 #
 # Connect to gamin server for session test.
 #
-# VERSION       :1.2.3
+# VERSION       :1.2.4
 # DOCS          :https://people.gnome.org/~veillard/gamin/debug.html
 # SOURCE        :gamin/tests/.lib/testgam
 # DEPENDS       :/usr/local/bin/testgam
@@ -16,7 +16,7 @@ set -e
 
 test -x "$TESTGAM"
 
-Sudo_virtual() {
+Gamin_test_virtual() {
     local GAMTMP
 
     GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"

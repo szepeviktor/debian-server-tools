@@ -11,6 +11,7 @@
  check program udevadm with path "/bin/udevadm trigger --verbose --dry-run --type=devices --subsystem-match=rtc"
    group udevd
    if status != 0 then alert
+   if changed status then alert
 
  check file udevd_bin with path /sbin/udevd
    group udevd

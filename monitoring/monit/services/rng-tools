@@ -16,6 +16,7 @@
  check program "rngd_test" with path "/usr/local/sbin/rng-tools-test.sh" with timeout 10 seconds every 33 cycles
    group "rngd"
    if status != 0 then alert
+   if changed status then alert
 
  check file "rngd_rc" with path "/etc/default/rng-tools"
    group "rngd"

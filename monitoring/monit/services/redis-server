@@ -30,3 +30,4 @@
  check program "redis_test" with path "/usr/local/sbin/redis-server-test.sh" with timeout 10 seconds
    group "redis"
    if status != 0 then alert
+   if changed status then alert

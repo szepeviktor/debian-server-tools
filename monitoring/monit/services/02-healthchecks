@@ -2,3 +2,4 @@
    as uid "nobody" and gid "nogroup" with timeout 10 seconds every "03,04 *  * * *"
    group "healthchecks"
    if status != 0 then alert
+   if changed status then alert

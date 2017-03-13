@@ -27,3 +27,4 @@
  check program serclient_test with path /usr/local/sbin/aruba-serclient-test.sh with timeout 10 seconds
    group serclient
    if status != 0 then alert
+   if changed status then alert

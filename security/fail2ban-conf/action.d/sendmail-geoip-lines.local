@@ -24,7 +24,8 @@ actionban = printf %%b "X-Fail2ban: <ip>,<sender>
             Date: `LC_ALL=C date '+%%a, %%d %%h %%Y %%T %%z'`
             From: <sendername> <<sender>>
             To: <dest>\n
-            <failures> attempts against <name> - http://szepeviktor.github.io/ip-info/?<ip>\n\n
+            <failures> attempts against <name> - http://szepeviktor.github.io/ip-info/?<ip>\n
+            https://toolbox.googleapps.com/apps/dig/#TXT/`echo '<ip>' | sed -e 's|^\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)$|\4.\3.\2.\1|'`.abuse-contacts.abusix.org\n\n
             Country:`geoiplookup -f /usr/share/GeoIP/GeoIP.dat '<ip>' | cut -d ':' -f 2-`
             AS:`geoiplookup -f /usr/share/GeoIP/GeoIPASNum.dat '<ip>' | cut -d ':' -f 2-`
             Hostname: `host -W 3 -t PTR '<ip>' 2>&1`\n

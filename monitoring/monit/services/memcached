@@ -28,3 +28,4 @@
  check program memcache_test with path /usr/local/sbin/memcached-test.sh with timeout 10 seconds
    group memcached
    if status != 0 then alert
+   if changed status then alert

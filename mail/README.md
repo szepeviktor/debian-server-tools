@@ -25,6 +25,8 @@
 - https://www.mandrill.com/ by MailChimp
 - https://postmarkapp.com/ by Wildbit
 
+[Integrity Mailszolgáltatás (SMTP+IMAP)](https://integrity.hu/mailszolgaltatas/)
+
 ### Marketing tools
 
 - https://www.getdrip.com/features

@@ -1,6 +1,7 @@
  check program gamin_test with path /usr/local/sbin/gamin-test.sh with timeout 10 seconds
    group system
    if status != 0 then alert
+   if changed status then alert
    depends on gamin_bin
    depends on gamin_rc
 

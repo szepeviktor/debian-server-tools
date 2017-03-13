@@ -32,3 +32,4 @@ check process spamd with pidfile /run/spamd.pid
  check program spamd_test with path /usr/local/sbin/spamassassin-test.sh with timeout 10 seconds
    group mail
    if status != 0 then alert
+   if changed status then alert

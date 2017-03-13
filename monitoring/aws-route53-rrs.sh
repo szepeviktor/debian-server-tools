@@ -2,19 +2,19 @@
 #
 # Create, list and edit AWS Route53 DNS resource record sets.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DOCS          :http://jmespath.org/examples.html
 # DEPENDS       :pip install awscli
 # LOCATION      :/usr/local/bin/aws-route53-rrs.sh
 
 # Usage
+#     Add HOSTED_ZONE_ID=HOSTED-ZONE-ID to your profile
 #     aws-route53-edit-rrs.sh . TXT
 #     aws-route53-edit-rrs.sh non-existent-to-create.example.com. AAAA
 #     aws-route53-edit-rrs.sh example.com. A
+#     aws-route53-edit-rrs.sh example.com. IN TXT
 
 HOSTED_ZONE="$HOSTED_ZONE_ID"
-
-set -e
 
 Route53_list_rrs() {
     aws route53 list-resource-record-sets --hosted-zone-id "$HOSTED_ZONE" "$@"
@@ -35,7 +35,13 @@ EOF
     exit 0
 }
 
+set -e
+
 NAME="$1"
+# Support bind format
+if [ "$2" == "IN" ]; then
+    shift
+fi
 TYPE="$2"
 
 # Get name. and TYPE
