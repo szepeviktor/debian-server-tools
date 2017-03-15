@@ -423,14 +423,16 @@ Register here:
 - https://rbltracker.com/ `M`
 - https://www.rblmon.com/accounts/register/ `M`
 - https://www.dnswl.org/selfservice/ `R`
+- [Google Postmaster Tools](https://postmaster.google.com/) `R`
 - https://ers.trendmicro.com/reputations `LR`
-- http://www.emailreg.org/index.cgi?p=policy (Barracuda) `R`
 - [AOL Postmaster](https://postmaster.aol.com/ip-reputation) `LR`
 - http://yandexfbl.senderscore.net/ `F`
 - [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx)
     - [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) `RF`
     - [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx) `RF`
 - [Sender Information for Outlook.com Delivery](https://go.microsoft.com/fwlink/?LinkID=614866) `S`
+- [EmailReg.org](http://www.emailreg.org/index.cgi?p=policy) (for Barracuda) `R`
+- [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/) `F`
 
 ### Free e-mail backup server
 

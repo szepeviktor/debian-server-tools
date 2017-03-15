@@ -51,12 +51,22 @@ mail-server:
         - https://ers.trendmicro.com/reputations/global_approved_list
 
 # Custom data directories
-data-dirs:
-
-  directory name: /path/to/dir
-  configuration files: /etc
-  local data: /usr/local
-  variable files: /var
+cruft:
+    - /usr/share/locale
+    - /usr/share/man
+    - /home
+    - /root
+    - /etc/php/7.0
+    - /var/lib/php/modules
+    - /usr/local/bin
+    - /usr/local/sbin
+    - /usr/local/src
+    - /usr/local/lib/node_modules
+    - /usr/local/lib/python2.7
+    - /usr/local/lib/python3.4
+    - /var/lib/mysql
+    - /var/log
+# cruft $(shyaml get-values cruft < /root/server.yml | xargs -n 1 echo " --ignore ") > cruft.log
 
 # Clients using this server
 clients:
@@ -110,7 +120,7 @@ services:
     monit:
       type: daemon
       transport: uds
-    VMware Tools:
+    vmwaretools:
       transport: VMCI socket
       description: ATW/autorent
     unattended-upgrades:
@@ -159,7 +169,7 @@ packaging:
     list-command: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
     location: /usr/share/php
   node:
-    list-command: npm -g list
+    list-command: npm -g ls
     location: /usr/lib/node_modules
   ruby:
     list-command: gem list

@@ -16,7 +16,7 @@
 # Use package/dategrep-install.sh
 
 Grandchild_pid() {
-    sed -n "s/^\S\+ \+[0-9]\+ [0-9:]\+ \S\+ \(\/USR\/SBIN\/\)\?CRON\[[0-9]\+\]: (CRON) error (grandchild #\([0-9]\+\) failed with exit status [0-9]\+)$/\1/p"
+    sed -n -e "s/^\S\+ \+[0-9]\+ [0-9:]\+ \S\+ \(\/USR\/SBIN\/\)\?CRON\[[0-9]\+\]: (CRON) error (grandchild #\([0-9]\+\) failed with exit status [0-9]\+)$/\1/p"
 }
 
 # For non-existent syslog.1
@@ -27,7 +27,7 @@ shopt -s nullglob
     --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog.[1] /var/log/syslog \
     | grep -F -v "/usr/local/sbin/syslog-errors.sh" \
     | Grandchild_pid \
-    | while read GC_PID; do
+    | while read -r GC_PID; do
         # Search for the log line with some context
         # Add marks around it
         grep -C 3 "^\S\+ \+[0-9]\+ [0-9:]\+ \S\+ \(/USR/SBIN/\)\?CRON\[${GC_PID}\]: (\S\+) CMD (.\+)$" \

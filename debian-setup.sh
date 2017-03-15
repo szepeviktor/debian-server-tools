@@ -14,15 +14,14 @@
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    cd debian-server-tools-master/
-# 2. Evaluate Graph, Prefixes, Peers and RBL-s http://bgp.he.net/
-# 3. Aquire settings: hostname, networking, resolvers, NTP servers, custom kernel, user names, SSH keys
-# 4. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 5. Set up DNS resource records: PTR, A, AAAA, MX (DNS provider)
-# 6. Start!
+# 2. Aquire settings: hostname, networking, resolvers, NTP servers, custom kernel, user names, SSH keys
+# 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
+# 4. Set up DNS resource records: PTR, A, AAAA, MX (DNS provider)
+# 5. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh
-# 7. Consider creating a disk or vm template with isc-dhcp-client installed
-# 8. Continue!
+# 6. Consider creating a disk or vm template with isc-dhcp-client installed
+# 7. Continue!
 #    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
 #    script --timing=debian-setup2.time debian-setup2.script
 #    ./debian-setup2.sh

@@ -200,7 +200,7 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.7.0
+# VERSION       :0.8.0
 
 # If apt is not in progress
 if ! fuser /var/lib/dpkg/lock > /dev/null 2>&1; then
@@ -212,10 +212,11 @@ if ! fuser /var/lib/dpkg/lock > /dev/null 2>&1; then
 fi
 
 # Try remonitor failed services
-IGNORED_STATUSES="Running|Accessible|Status ok|Waiting"
+IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
 /usr/bin/monit -B summary | tail -n +3 \
+    | sed -e 's|Remote Host\s*$|RemoteHost |' \
     | grep -vE "\sSystem\s*\$|\s(${IGNORED_STATUSES})\s*\S+\s*\$" \
-    | sed -n -e "s;^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*\$;\1;p" \
+    | sed -n -e "s|^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*\$|\1|p" \
     | xargs -r -L 1 /usr/bin/monit monitor
 
 # Exit status 0 means it was OK

@@ -27,6 +27,9 @@ cms:
   plugin:
     - paid-plugins
     - purchased-plugin
+cron:
+  - job 1
+  - job 2
 3rd-party:
   high:
     - Certificate Authority

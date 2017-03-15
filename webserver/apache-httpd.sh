@@ -38,7 +38,7 @@ yes | cp -f webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
 yes | cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
 
 # php-fpm.conf is not enabled, use settings per vhost
-a2enconf h5bp http2
+a2enconf admin-address h5bp http2
 
 # Security through obscurity
 sed -i -e 's|^ServerTokens OS|ServerTokens Prod|' /etc/apache2/conf-available/security.conf

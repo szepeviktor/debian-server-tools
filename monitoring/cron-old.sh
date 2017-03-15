@@ -11,18 +11,24 @@
 # LOCATION      :/usr/local/sbin/cron-old.sh
 # CRON.D        :*/30 *	* * *	root	/usr/local/sbin/cron-old.sh
 
+# In minutes
 declare -i CRON_MAX_AGE="50"
+
 declare -i CRON_CHILD_AGE
 
 # Oldest cron job
-CRON_CHILD_PID="$(pgrep --parent $(cat /run/crond.pid) --oldest)"
+CRON_CHILD_PID="$(pgrep --parent "$(head -n 1 /run/crond.pid)" --oldest)" #"
 
-[ -z "$CRON_CHILD_PID" ] && exit 0
+if [ -z "$CRON_CHILD_PID" ]; then
+    exit 0
+fi
 
 # List job age
 ps -o etimes= -p "$CRON_CHILD_PID" \
     | while read -r CRON_CHILD_AGE; do
-        [ "$CRON_CHILD_AGE" -lt $((CRON_MAX_AGE * 60)) ] && continue
+        if [ "$CRON_CHILD_AGE" -lt $((CRON_MAX_AGE * 60)) ]; then
+            continue
+        fi
 
         # Alert on long-running jobs
         CRON_CHILD_INFO="${CRON_CHILD_PID}:$(ps -o cmd= --ppid "$CRON_CHILD_PID")"

@@ -58,7 +58,7 @@ apt-get install -y aptitude ca-certificates courier-mta courier-ssl -o APT::Inst
 # Fix dependency on courier-authdaemon
 if dpkg --compare-versions "$(dpkg-query --show --showformat="\${Version}" courier-mta)" lt "0.75.0-11"; then
     sed -i -e '1,20s|^#\s\+Required-Start:\s.*$|& courier-authdaemon|' /etc/init.d/courier-mta
-    update-rc.d courier-mta defaults
+    #update-rc.d courier-mta defaults
 fi
 
 # Restart script
