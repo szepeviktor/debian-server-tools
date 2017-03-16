@@ -173,10 +173,14 @@ wp_changelog() {
 EOF
 
 # Add mc syntax highlights
-mkdir -p /root/.config/mc/mcedit
-ROOT_MC_SYNTAX="/root/.config/mc/mcedit/Syntax"
+ROOT_MC_SYNTAX="/root/.local/share/mc/mcedit"
+ROOT_MC_SYNTAX_CONFIG="/root/.config/mc/mcedit"
+mkdir -p "$ROOT_MC_SYNTAX"
+wget -nv -P "$ROOT_MC_SYNTAX" https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/email.syntax
+wget -nv -P "$ROOT_MC_SYNTAX" https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/markdown.syntax
+mkdir -p "$ROOT_MC_SYNTAX_CONFIG"
 {
     wget -nv -O- https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/Syntax
     #cat /usr/share/mc/syntax/Syntax
     wget -nv -O- https://github.com/MidnightCommander/mc/raw/master/misc/syntax/Syntax.in
-} > "$ROOT_MC_SYNTAX"
+} > "${ROOT_MC_SYNTAX_CONFIG}/Syntax"

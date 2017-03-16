@@ -1,12 +1,12 @@
 # Let's Encrypt
 
-SSL certificate for web, mail etc. see /security/new-ssl-cert.sh
+SSL certificate for web, mail etc. See [/security/cert-update-manuale-CN.sh](/security/cert-update-manuale-CN.sh)
 
-Test TLS connections see /security/README.md
+Test TLS connections, see [/security/README.md](/security/README.md)
 
 [ManuaLE](https://github.com/veeti/manuale)
 
-A fully manual Let's Encrypt/ACME client with DNS-based challenge.
+A fully manual Let's Encrypt/ACME client with DNS-based and HTTP challenge.
 
 ```bash
 apt-get install -q -y ca-certificates \
@@ -37,6 +37,8 @@ alias manuale='u ../../.local/bin/manuale'
 
 Add TXT record by AWS CLI
 
+See [/monitoring/aws-route53-rrs.sh](/monitoring/aws-route53-rrs.sh)
+
 `aws route53 change-resource-record-sets --hosted-zone-id "/hostedzone/AAAAAAAAA" --change-batch file://acme-challenge.json`
 
 ```json
@@ -51,7 +53,7 @@ Add TXT record by AWS CLI
 } ] }
 ```
 
-[Certbot](https://github.com/certbot/certbot)
+[Certbot](https://github.com/certbot/certbot) *not recommended
 
 ```bash
 # https://github.com/certbot/certbot/blob/master/certbot-auto#L246
@@ -73,11 +75,11 @@ certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-loggin
 # Standalone for non-webservers
 #certbot certonly --verbose --text --standalone --agree-tos --email $EMAIL -d $DOMAIN
 
-( cd /etc/letsencrypt/live/${DOMAIN}
+( cd /etc/letsencrypt/live/$DOMAIN
   cat privkey.pem fullchain.pem > priv-pub-int.pem )
 ```
 
-### Renew
+Renew
 
 ```bash
 pip2 install --upgrade certbot
@@ -88,7 +90,7 @@ certbot renew --verbose --manual --manual-public-ip-logging-ok
 
 # Courier MTA
 read -r CN
-( cd /etc/letsencrypt/live/${DOMAIN}
+( cd /etc/letsencrypt/live/$DOMAIN
   cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
 rm -f /etc/courier/dhparams.pem
 DH_BITS=2048 nice /usr/sbin/mkdhparams
@@ -100,6 +102,5 @@ openssl s_client -connect $(hostname -f):587 -starttls smtp < /dev/null
 ### Alternatives
 
 - https://github.com/diafygi/acme-tiny
-- https://github.com/veeti/manuale
 - https://github.com/lukas2511/letsencrypt.sh
 - https://github.com/certbot/certbot/wiki/Links

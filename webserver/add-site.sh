@@ -73,6 +73,9 @@ chown -cR ${U}:${U} /home/${U}/
 # path, url, debug, user, skip-plugins
 editor wp-cli.yml
 
+# Add hosting.yml
+cp hosting.yml /home/${U}/website/
+
 # Check core files
 uwp core verify-checksums
 

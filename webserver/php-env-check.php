@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @version 0.2.1
- * author Viktor Szépe <viktor@szepe.net>
+ * @author Viktor Szépe <viktor@szepe.net>
  */
 
 namespace O1;

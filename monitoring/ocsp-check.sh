@@ -23,8 +23,6 @@
 
 HOST="$1"
 
-set -e
-
 Onexit() {
     local -i RET="$1"
     local BASH_CMD="$2"
@@ -40,6 +38,11 @@ Onexit() {
 
     exit "$RET"
 }
+
+set -e
+
+declare -i THIS_UPDATE_SECOND
+declare -i NEXT_UPDATE_SECOND
 
 trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 
@@ -100,18 +103,15 @@ if ! grep -qFx "${CERTIFICATE}: good" <<< "$OCSP_RESPONSE"; then
     exit 102
 fi
 
+# Check update dates
 THIS_UPDATE="$(sed -n -e '0,/^\s*This Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
 NEXT_UPDATE="$(sed -n -e '0,/^\s*Next Update: \(.\+\)$/s//\1/p' <<< "$OCSP_RESPONSE")"
-# Check update dates
 test -n "$THIS_UPDATE"
 test -n "$NEXT_UPDATE"
 
-declare -i THIS_UPDATE_SECOND
-declare -i NEXT_UPDATE_SECOND
+# Check expiry
 THIS_UPDATE_SECOND="$(date --date "$THIS_UPDATE" "+%s")"
 NEXT_UPDATE_SECOND="$(date --date "$NEXT_UPDATE" "+%s")"
-
-# Check expiry
 test "$NEXT_UPDATE_SECOND" -ge "$(date "+%s")"
 
 # Check expiration time
@@ -119,6 +119,7 @@ declare -i OCSP_HOURS="$(( ( NEXT_UPDATE_SECOND - THIS_UPDATE_SECOND ) / 3600 ))
 test "$OCSP_HOURS" -ge 24
 test "$OCSP_HOURS" -le 240
 
+# OK message
 echo "${HOST} OCSP period: ${OCSP_HOURS} hours"
 
 exit 0

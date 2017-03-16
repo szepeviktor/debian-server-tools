@@ -132,11 +132,20 @@ case "$CHECK" in
         ;;
     HOP1)
         [ -z "$NEAREST" ] && exit 8
-        RESULT="$(traceroute -n -m 1 "$NEAREST" | tail -n 1 | cut -d " " -f 4)"
+        RESULT="$(traceroute -n -4 -m 1 "$NEAREST" | sed -n -e '$s;^ 1  \([0-9.]\+\) .*$;\1;p')"
+        # Brace expansion for load-balanced routers
+        if [ -n "$EXPECTED" ]; then
+            for ROUTER in $(eval echo "$EXPECTED"); do
+                if [ "$ROUTER" == "$RESULT" ]; then
+                    EXPECTED="$ROUTER"
+                    break
+                fi
+            done
+        fi
         ;;
     HOP2)
         [ -z "$NEAREST" ] && exit 8
-        RESULT="$(traceroute -n -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
+        RESULT="$(traceroute -n -4 -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
         ;;
     PTR1)
         IP="$("$0" -c IP1)"

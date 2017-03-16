@@ -10,9 +10,8 @@
 
 # Usage
 #
-# Custom SSL certificate or Let’s Encrypt certificate
+# Put SSL certificate in place
 #
-#     certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-logging-ok --email EMAIL -d DOMAIN
 #     editor /etc/ssl/private/CN-private.key
 #     editor /etc/ssl/localcerts/CN-public.pem
 

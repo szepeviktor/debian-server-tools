@@ -68,13 +68,15 @@ Dinstall mail/courier-restart.sh
 editor /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #     : in-v3.mailjet.com,587 /SECURITY=REQUIRED
-#     : email-smtp.us-east-1.amazonaws.com,587 /SECURITY=REQUIRED
+#     : email-smtp.eu-west-1.amazonaws.com,587 /SECURITY=REQUIRED
 #     : SMART-HOST,587 /SECURITY=REQUIRED
 # From jessie on
 #     : SMART-HOST,465 /SECURITY=SMTPS
 editor /etc/courier/esmtpauthclient
 #     SMART-HOST,587 USER-NAME PASSWORD
 
+# Unused certificate file
+install -o daemon -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
 # SSL configuration
 editor /etc/courier/courierd
 # Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready (jessie) for it
@@ -102,6 +104,8 @@ editor /etc/courier/courierd
 #     ESMTP_USE_STARTTLS=1
 #     ESMTP_TLS_VERIFY_DOMAIN=1
 #     TLS_TRUSTCERTS=/etc/ssl/certs
+#     # Courier verifies against resolved CNAME-s!
+#     # https://github.com/svarshavchik/courier-libs/commit/5e522ab14f45c6f4f43c43e32a2f72fbf6354f1c
 #     TLS_VERIFYPEER=REQUIREPEER
 
 # Listen on localhost and disable authentication

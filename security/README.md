@@ -31,7 +31,7 @@ Details
 
 @TODO https://github.com/CISOfy/lynis/
 
-### HTTP Content-Security-Policy
+### HTTP CSP - Content Security Policy
 
 - https://securityheaders.io/
 - https://report-uri.io/

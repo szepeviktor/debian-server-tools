@@ -19,7 +19,7 @@
 
 [Detailed recursive DNS query](https://dnsquery.org/)
 
-http://www.squish.net/dnscheck/
+[DNS traversal checker](http://dns.squish.net/)
 
 ### DNS propagation checker
 
@@ -34,4 +34,3 @@ http://www.squish.net/dnscheck/
 
 - http://mxtoolbox.com/DNSLookup.aspx
 - http://bgp.he.net/
-

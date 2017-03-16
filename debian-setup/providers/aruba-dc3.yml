@@ -2,18 +2,21 @@
 hosting-company: Aruba
 virtualization: vmware
 networking:
+    method: static
+    name: eth0
     resolver:
         - 81.2.192.131
+        - 8.8.8.8
         - 81.2.193.227
 software:
-    aruba-arping: Fix duplicate IP problem
-    serclient: Aruba ExtraControl, Request an activation & Restart & Enter the token
-    monit: Cloud instances have two routers, use second hop in monit/01-system/network_hop
+    aruba-arping: "Fix duplicate IP problem"
+    serclient: "Aruba ExtraControl, Request an activation & Restart & Enter the token"
+    monit: "Cloud instances have two routers, use 1.2.3.{4,5} in monit/01-system/network_hop"
 provider-package:
     # Used in aruba-arping
     - arping
     # Aruba ExtraControl (serclient)
-    # Available from szepeviktor
+    # Available from szepeviktor/aruba-serclient.deb repo
     #     http://admin.dc3.arubacloud.hu/Manage/Serial/SerialManagement.aspx
     #     https://github.com/pmcloud/ExtraControl
     #
@@ -24,7 +27,7 @@ provider-package:
     # - "Switch on" the server
     # - Enter token
     #
-    # Contains
+    # Package contains
     # - Set log level
     # - Comment out custom logrotate
     # - Add logrotate configuration

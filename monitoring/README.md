@@ -1,3 +1,51 @@
+# Monitoring
+
+### Per website and dependency monitoring
+
+- HTTP message body (aka HTML source code)
+- Visal change (visualping.io)
+- HTTPS cetificate and SSL settings (ssl-check.sh, ssllabs.com)
+- File changes (tripwire-fake.sh)
+- Application log (laravel-report.sh)
+- Malware listing (sitecheck.sucuri.net)
+- PageSpeed (PageSpeed Insights)
+- Health (Google Search Console)
+- Traffic (goaccess.sh, Google Analytics)
+- Uptime (monit, pingdom.com)
+- Dependencies: listed in hosting.yml
+- Dependencies: OCSP response (ocsp-check.sh)
+
+### Per host monitoring
+
+@TODO See [Monitoring in Production-website.md](/webserver/Production-website.md#monitor)
+
+- RTC, entropy, server integrity (monit)
+- Datacenter: gateway, DNS resolvers (monit)
+- Process, binary, functional test, rc script, init script, log (monit)
+- Cron jobs (cron-grandchild.sh, cron-old.sh)
+- Custom kernel updates (ovh-kernel-update.sh)
+- ICMP response (monit)
+- SSH port (ssh-watch.sh, monit)
+- DNS resource records (dns-watch.sh)
+- SMTP port (monit)
+- SSL cetificates in responses (ssl-check.sh)
+- SSL cetificate files (cert-expiry.sh)
+- Apache logs (apache-4xx-report.sh, apache-xreport.sh)
+- File changes (siteprotection.sh)
+- Errors in syslog (syslog-errors.sh)
+- RBL - DNS blacklists
+- Email deliveribility (can-send-email.sh)
+- Recipient domain and DNS
+- TOP 10 mailfolders (top10-mailfolders.sh)
+- S.M.A.R.T. attributes (smart-zeros.sh)
+- Traffic spikes: HTTP, SMTP
+- Uptime (monit, healthchecks.io)
+
+### Per domain monitoring
+
+- Domain expiry (domain-expiry.sh)
+- RBL - DNS blacklists
+
 ### Search for errors in a log file
 
 ```bash
@@ -7,7 +55,7 @@ grep -Ei -B 1 -A 1 "crit|err[^u]|warn|fail[^2]|alert|unknown|unable|miss|except|
     /var/log/syslog
 ```
 
-See: ${D}/monitoring/syslog-errors.sh
+See [/monitoring/syslog-errors.sh](/monitoring/syslog-errors.sh)
 
 ### Logging in syslog-style
 
@@ -15,7 +63,7 @@ Syslog time format: `date "+%b %e %T"`
 
 Log to syslog: `echo MESSAGE | logger --tag "${TAG}[${PID}]"`
 
-Log to anywhere else: `echo MESSAGE | sed -e "s/^/${TAG}[${PID}]: /"|ts "%b %e %T"`
+Log to anywhere else: `echo MESSAGE | sed -e "s|^|${TAG}[${PID}]: |" | ts "%b %e %T"`
 
 ### Courier log analyizer
 
@@ -43,7 +91,7 @@ rm -rfI /var/cache/munin/www/${DOMAIN}
 - http://www.freedesktop.org/software/systemd/man/systemd-detect-virt.html
 
 ```bash
-#apt-get install -y virt-what systemd dmidecode
+apt-get install -y virt-what systemd dmidecode
 virt-what
 systemd-detect-virt -c; systemd-detect-virt -v
 dmidecode -s system-product-name
@@ -52,7 +100,7 @@ dmidecode -s system-product-name
 ### Hurrican electric routers
 
 ```bash
-wget -qO- http://lg.he.net/|sed -n -e 's;.*title="\([^"]\+\)".*>\(.\+\)<span>\([^<]\+\)<.*;\1 *\2* @ \3;p'
+wget -qO- "http://lg.he.net/" | sed -n -e 's|.*title="\([^"]\+\)".*>\(.\+\)<span>\([^<]\+\)<.*|\1 *\2* @ \3|p'
 ```
 
 1. 184.105.223.234

@@ -136,16 +136,9 @@ DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
 ( cd ${D}; ./install.sh mail/courier-dhparams.sh )
 
-# Let's Encrypt certificate
-# @TODO manuale
-apt-get install -y python python-dev gcc dialog libssl-dev libffi-dev ca-certificates
-apt-get install -t jessie-backports -y python-six
-wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
-pip2 install certbot
-# -d DOMAIN2 -d DOMAIN3 --email EMAIL
-certbot certonly --agree-tos --standalone -d $(cat /etc/courier/me)
-cat /etc/letsencrypt/live/$(cat /etc/courier/me)/privkey.pem /etc/letsencrypt/live/$(cat /etc/courier/me)/fullchain.pem \
-    > /etc/courier/esmtpd.pem
+# Let's Encrypt certificate by manuale
+# See /security/LetsEncrypt.md and use /security/cert-update-manuale-CN.sh
+touch /etc/courier/esmtpd.pem
 chmod 0600 /etc/courier/esmtpd.pem
 ( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
 

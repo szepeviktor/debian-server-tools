@@ -47,6 +47,7 @@ mail-server:
         - https://rbltracker.com/
     registered:
         - https://www.dnswl.org/selfservice/
+        - https://postmaster.google.com/
         - https://postmaster.live.com/snds/
         - https://ers.trendmicro.com/reputations/global_approved_list
 
