@@ -398,7 +398,7 @@ Send to Analytics / report to `/js-error.php`
 ### Compatiblitity
 
 - Toolbar color of Chrome for Android (`theme-color` meta)
-- Windows 8/10 tiles
+- [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)

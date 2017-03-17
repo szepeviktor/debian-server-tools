@@ -19,7 +19,7 @@
 #         exec 200<$0;flock --nonblock 200 || exit 0
 #         while ! /usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;do sleep 30;done;exit 0
 #     chmod +x /usr/local/bin/ocsp--SITE
-#     echo "05,35 *	* * *	nobody	/usr/local/bin/ocsp--SITE" > /etc/cron.d/ocsp-SITE-NO-DOTS
+#     echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--SITE" > /etc/cron.d/ocsp-SITE-NO-DOTS
 
 HOST="$1"
 

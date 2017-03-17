@@ -11,6 +11,10 @@
 # DEPENDS       :apt-get install openssl ca-certificates
 # LOCATION      :/usr/local/sbin/cert-update.sh
 
+# Usage
+#
+# See cert-update-manuale-CN.sh
+
 # @TODO Add apache SSLOpenSSLConfCmd for OpenSSL 1.0.2+
 
 Die() {

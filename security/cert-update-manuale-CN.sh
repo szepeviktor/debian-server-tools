@@ -113,7 +113,7 @@ NGINX_DOMAIN="${NGINX_DOMAIN/\*./wildcard.}"
 NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 #
 # Use nginx.vhost
-[ -r nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
+[ -s ./nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
 #
 #NGINX_PUB="${PUB_DIR}/${NGINX_DOMAIN}-public.pem"
 #NGINX_DHPARAM="${PRIV_DIR}/${NGINX_DOMAIN}-dhparam.pem"

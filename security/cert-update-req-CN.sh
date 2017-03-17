@@ -1,18 +1,33 @@
 #!/bin/bash
 #
-# Config file and loader for cert-update.sh
+# Config file and loader for cert-update.sh.
 #
-# VERSION       :0.1.0
+# VERSION       :0.2.0
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# CI            :shellcheck -e SC2034 cert-update-config-CN.sh
+# CI            :shellcheck -e SC2034 cert-update-req-CN.sh
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 
 # Intermediate certificates and root certificates
 #
+# Let’s Encrypt
+#     wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
+#     https://letsencrypt.org/certificates/
+# ComodoSSL, EssentialSSL, PositiveSSL
+#     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
+# GeoTrust
+#     https://www.geotrust.com/resources/root-certificates/
+# RapidSSL
+#     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=INFO1548
+# NetLock (HU)
+#     https://www.netlock.hu/html/cacrl.html
+# Microsec (HU)
+#     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
+# szepenet
+#     wget http://ca.szepe.net/szepenet-ca.pem
 # StartSSL Class 1 DV (Domain and Email Validation)
 #     https://www.startssl.com/root "Intermediate CA Certificates"
 #     wget https://www.startssl.com/certs/sca.server1.crt && dos2unix sca.server1.crt
@@ -20,20 +35,29 @@
 #     wget https://www.startssl.com/certs/sca.server2.crt && dos2unix sca.server2.crt
 # StartSSL Class 3 OV (Organization Validation)
 #     wget https://www.startssl.com/certs/sca.server3.crt && dos2unix sca.server3.crt
-# Let’s Encrypt Authority X3
-#     wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
-# Let’s Encrypt
-#     https://letsencrypt.org/certificates/
-# ComodoSSL, EssentialSSL, PositiveSSL
-#     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
-# GeoTrust
-#     https://www.geotrust.com/resources/root-certificates/
-# NetLock (HU)
-#     https://www.netlock.hu/html/cacrl.html
-# Microsec (HU)
-#     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
-# szepenet
-#     http://ca.szepe.net/szepenet-ca.pem
+#
+# $CN-openssl.conf
+#     [ req ]
+#     prompt = no
+#     default_bits = 2048
+#     default_md = sha256
+#     distinguished_name = req_distinguished_name
+#     req_extensions = v3_req
+#
+#     [ req_distinguished_name ]
+#     CN = EDIT
+#     C = EDIT
+#     ST = EDIT
+#     L = EDIT
+#     O = EDIT
+#     emailAddress = EDIT
+#
+#     [ v3_req ]
+#     subjectAltName = @alt_names
+#
+#     [ alt_names ]
+#     DNS.1 = EDIT
+#     DNS.2 = www.EDIT
 
 set -e
 
@@ -48,37 +72,49 @@ PRIV="priv-key-${TODAY}.key"
 PUB="pub-key-${TODAY}.pem"
 
 # Intermediate certificate file name
-INT="sca.server1.crt"
-#INT="sca.server2.crt"
-#INT="lets-encrypt-x3-cross-signed.pem"
-#INT="DigiCert-SHA2-EV-Server-CA.crt"
+INT="intermediate.pem"
 #INT="null.crt"; touch "$INT"
+
+# Certificate signing request
+CSR="request-${TODAY}.csr"
 
 # Storage directory from canonical name
 read -r -p "CN=" CN
-[ -n "$CN" ]
+#CN="example.com"
+
+test -n "$CN"
 CERT_DIR="/root/ssl/${TODAY}-${CN}"
-mkdir -m 0700 "$CERT_DIR"
+# shellcheck disable=SC2174
+mkdir -p -m 0700 "$CERT_DIR"
 cd "$CERT_DIR"
 
+# Generate private key
+openssl genrsa -out "$PRIV" 2048
+openssl rsa -in "$PRIV" -noout -text
+read -r -s -n 1 -p "Check private key and press any key ..."
+
 # Generate request
-PRIV_ENCRYPTED="priv-key-${TODAY}-encrypted.key"
-CSR="request-${TODAY}.csr"
-openssl req -newkey rsa:2048 -keyout "$PRIV_ENCRYPTED" -out "$CSR"
-##editor "$PRIV_ENCRYPTED"
-# Decrypt private key
-openssl rsa -in "$PRIV_ENCRYPTED" -out "$PRIV"
-# Display request
-cat "$CSR"
+editor "${CN}-openssl.conf"
+test -s "${CN}-openssl.conf"
+openssl req -out "$CSR" -new -key "$PRIV" -sha256 \
+    -config "${CN}-openssl.conf" -verbose
+openssl req -in "$CSR" -noout -text
+read -r -s -n 1 -p "Check request and press any key ..."
 
 # Get certificate from a CA!
 
+# HTTP validation file
+echo
+echo "editor DOC-ROOT/.well-known/pki-validation/fileauth.txt"
+read -r -s -n 1 -p "Create fileauth.txt and press any key ..."
+
 # Enter intermediate certificate
 editor "$INT"
-# Enter public key (the signed certificate)
+# Enter public key, the signed certificate
 editor "$PUB"
 # Verify signature
 openssl verify -purpose sslserver -CAfile "$INT" "$PUB"
+
 
 # Common variables
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
@@ -131,7 +167,7 @@ NGINX_DOMAIN="${NGINX_DOMAIN/\*./wildcard.}"
 NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 #
 # Use nginx.vhost
-[ -r nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
+[ -s ./nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
 #
 #NGINX_PUB="${PUB_DIR}/${NGINX_DOMAIN}-public.pem"
 #NGINX_DHPARAM="${PRIV_DIR}/${NGINX_DOMAIN}-dhparam.pem"

@@ -4,7 +4,7 @@
 
 - HTTP message body (aka HTML source code)
 - Visal change (visualping.io)
-- HTTPS cetificate and SSL settings (ssl-check.sh, ssllabs.com)
+- HTTPS certificate and SSL settings (ssl-check.sh, ssllabs.com)
 - File changes (tripwire-fake.sh)
 - Application log (laravel-report.sh)
 - Malware listing (sitecheck.sucuri.net)
@@ -28,8 +28,9 @@
 - SSH port (ssh-watch.sh, monit)
 - DNS resource records (dns-watch.sh)
 - SMTP port (monit)
-- SSL cetificates in responses (ssl-check.sh)
-- SSL cetificate files (cert-expiry.sh)
+- MySQL table corruption and optimization
+- SSL certificates in responses (ssl-check.sh)
+- SSL certificate files (cert-expiry.sh)
 - Apache logs (apache-4xx-report.sh, apache-xreport.sh)
 - File changes (siteprotection.sh)
 - Errors in syslog (syslog-errors.sh)

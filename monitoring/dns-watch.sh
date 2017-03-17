@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.2.9
-# DATE          :2016-02-07
+# VERSION       :0.3.0
+# DATE          :2017-03-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -28,6 +28,7 @@
 #     DNS_WATCH=(
 #       domain.net:TYPE=value
 #       szepe.net:A=95.140.33.67
+#       95.140.33.67:PTR=szepe.net
 #     )
 #
 # Multiple RR-s - ","
@@ -119,6 +120,7 @@ Dnsquery_multi() {
 
     # -4 IPv4, -W 2 Timeout, -s No next NS, -r Non-recursive
     #DBG "LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null"
+    # shellcheck disable=SC2086
     OUTPUT="$(LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
 
     if [ $? != 0 ] \
@@ -181,7 +183,7 @@ Dnsquery_multi() {
 Log() {
     local MESSAGE="$1"
 
-    if tty --quiet; then
+    if [ -t 0 ]; then
         echo "$MESSAGE" 1>&2
     else
         logger -t "${DAEMON}[$$]" "$MESSAGE"
@@ -210,8 +212,18 @@ Generate_rr() {
     local NS="$3"
     local RR
 
-    RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort | paste -s -d";")"
-    [ $? == 0 ] && [ -n "$RR" ] && echo "${TYPE}=${RR}"
+    RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort | paste -s -d ";")"
+    if [ $? == 0 ] && [ -n "$RR" ]; then
+        echo "${TYPE}=${RR}"
+    fi
+}
+
+Is_ipv4() {
+    local TOBEIP="$1"
+    #             0-9, 10-99, 100-199,  200-249,    250-255
+    local OCTET="([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
+
+    [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
 }
 
 Is_online
@@ -219,6 +231,13 @@ Is_online
 # Display answers
 if [ $# == 1 ]; then
     DNAME="$1"
+
+    # PTR record
+    if Is_ipv4 "$DNAME"; then
+        # NS hack
+        Generate_rr PTR "$DNAME" " "
+        exit 0
+    fi
 
     FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
     if [ $? != 0 ] || [ -z "$FIRST_NS" ]; then
@@ -237,24 +256,31 @@ if [ $# == 1 ]; then
     exit 0
 fi
 
+
 # Generate configuration for a domain
 if [ "$1" == "-d" ] && [ $# == 2 ]; then
     DNAME="$2"
 
-    FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
-    if [ $? != 0 ] || [ -z "$FIRST_NS" ]; then
-        MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
-        FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
-    fi
+    # PTR record
+    if Is_ipv4 "$DNAME"; then
+        # NS hack
+        DOMAIN_CONFIG="$(Generate_rr PTR "$DNAME" " ")"
+    else
+        FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
+        if [ $? != 0 ] || [ -z "$FIRST_NS" ]; then
+            MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
+            FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
+        fi
 
-    DOMAIN_CONFIG="$(
-        Generate_rr NS "$DNAME" "$FIRST_NS"
-        Generate_rr A "$DNAME" "$FIRST_NS"
-        Generate_rr AAAA "$DNAME" "$FIRST_NS"
-        Generate_rr MX "$DNAME" "$FIRST_NS"
-        Generate_rr CNAME "$DNAME" "$FIRST_NS"
-        Generate_rr TXT "$DNAME" "$FIRST_NS"
-    )"
+        DOMAIN_CONFIG="$(
+            Generate_rr NS "$DNAME" "$FIRST_NS"
+            Generate_rr A "$DNAME" "$FIRST_NS"
+            Generate_rr AAAA "$DNAME" "$FIRST_NS"
+            Generate_rr MX "$DNAME" "$FIRST_NS"
+            Generate_rr CNAME "$DNAME" "$FIRST_NS"
+            Generate_rr TXT "$DNAME" "$FIRST_NS"
+        )"
+    fi
 
     if [ -z "$DOMAIN_CONFIG" ]; then
         echo "No RR-s found for ${DNAME}" 1>&2
@@ -266,7 +292,7 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
     DOMAIN_CONFIG="${DOMAIN_CONFIG//\"/\\\"}"
     DOMAIN_CONFIG="${DOMAIN_CONFIG//;/\\;}"
 
-    echo -e "DNS_WATCH+=(\n  ${DNAME}:$(paste -s -d"," <<< "${DOMAIN_CONFIG}")\n)" >> "$DNS_WATCH_RC"
+    echo -e "DNS_WATCH+=(\n  ${DNAME}:$(paste -s -d "," <<< "${DOMAIN_CONFIG}")\n)" >> "$DNS_WATCH_RC"
 
     # Make me remember www domain
     if [ "$DNAME" == "${DNAME#www}" ]; then
@@ -275,6 +301,7 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
 
     exit 0
 fi
+
 
 # Check all domains
 for DOMAIN in "${DNS_WATCH[@]}"; do
@@ -290,10 +317,15 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         DRETRY="1"
     fi
 
-    NSS="$(Dnsquery_multi NS "$DNAME")"
-    if [ $? != 0 ] || [ -z "$NSS" ]; then
-        MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
-        NSS="$(Dnsquery_multi NS "$MAIN_DOMAIN")"
+    if Is_ipv4 "$DNAME"; then
+        # NS hack
+        NSS=" "
+    else
+        NSS="$(Dnsquery_multi NS "$DNAME")"
+        if [ $? != 0 ] || [ -z "$NSS" ]; then
+            MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
+            NSS="$(Dnsquery_multi NS "$MAIN_DOMAIN")"
+        fi
     fi
     if [ $? != 0 ] || [ -z "$NSS" ]; then
         Alert "${DNAME}/NS" \
@@ -302,7 +334,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
     fi
 
     # Check RR-s
-    while read -d "," RR; do
+    while read -r -d "," RR; do
         #DBG echo "$RR"
         if [ -z "$RR" ]; then
             echo "Empty RR in config for ${DNAME}" 1>&2
@@ -313,9 +345,20 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         RRVALUES_SORTED="$(sort <<< "$RRVALUES")"
 
         # All nameservers
-        while read NS; do
+        while read -r NS; do
 
             #[ "$NS" == ns.xoo.hu ] && continue
+
+            if Is_ipv4 "$DNAME"; then
+                # NS hack
+                ANSWERS="$(Dnsquery_multi PTR "$DNAME" " ")"
+                ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d ";")"
+                if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
+                    Alert "${DNAME}/PTR" \
+                        "Failed to query type PTR of ${DNAME}"
+                fi
+                continue
+            fi
 
             # Actual IP address of nameserver
             NS_IP="$(getent ahostsv4 "$NS" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
@@ -364,7 +407,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                         "Failed to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT}) at $((DRETRY - RETRY + 1)). retry"
                     continue
                 fi
-                ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d";")"
+                ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d ";")"
                 if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
                     #DBG "$ANSWERS_SORTED||$RRVALUES_SORTED"
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \
