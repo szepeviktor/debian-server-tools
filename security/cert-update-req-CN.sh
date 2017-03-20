@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -100,12 +100,15 @@ openssl req -out "$CSR" -new -key "$PRIV" -sha256 \
     -config "${CN}-openssl.conf" -verbose
 openssl req -in "$CSR" -noout -text
 read -r -s -n 1 -p "Check request and press any key ..."
+echo
+cat "$CSR"
+read -r -s -n 1 -p "Copy CSR and press any key ..."
 
 # Get certificate from a CA!
 
 # HTTP validation file
 echo
-echo "editor DOC-ROOT/.well-known/pki-validation/fileauth.txt"
+echo "http://${CN}/.well-known/pki-validation/fileauth.txt"
 read -r -s -n 1 -p "Create fileauth.txt and press any key ..."
 
 # Enter intermediate certificate

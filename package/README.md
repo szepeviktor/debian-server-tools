@@ -66,15 +66,15 @@ See apt_preferences(5) Determination of Package Version and Distribution Propert
 ### Inspect signing keys
 
 ```
-wget -qO- <KEY-URL> | gpg -v --with-fingerprint
+wget -qO- KEY-URL | gpg -v --with-fingerprint
 ```
 
 ### Import signing keys
 
 ```
-apt-key adv --keyserver pgp.mit.edu --recv-keys <KEY>
-apt-key adv --keyserver keys.gnupg.net --recv-keys <KEY>
-wget -qO- <KEY-URL> | apt-key add -
+apt-key adv --keyserver pgp.mit.edu --recv-keys KEY
+apt-key adv --keyserver keys.gnupg.net --recv-keys KEY
+wget -qO- KEY-URL | apt-key add -
 ```
 
 ##### Import all signing keys for Debian contributed packages
@@ -86,7 +86,7 @@ grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " 
 ### Check APT configuration
 
 ```bash
-apt-config dump | most
+apt-config dump | pager
 ```
 
 ### Disable APT language
@@ -100,15 +100,7 @@ Acquire::Languages "none";
 ### Search package contents
 
 ```bash
-dpkg -S <FILE-PATTERN>
-```
-
-### List all installed packages and show differences from wheezy base
-
-```bash
-aptitude search '?installed' -F"%p" | cut -d' ' -f 1 > all.pkgs
-grep -v -f debian-wheezy-base.pkgs all.pkgs
-grep -v -f all.pkgs debian-wheezy-base.pkgs
+dpkg -S FILE-PATTERN
 ```
 
 ### Query runlevel information for system services (init scripts)
@@ -120,7 +112,7 @@ chkconfig --list
 ### Display files sizes in a package
 
 ```bash
-dpkg -L $PACKAGE|while read -r F;do [ -d "$F" ]||du -sk "$F";done|sort -n
+dpkg -L PACKAGE|while read -r F;do [ -d "$F" ]||du -sk "$F";done|sort -n
 ```
 
 ### Display list of packages in order of package size
@@ -190,13 +182,15 @@ http://stephanepeter.com/makeself/
 
 ### Unattended cpan install
 
+```bash
 PERL_MM_USE_DEFAULT=1 cpan -i Alien::RRDtool
+```
 
 ### Switch to LLVM/clang compiler
 
 ```bash
-# jessie
-VERSION=4.9
+# Debian jessie
+VERSION="4.9"
 echo "gcc-$VERSION hold" | dpkg --set-selections
 echo "cpp-$VERSION hold" | dpkg --set-selections
 echo "g++-$VERSION hold" | dpkg --set-selections
@@ -207,4 +201,10 @@ ln -vs clang gcc-$VERSION
 ln -vs clang cpp-$VERSION
 cd -
 gcc --version | grep "clang"
+```
+
+### List binary files
+
+```bash
+find -type f -executable -exec file --mime "{}" ";" | grep -F "charset=binary"
 ```

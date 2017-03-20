@@ -9,7 +9,7 @@ MC_REPO="http://download.opensuse.org/repositories/home:/laurentwandrebeck:/mc/C
 # CentOS 7 repo
 #MC_REPO="http://download.opensuse.org/repositories/home:/laurentwandrebeck:/mc/CentOS_7/x86_64/"
 MC_RPM="mc-4.8.17-3.1.x86_64.rpm"
-BINARIES="https://github.com/szepeviktor/debian-server-tools/raw/master/package/bin.el6"
+BINARIES="https://github.com/szepeviktor/debian-server-tools/raw/master/package/centos-el6.bin"
 
 set -e
 

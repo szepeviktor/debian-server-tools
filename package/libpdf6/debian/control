@@ -1,0 +1,40 @@
+Source: libpdf6-lite
+Section: libs
+Priority: optional
+Maintainer: Viktor Szépe <viktor@szepe.net>
+Standards-Version: 3.9.8
+Build-Depends:
+ dpkg-dev,
+ debhelper,
+
+Package: libpdf6-lite
+Section: libs
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Pre-Depends:
+ ${misc:Pre-Depends}
+Description: A library for generating PDF on the Fly
+ PDFlib is the leading developer toolbox for generating and manipulating
+ files in Adobe's well known Portable Document Format (PDF).
+
+Package: libpdf6-lite-dev
+Section: libdevel
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: A library for generating PDF on the Fly
+ PDFlib is the leading developer toolbox for generating and manipulating
+ files in Adobe's well known Portable Document Format (PDF).
+
+Package: libpdf6-lite-bin
+Section: utils
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: A library for generating PDF on the Fly
+ PDFlib is the leading developer toolbox for generating and manipulating
+ files in Adobe's well known Portable Document Format (PDF).

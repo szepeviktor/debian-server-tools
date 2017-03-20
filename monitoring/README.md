@@ -3,7 +3,7 @@
 ### Per website and dependency monitoring
 
 - HTTP message body (aka HTML source code)
-- Visal change (visualping.io)
+- Visual change (visualping.io)
 - HTTPS certificate and SSL settings (ssl-check.sh, ssllabs.com)
 - File changes (tripwire-fake.sh)
 - Application log (laravel-report.sh)
@@ -41,6 +41,7 @@
 - S.M.A.R.T. attributes (smart-zeros.sh)
 - Traffic spikes: HTTP, SMTP
 - Uptime (monit, healthchecks.io)
+- Performance graphs (munin)
 
 ### Per domain monitoring
 

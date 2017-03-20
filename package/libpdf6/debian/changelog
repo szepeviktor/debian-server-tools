@@ -1,0 +1,6 @@
+libpdf6-lite (7.0.5p3-1) stable; urgency=medium
+
+  * Packaged for Debian.
+  * Released on 11 Jun 2012.
+
+ -- Viktor Szépe <viktor@szepe.net>  Sat, 18 Mar 2017 22:36:35 +0000

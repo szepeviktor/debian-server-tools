@@ -2,7 +2,7 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.4
+# VERSION       :0.1.5
 # DATE          :2015-08-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -28,7 +28,9 @@ In_domain_expiry() {
     local STRING="$1"
 
     for ITEM in "${DOMAIN_EXPIRY[@]}"; do
-        [ "${ITEM%%:*}" == "$STRING" ] && return 0
+        if [ "${ITEM%%:*}" == "$STRING" ]; then
+            return 0
+        fi
     done
 
     return 1
@@ -41,14 +43,13 @@ Publicsuffix_regexp() {
     # Download list,
     #   remove empty lines and comments,
     #   escape dots, asterisks and add SLD regexp
-    wget -qO- "$LIST_URL" \
+    wget -q -O- "$LIST_URL" \
         | grep -v "^\s*$\|^\s*//" \
         | sed -e 's/\./\\./g' -e 's/\*/.*/' -e 's/^\(.*\)$/[^.]\\+\\.\1$/'
 }
 
 Apache_domains() {
-    apache2ctl -S \
-        | sed -n 's;^.* \(namevhost\|alias\) \(\S\+\).*$;\2;p'
+    apache2ctl -S | sed -n -e 's;^.* \(namevhost\|alias\) \(\S\+\).*$;\2;p'
 }
 
 Courier_domains() {
@@ -70,19 +71,18 @@ Server_domain() {
 
 set -e
 
-logger -t "$DAEMON" "Domain expiry started"
-
 DAEMON="domain-expiry"
 DOMAIN_EXPIRY_RC="/etc/domainexpiryrc"
 DOMAIN_EXPIRY_ALERT_DATE="2 weeks"
 declare -a DOMAIN_EXPIRY
+
+logger -t "$DAEMON" "Domain expiry started"
 
 # shellcheck disable=SC1090
 source "$DOMAIN_EXPIRY_RC"
 
 # We need a file for `grep -f -`
 DOMAIN_LIST="$(tempfile)"
-ALERT_SEC="$(date --date="$DOMAIN_EXPIRY_ALERT_DATE" "+%s")"
 
 # Find all domains used
 {
@@ -90,38 +90,40 @@ ALERT_SEC="$(date --date="$DOMAIN_EXPIRY_ALERT_DATE" "+%s")"
     Courier_domains
     Server_domain
 
-  # Deduplicate
-} | sort | uniq > "$DOMAIN_LIST"
+    # Deduplicate
+} | sort -u > "$DOMAIN_LIST"
 
-# Find valid SLD-s,
-#   deduplicate again
-DOMAINS="$(Publicsuffix_regexp | grep -o -f - "$DOMAIN_LIST" \
-    | sort | uniq)"
+# Find valid SLD-s, deduplicate again
+DOMAINS="$(Publicsuffix_regexp | grep -o -f - "$DOMAIN_LIST" | sort -u)"
 
 rm "$DOMAIN_LIST"
 
 # Do we have expiry date for all of our domains?
 while read -r DOMAIN; do
     if ! In_domain_expiry "$DOMAIN"; then
-        echo "Domain ${DOMAIN} is missing from configuration file." >&2
+        echo "Domain ${DOMAIN} is missing from configuration file." 1>&2
     fi
 done <<< "$DOMAINS"
 
 # Check expiry
+ALERT_SEC="$(date --date="$DOMAIN_EXPIRY_ALERT_DATE" "+%s")"
 for ITEM in "${DOMAIN_EXPIRY[@]}"; do
     DOMAIN="${ITEM%%:*}"
     EXPIRY="${ITEM#*:}"
     EXPIRY_SEC="$(date --date="$EXPIRY" "+%s")"
 
     if [ $? != 0 ] || [ -z "$EXPIRY_SEC" ] || [ -n "${EXPIRY_SEC//[0-9]/}" ]; then
-        echo "Domain ${DOMAIN} has invalid expiry date (${EXPIRY})" >&2
+        echo "Domain ${DOMAIN} has invalid expiry date (${EXPIRY})" 1>&2
         continue
     fi
 
     if [ "$EXPIRY_SEC" -lt "$ALERT_SEC" ]; then
         echo "Domain ${DOMAIN} is about to expire at ${EXPIRY}."
-        printf "\nhttp://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\nhttp://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n" \
-            "${DOMAIN%.hu}" "$DOMAIN" "$DOMAIN"
+        if [ "$DOMAIN" == "${DOMAIN%.hu}" ]; then
+            printf "http://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
+        else
+            printf "http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n" "${DOMAIN%.hu}"
+        fi
     fi
 done | mailx -E -S from="${DAEMON} <root>" -s "domain expiry alert" root
 

@@ -185,8 +185,8 @@ By `sendmail` (calling `mail()` function)
   - FPM: `php_admin_value[mail.force_extra_parameters] = "DEVELOPMENT@ADDRE.SS"`
   - .htaccess: `php_admin_value mail.force_extra_parameters "DEVELOPMENT@ADDRE.SS"`
 - Dump all messages sent by `mail()` to a file:
-  - FPM: `php_admin_value[sendmail_path] = /usr/local/sbin/dev-sendmail.sh`
-  - .htaccess: `php_admin_value sendmail_path /home/user/bin/dev-sendmail.sh`
+  - FPM: `php_admin_value[sendmail_path] = /usr/local/bin/dev-sendmail.sh`
+  - .htaccess: `php_admin_value sendmail_path /usr/local/bin/dev-sendmail.sh`
 - Block `mail()` function:
   - In PHP PFM pool config append `mail` to `php_admin_value[disable_functions]`
   - In php.ini append `mail` to `disable_functions`
