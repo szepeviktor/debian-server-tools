@@ -2,7 +2,7 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.5.4
+# VERSION       :0.5.5
 # DATE          :2016-06-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -27,8 +27,6 @@ ALERT_DAYS="10"
 CERT_EXPIRY_CONFIG="/etc/certexpiry"
 declare -a CERT_EXPIRY_REMOTES
 
-set -e
-
 Check_cert() {
     local CERT="$1"
     local -i END_SEC
@@ -52,6 +50,8 @@ Check_cert() {
     fi
 }
 
+set -e
+
 if [ -r "$CERT_EXPIRY_CONFIG" ]; then
     # shellcheck disable=SC1090
     source "$CERT_EXPIRY_CONFIG"
@@ -66,22 +66,20 @@ find /etc/ "(" -iname "*.crt" -or -iname "*.pem" ")" \
     done
 
 # Remote certificates
-if [ -n "${CERT_EXPIRY_REMOTES[*]}" ]; then
-    for HOST_PORT in "${CERT_EXPIRY_REMOTES[@]}"; do
-        # Set file name for expiry reporting
-        CERT_EXPIRY_TMP="$(mktemp "/tmp/${HOST_PORT%%:*}-XXXXXXXXXX")"
+for HOST_PORT in "${CERT_EXPIRY_REMOTES[@]}"; do
+    # Set file name for expiry reporting
+    CERT_EXPIRY_TMP="$(mktemp "/tmp/${HOST_PORT%%:*}-XXXXX")"
 
-        openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
-            -connect "$HOST_PORT" -servername "${HOST_PORT%%:*}" \
-            < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null
-        if [ $? == 0 ]; then
-            Check_cert "$CERT_EXPIRY_TMP"
-        else
-            echo "Certificate check error for ${HOST_PORT}" 1>&2
-        fi
+    openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
+        -connect "$HOST_PORT" -servername "${HOST_PORT%%:*}" \
+        < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null
+    if [ $? == 0 ]; then
+        Check_cert "$CERT_EXPIRY_TMP"
+    else
+        echo "Certificate check error for ${HOST_PORT}" 1>&2
+    fi
 
-        rm -f "$CERT_EXPIRY_TMP"
-    done
-fi
+    rm "$CERT_EXPIRY_TMP"
+done
 
 exit 0

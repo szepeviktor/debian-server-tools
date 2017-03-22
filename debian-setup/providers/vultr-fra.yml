@@ -19,3 +19,7 @@ networking:
 provider-package:
     # Provides VirtIO RNG
     - rng-tools
+    # Cloud-init
+    - cloud-init
+    - cloud-initramfs-growroot
+#auto-check-system: true

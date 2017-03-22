@@ -9,7 +9,7 @@ networking:
         - 8.8.8.8
         - 8.8.4.4
 provider-package:
-    # cloud-init
+    # Cloud-init
     - cloud-init
     - cloud-initramfs-growroot
 auto-check-system: true

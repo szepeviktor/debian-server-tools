@@ -115,9 +115,10 @@ cd /etc/apache2/sites-available/
 # See /webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # OCSP server monitoring
-( cd ..; ./install.sh monitoring/ocsp-check.sh
-editor /etc/cron.hourly/ocsp-check-${DOMAIN}.sh
-chmod +x /etc/cron.hourly/ocsp-check-*.sh )
+( cd /usr/local/src/debian-server-tools/; ./install.sh monitoring/ocsp-check.sh
+editor /usr/local/bin/ocsp--${DOMAIN}
+chmod +x /usr/local/bin/ocsp--${DOMAIN}
+echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" > /etc/cron.d/ocsp-${DOMAIN//./-} )
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # * Non-SSL

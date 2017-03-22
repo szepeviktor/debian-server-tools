@@ -118,7 +118,7 @@ cp package/phpmyadmin-get.sh ${PRG_ROOT}/
 if echo "ping" | nc -C -q 3 localhost 6379 | grep -F "+PONG"; then
     (
         cd ${PRG_ROOT}/
-        composer create-project --no-interaction --stability=dev erik-dubbelboer/php-redis-admin radmin
+        composer create-project --no-interaction --no-dev --stability=dev erik-dubbelboer/php-redis-admin radmin
         cd radmin/
         cp includes/config.sample.inc.php includes/config.inc.php
     )
@@ -132,8 +132,8 @@ if echo stats | nc -q 3 localhost 11211 | grep -F "bytes"; then
         cd phpMemAdmin/
         echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
             [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] } }' > composer.json
-        composer install || true
-        yes "y" | composer install
+        composer install --no-dev || true
+        yes "y" | composer install --no-dev
         mv web memadmin
         mv ./app/.config.dist ./app/.config
         sed -i -e '0,/"username":.*/s//"username": null,/' ./app/.config

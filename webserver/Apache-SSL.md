@@ -14,7 +14,7 @@ https://wiki.mozilla.org/Security/Server_Side_TLS
 - Protocol
 - Ciphersuites
 - DH Parameters
-- SSL cache
+- SSL session cache
 - OCSP Stapling
 - SNI
 - HSTS

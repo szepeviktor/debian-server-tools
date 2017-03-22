@@ -1,5 +1,11 @@
 # Monitoring
 
+### Datasheets
+
+- Server (server.yaml)
+- Website (hosting.yaml)
+- PHP extensions (php-env-check.php)
+
 ### Per website and dependency monitoring
 
 - HTTP message body (aka HTML source code)
@@ -47,6 +53,12 @@
 
 - Domain expiry (domain-expiry.sh)
 - RBL - DNS blacklists
+
+### Monitoring of 3rd-parties
+
+- Google Analytics JavaScript
+- Cloudflare IP ranges
+- URIBL IP address
 
 ### Search for errors in a log file
 

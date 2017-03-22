@@ -2,7 +2,7 @@
 #
 # Reload PHP-FPM and Apache dependently.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -48,7 +48,7 @@ done <<< "$APACHE_CONFIGS"
 if [ -f /etc/apache2/mods-enabled/ssl.load ]; then
     for VHOST in /etc/apache2/sites-enabled/001-*.conf; do
         if ! [ -f "$VHOST" ]; then
-            Error "Rename non-SNI vhost symlink to '001-site.conf'"
+            echo "WARNING: Rename non-SNI vhost symlink to '001-site.conf'" 2>&1
         fi
     done
 fi

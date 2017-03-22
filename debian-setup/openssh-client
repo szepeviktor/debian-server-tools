@@ -2,6 +2,7 @@
 
 set -e -x
 
+# See https://cipherli.st/
 ssh -Q cipher       # List supported ciphers
 ssh -Q mac          # List supported MACs
 ssh -Q key          # List supported public key types

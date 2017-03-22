@@ -120,5 +120,6 @@ $TTL 60
 104.36.84.0/24   AU_CUBEMOTION-LLC/AS20150
 
 # IQ Chat crawlers - Innova Group Ltd.
-89.107.57.164    HU_myhost05.chatforyou.info. myhost06.iqcpromotion.info.
-213.181.208.13   HU_myhost02.chatmark01.info.
+89.107.57.163    HU_myhost06.iqcpromotion.info.@Atlantic.Net/AS59764
+89.107.57.164    HU_myhost05.chatforyou.info.@Atlantic.Net/AS59764
+213.181.208.13   HU_myhost02.chatmark01.info.@EZIT/@AS62292

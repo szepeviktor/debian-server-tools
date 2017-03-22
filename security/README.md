@@ -117,7 +117,7 @@ https://securityheaders.io/
 
 ## Settings
 
-### Cipherli.st
+### Strong Ciphers TLS and SSH
 
 [Strong Ciphers for Apache, nginx and Lighttpd and OpenSSH server settings](https://cipherli.st/)
 

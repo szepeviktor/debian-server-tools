@@ -36,9 +36,9 @@ service ssh restart
 service ssh status
 netstat -n -a -t -p | grep ":${SSH_PORT}\s.*/sshd\s*\$"
 
-# Check password authentication for (the first) sudoer
+# Check password authentication for the first sudoer
 if SSH_U="$(getent group "sudo")"; then
-    SSH_U="$(cut -d ":" -f 4 <<< "$SSH_U")"
+    SSH_U="$(cut -d ":" -f 4 <<< "$SSH_U" | cut -d "," -f 1)"
     # Warning! CRLF line ends in the output
     SSH_ASKPASS=/bin/echo setsid -w -- \
         ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1 -p "$SSH_PORT" "${SSH_U}@localhost" 2>&1 \
