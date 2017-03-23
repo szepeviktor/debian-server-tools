@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.12.0
+# VERSION       :0.12.1
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -45,9 +45,10 @@ Check_requirements() {
     if ! [ -d "$PRIV_DIR" ] || ! [ -d "$PUB_DIR" ]; then
         Die 4 "Missing cert directory."
     fi
-    if [ "$(stat --format=%a "$PRIV_DIR")" != 710 ] \
+    # FIXME Was 0710. Why?
+    if [ "$(stat --format=%a "$PRIV_DIR")" != 700 ] \
         || [ "$(stat --format=%u "$PRIV_DIR")" != 0 ]; then
-        Die 5 "Private cert directory needs to be private (0710) and owned by root."
+        Die 5 "Private cert directory needs to be private (0700) and owned by root."
     fi
     if ! [ -f /usr/local/sbin/cert-expiry.sh ] || ! [ -f /etc/cron.weekly/cert-expiry1 ]; then
         Die 6 "./install.sh monitoring/cert-expiry.sh"
@@ -166,12 +167,12 @@ Apache2() {
         if [ "$SERVER_NAME" == "\${SITE_DOMAIN}" ]; then
             SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
         fi
-        echo | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
+        echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
     else
         #echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
-        echo "echo | openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
+        echo "echo -n | openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
     fi
 }
 
@@ -198,7 +199,7 @@ Nginx() {
 
         # Test HTTPS
         SERVER_NAME="$(sed -ne '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_VHOST_CONFIG")"
-        echo | openssl s_client -CAfile "$CABUNDLE" \
+        echo -n | openssl s_client -CAfile "$CABUNDLE" \
             -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
     else
@@ -290,7 +291,7 @@ Webmin() {
         service webmin restart
 
         # Test HTTPS:10000
-        timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:10000
+        echo -n | timeout 3 openssl s_client -CAfile "$CABUNDLE" -crlf -connect localhost:10000
         echo "HTTPS result=$?"
     else
         echo "Edit Webmin keyfile and extracas" 1>&2
