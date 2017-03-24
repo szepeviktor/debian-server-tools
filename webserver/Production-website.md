@@ -268,6 +268,7 @@ http://google-public-dns.appspot.com/cache
 - Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
 - Content to share: https://paper.li/
+- A/B testing - Google Optimize, Optimonk
 
 ### Code styling
 
@@ -370,8 +371,6 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 @TODO
 
-Send to Analytics / report to `/js-error.php`
-
 ### SEO
 
 - `blog_public` and robots.txt
@@ -410,6 +409,7 @@ Send to Analytics / report to `/js-error.php`
 Document in `hosting.yml` and check functionality.
 
 - Certificate Authority (OCSP servers for obtaining SSL certificate revocation status)
+- A/B testing
 - External search
 - External resources (fonts)
 - Social media ([Twitter card](https://cards-dev.twitter.com/validator))
@@ -464,7 +464,9 @@ https://wiki.apache.org/httpd/ListOfErrors
 1. Uptime: https://uptimerobot.com/signUp , `shared-hosting-aid/ping.php`, `ping.php?time=$(date "+%s")`
 1. @TODO Detect JavaScript errors
   - https://bugsnag.com/
-  - Piwik, Google Analytics
+  - Piwik
+  - Google Analytics
+  - report to `/js-error.php`
   - http://jserrlog.appspot.com/
   - https://github.com/mperdeck/jsnlog.js
   - https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions

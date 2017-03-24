@@ -12,31 +12,36 @@ contact:
   email: contact@example.com
   company: ACME Ltd.
 domain-registrar: Domain Reg. Co. <support@domain.com>
+dns:
+  provider: Stable DNS
+  login: webmaster@example.com
 ssl:
   enabled: yes
+  provider: Certificate Authority
   login: webmaster@example.com
 cdn:
   enabled: yes
+  provider: Edge Network
   hostname: cdn.example.com
 email:
   provider: Mailjet
   login: webmaster@example.com
-cms:
+  bounce-handling: yes
+code:
   core: WordPress
   theme: Theme Name
   plugin:
     - paid-plugins
     - purchased-plugin
 cron:
-  - job 1
-  - job 2
+  - "job 1"
+  - "job 2"
 3rd-party:
   high:
-    - Certificate Authority
-    - CDN
     - Payment gateway
-    - Transactional email provider
+    - Invoicing provider
     - External resources (fonts, video, map)
+    - A/B testing
     - 3rd-party widget
   low:
     - External search
@@ -44,13 +49,14 @@ cron:
     - Live chat
     - Advertisement campaign
     - Social campaign
-    - Tracking code, Tag Manager (UA-00000000-1)
+    - Tracking code, Tag Manager - UA-00000000-1
     - Call Tracking
     - Embedded social media content
     - Mouse tracking
+    - (disabled service)
 remarks: |
   1st line
-  2nd line
+  e.g. repository URL
 
 # YAML editor: http://yaml-online-parser.appspot.com/
 #     php -r 'var_export(yaml_parse(file_get_contents("hosting.yml")));'

@@ -223,7 +223,17 @@ opendkim -vvv -t msg-signed.eml
 
 ### Mailserver SSL test
 
-https://ssl-tools.net/
+```bash
+read -p "Courier IP? " COURIER_IP
+read -p "This host's IP? " TEMPORARY_VPS_IP
+sysctl --write net.ipv4.conf.all.route_localnet=1
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination ${COURIER_IP}:465
+iptables -t nat -A POSTROUTING -p tcp --dst ${COURIER_IP} --dport 465 -j SNAT --to-source ${TEMPORARY_VPS_IP}
+```
+
+Then browse to https://www.ssllabs.com/ssltest/
+
+See also https://ssl-tools.net/
 
 ### Authentication
 
