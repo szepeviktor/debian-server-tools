@@ -2,10 +2,15 @@
    group mail
    start program = "/etc/init.d/courier-mta start"
    stop program = "/etc/init.d/courier-mta stop"
-   # https://bitbucket.org/tildeslash/monit/issue/112/smtp-error#comment-14395650
-   #if failed host localhost port 25 type tcp protocol smtp retry 2 times then restart
-   if failed host localhost port 25 type tcp protocol smtp for 2 cycles then restart
-   if 5 restarts within 10 cycles then unmonitor
+   # When TCPDOPTS="-nodnslookup" is NOT set in Courier
+   #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds then restart
+   #if 5 restarts within 5 cycles then unmonitor
+   # With one cycles tolerance
+   #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds for 2 cycles then restart
+   #if 5 restarts within 10 cycles then unmonitor
+   # For changing "EHLO localhost" see https://mmonit.com/monit/documentation/#GENERIC-SEND-EXPECT
+   if failed host localhost port 25 type tcp protocol smtp then restart
+   if 5 restarts within 5 cycles then unmonitor
    depends on courier-mta_bin
    depends on courier-mta_init
    depends on courier-mta_cert
@@ -15,8 +20,9 @@
    group mail
    start program = "/etc/init.d/courier-mta start"
    stop program = "/etc/init.d/courier-mta stop"
-   if failed host localhost port 587 type tcp protocol smtp for 2 cycles then restart
-   if 5 restarts within 10 cycles then unmonitor
+   # Extended timeout for DNS queries
+   if failed host localhost port 587 type tcp protocol smtp timeout 12 then restart
+   if 5 restarts within 5 cycles then unmonitor
    depends on courier-mta_bin
    depends on courier-mta_init
 

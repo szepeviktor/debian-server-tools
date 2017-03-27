@@ -27,13 +27,13 @@ LogFormat "%a %{c}a %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" mod_
 LogFormat "%a %{remoteip-proxy-ip-list}n %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" mod_remoteip_all
 ```
 
-IPv4 list.
+IPv4 list
 
 ```bash
 wget -O /etc/apache2/conf-available/cloudflare-ipv4.list "https://www.cloudflare.com/ips-v4"
 ```
 
-Apache mod_remoteip module. Add to each site config.
+Apache mod_remoteip module. Add to each vhost config.
 
 ```apache
     # mod_remoteip - CloudFlare is trusted by us
@@ -50,7 +50,7 @@ Apache mod_remoteip module. Add to each site config.
 111.22.33.444 - - [12/Feb/2016:15:49:09 +0100] "GET /robots.txt HTTP/1.1" 200 634 "-" "Mozilla/5.0"
 ```
 
-Just log CF-Connecting-IP: header insecurely.
+Just log CF-Connecting-IP header insecurely
 
 ```apache
 # The contents of CF-Connecting-IP: header line(s) in the request sent to the server
@@ -60,11 +60,11 @@ LogFormat "%h %{CF-Connecting-IP}i %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-
 
 ### Security
 
-@TODO Restrict access
+Restrict access
 
-- in Apache `Require ip`
-- in Linux firewall on port 80,443
+- In Apache `RemoteIPTrustedProxyList`
+- In Linux firewall on port 80 and 443 using an ipset
 
-SSL encryption toward Cloudflare edges.
+SSL encryption toward CloudFlare edges
 
 [Origin CA](https://blog.cloudflare.com/cloudflare-ca-encryption-origin/#3clicommandlineinterfacelinuxonly)

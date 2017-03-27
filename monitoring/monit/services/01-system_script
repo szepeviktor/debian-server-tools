@@ -2,7 +2,7 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.9
+# VERSION       :1.0.10
 # DATE          :2016-05-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -161,7 +161,8 @@ case "$CHECK" in
         declare -i RESULT
         RESOLVERS="$(sed -n -e 's;^nameserver\s\+\(\S\+\)\s*$;\1;p' /etc/resolv.conf)"
         while read -r RESOLVER; do
-            if host -W 3 -t PTR 8.8.8.8 "$RESOLVER" &> /dev/null; then
+            # Same timeout as "options timeout:2" in resolv.conf
+            if host -W 2 -t PTR 8.8.8.8 "$RESOLVER" &> /dev/null; then
                 RESULT+="1"
             else
                 # Show failing resolver

@@ -33,8 +33,10 @@ manuale info; echo
 
 # Enter domain names
 read -r -p "CN=" CN
+#CN="example.com"
 [ -n "$CN" ]
 read -r -p "Additional domain names=" DOMAIN_NAMES
+#DOMAIN_NAMES="www.example.com"
 
 # Private key file name
 PRIV="${CN}.pem"

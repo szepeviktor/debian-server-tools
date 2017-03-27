@@ -223,6 +223,8 @@ opendkim -vvv -t msg-signed.eml
 
 ### Mailserver SSL test
 
+Forwarding a temporary server's tcp/443 to Courier's tcp/465.
+
 ```bash
 read -p "Courier IP? " COURIER_IP
 read -p "This host's IP? " TEMPORARY_VPS_IP

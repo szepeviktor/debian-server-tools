@@ -2,7 +2,7 @@
 #
 # List log items above NOTICE severity of the Laravel log.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-09-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -29,8 +29,8 @@ test -d "$LOG_PATH"
 # Today's log file
 LARAVEL_LOG="${LOG_PATH}/laravel-$(date "+%Y-%m-%d").log"
 
-# Must exists
-test -f "$LARAVEL_LOG"
+# No log yet
+test -f "$LARAVEL_LOG" || exit 0
 
 # Take new lines and look for errors
 /usr/sbin/logtail2 "$LARAVEL_LOG" \

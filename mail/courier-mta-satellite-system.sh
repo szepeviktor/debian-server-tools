@@ -107,12 +107,14 @@ editor /etc/courier/courierd
 #     TLS_TRUSTCERTS=/etc/ssl/certs
 #     # Courier verifies against resolved CNAME-s!
 #     # https://github.com/svarshavchik/courier-libs/commit/5e522ab14f45c6f4f43c43e32a2f72fbf6354f1c
+#     # addcr|ESMTP_USE_STARTTLS=1 ESMTP_TLS_VERIFY_DOMAIN=1 TLS_PROTOCOL=TLS1 TLS_VERIFYPEER=REQUIREPEER TLS_TRUSTCERTS=/etc/ssl/certs /usr/bin/couriertls -port=587 -protocol=smtp -host=smart.host.tld
 #     TLS_VERIFYPEER=REQUIREPEER
 
 # Listen on localhost and disable authentication
 editor /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
-#     TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger -noidentlookup"
+#     # Don't look up localhost
+#     TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger -noidentlookup -nodnslookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
 

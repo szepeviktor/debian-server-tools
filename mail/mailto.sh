@@ -2,7 +2,7 @@
 #
 # Test ESMTP communication.
 #
-# VERSION       :0.3.6
+# VERSION       :0.3.7
 # DATE          :2016-01-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -170,7 +170,7 @@ Proba uzenet. Elnezest! ${MYIP}
 -------------------------------------------------------------------------------
 qUIT
 -------------------------------------------------------------------------------
-STARTTLS:  openssl s_client -crlf -connect ${MX_REC}:25 -starttls smtp
+STARTTLS:  openssl s_client -crlf -connect ${MX_REC%.}:25 -starttls smtp
 EOF
 
 # Only CRLF line ends

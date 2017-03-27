@@ -2,6 +2,7 @@
 #
 # Debug Courier outages.
 #
+# tcpdump -i any -n -v "port 53 or port 25"
 
 LOG="/tmp/courier_$(date "+%H_%M_%S")"
 

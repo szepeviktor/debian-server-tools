@@ -19,10 +19,17 @@ networking:
         # rdns1.ultradns.net.
         - 156.154.70.1
         - $local.NS1
-        # MAXNS=3
-        #- $local.NS2
         # rdns2.ultradns.net.
         #- 156.154.71.1
+        # DNS.WATCH / Ideal-Hosting
+        # resolver1.dns.watch
+        #- 84.200.69.80
+        #- 2001:1608:10:25::1c04:b12f
+        # resolver2.dns.watch
+        #- 84.200.70.40
+        #- 2001:1608:10:25::9249:d69b
+        # MAXNS=3
+        #- $local.NS2
     inet6:
         #method: auto
         method: static

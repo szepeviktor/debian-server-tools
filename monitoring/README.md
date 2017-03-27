@@ -4,8 +4,8 @@
 
 - Server (server.yaml)
 - Website (hosting.yaml)
-- PHP extensions (php-env-check.php)
 - Project readme (Project.md)
+- PHP extensions (php-env-check.php)
 
 ### Per website and dependency monitoring
 

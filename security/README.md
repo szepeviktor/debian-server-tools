@@ -139,8 +139,10 @@ doc: [Server Side TLS Document](https://wiki.mozilla.org/Security/Server_Side_TL
 
 ### CloudFlare API v4 IP banning
 
+```
 mode: block | challenge | whitelist
 target: country | ip
+```
 
 Value would be an IP, /16 /24 or a 2-letter country code.
 The notes field can be left empty or removed if you don't want to add any.
@@ -151,7 +153,7 @@ To block for a specific zone only, just change the API URL to:
 Replace YOUR-ZONE-ID with the zone identifier for the zone
 retrieved via an API GET to `https://api.cloudflare.com/client/v4/zones/` with your API details.
 
-```
+```bash
 curl --data-binary '{"mode":"block","notes":"","configuration":{"value":"1.2.3.4","target":"ip"}}' \
     --compressed -H 'Content-Type: application/json' \
     --header "X-Auth-Key: $API_KEY" --header "X-Auth-Email: $API_EMAIL" --verbose \

@@ -162,7 +162,7 @@ final class Check_Env {
     }
 
     /**
-     * Simple assert.
+     * Generic assert.
      *
      * @param $id string       Assert ID
      * @param $expected string Expected value
