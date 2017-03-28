@@ -43,6 +43,7 @@
 #     default_md = sha256
 #     distinguished_name = req_distinguished_name
 #     req_extensions = v3_req
+#     oid_section = new_oids
 #
 #     [ req_distinguished_name ]
 #     CN = EDIT
@@ -51,6 +52,13 @@
 #     L = EDIT
 #     O = EDIT
 #     emailAddress = EDIT
+#
+#     [ new_oids ]
+#     # http://oid-info.com/get/2.5.4.17
+#     postalCode = 2.5.4.17
+#     streetAddress = 2.5.4.9
+#     jurisdictionOfIncorporationCountryName = 1.3.6.1.4.1.311.60.2.1.3
+#     businessCategory = 2.5.4.15
 #
 #     [ v3_req ]
 #     subjectAltName = @alt_names
@@ -90,6 +98,8 @@ cd "$CERT_DIR"
 
 # Generate private key
 openssl genrsa -out "$PRIV" 2048
+# https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations#Supported_elliptic_curves
+# ECC: openssl ecparam -out "$PRIV" -name prime256v1 -genkey
 openssl rsa -in "$PRIV" -noout -text
 read -r -s -n 1 -p "Check private key and press any key ..."
 

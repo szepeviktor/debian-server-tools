@@ -15,10 +15,10 @@ if [ -z "$(getent passwd "$U")" ]; then
     # Add SSH key
     SSH_DIR="${HOME_DIR}/.ssh"
     mkdir --mode 0700 "$SSH_DIR"
-    echo "$SSH_KEY" > "${SSH_DIR}/authorized_keys2"
+    echo "$SSH_KEY" > "${SSH_DIR}/authorized_keys"
     chown -R "${U}:${U}" "$SSH_DIR"
     # Display fingerprint
-    ssh-keygen -l -v -f "${SSH_DIR}/authorized_keys2"
+    ssh-keygen -l -v -f "${SSH_DIR}/authorized_keys"
 
     # Add to sudoers
     adduser "$U" sudo

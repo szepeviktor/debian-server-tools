@@ -69,12 +69,12 @@ Server_domain() {
     hostname -f
 }
 
-set -e
-
 DAEMON="domain-expiry"
 DOMAIN_EXPIRY_RC="/etc/domainexpiryrc"
 DOMAIN_EXPIRY_ALERT_DATE="2 weeks"
 declare -a DOMAIN_EXPIRY
+
+set -e
 
 logger -t "$DAEMON" "Domain expiry started"
 

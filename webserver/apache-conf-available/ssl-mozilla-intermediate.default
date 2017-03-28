@@ -88,8 +88,9 @@
     # Prevent CRIME attack
     SSLCompression off
 
-    # @FIXME https://github.com/mozilla/server-side-tls/issues/135
-    #SSLSessionTickets off
+    # Using them without restarting the web server
+    # with an appropriate frequency (e.g. daily) compromises perfect forward secrecy.
+    SSLSessionTickets on
 
     # OCSP Stapling (could also be in every virtual host)
     SSLUseStapling On

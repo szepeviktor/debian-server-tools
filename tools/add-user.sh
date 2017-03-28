@@ -95,7 +95,7 @@ main() {
     mkdir --mode 0700 "$SSH_DIR"
 
     # File that contains the user's public keys for authentication
-    SSH_AUTHKEYS="${SSH_DIR}/authorized_keys2"
+    SSH_AUTHKEYS="${SSH_DIR}/authorized_keys"
 
     # Is stdin a TTY?
     if [[ -t 0 ]]; then

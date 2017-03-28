@@ -2,7 +2,7 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.6
+# VERSION       :0.1.7
 # DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -31,7 +31,7 @@
 # Host names should have only DNS A records.
 
 DAEMON="ssh-watch"
-SSH_WATCH_RC="/etc/ssh-watchrc"
+SSH_WATCH_RC="/etc/sshwatchrc"
 
 # Defaults
 SKIP_HOST=""
@@ -40,7 +40,7 @@ ALERT_ADDRESS="admin@szepe.net"
 ALWAYS_ONLINE="8.8.8.8"
 INTERNET_IF="eth0"
 RETRY_TIME="40"
-SSH_WATCH=( )
+declare -a SSH_WATCH=( )
 
 Log() {
     local MESSAGE="$1"

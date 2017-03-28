@@ -10,15 +10,16 @@ cat /proc/sys/kernel/random/entropy_avail
 
 https://wiki.mozilla.org/Security/Server_Side_TLS
 
-- Entropy source
-- Protocol
-- Ciphersuites
-- DH Parameters
-- SSL session cache
-- OCSP Stapling
+- ECDSA certificate **Speed!**
+- Entropy source **Speed!**
+- Protocol **TLS1.2 Speed!**
+- Ciphersuites **AES-NI Speed!**
+- DH parameters
+- SSL session cache **Speed!**
+- OCSP stapling **Speed!**
 - SNI
 - HSTS
-- HTTP/2
+- HTTP/2 **Speed!**
 
 [Current master in Debian](https://anonscm.debian.org/cgit/pkg-apache/apache2.git/tree/debian/config-dir/mods-available/ssl.conf)
 

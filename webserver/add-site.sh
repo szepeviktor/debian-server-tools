@@ -29,8 +29,8 @@ echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >> /etc/courier/aliases/sys
 makealiases
 
 # * Install SSH key
-S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";touch "${S}/authorized_keys2";chown -R ${U}:${U} "$S"
-editor "${S}/authorized_keys2"
+S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";touch "${S}/authorized_keys";chown -R ${U}:${U} "$S"
+editor "${S}/authorized_keys"
 # * Git URL
 echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 

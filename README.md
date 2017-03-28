@@ -68,8 +68,8 @@ See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how
 ### Install your own SSH key
 
 ```bash
-S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2"
-ssh-keygen -v -l -f "${S}/authorized_keys2"
+S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys"
+ssh-keygen -v -l -f "${S}/authorized_keys"
 ```
 
 Parameters
@@ -81,8 +81,8 @@ no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please l
 ### Install a user's SSH key
 
 ```bash
-u bash -c 'S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys2"'
-U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";editor "${S}/authorized_keys2";chown -R $U:$U "$S"
+u bash -c 'S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys"'
+U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";editor "${S}/authorized_keys";chown -R $U:$U "$S"
 ```
 
 ### Retrieve public key from private key

@@ -43,7 +43,7 @@ do_start() {
   fi
 
   if printf "Host FULLY BOOTED at %s\n\n%s\n\n%s\n" "$(date -R)" "$(last -x -n 10)" "$(COLUMNS=120 pstree -aA)" \
-    | mailx -s "Host $(hostname -f) is BOOTED" ${INIT_ALERT_MAIL}; then
+    | mailx -s "Host is BOOTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
     # Wait for message delivery
     sleep 5
     return 0
@@ -63,7 +63,7 @@ do_stop() {
   fi
 
   if printf "Host HALTED at %s\n\n%s\n" "$(date -R)" "$(COLUMNS=120 w --ip-addr)" \
-    | mailx -s "Host $(hostname -f) is HALTED" ${INIT_ALERT_MAIL}; then
+    | mailx -s "Host is HALTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
     # Wait for message delivery
     sleep 5
     return 0
@@ -75,7 +75,7 @@ do_stop() {
 case "$1" in
 
   start)
-    [ "$VERBOSE" != no ] && log_daemon_msg "Sending alert" "$NAME"
+    [ "$VERBOSE" != no ] && log_daemon_msg "Sending start alert" "$NAME"
     do_start
     case "$?" in
       0|1)
@@ -88,7 +88,7 @@ case "$1" in
     ;;
 
   stop)
-    [ "$VERBOSE" != no ] && log_daemon_msg "Sending alert" "$NAME"
+    [ "$VERBOSE" != no ] && log_daemon_msg "Sending stop alert" "$NAME"
     do_stop
     case "$?" in
       0|1)

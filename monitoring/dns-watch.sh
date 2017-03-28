@@ -52,8 +52,7 @@ MAX_FAILURES="3"
 
 DAEMON="dns-watch"
 DNS_WATCH_RC="/etc/dnswatchrc"
-DNS_WATCH=( )
-source "$DNS_WATCH_RC"
+declare -a DNS_WATCH
 
 # Return all RR-s
 Dnsquery_multi() {
@@ -225,6 +224,8 @@ Is_ipv4() {
 
     [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
 }
+
+source "$DNS_WATCH_RC"
 
 Is_online
 
