@@ -1,0 +1,18 @@
+# Integrity
+# host -t TXT _spf.integrity.hu. | grep -Eo "[0-9/.]{7,}" | xargs -n 1 cidr2courier.sh
+212.52.165.208	allow,BLOCK
+212.52.165.209	allow,BLOCK
+212.52.165.210	allow,BLOCK
+212.52.165.211	allow,BLOCK
+212.52.165.212	allow,BLOCK
+212.52.165.213	allow,BLOCK
+212.52.165.214	allow,BLOCK
+212.52.165.215	allow,BLOCK
+212.52.165.216	allow,BLOCK
+212.52.165.217	allow,BLOCK
+212.52.165.218	allow,BLOCK
+212.52.165.219	allow,BLOCK
+212.52.165.220	allow,BLOCK
+212.52.165.221	allow,BLOCK
+212.52.165.222	allow,BLOCK
+212.52.165.223	allow,BLOCK

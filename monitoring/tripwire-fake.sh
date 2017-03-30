@@ -19,7 +19,8 @@ set -e
     cd "$THEME"
     nice git status --short 2>&1 || echo "ERROR: '${THEME}' Theme files"
 
-    # Site (excludes core and theme)
+    # Site content (excludes core and theme)
+    # See /webserver/wordpress.gitignore
     cd "$DOCUMENT_ROOT"
     nice git status --short 2>&1 || echo "ERROR: Site files"
 

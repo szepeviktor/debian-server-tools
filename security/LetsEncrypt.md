@@ -29,7 +29,7 @@ read -r -e -i $(hostname -f) DOMAIN
 #     install -D -m 644 $CHALLENGE .well-known/acme-challenge/$CHALLENGE
 #     python3 -m http.server 80
 u ../../.local/bin/manuale authorize $DOMAIN $DOMAIN2
-#u ../../.local/bin/manuale issue --key-file ${DOMAIN}.pem $DOMAIN $DOMAIN2
+# EC key: u ../../.local/bin/manuale issue --key-file param-${DOMAIN}-private.key $DOMAIN $DOMAIN2
 u ../../.local/bin/manuale issue $DOMAIN $DOMAIN2
 
 alias manuale='u ../../.local/bin/manuale'

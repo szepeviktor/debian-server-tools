@@ -101,7 +101,7 @@ See "Best clamd.conf" in [SecuriteInfo](https://www.securiteinfo.com/services/an
 
 ### Block executables
 
-courier-pythonfilter module: `attachments.py`
+courier-pythonfilter attachments module
 
 ```ini
 [attachments.py]
@@ -119,10 +119,12 @@ https://support.google.com/mail/answer/6590
 ```
 # GMail's blocked file types
 ifplugin Mail::SpamAssassin::Plugin::MIMEHeader
+
 mimeheader GMAIL_BLOCKED_ATTACH Content-Type =~ /\.(ADE|ADP|BAT|CHM|CMD|COM|CPL|EXE|HTA|INS|ISP|JAR|JSE|LIB|LNK|MDE|MSC|MSP|MST|PIF|SCR|SCT|SHB|SYS|VB|VBE|VBS|VXD|WSC|WSF|WSH)/i
 mimeheader GMAIL_BLOCKED_ATTACH_CD Content-Disposition =~ /\.(ADE|ADP|BAT|CHM|CMD|COM|CPL|EXE|HTA|INS|ISP|JAR|JSE|LIB|LNK|MDE|MSC|MSP|MST|PIF|SCR|SCT|SHB|SYS|VB|VBE|VBS|VXD|WSC|WSF|WSH)/i
 score GMAIL_BLOCKED_ATTACH 20
 score GMAIL_BLOCKED_ATTACH_CD 20
+
 endif
 ```
 
@@ -151,7 +153,7 @@ Add alias:
 Delivery instructions:
 
 ```bash
-echo "|/pipe/command" > /var/mail/localhost/user/.courier-foo-default
+echo "|/pipe/command" > /var/mail/domain/user/.courier-foo-default
 ```
 
 ### Spamtrap
@@ -166,6 +168,13 @@ problematic@address.es:  spamtrap@domain.net
 [NAIH kereső](http://81.183.229.204:8080/EMS/EMSDataProtectionRequest/Finder)
 http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
 
+### Courier MTA message processing order on reception
+
+1. SMTP communication
+1. NOADD*, `opt MIME=none`
+1. filters
+1. DEFAULTDELIVERY
+
 ### Courier kitchen sink (drop incoming messages)
 
 See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
@@ -179,14 +188,6 @@ Add alias:
 ```
 ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost
 ```
-
-
-### Courier MTA message processing order on reception
-
-1. SMTP communication
-1. NOADD*, `opt MIME=none`
-1. filters
-1. DEFAULTDELIVERY
 
 ### Courier MTA log analyzer
 

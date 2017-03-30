@@ -1,0 +1,31 @@
+# Core
+wp-admin/
+wp-includes/
+index.php
+licenc.txt
+license.txt
+olvasdel.html
+readme.html
+wp-activate.php
+wp-blog-header.php
+wp-comments-post.php
+wp-config-sample.php
+wp-cron.php
+wp-links-opml.php
+wp-load.php
+wp-login.php
+wp-mail.php
+wp-settings.php
+wp-signup.php
+wp-trackback.php
+xmlrpc.php
+
+# Theme under git
+wp-content/themes/eg-iv/
+
+# Content
+wp-content/uploads/**/*.jpg
+wp-content/uploads/**/*.png
+wp-content/cache/
+!wp-content/cache/**/*.php
+!wp-content/cache/**/.htaccess

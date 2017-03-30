@@ -15,7 +15,7 @@
 
 ## Website maintenance to prevent outage
 
-- * offsite backup of all files and the database **daily** (up to 5 GB)
+- \* offsite backup of all files and the database **daily** (up to 5 GB)
 - offsite backup of all files and the database weekly (up to 5 GB)
 - high grade website security, file change notification every 30 minutes
 - block vulnerability probes and attacks (firewall)
@@ -25,34 +25,34 @@
 - SSL certificate setup with A+ [Qualys](https://www.ssllabs.com/ssltest/) grade and expiry monitoring
 - frontpage content monitoring and failure detection
 - website uptime monitoring every minute
-- * PHP and MySQL engine monitoring hourly
+- \* PHP and MySQL engine monitoring hourly
 - tidy up WMT (Google's Webmaster Tools) weekly
-- * fix broken links (404) daily (by filtering access logs)
+- \* fix broken links (404) daily (by filtering access logs)
 - user and password management, support for logging in
 - hosting server (SSD based VPS) for your website (up to 2 GB, no email accounts)
 
 ### Website speedup as a SEO ranking factor
 
 - keeping PageSpeed score above 80 (also on mobile view, not on mobile version)
-- * integrating advanced CDN [Amazon CloudFront](http://aws.amazon.com/cloudfront/pricing/) (up to 20 GB/month)
-- * minimizing actual page load times (removing blocking resources)
+- \* integrating advanced CDN [Amazon CloudFront](http://aws.amazon.com/cloudfront/pricing/) (up to 20 GB/month)
+- \* minimizing actual page load times (removing blocking resources)
 - set up browser caching
 - SEO ranking chart of Google Search (daily)
 - mini SEO audit of coding defects
-- * supervision of Google SERP (search engine results page) for main keywords
+- \* supervision of Google SERP (search engine results page) for main keywords
 
 ### WordPress code maintenance
 
 - WordPress (engine) upgrades
 - WordPress plugin upgrades (based on changelogs and plugin audit)
-- * correction of HTML defects (which do not need a rewrite of the whole site)
-- * Google Analytics, Facebook and other tracking code setup and monitoring
-- * enabling [click heatmap](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png)
-- * supervision of new content weekly (typograhy and HTML usage)
-- * image optimization (smaller file size and nicer loading)
-- * update of embedded HTML content (e.g. Facebook like box)
+- \* correction of HTML defects (which do not need a rewrite of the whole site)
+- \* Google Analytics, Facebook and other tracking code setup and monitoring
+- \* enabling [click heatmap](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png)
+- \* supervision of new content weekly (typograhy and HTML usage)
+- \* image optimization (smaller file size and nicer loading)
+- \* update of embedded HTML content (e.g. Facebook like box)
 
-Items marked with an asterisk ( * ) are available in the bigger plan and only on a VPS (with root access).
+Items marked with an asterisk ( \* ) are available in the bigger plan and only on a VPS (with root access).
 
 ## Other services (not listed above)
 
@@ -85,7 +85,7 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 ## Honlap karbantartás a leállások megelőzésére
 
 - támadók, biztonsági réseket kereső robotok kitiltása (tűzfal)
-- * biztonsági mentés fájlokról, adatbázisról **naponta** (5 GB-ig)
+- \* biztonsági mentés fájlokról, adatbázisról **naponta** (5 GB-ig)
 - biztonsági mentés fájlokról, adatbázisról havonta (5 GB-ig)
 - magas fokú honlap biztonság, fájl változás jelentés 30 percenként
 - betörés (malware fertőzés) esetén takarítás
@@ -94,34 +94,34 @@ Items marked with an asterisk ( * ) are available in the bigger plan and only on
 - SSL tanúsítvány beállítás https-hez A+ [Qualys](https://www.ssllabs.com/ssltest/) minősítéssel, lejárat felügyelet
 - főoldali tartalom óránkénti felügyelet
 - honlap elérhetőségének felügyelete 1 percenként
-- * PHP és MySQL futás felügyelete óránként
+- \* PHP és MySQL futás felügyelete óránként
 - WMT (Google Webmestereszközök) teljes rendberakása hetente
-- * nem létező tartalomra mutató linkek (404) javítása naponta (hibanapló szűréssel)
+- \* nem létező tartalomra mutató linkek (404) javítása naponta (hibanapló szűréssel)
 - jelszó és felhasználói fiók menedzsment, technikai segítség belépési problémáknál
 - tárhely biztosítása a honlaphoz (2 GB-ig, email fiókokat nem tartalmaz)
 
 ### Honlap gyorsítás a látogatóknak és SEO-hoz
 
 - PageSpeed 80+ ponton tartása (ha van mobil nézete a honlapnak, akkor ott is)
-- * tartalom kiszolgáló hálózat (CDN) használat [Amazon CloudFront](http://aws.amazon.com/cloudfront/pricing/) (20 GB havi forgalomig)
-- * valós oldal betöltési idő alacsonyan tartása
+- \* tartalom kiszolgáló hálózat (CDN) használat [Amazon CloudFront](http://aws.amazon.com/cloudfront/pricing/) (20 GB havi forgalomig)
+- \* valós oldal betöltési idő alacsonyan tartása
 - böngésző gyorsítótárazás beállítása
 - SEO kimutatás a Google keresőben való helyezésről grafikonon és emailben naponta
 - kritikus SEO hibákról összefoglaló jelentés
-- * keresőben (Google találati oldal) való megjelenés ellenőrzése
+- \* keresőben (Google találati oldal) való megjelenés ellenőrzése
 
 ### WordPress kód karbantartás
 
 - WordPress (honlap motor) frissítés
 - WordPress bővítmények frissítése
-- * HTML hibák javítása (amelyekhez nem kell újraírni a honlapot)
-- * Google Analytics, Facebook és más követő, beágyazott mérőkódok beállítása és ellenőrzése
-- * [kattintási hőtérkép](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png) készítés
-- * újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
-- * képek optimalizálása (méret csökkentés, szebb betöltődés)
-- * beágyazott tartalmak kódjának frissítése (pl. Facebook doboz)
+- \* HTML hibák javítása (amelyekhez nem kell újraírni a honlapot)
+- \* Google Analytics, Facebook és más követő, beágyazott mérőkódok beállítása és ellenőrzése
+- \* [kattintási hőtérkép](http://www.clicktale.com/sites/default/files/field/image/mouse-move-heatmap.png) készítés
+- \* újonnan felvitt tartalom ellenőrzése hetente (tipográfia és HTML használat)
+- \* képek optimalizálása (méret csökkentés, szebb betöltődés)
+- \* beágyazott tartalmak kódjának frissítése (pl. Facebook doboz)
 
-A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
+A csillagozottak ( \* ) csak saját szerveren (VPS) valósíthatók meg.
 
 ### Mi az, ami még üzemben tartás és nem fejlesztés?
 
@@ -143,28 +143,3 @@ A csillagozottak ( * ) csak saját szerveren (VPS) valósíthatók meg.
 - honlap tervezés és kivitelezés WordPress motorral (csapatban: marketinges, grafikus, sitebuilder, programozó)
 - módosítás egy meglévő honlap szerkezetén (programozás, sitebuild)
 - tartalom feltöltés tipográfiai igazítással (HTML tördelés), opcionálisan grafikus bevonásával
-
-<!--
-
-1. kiválogatni a fontosakat
-1. sorba rakni
-1. becsomagolni fogyasztható "köntösbe"
-
-# I. Webes szolgáltatása van
-    - "Webes szolgáltatása van?"
-        A munkámat megelőző jelleggel végzem, én lépek kapcsolatba a fejlesztővel és a szerkesztőkkel.
-    - "Üzemeltetési tapasztalatok visszacsatolása a fejlesztésbe."
-        Az üzemeltetési tapasztalataimat vissza lehet csatolni a fejlesztésbe, amivel meg lehet előzni a hibákat.
-
-# II. Szupermen honlapkészítő/marketinges/SEO-s
-    - "Webszerver biztonsági és sebességi beállításai."
-        Webszerver beállítás
-    - "Honlap hibák feltárása."
-        Honlap hiányosságok folyamatos feltárása 'hibajegy áradatban'.
-
-# III. Honlap tulajdonos
-    - "Számít a honlapja?"
-    - "Lassú a honlapja?"
-    - "Vírusos a honlapja?"
-
--->

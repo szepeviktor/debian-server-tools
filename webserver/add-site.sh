@@ -130,7 +130,8 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-si
 openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
  | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
 
-# Subresource integrity <link href="" integrity="sha384-SHA384_HASH" crossorigin="anonymous">
+# SRI (Subresource Integrity) for foreign CDN content
+# <link href="URL" integrity="sha384-SHA384-HASH" crossorigin="anonymous">
 # https://www.srihash.org/
 openssl dgst -sha384 -binary | openssl enc -base64 -A
 
@@ -143,42 +144,44 @@ editor ${DOMAIN}.conf
 a2ensite ${DOMAIN}
 apache-resolve-hostnames.sh
 
-# Restart webserver + PHP
+# Reload webserver and PHP
 # See /webserver/webrestart.sh
-webrestart.sh
+webreload.sh
 
-# * Logrotate for log in $HOME
-editor /etc/logrotate.d/apache2-${DOMAIN}
-# Prerotate & postrotate
-
-# Add to fail2ban
+# Fail2ban
 fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-ssl-error.log
 fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.log
 # * Non-SSL
 fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-error.log
 fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 
-# Add cron jobs
+# Cron jobs
 # Mute cron errors
-#     php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
+#     # php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
 #     https://maximivanov.github.io/php-error-reporting-calculator/
-#     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f cron.php
+#     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
 # Cron log
-#     job | ts "\%d \%b \%Y \%T \%z" >> CRON-LOG
+#     cron-job-command | ts "\%d \%b \%Y \%T \%z" >> /path/to/cron.log
 cd /etc/cron.d/
 # See /webserver/preload-cache.sh
 
-# Contact form notification email
+# * Contact form notification email
 # Authenticated send to foreign mailboxes
 editor /etc/courier/esmtproutes
-#     website.tld:smarthost.foreign.com,587 /SECURITY=REQUIRED
-#     #website.tld:smarthost.foreign.com,465 /SECURITY=SMTPS
+#     example.com:mail.hosting.tld,587 /SECURITY=REQUIRED
+#     #example.com:mail.hosting.tld,465 /SECURITY=SMTPS
 editor /etc/courier/esmtpauthclient
-#     smarthost.foreign.com,587 username password
-#     #smarthost.foreign.com,465 username password
+#     mail.hosting.tld,587 username password
+#     #mail.hosting.tld,465 username password
 
-# Monit
+# * Monit
 # See /monitoring/monit/services/.website
 
 # Goaccess
 # See /webserver/goaccess.sh
+
+# Fill in hosting.yml
+# See /webserver/hosting.yml
+
+# Google Search Console (Webmaster Tools)
+echo "https://www.google.com/webmasters/tools/dashboard?siteUrl=https://${DOMAIN}/"

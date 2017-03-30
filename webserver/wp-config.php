@@ -86,6 +86,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 /** Plugins */
 
 //define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
+//define( 'WP_APCU_KEY_SALT', 'SITE-SHORT_' );
 //define( 'MEMCACHED_SERVERS', '127.0.0.1:11211:0' );
 // https://polylang.wordpress.com/documentation/documentation-for-developers/list-of-options-which-can-be-set-in-wp-config-php/
 //define( 'PLL_LINGOTEK_AD', false );

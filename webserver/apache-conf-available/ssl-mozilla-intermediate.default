@@ -90,6 +90,7 @@
 
     # Using them without restarting the web server
     # with an appropriate frequency (e.g. daily) compromises perfect forward secrecy.
+    # "/etc/init.d/apache2 reload" in /etc/logrotate.d does clear session tickets.
     SSLSessionTickets on
 
     # OCSP Stapling (could also be in every virtual host)

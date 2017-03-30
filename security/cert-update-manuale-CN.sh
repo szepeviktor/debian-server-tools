@@ -53,8 +53,8 @@ INT="${CN}.intermediate.crt"
 manuale authorize "$CN" ${DOMAIN_NAMES}
 
 # Issue certificate
-# @TODO Is it secure to keep old private key?
-#manuale issue --key-file "$PRIV" "$CN" ${DOMAIN_NAMES}
+# EC key: openssl ecparam -out "param-${PRIV}" -name prime256v1 -genkey
+#manuale issue --key-file "param-${PRIV}" "$CN" ${DOMAIN_NAMES}
 # shellcheck disable=SC2086
 manuale issue "$CN" ${DOMAIN_NAMES}
 
@@ -90,6 +90,7 @@ APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 # Use ./apache.vhost for determining name of the virtual host config file
 [ -s ./apache.vhost ] && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 ./apache.vhost).conf"
 #
+# Uncomment to activate!
 #APACHE_PUB="${PUB_DIR}/${APACHE_DOMAIN}-public.pem"
 #APACHE_PRIV="${PRIV_DIR}/${APACHE_DOMAIN}-private.key"
 
@@ -98,6 +99,7 @@ APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 # Courier MTA: public + intermediate + private -------------------------
 # From Debian jessie on: private + public + intermediate
 
+# Uncomment to activate!
 #COURIER_COMBINED="/etc/courier/esmtpd.pem"
 #COURIER_DHPARAMS="/etc/courier/dhparams.pem"
 
@@ -117,6 +119,7 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 # Use nginx.vhost
 [ -s ./nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
 #
+# Uncomment to activate!
 #NGINX_PUB="${PUB_DIR}/${NGINX_DOMAIN}-public.pem"
 #NGINX_DHPARAM="${PRIV_DIR}/${NGINX_DOMAIN}-dhparam.pem"
 #NGINX_PRIV="${PRIV_DIR}/${NGINX_DOMAIN}-private.key"
@@ -126,6 +129,7 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 # Dovecot: public + intermediate -------------------------
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
 
+# Uncomment to activate!
 #DOVECOT_PUB="/etc/dovecot/dovecot.pem"
 #DOVECOT_PRIV="/etc/dovecot/private/dovecot.key"
 
@@ -133,6 +137,7 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 
 # Proftpd -------------------------
 
+# Uncomment to activate!
 #PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
 #PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
 #PROFTPD_INT="/etc/proftpd/sub.class1.server.ca.pem"
@@ -142,6 +147,7 @@ NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 # Webmin: private + public -------------------------
 # SSL check: https://www.digicert.com/help/
 
+# Uncomment to activate!
 #WEBMIN_COMBINED="/etc/webmin/miniserv.pem"
 #WEBMIN_INT="/etc/webmin/sub.class1.server.ca.pem"
 

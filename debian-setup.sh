@@ -60,6 +60,7 @@
 # - HTTP headers https://redbot.org/
 # - Security headers https://securityheaders.io/
 # - HTTPS https://www.ssllabs.com/ssltest/
+# - HTTPS + Security headers https://observatory.mozilla.org/
 # - CRL and OCSP test https://certificate.revocationcheck.com/
 # - PHP configuration /webserver/php-env-check.php
 
