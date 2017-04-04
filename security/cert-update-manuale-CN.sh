@@ -36,7 +36,7 @@ read -r -p "CN=" CN
 #CN="example.com"
 [ -n "$CN" ]
 read -r -p "Additional domain names=" DOMAIN_NAMES
-#DOMAIN_NAMES="www.example.com"
+#DOMAIN_NAMES="www.${CN}"
 
 # Private key file name
 PRIV="${CN}.pem"
@@ -48,12 +48,13 @@ PUB="${CN}.crt"
 INT="${CN}.intermediate.crt"
 
 # Authorize or check authorization
+#     .well-known/acme-challenge
 # shellcheck disable=SC2086
 #manuale authorize --method http "$CN" ${DOMAIN_NAMES}
 manuale authorize "$CN" ${DOMAIN_NAMES}
 
 # Issue certificate
-# EC key: openssl ecparam -out "param-${PRIV}" -name prime256v1 -genkey
+# EC key: u openssl ecparam -out "param-${PRIV}" -name prime256v1 -genkey
 #manuale issue --key-file "param-${PRIV}" "$CN" ${DOMAIN_NAMES}
 # shellcheck disable=SC2086
 manuale issue "$CN" ${DOMAIN_NAMES}

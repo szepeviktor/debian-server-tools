@@ -58,9 +58,11 @@ ROBOTS_URLS="$(apache2ctl -S | sed -n -e '/namevhost localhost/d' \
     -e 's|^\s\+port 80 namevhost \(\S\+\) (.*)$|http://\1/robots.txt|p' \
     -e 's|^\s\+port 443 namevhost \(\S\+\) (.*)$|https://\1/robots.txt|p')"
 while read -r ROBOTS_URL; do
+    echo -n "."
     wget -t 1 -q -O - "$ROBOTS_URL" | grep -qi "^User-agent:" \
         || Error "robots.txt is not set up (${ROBOTS_URL})"
 done <<< "$ROBOTS_URLS"
+echo
 
 # Apache config test
 apache2ctl configtest || Error "Apache configuration test"

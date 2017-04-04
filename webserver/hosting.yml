@@ -29,12 +29,12 @@ email:
   bounce-handling: yes
 code:
   core: WordPress
-  theme: Theme Name
+  theme: Child/Parent
   plugin:
     - paid-plugins
     - purchased-plugin
 cron:
-  - "job 1"
+  - wp-cron-cli.sh
   - "job 2"
 3rd-party:
   high:
@@ -55,8 +55,9 @@ cron:
     - Mouse tracking
     - (disabled service)
 remarks: |
-  1st line
-  e.g. repository URL
+  website language/s
+  repository URL
+  themplate demo URL
 
 # YAML editor: http://yaml-online-parser.appspot.com/
 #     php -r 'var_export(yaml_parse(file_get_contents("hosting.yml")));'

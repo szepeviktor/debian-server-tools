@@ -271,14 +271,14 @@ Set up CDN.
 
 MU Plugin Template
 
-`disable-3rd-party-plugin-updates.php`
+`disable-3rd-party-updates.php`
 
 ```php
 <?php
 /*
-Plugin Name: disable plugin updates (MU)
+Plugin Name: disable custom updates (MU)
 Version: 0.0.0
-Description: This MU plugin contains hooks to disable various updates.
+Description: This MU plugin contains hooks to disable custom updates.
 Plugin URI: https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/WordPress.md#plugin-fixes
 Author: Viktor Szépe
 */
@@ -309,7 +309,7 @@ TGM Plugin Activation
 add_action( 'after_setup_theme', function () {
     remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
     remove_action( 'tgmpa_register', 'CUSTOM-FUNCTION' );
-} );
+}, 9999 );
 
 // Disable TGMPA (OOP)
 add_action( 'after_setup_theme', function () {
@@ -318,7 +318,7 @@ add_action( 'after_setup_theme', function () {
         remove_action( 'admin_init', 'tgmpa_load_bulk_installer' );
         remove_action( 'tgmpa_register', array( $wpoEngine, 'initRequiredPlugin' ) );
     }
-} );
+}, 9999 );
 ```
 
 WPBakery Visual Composer plugin

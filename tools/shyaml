@@ -2,11 +2,11 @@
 #
 # SHYAML: YAML for the command line
 #
-# VERSION       :0.4.1
+# VERSION       :0.5.0
 # AUTHOR        :Valentin Lab.
 # URL           :https://github.com/0k/shyaml/
 # LICENSE       :BSD License
-# DEPENDS       :apt-get install python
+# DEPENDS       :apt-get install python-yaml
 # LOCATION      :/usr/local/bin/shyaml
 
 ## Note: to launch test, you can use:
@@ -29,7 +29,7 @@ USAGE = """\
 Usage:
 
     %(exname)s (-h|--help)
-    %(exname)s ACTION KEY [DEFAULT]
+    %(exname)s [-y|--yaml] ACTION KEY [DEFAULT]
 """ % {"exname": EXNAME}
 
 HELP = """
@@ -39,6 +39,14 @@ It reads YAML in stdin and will output on stdout it's return value.
 %(usage)s
 
 Options:
+
+    -y, --yaml
+              Output only YAML safe value, more precisely, even
+              literal values will be YAML quoted. This behavior
+              is required if you want to output YAML subparts and
+              further process it. If you know you have are dealing
+              with safe literal value, then you don't need this.
+              (Default: no safe YAML output)
 
     ACTION    Depending on the type of data you've targetted
               thanks to the KEY, ACTION can be:
@@ -111,9 +119,17 @@ yaml.add_representer(
     MyOrderedDict,
     lambda cls, data: cls.represent_dict(data.items()))
 
+
+def construct_omap(cls, node):
+    ## Force unfolding reference and merges
+    ## otherwise it would fail on 'merge'
+    cls.flatten_mapping(node)
+    return MyOrderedDict(cls.construct_pairs(node))
+
+
 yaml.add_constructor(
     yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-    lambda cls, node: MyOrderedDict(cls.construct_pairs(node)))
+    construct_omap)
 
 
 ##
@@ -336,11 +352,11 @@ def die(msg, errlvl=1, prefix="Error: "):
     stderr("%s%s\n" % (prefix, msg))
     sys.exit(errlvl)
 
-SIMPLE_TYPES = (str, int, float) if PY3 else (basestring, int, float)
+SIMPLE_TYPES = (str if PY3 else basestring, int, float, type(None))
 COMPLEX_TYPES = (list, dict)
 
 
-def dump(value):
+def magic_dump(value):
     """Returns a representation of values directly usable by bash.
 
     Literal types are printed as-is (avoiding quotes around string for
@@ -349,6 +365,14 @@ def dump(value):
     """
     return value if isinstance(value, SIMPLE_TYPES) \
         else yaml.dump(value, default_flow_style=False)
+
+def yaml_dump(value):
+    """Returns a representation of values directly usable by bash.
+
+    Literal types are quoted and safe to use as YAML.
+
+    """
+    return yaml.dump(value, default_flow_style=False)
 
 
 def type_name(value):
@@ -368,6 +392,12 @@ def main(args):  ## pylint: disable=too-many-branches
     if len(args) == 1 and args[0] in ("-h", "--help"):
         stdout(HELP)
         exit(0)
+
+    dump = magic_dump
+    for arg in ["-y", "--yaml"]:
+        if arg in args:
+            args.remove(arg)
+            dump = yaml_dump
 
     action = args[0]
     key_value = None if len(args) == 1 else args[1]

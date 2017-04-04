@@ -3,7 +3,7 @@
 # Real-time web log analyzer.
 #
 # DEPENDS       :apt-get install goaccess
-# VERSION       :0.1.4
+# VERSION       :0.1.5
 
 U="$(stat . -c %U)"
 #U="${1:-default-user}"
@@ -22,9 +22,13 @@ Goaccess() {
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
         --date-format='%d/%b/%Y' \
         --time-format='%T' \
+        --exclude-ip=81.2.236.171 \
+        --exclude-ip=88.151.99.143 \
         --exclude-ip="$IP" \
         "$@"
 }
+#                    worker
+#                    proxy
 
 Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log
 

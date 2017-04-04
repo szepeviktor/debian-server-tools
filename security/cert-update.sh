@@ -163,7 +163,9 @@ Apache2() {
         apache2ctl configtest && service apache2 restart
 
         # Test HTTPS
-        SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_VHOST_CONFIG"|cut -d' ' -f2)"
+        # FIXME        sed -n -e
+        SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_VHOST_CONFIG" | cut -d " " -f 2)"
+        # FIXME "ServerName www.${SITE_DOMAIN}"
         if [ "$SERVER_NAME" == "\${SITE_DOMAIN}" ]; then
             SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
         fi

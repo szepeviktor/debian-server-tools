@@ -415,6 +415,7 @@ OK response: `IP Unlisted in the spam sender list None`
 - http://bgp.he.net/ip/1.2.3.4#_rbl `L`
 - http://multirbl.valli.org/ `L`
 - http://psky.me/ `B`
+- https://rbl.foobar.hu/ `B`
 - http://www.senderbase.org/lookup/ by Cisco `L`
 - https://www.senderscore.org/lookup.php by ReturnPath `L`
 - http://www.barracudacentral.org/lookups `L`
@@ -433,6 +434,7 @@ Register here:
 - http://www.unifiedemail.net/Tools/RBLCheck/ `LM` [registration](https://www.unifiedemail.net/Tools/RBLCheck/Monitoring/default.aspx)
 - https://mxtoolbox.com/problem/blacklist/ `LM` [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
 - http://www.projecthoneypot.org/search_ip.php `LM`
+- https://hetrixtools.com/dashboard/blacklist-monitors/ `LM`
 - https://rbltracker.com/ `M`
 - https://www.rblmon.com/accounts/register/ `M`
 - https://www.dnswl.org/selfservice/ `R`
@@ -446,6 +448,7 @@ Register here:
 - [Sender Information for Outlook.com Delivery](https://go.microsoft.com/fwlink/?LinkID=614866) `S`
 - [EmailReg.org](http://www.emailreg.org/index.cgi?p=policy) (for Barracuda) `R`
 - [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/) `F`
+- [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange) ?
 
 ### Free e-mail backup server
 

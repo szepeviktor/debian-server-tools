@@ -43,7 +43,7 @@ chmod 0555 /home/${U}/website/html
 # Install WordPress
 cd /home/${U}/website/html/
 
-# Migrate files **NOW**
+# Migrate files NOW!
 #
 # HTML-ize WordPress
 #     https://gist.github.com/szepeviktor/4535c5f20572b77f1f52
@@ -65,8 +65,10 @@ chown -cR ${U}:${U} /home/${U}/
 # Wordpress Fail2ban
 
 # Migrate database NOW!
+#
 # Create WordPress database from wp-config
 # See /mysql/wp-createdb.sh
+#     /usr/local/src/debian-server-tools/mysql/wp-createdb.sh
 # See /mysql/alter-table.sql
 
 # wp-cli configuration
@@ -101,10 +103,8 @@ editor ${U}.conf
 # SSL certificate
 read -e -p "Common Name: " -i "$DOMAIN" CN
 editor /etc/ssl/localcerts/${CN}-public.pem
+nice openssl dhparam 2048 >> /etc/ssl/localcerts/${CN}-public.pem
 editor /etc/ssl/private/${CN}-private.key
-#cat /etc/letsencrypt/live/${CN}/privkey.pem > /etc/ssl/private/${CN}-private.key
-#cat /etc/letsencrypt/live/${CN}/cert.pem /etc/letsencrypt/live/${CN}/chain.pem > /etc/ssl/localcerts/${CN}-public.pem
-#nice openssl dhparam 2048 >> /etc/ssl/localcerts/${CN}-public.pem
 
 # Apache vhost
 # CloudFlase, Incapsula, StackPath
@@ -124,19 +124,20 @@ echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" > /etc/cron.d/o
 # * Non-SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 
-# Include the HPKP header: backup key, "Public-Key-Pins-Report-Only:" "Public-Key-Pins:"
+# HPKP (HTTP Public Key Pinning) including backup public key
+#     Headers: Public-Key-Pins-Report-Only Public-Key-Pins
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
 # See https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
 openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
  | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
 
 # SRI (Subresource Integrity) for foreign CDN content
-# <link href="URL" integrity="sha384-SHA384-HASH" crossorigin="anonymous">
-# https://www.srihash.org/
+#     <link href="URL" integrity="sha384-SHA384-HASH" crossorigin="anonymous">
+# See https://www.srihash.org/
 openssl dgst -sha384 -binary | openssl enc -base64 -A
 
-# CAA record to pin certificate authorities
-# https://sslmate.com/labs/caa/
+# CAA DNS record to pin certificate authorities
+# See https://sslmate.com/labs/caa/
 
 # In case of "www." set ServerAlias
 editor ${DOMAIN}.conf
@@ -163,6 +164,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 # Cron log
 #     cron-job-command | ts "\%d \%b \%Y \%T \%z" >> /path/to/cron.log
 cd /etc/cron.d/
+# See /webserver/wp-cron-cli.sh
 # See /webserver/preload-cache.sh
 
 # * Contact form notification email

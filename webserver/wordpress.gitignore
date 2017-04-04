@@ -21,7 +21,7 @@ wp-trackback.php
 xmlrpc.php
 
 # Theme under git
-wp-content/themes/eg-iv/
+wp-content/themes/THEME-NAME/
 
 # Content
 wp-content/uploads/**/*.jpg
