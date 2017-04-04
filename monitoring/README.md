@@ -9,22 +9,21 @@
 
 ### Per website and dependency monitoring
 
+- DNS resource records (dns-watch.sh)
 - HTTP message body (aka HTML source code)
 - Visual change (visualping.io)
 - HTTPS certificate and SSL settings (ssl-check.sh, ssllabs.com)
 - File changes (tripwire-fake.sh)
 - Application log (laravel-report.sh)
 - Malware listing (sitecheck.sucuri.net)
-- PageSpeed (PageSpeed Insights)
-- Health (Google Search Console)
+- PageSpeed (PageSpeed Insights, webpagetest.org)
+- Health (Google Search Console aka Webmaster Tools)
 - Traffic (goaccess.sh, Google Analytics)
 - Uptime (monit, pingdom.com)
 - Dependencies: listed in hosting.yml
 - Dependencies: OCSP response (ocsp-check.sh)
 
 ### Per host monitoring
-
-@TODO See [Monitoring in Production-website.md](/webserver/Production-website.md#monitor)
 
 - RTC, entropy, server integrity (monit)
 - Datacenter: gateway, DNS resolvers (monit)
@@ -33,7 +32,6 @@
 - Custom kernel updates (ovh-kernel-update.sh)
 - ICMP response (monit)
 - SSH port (ssh-watch.sh, monit)
-- DNS resource records (dns-watch.sh)
 - SMTP port (monit)
 - MySQL table corruption and optimization
 - SSL certificates in responses (ssl-check.sh)
@@ -42,7 +40,7 @@
 - File changes (siteprotection.sh)
 - Errors in syslog (syslog-errors.sh)
 - RBL - DNS blacklists
-- Email deliveribility (can-send-email.sh)
+- Email deliverability (can-send-email.sh)
 - Recipient domain and DNS
 - TOP 10 mailfolders (top10-mailfolders.sh)
 - S.M.A.R.T. attributes (smart-zeros.sh)
@@ -52,6 +50,7 @@
 
 ### Per domain monitoring
 
+- Domain locking
 - Domain expiry (domain-expiry.sh)
 - RBL - DNS blacklists
 

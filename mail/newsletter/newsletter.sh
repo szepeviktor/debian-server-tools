@@ -2,13 +2,14 @@
 #
 # Send newsletter.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DEPENDS       :apt-get install mpack qprint dos2unix uuid-runtime
 # DOCS          :https://ga-dev-tools.appspot.com/campaign-url-builder/
 # DOCS          :https://developers.google.com/analytics/devguides/collection/protocol/v1/email
 
 # Usage
 #
+# 0. Remove unsubscribed addresses
 # 1. Unpack original email:  munpack -t original.eml
 # 2. Edit part2, insert utm links and tracker image
 # 2. Edit part1

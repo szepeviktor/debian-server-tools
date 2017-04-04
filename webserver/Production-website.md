@@ -85,7 +85,7 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 
 - Obfuscate email addresses `antispambot( 'e@ma.il' )`
 - [JavaScript href fallback](https://gist.github.com/joshdick/961154): https://www.google.com/recaptcha/admin#mailhide
-- Authenticated send for email notifications
+- Authenticated delivery for email notifications
 - Shortest route of delivery
 - Add server as `RELAYCLIENT` on the smarthost
 - Email `From:` name and address
@@ -94,26 +94,25 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 - SPF
 - DKIM
 
-Consider transactional email service through HTTP API: Mailjet, Amazon SES etc.
+Consider transactional email service through HTTP API.
 
-SparkPost API WordPress plugin: https://wordpress.org/plugins/sparkpost/
-
-Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
+- Mailjet
+- Amazon SES
+- SparkPost API WordPress plugin: https://wordpress.org/plugins/sparkpost/
+- Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
 
 ### Security
 
 - WAF: `wordpress-fail2ban`
-- Allow loading in an IFRAME? (Google translate, Facebook app)
-- Option: Sucuri Scanner plugin
-- Option: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
-- Option: ionCube24 `ic24.enable = on` (PHP file modification time protection)
-- Tripwire.php or git (file change notifications @30 minutes)
-- .php and .htaccess changes (monitoring/siteprotection.sh @daily)
-- Front page change notification (@hourly)
-- Sucuri SiteCheck (Google Safe Browsing), Virustotal (HTTP API @daily)
-- Can-send-email (monitoring/cse @6 hours)
-- Maximum security: convert website into static HTML files + [formspree](https://formspree.io/)
+- Optional for shared hosting: Sucuri Scanner plugin
+- Optional: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
+- Optional: ionCube24 `ic24.enable = on` (PHP file modification time protection)
+- File change notification
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`
+- Google Search Console ("This site may harm your computer" notification on SERP)
+- Sucuri SiteCheck (includes Google Safe Browsing)
+- Virustotal (HTTP API)
+- Maximum security: convert website into static HTML + [formspree](https://formspree.io/)
 
 ### Cron jobs
 
@@ -352,6 +351,7 @@ http://google-public-dns.appspot.com/cache
 
 - HTTP methods `GET POST HEAD` and `OPTIONS PUT DELETE TRACE` etc.
 - https://redbot.org/
+- Loading in IFRAME (Google translate, Facebook app)
 - https://securityheaders.io/ and see [Twitter's list](https://github.com/twitter/secureheaders/blob/master/README.md)
 - https://report-uri.io/home/tools CSP, HKPK, SRI etc.
 - https://www.webpagetest.org/
@@ -402,7 +402,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 - Microsoft/Libre Office (copy-and-paste content or open URL)
-- Adblock and filter lists
+- Adblock and filter lists (Adblock Plus, uBlock Origin, Disconnect, Ghostery)
 
 ### Integration (3rd party services)
 
@@ -446,44 +446,21 @@ Gain access, set up and test.
 ## Monitor
 
 
-https://wiki.apache.org/httpd/ListOfErrors
+See [/monitoring/README.md](/monitoring/README.md)
 
-### Site integrity
+[List of all errors in Apache httpd](https://wiki.apache.org/httpd/ListOfErrors)
 
-- /monitoring/siteprotection.sh
-- tripwire-fake.sh (`wp --quiet core verify-checksums; git status --short`)
-- tripwire.php
+@TODO Report JavaScript errors
 
-
-1. Domain expiry
-1. DNS records
-1. SSL certificate expiry
-1. @TODO `monitoring/rbl-watch.sh`, `rblcheck`, [RBL blacklist monitoring](https://www.rblmon.com/), https://www.projecthoneypot.org/ (also for shared-hosting servers)
-1. HTML source code inspection
-1. Malware: [Sucuri SiteCheck (Safebrowsing)](https://sitecheck.sucuri.net/results/example.com), [Virustotal URL](https://www.virustotal.com/hu/domain/example.com/information/)
-1. Uptime: https://uptimerobot.com/signUp , `shared-hosting-aid/ping.php`, `ping.php?time=$(date "+%s")`
-1. @TODO Detect JavaScript errors
-  - https://bugsnag.com/
-  - Piwik
-  - Google Analytics
-  - report to `/js-error.php`
-  - http://jserrlog.appspot.com/
-  - https://github.com/mperdeck/jsnlog.js
-  - https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
-  - https://github.com/errbit/errbit
-  - https://github.com/airbrake/airbrake-js
-  - handle ad blockers (Adblock Plus, uBlock Origin, Disconnect, Ghostery)
-1. Front page monitoring `monitoring/frontpage-check.sh`
-1. Visual changes: https://visualping.io/ @TODO PhantomJS/slimerJS + `compare -metric MAE/PAE reference.png current.png`
-1. File changes `lucanos/Tripwire`, `lasergoat/Tripwire` (rewrite)
-1. Filter Apache error log `monitoring/apache-xreport.sh` @TODO munin plugin: log size in lines
-1. Monitor Apache error log `monitoring/apache-4xx-report.sh`, `error-log-monitor` plugin on shared hosting, `shared-hosting-aid/remote-log-watch.sh` @TODO Remote rotate error.log
-1. Connected services: trackers, API-s, CDN etc.
-1. Email delivery, also recipient accounts: `can-send-email`
-1. Also for email recipient domains: domain expiry, DNS, blacklist
-1. Speed: https://developers.google.com/speed/pagespeed/insights/ https://www.webpagetest.org/
-1. Google Search Console (was Webmaster Tools)
-1. Traffic: Google Analytics
+- https://bugsnag.com/
+- Piwik
+- Google Analytics
+- Report to `/js-error.php`
+- http://jserrlog.appspot.com/
+- https://github.com/mperdeck/jsnlog.js
+- https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
+- https://github.com/errbit/errbit
+- https://github.com/airbrake/airbrake-js
 
 
 ## Backup
@@ -502,12 +479,14 @@ https://wiki.apache.org/httpd/ListOfErrors
 - Monitoring
 - Backups
 - DNS records
-- Webserver vhost, add placeholder page
 - PHP-FPM pool
+- DB, DB user
+- Webserver vhost, add placeholder page
+- Fail2ban `logpath`
+- Webserver logs
 - Files
 - Linux user
 - Email accounts
-- DB, DB user
 - External resources (3rd party services)
 - [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
-- ... @TODO
+- @TODO
