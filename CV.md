@@ -46,6 +46,26 @@ I hope I'll fit into your picture: viktor@szepe.net
   an English video: https://www.youtube.com/watch?v=8o3g85SeDQ8
 - make mistakes
 
+### Webserver stack
+
+Essentially keep every operation in memory!
+
+- Modern CPU, high *memory* bandwidth as WordPress is mainly memory copying, sub-msec disk access time, try UpCloud!
+- Thin virtualization layer, try UpCloud! Keep away from popular, non-enterprise providers
+- Fast operating system: No systemd, Enough entropy, IRQ balance, Low memory usage
+- Block hammering attackers: Fail2ban, permanently block shadow nets
+- Anycast DNS
+- Quick webserver: Apache Event MPM
+- Parallel connection CDN with RAM-like speeds (Amazon CloudFront)
+- High speed SSL: ECDSA certificate, Entropy source, TLS1.2, Ciphersuites for AES-NI, SSL session cache, OCSP stapling, HTTP/2
+- Modern PHP with OPcache, connected through FastCGI
+- Lean WordPress installation: minimal and audited plugins only
+- Redis in-memory object cache
+- TokuDB (fractal tree) MariaDB engine
+- Resource optimization
+- Cut on JavaScripts
+- Continuous monitoring: Pingdom, HetrixTools
+
 # Szépe Viktor dolgozna egy Vállalatnak
 
 HTTP alapú rendszerek **proaktív** üzemeltetésével foglalkozok,

@@ -17,7 +17,7 @@
 # 4. Set ENVELOPE_FROM address CAMPAIGN name and LIST file name here
 # 5. Test send using addr-test
 # 6. mail-tester.com
-# 7. Save online version WITH Analytics snippet WITHOUT online link, unsub link, tracker image
+# 7. Save part2 as online version REPLACE @@ WITH Analytics snippet WITHOUT online link, unsub link, tracker image
 #
 # <a href="https://example.com/?
 # utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=@@CAMPAIGN@@&amp;utm_content=button">

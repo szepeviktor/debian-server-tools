@@ -19,7 +19,8 @@
 - PageSpeed (PageSpeed Insights, webpagetest.org)
 - Health (Google Search Console aka Webmaster Tools)
 - Traffic (goaccess.sh, Google Analytics)
-- Uptime (monit, pingdom.com)
+- Report JavaScript errors @TODO
+- Uptime (monit, pingdom.com, hetrixtools.com)
 - Dependencies: listed in hosting.yml
 - Dependencies: OCSP response (ocsp-check.sh)
 

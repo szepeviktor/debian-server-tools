@@ -389,6 +389,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Legal
 
+- "Impressum"
 - Privacy policy
 - Terms & Conditions
 - Cookie consent + opt out
