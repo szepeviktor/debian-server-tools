@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.3
+# VERSION       :0.1.4
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,7 +23,7 @@
 # Chain:   ${CN}.chain.crt
 
 # Python user install
-#manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
+manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
 
 set -e
 

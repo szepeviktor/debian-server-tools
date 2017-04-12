@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -102,17 +102,19 @@ openssl genrsa -out "$PRIV" 2048
 # EC key: openssl ecparam -out "$PRIV" -name prime256v1 -genkey
 openssl rsa -in "$PRIV" -noout -text
 read -r -s -n 1 -p "Check private key and press any key ..."
+echo
 
 # Generate request
 editor "${CN}-openssl.conf"
 test -s "${CN}-openssl.conf"
-openssl req -out "$CSR" -new -key "$PRIV" -sha256 \
+openssl req -out "$CSR" -new -key "$PRIV" \
     -config "${CN}-openssl.conf" -verbose
 openssl req -in "$CSR" -noout -text
 read -r -s -n 1 -p "Check request and press any key ..."
 echo
 cat "$CSR"
 read -r -s -n 1 -p "Copy CSR and press any key ..."
+echo
 
 # Get certificate from a CA!
 
@@ -120,6 +122,7 @@ read -r -s -n 1 -p "Copy CSR and press any key ..."
 echo
 echo "http://${CN}/.well-known/pki-validation/fileauth.txt"
 read -r -s -n 1 -p "Create fileauth.txt and press any key ..."
+echo
 
 # Enter intermediate certificate
 editor "$INT"

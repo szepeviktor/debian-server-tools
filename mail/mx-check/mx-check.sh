@@ -2,7 +2,7 @@
 #
 # Clean up an email list.
 #
-# VERSION       :0.4.1
+# VERSION       :0.4.2
 # DATE          :2016-01-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -71,28 +71,28 @@ Addr2dom() {
 Smtp_probe() {
     local MX="$1"
     local -i SMTP_TIMEOUT="$2"
-    #local -i SMTP_PID
+    local -i SMTP_PID
     local FIFO
 
     FIFO="$(mktemp --dry-run)"
     mkfifo --mode 600 "$FIFO"
 
+    # Avoid default notification for SIGTERM
+    trap -- "" SIGTERM
     # Background SMTP process
-    echo -n | nc -w "$SMTP_TIMEOUT" "$MX" 25 1> "$FIFO" 2> /dev/null &
-    #SMTP_PID="$!"
+    nc -d -w "$SMTP_TIMEOUT" "$MX" 25 1> "$FIFO" 2> /dev/null &
+    SMTP_PID="$!"
+    trap SIGTERM
 
     # FIFO closes automatically
 
     if grep -q "^220 " < "$FIFO"; then
-        # @TODO Why kill it? "nc -w 5"
-        # Avoid default notification in non-interactive shell for SIGTERM
-        #trap -- "" SIGTERM
-        #kill -9 "$SMTP_PID" > /dev/null 2>&1
-        #trap SIGTERM
+        kill -s SIGTERM "$SMTP_PID"
         rm "$FIFO"
         return 0
     else
         # No valid answer from MX in 5 seconds
+        kill -s SIGTERM "$SMTP_PID"
         rm "$FIFO"
         return 1
     fi
@@ -220,16 +220,18 @@ Cancel_mailq() {
 [ -s "$DOMAIN_LIST" ] || Die 2 "No addresses passed the cleanup."
 
 # Test MX-s in batches of 50 (26% load on 1 core)
-if ! [ -f "$SMTP_OK_LIST" ]; then
+if [ ! -f "$SMTP_OK_LIST" ]; then
     JOBN="$(mktemp)"
     while read -r D; do
+        # Background MX test
         Conduct_mx_test "$D" &
         jobs -p -r | wc -l > "$JOBN"
-        while [ -z "$(cat "$JOBN")" ] || [ "$(cat "$JOBN")" -gt 50 ]; do
+        while [ ! -s "$JOBN" ] || [ "$(cat "$JOBN")" -gt 50 ]; do
             sleep 1
             jobs -p -r | wc -l > "$JOBN"
         done
     done < "$DOMAIN_LIST"
+    wait
     rm "$JOBN"
 fi
 [ -s "$SMTP_OK_LIST" ] || Die 3 "None of the MX-s are OK."

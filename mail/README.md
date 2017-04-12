@@ -16,14 +16,14 @@
 
 ### Transactional email providers
 
-- https://www.mailjet.com/transactional Made with :heart: in Paris
-- https://www.mailgun.com/ by Rackspace
-- https://aws.amazon.com/ses/ by Amazon
-- https://www.sparkpost.com/
-- https://sendgrid.com/
-- https://www.sendinblue.com/
-- https://www.mandrill.com/ by MailChimp
-- https://postmarkapp.com/ by Wildbit
+- https://www.mailjet.com/transactional Made with :heart: in Paris *free:6000*
+- https://sendgrid.com/ by SendGrid, Inc. *free:12000*
+- https://www.mailgun.com/ by Rackspace *free:10000*
+- https://aws.amazon.com/ses/ by Amazon *free:0*
+- https://www.sparkpost.com/ *free:100 000*
+- https://www.sendinblue.com/ *free:9000*
+- https://www.mandrill.com/ by MailChimp *free:0*
+- https://postmarkapp.com/ by Wildbit *free:1×25000*
 
 [Integrity Mailszolgáltatás (SMTP+IMAP)](https://integrity.hu/mailszolgaltatas/)
 

@@ -62,6 +62,7 @@
 212.52.167.89	allow,BLOCK
 212.52.167.244	allow,BLOCK
 # MegaCP - www.megacp.com.
+91.82.237.28	allow,BLOCK
 194.38.104.210	allow,BLOCK
 # autoresponder.hu @Silihost - azonnalismtpkuldes.autoresponder.hu.
 80.249.160.208	allow,BLOCK
@@ -97,3 +98,9 @@
 # WordPress.org
 66.155.40.8	allow,BLOCK
 66.155.40.19	allow,BLOCK
+# Aruba
+62.149.128.188	allow,BLOCK
+62.149.128.214	allow,BLOCK
+62.149.128.215	allow,BLOCK
+62.149.128.216	allow,BLOCK
+62.149.128.217	allow,BLOCK

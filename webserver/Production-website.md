@@ -112,7 +112,7 @@ Consider transactional email service through HTTP API.
 - Google Search Console ("This site may harm your computer" notification on SERP)
 - Sucuri SiteCheck (includes Google Safe Browsing)
 - Virustotal (HTTP API)
-- Maximum security: convert website into static HTML + [formspree](https://formspree.io/)
+- Maximum security: convert website into static HTML + [formspree](https://formspree.io/) `simply-static`, `static-html-output-plugin`
 
 ### Cron jobs
 
@@ -394,6 +394,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Terms & Conditions
 - Cookie consent + opt out
 - *Operated by*, *Hosted at*
+- `/.well-known/dnt-policy.txt`
 
 ### Compatiblitity
 

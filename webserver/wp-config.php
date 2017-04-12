@@ -59,7 +59,7 @@ define( 'WP_CONTENT_URL', 'http://DOMAIN.URL/static' );
 //define( 'WP_MAX_MEMORY_LIMIT', '384M' );
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'WP_USE_EXT_MYSQL', false );
-define( 'WP_POST_REVISIONS', 10 );
+define( 'WP_POST_REVISIONS', 20 );
 
 //define( 'WP_CACHE', true );
 
