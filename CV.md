@@ -62,7 +62,7 @@ Essentially keep every operation in memory!
 - Lean WordPress installation: minimal and audited plugins only
 - Redis in-memory object cache
 - TokuDB (fractal tree) MariaDB engine
-- Resource optimization
+- Static resource optimization
 - Cut on JavaScripts
 - Continuous monitoring: Pingdom, HetrixTools
 

@@ -16,7 +16,7 @@
 #    cd debian-server-tools-master/
 # 2. Aquire settings: hostname, networking, resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 4. Set up DNS resource records: PTR, A, AAAA, MX (DNS provider)
+# 4. Set up DNS resource records: PTR, A, AAAA, MX (domain provider, DNS provider)
 # 5. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh
@@ -47,7 +47,7 @@
 #
 # Webserver
 #
-# - Apache 2.4 latest with HTTP/2 and event MPM (certificate provider)
+# - Apache 2.4 latest with HTTP/2 and event MPM (CDN provider, certificate provider)
 # - PHP 5.6 or 7.0 through PHP-FPM
 # - CLI tools: WP-CLI, Drush, CacheTool
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]

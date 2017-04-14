@@ -2,62 +2,62 @@
 # Website datasheet
 # Webhely adatlap
 
-domain: example.com
+domain: #example.com
 domain-alias:
-  - www.example.com
-  - example2.com
+  - #www.example.com
+  - #example2.com
 #login-disabled: yes
 contact:
-  name: Gipsz Jakab
-  email: contact@example.com
-  company: ACME Ltd.
-domain-registrar: Domain Reg. Co. <support@domain.com>
+  name: #Gipsz Jakab
+  email: #contact@example.com
+  company: #ACME Ltd.
+domain-registrar: #Domain Reg. Co. <support@domain.com>
 dns:
-  provider: Stable DNS
-  login: webmaster@example.com
+  provider: #Stable DNS
+  login: #webmaster@example.com
 ssl:
   enabled: yes
-  provider: Certificate Authority
-  login: webmaster@example.com
+  provider: #Certificate Authority
+  login: #webmaster@example.com
 cdn:
   enabled: yes
-  provider: Edge Network
-  hostname: cdn.example.com
+  provider: #Edge Network
+  hostname: #cdn.example.com
 email:
-  provider: Mailjet
-  login: webmaster@example.com
+  provider: #Mailjet
+  login: #webmaster@example.com
   bounce-handling: yes
 code:
-  core: WordPress
-  theme: Child/Parent
+  core: #WordPress
+  theme: #Child/Parent
   plugin:
-    - paid-plugins
-    - purchased-plugin
+    - #paid-plugins
+    - #purchased-plugin
 cron:
-  - wp-cron-cli.sh
-  - "job 2"
+  - #wp-cron-cli.sh
+  - #"job 2"
 3rd-party:
   high:
-    - Payment gateway
-    - Invoicing provider
-    - External resources (fonts, video, map)
-    - A/B testing
-    - 3rd-party widget
+    - #Payment gateway
+    - #Invoicing provider
+    - #External resources (fonts, video, map)
+    - #A/B testing
+    - #3rd-party widget
   low:
-    - External search
-    - Newsletter subscription
-    - Live chat
-    - Advertisement campaign
-    - Social campaign
-    - Tracking code, Tag Manager - UA-00000000-1
-    - Call Tracking
-    - Embedded social media content
-    - Mouse tracking
-    - (disabled service)
+    - #External search
+    - #Newsletter subscription
+    - #Live chat
+    - #Advertisement campaign
+    - #Social campaign
+    - #Tracking code, Tag Manager - UA-00000000-1
+    - #Call Tracking
+    - #Embedded social media content
+    - #Mouse tracking
+    - #(disabled service)
 remarks: |
-  website language/s
-  repository URL
-  themplate demo URL
+  #website language/s
+  #repository URL
+  #themplate demo URL
 
 # YAML editor: http://yaml-online-parser.appspot.com/
 #     php -r 'var_export(yaml_parse(file_get_contents("hosting.yml")));'

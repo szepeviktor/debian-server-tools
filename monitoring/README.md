@@ -61,6 +61,10 @@
 - Cloudflare IP ranges
 - URIBL IP address
 
+### Performance tools
+
+http://www.perf-tooling.today/tools
+
 ### Search for errors in a log file
 
 ```bash

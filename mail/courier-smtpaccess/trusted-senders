@@ -104,3 +104,5 @@
 62.149.128.215	allow,BLOCK
 62.149.128.216	allow,BLOCK
 62.149.128.217	allow,BLOCK
+# DotRoll - staffmx.dotroll.com
+185.33.52.26	allow,BLOCK

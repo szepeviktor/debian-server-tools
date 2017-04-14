@@ -2,7 +2,7 @@
 #
 # Clean up an email list.
 #
-# VERSION       :0.4.2
+# VERSION       :0.4.3
 # DATE          :2016-01-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -51,13 +51,17 @@ Progress_failed() {
 Email_cleanup() {
     local LIST="$1"
 
-    # Search, trim
+    # Trim whitespaces
+    #   then search
     #   and convert domain part to lowercase
-    LC_ALL=C grep -o "$EMAIL_REGEXP" "$LIST" \
+    sed -e 's|^[[:blank:]]*||' -e 's|[[:blank:]]*$||' "$LIST" \
+        | LC_ALL=C grep -x "$EMAIL_REGEXP" \
         | LC_ALL=C sed -e 's;^\(.*\)@\(.*\)$;\1@\L\2;'
 
-    # Failed lines
-    LC_ALL=C grep -v "$EMAIL_REGEXP" "$LIST" | grep -v "^\s*$" 1>&2
+    # Failed non-empty lines
+    sed -e 's|^[[:blank:]]*||' -e 's|[[:blank:]]*$||' "$LIST" \
+        | grep -v "^\s*\$" \
+        | LC_ALL=C grep -vx "$EMAIL_REGEXP" 1>&2
 }
 
 # Converts address-per-line files to unique domain list.

@@ -1,5 +1,7 @@
 # Setting up a production WordPress website
 
+Not only a WordPress site!
+
 1. [Installation](#installation)
 1. [Migration](#migration)
 1. [Upgrade](#upgrade)
@@ -405,6 +407,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 - Microsoft/Libre Office (copy-and-paste content or open URL)
 - Adblock and filter lists (Adblock Plus, uBlock Origin, Disconnect, Ghostery)
+- Reader mode (from Firefox `chrome://global/skin/aboutReaderContent.css`)
 
 ### Integration (3rd party services)
 
