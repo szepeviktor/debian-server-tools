@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# Ping RabbitMQ server.
+#
+# VERSION       :0.1.0
+# DOCS          :https://htmlpreview.github.io/?https://github.com/rabbitmq/rabbitmq-management/blob/master/priv/www/api/index.html
+# LOCATION      :/usr/local/sbin/rabbitmq-server-test.sh
+
+RABBITMQ_USER="$1"
+RABBITMQ_PASSWORD="$2"
+# http://127.0.0.1:15672/api
+RABBITMQ_API_URL="$3"
+
+set -e
+
+# Test Management Plugin
+wget -q -t 1 -O - --http-user="$RABBITMQ_USER" --http-password="$RABBITMQ_PASSWORD" \
+    "${RABBITMQ_API_URL}/aliveness-test/%2F" \
+    | grep -Fx '{"status":"ok"}'
+
+wget -q -t 1 -O - --http-user="$RABBITMQ_USER" --http-password="$RABBITMQ_PASSWORD" \
+    "${RABBITMQ_API_URL}/healthchecks/node" \
+    | grep -Fx '{"status":"ok"}'

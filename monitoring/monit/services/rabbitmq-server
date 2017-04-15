@@ -1,0 +1,44 @@
+ check process "rabbitmq" with pidfile "/run/rabbitmq/pid"
+   group "rabbitmq"
+   start program = "/etc/init.d/rabbitmq-server"
+   stop program = "/etc/init.d/rabbitmq-server"
+   if 5 restarts with 5 cycles then unmonitor
+   # AMQP port
+   if failed port 5672 then alert
+   # Inter-node port
+   if failed port 25672 then alert
+   # Erlang Port Mapper Daemon (epmd)
+   if failed port 4369 then alert
+   depends on rabbitmq_bin
+   depends on rabbitmq_test
+   depends on rabbitmq_rc
+   depends on rabbitmq_init
+   depends on rabbitmq_log
+
+ check file "rabbitmq_bin" with path "/usr/lib/rabbitmq/lib/rabbitmq_server-0.0.0/sbin/rabbitmq-server"
+   group "rabbitmq"
+   include "/etc/monit/templates/rootbin"
+
+ check program "rabbitmq_test" with path "/usr/local/sbin/rabbitmq-server-test.sh '@@RABBITMQ_USER@@' '@@RABBITMQ_PASSWORD@@' '@@RABBITMQ_API_URL@@'"
+   with timeout 10 seconds
+   group "rabbitmq"
+   if status != 0 then alert
+   if changed status then alert
+
+ check file "rabbitmq_rc" with path "/etc/rabbitmq/rabbitmq-env.conf"
+   group "rabbitmq"
+   if changed checksum then alert
+   if failed permission 644 then unmonitor
+   if failed uid "rabbitmq" then unmonitor
+   if failed gid "rabbitmq" then unmonitor
+
+ check file "rabbitmq_init" with path "/etc/init.d/rabbitmq-server"
+   group "rabbitmq"
+   include "/etc/monit/templates/rootbin"
+
+ check file "rabbitmq_log" with path "/var/log/rabbitmq/startup_log"
+   group "rabbitmq"
+   # FIXME rabbitmq:adm 0640
+   if failed permission 644 then unmonitor
+   if failed uid "rabbitmq" then unmonitor
+   if failed gid "rabbitmq" then unmonitor

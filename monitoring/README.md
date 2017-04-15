@@ -28,7 +28,7 @@
 
 - RTC, entropy, server integrity (monit)
 - Datacenter: gateway, DNS resolvers (monit)
-- Process, binary, functional test, rc script, init script, log (monit)
+- All processes: binary, functional test, rc script, init script, log (monit)
 - Cron jobs (cron-grandchild.sh, cron-old.sh)
 - Custom kernel updates (ovh-kernel-update.sh)
 - ICMP response (monit)

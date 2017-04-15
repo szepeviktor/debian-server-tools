@@ -1,0 +1,11 @@
+if [ -z "RABBITMQ_USER_DEFAULT" ]; then
+    RABBITMQ_USER_DEFAULT="monitu"
+fi
+if Is_pkg_installed apg; then
+    RABBITMQ_PASSWORD_DEFAULT="$(apg -a 1 -M LCN -m 30 -n 1)"
+elif Is_pkg_installed pwgen; then
+    RABBITMQ_PASSWORD_DEFAULT="$(pwgen -s 30 1)"
+fi
+
+echo "Create a monitoring user for RabbitMQ."
+echo "User name: ${RABBITMQ_USER_DEFAULT} Password: ${RABBITMQ_PASSWORD_DEFAULT}"

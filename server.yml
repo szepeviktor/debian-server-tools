@@ -2,13 +2,13 @@
 # Server datasheet
 system:
     fqdn: host.domain.tld
-    os: Debian “jessie”
-    install-date: 2017-MM-DD
+    os: "Debian “jessie”"
+    install-date: YYYY-MM-DD
     # tput sgr0;for C in {1..7};do tput setaf $C;echo -n "■${C}■  ";tput sgr0;done;echo
     host-color: 7
-    trespass-warning: Ez a szerver A/AZ CÉG használatában áll. Másoknak a belépés tilos.
-    #trespass-warning: This server is used by COMPANY. Unauthorized entry is prohibited.
-    backup-provider: Oktawave OCS
+    trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
+    #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
+    storage-provider: Oktawave OCS
     mail-provider: Mailjet
 
 # Package settings

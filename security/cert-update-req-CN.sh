@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -89,40 +89,43 @@ CSR="request-${TODAY}.csr"
 # Storage directory from canonical name
 read -r -p "CN=" CN
 #CN="example.com"
-
 test -n "$CN"
-CERT_DIR="/root/ssl/${TODAY}-${CN}"
-# shellcheck disable=SC2174
-mkdir -p -m 0700 "$CERT_DIR"
+
+CERT_DIR="./${TODAY}-${CN}"
+mkdir -m 0700 "$CERT_DIR"
 cd "$CERT_DIR"
 
-# Generate private key
-openssl genrsa -out "$PRIV" 2048
-# https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations#Supported_elliptic_curves
-# EC key: openssl ecparam -out "$PRIV" -name prime256v1 -genkey
-openssl rsa -in "$PRIV" -noout -text
-read -r -s -n 1 -p "Check private key and press any key ..."
-echo
+# CSR generation mode
+if [ ! -s "$PRIV" ]; then
+    # Generate private key
+    openssl genrsa -out "$PRIV" 2048
+    ## EC private key
+    ## https://en.wikipedia.org/wiki/Comparison_of_TLS_implementations#Supported_elliptic_curves
+    #openssl ecparam -out "$PRIV" -name prime256v1 -genkey
+    openssl rsa -in "$PRIV" -noout -text
+    read -r -s -n 1 -p "Check private key and press any key ..."
+    echo
 
-# Generate request
-editor "${CN}-openssl.conf"
-test -s "${CN}-openssl.conf"
-openssl req -out "$CSR" -new -key "$PRIV" \
-    -config "${CN}-openssl.conf" -verbose
-openssl req -in "$CSR" -noout -text
-read -r -s -n 1 -p "Check request and press any key ..."
-echo
-cat "$CSR"
-read -r -s -n 1 -p "Copy CSR and press any key ..."
-echo
+    # Generate request
+    editor "${CN}-openssl.conf"
+    test -s "${CN}-openssl.conf"
+    openssl req -out "$CSR" -new -key "$PRIV" \
+        -config "${CN}-openssl.conf" -verbose
+    openssl req -in "$CSR" -noout -text
+    read -r -s -n 1 -p "Check request and press any key ..."
+    echo
+    cat "$CSR"
+    read -r -s -n 1 -p "Copy CSR and press any key ..."
+    echo
 
-# Get certificate from a CA!
+    # Get certificate from a CA!
 
-# HTTP validation file
-echo
-echo "http://${CN}/.well-known/pki-validation/fileauth.txt"
-read -r -s -n 1 -p "Create fileauth.txt and press any key ..."
-echo
+    # HTTP validation file (e.g. for RapidSSL)
+    echo
+    echo "http://${CN}/.well-known/pki-validation/fileauth.txt"
+
+    exit 0
+fi
 
 # Enter intermediate certificate
 editor "$INT"
@@ -148,9 +151,11 @@ APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/
 # Use last Subject Alternative Name as domain name
 #APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
 #
+# Use first Subject Alternative Name as domain name
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}')"
+#
 # Replace wildcard prefix in domain name
 APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
-#
 #
 # Use $APACHE_DOMAIN for determining name of the virtual host config file
 APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"

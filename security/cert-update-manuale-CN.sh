@@ -84,7 +84,6 @@ APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/
 # Replace wildcard prefix in domain name
 APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
 #
-#
 # Use $APACHE_DOMAIN for determining name of the virtual host config file
 APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #

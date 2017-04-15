@@ -35,7 +35,7 @@
    group "GROUP"
    include "/etc/monit/templates/rootbin"
 
- check file "CSERVICE_log" with path "/var/log/SERVICE.log"
+ check file "SERVICE_log" with path "/var/log/SERVICE.log"
    group "GROUP"
    if timestamp > 30 minutes then alert
    if failed permission 640 then unmonitor

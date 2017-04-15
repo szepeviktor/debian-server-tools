@@ -16,7 +16,7 @@
 #    cd debian-server-tools-master/
 # 2. Aquire settings: hostname, networking, resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 4. Set up DNS resource records: PTR, A, AAAA, MX (domain provider, DNS provider)
+# 4. Set up DNS resource records: PTR, A, AAAA, MX (domain registrar, DNS provider)
 # 5. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh
@@ -39,7 +39,7 @@
 # - Hardware TRNG or HAVEGE generator
 # - Fail2ban and blocking dangerous networks
 # - Monit monitoring
-# - Courier MTA (email provider)
+# - Courier MTA (mail provider)
 # - System backup with S3QL (storage provider)
 # - Nice motd welcome screen
 # - Package managers: composer, pip, npm

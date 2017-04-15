@@ -11,7 +11,9 @@ contact:
   name: #Gipsz Jakab
   email: #contact@example.com
   company: #ACME Ltd.
-domain-registrar: #Domain Reg. Co. <support@domain.com>
+domain:
+  registrar: #Domain Reg. Co.
+  email: #support@domain.reg
 dns:
   provider: #Stable DNS
   login: #webmaster@example.com
@@ -25,7 +27,7 @@ cdn:
   hostname: #cdn.example.com
 email:
   provider: #Mailjet
-  login: #webmaster@example.com
+  login: #postmaster@example.com
   bounce-handling: yes
 code:
   core: #WordPress
