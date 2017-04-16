@@ -2,57 +2,57 @@
 
 ### Datasheets
 
-- Server (server.yaml)
-- Website (hosting.yaml)
-- Project readme (Project.md)
-- PHP extensions (php-env-check.php)
+- Server ([server.yaml](/server.yml))
+- Website ([hosting.yaml](/webserver/hosting.yml))
+- Project readme ([Project.md](/webserver/Project.md))
+- PHP extensions ([php-env-check.php](/webserver/php-env-check.php))
 
 ### Per website and dependency monitoring
 
-- DNS resource records (dns-watch.sh)
+- DNS resource records ([dns-watch.sh](/monitoring/dns-watch.sh))
 - HTTP message body (aka HTML source code)
-- Visual change (visualping.io)
-- HTTPS certificate and SSL settings (ssl-check.sh, ssllabs.com)
-- File changes (tripwire-fake.sh)
-- Application log (laravel-report.sh)
-- Malware listing (sitecheck.sucuri.net)
-- PageSpeed (PageSpeed Insights, webpagetest.org)
-- Health (Google Search Console aka Webmaster Tools)
-- Traffic (goaccess.sh, Google Analytics)
+- Visual change ([visualping.io](https://visualping.io/))
+- HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/))
+- File changes ([tripwire-fake.sh](/monitoring/tripwire-fake.sh))
+- Application log ([laravel-report.sh](/monitoring/laravel-report.sh))
+- Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/))
+- PageSpeed ([PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/), [webpagetest.org](https://www.webpagetest.org/))
+- Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
+- Traffic ([goaccess.sh](/webserver/goaccess.sh), [Google Analytics](https://analytics.google.com/analytics/web/))
 - Report JavaScript errors @TODO
-- Uptime (monit, pingdom.com, hetrixtools.com)
-- Dependencies: listed in hosting.yml
-- Dependencies: OCSP response (ocsp-check.sh)
+- Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetrixtools.com/))
+- Dependencies: listed in [hosting.yaml](/webserver/hosting.yml)
+- Dependencies: OCSP response ([ocsp-check.sh](/monitoring/ocsp-check.sh))
 
 ### Per host monitoring
 
-- RTC, entropy, server integrity (monit)
-- Datacenter: gateway, DNS resolvers (monit)
-- All processes: binary, functional test, rc script, init script, log (monit)
-- Cron jobs (cron-grandchild.sh, cron-old.sh)
-- Custom kernel updates (ovh-kernel-update.sh)
-- ICMP response (monit)
-- SSH port (ssh-watch.sh, monit)
-- SMTP port (monit)
+- RTC, entropy, server integrity ([monit](/monitoring/monit/services))
+- Datacenter: gateway, DNS resolvers ([monit](/monitoring/monit/services))
+- All processes: binary, functional test, rc script, init script, log ([monit](/monitoring/monit/services))
+- Cron jobs ([cron-grandchild.sh](/monitoring/cron-grandchild.sh), [cron-old.sh](/monitoring/cron-old.sh))
+- Custom kernel updates ([ovh-kernel-update.sh](/security/ovh-kernel-update.sh))
+- ICMP response ([monit](/monitoring/monit/services))
+- SSH port ([ssh-watch.sh](/monitoring/ssh-watch.sh), [monit](/monitoring/monit/services))
+- SMTP port ([monit](/monitoring/monit/services))
 - MySQL table corruption and optimization
-- SSL certificates in responses (ssl-check.sh)
-- SSL certificate files (cert-expiry.sh)
-- Apache logs (apache-4xx-report.sh, apache-xreport.sh)
-- File changes (siteprotection.sh)
-- Errors in syslog (syslog-errors.sh)
-- RBL - DNS blacklists
-- Email deliverability (can-send-email.sh)
+- SSL certificates in responses ([ssl-check.sh](/monitoring/ssl-check.sh))
+- SSL certificate files ([cert-expiry.sh](/monitoring/cert-expiry.sh))
+- Apache logs ([apache-4xx-report.sh](/monitoring/apache-4xx-report.sh), [apache-xreport.sh](/monitoring/apache-xreport.sh))
+- File changes ([siteprotection.sh](/monitoring/siteprotection.sh))
+- Errors in syslog ([syslog-errors.sh](/monitoring/syslog-errors.sh))
+- RBL - DNS blacklists ([hetrixtools.com](https://hetrixtools.com/), [RBLTracker](https://rbltracker.com/), [RBLmon](https://www.rblmon.com/))
+- Email deliverability ([can-send-email.sh](/monitoring/cse))
 - Recipient domain and DNS
-- TOP 10 mailfolders (top10-mailfolders.sh)
-- S.M.A.R.T. attributes (smart-zeros.sh)
+- TOP 10 mailfolders ([top10-mailfolders.sh](/monitoring/top10-mailfolders.sh))
+- S.M.A.R.T. attributes ([smart-zeros.sh](/monitoring/smart-zeros.sh))
 - Traffic spikes: HTTP, SMTP
-- Uptime (monit, healthchecks.io)
-- Performance graphs (munin)
+- Uptime ([monit](/monitoring/monit/services), [healthchecks.io](https://healthchecks.io/))
+- Performance graphs ([munin](/monitoring/munin))
 
 ### Per domain monitoring
 
 - Domain locking
-- Domain expiry (domain-expiry.sh)
+- Domain expiry ([domain-expiry.sh](/monitoring/domain-expiry.sh))
 - RBL - DNS blacklists
 
 ### Monitoring of 3rd-parties

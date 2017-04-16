@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra texlive-fonts-recommended \
     && rm -rf /var/lib/apt/lists/*
 RUN pip install -U cython==0.24.1 sphinx pycrypto defusedxml requests \
-    "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0" "pytest >= 2.3.3" pytest-catchlog
+    "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0" "pytest >= 2.7" pytest-catchlog
 # apsw must be the same version as libsqlite3
 # dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed -e 's|-.*$|-r1|'
 # "apsw == 3.15.2-r1" in stretch

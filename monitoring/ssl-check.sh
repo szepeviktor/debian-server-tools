@@ -2,14 +2,14 @@
 #
 # Check SSL secured services.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2017-03-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/ssl-check
-# CRON-DAILY    :/usr/local/bin/ssl-check
+# LOCATION      :/usr/local/bin/ssl-check.sh
+# CRON-DAILY    :/usr/local/bin/ssl-check.sh
 
 # Configuration syntax
 #
