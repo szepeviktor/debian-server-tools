@@ -1,5 +1,7 @@
 {
-  "comment": "Install WordPress by using composer packages.",
+  "name": "szepeviktor/wordpress",
+  "description": "Install WordPress by using composer packages.",
+  "license": "MIT",
 
   "repositories": [
     {
@@ -11,9 +13,9 @@
     "php": ">=5.4",
     "johnpbloch/wordpress": "4.7.*",
     "fancyguy/wordpress-monolog": "dev-master",
-    "wpackagist-plugin/advanced-custom-fields": "*",
+    "wpackagist-plugin/advanced-custom-fields": "4.4.*",
     "wpackagist-plugin/posts-to-posts": "1.6.*",
-    "wpackagist-plugin/timber-library": "*"
+    "wpackagist-plugin/timber-library": "1.2.*"
   },
   "extra": {
     "wordpress-install-dir": "wp",
