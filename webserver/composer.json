@@ -1,0 +1,30 @@
+{
+  "comment": "Install WordPress by using composer packages.",
+
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "johnpbloch/wordpress": "4.7.*",
+    "fancyguy/wordpress-monolog": "dev-master",
+    "wpackagist-plugin/advanced-custom-fields": "*",
+    "wpackagist-plugin/posts-to-posts": "1.6.*",
+    "wpackagist-plugin/timber-library": "*"
+  },
+  "extra": {
+    "wordpress-install-dir": "wp",
+    "installer-paths" : {
+      "static/plugins/{$name}/": [ "type:wordpress-plugin" ]
+    }
+  },
+  "scripts": {
+      "post-update-cmd": [
+        "cp wp/wp-content/plugins/index.php static/plugins/",
+        "cp -a wp/wp-content/themes static/"
+      ]
+  }
+}

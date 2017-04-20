@@ -81,6 +81,19 @@ Add to `/usr/lib/s3ql/s3ql/fsck.py` in `main()` after `if param['seq_no'] > seq_
             param['needs_fsck'] = True
 ```
 
+### B2 on BackBlaze
+
+```
+cat > ~/.s3ql/authinfo2 <<EOF
+[blackbaze]
+storage-url: b2://B2_BUCKET/B2_PREFIX_
+backend-login: B2_ACCOUNT_ID
+backend-password: B2_APPLICATION_KEY
+fs-passphrase: $(apg -m32 -n1)
+EOF
+chmod -v 0600 ~/.s3ql/authinfo2
+```
+
 ### S3QL on OVH
 
 Paste OpenStack configuration into `openrc.sh`, set `OS_PASSWORD`

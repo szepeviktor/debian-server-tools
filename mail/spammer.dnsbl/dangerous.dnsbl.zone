@@ -49,6 +49,8 @@ $TTL 60
 
 # AS4134 - China Telecom
 117.64.0.0/13    CN_CHINANET Anhui@CHINANET/AS4134
+# UDP scan
+122.224.153.104/29 CN_JINFANDA-CHEMICAL-LTD@CHINANET/AS4134
 
 # !reclaimed! AS63854 - HEETHAI-HK https://www.hkcert.org/my_url/en/blog/15042901
 

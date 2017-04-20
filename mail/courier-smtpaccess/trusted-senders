@@ -104,5 +104,8 @@
 62.149.128.215	allow,BLOCK
 62.149.128.216	allow,BLOCK
 62.149.128.217	allow,BLOCK
-# DotRoll - staffmx.dotroll.com
+# DotRoll - staffmx.dotroll.com.
 185.33.52.26	allow,BLOCK
+# RU-CENTER NCC - relay1o.nic.ru. relay2o.nic.ru.
+109.70.27.60	allow,BLOCK
+31.177.69.4	allow,BLOCK

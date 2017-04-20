@@ -3,11 +3,11 @@
 - Beírták az URL-t (ez kb. lehetetlen)
 - A böngészőben megkönyvjelzőzték a honlapot, és úgy nyitották meg (csak visszatérők)
 - Email-ben (pl. hírlevélben vagy aláírásban) lévő linkre katttintottak
-- Skype, Slack vagy más asztali (chat) programban (nem böngésző) kattintottak
-- PDF-ben, Word DOC-ban, DOCX-ben, Excel táblázatban lévő linkre kattintottak
+- Skype, Slack vagy más asztali (chat) programban - nem böngészőben - kattintottak
+- PDF-ben, Word DOC-ban, Excel táblázatban lévő linkre kattintottak
 - Mobil alkalmazásban kattintottak
 - HTTPS-es honlapon/webmailben stb. lévő linkre kattintottak, és a mi honlapunk HTTP-s (nem HTTPS-es)
-- Olyan URL rövidítő szolgáltatással készült linkre kattintottak, ami JavaScript-es átirányítást használnak (ritka)
+- Olyan URL rövidítő szolgáltatással készült linkre kattintottak, ami JavaScript-es átirányítást használ (ritka)
 
 **Az ilyen linkekre érdemes `utm` kampánykódot rakni.**
 

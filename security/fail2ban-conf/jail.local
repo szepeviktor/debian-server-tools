@@ -6,9 +6,12 @@
 
 [DEFAULT]
 #          localhost   own IP
-#                             proxy         Googlebot      PayPal IPN    Amazon CloudFront
+#                                    proxy         Googlebot      PayPal IPN    Amazon CloudFront
 ignoreip = 127.0.0.0/8 @@IP@@ 88.151.99.143 66.249.64.0/19 173.0.80.0/22 52.32.0.0/11 54.72.0.0/13 54.80.0.0/12 54.240.128.0/18 54.224.0.0/12 205.251.192.0/18 216.137.32.0/19
 # WARNING! multiline error gh-1432
+
+# @FIXME gh-1587
+logencoding = utf-8
 
 # ignorecommand = /path/to/command <ip>
 ignorecommand =
