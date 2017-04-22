@@ -14,3 +14,4 @@
 - Serve separate `robots.txt` for CDN
 - Log `X-Forwarded-For` - in place of referer in `combined` log format
 - Don't let browsers send cookies to CDN on a subdomain
+- Add `Host:` to both `robots.txt`-s

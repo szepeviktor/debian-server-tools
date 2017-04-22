@@ -185,5 +185,7 @@ editor /etc/courier/esmtpauthclient
 # Fill in hosting.yml
 # See /webserver/hosting.yml
 
-# Google Search Console (Webmaster Tools)
+# Webmaster tools
 echo "https://www.google.com/webmasters/tools/dashboard?siteUrl=https://${DOMAIN}/"
+echo "https://www.bing.com/webmaster/home/addsite?from=mysites&addurl=https://${DOMAIN}/"
+echo "https://webmaster.yandex.com/site/https:${DOMAIN}:443/access/"

@@ -17,7 +17,7 @@
 ### Transactional email providers
 
 - https://www.mailjet.com/transactional Made with :heart: in Paris *free:6000*
-- https://sendgrid.com/ by SendGrid, Inc. *free:12000*
+- https://sendgrid.com/ by [SendGrid, Inc.](https://goo.gl/maps/CoKwghgFJdH2) *free:12000*
 - https://www.mailgun.com/ by Rackspace *free:10000*
 - https://aws.amazon.com/ses/ by Amazon *free:0*
 - https://www.sparkpost.com/ *free:100 000*
@@ -245,7 +245,7 @@ See also https://ssl-tools.net/
 
 #### SPF (HELO, MAIL FROM:)
 
-- setup http://www.spfwizard.net/
+- setup https://tools.sparkpost.com/spf/builder http://www.spfwizard.net/
 - check http://www.kitterman.com/spf/validate.html http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
 - For non-email domains: `v=spf1 -all`

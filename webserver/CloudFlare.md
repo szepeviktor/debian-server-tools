@@ -1,11 +1,13 @@
 # Setup a website on the CloudFlare platform
 
+CloudFlare has a data center in Budapest!
+
 1. Set up cloudflare.local Fail2ban action
 1. Add new LogFormat
 1. Create IPv4 address list
 1. Set up mod_remoteip
 1. Reload apache
-1. Install [list update script](./cloudflare-ipv4-update.sh)
+1. Install [IP list update script](./cloudflare-ipv4-update.sh)
 
 ### Operation
 
@@ -42,6 +44,23 @@ Apache mod_remoteip module. Add to each vhost config.
 ```
 
 `a2enmod remoteip && apache2ctl configtest && service apache2 reload`
+
+### CDN-only settings
+
+Use a CNAME. May be the CNAME of *another* domain.
+
+- Always serve files on HTTPS, and redirect HTTP traffic to HTTPS
+- Don't forward cookies
+- Don't forward and base caching on query string
+
+### CDN-only origin settings
+
+- URL rewriting - `tiny-cdn` plugin
+- Set canonical HTTP header for CDN requests - `Link: <https://example.com/path/image.jpg>; rel="canonical"`
+- Serve separate `robots.txt` for CDN
+- Log `X-Forwarded-For` - in place of referer in `combined` log format
+- Don't let browsers send cookies to CDN on a subdomain
+- Add `Host:` to both `robots.txt`-s
 
 ### Notes
 

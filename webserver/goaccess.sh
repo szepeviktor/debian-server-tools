@@ -29,6 +29,9 @@ Goaccess() {
 }
 #                    worker
 #                    proxy
+# cat /etc/apache2/conf-available/cloudflare-ipv4.list \
+#  | xargs -n1 sipcalc | sed -n 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
+#  | xargs -n1 bash -c 'echo --exclude-ip=$0' | paste -s -d ' '
 
 Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log
 

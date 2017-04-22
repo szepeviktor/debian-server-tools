@@ -18,7 +18,8 @@ add sprint.pl 156.67.106.0/24
 #add sprint.pl 188.68.240.0/20     "SPRINT" S.A.
 #add sprint.pl 191.96.35.0/24      Edettohost Sp. z o. o.
 #add sprint.pl 193.42.147.0/24     -
-add sprint.pl 195.22.126.0/23     "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
+# "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
+add sprint.pl 195.22.126.0/23
 
 # !Not Announced! See AS203937 - CYFROTEL
 #add ering.pl 185.125.5.0/24

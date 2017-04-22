@@ -157,6 +157,13 @@ Use real cron job.
 <!-- Setup & Maintenance: Viktor Szépe <viktor@szepe.net> -->
 ```
 
+### Webmaster tools
+
+- Google Search Console
+- Bing Webmaster
+- Yandex Webmaster
+
+
 ## Migration
 
 
