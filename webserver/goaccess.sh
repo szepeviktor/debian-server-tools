@@ -2,49 +2,174 @@
 #
 # Real-time web log analyzer.
 #
-# DEPENDS       :apt-get install goaccess
-# VERSION       :0.1.5
+# VERSION       :0.2.0
+# DEPENDS       :apt-get install goaccess sipcalc jq
+
+# Usage
+#
+# Rebuild goaccess with #define MAX_IGNORE_IPS 1024 in src/settings.h
+#
+#     ./goaccess.sh [GOACCESS-OPTIONS]
 
 U="$(stat . -c %U)"
-#U="${1:-default-user}"
-
+#U="${1:-defaultuser}"
 HTTPS="ssl-"
+#HTTPS=""
+EXCLUDES="amazon_cloudfront pingdom cloudflare szepenet"
+#EXCLUDES="amazon_cloudfront pingdom cloudflare szepenet custom"
 
-test -z "$IP" && exit 1
+Exclude_custom() {
+    local IPLIST
+    local CUSTOM_HOST="example.com"
+
+    if ! Exclude_enabled custom; then
+        return
+    fi
+
+    IPLIST="$(host -t A "$CUSTOM_HOST" | cut -d " " -f 4)"
+
+    echo "$IPLIST" | Make_excludes
+}
+
+Exclude_szepenet() {
+    local IPLIST
+
+    if ! Exclude_enabled szepenet; then
+        return
+    fi
+
+    #       worker       proxy
+    IPLIST="81.2.236.171,88.151.99.143"
+
+    echo "$IPLIST" | tr ',' '\n' | Make_excludes
+}
+
+Get_cache_file() {
+    local URL="$1"
+    local CACHE_HOME
+    local URL_SHA
+    local CACHE_FILE
+    local TIMESTAMP_FILE
+
+    # Cache dir
+    if [ -d "$XDG_CACHE_HOME" ]; then
+        CACHE_HOME="$XDG_CACHE_HOME"
+    else
+        CACHE_HOME="${HOME}/.cache"
+    fi
+    if [ ! -d "${CACHE_HOME}/goaccess" ]; then
+        mkdir -p "${CACHE_HOME}/goaccess"
+    fi
+
+    URL_SHA="$(echo -n "$URL" | shasum -a 256 | cut -d " " -f 1)"
+    CACHE_FILE="${CACHE_HOME}/goaccess/${URL_SHA}"
+    TIMESTAMP_FILE="${CACHE_HOME}/goaccess/${URL_SHA}.timestamp"
+
+    if [ -f "$CACHE_FILE" ] && [ -f "$TIMESTAMP_FILE" ]; then
+        if [ "$(cat "$TIMESTAMP_FILE")" -lt "$(date -d "1 day ago" "+%s")" ]; then
+            # Exists & Expired -> download
+            rm "$CACHE_FILE" "$TIMESTAMP_FILE"
+        fi
+    fi
+
+    # Does not exist -> download
+    if [ ! -f "$CACHE_FILE" ] || [ ! -f "$TIMESTAMP_FILE" ]; then
+        wget -t 1 -q -O "$CACHE_FILE" "$URL"
+        date "+%s" > "$TIMESTAMP_FILE"
+    fi
+
+    echo "$CACHE_FILE"
+}
+
+Exclude_enabled() {
+    local NAME="$1"
+    local PADDED_EXCLUDES=" ${EXCLUDES} "
+
+    test "${PADDED_EXCLUDES/ ${NAME} /}" != "$PADDED_EXCLUDES"
+}
+
+Make_excludes() {
+    # shellcheck disable=SC2016
+    xargs -n 1 bash -c 'echo -n " --exclude-ip=$0"'
+}
+
+Exclude_cloudflare() {
+    local IPLIST
+
+    if ! Exclude_enabled cloudflare; then
+        return
+    fi
+
+    IPLIST="$(Get_cache_file "https://www.cloudflare.com/ips-v4")"
+
+    < "$IPLIST" xargs -n 1 sipcalc | sed -n -e 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
+        | Make_excludes
+}
+
+Exclude_pingdom() {
+    local IPLIST
+
+    if ! Exclude_enabled pingdom; then
+        return
+    fi
+
+    IPLIST="$(Get_cache_file "https://my.pingdom.com/probes/ipv4")"
+
+    < "$IPLIST" Make_excludes
+}
+
+Exclude_amazon_cloudfront() {
+    local IPLIST
+
+    if ! Exclude_enabled amazon_cloudfront; then
+        return
+    fi
+
+    IPLIST="$(Get_cache_file "https://ip-ranges.amazonaws.com/ip-ranges.json")"
+
+    < "$IPLIST" jq -r ".prefixes[].ip_prefix" \
+        | xargs -n 1 sipcalc | sed -n -e 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
+        | Make_excludes
+}
 
 Goaccess() {
+    local GEOIP_DB="/var/lib/geoip-database-contrib/GeoLiteCity.dat"
+
+    # shellcheck disable=SC2046
     goaccess \
         --ignore-crawlers \
         --agent-list \
         --http-method=yes \
         --all-static-files \
-        --geoip-city-data=/var/lib/geoip-database-contrib/GeoLiteCity.dat \
+        --geoip-city-data="$GEOIP_DB" \
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
-        --date-format='%d/%b/%Y' \
-        --time-format='%T' \
-        --exclude-ip=81.2.236.171 \
-        --exclude-ip=88.151.99.143 \
+        --date-format="%d/%b/%Y" \
+        --time-format="%T" \
+        $(Exclude_amazon_cloudfront) \
+        $(Exclude_pingdom) \
+        $(Exclude_cloudflare) \
+        $(Exclude_szepenet) \
+        $(Exclude_custom) \
         --exclude-ip="$IP" \
         "$@"
 }
-#                    worker
-#                    proxy
-# cat /etc/apache2/conf-available/cloudflare-ipv4.list \
-#  | xargs -n1 sipcalc | sed -n 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
-#  | xargs -n1 bash -c 'echo --exclude-ip=$0' | paste -s -d ' '
 
-Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log
+# Own IP should be defined in .bashrc
+if [ -z "$IP" ]; then
+    exit 1
+fi
+
+Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log"
 
 # List log files by size
-# ls -lSr /var/log/apache2/*access.log
+#     ls -lSr /var/log/apache2/*access.log
 
-# Multiple log files (not realtime)
+# Multiple log files (not real time)
 #cat /var/log/apache2/${U}-{ssl-,}access.log | Goaccess
 
-
 # HTML output
-#Goaccess -f /var/log/apache2/${U}-${HTTPS}access.log > /home/${U}/website/html/stat.html
+#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" > "/home/${U}/website/html/stat.html"
 
 # HTML output from multiple log files
-#zcat /var/log/apache2/${U}-{ssl-,}access.log.{3,2}.gz | Goaccess > stat-30.html
-#cat /var/log/apache2/${U}-{ssl-,}access.log{1,} | Goaccess > /home/${U}/website/html/stat.html
+#( zcat /var/log/apache2/${U}-{ssl-,}access.log.{3,2}.gz
+#  cat /var/log/apache2/${U}-{ssl-,}access.log{1,} ) | Goaccess > "/home/${U}/website/html/stat.html"
