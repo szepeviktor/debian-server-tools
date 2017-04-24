@@ -2,7 +2,7 @@ Source: goaccess
 Section: utils
 Priority: extra
 Maintainer: Chris Taylor <ctaylor@debian.org>
-Build-Depends: debhelper (>= 9), autotools-dev, libncurses5-dev, libglib2.0-dev, libgeoip-dev, autoconf
+Build-Depends: debhelper (>= 9), dh-autoreconf, autotools-dev, libncurses5-dev, libncursesw5-dev, libglib2.0-dev, libgeoip-dev
 Standards-Version: 3.9.6
 Homepage: https://goaccess.io/
 
