@@ -8,25 +8,25 @@ domain-alias:
   - #example2.com
 #login-disabled: yes
 contact:
-  name: #Gipsz Jakab
+  name: #"Gipsz Jakab"
   email: #contact@example.com
-  company: #ACME Ltd.
+  company: #"ACME Ltd."
 domain:
-  registrar: #Domain Reg. Co.
+  registrar: #"Domain Reg. Co."
   email: #support@domain.reg
 dns:
-  provider: #Stable DNS
+  provider: #"Stable DNS"
   login: #webmaster@example.com
 ssl:
   enabled: yes
-  provider: #Certificate Authority
+  provider: #"Certificate Authority"
   login: #webmaster@example.com
 cdn:
   enabled: yes
-  provider: #Edge Network
+  provider: #"Edge Network"
   hostname: #cdn.example.com
 email:
-  provider: #Mailjet
+  provider: #"Mailjet"
   login: #postmaster@example.com
   bounce-handling: yes
 code:
@@ -57,9 +57,10 @@ cron:
     - #Mouse tracking
     - #(disabled service)
 remarks: |
-  #website language/s
-  #repository URL
-  #themplate demo URL
+  #languages: HU
+  #issues: URL
+  #repository: URL
+  #template-demo: URL
 
 # YAML editor: http://yaml-online-parser.appspot.com/
 #     php -r 'var_export(yaml_parse(file_get_contents("hosting.yml")));'

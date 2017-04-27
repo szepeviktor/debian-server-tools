@@ -18,6 +18,7 @@ HTTPS="ssl-"
 EXCLUDES="amazon_cloudfront pingdom cloudflare szepenet"
 #EXCLUDES="amazon_cloudfront pingdom cloudflare szepenet custom"
 
+# https://myip.ms/info/bots/Google_Bing_Yahoo_Facebook_etc_Bot_IP_Addresses.html
 Exclude_custom() {
     local IPLIST
     local CUSTOM_HOST="example.com"

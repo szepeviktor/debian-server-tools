@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.5
+# VERSION       :0.4.6
 # DATE          :2017-01-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -71,8 +71,6 @@ HTTPAPI3_DSHIELD="https://dshield.org/api/ip/%s"
 
 # IP list
 
-# https://www.openbl.org/lists.html
-LIST_OPENBL="https://www.openbl.org/lists/base.txt"
 # http://cinsscore.com/#list
 #LIST_CINSSCORE="http://cinsscore.com/list/ci-badguys.txt"
 # https://greensnow.co/
@@ -99,6 +97,11 @@ LIST_AVAULT="https://reputation.alienvault.com/reputation.snort"
 #COMMENTED_LIST_DRSK_BFB="http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
 #LIST_ABUSE_FEODO="https://feodotracker.abuse.ch/blocklist/?download=ipblocklist"
 #LIST_ABUSE_ZEUS="https://zeustracker.abuse.ch/blocklist.php?download=badips"
+
+# Old
+## Shutdown in May 2017
+## https://www.openbl.org/lists.html
+##LIST_OPENBL="https://www.openbl.org/lists/base.txt"
 
 # Servers only, no humans
 declare -a AS_HOSTING=(
@@ -496,10 +499,6 @@ Match_any() {
         Log_match "blde"
         return 0
     fi
-    if Match_list "$LIST_OPENBL" "$IP"; then
-        Log_match "openbl"
-        return 0
-    fi
     if Match_country A1 "$IP"; then
         Log_match "anonymous-proxy"
         return 0
@@ -555,9 +554,6 @@ Match_all() {
     fi
     if Match_list "$LIST_BLDE_1H" "$IP"; then
         echo "blde-1h"
-    fi
-    if Match_list "$LIST_OPENBL" "$IP"; then
-        echo "openbl"
     fi
     if Match_dnsbl3 "$DNSBL3_DANGEROUS" "$IP"; then
         echo "dangerous"

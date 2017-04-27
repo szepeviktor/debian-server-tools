@@ -303,15 +303,15 @@ Webmin() {
 Check_requirements
 Protect_certs
 
-Courier_mta && Readkey
+Courier_mta; Readkey
 
-Proftpd && Readkey
+Proftpd; Readkey
 
-Apache2 && Readkey
+Apache2; Readkey
 
-Nginx && Readkey
+Nginx; Readkey
 
-Dovecot && Readkey
+Dovecot; Readkey
 
 Webmin
 

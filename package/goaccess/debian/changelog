@@ -1,4 +1,4 @@
-goaccess (1.2-1) stable; urgency=medium
+goaccess (1:1.2-1) stable; urgency=medium
 
   * New upstream release.
   * Fix lintian messages.

@@ -52,6 +52,7 @@ Use a CNAME. May be the CNAME of *another* domain.
 - Always serve files on HTTPS, and redirect HTTP traffic to HTTPS
 - Don't forward cookies
 - Don't forward and base caching on query string
+- Turn AlwaysOnline off (makes `/` requests)
 
 ### CDN-only origin settings
 
