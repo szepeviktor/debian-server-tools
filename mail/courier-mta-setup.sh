@@ -39,7 +39,7 @@ exit 0
 # 3. filters
 # 4. DEFAULTDELIVERY
 
-# ${D}/package/config-compare.sh
+# /package/config-compare.sh
 
 # gamin for courier-imap
 
@@ -280,3 +280,6 @@ editor /etc/courier/smtpaccess/default
 #     domain.net.  IN  MX  50 tarbaby.domain.net.
 
 # BLACKLISTS="-block=bl.blocklist.de"
+
+# FORGED_YAHOO_RCVD check_for_forged_yahoo_received_headers()
+# grep -Ex "[^.]+(\.(access|consmr|stg\.consmr|biz|sbc|vespa|bt|prem|asd|sb))?(\.bullet)?\.mail\.[a-z][a-z][1-9]\.yahoo\.com\."

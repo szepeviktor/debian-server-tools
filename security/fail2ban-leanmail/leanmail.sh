@@ -46,7 +46,7 @@ DNSBL1_HTTPBL="${DNSBL1_HTTPBL_ACCESSKEY}.%s.dnsbl.httpbl.org"
 # https://www.spamhaus.org/zen/
 DNSBL2_SPAMHAUS="%s.zen.spamhaus.org"
 # Private list of dangerous networks
-# See: ${D}/mail/spammer.dnsbl/dangerous.dnsbl.zone
+# See: /mail/spammer.dnsbl/dangerous.dnsbl.zone
 DNSBL3_DANGEROUS="%s.dangerous.dnsbl"
 # https://www.torproject.org/projects/tordnsel.html.en
 DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"

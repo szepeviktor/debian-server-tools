@@ -60,20 +60,23 @@ port     = @@SSHPORT@@
 enabled  = true
 logpath  = /var/log/apache2/access.log
 maxretry = 3
-bantime  = 86400 ; 24h
+# 24h
+bantime  = 86400
 
 [apache-combined]
 enabled  = true
 logpath  = %(apache_error_log)s
 maxretry = 6
-bantime  = 86400 ; 24h
+# 24h
+bantime  = 86400
 port     = http,https
 
 [apache-instant]
 enabled  = true
 logpath  = %(apache_error_log)s
 maxretry = 1
-bantime  = 86400 ; 24h
+# 24h
+bantime  = 86400
 port     = http,https
 
 [apache-cf1-combined]
@@ -81,7 +84,8 @@ port     = http,https
 filter   = apache-combined
 logpath  = /var/log/apache2/*errorCF.log
 maxretry = 6
-bantime  = 86400 ; 24h
+# 24h
+bantime  = 86400
 action   = %(action_cf1_mgl)s
 cf1email = 
 cf1apikey= 
@@ -91,7 +95,8 @@ cf1apikey=
 filter   = apache-instant
 logpath  = /var/log/apache2/*errorCF.log
 maxretry = 1
-bantime  = 86400 ; 24h
+# 24h
+bantime  = 86400
 action   = %(action_cf1_mgl)s
 cf1email = 
 cf1apikey= 
@@ -99,7 +104,8 @@ cf1apikey=
 [suhosin]
 #enabled  = true
 logpath  = %(suhosin_log)s
-bantime  = 604800  ; 1 week
+# 1 week
+bantime  = 604800
 port     = http,https
 
 [horde]
@@ -112,13 +118,13 @@ port     = http,https
 #enabled  = true
 maxretry = 3
 
-[courier-smtp-instant]
-#enabled  = true
-maxretry = 1
-
 [courier-auth]
 #enabled  = true
 maxretry = 3
+
+[courier-auth-instant]
+#enabled  = true
+maxretry = 1
 
 [proftpd]
 # When the default locale for your system is not en_US.UTF-8
@@ -143,9 +149,11 @@ action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpa
 [recidive]
 enabled  = true
 logpath  = /var/log/fail2ban.log
-findtime = 604800  ; 1 week
+# 1 week
+findtime = 604800
 maxretry = 3
-bantime  = 604800  ; 1 week
+# 1 week
+bantime  = 604800
 # No email alert
 action   = iptables-allports[name=recidive]
 #           cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]

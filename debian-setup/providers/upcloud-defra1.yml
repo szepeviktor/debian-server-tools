@@ -1,5 +1,4 @@
 # UpCloud defra1
-# UpCloud datacenters: defra1, fihel1, uklon1, uschi1
 hosting-company: UpCloud
 virtualization: kvm
 networking:

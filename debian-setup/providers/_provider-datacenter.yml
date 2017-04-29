@@ -12,7 +12,7 @@ networking:
     method: static
     name: eth0
     ipv4: 1.2.3.4
-    netmask: 255.255.252.0
+    netmask: 255.255.255.0
     gateway: 1.2.3.255
     resolver:
         # DNS Advantage by Neustar
@@ -21,7 +21,7 @@ networking:
         - $local.NS1
         # rdns2.ultradns.net.
         #- 156.154.71.1
-        # DNS.WATCH / Ideal-Hosting
+        # DNS.WATCH by Ideal-Hosting
         # resolver1.dns.watch
         #- 84.200.69.80
         #- 2001:1608:10:25::1c04:b12f
@@ -47,8 +47,8 @@ networking:
     ntp:
         - ntp.ezit.hu.
 software:
-    ovhrc: Instance data in /etc/ovhrc
-    serclient-deb: Aruba ExtraControl
+    ovhrc: "Instance data in /etc/ovhrc"
+    serclient-deb: "Aruba ExtraControl"
 documentation:
     - http://help.ovh.com/InstallOvhKey
     - http://help.ovh.com/RealTimeMonitoring

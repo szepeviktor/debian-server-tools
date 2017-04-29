@@ -18,7 +18,7 @@ Auto_country() {
     wget -nv "http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/geoip-database-contrib_${GEOIP_VERSION}_all.deb"
     dpkg -i geoip-database-contrib_*_all.deb
 
-    IP="$(ifconfig|sed -ne '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+    IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
     test -n "$IP"
     COUNTRY="$(geoiplookup -f /usr/share/GeoIP/GeoIP.dat "$IP"|sed -ne 's|^GeoIP Country Edition: \(..\),.*$|\1|p')"
     test -n "$COUNTRY"

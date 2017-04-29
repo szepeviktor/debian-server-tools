@@ -2,7 +2,7 @@
 #
 # Debian jessie setup on a virtual server.
 #
-# VERSION       :1.0.1
+# VERSION       :1.0.2
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -14,14 +14,15 @@
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    cd debian-server-tools-master/
-# 2. Aquire settings: hostname, networking, resolvers, NTP servers, custom kernel, user names, SSH keys
+# 2. Aquire settings: hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
 # 4. Set up DNS resource records: PTR, A, AAAA, MX (domain registrar, DNS provider)
-# 5. Start!
+# 5. Set volume labels:  lsblk -f;tune2fs -L "instanceID-root" /dev/sda1
+# 6. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh
-# 6. Consider creating a disk or vm template with isc-dhcp-client installed
-# 7. Continue!
+# 7. Consider creating a disk or vm template with isc-dhcp-client installed
+# 8. Continue!
 #    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
 #    script --timing=debian-setup2.time debian-setup2.script
 #    ./debian-setup2.sh
@@ -91,14 +92,14 @@ export SETUP_SHYAML_URL="https://github.com/szepeviktor/debian-server-tools/raw/
 set -e -x
 
 # Am I root?
-[ "$(id -u)" == 0 ]
+test "$(id -u)" == 0
 
 # Common functions
 source debian-setup-functions
 
 # Necessary packages
 IS_FUNCTIONAL="yes"
-[ -n "$(which dpkg-query)" ]
+test -n "$(which dpkg-query)"
 for PKG in ${SETUP_PACKAGES}; do
     if ! Is_installed "$PKG"; then
         IS_FUNCTIONAL="no"
@@ -109,9 +110,9 @@ if [ "$IS_FUNCTIONAL" != "yes" ]; then
     apt-get update -qq || true
     # shellcheck disable=SC2086
     apt-get install -y --force-yes ${SETUP_PACKAGES} || true
-    # These packages should be auto-installed
-    apt-mark auto lsb-release ca-certificates || true
 fi
+# These packages should be auto-installed
+apt-mark auto lsb-release ca-certificates
 
 # Package sources
 debian-setup/apt
@@ -129,7 +130,7 @@ if Is_installed "libgnutls26"; then
         libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
 fi
 # Remove ClamAV data
-rm -rf /var/lib/clamav /var/log/clamav || true
+rm -rf /var/lib/clamav /var/log/clamav
 
 # Packages used on top of SETUP_PACKAGES
 apt-get install -qq ssh sudo apt-transport-https virt-what python-yaml
@@ -146,7 +147,7 @@ eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut
 # Get package lists
 apt-get update -qq
 
-IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # Virtualization environment

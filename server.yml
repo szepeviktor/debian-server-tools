@@ -8,7 +8,7 @@ system:
     host-color: 7
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
-    storage-provider: Oktawave OCS
+    storage-provider: Oktawave
     mail-provider: Mailjet
 
 # Package settings
@@ -20,7 +20,6 @@ package:
             - dotdeb
             - nodejs
             - percona
-            - goaccess
             - szepeviktor
     ca-certificates:
         # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
@@ -176,6 +175,10 @@ packaging:
     list-command: gem list
     location: /usr/lib/ruby/vendor_ruby
 
+
+remarks: |
+    Some remarks.
+    Some remarks.
 
 # YAML editor: http://yaml-online-parser.appspot.com/
 #     php -r 'var_export(yaml_parse(file_get_contents("server.yml")));'

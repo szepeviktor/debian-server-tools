@@ -1,0 +1,29 @@
+# Contabo in München
+hosting-company: Contabo
+virtualization: kvm
+networking:
+    method: static
+    name: eth0
+    resolver:
+        # München
+        - 79.143.183.251
+        # MAXNS=3
+        #- 79.143.183.252
+        # Google Public DNS
+        - 8.8.8.8
+    inet6:
+        method: static
+        name: eth0
+        resolver:
+            # Contabo München
+            - 2a02:c205::1:53
+            # MAXNS=3
+            #- 2a02:c205::2:53
+provider-package:
+    # Use busybox in initramfs
+    - busybox
+#auto-check-system: true
+dist-mod:
+    - "sync" cron job
+    - sysctl "kernel.panic = 10"
+    - volume label file "/vmi000000"

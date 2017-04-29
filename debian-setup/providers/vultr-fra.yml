@@ -4,6 +4,8 @@ virtualization: kvm
 networking:
     method: dhcp
     name: eth0
+    resolver:
+        - 108.61.10.10
     # IPv6 interface
     inet6:
         method: auto
@@ -14,8 +16,6 @@ networking:
 #    private:
 #        method: dhcp
 #        name: eth1
-    resolver:
-        - 108.61.10.10
 provider-package:
     # Provides VirtIO RNG
     - rng-tools

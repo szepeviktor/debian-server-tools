@@ -65,6 +65,10 @@
 
 http://www.perf-tooling.today/tools
 
+### Dynamic DNS on Amazon
+
+http://www.duckdns.org/
+
 ### Search for errors in a log file
 
 ```bash

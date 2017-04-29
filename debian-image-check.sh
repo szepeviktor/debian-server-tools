@@ -2,7 +2,7 @@
 #
 # Check Debian OS: jessie 8.x netinst (essential, required, important) and standard packages.
 #
-# VERSION       :1.0.7
+# VERSION       :1.0.8
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists
@@ -26,10 +26,10 @@ export APT_LISTCHANGES_FRONTEND="none"
 APTI_SEARCH="aptitude --disable-columns --display-format %p search"
 
 {
-    ${APTI_SEARCH} '?and(?essential, ?not(?installed))'
-    ${APTI_SEARCH} '?and(?priority(required), ?not(?installed))'
-    ${APTI_SEARCH} '?and(?priority(important), ?not(?installed))'
-    ${APTI_SEARCH} '?and(?priority(standard), ?not(?installed))' | grep -Evx "$STANDARD_BLACKLIST"
+    ${APTI_SEARCH} '?and(?essential, ?not(?installed), ?architecture(native))'
+    ${APTI_SEARCH} '?and(?priority(required), ?not(?installed), ?architecture(native))'
+    ${APTI_SEARCH} '?and(?priority(important), ?not(?installed), ?architecture(native))'
+    ${APTI_SEARCH} '?and(?priority(standard), ?not(?installed), ?architecture(native))' | grep -Evx "$STANDARD_BLACKLIST"
 } 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2
 
 {
@@ -42,6 +42,13 @@ APTI_SEARCH="aptitude --disable-columns --display-format %p search"
     dpkg -l | grep "\~[a-z]\+" | grep -Ev "^ii  (${TILDE_VERSION})\s" | cut -c 1-55 | sed -e 's/$/ # tilde version/'
     # "-dev" versioned packages
     ${APTI_SEARCH} '?and(?installed, ?name(-dev))' | sed -e 's/$/ # development/'
+    # Overridden priorities
+    aptitude --disable-columns --display-format "%p %P" search \
+        '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' \
+        | while read -r PKG_PRIO; do
+            DPKG_PRIO="$(dpkg-query -s "${PKG_PRIO% *}" | grep "^Priority:" | cut -d " " -f 2)"
+            [ "$DPKG_PRIO" != "${PKG_PRIO#* }" ] && echo "${PKG_PRIO% *} # ${PKG_PRIO#* } <- ${DPKG_PRIO} override"
+        done
 } 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2
 
 # List packages by size

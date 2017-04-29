@@ -449,6 +449,7 @@ Register here:
 - [EmailReg.org](http://www.emailreg.org/index.cgi?p=policy) (for Barracuda) `R`
 - [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/) `F`
 - [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange) ?
+- [Yahoo!](https://help.yahoo.com/kb/postmaster) ?
 
 ### Free e-mail backup server
 

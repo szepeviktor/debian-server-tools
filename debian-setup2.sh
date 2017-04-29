@@ -24,7 +24,7 @@ set -e -x
 VIRT="$(Data get-value virtualization)"
 export VIRT
 
-IP="$(ifconfig | sed -n -e '0,/^\s*inet addr:\([0-9\.]\+\)\b.*$/s//\1/p')"
+IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # _check-system needs most
@@ -39,7 +39,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
     logtail apg dos2unix ccze colordiff \
-    whois ntpdate ipset netcat-openbsd lftp heirloom-mailx \
+    net-tools whois ntpdate ipset netcat-openbsd lftp heirloom-mailx \
     gcc libc6-dev make strace \
 
 # From backports

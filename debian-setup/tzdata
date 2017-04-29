@@ -5,11 +5,13 @@ set -e -x
 # UTC timezone
 # http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html
 cat /etc/timezone
+
 echo "tzdata tzdata/Areas select Etc" | debconf-set-selections -v
 echo "tzdata tzdata/Zones/Etc select UTC" | debconf-set-selections -v
+# https://serverfault.com/a/332490/213862
 
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=704089
-rm -f /etc/timezone
+rm /etc/timezone
 
 dpkg-reconfigure -f noninteractive tzdata
 

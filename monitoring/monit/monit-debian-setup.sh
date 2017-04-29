@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.7.0
+# VERSION       :0.7.1
 # DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -271,6 +271,9 @@ if ! [ -f "$MONIT_DEFAULTS" ]; then
 fi
 if ! Is_pkg_installed usbutils; then
     apt-get install -y usbutils
+fi
+if ! Is_pkg_installed bc; then
+    apt-get install -y bc
 fi
 if ! Is_pkg_installed monit; then
     apt-get install -t jessie-backports -y monit

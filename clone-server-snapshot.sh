@@ -31,7 +31,7 @@ ifdown eth0; ifup eth0
 mv -f /etc/resolv.conf.clone /etc/resolv.conf
 
 # Hostname
-# See: ${D}/debian-setup.sh
+# See: /debian-setup.sh
 
 # DNS A
 host -t A "$H"

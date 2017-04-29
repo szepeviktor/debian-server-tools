@@ -42,7 +42,7 @@ Entity caching is supported in Drupal 8.
 
 #### Preload page cache
 
-See: ${D}/webserver/preload-cache.sh
+See: /webserver/preload-cache.sh
 
 ### Fail2ban
 
