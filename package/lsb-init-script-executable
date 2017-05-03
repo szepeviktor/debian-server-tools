@@ -12,6 +12,8 @@
 #                    a '#' followed by at least two space characters.
 ### END INIT INFO
 
+# @TODO Prefer using /lib/init/init-d-script
+
 # VERSION       :0.1.0
 # DATE          :2016-08-22
 # REFS          :http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/tocsysinit.html

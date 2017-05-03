@@ -4,11 +4,15 @@
 [Definition]
 
 #           From courier-smtp.conf
+#           From courier-smtp.conf
+#               Trying an authentication method that it not advertised
 #               HTTP commands on SMTP, and the "message complete" dot outside the DATA command
 #               Hang up during HTTP on SMTP
 #           Mail rejected by courier-pythonfilter-custom/spamassassin3.py
 #           Open relay test
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
+            ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?( \S+)?$
+                ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: (?:HOST: \S+|GET \S+ \S+|\.)$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
             ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: 554 Mail rejected - (?:reverse DNS lookup failure|spam detected).*$

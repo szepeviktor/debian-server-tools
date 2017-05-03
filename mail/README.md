@@ -101,7 +101,7 @@ See "Best clamd.conf" in [SecuriteInfo](https://www.securiteinfo.com/services/an
 
 ### Block executables
 
-courier-pythonfilter attachments module
+courier-pythonfilter `attachments` module
 
 ```ini
 [attachments.py]

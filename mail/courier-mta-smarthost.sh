@@ -66,7 +66,7 @@ Restart=always
 EOF
 
 # Restart script
-( cd ${D}; ./install.sh mail/courier-restart.sh )
+Dinstall mail/courier-restart.sh
 
 # SMTP access for localhost and satellite systems
 editor /etc/courier/smtpaccess/default
@@ -143,12 +143,13 @@ DH_BITS=2048 nice /usr/sbin/mkdhparams
 # See /security/LetsEncrypt.md and use /security/cert-update-manuale-CN.sh
 touch /etc/courier/esmtpd.pem
 chmod 0600 /etc/courier/esmtpd.pem
-( cd ${D}; ./install.sh monitoring/cert-expiry.sh )
+Dinstall monitoring/cert-expiry.sh
 
 # DKIM signature (zdkimfilter)
 #     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
 read -r -p "DKIM domain? " DOMAIN
 # Depends on backported libopendkim11
+apt-get install -y -t jessie-backports libopendkim11
 apt-get install -y opendkim-tools zdkimfilter
 cd /etc/courier/filters/
 install -o daemon -g root -m 700 -d privs
@@ -246,15 +247,16 @@ journalctl -f
 
 # Monitoring
 # SystemV
-( cd ${D}; ./install.sh monitor/syslog-errors-infrequent.sh )
+Dinstall monitor/syslog-errors-infrequent.sh
 # Don't suppress Courier MTA SSL errors as they may come from authorized clients!
 # Systemd
 apt-get install -y libpam-systemd
-mkdir ${HOME}/.config/systemd; cd ${HOME}/.config/systemd/
+mkdir ${HOME}/.config/systemd
+cd ${HOME}/.config/systemd/
 git clone https://github.com/kylemanna/systemd-utils.git "utils"
 cp ./utils/failure-monitor/failure-monitor@.service /etc/systemd/user/
 systemctl --user enable "failure-monitor@postmaster@szepe.net.service"
 systemctl --user start "failure-monitor@postmaster@szepe.net.service"
 
 # User accounts for sending mail
-${D}/mail/add-mailaccount.sh USER@DOMAIN
+#${D}/mail/add-mailaccount.sh USER@DOMAIN

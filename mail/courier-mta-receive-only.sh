@@ -72,19 +72,20 @@ exit 0
 # Courier MTA setup
 # @TODO Common parts with courier-mta-satellite-system.sh
 
-# Testing: Fail2ban addignoreip && TCPDOPTS += -noidentlookup -nodnslookup
-
 # courier-pythonfilter
 #     /usr/local/lib/python2.7/dist-packages/pythonfilter
 apt-get install -y python-gdbm
 pip2 -v install courier-pythonfilter
 grep -E "^(MAILUSER|MAILGROUP)\s*=" /etc/courier/esmtpd # == "daemon"
 install -v --owner=daemon --group=daemon -d /var/lib/pythonfilter
-ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters/pythonfilter
-filterctl start pythonfilter && readlink /etc/courier/filters/active/pythonfilter
+# Configuration
+cp -v /usr/local/lib/python2.7/dist-packages/pythonfilter/etc/* /etc
 editor /etc/pythonfilter.conf
-#     modules/order???
 editor /etc/pythonfilter-modules.conf
+# Activation
+ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters/pythonfilter
+filterctl start pythonfilter
+readlink /etc/courier/filters/active/pythonfilter
 
 # @TODO Well-known and autodiscover
 

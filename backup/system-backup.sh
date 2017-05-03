@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.0.5
+# VERSION       :2.0.6
 # DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -189,7 +189,7 @@ Get_base_db_backup_dir() {
     while read -r BASE; do
         XTRAINFO="${TARGET}/innodb/${BASE}/xtrabackup_info"
         # First non-incremental is the base
-        if [ -r "$XTRAINFO" ] && grep -qFx "incremental = N" "$XTRAINFO"; then
+        if [ -r "$XTRAINFO" ] && grep -q -F -x "incremental = N" "$XTRAINFO"; then
             echo "$BASE"
             return 0
         fi
@@ -226,6 +226,9 @@ Backup_innodb() {
             "${TARGET}/innodb" \
             2>> "${TARGET}/innodb/backupex.log" || Error 14 "Base InnoDB backup failed"
     fi
+    # Check OK message
+    tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F 'innobackupex: completed OK!' \
+        || Error 15 "InnoDB backup operation not OK"
 }
 
 Backup_files() {
@@ -355,7 +358,7 @@ Umount
 logger -t "system-backup" "Finished. $*"
 
 if [ -n "$HCHK_UUID" ]; then
-    wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"
+    wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -q -F -x "OK"
 fi
 
 exit 0

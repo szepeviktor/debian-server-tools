@@ -19,11 +19,10 @@ networking:
             - 2a02:c205::1:53
             # MAXNS=3
             #- 2a02:c205::2:53
+software:
+    contabo-sync: "sync cron job"
+    contabo-volume-label: "volume label file /vmi000000"
 provider-package:
     # Use busybox in initramfs
     - busybox
 #auto-check-system: true
-dist-mod:
-    - "sync" cron job
-    - sysctl "kernel.panic = 10"
-    - volume label file "/vmi000000"

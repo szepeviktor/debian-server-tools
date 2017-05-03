@@ -144,6 +144,7 @@ editor /etc/courier/module.esmtp
 # Spamassassin
 #     http://svn.apache.org/repos/asf/spamassassin/trunk/
 editor /etc/default/spamassassin
+# man spamd
 #    OPTIONS="--create-prefs --max-children 2 --helper-home-dir --ipv4 --allow-tell --username=virtual --groupname=virtual --nouser-config --virtual-config-dir=/var/mail/.spamassassin"
 
 # whitelist_to spamtrap@domain.tld
@@ -153,16 +154,16 @@ score URIBL_RED 0
 score URIBL_GREY 0
 score URIBL_BLOCKED 0
 
-# For DKIM check
-apt-get install -y libmail-dkim-perl
-# Pyzor
-pip3 install pyzor
+# For DKIM check and Pyzor
+apt-get install -y pyzor libmail-dkim-perl
 
-## Compile rules
-#mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
-## Patch for being quiet
-#cd /etc/cron.hourly
-#patch -p0 < spamassassin34.patch
+## Compile rules for Spamassassin 3.4.0
+mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
+# Patch for being quiet
+(
+    cd /etc/cron.hourly/
+    patch -p0 < /mail/spamassassin340.patch
+)
 
 editor /etc/courier/smtpaccess/default
 # :::1	allow,RELAYCLIENT
@@ -179,17 +180,16 @@ editor /etc/spamassassin/local.cf
 # host -t A worker.szepe.net
 dns_server              81.2.236.171
 
-# spammer.dnsbl, knownhosts.dnsbl
+# 20_spammer.dnsbl.cf
+# 20_dangerous.dnsbl.cf
+    ####  1   - Dangerous network
+    ####  128 - Blocked network
 
-# Mail::SpamAssassin::Plugin::SAGrey (deprecated!)
-
-# MISSING_MID monitoring
+# MISSING_MID monitoring cron job
 
 # maildrop: https://help.ubuntu.com/community/MailServerCourierSpamAssassin
 
-# Scores
-# @TODO Add descriptions
-
+# Custom scores
 score RDNS_NONE                  3.0 -> spamassassin3.py rejects
 score RDNS_DYNAMIC               2.0
 score DYN_RDNS_AND_INLINE_IMAGE  3.0
@@ -200,14 +200,13 @@ score FM_FAKE_HELO_HOTMAIL       2.0
 
 score T_DKIM_INVALID             1.0
 
+
 whitelist_from *@domain.tld
 
 whitelist_to spamtrap@szepe.net
 #whitelist_to other.spamtrap@domain.tld
 
-# sagrey.pm?
-
-# Log monitoring
+# Monitoring
 #
 # - MAIL_RECEPTION='courieresmtpd: error.*534 SIZE=Message too big\|courieresmtpd: error.*523 Message length .* exceeds administrative limit'
 # - MAIL_FILER_EXCEPTION='courierfilter:.*xception'
@@ -217,6 +216,8 @@ whitelist_to spamtrap@szepe.net
 # - monthly: top10-mailfolders.sh
 
 # DNSBL (Spamassassin configuration)
+
+# ?junkemailfilter?.cf
 
 # http://wiki.junkemailfilter.com/index.php/Spam_DNS_Lists#Spam_Assassin_Examples
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
@@ -254,21 +255,22 @@ hostmaster@%DOMAIN%:  admin@%DOMAIN%
 
 # http://www.dontbouncespam.org/#BVR
 
-# ??? dont deliver to noreply@*
-# editor /etc/courier/bofh
-#     badfrom noreply@*
+# @TODO Don't deliver to noreply@*
 
+# Message size and max recipient limits
+# Announce in DSN HU/EN
+#
 # DSN: Please consider using WeTransfer for sending BIG FILES / HU ...
-
-# TLS_COMPRESSION=NULL,TLS_PROTOCOL,TLS_CIPHER_LIST for courierd, esmtpd, esmtpd-ssl, imapd, imapd-ssl
-
-# more than 20 recipients -> use mailgun mailing list https://mailgun.com/
+# more than 20 recipients -> use free TinyLetter mailing list https://tinyletter.com/
 # set courier: bofh / maxrcpts 20 hard
+echo "$((25 * 1024**2))" > /etc/courier/sizelimit
 
-# Testing infrequent restarts
+# TLS_COMPRESSION=NULL, TLS_PROTOCOL, TLS_CIPHER_LIST for courierd, esmtpd, esmtpd-ssl, imapd, imapd-ssl
+
+# Infrequent restarts
 echo "23h" > /etc/courier/respawnlo
 
-# Tarbaby fake MX
+# Second MX -> Tarbaby fake MX
 # http://wiki.junkemailfilter.com/index.php/Project_tarbaby
 editor /etc/courier/smtpaccess/default
 #     # https://tools.ietf.org/html/rfc2821#section-4.2.3

@@ -161,7 +161,7 @@ APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
 APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #
 # Use ./apache.vhost for determining name of the virtual host config file
-[ -s ./apache.vhost ] && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 ./apache.vhost).conf"
+test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 ./apache.vhost).conf"
 #
 # Uncomment to activate!
 #APACHE_PUB="${PUB_DIR}/${APACHE_DOMAIN}-public.pem"
@@ -190,7 +190,7 @@ NGINX_DOMAIN="${NGINX_DOMAIN/\*./wildcard.}"
 NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 #
 # Use nginx.vhost
-[ -s ./nginx.vhost ] && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
+test -s ./nginx.vhost && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
 #
 # Uncomment to activate!
 #NGINX_PUB="${PUB_DIR}/${NGINX_DOMAIN}-public.pem"

@@ -2,7 +2,7 @@
 #
 # Backup server through SSH filesystem.
 #
-# VERSION       :1.0.4
+# VERSION       :1.0.5
 # DATE          :2015-11-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,7 +13,7 @@
 # OWNER         :root:root
 # PERMISSION    :700
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup-remote.sh
-# CONFIG        :~/.config/system-backup/configuration
+# CONFIG        :/root/.config/system-backup/configuration
 
 # Usage
 #
@@ -38,8 +38,6 @@ REMOTE_ROOT="/home/rs3ql/this-backup"
 REMOTE_TARGET="${REMOTE_ROOT}/s3ql"
 # @TODO
 #source "${HOME}/.config/system-backup/configuration" || ...
-
-set -e
 
 Remote_copy() {
     local FROM="$1"
@@ -221,6 +219,9 @@ Backup_innodb() {
             "${TARGET}/innodb" \
             2>> "${TARGET}/innodb/backupex.log" || Error 15 "First InnoDB backup failed"
     fi
+    # Check OK message
+    tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F 'innobackupex: completed OK!' \
+        || Error 15 "InnoDB backup operation not OK"
 }
 
 Backup_files() {
@@ -274,6 +275,8 @@ Umount() {
     Remote_run /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$REMOTE_TARGET" || Error 31 "Flush failed"
     Remote_run /usr/bin/umount.s3ql ${S3QL_OPT} "$REMOTE_TARGET" || Error 32 "Umount failed"
 }
+
+set -e
 
 # Terminal?
 if [ -t 1 ]; then

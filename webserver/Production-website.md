@@ -320,7 +320,7 @@ http://google-public-dns.appspot.com/cache
 - `@font-face` formats: eof, woff2, woff, ttf, svg; position: top of first CSS
 - [BOM](https://en.wikipedia.org/wiki/Byte_order_mark) (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
 - Characters before `<!DOCTYPE html>`
-- JavaScript code parsable (by dummy crawlers) as HTML (`<a>` `<iframe>` `<script>`)
+- JavaScript code parsable - by dummy crawlers - as HTML (`<a>` `<iframe>` `<script>`)
 - Page loading overlay, display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
 - Unnecessary Firefox caret
 - [Mobile views](https://webmasters.googleblog.com/2016/11/mobile-first-indexing.html) (responsive design)
@@ -349,8 +349,9 @@ http://google-public-dns.appspot.com/cache
 - Image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
 - Image optimization `jpeg-recompress JPG OPTI_JPG`
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
-- JS, CSS concatenation, minimization `cat small_1.css small_2.css > large.css`
+- JavaScript, CSS concatenation, minification `cat small_1.css small_2.css > large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, image gallery)
+- Use [async and defer](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html) for JavaScripts
 - Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
 - [DNS Prefetch, Preconnect, Prefetch, Prerender](http://w3c.github.io/resource-hints/#resource-hints)
@@ -365,6 +366,7 @@ http://google-public-dns.appspot.com/cache
 - https://report-uri.io/home/tools CSP, HKPK, SRI etc.
 - https://www.webpagetest.org/
 - https://speedcurve.com/
+- https://insites.com/
 - Does the website have a public API? (WP REST API, WooCommerce API)
 - Test (REST) API [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
 
@@ -401,7 +403,9 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - "Impressum"
 - Privacy policy
 - Terms & Conditions
-- Cookie consent + opt out
+- [Cookie Consent Kit](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_4) + opt out,
+  [cookie notice template](http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
+  [Cookie Consent wizard by Insites](https://cookieconsent.insites.com/download/)
 - *Operated by*, *Hosted at*
 - `/.well-known/dnt-policy.txt`
 

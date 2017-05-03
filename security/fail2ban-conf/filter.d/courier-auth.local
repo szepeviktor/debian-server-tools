@@ -3,10 +3,6 @@
 [Definition]
 
 #           From courier-auth.conf
-#               From courier-smtp.conf
-#               Trying an authentication method that it not advertised
 failregex = ^%(__prefix_line)sLOGIN FAILED, (?:user|method)=.*, ip=\[<HOST>\]$
-                ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?( \S+)?$
-                ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
 
 # Author: Viktor Szépe
