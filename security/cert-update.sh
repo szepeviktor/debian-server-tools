@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.12.1
+# VERSION       :0.12.2
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -303,16 +303,16 @@ Webmin() {
 Check_requirements
 Protect_certs
 
-Courier_mta; Readkey
+Courier_mta && Readkey
 
-Proftpd; Readkey
+Proftpd && Readkey
 
-Apache2; Readkey
+Apache2 && Readkey
 
-Nginx; Readkey
+Nginx && Readkey
 
-Dovecot; Readkey
+Dovecot && Readkey
 
-Webmin
+Webmin && Readkey
 
 echo "OK."
