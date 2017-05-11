@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.3
+# VERSION       :0.2.4
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,13 +28,6 @@
 #     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
 # szepenet
 #     wget http://ca.szepe.net/szepenet-ca.pem
-# StartSSL Class 1 DV (Domain and Email Validation)
-#     https://www.startssl.com/root "Intermediate CA Certificates"
-#     wget https://www.startssl.com/certs/sca.server1.crt && dos2unix sca.server1.crt
-# StartSSL Class 2 IV (Identity Validation)
-#     wget https://www.startssl.com/certs/sca.server2.crt && dos2unix sca.server2.crt
-# StartSSL Class 3 OV (Organization Validation)
-#     wget https://www.startssl.com/certs/sca.server3.crt && dos2unix sca.server3.crt
 #
 # $CN-openssl.conf
 #     [ req ]
@@ -110,7 +103,7 @@ if [ ! -s "$PRIV" ]; then
     editor "${CN}-openssl.conf"
     test -s "${CN}-openssl.conf"
     openssl req -out "$CSR" -new -key "$PRIV" \
-        -config "${CN}-openssl.conf" -verbose
+        -config "${CN}-openssl.conf" -utf8 -verbose
     openssl req -in "$CSR" -noout -text
     read -r -s -n 1 -p "Check request and press any key ..."
     echo

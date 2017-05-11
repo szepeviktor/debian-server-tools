@@ -65,6 +65,8 @@ Use a CNAME. May be the CNAME of *another* domain.
 
 ### Notes
 
+Log format
+
 ```
 %h            %l%u%t                           "%r"                       %>s %O "%{Referer}i" "%{User-Agent}i"
 111.22.33.444 - - [12/Feb/2016:15:49:09 +0100] "GET /robots.txt HTTP/1.1" 200 634 "-" "Mozilla/5.0"

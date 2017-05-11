@@ -24,8 +24,9 @@ u ../../.local/bin/manuale info; echo
 cd /home/prg[0-9]*/ssl/lets-encrypt/
 read -r -e -i $(hostname -f) DOMAIN
 #read -r DOMAIN2
+#     # HTTP challenge
 #     u ../../.local/bin/manuale authorize --method http $DOMAIN $DOMAIN2
-#     # Only for ONE channenge file
+#     # Only for ONE challenge file!
 #     CHALLENGE=???????????????????????????????????????????
 #     install -D -m 644 $CHALLENGE .well-known/acme-challenge/$CHALLENGE
 #     python3 -m http.server 80

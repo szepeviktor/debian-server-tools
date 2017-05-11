@@ -5,13 +5,13 @@ networking:
     method: dhcp
     name: eth0
     resolver:
+        #   # UpCloud deams1
+        #   - 94.237.40.9
+        # UpCloud defra1
+        - 94.237.127.9
         # google-public-dns-a.google.com.
         - 8.8.8.8
-        # UpCloud defra1
-        - 94.237.24.9
         # MAXNS=3
-        # @Sigmatic
-        #- 80.69.171.167
         # google-public-dns-b.google.com.
         #- 8.8.4.4
     # IPv6 interface
@@ -19,9 +19,13 @@ networking:
         method: auto
         name: eth0
         resolver:
-            # google-public-dns-a.google.com.
-            - 2001:4860:4860::8888
+            # UpCloud defra1
+            - 2a04:3540:53::1
             # MAXNS=3
+            # UpCloud defra1 secondary
+            #- 2a04:3544:53::1
+            # google-public-dns-a.google.com.
+            #- 2001:4860:4860::8888
             # google-public-dns-b.google.com.
             #- 2001:4860:4860::8844
     # Private network

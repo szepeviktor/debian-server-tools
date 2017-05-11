@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Ban malicious hosts manually
+# Ban malicious hosts manually.
 #
 # VERSION       :0.5.9
 # DATE          :2015-12-29
@@ -17,7 +17,7 @@
 # CRON-HOURLY   :/usr/local/sbin/myattackers.sh
 # CRON-MONTHLY  :/usr/local/sbin/myattackers.sh -z
 
-# Default rules.v4 content
+# Default /etc/iptables/rules.v4 content
 #
 #     :myattackers - [0:0]
 #     -A INPUT -j myattackers

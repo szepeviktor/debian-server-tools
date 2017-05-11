@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -160,17 +160,17 @@ if [ -z "$IP" ]; then
     exit 1
 fi
 
-Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log"
+Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@"
 
 # List log files by size
 #     ls -lSr /var/log/apache2/*access.log
 
 # Multiple log files (not real time)
-#cat /var/log/apache2/${U}-{ssl-,}access.log | Goaccess
+#cat /var/log/apache2/${U}-{ssl-,}access.log | Goaccess "$@"
 
 # HTML output
-#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" > "/home/${U}/website/html/stat.html"
+#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@" > "/home/${U}/website/html/stat.html"
 
 # HTML output from multiple log files
 #( zcat /var/log/apache2/${U}-{ssl-,}access.log.{3,2}.gz
-#  cat /var/log/apache2/${U}-{ssl-,}access.log{1,} ) | Goaccess > "/home/${U}/website/html/stat.html"
+#  cat /var/log/apache2/${U}-{ssl-,}access.log{1,} ) | Goaccess "$@" > "/home/${U}/website/html/stat.html"

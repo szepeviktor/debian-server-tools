@@ -4,6 +4,7 @@
 
 - https://www.cloudvps.hu/ssd-vps by Magyar Hosting
 - [Neo Cloud VPS](https://www.cloud.hu/szerver/neo-cloud-vps/) by EZIT - real cloud
+- [Rackforest](https://rackforest.hu/vps/linux-vps/)
 - http://servira.com/ by Rendszerinformatika - real cloud
 
 ## Shared hosting in Hungary

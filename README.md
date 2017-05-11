@@ -1,4 +1,4 @@
-debian-server-tools
+Debian server tools
 ===================
 
 Various scripts and tools mainly for Debian servers.
@@ -174,7 +174,3 @@ crontab -e -u USER
 | |  | | |
 * *  * * *  COMMAND
 ```
-
-### Writing a man page
-
-http://asciidoc.org/

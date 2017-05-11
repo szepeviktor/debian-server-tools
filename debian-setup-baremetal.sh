@@ -11,13 +11,14 @@ lspci
 lsusb
 #sensors, IPMI
 
-#chrony
+# chrony
 editor /etc/default/hwclock
 
 editor /etc/default/smartmontools
 editor /etc/smartd.conf
 
-cat ${D}/monitoring/hdd-temps.sh >> /root/.bashrc
+# Display HDD temperature on login
+# See /input/update-motd.d/10-sysinfo
 
 # Entropy from TPM
 modprobe tpm-rng
