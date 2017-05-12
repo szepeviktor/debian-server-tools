@@ -7,6 +7,7 @@ networking:
     resolver:
         #   # UpCloud deams1
         #   - 94.237.40.9
+        #   - 2a04:3544:53::1
         # UpCloud defra1
         - 94.237.127.9
         # google-public-dns-a.google.com.
@@ -22,8 +23,6 @@ networking:
             # UpCloud defra1
             - 2a04:3540:53::1
             # MAXNS=3
-            # UpCloud defra1 secondary
-            #- 2a04:3544:53::1
             # google-public-dns-a.google.com.
             #- 2001:4860:4860::8888
             # google-public-dns-b.google.com.

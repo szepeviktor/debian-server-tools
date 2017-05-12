@@ -2,7 +2,7 @@
 
 # Viktor Szépe from Hungary would work for a Company
 
-My main activity is **proactive** maintenance of HTTP-based services: an application, an API or a website.  
+My main activity is **proactive** maintenance of web-based services: an application, an API or a website.  
 These experiences could mean valuable feedback for your development team.  
 (*Traffic light example* :vertical_traffic_light: *a developer sees the green light, I see red and amber.*)  
 My focus is on security&safety and performance.
@@ -70,7 +70,7 @@ Essentially keep every operation in memory!
 
 # Szépe Viktor dolgozna egy Vállalatnak
 
-HTTP alapú rendszerek **proaktív** üzemeltetésével foglalkozok,
+Web alapú rendszerek **proaktív** üzemeltetésével foglalkozok,
 és a fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be a tapasztalataim alapján.
 
 (A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  

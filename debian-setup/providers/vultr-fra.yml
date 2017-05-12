@@ -5,13 +5,24 @@ networking:
     method: dhcp
     name: eth0
     resolver:
+        # 108.61.10.10.choopa.net.
         - 108.61.10.10
+        # google-public-dns-a.google.com.
+        - 8.8.8.8
+        # MAXNS=3
+        # google-public-dns-b.google.com.
+        #- 8.8.4.4
     # IPv6 interface
     inet6:
         method: auto
         name: eth0
         resolver:
             - 2001:19f0:300:1704::6
+            # MAXNS=3
+            # google-public-dns-a.google.com.
+            #- 2001:4860:4860::8888
+            # google-public-dns-b.google.com.
+            #- 2001:4860:4860::8844
     # Private network
 #    private:
 #        method: dhcp
@@ -22,4 +33,4 @@ provider-package:
     # Cloud-init
     - cloud-init
     - cloud-initramfs-growroot
-#auto-check-system: true
+auto-check-system: true

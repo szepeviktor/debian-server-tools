@@ -86,32 +86,32 @@ $TTL 60
 188.42.252-254   :2:Neighbour of root.lu
 188.42.255       LU_WZSG-1/AS45470@Singapure
 
-# Tigernet Kft - Tigrishalál 2015.03.03.
+# Tigernet Kft - Tigrishalál: 2015.03.03.
 #194.165.26-27    HU_TigerNet
 #193.9.29-31      HU_TigerNet/AS47381
 
 # Iliad (Online SAS, Dedibox servers)
-195.154          :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
-195.154.40       FR_FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-62.4.15          :2:Neighbour of *.hoverstyle.com.
-62.4.15.221      FR_*.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
-212.129.32.0/19  :2:Neighbour of *.nyshkickball.com.
-212.129.55.1     FR_gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-212.129.59.1     FR_friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
-163.172.133      :2:Neighbour of mailetor.xyz
-163.172.133.242  FR_mailetor.xyz@ONLINE_NET_DEDICATED_SERVERS/AS12876
-163.172.164.241  magyar FR_duozit.com@ONLINE_NET_DEDICATED_SERVERS/AS12876
+195.154             :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
+195.154.40          FR_FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+62.4.15             :2:Neighbour of *.hoverstyle.com.
+62.4.15.221         FR_*.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
+212.129.32.0/19     :2:Neighbour of *.nyshkickball.com.
+212.129.55.1        FR_gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+212.129.59.1        FR_friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+163.172.133         :2:Neighbour of mailetor.xyz
+163.172.133.242     FR_mailetor.xyz@ONLINE_NET_DEDICATED_SERVERS/AS12876
+163.172.164.241     magyar FR_duozit.com@ONLINE_NET_DEDICATED_SERVERS/AS12876
 
 # Peter Krozser
-198.20.102.32/28 HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
+198.20.102.32/28    HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
 
 # Electris Ltd
-83.143.176-183   :2:Neighbour of Electris Ltd
-83.143.178.104   BG_brandsvirals.net. @IXTLAN-SYSTEMS/AS200002
+83.143.176-183      :2:Neighbour of Electris Ltd
+83.143.178.104      BG_brandsvirals.net. @IXTLAN-SYSTEMS/AS200002
 
 # ROAD MARKETING SRL
-86.106.89        RO_only-mta-s@ROAD-MARKETING-SRL/AS48336
-37.156.226       RO_nagyonhasznos.eu-valamihasznosat.eu. @ROAD-MARKETING-SRL/AS59854
+86.106.89           RO_only-mta-s@ROAD-MARKETING-SRL/AS48336
+37.156.226          RO_nagyonhasznos.eu-valamihasznosat.eu. @ROAD-MARKETING-SRL/AS59854
 
 # m*.cutersfood.com
 199.217.114.69-73   HU_m*.cutersfood.com@HSI-6/AS30083
@@ -186,3 +186,10 @@ $TTL 60
 # *.newstoinbox-mail.eu
 5.56.23             :2:Neighbour of *.newstoinbox-mail.eu
 5.56.23.88          magyar DE_*.newstoinbox-mail.eu@CORE-BACKBONE/AS33891
+
+# *.mindenaneten.hu
+156.67.106          HU_mindenaneten@TRAFFIC DEAL/AS197226
+
+# Blue-Cloud Hosting services
+77.241.194          LT_info*.tk/.cf@Blue-Cloud/AS15440
+77.241.198          LT_info*.tk/.cf@Blue-Cloud/AS15440
