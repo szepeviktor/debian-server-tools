@@ -39,6 +39,10 @@ new \O1\Bad_Request();
 // wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
 // wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
 
+/** Composer */
+
+//require_once __DIR__ . '/vendor/autoload.php';
+
 /** Core */
 
 // See: wp-config-live-debugger/

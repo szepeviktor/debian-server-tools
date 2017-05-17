@@ -30,8 +30,8 @@ email:
   login: #postmaster@example.com
   bounce-handling: yes
 code:
-  core: #WordPress
-  theme: #Child/Parent
+  core: #"WordPress"
+  theme: #"Child/Parent"
   plugin:
     - #paid-plugins
     - #purchased-plugin
@@ -40,24 +40,89 @@ cron:
   - #"job 2"
 3rd-party:
   high:
-    - #Payment gateway
-    - #Invoicing provider
-    - #External resources (fonts, video, map)
-    - #A/B testing
-    - #3rd-party widget
+    payment-gateway:
+      name: #Payment gateway
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    invoicing-provider:
+      name: #Invoicing provider
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    external-resources:
+      name: #External resources (fonts, video, map)
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    a-b-testing:
+      name: #A/B testing
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    3rd-party-widget:
+      name: #3rd-party widget
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
   low:
-    - #External search
-    - #Newsletter subscription
-    - #Live chat
-    - #Advertisement campaign
-    - #Social campaign
-    - #Tracking code, Tag Manager - UA-00000000-1
-    - #Call Tracking
-    - #Embedded social media content
-    - #Mouse tracking
-    - #(disabled service)
+    external-search:
+      name: #External search
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    newsletter-subscription:
+      name: #Newsletter subscription
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    live-chat:
+      name: #Live chat
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    advertisement-campaign:
+      name: #Advertisement campaign
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    social-campaign:
+      name: #Social campaign
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    google-analytics:
+      name: #Tracking code
+      id: #"UA-00000000-1"
+      access: #"Client 1"
+      email: #notification@example.com
+    google-tag-manager:
+      name: #Google Tag Manager
+      id: #"GTM-00000"
+      access: #"Client 1"
+      email: #notification@example.com
+    call-tracking:
+      name: #Call Tracking
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    facebook-page-plugin:
+      name: #Facebook Page Plugin
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    mouse-tracking:
+      name: #Mouse tracking
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
+    disabled-service1:
+      name: #(disabled service)
+      id: #"A000"
+      access: #"Client 1"
+      email: #notification@example.com
 remarks: |
-  #languages: HU
+  #languages: HU,EN
   #issues: URL
   #repository: URL
   #template-demo: URL

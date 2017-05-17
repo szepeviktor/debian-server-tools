@@ -49,12 +49,10 @@ timeout = 7
 
 [sshd]
 enabled  = true
+# Includes sshd-ddos
+filter   = sshd-aggressive
 port     = @@SSHPORT@@
 maxretry = 3
-
-[sshd-ddos]
-enabled  = true
-port     = @@SSHPORT@@
 
 [apache-default]
 enabled  = true

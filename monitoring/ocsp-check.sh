@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.5.1
+# VERSION       :2.5.2
 # DATE          :2016-12-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -75,7 +75,7 @@ if openssl x509 -inform DER -in "$CA_ISSUER_CERT" -noout 2> /dev/null; then
     openssl x509 -inform DER -in "$CA_ISSUER_CERT" -outform PEM -out "$CA_ISSUER_CERT_PEM"
     cp -f "$CA_ISSUER_CERT_PEM" "$CA_ISSUER_CERT"
 fi
-# Certificate validity
+# Issuer certificate validity
 openssl x509 -inform PEM -in "$CA_ISSUER_CERT" -noout
 # Verify whether certificate is signed by issuer
 openssl verify -purpose "sslserver" -CAfile "$CA_ISSUER_CERT" "$CERTIFICATE" \
@@ -99,7 +99,7 @@ if ! grep -qFx "Response verify OK" <<< "$OCSP_RESPONSE"; then
     exit 101
 fi
 if ! grep -qFx "${CERTIFICATE}: good" <<< "$OCSP_RESPONSE"; then
-    echo "Certificate is revoked" 1>&2
+    echo "Certificate may be revoked: ${OCSP_RESPONSE}" 1>&2
     exit 102
 fi
 

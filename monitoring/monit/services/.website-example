@@ -1,10 +1,10 @@
 # https://mmonit.com/monit/documentation/
 
- check host "EXAMPLE.COM" with address EXAMPLE.COM
+ check host "EXAMPLE.COM" with address "EXAMPLE.COM"
    group "website"
-   if failed host EXAMPLE.COM port 443 with protocol https and request "/" status = 200
+   if failed host "EXAMPLE.COM" port 443 with protocol https and request "/" status = 200
      with timeout 25 seconds then alert
-   #if failed host EXAMPLE.COM port 80 with protocol http and request "/" status = 200
+   #if failed host "EXAMPLE.COM" port 80 with protocol http and request "/" status = 200
    #  with timeout 25 seconds then alert
    if failed ping4 then alert
    #if failed ping6 then alert

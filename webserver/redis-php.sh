@@ -2,7 +2,8 @@
 
 set -e -x
 
-# Redis, in-memory object cache
+# Redis, in-memory cache
+# From Dotdeb
 apt-get install -y redis-server
 
 # PHP 5 extension from PECL

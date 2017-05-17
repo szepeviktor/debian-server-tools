@@ -12,19 +12,23 @@
   "require": {
     "php": ">=5.4",
     "johnpbloch/wordpress": "4.7.*",
-    "fancyguy/wordpress-monolog": "dev-master",
+    "timber/timber": "1.3.*",
     "wpackagist-plugin/advanced-custom-fields": "4.4.*",
-    "wpackagist-plugin/posts-to-posts": "1.6.*",
-    "wpackagist-plugin/timber-library": "1.2.*"
+    "wpackagist-plugin/posts-to-posts": "1.6.*"
   },
   "extra": {
     "wordpress-install-dir": "wp",
     "installer-paths" : {
-      "static/plugins/{$name}/": [ "type:wordpress-plugin" ]
+      "static/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "static/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
     }
   },
   "scripts": {
-      "post-update-cmd": [
+      "post-create-project-cmd": [
         "cp wp/wp-content/plugins/index.php static/plugins/",
         "cp -a wp/wp-content/themes static/"
       ]
