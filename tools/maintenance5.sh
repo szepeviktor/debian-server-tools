@@ -2,7 +2,7 @@
 #
 # Help schedule maintenance between two Pingdom checks.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2017-05-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -29,9 +29,9 @@ set -e
 tail -n 0 -f "$PINGDOM_ACCESS_LOG" | sed -n -e '/"Pingdom\.com_bot_version_/q'
 
 # We expect Pingdom bot to come back in 5 minutes
-Warn_minute 5
-for N in {4..0}; do
+for N in {5..1}; do
+    Warn_minute "$N"
     # Wait for a short minute
     sleep 59
-    Warn_minute "$N"
 done
+Warn_minute 0

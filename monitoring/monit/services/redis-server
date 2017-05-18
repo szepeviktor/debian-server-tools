@@ -1,3 +1,4 @@
+ # Dotdeb packaged redis-server
  check process "redis" with pidfile "/run/redis/redis-server.pid"
    group "cache"
    group "redis"
@@ -18,6 +19,8 @@
 
  check file "redis_rc" with path "/etc/redis/redis.conf"
    group "redis"
+   # Debian packaged redis-server
+   #include "/etc/monit/templates/rootrc"
    if changed checksum then alert
    if failed permission 640 then unmonitor
    if failed uid "redis" then unmonitor

@@ -2,24 +2,24 @@
 
 ## VPS in Hungary
 
+- [Rackforest](https://rackforest.hu/vps/linux-vps/)
 - https://www.cloudvps.hu/ssd-vps by Magyar Hosting
 - [Neo Cloud VPS](https://www.cloud.hu/szerver/neo-cloud-vps/) by EZIT - real cloud
-- [Rackforest](https://rackforest.hu/vps/linux-vps/)
 - http://servira.com/ by Rendszerinformatika - real cloud
 
 ## Shared hosting in Hungary
 
+- [**Rackforest**](http://rackforest.hu/korlatlan-tarhely/) LiteSpeed, fast CPU, SSH
 - [Cloud Webtárhely Plus](https://client.ezit.hu/aff.php?aff=036) LiteSpeed, PHP OPcache, real cloud, SSH
-- [Rackforest](http://rackforest.hu/korlatlan-tarhely/) SSH
 - [Maxer](https://maxer.hu/) 30 CPU cores
 - [mobilx Cloud Tárhely](http://mobilxcloud.hu/ugyfelkapu/?affid=204) real cloud
-- http://www.profitarhely.hu/webtarhely fast CPU
 - https://www.mhosting.hu/tarhely/evo-ssd-tarhely PHP OPcache, SSH
+- http://www.profitarhely.hu/webtarhely fast CPU
 - https://spaceweb.hu/ssd-felho-webtarhely Litespeed, SSD
 
 ## VPS, cloud server
 
-- [UpCloud](https://www.upcloud.com/) fastest VPS
+- [**UpCloud**](https://www.upcloud.com/) fastest VPS
 - [Contabo](https://contabo.com/?show=vps) large memory
 - [Vultr](http://www.vultr.com/?ref=6815796) CPU, storage VPS
 - [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
@@ -31,11 +31,11 @@
 
 ## CDN
 
-- [keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
+- [Keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
 
 ## Shared hosting
 
-**[Hawk Host](https://www.hawkhost.com/shared-web-hosting)**
+[**Hawk Host**](https://www.hawkhost.com/shared-web-hosting)
 
 - LiteSpeed webserver with HTTP/2
 - Free SSL certificate

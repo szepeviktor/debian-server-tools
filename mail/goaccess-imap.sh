@@ -2,7 +2,7 @@
 #
 # Real-time Courier IMAP login failure analyzer.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DEPENDS       :apt-get install goaccess
 
 # Usage
@@ -34,7 +34,7 @@ if [ -z "$IP" ]; then
 fi
 
 # Get login failures, modify date
-tail -f /var/log/syslog \
+tail -n 1000000 -f /var/log/syslog \
     | grep -F "imapd-ssl: LOGIN FAILED," \
-    | sed -e '/^..../s/ /:/' -e '/^....../s/ /0/' \
+    | sed -e '/^\S\{1,5\}\s/s/ /:/' -e 's/^\(....\) /\10/' \
     | Goaccess "$@"
