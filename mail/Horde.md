@@ -1,40 +1,47 @@
-### Install
+### Installation
 
 ```bash
 su --login horde
 
-H_PEARCONF="/home/horde/website/pear.conf"
-pear config-create /home/horde/website "$H_PEARCONF"
-pear -c "$H_PEARCONF" install pear
-echo -e "#!/bin/bash\n/home/horde/website/pear/pear -c ${H_PEARCONF} \"\$@\"" > /home/horde/website/pear.sh
-chmod +x /home/horde/website/pear.sh
+# Local PEAR installation
+HORDE_PEARCONF="/home/horde/website/pear.conf"
+pear config-create /home/horde/website "$HORDE_PEARCONF"
+pear -C "$HORDE_PEARCONF" install pear
+echo -e "#!/bin/bash\n/home/horde/website/pear/pear -C ${HORDE_PEARCONF%.conf}-system.conf -c ${HORDE_PEARCONF} \"\$@\"" \
+    > /home/horde/website/horde-pear
+chmod +x /home/horde/website/horde-pear
+# Test
+/home/horde/website/horde-pear config-show | grep -i "config"
 
-/home/horde/website/pear.sh channel-discover pear.horde.org
-/home/horde/website/pear.sh install horde/horde_role
+# Horde installation
+/home/horde/website/horde-pear channel-discover pear.horde.org
+/home/horde/website/horde-pear install horde/horde_role
 cd /home/horde/website/html/
-/home/horde/website/pear.sh run-scripts horde/Horde_Role
-# Don't build C extensions
-/home/horde/website/pear.sh install --nobuild horde/horde
+/home/horde/website/horde-pear run-scripts horde/Horde_Role
+# Don't build C extensions -> install apt packages
+/home/horde/website/horde-pear install --nobuild horde/horde
 
-# Tests
-/home/horde/website/pear.sh install --nobuild horde/Horde_Test
+# Install and run tests
+/home/horde/website/horde-pear install --nobuild horde/Horde_Test
 # Open TNEF
-/home/horde/website/pear.sh install --nobuild horde/Horde_Mapi
+/home/horde/website/horde-pear install --nobuild horde/Horde_Mapi
 # Pretty URL-s
-/home/horde/website/pear.sh install --nobuild horde/Horde_Routes
-# IMP and Gravatar support
-/home/horde/website/pear.sh install --nobuild horde/imp horde/Horde_Service_Gravatar
+/home/horde/website/horde-pear install --nobuild horde/Horde_Routes
+# Gravatar support
+/home/horde/website/horde-pear install --nobuild horde/Horde_Service_Gravatar
+# IMP
+/home/horde/website/horde-pear install --nobuild horde/imp
 
 # Create database tables
 PHP_PEAR_SYSCONF_DIR=/home/horde/website php -d "include_path=.:/home/horde/website/pear/php" \
     /home/horde/website/pear/horde-db-migrate
 ```
 
-##### PHP configuration
+##### PHP-FPM configuration
 
 ```ini
 ; Horde - old: .:/usr/share/php:/usr/share/pear
-php_admin_value[include_path] = .:/home/horde/website/pear/php
+php_admin_value[include_path] = ".:/home/horde/website/pear/php"
 ; PEAR
 env[PHP_PEAR_SYSCONF_DIR] = /home/horde/website
 env[TMPDIR] = /home/horde/website/tmp
@@ -56,11 +63,13 @@ $conf['umask'] = 037;
 ### Upgrade
 
 ```bash
-#pear -vvv upgrade pear
-pear -vvv update-channels
-pear list -c horde
-pear -vvv upgrade --nobuild --onlyreqdeps -c horde
-#pear -vvv upgrade --nobuild --alldeps -c horde
+./horde-pear clear-cache
+./horde-pear -vvv update-channels
+./horde-pear upgrade PEAR
+./horde-pear list -c horde
+./horde-pear list-upgrades
+./horde-pear -vvv upgrade --nobuild --onlyreqdeps -c horde
+#./horde-pear -vvv upgrade --nobuild --alldeps -c horde
 
 # $HORDE_URL/admin/config/
 # Upgrade database schema

@@ -5,9 +5,6 @@ networking:
     method: dhcp
     name: eth0
     resolver:
-        #   # UpCloud deams1
-        #   - 94.237.40.9
-        #   - 2a04:3544:53::1
         # UpCloud defra1
         - 94.237.127.9
         # google-public-dns-a.google.com.
