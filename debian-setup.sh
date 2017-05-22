@@ -10,13 +10,23 @@
 # CI            :shellcheck
 # CONFIG        :/root/server.yml
 
+# Choose providers
+#
+# - Domain registrar
+# - DNS provider
+# - Server provider
+# - Transactional mail provider
+# - Storage provider (for backup)
+# - CDN provider (for static content)
+# - Certificate provider (for HTTPS)
+
 # Execution Steps
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    cd debian-server-tools-master/
 # 2. Aquire settings: hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 4. Set up DNS resource records: PTR, A, AAAA, MX (domain registrar, DNS provider)
+# 4. Set up DNS resource records: PTR, A, AAAA, MX
 # 5. Set volume labels:  lsblk -f;tune2fs -L "instanceID-root" /dev/sda1
 # 6. Start!
 #    script --timing=debian-setup.time debian-setup.script
@@ -29,7 +39,7 @@
 
 # Features
 #
-# - YAML configuration file with provider profiles (server provider)
+# - YAML configuration file with provider profiles
 # - OS image normalization
 # - Optionally switch to SysVinit
 # - Boot and Halt alert
@@ -40,15 +50,15 @@
 # - Hardware TRNG or HAVEGE generator
 # - Fail2ban and blocking dangerous networks
 # - Monit monitoring
-# - Courier MTA (mail provider)
-# - System backup with S3QL (storage provider)
+# - Courier MTA
+# - System backup with S3QL
 # - Nice motd welcome screen
 # - Package managers: composer, pip, npm
 # - 155 MB memory usage, 2 GB disk usage
 #
 # Webserver
 #
-# - Apache 2.4 latest with HTTP/2 and event MPM (CDN provider, certificate provider)
+# - Apache 2.4 latest with HTTP/2 and event MPM
 # - PHP 5.6 or 7.0 through PHP-FPM
 # - CLI tools: WP-CLI, Drush, CacheTool
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]

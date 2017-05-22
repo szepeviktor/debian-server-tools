@@ -402,20 +402,18 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Legal
 
-- "Impressum"
-- Privacy policy
-- Terms & Conditions
+- [Impressum (*Operated by*, *Hosted at*), Privacy policy, Terms & Conditions](https://net-jog.hu/kapcsolat/)
 - [Cookie Consent Kit](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_4) + opt out,
   [cookie notice template](http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
   [Cookie Consent wizard by Insites](https://cookieconsent.insites.com/download/),
   [EDAA Glossary](http://www.youronlinechoices.com/hu/szomagyarazat)
-- *Operated by*, *Hosted at*
 - `/.well-known/dnt-policy.txt`
 
 ### Compatiblitity
 
 - Toolbar color of Chrome for Android (`theme-color` meta)
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
+- OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup)
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)

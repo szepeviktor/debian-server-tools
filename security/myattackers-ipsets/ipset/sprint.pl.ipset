@@ -1,7 +1,7 @@
 # AS197226 - SPRINT-SDC, was "ering.pl"
 #: ipset -exist restore < ipset/sprint.pl.ipset
 #: iptables -I myattackers-ipset -m set --match-set sprint.pl src -j REJECT
-create sprint.pl hash:net family inet hashsize 256 maxelem 32
+create sprint.pl hash:net family inet hashsize 64 maxelem 32
 flush sprint.pl
 # FUFO STUDIO AGATA GRABOWSKA
 add sprint.pl 155.133.38.0/24
@@ -21,16 +21,16 @@ add sprint.pl 156.67.106.0/24
 # "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
 add sprint.pl 195.22.126.0/23
 
-# !Not Announced! See AS203937 - CYFROTEL
-#add ering.pl 185.125.5.0/24
-#add ering.pl 185.125.6.0/24
-#add ering.pl 185.125.7.0/24
-
-# AS201451 - DELORIAN
-# !Not Announced! https://stat.ripe.net/193.189.116.0%2F23
+# !Not Announced! AS201451 - DELORIAN
+# https://stat.ripe.net/193.189.116.0%2F23
 # E-RING-NET, Artur Grabowski
 # https://www.spamhaus.org/sbl/query/SBL274959
 #add ering.pl 193.189.116.0/23
+
+# !Not Announced! See AS203937 below - CYFROTEL
+#add ering.pl 185.125.5.0/24
+#add ering.pl 185.125.6.0/24
+#add ering.pl 185.125.7.0/24
 
 # AS203937 - CYFROTEL
 # CYFROTEL SPOLKA JAWNA MARIUSZ ULIDOWSKI MAREK BZDZIUCH

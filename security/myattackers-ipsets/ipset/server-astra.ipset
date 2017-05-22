@@ -1,7 +1,7 @@
 ## AS56322 - ServerAstra Kft.
 ##: ipset -exist restore < ipset/server-astra.ipset
 ##: iptables -I myattackers-ipset -m set --match-set server-astra src -j REJECT
-#create server-astra hash:net family inet hashsize 256 maxelem 32
+#create server-astra hash:net family inet hashsize 64 maxelem 32
 #flush server-astra
 #add server-astra 91.219.236.0/22
 ## Also in -> dangerous.dnsbl.zone

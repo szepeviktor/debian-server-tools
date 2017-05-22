@@ -2,7 +2,7 @@
 #
 # Create database and database user from wp-config.php
 #
-# VERSION       :0.3.2
+# VERSION       :0.3.3
 # DATE          :2016-02-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -70,9 +70,10 @@ CREATE DATABASE IF NOT EXISTS \`${DBNAME}\`
     COLLATE 'utf8_general_ci';
 -- "GRANT ALL PRIVILEGES" creates the user
 -- CREATE USER '${DBUSER}'@'${DBHOST}' IDENTIFIED WITH mysql_native_password BY '${DBPASS}';
+-- In later releases: IDENTIFIED WITH mysql_native_password
 GRANT ALL PRIVILEGES ON \`${DBNAME}\`.*
     TO '${DBUSER}'@'${DBHOST}'
-    IDENTIFIED WITH mysql_native_password BY '${DBPASS}';
+    IDENTIFIED BY '${DBPASS}';
 FLUSH PRIVILEGES;
 EOF
 

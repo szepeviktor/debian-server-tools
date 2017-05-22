@@ -1,6 +1,6 @@
 # Dangerous IP ranges
 
-Use `ipset-install.sh`
+Use `myattackers-install.sh`
 
 ### Usage on systems without ipset
 

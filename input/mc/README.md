@@ -7,6 +7,8 @@ cat /usr/share/mc/syntax/Syntax >> ~/.config/mc/mcedit/Syntax
 install --mode=0644 ./menu ~/.config/mc/mcedit/
 ```
 
+User menu file: `~/.config/mc/mcedit/menu`
+
 Per directory menu file: `.cedit.menu`
 
 ### Markdown viewer

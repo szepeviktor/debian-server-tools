@@ -84,7 +84,7 @@ debian-setup/_resolv_conf
 # @FIXME Depends on repo
 (
     cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/
-    ./ipset-install.sh
+    ./myattackers-ipsets-install.sh
 )
 
 # Micro Name Service Caching

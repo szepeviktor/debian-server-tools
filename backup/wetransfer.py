@@ -1,31 +1,41 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Download WeTransfer files (fixed)
+# Download WeTransfer files
 #
 # VERSION       :1.0
 # DATE          :2014-08-01
 # AUTHOR        :Alejandro Alonso <https://github.com/superalex>
-# URL           :https://github.com/zevaverbach/py-wetransfer/blob/master/wetransfer.py
+# URL           :https://github.com/zevaverbach/py-wetransfer/blob/port_to_py3_with_bw_compatibility_and_fix_download_url/wetransfer.py
 # DEPENDS       :pip install requests
 
-from urlparse import urlparse, parse_qs
+import getopt
+import json
+import os
 import requests
 import sys
-import json
-import getopt
+if (sys.version_info > (3, 0)):
+    from urllib.parse import urlparse, parse_qs
+else:
+    from urlparse import urlparse, parse_qs
 
 DOWNLOAD_URL_PARAMS_PREFIX = "downloads/"
 CHUNK_SIZE = 1024
 
 
-def download(file_id, recipient_id, security_hash):
-    url = "https://www.wetransfer.com/api/v1/transfers/{0}/download?recipient_id={1}&security_hash={2}&password=&ie=false".format(
-        file_id, recipient_id, security_hash)
-    r = requests.get(url)
-    download_data = json.loads(r.content)
+def download(file_id, recipient_id, security_hash, outdir=None):
+    if outdir is None:
+        outdir = os.getcwd()
 
-    print "Downloading {0}...".format(url)
+    url = "https://www.wetransfer.com/api/ui/transfers/{0}/{2}/download?recipient_id={1}".format(
+                file_id, recipient_id, security_hash)
+    r = requests.get(url)
+    download_data = r.json()
+    if 'error' in download_data.keys():
+        print(download_data)
+        raise KeyError("URL didn't work.")
+
+    print("Downloading {0}...".format(url))
     if 'direct_link' in download_data:
         direct_link_path = urlparse(download_data['direct_link']).path
         direct_link_path = direct_link_path.split('/')
@@ -40,6 +50,7 @@ def download(file_id, recipient_id, security_hash):
             stream=True
             )
 
+    file_name = os.path.join(outdir, file_name)
     file_size = int(r.headers["Content-Length"])
     output_file = open(file_name, 'wb')
     counter = 0
@@ -55,7 +66,7 @@ def download(file_id, recipient_id, security_hash):
 
     sys.stdout.write('\r100% {0}/{1}\n'.format(file_size, file_size))
     output_file.close()
-    print "Finished! {0}".format(file_name)
+    return file_name
 
 
 def extract_params(url):
@@ -84,14 +95,12 @@ def extract_url_redirection(url):
 
 
 def usage():
-    print """
+    print("""
 You should have a we transfer address similar to https://www.wetransfer.com/downloads/XXXXXXXXXX/YYYYYYYYY/ZZZZZZZZ
-
 So execute:
     python wetransfer.py -u https://www.wetransfer.com/downloads/XXXXXXXXXXXXXXXXXXXXXXXXX/YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY/ZZZZZ
-
 And download it! :)
-"""
+""")
     sys.exit()
 
 
