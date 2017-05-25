@@ -15,7 +15,6 @@ My howtos and scripts are open-source: https://github.com/szepeviktor/
 
 I am also a **WordPress** expert. I know the core and develop plugins: https://profiles.wordpress.org/szepeviktor#content-plugins
 
-You could give me feature (theme, plugin, UI) development jobs, but that is outside my daily routine.  
 Support videos are favourites of mine: https://www.youtube.com/user/szepeviktor (*there are English videos*)
 
 I hope I'll fit into your picture: viktor@szepe.net
@@ -73,19 +72,21 @@ Essentially keep every operation in memory!
 
 # Szépe Viktor dolgozna egy Vállalatnak
 
-Web alapú rendszerek **proaktív** üzemeltetésével foglalkozok,
-és a fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be a tapasztalataim alapján.
+Web alapú rendszerek **proaktív** üzemeltetésével foglalkozok.  
+Olyan dolgokkal, amelyek nem látszanak a képernyőn,
+amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák váratlanul jönnek elő.
 
-(A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.)  
-A figyelmem az üzembiztonságon és a sebességen van.
+Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
+
+A fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be a tapasztalataim alapján.  
+A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
+A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
 Debian alapú [webszervereket építek](http://xn--felhtrhely-w4a65k.hu/) és üzemeltetek. Email kézbesítéssel is foglalkozok.  
-A jegyzeteim és a programjaim nyílt forrásúak: https://github.com/szepeviktor/
+A jegyzeteim és a programjaim mind nyílt forrásúak: https://github.com/szepeviktor/
 
 Emellett WordPress - jobb szó híján - szakértő is vagyok.
-Ismerem a magot (core) és bővítményeket is fejlesztek: https://profiles.wordpress.org/szepeviktor#content-plugins
-
-Rám bízhatnak *feature* fejleszést is (sablon, bővítmény, UI) de az nem része a napi rutinomnak.
+Ismerem a magot (core) és bővítményeket fejlesztek: https://profiles.wordpress.org/szepeviktor#content-plugins
 
 A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolul is vannak)
 
@@ -101,9 +102,6 @@ A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolu
 4. WP téma - akár utólagos - szerkeszthetősége, szerkesztők menedzselése, oktatása https://www.youtube.com/user/szepeviktor
 5. WP téma készítése HTML-ből (vagy PSD-ből sitebuilder segítségével) Bootstrap módon
 6. Komplex honlapoknál tanácsadás: adatstruktúrák WP-s ábrázolása biztonságosan és gyorsan (azaz cache-elhetően)
-
- Annyit írnék még, hogy tömegtermelésben nem sok hasznomat veszik, mert alapos munkát végzek,
- és úgy érzékelem, hogy ez a kettő üti egymást.
 
 Remélem bele illek a képbe valahogyan: viktor@szepe.net
 

@@ -263,7 +263,7 @@ apt-get autoremove --purge -y
 apt-get clean
 
 # Throttle automatic package downloads
-echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76download
+echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76throttle-download
 
 # etckeeper at last
 apt-get install -y etckeeper

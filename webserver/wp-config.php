@@ -106,7 +106,7 @@ define( 'ENABLE_FORCE_CHECK_UPDATE', true );
 //define( 'ITSEC_BACKUP_CRON', true );
 //  Non-free
 //define( 'GF_LICENSE_KEY', '' );
-
+//define( 'OTGS_DISABLE_AUTO_UPDATES', true ); // WPML
 
 /** DB */
 

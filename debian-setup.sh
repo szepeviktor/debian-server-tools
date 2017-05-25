@@ -14,11 +14,11 @@
 #
 # - Domain registrar
 # - DNS provider
-# - Server provider
+# - Server provider (e.g. UpCloud)
+# - SSL certificate provider (for HTTPS)
+# - CDN provider (for static files)
 # - Transactional mail provider
 # - Storage provider (for backup)
-# - CDN provider (for static content)
-# - Certificate provider (for HTTPS)
 
 # Execution Steps
 #
