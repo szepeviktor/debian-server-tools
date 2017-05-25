@@ -1,7 +1,7 @@
 [> :hungary:](#sz%C3%A9pe-viktor-dolgozna-egy-v%C3%A1llalatnak)
 
 [Videó egy honlap műszaki hátteréről  
-![Honlap műszaki háttere](https://i.ytimg.com/vi/dGi6O9naiN8/hqdefault.jpg)](https://www.youtube.com/watch?v=dGi6O9naiN8)
+![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
 # Viktor Szépe from Hungary would work for a Company
 
