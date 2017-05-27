@@ -1,20 +1,20 @@
 #!/bin/bash
 #
-# Measure HTTPS response time.
+# Measure HTTP response time.
 #
-# VERSION       :0.2.2
+# VERSION       :0.3.0
 # DATE          :2016-11-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install time netcat-openbsd
-# LOCATION      :/usr/local/bin/https-time.sh
+# DEPENDS       :apt-get install netcat-openbsd moreutils
+# LOCATION      :/usr/local/bin/http-get-time.sh
 
 # Usage
-#     http-time.sh http://example.com/page
+#
+#     http-time.sh http://example.com/page | sed -e 's|\s| |g' | cut -c 1-${COLUMNS}
 
-# Use -S option after the URL to show HTTP response headers and body on stdout.
 
 # User-Agent
 UA="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20130809 Firefox/47.0"
@@ -26,14 +26,6 @@ IsIP() {
         return 0
     else
         return 1
-    fi
-}
-
-Hide() {
-    if [ "$SHOW" = "-S" ]; then
-        cat
-    else
-        cat > /dev/null
     fi
 }
 
@@ -64,8 +56,7 @@ test "$IP" != "${IP##* has address }"
 IP="${IP##* has address }"
 test -n "$IP"
 
-# Send request and return wall clock time in seconds,
-# optionally show full response.
+# Send request and display timestamped response
 {
     cat <<EOF
 GET ${REQ} HTTP/1.1
@@ -76,6 +67,4 @@ Accept-Language: en
 Connection: close
 
 EOF
-    sleep 5
-} | sed -e 's|$|\r|' \
-    | /usr/bin/time --format "%e" nc "$IP" 80 | Hide
+} | sed -e 's|$|\r|' | nc "$IP" 80 | ts -s "%.s"

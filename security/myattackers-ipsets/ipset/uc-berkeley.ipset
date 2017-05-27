@@ -1,6 +1,6 @@
 # AS25 - UCAB
 #: ipset -exist restore < ipset/uc-berkeley.ipset
-#: iptables -I myattackers-ipset -m set --match-set uc-berkeley src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set uc-berkeley src -j REJECT
 create uc-berkeley hash:net family inet hashsize 64 maxelem 32
 flush uc-berkeley
 # researchscan{0..4}.eecs.berkeley.edu

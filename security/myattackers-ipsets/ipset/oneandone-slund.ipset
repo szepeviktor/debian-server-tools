@@ -1,6 +1,6 @@
 ## AS8560 - 1&1 Internet SE / SCHLUND-CUSTOMERS
 ##: ipset -exist restore < ipset/oneandone-slund.ipset
-##: iptables -I myattackers-ipset -m set --match-set oneandone-slund src -j REJECT
+##: iptables -w -I myattackers-ipset -m set --match-set oneandone-slund src -j REJECT
 #create oneandone-slund hash:net family inet hashsize 64 maxelem 32
 #flush oneandone-slund
 #add oneandone-slund 82.165.0.0/20

@@ -1,6 +1,6 @@
 # AS5577 - LU root SA, type: HTTP
 #: ipset -exist restore < ipset/lu-root.ipset
-#: iptables -I myattackers-ipset -m set --match-set lu-root src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set lu-root src -j REJECT
 create lu-root hash:net family inet hashsize 64 maxelem 32
 flush lu-root
 add lu-root 94.242.192.0/18

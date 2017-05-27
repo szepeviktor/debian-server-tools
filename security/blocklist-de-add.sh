@@ -2,7 +2,7 @@
 #
 # Block traffic from very abusive IP-s of blocklist.de
 #
-# VERSION       :0.3.2
+# VERSION       :0.3.3
 # DATE          :2015-11-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -10,6 +10,8 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/blocklist-de-add.sh
 # CRON.D        :10 7	* * *	root	/usr/local/sbin/blocklist-de-add.sh
+
+# @TODO Use ipsets!
 
 A5K_URL="http://lists.blocklist.de/lists/strongips.txt"
 A5K_CHAIN="ATTACKER5K"
@@ -24,7 +26,7 @@ isIP() {
 
 # Check iptables executable
 if ! [ -x "$IPTABLES" ]; then
-    echo "iptables executable not found (${IPTABLES})" >&2
+    echo "iptables executable not found (${IPTABLES})" 1>&2
     exit 1
 fi
 
@@ -35,32 +37,32 @@ trap "rm '$A5K_TMP' &> /dev/null" EXIT
 
 wget -qO "$A5K_TMP" "$A5K_URL"
 if ! [ -s "$A5K_TMP" ]; then
-    echo "blocklist.de's strongips list download failed." >&2
+    echo "blocklist.de's strongips list download failed." 1>&2
     exit 2
 fi
 
 A5K_LIST_MD5="$(md5sum "$A5K_TMP")"
 A5K_LIST_MD5="${A5K_LIST_MD5%% *}"
 if [ "$A5K_LIST_MD5" != "$A5K_MD5" ]; then
-    echo "blocklist.de's strongips list integrity failed." >&2
-    echo "Downloaded MD5 (${A5K_MD5}), calculated MD5 (${A5K_LIST_MD5}), list length in bytes ($(wc -c < "$A5K_TMP"))." >&2
+    echo "blocklist.de's strongips list integrity failed." 1>&2
+    echo "Downloaded MD5 (${A5K_MD5}), calculated MD5 (${A5K_LIST_MD5}), list length in bytes ($(wc -c < "$A5K_TMP"))." 1>&2
     exit 3
 fi
 
 # Remove from INPUT chain for now
-"$IPTABLES" -D INPUT -j "$A5K_CHAIN" &> /dev/null
+"$IPTABLES" -w -D INPUT -j "$A5K_CHAIN" &> /dev/null
 
 # Set up chain and rules
-"$IPTABLES" -N "$A5K_CHAIN" &> /dev/null
-"$IPTABLES" -F "$A5K_CHAIN"
+"$IPTABLES" -w -N "$A5K_CHAIN" &> /dev/null
+"$IPTABLES" -w -F "$A5K_CHAIN"
 while read A5K; do
-    isIP "$A5K" && "$IPTABLES" -A "$A5K_CHAIN" -s "$A5K" -j REJECT
+    isIP "$A5K" && "$IPTABLES" -w -A "$A5K_CHAIN" -s "$A5K" -j REJECT
 done < "$A5K_TMP"
-"$IPTABLES" -A "$A5K_CHAIN" -j RETURN
+"$IPTABLES" -w -A "$A5K_CHAIN" -j RETURN
 
 # Add back to INPUT
-"$IPTABLES" -C INPUT -j "$A5K_CHAIN" &> /dev/null || "$IPTABLES" -I INPUT -j "$A5K_CHAIN"
+"$IPTABLES" -w -C INPUT -j "$A5K_CHAIN" &> /dev/null || "$IPTABLES" -w -I INPUT -j "$A5K_CHAIN"
 
-tty --quiet && "$IPTABLES" -n -L "$A5K_CHAIN" | grep -w "REJECT" | wc -l
+tty --quiet && "$IPTABLES" -n -w -L "$A5K_CHAIN" | grep -w "REJECT" | wc -l
 
 exit 0

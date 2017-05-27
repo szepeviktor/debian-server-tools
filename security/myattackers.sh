@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.5.9
+# VERSION       :0.5.10
 # DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -79,7 +79,7 @@ Is_IP_range() {
 }
 
 Check_chain() {
-    iptables -n -L "$CHAIN" &> /dev/null
+    iptables -n -w -L "$CHAIN" &> /dev/null
 }
 
 # Validate IP address or range
@@ -91,19 +91,19 @@ Check_address() {
 
 Init() {
     if ! Check_chain; then
-        iptables -N "$CHAIN" || return 1
+        iptables -w -N "$CHAIN" || return 1
         # Zero out counters
-        iptables -Z "$CHAIN"
+        iptables -w -Z "$CHAIN"
     fi
 
     # Final return rule
-    if ! iptables -C "$CHAIN" -j RETURN &> /dev/null; then
-        iptables -A "$CHAIN" -j RETURN || return 2
+    if ! iptables -w -C "$CHAIN" -j RETURN &> /dev/null; then
+        iptables -w -A "$CHAIN" -j RETURN || return 2
     fi
 
     # Enable our chain at the top of INPUT
-    if ! iptables -C INPUT -j "$CHAIN" &> /dev/null; then
-        iptables -I INPUT -j "$CHAIN" || return 3
+    if ! iptables -w -C INPUT -j "$CHAIN" &> /dev/null; then
+        iptables -w -I INPUT -j "$CHAIN" || return 3
     fi
 
     # All OK
@@ -111,13 +111,13 @@ Init() {
 }
 
 Remove_chain() {
-    echo "iptables -D INPUT -j ${CHAIN}"
-    echo "iptables -F ${CHAIN}"
-    echo "iptables -X ${CHAIN}"
+    echo "iptables -w -D INPUT -j ${CHAIN}"
+    echo "iptables -w -F ${CHAIN}"
+    echo "iptables -w -X ${CHAIN}"
 }
 
 Show() {
-    iptables -v -n -L ${CHAIN}
+    iptables -v -n -w -L ${CHAIN}
 
     exit 0
 }
@@ -150,10 +150,10 @@ Ban() {
 
     # Don't populate duplicates
     # shellcheck disable=SC2086
-    if ! iptables -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &> /dev/null; then
+    if ! iptables -w -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &> /dev/null; then
         # Insert at the top
         # shellcheck disable=SC2086
-        iptables -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
+        iptables -w -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
         logger -t "myattackers" "Ban ${ADDRESS} PROTO=${PROTOCOL}"
     fi
 }
@@ -162,16 +162,16 @@ Unban() {
     local ADDRESS="$1"
 
     # Delete rule by searching for source address
-    iptables --line-numbers -n -v -L "$CHAIN" \
+    iptables -n -v -w --line-numbers -L "$CHAIN" \
         | sed -n -e "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*\$;\1;p" \
         | sort -r -n \
-        | xargs -r -L 1 iptables -D "$CHAIN"
+        | xargs -r -L 1 iptables -w -D "$CHAIN"
     logger -t "myattackers" "Unban ${ADDRESS}"
 }
 
 Get_rule_data() {
     # Output format: LINE-NUMBER <TAB> PACKETS <TAB> IP-ADDRESS <TAB> EXPIRATION-DATE
-    iptables --line-numbers -n -v -L "$CHAIN" \
+    iptables -n -v -w --line-numbers -L "$CHAIN" \
         | sed -n -e "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$;\1\t\2\t\3\t\4;p" \
         | sort -r -n
 }
@@ -196,7 +196,7 @@ Unban_expired() {
             if [ "$PACKETS" -eq 0 ] \
                 && [ "$EXPIRATION" -le "$NOW" ] \
                 && [ "$EXPIRATION" -gt "$MONTH_AGO" ]; then
-                iptables -D "$CHAIN" "$NUMBER"
+                iptables -w -D "$CHAIN" "$NUMBER"
                 logger -t "myattackers" "Unban expired ${SOURCE}"
             fi
         done
@@ -225,11 +225,11 @@ Reset_old_rule_counters() {
                 if [ "$PACKETS" -eq 0 ]; then
                     # Remove rules with zero traffic
                     # These must be at least 2 months old
-                    iptables -D "$CHAIN" "$NUMBER"
+                    iptables -w -D "$CHAIN" "$NUMBER"
                     logger -t "myattackers" "Unban expired 1+ months ${SOURCE}"
                 else
                     # Reset the packet and byte counters
-                    iptables -Z "$CHAIN" "$NUMBER"
+                    iptables -w -Z "$CHAIN" "$NUMBER"
                 fi
             fi
         done

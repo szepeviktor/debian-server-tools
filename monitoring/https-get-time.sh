@@ -2,14 +2,14 @@
 #
 # Measure HTTPS response time.
 #
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # DATE          :2016-11-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install time openssl
-# LOCATION      :/usr/local/bin/https-time.sh
+# LOCATION      :/usr/local/bin/https-get-time.sh
 
 # Usage
 #     https-time.sh https://example.com/page

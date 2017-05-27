@@ -3,7 +3,7 @@
 #         host -t A "${S}.shodan.io"
 #     done | sed -e 's|^.* \(has address\|has IPv4 address\) ||' | sortip | uniq
 #: ipset -exist restore < ipset/shodan-io.ipset
-#: iptables -I myattackers-ipset -m set --match-set shodan-io src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set shodan-io src -j REJECT
 create shodan-io hash:net family inet hashsize 64 maxelem 32
 flush shodan-io
 add shodan-io 66.240.192.138

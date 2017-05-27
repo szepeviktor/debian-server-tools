@@ -2,7 +2,7 @@
 #
 # Display hits of ipsets and reset their counters.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-04-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,14 +18,14 @@ Reset_rule() {
     local RULE
     local -i RULE_NUMBER
 
-    RULE="$(iptables -n --line-numbers -L "$CHAIN" | grep -F "match-set ${IPSET} src reject-with icmp-port-unreachable")"
+    RULE="$(iptables -n -w --line-numbers -L "$CHAIN" | grep -F "match-set ${IPSET} src reject-with icmp-port-unreachable")"
     RULE_NUMBER="${RULE%% *}"
     if [ -z "$RULE_NUMBER" ] || [ "$RULE_NUMBER" -lt 1 ]; then
         return 1
     fi
 
     # Reset and display hits
-    if ! iptables -v -n -Z "$CHAIN" "$RULE_NUMBER" -L; then
+    if ! iptables -v -n -w -Z "$CHAIN" "$RULE_NUMBER" -L; then
         echo "Error resetting rule for ${IPSET}" 1>&2
         return 2
     fi

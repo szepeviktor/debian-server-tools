@@ -1,6 +1,6 @@
 # AS4134 - JINFANDA-CHEMICAL-LTD, type: UDP
 #: ipset -exist restore < ipset/cn-jinfanda.ipset
-#: iptables -I myattackers-ipset -m set --match-set cn-jinfanda src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set cn-jinfanda src -j REJECT
 create cn-jinfanda hash:net family inet hashsize 256 maxelem 32
 flush cn-jinfanda
 add cn-jinfanda 122.224.153.104/29

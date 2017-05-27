@@ -2,7 +2,7 @@
 #
 # Deny traffic from dangerous networks.
 #
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # DATE          :2016-04-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,13 +21,13 @@ Add_ipsets() {
 Install_ipsets() {
     apt-get install -y iptables-persistent ipset ipset-persistent
 
-    iptables -N "$CHAIN"
+    iptables -w -N "$CHAIN"
 
     Add_ipsets
     ipset list -name
 
-    iptables -A "$CHAIN" -j RETURN
-    iptables -I INPUT -j "$CHAIN"
+    iptables -w -A "$CHAIN" -j RETURN
+    iptables -w -I INPUT -j "$CHAIN"
 
     if [ "$(lsb_release -s -c)" == "wheezy" ]; then
         sed -i -e "s;^IPSET=;IPSET=$(which ipset);" /etc/init.d/ipset-persistent
@@ -36,19 +36,19 @@ Install_ipsets() {
 }
 
 Update_ipsets() {
-    iptables -D INPUT -j "$CHAIN"
-    iptables -F "$CHAIN"
+    iptables -w -D INPUT -j "$CHAIN"
+    iptables -w -F "$CHAIN"
 
     Add_ipsets
     ipset list -name
 
-    iptables -A "$CHAIN" -j RETURN
-    iptables -I INPUT -j "$CHAIN"
+    iptables -w -A "$CHAIN" -j RETURN
+    iptables -w -I INPUT -j "$CHAIN"
 
     /etc/init.d/ipset-persistent save
 }
 
-if iptables -C INPUT -j "$CHAIN" &> /dev/null; then
+if iptables -w -C INPUT -j "$CHAIN" &> /dev/null; then
     Update_ipsets
 else
     Install_ipsets

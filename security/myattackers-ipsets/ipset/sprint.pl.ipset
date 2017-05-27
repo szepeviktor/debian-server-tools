@@ -1,6 +1,6 @@
 # AS197226 - SPRINT-SDC, was "ering.pl"
 #: ipset -exist restore < ipset/sprint.pl.ipset
-#: iptables -I myattackers-ipset -m set --match-set sprint.pl src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set sprint.pl src -j REJECT
 create sprint.pl hash:net family inet hashsize 64 maxelem 32
 flush sprint.pl
 # FUFO STUDIO AGATA GRABOWSKA

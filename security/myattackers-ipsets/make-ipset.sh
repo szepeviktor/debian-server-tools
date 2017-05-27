@@ -19,7 +19,7 @@ read -r ASLINE
     cat <<EOF
 # ${ASLINE### }
 #: ipset -exist restore < ipset/${NAME}.ipset
-#: iptables -I myattackers-ipset -m set --match-set ${NAME} src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set ${NAME} src -j REJECT
 create ${NAME} hash:net family inet hashsize 64 maxelem 32
 flush ${NAME}
 EOF

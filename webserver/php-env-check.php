@@ -8,7 +8,7 @@
  *     php /path/to/php-env-check.php
  *
  * @package php-env-check
- * @version 0.2.1
+ * @version 0.2.2
  * @author Viktor Szépe <viktor@szepe.net>
  */
 
@@ -64,6 +64,7 @@ final class Check_Env {
         $this->assert_directive( 'allow_url_fopen', '0' );
         $this->assert_directive( 'mail.add_x_header', '' );
         $this->assert_directive( 'realpath_cache_size', '64k' );
+        $this->assert_directive( 'output_buffering', '4096' );
         $this->assert_directive( 'max_execution_time', '30' );
         $this->assert_directive( 'memory_limit', '128M' );
         $this->assert_directive( 'max_input_vars', '1000' );

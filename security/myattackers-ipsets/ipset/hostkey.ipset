@@ -1,6 +1,6 @@
 # AS57043 - HOSTKEY-NET, DC: Serverius, aliases: Mir Telematiki
 #: ipset -exist restore < ipset/hostkey.ipset
-#: iptables -I myattackers-ipset -m set --match-set hostkey src -j REJECT
+#: iptables -w -I myattackers-ipset -m set --match-set hostkey src -j REJECT
 create hostkey hash:net family inet hashsize 64 maxelem 32
 flush hostkey
 add hostkey 5.39.216.0/21
