@@ -2,7 +2,7 @@
 #
 # Create, list and edit Godaddy DNS resource record sets.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.2
 # DOCS          :https://developer.godaddy.com/doc
 # KEYS          :https://developer.godaddy.com/keys/
 # DEPENDS       :apt-get install curl python
@@ -15,7 +15,7 @@
 #     godaddy-rrs.sh . TXT
 #     godaddy-rrs.sh non-existent-to-create. AAAA
 #     godaddy-rrs.sh @. A
-#     godaddy-rrs.sh @. IN TXT
+#     GODADDY_DOMAIN=other-domain.tld godaddy-rrs.sh @. IN TXT
 
 API_BASE_URL="https://api.godaddy.com"
 
@@ -87,7 +87,10 @@ fi
 
 API_KEY="$(head -n 1 "$API_KEY_FILE")"
 API_SECRET="$(head -n 1 "$API_SECRET_FILE")"
-GODADDY_DOMAIN="$(head -n 1 "$GODADDY_DOMAIN_FILE")"
+# Allow setting domain name
+if [ -z "$GODADDY_DOMAIN" ]; then
+    GODADDY_DOMAIN="$(head -n 1 "$GODADDY_DOMAIN_FILE")"
+fi
 
 if [ -z "$API_KEY" ] \
     || [ -z "$API_SECRET" ] \
@@ -170,7 +173,7 @@ EOF
 # Update RRs
 RESPONSE="$(Godaddy_change_rrs "$TEMP_JSON" "${TYPE}/${NAME}")"
 # Check response
-if [ $? -ne 0 ] || [ "$RESPONSE" != "{}" ]; then
+if [ "$RESPONSE" != "{}" ]; then
     {
         echo "ERROR: $?"
         echo "$RESPONSE" | Json_dump

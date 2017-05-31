@@ -10,7 +10,7 @@ These experiences could mean valuable feedback for your development team.
 (*Traffic light example* :vertical_traffic_light: *a developer sees the green light, I see red and amber.*)  
 My focus is on security&safety and performance.
 
-I build and monitor Debian-based web-servers. Email delivery is on my radar.  
+I build and [monitor](/monitoring/README.md) Debian-based web-servers. Email delivery is on my radar.  
 My howtos and scripts are open-source: https://github.com/szepeviktor/
 
 I am also a **WordPress** expert. I know the core and develop plugins: https://profiles.wordpress.org/szepeviktor#content-plugins
@@ -82,7 +82,8 @@ A fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek b
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
-Debian alapú [webszervereket építek](http://xn--felhtrhely-w4a65k.hu/) és üzemeltetek. Email kézbesítéssel is foglalkozok.  
+Debian alapú [webszervereket építek](http://xn--felhtrhely-w4a65k.hu/) és [üzemeltetek](/monitoring/README.md).
+Email kézbesítéssel is foglalkozok.  
 A jegyzeteim és a programjaim mind nyílt forrásúak: https://github.com/szepeviktor/
 
 Emellett WordPress - jobb szó híján - szakértő is vagyok.

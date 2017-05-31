@@ -11,7 +11,7 @@ networking:
         #- 81.2.193.227
     # IPv6 interface
     inet6:
-        method: auto
+        method: static
         name: eth0
         resolver:
             - 2001:15e8:102:3::c1d2

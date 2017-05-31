@@ -2,7 +2,7 @@
 #
 # Extract hostname from URL and execute BIND9 host command.
 #
-# VERSION       :0.2.0
+# VERSION       :0.3.0
 # DATE          :2016-03-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,7 +23,12 @@ Get_hostname() {
     # Strip path and query, e.g. /contact/
     URL="${URL%%/*}"
     # Strip port, e.g. :8080
-    echo "${URL%:*}"
+    if [ "${URL//[^:]/}" == ":" ]; then
+        echo "${URL%:*}"
+        return
+    fi
+
+    echo "$URL"
 }
 
 [ -x /usr/bin/host ] || exit 1
