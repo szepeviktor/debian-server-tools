@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -15,8 +15,8 @@ U="$(stat . -c %U)"
 #U="${1:-defaultuser}"
 HTTPS="ssl-"
 #HTTPS=""
-EXCLUDES="amazon_cloudfront pingdom cloudflare szepenet"
-#EXCLUDES="amazon_cloudfront pingdom cloudflare szepenet custom"
+EXCLUDES="amazon_cloudfront hetrixtools szepenet"
+#EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools szepenet custom"
 
 # https://myip.ms/info/bots/Google_Bing_Yahoo_Facebook_etc_Bot_IP_Addresses.html
 Exclude_custom() {
@@ -133,6 +133,20 @@ Exclude_amazon_cloudfront() {
         | Make_excludes
 }
 
+
+Exclude_hetrixtools() {
+    local IPLIST
+
+    if ! Exclude_enabled hetrixtools; then
+        return
+    fi
+
+    IPLIST="$(Get_cache_file "https://hetrixtools.com/resources/uptime-monitor-ips.txt")"
+
+    < "$IPLIST" sed -n -e 's|^\S\+\s\([0-9.]\+\)$|\1|p' \
+        | Make_excludes
+}
+
 Goaccess() {
     local GEOIP_DB="/var/lib/geoip-database-contrib/GeoLiteCity.dat"
 
@@ -149,6 +163,7 @@ Goaccess() {
         $(Exclude_amazon_cloudfront) \
         $(Exclude_pingdom) \
         $(Exclude_cloudflare) \
+        $(Exclude_hetrixtools) \
         $(Exclude_szepenet) \
         $(Exclude_custom) \
         --exclude-ip="$IP" \

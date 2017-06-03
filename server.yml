@@ -1,15 +1,16 @@
 ---
 # Server datasheet
+
 system:
-    fqdn: host.domain.tld
+    fqdn: #host.example.com
     os: "Debian “jessie”"
-    install-date: YYYY-MM-DD
+    install-date: #YYYY-MM-DD
     # tput sgr0;for C in {1..7};do tput setaf $C;echo -n "■${C}■  ";tput sgr0;done;echo
     host-color: 7
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
-    storage-provider: Oktawave
-    mail-provider: Mailjet
+    storage-provider: #Oktawave
+    mail-provider: #Mailjet
 
 # Package settings
 package:
@@ -26,16 +27,16 @@ package:
         install-testing: true
     adduser:
         firstuser:
-            name: viktor
-            ssh-key: ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa
+            name: "viktor"
+            ssh-key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa"
     openssh-server:
-        port: 2222
+        port: #2222
     fail2ban:
-        sender: admin@DOMAIN.TLD
+        sender: #admin@example.com
     apache2:
-        prg-http-user: user
-        prg-http-pwd: secret
-        prg-ssl-cn: prg.1.2.3.4.xip.io
+        prg-http-user: #user
+        prg-http-pwd: #secret
+        prg-ssl-cn: #prg.1.2.3.4.xip.io
 
 # Mail server reputation
 mail-server:
@@ -178,8 +179,8 @@ packaging:
 
 remarks: |
     Some remarks.
-    Some remarks.
+    Other remarks.
 
 # YAML editor: http://yaml-online-parser.appspot.com/
-#     php -r 'var_export(yaml_parse(file_get_contents("server.yml")));'
+#     shyaml get-value < server.yml
 ...

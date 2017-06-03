@@ -27,7 +27,7 @@
 # 2. Aquire settings: hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
 # 4. Set up DNS resource records: PTR, A, AAAA, MX
-# 5. Set volume labels:  lsblk -f;tune2fs -L "instanceID-root" /dev/sda1
+# 5. Set volume labels:  lsblk -f;tune2fs -L "instanceID-root" /dev/vda1
 # 6. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh

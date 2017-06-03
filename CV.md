@@ -7,7 +7,7 @@
 
 My main activity is **proactive** maintenance of web-based services: an application, an API or a website.  
 These experiences could mean valuable feedback for your development team.  
-(*Traffic light example* :vertical_traffic_light: *a developer sees the green light, I see red and amber.*)  
+Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.  
 My focus is on security&safety and performance.
 
 I build and [monitor](/monitoring/README.md) Debian-based web-servers. Email delivery is on my radar.  
@@ -78,7 +78,7 @@ amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák váratlanul jö
 
 Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
 
-A fejlesztésbe technológiai tanácsokkal és konkrét javaslatokkal segítek be a tapasztalataim alapján.  
+A fejlesztésbe technológiai tanácsokkal és konkrét kivitelezéssel segítek be a tapasztalataim alapján.  
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
@@ -97,12 +97,12 @@ A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolu
 + Szerver és WordPress telepítés, monitorozás
 + Konstruktív hibajegy nyitás és megoldások ezekre:
 
-1. WordPress üzembiztonság, monitorozás - legyen gazdája a honlapnak
-2. WP betörés-biztonság https://github.com/szepeviktor/wordpress-fail2ban
+1. Üzembiztonság, monitorozás - legyen gazdája a honlapnak
+2. WordPress sérülékenységek kiküszöbölése https://github.com/szepeviktor/wordpress-fail2ban
 3. WP sebesség - szerver oldali megoldások, plugin és téma audit és javítás
 4. WP téma - akár utólagos - szerkeszthetősége, szerkesztők menedzselése, oktatása https://www.youtube.com/user/szepeviktor
 5. WP téma készítése HTML-ből (vagy PSD-ből sitebuilder segítségével) Bootstrap módon
-6. Komplex honlapoknál tanácsadás: adatstruktúrák WP-s ábrázolása biztonságosan és gyorsan (azaz cache-elhetően)
+6. Komplex honlapoknál tanácsadás: adatstruktúrák WP-s ábrázolása biztonságosan és gyorsan, azaz cache-elhetően
 
 Remélem bele illek a képbe valahogyan: viktor@szepe.net
 

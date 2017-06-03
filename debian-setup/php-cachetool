@@ -8,4 +8,4 @@ wget -O /usr/local/bin/cachetool "$CACHETOOL_URL"
 chmod +x /usr/local/bin/cachetool
 
 # Usage
-# u cachetool --tmp-dir=/home/prg999/website/tmp --fcgi=/run/php/php7.0-fpm-prg999.sock opcache:status
+# cachetool --tmp-dir=/home/prg999/website/tmp --fcgi=/run/php/php7.0-fpm-prg999.sock opcache:status

@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.5.10
+# VERSION       :0.5.11
 # DATE          :2015-12-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -124,7 +124,9 @@ Show() {
 
 Bantime_translate() {
     local BANTIME="$1"
-    local -i NOW="$(date "+%s")"
+    local -i NOW
+
+    NOW="$(date "+%s")"
 
     case "$BANTIME" in
         1d|"")
@@ -163,7 +165,7 @@ Unban() {
 
     # Delete rule by searching for source address
     iptables -n -v -w --line-numbers -L "$CHAIN" \
-        | sed -n -e "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*\$;\1;p" \
+        | sed -n -e "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+[KMG]\?\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*\$;\1;p" \
         | sort -r -n \
         | xargs -r -L 1 iptables -w -D "$CHAIN"
     logger -t "myattackers" "Unban ${ADDRESS}"
@@ -172,18 +174,21 @@ Unban() {
 Get_rule_data() {
     # Output format: LINE-NUMBER <TAB> PACKETS <TAB> IP-ADDRESS <TAB> EXPIRATION-DATE
     iptables -n -v -w --line-numbers -L "$CHAIN" \
-        | sed -n -e "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$;\1\t\2\t\3\t\4;p" \
+        | sed -n -e "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+[KMG]\?\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$;\1\t\2\t\3\t\4;p" \
         | sort -r -n
 }
 
 # Unban expired addresses with zero traffic (hourly cron job)
 Unban_expired() {
-    local -i NOW="$(date "+%s")"
-    local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
+    local -i NOW
+    local -i MONTH_AGO
     local NUMBER
     local -i PACKETS
     local SOURCE
     local -i EXPIRATION
+
+    NOW="$(date "+%s")"
+    MONTH_AGO="$(date --date="1 month ago" "+%s")"
 
     Get_rule_data \
         | while IFS=$'\t' read -r -a RULEDATA; do
@@ -206,11 +211,13 @@ Unban_expired() {
 
 # Zero out counters on rules expired at least one month ago (monthly cron job)
 Reset_old_rule_counters() {
-    local -i MONTH_AGO="$(date --date="1 month ago" "+%s")"
+    local -i MONTH_AGO
     local NUMBER
     local -i PACKETS
     local SOURCE
     local -i EXPIRATION
+
+    MONTH_AGO="$(date --date="1 month ago" "+%s")"
 
     Get_rule_data \
         | while IFS=$'\t' read -r -a RULEDATA; do

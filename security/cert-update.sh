@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.12.2
+# VERSION       :0.12.3
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -69,7 +69,8 @@ Check_requirements() {
 
 Protect_certs() {
     # Are certificates readable?
-    chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
+    ## New non-root issuance
+    ##chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
     chmod 0600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
 }
 
