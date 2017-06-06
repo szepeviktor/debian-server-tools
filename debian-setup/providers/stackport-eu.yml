@@ -1,0 +1,15 @@
+# Stackport in Europe/OVH
+hosting-company: Stackport
+virtualization: kvm
+networking:
+    method: dhcp
+    name: eth0
+    resolver:
+        - 10.0.0.1
+        - 8.8.8.8
+        - 8.8.4.4
+provider-package:
+    # Cloud-init
+    - cloud-init
+    - cloud-initramfs-growroot
+#auto-check-system: true

@@ -30,7 +30,7 @@
    group "redis"
    include "/etc/monit/templates/rootbin"
 
- check program "redis_test" with path "/usr/local/sbin/redis-server-test.sh" with timeout 10 seconds
+ check program "redis_test" with path "/usr/local/sbin/redis-server-test.sh" with timeout 2 seconds
    group "redis"
    if status != 0 then alert
    if changed status then alert

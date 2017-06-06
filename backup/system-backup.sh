@@ -62,6 +62,7 @@
 #     system-backup.sh -u
 
 CONFIG="/root/.config/system-backup/configuration"
+HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"
 
 Onexit() {
     local -i RET="$1"
@@ -227,7 +228,7 @@ Backup_innodb() {
             2>> "${TARGET}/innodb/backupex.log" || Error 14 "Base InnoDB backup failed"
     fi
     # Check OK message
-    tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F 'innobackupex: completed OK!' \
+    tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F ' completed OK!' \
         || Error 15 "InnoDB backup operation not OK"
 }
 
@@ -236,6 +237,7 @@ Backup_files() {
     local WEEKLY_HOME
     local WEEKLY_MAIL
     local WEEKLY_USR
+    declare -a HOME_EXCLUDE
 
     # /etc
     if ! [ -d "${TARGET}/etc" ]; then
@@ -261,7 +263,11 @@ Backup_files() {
     if [ -z "$WEEKLY_HOME" ] || ! [ -d "$WEEKLY_HOME" ]; then
         Error 43 "Failed to create weekly directory for 'home'"
     fi
-    ionice rsync -a --delete /home/ "$WEEKLY_HOME"
+    # Exclude file
+    if [ -r "$HOME_EXCLUDE_LIST" ]; then
+        HOME_EXCLUDE=( "--exclude-from=${HOME_EXCLUDE_LIST}" )
+    fi
+    ionice rsync "${HOME_EXCLUDE[@]}" -a --delete /home/ "$WEEKLY_HOME"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_HOME"
 
@@ -285,7 +291,7 @@ Backup_files() {
     if [ -z "$WEEKLY_USR" ] || ! [ -d "$WEEKLY_USR" ]; then
         Error 47 "Failed to create weekly directory for 'usr'"
     fi
-    ionice rsync --exclude="/src" -a --delete /usr/local/ "$WEEKLY_USR"
+    ionice rsync --exclude="/src/" -a --delete /usr/local/ "$WEEKLY_USR"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_USR"
 }

@@ -217,18 +217,12 @@ wp transient delete-all
 wp plugin install wp-redis --activate
 wp redis enable
 
-# Memcached @tollmanz
-#wget -P wp-content/ https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/blob/develop/src/object-cache.php
-wget https://github.com/tollmanz/wordpress-pecl-memcached-object-cache/archive/develop.zip
-unzip wordpress-pecl-memcached-object-cache-develop.zip
-mkdir wp-content/plugins/wordpress-pecl-memcached-object-cache
-mv wordpress-pecl-memcached-object-cache-develop/src/* wp-content/plugins/wordpress-pecl-memcached-object-cache/
-rm -rf wordpress-pecl-memcached-object-cache-develop
-wp mem install
+# Memcached @Automattic
+wget -P wp-content/ https://github.com/Automattic/wp-memcached/raw/master/object-cache.php
 wp transient delete-all
 
 # APCu
-# DANGER! apcu is not available from CLI by default during WP-Cron/WP-CLI
+# DANGER! APCu is not available from CLI by default during WP-Cron/WP-CLI
 wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
 wp transient delete-all
 # Worse plugin: wp plugin install apcu

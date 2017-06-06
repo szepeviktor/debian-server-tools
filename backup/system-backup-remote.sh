@@ -39,6 +39,8 @@ REMOTE_TARGET="${REMOTE_ROOT}/s3ql"
 # @TODO
 #source "${HOME}/.config/system-backup/configuration" || ...
 
+HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"
+
 Remote_copy() {
     local FROM="$1"
     local TO="$2"
@@ -220,7 +222,7 @@ Backup_innodb() {
             2>> "${TARGET}/innodb/backupex.log" || Error 15 "First InnoDB backup failed"
     fi
     # Check OK message
-    tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F 'innobackupex: completed OK!' \
+    tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F ' completed OK!' \
         || Error 15 "InnoDB backup operation not OK"
 }
 
@@ -229,6 +231,7 @@ Backup_files() {
     local WEEKLY_ETC
     local WEEKLY_HOME
     local WEEKLY_MAIL
+    declare -a HOME_EXCLUDE
 
     WEEKLY_ETC="$(Rotate_weekly "etc")"
     tar -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
@@ -238,7 +241,11 @@ Backup_files() {
 
     WEEKLY_HOME="$(Rotate_weekly "homes")"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
-    rsync -aW --delete /home/ "$WEEKLY_HOME"
+    # Exclude file
+    if [ -r "$HOME_EXCLUDE_LIST" ]; then
+        HOME_EXCLUDE=( "--exclude-from=${HOME_EXCLUDE_LIST}" )
+    fi
+    rsync "${HOME_EXCLUDE[@]}" -aW --delete /home/ "$WEEKLY_HOME"
 
     WEEKLY_MAIL="$(Rotate_weekly "email")"
     rsync -aW --delete /var/mail/ "$WEEKLY_MAIL"

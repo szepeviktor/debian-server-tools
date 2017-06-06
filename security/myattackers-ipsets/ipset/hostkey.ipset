@@ -6,6 +6,7 @@ flush hostkey
 add hostkey 5.39.216.0/21
 #add hostkey 31.192.109.0/24
 #add hostkey 31.192.110.0/24
+add hostkey 31.207.44.0/22
 #add hostkey 46.17.96.0/21
 #add hostkey 46.249.38.0/24
 add hostkey 146.0.72.0/21

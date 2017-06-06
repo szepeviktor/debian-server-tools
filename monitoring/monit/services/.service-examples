@@ -18,7 +18,7 @@
    group "GROUP"
    include "/etc/monit/templates/rootbin"
 
- check program "SERVICE_test" with path "/usr/bin/SERVICE_TOOL.sh ping" with timeout 10 seconds
+ check program "SERVICE_test" with path "/usr/bin/SERVICE_TOOL.sh ping" with timeout 2 seconds
    group "GROUP"
    if status != 0 then alert
    if changed status then alert

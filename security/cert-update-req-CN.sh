@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.4
+# VERSION       :0.2.5
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -85,7 +85,7 @@ read -r -p "CN=" CN
 test -n "$CN"
 
 CERT_DIR="./${TODAY}-${CN}"
-mkdir -m 0700 "$CERT_DIR"
+test -d "$CERT_DIR" || mkdir -m 0700 "$CERT_DIR"
 cd "$CERT_DIR"
 
 # CSR generation mode
