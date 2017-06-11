@@ -164,10 +164,12 @@ wp plugin install https://github.com/norcross/airplane-mode/archive/master.zip -
 - Mouse tracking
 - Other 3rd-party services
 
-@TODO Distinguish development site:
+@TODO Distinguish development site visually:
 
-- Admin bar: outline-bottom + transition
-- [TAG] Page title: admin and frontend
+- Admin bar: outline bottom + transition
+- Frontend: border-top
+- [TAG] Frontend title
+- [TAG] Admin title
 - https://plugins.svn.wordpress.org/easy-local-site/trunk/easy-local-site.php
 
 ### Email delivery

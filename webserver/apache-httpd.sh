@@ -40,6 +40,10 @@ yes | cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available
 # php-fpm.conf is not enabled, use settings per vhost
 a2enconf logformats admin-address h5bp http2
 
+# Unnecessary
+a2dismod negotiation
+a2disconf localized-error-pages
+
 # Security through obscurity
 sed -i -e 's|^ServerTokens OS|ServerTokens Prod|' /etc/apache2/conf-available/security.conf
 # Log 404-s also

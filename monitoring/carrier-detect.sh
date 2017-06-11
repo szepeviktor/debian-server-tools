@@ -2,9 +2,20 @@
 #
 # List all carriers.
 #
+# VERSION       :0.2.0
+# DATE          :2017-06-08
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+
+# Usage
+#
+#     ./carrier-detect.sh | tee ipv4
+#     cat ipv4 | sort -n | uniq -c
 
 Set_iana_special() {
-    # uses global $IPV4_SPECIAL
+    # Uses global $IPV4_SPECIAL
 
     # https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
     IPV4_SPECIAL=(
@@ -38,7 +49,7 @@ Set_iana_special() {
 }
 
 Match_special() {
-    # uses global $IPV4_SPECIAL
+    # Uses global $IPV4_SPECIAL
     local IP="$1"
     local SP
 
@@ -63,6 +74,7 @@ Get_addresses() {
     for A in {0..255}; do
         # Four addresses, one in each 64 segment
         for B in 1 65 129 193; do
+        #for B in $((RANDOM % 256)) $((RANDOM % 256)) $((RANDOM % 256)) $((RANDOM % 256)); do
             # Random third and fourth octet
             C="$((RANDOM % 256))"
             D="$((RANDOM % 254 + 1))"
@@ -85,14 +97,19 @@ set -e
 Set_iana_special
 
 for IP in $(Get_addresses); do
-    echo "${IP} ..." 1>&2
+    echo "        ${IP} ..." 1>&2
 
-    HOP="$(traceroute -n -4 -w 1 -f 2 -m 2 "$IP" | sed -n -e '$s|^ 2  \([0-9.]\+\) .*$|\1|p')"
-    # Detect UpCloud/Frankfurt routers
+    HOP="$(traceroute -n -4 -w 2 -f 2 -m 2 "$IP" | sed -n -e '$s|^ 2  \([0-9.]\+\) .*$|\1|p')"
+    # Detect local routers
     if [[ "$HOP" =~ ^94\.237\.(24|25|26|27|28|29|30|31)\. ]]; then
-        echo "Third hop ..." 1>&2
-        traceroute -n -4 -w 1 -f 3 -m 3 "$IP" | sed -n -e '$s|^ 3  \([0-9.]\+\) .*$|\1|p'
-    elif [ -n "$HOP" ]; then
+        echo "        Third hop ..." 1>&2
+        HOP="$(traceroute -n -4 -w 2 -f 3 -m 3 "$IP" | sed -n -e '$s|^ 3  \([0-9.]\+\) .*$|\1|p')"
+    fi
+    #if [[ "$HOP" =~ ^0.0.0\. ]]; then
+    #    echo "        Fourth hop ..." 1>&2
+    #    HOP="$(traceroute -n -4 -w 2 -f 4 -m 4 "$IP" | sed -n -e '$s|^ 4  \([0-9.]\+\) .*$|\1|p')"
+    #fi
+    if [ -n "$HOP" ]; then
         echo "$HOP"
     fi
 done

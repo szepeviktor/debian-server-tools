@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.2
+# VERSION       :0.2.3
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -15,8 +15,8 @@ U="$(stat . -c %U)"
 #U="${1:-defaultuser}"
 HTTPS="ssl-"
 #HTTPS=""
-EXCLUDES="amazon_cloudfront hetrixtools szepenet"
-#EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools szepenet custom"
+EXCLUDES="amazon_cloudfront hetrixtools webymon szepenet"
+#EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools webymon szepenet custom"
 
 # https://myip.ms/info/bots/Google_Bing_Yahoo_Facebook_etc_Bot_IP_Addresses.html
 Exclude_custom() {
@@ -133,7 +133,6 @@ Exclude_amazon_cloudfront() {
         | Make_excludes
 }
 
-
 Exclude_hetrixtools() {
     local IPLIST
 
@@ -145,6 +144,19 @@ Exclude_hetrixtools() {
 
     < "$IPLIST" sed -n -e 's|^\S\+\s\([0-9.]\+\)$|\1|p' \
         | Make_excludes
+}
+
+Exclude_webymon() {
+    local IPLIST
+
+    if ! Exclude_enabled webymon; then
+        return
+    fi
+
+    #IPLIST="$(for N in {01..10}; do host -t A crawler-node-${N}.webymon.com.; done | sed -n -e 's/^.* has address \([0-9.]\+\)$/\1/p' | uniq)"
+    IPLIST="138.201.159.186 88.99.187.152 88.99.187.153 91.120.24.189"
+
+    echo "$IPLIST" | Make_excludes
 }
 
 Goaccess() {
@@ -164,6 +176,7 @@ Goaccess() {
         $(Exclude_pingdom) \
         $(Exclude_cloudflare) \
         $(Exclude_hetrixtools) \
+        $(Exclude_webymon) \
         $(Exclude_szepenet) \
         $(Exclude_custom) \
         --exclude-ip="$IP" \
