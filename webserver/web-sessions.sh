@@ -51,9 +51,11 @@ Display_sessions() {
     local REQUEST
 
     for ID in "${SESSIONS[@]}"; do
-        GEO="$(geoiplookup -f /var/lib/geoip-database-contrib/GeoLiteCity.dat "${SESSION_DATA[${ID}_IP]}" | cut -d ":" -f 2- | cut -c 1-30)"
+        GEO="$(geoiplookup -f /var/lib/geoip-database-contrib/GeoLiteCity.dat "${SESSION_DATA[${ID}_IP]}" | cut -d ":" -f 2-)"
+        # Trim leading space
+        GEO="${GEO# }"
         if [ "${GEO/N\/A,/}" != "$GEO" ]; then
-            PTR="$(host -t PTR "${SESSION_DATA[${ID}_IP]}")"
+            PTR="$(host -t PTR "${SESSION_DATA[${ID}_IP]}" | head -n 1)"
             if [ $? -eq 0 ]; then
                 GEO="${PTR#* domain name pointer }"
             fi
@@ -63,7 +65,7 @@ Display_sessions() {
             REQUEST="${REQUEST:0:20}...${REQUEST:(-30)}"
         fi
         # TAB separated
-        echo "${SESSION_DATA[${ID}_IP]}	${GEO}	${REQUEST}	${SESSION_DATA[${ID}_UA]:0:60}"
+        echo "${SESSION_DATA[${ID}_IP]}	${GEO:0:30}	${REQUEST}	${SESSION_DATA[${ID}_UA]:0:60}"
     done
 }
 
@@ -143,4 +145,4 @@ while read -r LOG_LINE; do
     if [ "$RANDOM" -lt 3276 ]; then
         Session_gc
     fi
-done < <(tail -f "$ACCESS_LOG")
+done < <(tail -q -f "$ACCESS_LOG")

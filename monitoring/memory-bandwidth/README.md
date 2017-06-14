@@ -3,10 +3,9 @@
 A memory bandwidth benchmark. http://zsmith.co/bandwidth.html
 
 ```bash
-# Download tar from https://mutineer.org/project.php?p=bandwidth
+#BW_VER=1.4 "Sequential read (256-bit), size = 256 B, Illegal instruction"
 BW_VER=1.3.1
-BW_ID=284ebee21bde256fd0daeae91242c2b73d9cf1df
-##wget --content-disposition "https://mutineer.org/file.php?id=${BW_ID}&p=bandwidth"
+##wget --content-disposition "http://zsmith.co/archives/bandwidth-${BW_VER}.zip"
 # Dependencies
 apt-get install -y build-essential nasm
 # https://github.com/szepeviktor/bandwidth

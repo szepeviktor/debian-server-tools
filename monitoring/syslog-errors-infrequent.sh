@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last 3 hours. Simple logcheck.
 #
-# VERSION       :0.8.11
+# VERSION       :0.8.12
 # DATE          :2016-04-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -36,6 +36,7 @@ Failures() {
 # Search recent log entries
 /usr/sbin/logtail2 /var/log/syslog \
     | grep -F -v "$0" \
+    | dd bs=1M count=5 2> /dev/null \
     | Failures \
     | Exceptions
 
