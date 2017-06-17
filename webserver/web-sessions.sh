@@ -147,6 +147,11 @@ Is_static() {
 declare -r TAB="$(echo -e -n "\t")"
 declare -a SESSIONS
 declare -A SESSION_DATA
+COLOR_BRIGHT="$(tput bold)"
+COLOR_YELLOW="$(tput setaf 3)"
+COLOR_RED="$(tput setaf 1)"
+COLOR_INVERT="$(tput setaf 0; tput setab 7)"
+COLOR_RESET="$(tput sgr0)"
 
 Waiting &
 while read -r LOG_LINE; do
