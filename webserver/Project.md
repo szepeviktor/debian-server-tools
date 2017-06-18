@@ -4,6 +4,7 @@
 
 - vhost.conf
 - pool.conf
+- logrotate
 - database.sql
 - database-routines.sql
 

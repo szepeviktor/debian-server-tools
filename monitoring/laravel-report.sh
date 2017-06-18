@@ -34,7 +34,7 @@ test -f "$LARAVEL_LOG" || exit 0
 
 # Take new lines, limit at 5 MB and look for errors
 /usr/sbin/logtail2 "$LARAVEL_LOG" \
-    | dd bs=1M count=5 2> /dev/null \
+    | dd iflag=fullblock bs=1M count=5 2> /dev/null \
     | grep -E -A "$EXTRA_LINES" "^\[[0-9]{4}-.+ local\.(${MONOLOG_LEVELS}):" \
     || if [ $? != 1 ]; then
         # This is a real error, 1 is "not found"

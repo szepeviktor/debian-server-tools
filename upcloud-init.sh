@@ -7,6 +7,7 @@
 
 # http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/
 GEOIP_VERSION="1.19"
+DEBIAN_CODENAME="jessie"
 
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
@@ -41,7 +42,7 @@ echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty
 
 # LeaseWeb sources
 wget -nv -O /etc/apt/sources.list \
-    "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/jessie-for-upcloud.list"
+    "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/${DEBIAN_CODENAME}-for-upcloud.list"
 
 apt-get clean -q
 apt-get update -q
@@ -52,7 +53,7 @@ apt-get dist-upgrade -q -y
 # docker
 apt-get install -qq apt-transport-https
 apt-key adv --keyserver "hkp://p80.pool.sks-keyservers.net:80" --recv-keys 2C52609D
-echo "deb https://apt.dockerproject.org/repo debian-jessie main" \
+echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
     > /etc/apt/sources.list.d/docker.list
 apt-get update -q
 apt-get install -qq docker-engine

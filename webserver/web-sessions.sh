@@ -34,8 +34,10 @@ Exclude() {
     [ "$UA" != "${UA/ spbot\//}" ] && return 0
 
     # Libraries, CLI clients
-    [ "$UA" != "${UA/Go-http-client\/1.1/}" ] && return 0
-    [ "$UA" != "${UA/nutch-1.4\/Nutch-1.4/}" ] && return 0
+    #[ "$UA" != "${UA/Wget\/1./}" ] && return 0
+    #[ "$UA" != "${UA/curl\/7./}" ] && return 0
+    #[ "$UA" != "${UA/Go-http-client\/1./}" ] && return 0
+    #[ "$UA" != "${UA/nutch-1.*\/Nutch-1./}" ] && return 0
 
     # Others
     [ "$UA" != "${UA/AdsBot-Google/}" ] && return 0

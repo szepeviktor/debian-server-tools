@@ -89,6 +89,7 @@ export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget a
 
 # APT sources must be hardcoded as shyaml is unavailable before OS image normalization
 export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources"
+# @TODO Update to https://deb.debian.org/
 # Microsoft Azure Traffic Manager
 export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
 # Amazon CloudFront

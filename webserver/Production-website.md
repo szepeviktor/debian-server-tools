@@ -416,7 +416,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Adatkezelési tájékoztató (cookie nyilatkozat, üzemeltető neve)
 - Impresszum (csak űrlaphoz kell)
 - [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
-- Ingyenes {NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
+- Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
 
 ### Compatiblitity
 

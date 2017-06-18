@@ -1,0 +1,11 @@
+# New deb.debian.org mirror (Fastly and Amazon CloudFront)
+deb http://deb.debian.org/debian jessie main contrib non-free
+
+# Security
+deb http://deb.debian.org/debian-security jessie/updates main contrib non-free
+
+# Updates
+deb http://deb.debian.org/debian jessie-updates main contrib non-free
+
+# Backports
+deb http://deb.debian.org/debian jessie-backports main contrib non-free

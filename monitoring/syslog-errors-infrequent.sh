@@ -36,7 +36,7 @@ Failures() {
 # Search recent log entries
 /usr/sbin/logtail2 /var/log/syslog \
     | grep -F -v "$0" \
-    | dd bs=1M count=5 2> /dev/null \
+    | dd iflag=fullblock bs=1M count=5 2> /dev/null \
     | Failures \
     | Exceptions
 
