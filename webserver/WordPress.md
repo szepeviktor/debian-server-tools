@@ -222,7 +222,7 @@ wget -P wp-content/ https://github.com/Automattic/wp-memcached/raw/master/object
 wp transient delete-all
 
 # APCu
-# DANGER! APCu is not available from CLI by default during WP-Cron/WP-CLI
+# WARNING! APCu is not available from CLI by default during WP-Cron/WP-CLI
 wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
 wp transient delete-all
 # Worse plugin: wp plugin install apcu
@@ -249,13 +249,13 @@ wp plugin install https://github.com/markoheijnen/Minit-Pro/archive/master.zip
 wp plugin install safe-redirect-manager --activate
 
 # WP-FFPC
-# backends: APCu, Redis, Memcached with ngx_http_memcached_module
+# backends: APCu, Memcached with ngx_http_memcached_module
 # https://github.com/petermolnar/wp-ffpc
 wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --activate
 
-# Autoptimize ?
-#wp plugin install resource-versioning <--> autoptimize --activate
-# define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
+## Autoptimize - CONFLICTS with resource-versioning
+#wp plugin install autoptimize --activate
+#     define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 ```
 
 Set up CDN.

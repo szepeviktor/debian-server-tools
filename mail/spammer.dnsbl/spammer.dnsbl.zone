@@ -24,31 +24,31 @@ $TTL 60
 :127.0.0.1:Is a spammer
 
 # Single hosts
-23.88.228.135    HU_mail.onlinestoresample.info@ENZUINC/AS18978
-23.238.16.159    HU_smartingatlan.info@HOSTWINDS-17-5/AS54290
-23.238.56.218    HU_Laszlo Nagypal/ujfej.com@HOSTWINDS-17-5/AS54290
-46.101.111.242   HU_faag.cf@EU-DIGITALOCEAN-L1
-104.131.168.42   HU_kisujj.cf@DIGITALOCEAN-9
-79.172.239.117   HU_server1.bestofmarket.hu@TARHELYEU-NET/AS29278
-82.165.194.195   DE_ns2.ilovebroadband.net@SCHLUND-CUSTOMERS/AS8560
-149.154.152.242  HU_lttclub.org@EDIS-GMBH/AS3549
-162.220.12.113   HU_mail.webaruhaz-pelda.info@CRISSIC/AS62639
-178.238.222.94   HU_server2.bestofmarket.hu@FREEMIUM-NET/AS29278
-198.143.96.181   HU_arctic.gytcre.com@HOSTWINDS-17-5/AS54290
-199.59.62.53     HU_aback.gytcre.com@HOSTWINDS-17-5/AS54290
-212.83.143.177   HU_arousal.topaddlinkdir.com@ONLINE-SAS/AS12876
-85.25.37.53      HU_gruppi.hu@DE-HEG-MASS
+23.88.228.135    HU_mail.onlinestoresample.info @ENZUINC/AS18978
+23.238.16.159    HU_smartingatlan.info @HOSTWINDS-17-5/AS54290
+23.238.56.218    HU_Laszlo Nagypal/ujfej.com @HOSTWINDS-17-5/AS54290
+46.101.111.242   HU_faag.cf @EU-DIGITALOCEAN-L1
+104.131.168.42   HU_kisujj.cf @DIGITALOCEAN-9
+79.172.239.117   HU_server1.bestofmarket.hu @TARHELYEU-NET/AS29278
+82.165.194.195   DE_ns2.ilovebroadband.net @SCHLUND-CUSTOMERS/AS8560
+149.154.152.242  HU_lttclub.org @EDIS-GMBH/AS3549
+162.220.12.113   HU_mail.webaruhaz-pelda.info @CRISSIC/AS62639
+178.238.222.94   HU_server2.bestofmarket.hu @FREEMIUM-NET/AS29278
+198.143.96.181   HU_arctic.gytcre.com @HOSTWINDS-17-5/AS54290
+199.59.62.53     HU_aback.gytcre.com @HOSTWINDS-17-5/AS54290
+212.83.143.177   HU_arousal.topaddlinkdir.com @ONLINE-SAS/AS12876
+85.25.37.53      HU_gruppi.hu @DE-HEG-MASS
 # greencoffeeplus.hu
-139.59.160.145   HU_msrvrone.com@DIGITALOCEAN-AP/AS202109
+139.59.160.145   HU_msrvrone.com @DIGITALOCEAN-AP/AS202109
 # Infoline Register Kft. by LINUXHUNGARY
-87.229.55.137    :1:HU_w3.linuxhungary.com@DENINET
+87.229.55.137    :1:HU_w3.linuxhungary.com @DENINET
 
 # "Égitestes" spammer
-#45.55.139.58     HU_aranyhold.tk@DIGITALOCEAN
-#46.101.59.151    HU_holdhegy.tk@EU-DIGITALOCEAN-L1/AS202109
-#104.131.94.207   HU_aranyfo.ml@DIGITALOCEAN
-139.59.165.61    HU_holdviz.ml@DIGITALOCEAN
-#178.62.48.185    HU_ezustnap.ga@DIGITALOCEAN-LON-1
+#45.55.139.58     HU_aranyhold.tk @DIGITALOCEAN
+#46.101.59.151    HU_holdhegy.tk @EU-DIGITALOCEAN-L1/AS202109
+#104.131.94.207   HU_aranyfo.ml @DIGITALOCEAN
+139.59.165.61    HU_holdviz.ml @DIGITALOCEAN
+#178.62.48.185    HU_ezustnap.ga @DIGITALOCEAN-LON-1
 
 # CHINANET-HE
 111.224.250      CN_CHINANET-HE/AS4134
@@ -57,20 +57,20 @@ $TTL 60
 
 # SYSTECH Global DC: Invitel
 91.82.84-85      :2:Neighbour of smtp*.mindenalove.hu/*.nyuszikaaaaa.hu
-91.82.84.143-152 HU_smtp*.mindenalove.hu@SYSTECH-GLOBAL/AS12301
-91.82.84.203-204 HU_vps.*-ad.com@SYSTECH-GLOBAL/AS12301
-91.82.85.85-99   HU_*.nyuszikaaaaa.hu@SYSTECH-GLOBAL/AS12301
-91.82.85.139-140 HU_*.egyediajanlat.hu@SYSTECH-GLOBAL/AS12301
+91.82.84.143-152 HU_smtp*.mindenalove.hu @SYSTECH-GLOBAL/AS12301
+91.82.84.203-204 HU_vps.*-ad.com @SYSTECH-GLOBAL/AS12301
+91.82.85.85-99   HU_*.nyuszikaaaaa.hu @SYSTECH-GLOBAL/AS12301
+91.82.85.139-140 HU_*.egyediajanlat.hu @SYSTECH-GLOBAL/AS12301
 
 # Pénzáramlás DC: Invitel
 #91.82.226        :2:Neighbour of *.smtp.hu
-91.82.226.172    HU_penzaramlas.smtp.hu@Invitel-pool/AS12301
+91.82.226.172    HU_penzaramlas.smtp.hu @Invitel-pool/AS12301
 
 # smtp*.topszallasok.hu, smtp.wellness4youmail.hu DC: Invitel
 91.83.236         :2:Neighbour of topszallasok
-91.83.236.239-250 HU_smtp*.topszallasok.hu@Invitel/AS12301
+91.83.236.239-250 HU_smtp*.topszallasok.hu @Invitel/AS12301
 91.83.93          :2:Neighbour of topszallasok
-91.83.93.127-137  HU_relocate:smtp*.topszallasok.hu@Invitel/AS12301
+91.83.93.127-137  HU_relocate:smtp*.topszallasok.hu @Invitel/AS12301
 
 # Hostkey / Mir Telematiki
 5.39.216.0/21    RU_HOSTKEY-NET/AS57043
@@ -84,7 +84,7 @@ $TTL 60
 # root.lu
 94.242.210       LU_LU-ROOT/AS5577
 188.42.252-254   :2:Neighbour of root.lu
-188.42.255       LU_WZSG-1/AS45470@Singapure
+188.42.255       LU_WZSG-1 @Singapure/AS45470
 
 # Tigernet Kft - Tigrishalál: 2015.03.03.
 #194.165.26-27    HU_TigerNet
@@ -99,25 +99,25 @@ $TTL 60
 212.129.55.1        FR_gutter.nyshkickball.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 212.129.59.1        FR_friendly-vibes.com. @FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
 163.172.133         :2:Neighbour of mailetor.xyz
-163.172.133.242     FR_mailetor.xyz@ONLINE_NET_DEDICATED_SERVERS/AS12876
-163.172.164.241     magyar FR_duozit.com@ONLINE_NET_DEDICATED_SERVERS/AS12876
+163.172.133.242     FR_mailetor.xyz @ONLINE_NET_DEDICATED_SERVERS/AS12876
+163.172.164.241     magyar FR_duozit.com @ONLINE_NET_DEDICATED_SERVERS/AS12876
 
 # Peter Krozser
-198.20.102.32/28    HU_server.freekout6.info/Peter Krozser/@SINGLEHOP-BV/AS32475
+198.20.102.32/28    HU_server.freekout6.info/Peter Krozser @SINGLEHOP-BV/AS32475
 
 # Electris Ltd
 83.143.176-183      :2:Neighbour of Electris Ltd
 83.143.178.104      BG_brandsvirals.net. @IXTLAN-SYSTEMS/AS200002
 
 # ROAD MARKETING SRL
-86.106.89           RO_only-mta-s@ROAD-MARKETING-SRL/AS48336
+86.106.89           RO_only-mta-s @ROAD-MARKETING-SRL/AS48336
 37.156.226          RO_nagyonhasznos.eu-valamihasznosat.eu. @ROAD-MARKETING-SRL/AS59854
 
 # m*.cutersfood.com
-199.217.114.69-73   HU_m*.cutersfood.com@HSI-6/AS30083
+199.217.114.69-73   HU_m*.cutersfood.com @HSI-6/AS30083
 
 # Flipora forced signup
-#74.86.42.161-169    US_mail*.flipmailer.com@SOFTLAYER-74.86.32.0/AS36351
+#74.86.42.161-169    US_mail*.flipmailer.com @SOFTLAYER-74.86.32.0/AS36351
 
 # Black Fox Limited @VolumeDrive
 107.182.16.0/20     :2:Neighbour of Black Fox Limited
@@ -134,15 +134,15 @@ $TTL 60
 
 # *news.info spammer block DC: SERVERDROID
 94.46.192-195       :2: Neighbour of mail.*news.info. spammer block
-94.46.193.222-255   GB_mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info@US-SERVERDROID-20080603/AS24598
+94.46.193.222-255   GB_mail.sacernews.info,mail.mowingnews.info...mail.baileynews.info @US-SERVERDROID-20080603/AS24598
 91.109.112.0/21     :2: Neighbour of *news.info. spammer block
-91.109.119.199-255  GB_pebblynews.info,aidanews.info...currynews.info@US-SERVERDROID-20120619/AS24598
+91.109.119.199-255  GB_pebblynews.info,aidanews.info...currynews.info @US-SERVERDROID-20120619/AS24598
 185.109.169.1-148   :2: Neighbour of mail.*news.info. spammer block
 185.109.169.171-255 :2: Neighbour of mail.*news.info. spammer block
-185.109.169.149-170 GB_mail.mossesnews.info...mail.wrestlenews.info@US-SERVERDROID-20150716/AS24598
+185.109.169.149-170 GB_mail.mossesnews.info...mail.wrestlenews.info @US-SERVERDROID-20150716/AS24598
 
 # VPSOPENVZ SRL-D / Oancea-F-Cristian-Marius-PFA, TENNET TELECOM SRL mail.*news.info. mail.*news.xyz.
-89.33.193           RO_m.*news.info. @VPSOPENVZ/AS61412
+89.33.192.0/22      RO_m.*news.info.,fmx.*news.xyz.,fmx.*news.pro. @VPSOPENVZ/AS61412
 93.119.104.0/22     RO_mail.katinanews.info. @VPSOPENVZ/AS61412
 188.240.221         RO_m.tunatebiz.info. @VPSOPENVZ/AS61412
 
@@ -169,9 +169,9 @@ $TTL 60
 
 # El Valor Kft. @SZERVERPLEX
 #79.172.210          :2:Neighbour of El Valor, Famillio
-79.172.210.208-215  HU_*.smartlead.hu@SZERVERPLEX/AS61998
+79.172.210.208-215  HU_*.smartlead.hu @SZERVERPLEX/AS61998
 # Famillio Kft.
-79.172.210.223      HU_relay-gmail.famedia.hu@SZERVERPLEX/AS61998
+79.172.210.223      HU_relay-gmail.famedia.hu @SZERVERPLEX/AS61998
 
 # MarketMix Reklámiroda Bt. by Webmuhely @Magyar Telekom
 195.228.247.20      HU_marketmix_*.webmuhely.hu. @MT-HOSTING/AS5483
@@ -180,16 +180,16 @@ $TTL 60
 92.222.29.197       HU_ns2.webmuhely.hu.
 
 # *.cegorszag.hu. DC: InterWare
-195.70.59.160       HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
-195.70.59.161       HU_cegorszag.hu@IW-1212TELEKOM-NET/AS8358
+195.70.59.160       HU_cegorszag.hu @IW-1212TELEKOM-NET/AS8358
+195.70.59.161       HU_cegorszag.hu @IW-1212TELEKOM-NET/AS8358
 
 # *.newstoinbox-mail.eu
 5.56.23             :2:Neighbour of *.newstoinbox-mail.eu
-5.56.23.88          magyar DE_*.newstoinbox-mail.eu@CORE-BACKBONE/AS33891
+5.56.23.88          magyar DE_*.newstoinbox-mail.eu @CORE-BACKBONE/AS33891
 
 # *.mindenaneten.hu
-156.67.106          HU_mindenaneten@TRAFFIC DEAL/AS197226
+156.67.106          HU_mindenaneten @TRAFFIC DEAL/AS197226
 
 # Blue-Cloud Hosting services
-77.241.194          LT_info*.tk/.cf@Blue-Cloud/AS15440
-77.241.198          LT_info*.tk/.cf@Blue-Cloud/AS15440
+77.241.194          LT_info*.tk/.cf @Blue-Cloud/AS15440
+77.241.198          LT_info*.tk/.cf @Blue-Cloud/AS15440

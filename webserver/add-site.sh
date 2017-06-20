@@ -50,7 +50,7 @@ cd /home/${U}/website/html/
 
 # Repair permissions, line ends
 find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
-find -type f -not -perm 655; find -type d -not -perm 755
+find -type f -not -perm 644; find -type d -not -perm 755
 find -type f -exec chmod --changes 0644 "{}" ";"
 find -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"
 find -name wp-config.php -exec chmod -v 0400 "{}" ";"

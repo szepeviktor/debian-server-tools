@@ -51,6 +51,7 @@ Display_sessions() {
     local GEO
     local PTR
     local REQUEST
+    local UA
 
     for ID in "${SESSIONS[@]}"; do
         GEO="$(geoiplookup -f /var/lib/geoip-database-contrib/GeoLiteCity.dat "${SESSION_DATA[${ID}_IP]}" | cut -d ":" -f 2-)"
@@ -62,11 +63,17 @@ Display_sessions() {
                 GEO="${PTR##* }"
             fi
         fi
+
         REQUEST="${SESSION_DATA[${ID}_REQUEST]}"
         if [ ${#REQUEST} -gt 53 ]; then
             REQUEST="${REQUEST:0:20}...${REQUEST:(-30)}"
         fi
-        echo "${SESSION_DATA[${ID}_MARK]}${SESSION_DATA[${ID}_IP]}${TAB}${GEO:0:30}${TAB}${REQUEST}${TAB}${SESSION_DATA[${ID}_UA]:0:60}"
+
+        UA="${SESSION_DATA[${ID}_UA]}"
+        # Abbreviate Mozilla/5.0
+        UA="${UA/Mozilla\/5.0 /M●}"
+
+        echo "${SESSION_DATA[${ID}_MARK]}${SESSION_DATA[${ID}_IP]}${TAB}${GEO:0:30}${TAB}${REQUEST}${TAB}${UA:0:60}"
     done
 }
 
@@ -218,7 +225,7 @@ while read -r LOG_LINE; do
     esac
 
     # Keep previous non-static request
-    if [ -z "${SESSION_DATA[${ID}_REQUEST]}" ] || Is_static "${SESSION_DATA[${ID}_REQUEST]}"; then
+    if [ -z "${SESSION_DATA[${ID}_REQUEST]}" ] || Is_static "${SESSION_DATA[${ID}_REQUEST]}" || ! Is_static "$REQUEST"; then
         SESSION_DATA["${ID}_REQUEST"]="$REQUEST"
     fi
 
