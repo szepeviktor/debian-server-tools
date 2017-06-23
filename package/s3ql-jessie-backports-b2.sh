@@ -2,6 +2,7 @@
 #
 # Build s3ql-2.21 Debian package with support for BackBlaze B2.
 #
+# https://github.com/sylvainlehmann/s3ql/commits/master
 
 dget -ux "http://http.debian.net/debian/pool/main/s/s3ql/s3ql_2.21+dfsg-1~bpo8+1.dsc"
 rm -v s3ql_2.21+dfsg-1~bpo8+1.debian.tar.xz s3ql_2.21+dfsg-1~bpo8+1.dsc s3ql_2.21+dfsg.orig.tar.xz
@@ -9,7 +10,7 @@ wget "https://github.com/sylvainlehmann/s3ql/compare/2a074fe7a1db2b495e5fa320e33
 
 cd s3ql-2.21+dfsg/
 
-# b2 patch
+# B2 patch
 patch -p1 < ../2a074fe7a1db2b495e5fa320e339aa9e1f676b8c...effc70f0e81e3a5c6d465e02f5f018ac1ab55764.patch
 
 # debian/changelog
@@ -25,7 +26,7 @@ s3ql (2.21+dfsg-1~bpo8+2) jessie-backports; urgency=medium
 EOF
 mv "$B2_TEMP" debian/changelog
 
-# dependencies
+# Dependencies
 dpkg-checkbuilddeps 2>&1 | cut -d: -f3- \
     | tr ' ' '\n' | grep -v "[()]" | uniq \
     | grep -Ex "(cython3|python3-(setuptools|pkg-resources|pytest-catchlog|pytest|dugong|requests|llfuse-dbg|llfuse))" \
@@ -35,5 +36,5 @@ dpkg-checkbuilddeps 2>&1 | cut -d: -f3- \
     | grep -vEx "(cython3|python3-(setuptools|pkg-resources|pytest-catchlog|pytest|dugong|requests|llfuse-dbg|llfuse))" \
     | xargs apt-get install -y
 
-# build
+# Build it
 dpkg-buildpackage -uc -us -B

@@ -417,6 +417,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Impresszum (csak űrlaphoz kell)
 - [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
 - Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
+- EU General Data Protection Regulation (GDPR, 2018. május 25-től)
 
 ### Compatiblitity
 

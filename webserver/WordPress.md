@@ -217,7 +217,11 @@ wp transient delete-all
 wp plugin install wp-redis --activate
 wp redis enable
 
-# Memcached @Automattic
+# Memcached @HumanMade
+wget -P wp-content/ https://github.com/humanmade/wordpress-pecl-memcached-object-cache/raw/master/object-cache.php
+wp transient delete-all
+
+# Memcache (no "d") @Automattic
 wget -P wp-content/ https://github.com/Automattic/wp-memcached/raw/master/object-cache.php
 wp transient delete-all
 

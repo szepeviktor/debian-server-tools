@@ -2,7 +2,7 @@
 #
 # Help schedule maintenance between two Pingdom checks.
 #
-# VERSION       :0.1.2
+# VERSION       :0.1.3
 # DATE          :2017-05-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -13,7 +13,7 @@
 # Start in the background:
 #    maintenance5.sh &
 
-PINGDOM_ACCESS_LOG="/var/log/apache2/artmedic-hu-access.log"
+PINGDOM_ACCESS_LOG="/var/log/apache2/project-ssl-access.log"
 
 Warn_minute() {
     local NUMBER="$1"

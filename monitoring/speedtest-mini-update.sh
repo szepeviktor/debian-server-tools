@@ -2,7 +2,7 @@
 #
 # Check Speedtest Mini expiration time and update it.
 #
-# VERSION       :0.3.0
+# VERSION       :0.3.1
 # DATE          :2016-09-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -11,6 +11,10 @@
 # DEPENDS       :apt-get install swfmill unzip
 # LOCATION      :/usr/local/bin/speedtest-mini-update.sh
 # CRON-WEEKLY   :/usr/local/bin/speedtest-mini-update.sh
+
+echo "As of June 30, 2017 Speedtest Mini will no longer be available" 1>&2
+echo "http://www.ookla.com/speedtest-custom" 1>&2
+exit 100
 
 # Set your document root
 MINI_PATH="/home/USER/website/html/speed"
