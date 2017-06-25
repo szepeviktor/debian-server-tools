@@ -43,6 +43,23 @@ DOCROOT/─┬─index.php (modified)
 ```
 
 
+### Half-secret structure
+
+```
+wp-cli.yml
+DOCROOT/─┬─index.php (modified)
+         ├─wp-config.php
+         ├─wp-login.php (trap)
+         ├─xmlrpc.php (trap)
+         ├─CORE/─┬─index.php
+         │       ├─wp-load.php
+         │       ├─wp-login.php
+         │       ├─wp-admin/
+         │       └─wp-includes/
+         └─wp-content/
+```
+
+
 ### Installation by WP-CLI
 
 `wp-cli.yml`
@@ -101,7 +118,7 @@ wp plugin install child-theme-configurator --activate
 
 Keep changes in git.
 
-### Redis object cache
+### Redis object cache as a service
 
 [Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
 
@@ -230,6 +247,11 @@ wp transient delete-all
 wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
 wp transient delete-all
 # Worse plugin: wp plugin install apcu
+
+# Tiny cache
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/tiny-cache/tiny-translation-cache.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/tiny-cache/tiny-nav-menu-cache.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/tiny-cache/tiny-cache.php
 ```
 
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Extract or create Debian a package.
+# Extract and create a Debian package.
 #
-# VERSION       :0.2.0
-# DATE          :2014-08-01
+# VERSION       :0.3.0
+# DATE          :2017-06-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,7 +11,13 @@
 # DEPENDS       :apt-get install binutils xz-utils gzip file
 # LOCATION      :/usr/local/bin/deb-pack.sh
 
-# If the package exists: extracts it, otherwise: creates it.
+# Usage
+#
+# Unpack (existing .deb file)
+#     deb-pack.sh lsb-release_9.20161125_all.deb
+#
+# Pack (non-existent .deb file)
+#     deb-pack.sh lsb-release_9.20170623_all.deb
 
 Deb_unpack() {
     [ -r "$DEB" ] || return 1
@@ -20,81 +26,68 @@ Deb_unpack() {
     mkdir -p "${DEBDIR}/control" || return 3
     mkdir -p "${DEBDIR}/data" || return 4
 
-    pushd "$DEBDIR"
-
     # Unpack package
-    ar xv "../${DEB}" || return 5
+    ( cd "${DEBDIR}/"; ar xv "../${DEB}" ) || return 5
 
-    # Unpack control
-    pushd control
     echo "x - Unpack control"
-    tar xf ../control.tar.* || return 6
-    popd
+    tar -C "${DEBDIR}/control/" -xf "${DEBDIR}/control.tar."* || return 6
 
-    # Unpack data
-    pushd data
     echo "x - Unpack data"
-    tar xf ../data.tar.* || return 7
-    popd
-
-    popd
+    tar -C "${DEBDIR}/data/" -xf "${DEBDIR}/data.tar."* || return 7
 }
 
 Deb_pack() {
     [ -d "$DEBDIR" ] || return 1
 
-    pushd "$DEBDIR"
-
-    [ -f debian-binary ] || return 2
-    [ -d control ] || return 3
-    [ -d data ] || return 4
+    [ -f "${DEBDIR}/debian-binary" ] || return 2
+    [ -d "${DEBDIR}/control" ] || return 3
+    [ -d "${DEBDIR}/data" ] || return 4
 
     # Pack data
-    pushd data
-
-    if [ -f ../control/md5sums ]; then
-        echo "Generate MD5 hashes"
-        find * -type f -exec md5sum \{\} \; > ../control/md5sums || return 8
+    if [ -f "${DEBDIR}/control/md5sums" ]; then
+        echo "Update MD5 hashes"
+        ( cd "${DEBDIR}/data/"; find -type f -printf "%P\n" | xargs -L 1 md5sum ) \
+            > "${DEBDIR}/control/md5sums" || return 8
     fi
 
     echo "Pack data"
-    [ -f ../data.tar.* ] && rm -v ../data.tar.*
-    tar cJf ../data.tar.xz * || return 7
-
-    popd
+    if compgen -G "${DEBDIR}/data.tar.*" > /dev/null; then
+        rm -v "${DEBDIR}/data.tar."*
+    fi
+    tar -C "${DEBDIR}/data/" -cJf "${DEBDIR}/data.tar.xz" . || return 7
 
     # Debian control files
-    pushd control
-
-    [ -f ../control.tar.* ] && rm -v ../control.tar.*
+    if compgen -G "${DEBDIR}/control.tar.*" > /dev/null; then
+        rm -v "${DEBDIR}/control.tar."*
+    fi
     echo "Pack control"
-    tar czf ../control.tar.gz * || return 6
-
-    popd
+    GZIP="-n" tar -C "${DEBDIR}/control/" -czf "${DEBDIR}/control.tar.gz" . || return 6
 
     # Create package
-    [ -r "../${DEB}" ] && rm -v "$DEB"
-    ar rv "../${DEB}" debian-binary control.tar.gz data.tar.xz || return 5
-
-    popd
+    if [ -r "${DEBDIR}/${DEB}" ]; then
+        rm -v "${DEBDIR}/${DEB}"
+    fi
+    ( cd "${DEBDIR}/"; ar rvD "../${DEB}" debian-binary control.tar.gz data.tar.xz ) || return 5
 }
 
 DEB="$1"
-DEBDIR="${DEB%%_*}"
 
-echo "[WARNING] update control/Version:"
-echo "[WARNING] update usr/share/doc/*/changelog.Debian"
-echo
+set -e
+
+DEBDIR="${DEB%%_*}"
 
 if [ -r "$DEB" ]; then
     if Deb_unpack; then
-        echo "${DEB} unpacked."
+        echo "${DEB} unpacked OK."
     else
         echo "[ERROR] $?" 1>&2
     fi
 else
+    echo "[WARNING] update Version: header in control"
+    echo "[WARNING] update changelog.Debian"
+    echo
     if Deb_pack; then
-        echo "${DEB} packed."
+        echo "${DEB} packed OK."
     else
         echo "[ERROR] $?" 1>&2
     fi
