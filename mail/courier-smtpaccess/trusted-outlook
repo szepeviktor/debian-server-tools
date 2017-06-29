@@ -1,0 +1,2 @@
+# Outlook.com Outbound IP Space
+#     wget -qO- https://mail.live.com/mail/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | xargs -n 1 cidr2courier.sh

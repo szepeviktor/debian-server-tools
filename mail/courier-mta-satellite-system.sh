@@ -18,7 +18,7 @@ set -e -x
 
 #################### 'smarthost' configuration ####################
 
-if false; then # smarthost
+SmarthostConfig() {
 
 # Bounce handling
 host -t MX "$(hostname -f)"
@@ -39,7 +39,7 @@ editor /var/mail/DOMAIN/LOCAL-USER/.courier-default
 
 courier-restart.sh
 
-fi # smarthost
+} # smarthost
 
 ################## END 'smarthost' configuration ##################
 
@@ -51,6 +51,7 @@ if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-tr
     exit 1
 fi
 
+# Courier MTA installation
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
@@ -64,7 +65,7 @@ fi
 # Restart script
 Dinstall mail/courier-restart.sh
 
-# Route mail to the smarthost
+# Route mail through the smarthost
 editor /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #     : in-v3.mailjet.com,587 /SECURITY=REQUIRED

@@ -22,6 +22,7 @@ HTTP_USER="$(Data get-value package.apache2.prg-http-user "")"
 test -n "$HTTP_USER"
 HTTP_PASSWORD="$(Data get-value package.apache2.prg-http-pwd "")"
 test -n "$HTTP_PASSWORD"
+# Check SSL certificate file name
 SSL_CN="$(Data get-value package.apache2.prg-ssl-cn "")"
 test -n "$SSL_CN"
 

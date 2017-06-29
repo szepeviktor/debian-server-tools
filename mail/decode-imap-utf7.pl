@@ -11,9 +11,11 @@
 # DEPENDS       :apt-get install libencode-imaputf7-perl
 # LOCATION      :/usr/local/bin/decode-imap-utf7.pl
 
+# Alternative
+#     apt-get install php5-imap
+#     php -r 'echo imap_utf7_decode( "$STRING" );'
+
 use Encode::IMAPUTF7;
 use Encode qw/encode decode/;
 
 print decode( 'IMAP-UTF-7', $ARGV[0] );
-
-# apt-get install php5-imap -> imap_utf7_decode()

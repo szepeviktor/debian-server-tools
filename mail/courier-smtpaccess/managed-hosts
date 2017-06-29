@@ -4,7 +4,7 @@
 #     On ports 587 and 465 with forced authentication - allow,RELAYCLIENT,AUTH_REQUIRED=0
 
 # mail.szepe.net
-95.140.33.67	allow,RELAYCLIENT
+#95.140.33.67	allow,RELAYCLIENT
 # proxy
 88.151.99.143	allow,RELAYCLIENT
 # worker/can-send-email

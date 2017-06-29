@@ -4,7 +4,7 @@
 92.53.117	allow,RELAYCLIENT
 
 
-# --- Trusted senders, e.g. forwards - allow,BLOCK
+# --- Trusted senders, e.g. forwarded addresses - allow,BLOCK
 
 # Art Medic - mail.dlmc.hu.
 62.77.208.234	allow,BLOCK

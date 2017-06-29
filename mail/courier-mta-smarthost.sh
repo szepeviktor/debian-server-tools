@@ -29,7 +29,7 @@ host -t MX $(hostname -f)
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
-apt-get install -y aptitude apg courier-mta courier-ssl courier-mta-ssl -o APT::Install-Recommends=false
+apt-get install -o APT::Install-Recommends=false -y aptitude apg courier-mta courier-ssl courier-mta-ssl
 
 # Check for other MTA-s
 aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))'
@@ -231,11 +231,14 @@ echo "|/usr/bin/couriersrs --reverse" > /etc/courier/aliasdir/.courier-SRS1-defa
 #     user:  |/usr/bin/couriersrs --srsdomain=DOMAIN.SRS username@external-domain.tld
 
 # Accounts
-mkdir /etc/courier/esmtpacceptmailfor.dir; makeacceptmailfor
-install -b -o root -g root -m 644 /dev/null /etc/courier/hosteddomains; makehosteddomains
+mkdir /etc/courier/esmtpacceptmailfor.dir
+makeacceptmailfor
+install -b -o root -g root -m 644 /dev/null /etc/courier/hosteddomains
+makehosteddomains
 editor /etc/courier/authdaemonrc
 #     authmodulelist="authuserdb"
-install -b -o root -g root -m 600 /dev/null /etc/courier/userdb; makeuserdb
+install -b -o root -g root -m 600 /dev/null /etc/courier/userdb
+makeuserdb
 
 # Restart Courier MTA
 courier-restart.sh
@@ -259,4 +262,4 @@ systemctl --user enable "failure-monitor@postmaster@szepe.net.service"
 systemctl --user start "failure-monitor@postmaster@szepe.net.service"
 
 # User accounts for sending mail
-#${D}/mail/add-mailaccount.sh USER@DOMAIN
+# /mail/add-mailaccount.sh USER@DOMAIN

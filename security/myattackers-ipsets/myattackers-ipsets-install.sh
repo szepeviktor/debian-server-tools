@@ -19,6 +19,7 @@ Add_ipsets() {
 }
 
 Install_ipsets() {
+    # @nonDebian
     apt-get install -y iptables-persistent ipset ipset-persistent
 
     iptables -w -N "$CHAIN"

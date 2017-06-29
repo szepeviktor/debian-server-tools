@@ -80,6 +80,7 @@ export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
 export IMAGE_CODENAME="jessie"
+#export IMAGE_CODENAME="stretch"
 
 export WITHOUT_SYSTEMD="yes"
 
@@ -150,6 +151,7 @@ wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
 
 # Add APT repositories
+# @nonDebian
 for REPO in $(Data get-values package.apt.sources); do
     wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
 done
@@ -158,7 +160,7 @@ eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut
 # Get package lists
 apt-get update -qq
 
-IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # Virtualization environment

@@ -24,7 +24,7 @@ set -e -x
 VIRT="$(Data get-value virtualization)"
 export VIRT
 
-IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # _check-system needs most
@@ -44,12 +44,14 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
 
 # From backports
 # List available backports: apt-get upgrade -t jessie-backports
+# @nonDebian
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     -t jessie-backports needrestart unscd mtr-tiny cruft git \
     bash-completion htop
 # From testing
 debian-setup/ca-certificates
 # From custom repos
+# @nonDebian
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     goaccess ipset-persistent
 
@@ -117,6 +119,7 @@ debian-setup/util-linux
 #     echo "https://s19n.net/articles/2011/kvm_clock.html"
 # fi
 if [ "$VIRT" == "kvm" ] && ! Is_installed systemd; then
+    # @nonDebian
     apt-get install -t jessie-backports -y libseccomp2
     apt-get install -y chrony
     debian-setup/chrony
@@ -185,6 +188,7 @@ fi
 
 # After MTA
 # From custom repos
+# @nonDebian
 DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
     init-alert
 
@@ -208,7 +212,8 @@ webserver/php7-fpm.sh
 debian-setup/_package-python-pip
 # Needs PHP-CLI
 debian-setup/_package-php-composer
-# Node.js
+# Node.js (from provider packages)
+# @nonDebian
 if Is_installed "nodejs"; then
     debian-setup/nodejs
 fi
@@ -230,6 +235,7 @@ webserver/add-prg-site-auto.sh
 service fail2ban restart
 
 # Backup
+# @nonDebian
 apt-get install -y -t jessie-backports python3-requests python3-urllib3 python3-six s3ql
 apt-get install -y debconf-utils
 
