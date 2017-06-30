@@ -118,14 +118,11 @@ define( 'DB_PASSWORD', 'password_here' );
 define( 'DB_HOST', 'localhost' );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
-$table_prefix  = 'wp_';
+$table_prefix = 'wp_';
 
 /** Salts */
 
 // wget -qO- https://api.wordpress.org/secret-key/1.1/salt/
-
-
-/* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {

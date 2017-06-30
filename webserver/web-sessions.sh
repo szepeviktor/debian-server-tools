@@ -55,6 +55,7 @@ Display_sessions() {
 
     for ID in "${SESSIONS[@]}"; do
         GEO="$(geoiplookup -f /var/lib/geoip-database-contrib/GeoLiteCity.dat "${SESSION_DATA[${ID}_IP]}" | cut -d ":" -f 2-)"
+        # FIXME GeoIP data may be in Latin2 encoding | iconv -c -f LATIN2 -t UTF-8)"
         # Trim leading space
         GEO="${GEO# }"
         if [ "${GEO/N\/A,/}" != "$GEO" ]; then
@@ -83,7 +84,7 @@ Session_gc() {
     local -i INDEX
     local ID
 
-    NOW="$(date "+%s")"
+    printf -v NOW "%(%s)T" -1
     EXPIRATION="$((NOW - SESSION_MAX_LENGTH))"
 
     for INDEX in "${!SESSIONS[@]}"; do

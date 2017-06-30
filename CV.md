@@ -5,10 +5,34 @@ Videó egy honlap műszaki hátteréről](https://www.youtube.com/watch?v=dGi6O9
 
 # Viktor Szépe from Hungary would work for a Company
 
-My main activity is **proactive** maintenance of web-based services: an application, an API or a website.  
-These experiences could mean valuable feedback for your development team.  
-Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.  
-My focus is on security&safety and performance.
+My main activity is **proactive** maintenance of websites, applications and API-s.  
+These experiences could mean valuable feedback for your developers.  
+Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
+
+### What is proactive website maintenance?
+
+- Choosing proper providers based on measurements
+- Server and website monitoring by functional tests and integrity checks
+- Monitoring of 3rd-parties too
+- Log analysis, alerts
+- Software updates by reading changelogs
+- Intelligent backup
+- **Reporting issues** to editors and developers
+- User management, user support over the phone, in email or chat and **how-to videos**
+- Developing monitoring, **performance and security** tools
+- Handmade WordPress plugins
+- WordPress theme developer tools, plugin blacklist and suggestions
+- Image optimization
+- Email delivery
+
+### Benefits
+
+- **Stable operation**
+- Fast page loads
+- Application security
+- Better UX for visitors and editors also
+- Higher Google Search ranking
+- Fewer unexpected situations
 
 I build and [monitor](/monitoring/README.md) Debian-based web-servers. Email delivery is on my radar.  
 My howtos and scripts are open-source: https://github.com/szepeviktor/
