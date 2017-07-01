@@ -11,35 +11,28 @@ Traffic light example :vertical_traffic_light: a developer sees the green light,
 
 ### What is proactive website maintenance?
 
-- Choosing proper providers based on measurements
-- Server and website monitoring by functional tests and integrity checks
+- Choosing proper providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
+- Server and website [monitoring](/monitoring/README.md) by functional tests and integrity checks
 - Monitoring of 3rd-parties too
 - Log analysis, alerts
 - Software updates by reading changelogs
 - Intelligent backup
 - **Reporting issues** to editors and developers
-- User management, user support over the phone, in email or chat and **how-to videos**
-- Developing monitoring, **performance and security** tools
-- Handmade WordPress plugins
-- WordPress theme developer tools, plugin blacklist and suggestions
+- User management, user support over the phone, in email or chat and [how-to videos](https://www.youtube.com/user/szepeviktor) EN/HU
+- Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
+- Handmade [WordPress plugins](https://profiles.wordpress.org/szepeviktor#content-plugins)
+- WordPress theme developer [tools](https://github.com/szepeviktor/wordpress-plugin-construction), plugin blacklist and suggestions
 - Image optimization
-- Email delivery
+- [Email delivery](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md)
 
 ### Benefits
 
 - **Stable operation**
 - Fast page loads
-- Application security
+- Website security
 - Better UX for visitors and editors also
 - Higher Google Search ranking
-- Fewer unexpected situations
-
-I build and [monitor](/monitoring/README.md) Debian-based web-servers. Email delivery is on my radar.  
-My howtos and scripts are open-source: https://github.com/szepeviktor/
-
-I am also a **WordPress** expert. I know the core and develop plugins: https://profiles.wordpress.org/szepeviktor#content-plugins
-
-Support videos are favourites of mine: https://www.youtube.com/user/szepeviktor (*there are English videos*)
+- Fewer **unexpected** situations
 
 I hope I'll fit into your picture: viktor@szepe.net
 
@@ -96,7 +89,7 @@ Essentially keep every operation in memory!
 
 # Szépe Viktor dolgozna egy Vállalatnak
 
-Web alapú rendszerek **proaktív** üzemeltetésével foglalkozok.  
+Honlapok és webes rendszerek **proaktív** üzemeltetésével foglalkozok.  
 Olyan dolgokkal, amelyek nem látszanak a képernyőn,
 amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák váratlanul jönnek elő.
 
@@ -106,27 +99,30 @@ A fejlesztésbe technológiai tanácsokkal és konkrét kivitelezéssel segítek
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
-Debian alapú [webszervereket építek](http://xn--felhtrhely-w4a65k.hu/) és [üzemeltetek](/monitoring/README.md).
-Email kézbesítéssel is foglalkozok.  
-A jegyzeteim és a programjaim mind nyílt forrásúak: https://github.com/szepeviktor/
+### Mit jelent a proaktív üzemeltetés?
 
-Emellett WordPress - jobb szó híján - szakértő is vagyok.
-Ismerem a magot (core) és bővítményeket fejlesztek: https://profiles.wordpress.org/szepeviktor#content-plugins
+- Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
+- Szerver és honlap [monitorozás](/monitoring/README.md) funkcionális tesztekkel és integritás ellenőrzéssel
+- A harmadik feleket is monitorzom
+- Napló kivonatok elemzése, riasztások
+- Szoftver frissítés changelog-ok olvasása alapján
+- Intelligens biztonsági mentés
+- **Hibajegy nyitás** a szerkesztőknek és a fejlesztőknek
+- Felhasználó menedzsment, és felhasználó támogatás telefonon, emmailben, chat-en és [videókkal](https://www.youtube.com/user/szepeviktor) EN/HU
+- Monitorozó programok, **teljesítmény növelő és biztonsági** [eszközök fejlesztése](https://github.com/szepeviktor/)
+- Gondosan készített [WordPress bővítmények](https://profiles.wordpress.org/szepeviktor#content-plugins)
+- [Fejlesztői eszközök](https://github.com/szepeviktor/wordpress-plugin-construction) gyártása WordPress sablon készítéshez, bővítmény fekete-lista és javaslatok
+- Kép fájl optimalizálás
+- [Email kézbesítés](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md) (EN)
 
-A support videók a kedvenceim: https://www.youtube.com/user/szepeviktor (angolul is vannak)
+### Előnyök
 
-### Az alábbiakban veszi hasznomat
-
-+ Webes szolgáltatás proaktív üzembentartása
-+ Szerver és WordPress telepítés, monitorozás
-+ Konstruktív hibajegy nyitás és megoldások ezekre:
-
-1. Üzembiztonság, monitorozás - legyen gazdája a honlapnak
-2. WordPress sérülékenységek kiküszöbölése https://github.com/szepeviktor/wordpress-fail2ban
-3. WP sebesség - szerver oldali megoldások, plugin és téma audit és javítás
-4. WP téma - akár utólagos - szerkeszthetősége, szerkesztők menedzselése, oktatása https://www.youtube.com/user/szepeviktor
-5. WP téma készítése HTML-ből (vagy PSD-ből sitebuilder segítségével) Bootstrap módon
-6. Komplex honlapoknál tanácsadás: adatstruktúrák WP-s ábrázolása biztonságosan és gyorsan, azaz cache-elhetően
+- **Stabil üzem**
+- Gyors oldal betöltés
+- Honlap sérülékenységek kiküszöbölése
+- Jobb felhasználó élmény (UX) a látogatóknak és a szerkesztőknek is
+- Jobb helyezés a Google Keresőben
+- Kevesebb **váratlan** incidens
 
 Remélem bele illek a képbe valahogyan: viktor@szepe.net
 

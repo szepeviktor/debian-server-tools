@@ -399,6 +399,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Multilingual site (`hreflang` attribute)
 - Structured data https://schema.org/ http://microformats.org/
 - [Google My Business](https://www.google.com/business/)
+- [SERPs Google Location Changer](https://serps.com/tools/google-search-location)
 
 ### Legal (EN)
 

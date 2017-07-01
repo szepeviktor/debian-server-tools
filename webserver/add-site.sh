@@ -186,6 +186,9 @@ editor /etc/courier/esmtpauthclient
 # Fill in hosting.yml
 # See /webserver/hosting.yml
 
+# Install A Honey Pot
+# http://www.projecthoneypot.org/faq.php#c
+
 # Webmaster tools
 echo "https://www.google.com/webmasters/tools/dashboard?siteUrl=https://${DOMAIN}/"
 echo "https://www.bing.com/webmaster/home/addsite?from=mysites&addurl=https://${DOMAIN}/"
