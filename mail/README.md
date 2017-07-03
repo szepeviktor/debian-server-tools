@@ -352,6 +352,7 @@ http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
 ### Email tests
 
 - https://www.mail-tester.com/ by Mailpoet
+- https://glockapps.com/
 - http://spamcheck.postmarkapp.com/
 - mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/resources/emailauthentication/
 - checkmyauth@auth.returnpath.net
@@ -441,6 +442,7 @@ Register here:
 - [Google Postmaster Tools](https://postmaster.google.com/) `R`
 - https://ers.trendmicro.com/reputations `LR`
 - [AOL Postmaster](https://postmaster.aol.com/ip-reputation) `LR`
+- [AOL IP reputation test](https://postmaster.info.aol.com/ip-reputation)
 - http://yandexfbl.senderscore.net/ `F`
 - [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx)
     - [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) `RF`

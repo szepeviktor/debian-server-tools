@@ -53,6 +53,9 @@
 # Create target directory
 #     mkdir "$TARGET"
 #
+# '/home' exclude path example
+#     /user/website/session/
+#
 # Mount storage manually
 #     system-backup.sh -m
 #

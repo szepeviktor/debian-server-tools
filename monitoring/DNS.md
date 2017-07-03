@@ -1,3 +1,9 @@
+# DNS provider
+
+- https://dns.he.net/
+- http://www.solvedns.com/dns-comparison/
+- https://www.keycdn.com/blog/best-free-dns-hosting-providers/
+
 # DNS test tools
 
 - http://www.domain.hu/domain/regcheck/ (on .hu TLD)
@@ -34,3 +40,7 @@
 
 - http://mxtoolbox.com/DNSLookup.aspx
 - http://bgp.he.net/
+
+### Dynamic DNS on Amazon
+
+http://www.duckdns.org/

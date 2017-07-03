@@ -21,6 +21,7 @@ Exceptions() {
     #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
     #| grep -E -v "spamd\[[0-9]+\]: spamd:|error@" \
     #| grep -E -v "courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX\$|,msg=\"535 Authentication rejected\",cmd:)" \
+    #| grep -E -v "courieresmtpd: error,relay=.*,msg=\"(502 ESMTP command error|writev: Connection reset by peer)\",cmd:" \
     #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
     #| grep -F -v "/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting" \
 
