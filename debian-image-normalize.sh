@@ -2,7 +2,7 @@
 #
 # Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages.
 #
-# VERSION       :1.0.8
+# VERSION       :1.0.9
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists
@@ -100,12 +100,8 @@ set -x
 Info "Install standard packages"
 
 STANDARD_PACKAGES="$(${APTI_SEARCH} \
- '?and(?not(?obsolete), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)), ?architecture(native))' \
+ '?and(?archive(stable), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)), ?architecture(native))' \
  | grep -Evx "$STANDARD_BLACKLIST")"
-# Native arch.
-#STANDARD_PACKAGES="$(${APTI_SEARCH} \
-# '?and(?architecture(native), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)), ?architecture(native))' \
-# | grep -Evx "$STANDARD_BLACKLIST")"
 # shellcheck disable=SC2086
 apt-get -qq install ${STANDARD_PACKAGES}
 

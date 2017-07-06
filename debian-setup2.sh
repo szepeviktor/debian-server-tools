@@ -279,10 +279,13 @@ debian-setup/etckeeper
 echo "### Old configs ###"
 find /etc -type f -iname "*old"
 
+# Manual inspection emails
+find /var/mail/ -type f -exec grep -H "^" "{}" ";"
+
 # Clear Bash history
 history -c
 
 # @TODO Automate:
 echo "hosts, users, set up backup"
 
-echo "OK."
+echo "OK. (exit from script command)"

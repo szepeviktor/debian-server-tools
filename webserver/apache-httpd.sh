@@ -42,7 +42,7 @@ yes | cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available
 a2enconf logformats admin-address h5bp http2
 
 # Unnecessary
-a2dismod negotiation
+a2dismod -f negotiation
 a2disconf localized-error-pages
 
 # Security through obscurity

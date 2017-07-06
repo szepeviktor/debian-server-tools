@@ -6,5 +6,10 @@ set -e -x
 npm config -g set prefix "/usr/local"
 npm config -g set unicode true
 
+# Disable Apache configuration from javascript-common
+if hash a2disconf 2> /dev/null; then
+    a2disconf javascript-common
+fi
+
 # Example
 #     npm install -g less less-plugin-clean-css

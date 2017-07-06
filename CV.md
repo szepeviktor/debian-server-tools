@@ -5,7 +5,7 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 # Viktor Szépe from Hungary would work for a Company
 
-My main activity is **proactive** maintenance of websites, applications and API-s.  
+My main activity is **proactive** maintenance of existing websites, applications and API-s.  
 These experiences could mean valuable feedback for your developers.  
 Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
 
@@ -59,7 +59,7 @@ Essentially keep every operation in memory!
 
 # Szépe Viktor dolgozna egy Vállalatnak
 
-Honlapok és webes rendszerek **proaktív** üzemeltetésével foglalkozok.  
+Létező honlapok és webes rendszerek **proaktív** üzemeltetésével foglalkozok.  
 Olyan dolgokkal, amelyek nem látszanak a képernyőn,
 amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák **váratlanul** jönnek elő.
 

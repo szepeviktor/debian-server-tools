@@ -2,7 +2,7 @@
 #
 # Check Debian OS: jessie 8.x netinst (essential, required, important) and standard packages.
 #
-# VERSION       :1.0.8
+# VERSION       :1.0.9
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists

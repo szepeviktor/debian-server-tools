@@ -1,17 +1,15 @@
-# UpCloud fihel1
+# UpCloud nlams1
 hosting-company: UpCloud
 virtualization: kvm
 networking:
     method: dhcp
     name: eth0
     resolver:
-        # UpCloud fihel1
-        - 80.69.160.26
+        # UpCloud nlams1
+        - 94.237.40.9
         # google-public-dns-a.google.com.
         - 8.8.8.8
         # MAXNS=3
-        # @Sigmatic
-        #- 80.69.171.167
         # google-public-dns-b.google.com.
         #- 8.8.4.4
     # IPv6 interface
@@ -19,9 +17,11 @@ networking:
         method: auto
         name: eth0
         resolver:
-            # google-public-dns-a.google.com.
-            - 2001:4860:4860::8888
+            # UpCloud nlams1
+            - 2a04:3544:53::1
             # MAXNS=3
+            # google-public-dns-a.google.com.
+            #- 2001:4860:4860::8888
             # google-public-dns-b.google.com.
             #- 2001:4860:4860::8844
     # Private network

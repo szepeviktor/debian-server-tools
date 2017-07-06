@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.5
+# VERSION       :0.2.6
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,37 +28,6 @@
 #     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
 # szepenet
 #     wget http://ca.szepe.net/szepenet-ca.pem
-#
-# $CN-openssl.conf
-#     [ req ]
-#     prompt = no
-#     default_bits = 2048
-#     default_md = sha256
-#     distinguished_name = req_distinguished_name
-#     req_extensions = v3_req
-#     oid_section = new_oids
-#
-#     [ req_distinguished_name ]
-#     CN = EDIT
-#     C = EDIT
-#     ST = EDIT
-#     L = EDIT
-#     O = EDIT
-#     emailAddress = EDIT
-#
-#     [ new_oids ]
-#     # http://oid-info.com/get/2.5.4.17
-#     postalCode = 2.5.4.17
-#     streetAddress = 2.5.4.9
-#     jurisdictionOfIncorporationCountryName = 1.3.6.1.4.1.311.60.2.1.3
-#     businessCategory = 2.5.4.15
-#
-#     [ v3_req ]
-#     subjectAltName = @alt_names
-#
-#     [ alt_names ]
-#     DNS.1 = EDIT
-#     DNS.2 = www.EDIT
 
 set -e
 
@@ -79,8 +48,8 @@ INT="intermediate.pem"
 # Certificate signing request
 CSR="request-${TODAY}.csr"
 
-# Storage directory from canonical name
-read -r -p "CN=" CN
+# Certificate name for directory and file names
+read -r -p "CertificateName=" CN
 #CN="example.com"
 test -n "$CN"
 

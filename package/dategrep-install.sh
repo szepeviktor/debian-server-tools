@@ -2,7 +2,7 @@
 #
 # Install or update to the latest dategrep "small" release.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.58
 # DATE          :2016-11-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,7 +18,9 @@ set -e
 
 apt-get install -y libdate-manip-perl
 
-LATEST="$(wget -q -O- "$DATEGREP_RELEASES" | sed -n -e '0,/^.*"tag_name": "\(v[0-9.]\+\)".*$/{s//\1/p}')"
+#LATEST="$(wget -q -O- "$DATEGREP_RELEASES" | sed -n -e '0,/^.*"tag_name": "\(v[0-9.]\+\)".*$/{s//\1/p}')"
+# FIXME Latest release is missing standalone scripts
+LATEST="v0.58"
 printf -v LATEST_URL "$DATEGREP_URL_TPL" "$LATEST"
 
 wget -nv -O "$DATEGREP" "$LATEST_URL"

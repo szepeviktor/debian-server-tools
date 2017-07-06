@@ -5,10 +5,10 @@
  * Usage through a webserver
  *     wget -q -O - "https://example.com/php-env-check.php"; echo
  * Usage on CLI
- *     php /path/to/php-env-check.php
+ *     php /path/to/php-env-check.php | jq .
  *
  * @package php-env-check
- * @version 0.2.2
+ * @version 0.2.3
  * @author Viktor Szépe <viktor@szepe.net>
  */
 
@@ -53,7 +53,7 @@ final class Check_Env {
     public function __construct() {
 
         // Engine version
-        $this->assert( 'php', 70015, PHP_VERSION_ID );
+        $this->assert( 'php', 70020, PHP_VERSION_ID );
 
         // Extensions for WordPress on PHP 7.0
         // http://wordpress.stackexchange.com/a/42212
@@ -61,8 +61,8 @@ final class Check_Env {
         // Core directives
         $this->assert_directive( 'user_ini.filename', '' );
         $this->assert_directive( 'expose_php', '' );
-        $this->assert_directive( 'allow_url_fopen', '0' );
-        $this->assert_directive( 'mail.add_x_header', '' );
+        $this->assert_directive( 'allow_url_fopen', '' );
+        $this->assert_directive( 'mail.add_x_header', '0' );
         $this->assert_directive( 'realpath_cache_size', '64k' );
         $this->assert_directive( 'output_buffering', '4096' );
         $this->assert_directive( 'max_execution_time', '30' );
@@ -117,7 +117,7 @@ final class Check_Env {
         $this->assert_extension( 'mysqli' );
         // php7.0-opcache
         $this->assert_extension( 'Zend OPcache', 'ext.opcache' );
-        $this->assert_directive( 'opcache.restrict_api', '/home/prg123' );
+        $this->assert_directive( 'opcache.restrict_api', '/home/prg123/website/' );
         $this->assert_directive( 'opcache.memory_consumption', '256' );
         $this->assert_directive( 'opcache.interned_strings_buffer', '16' );
         $this->assert_directive( 'opcache.max_accelerated_files', '10000' );

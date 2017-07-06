@@ -25,6 +25,24 @@
 # Python user install
 manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
 
+Move_challenge_files() {
+    local WELL_KNOWN_ACME_CHALLENGE="$1"
+
+    if [ ! -d "$WELL_KNOWN_ACME_CHALLENGE" ]; then
+        echo "Missing .well-known/acme-challenge directory: '${WELL_KNOWN_ACME_CHALLENGE}'" 1>&2
+        exit 10
+    fi
+
+    # Wait for challenge files
+    sleep 5
+    find -type f -mmin -3 -regextype posix-egrep -regex "\./[0-9A-Za-z-]{43}" -print0 \
+        | xargs -r -0 -I % cp -v % "${WELL_KNOWN_ACME_CHALLENGE}/"
+
+    # Wait for authorization
+    sleep 60
+    rm "${WELL_KNOWN_ACME_CHALLENGE}"/*
+}
+
 set -e
 
 # Check account file
@@ -51,6 +69,7 @@ INT="${CN}.intermediate.crt"
 # Authorize or check authorization
 #     .well-known/acme-challenge
 # shellcheck disable=SC2086
+#Move_challenge_files "/home/USER/website/html/.well-known/acme-challenge" &
 #manuale authorize --method http "$CN" ${DOMAIN_NAMES}
 manuale authorize "$CN" ${DOMAIN_NAMES}
 

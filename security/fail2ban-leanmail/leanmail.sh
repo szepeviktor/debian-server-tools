@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.6
+# VERSION       :0.4.8
 # DATE          :2017-01-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -56,6 +56,8 @@ DNSBL4_TORDNSEL="%s.80.%s.ip-port.exitlist.torproject.org"
 # Barracuda Reputation Block List
 # http://www.barracudacentral.org/rbl/how-to-use
 DNSBL6_BARRACUDA="%s.b.barracudacentral.org"
+# https://www.webiron.com/rbl.html
+#DNSBL7_WEBIRON="%s.all.rbl.webiron.net"
 
 # HTTP API
 
@@ -81,6 +83,8 @@ LIST_BLDE="http://lists.blocklist.de/lists/all.txt"
 LIST_BLDE_1H="https://api.blocklist.de/getlast.php?time=3600"
 # https://www.alienvault.com/forums/discussion/5246/otx-reputation-file-format
 LIST_AVAULT="https://reputation.alienvault.com/reputation.snort"
+# https://www.talosintelligence.com/reputation
+#LIST_TALOS="https://www.talosintelligence.com/documents/ip-blacklist"
 
 # https://ipsec.pl/files/ipsec/blacklist-ip.txt
 #
@@ -119,6 +123,8 @@ declare -a AS_HOSTING=(
     AS45055 # NForce Entertainment B.V.
     AS26496 # GoDaddy.com, LLC
     AS56322 # ServerAstra Kft.
+    AS28573 # CLARO S.A. (ISP)
+    AS9299  # Philippine Long Distance Telephone Company (ISP)
 )
 
 # Labs
@@ -380,6 +386,29 @@ Match_dnsbl6() {
 
     # Listed
     [ "$ANSWER" == "127.0.0.2" ]
+}
+
+Match_dnsbl7() {
+    local DNSBL="$1"
+    local IP="$2"
+    local ANSWER
+
+    # shellcheck disable=SC2059
+    printf -v HOSTNAME "$DNSBL" "$(Reverse_ip "$IP")"
+
+    ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
+    ANSWER="${ANSWER#* has address }"
+    ANSWER="${ANSWER#* has IPv4 address }"
+
+    if ! grep -q -E -x '([0-9]{1,3}\.){3}[0-9]{1,3}' <<< "$ANSWER"; then
+        # NXDOMAIN, network error or invalid IP
+        return 10
+    fi
+
+    # 127.0.0.1 STABL
+    # 127.0.0.2 CABL
+    # 127.0.0.3 BABL - Bad Abuse Backlist
+    grep -q -E -x "127\.0\.0\.[123]" <<< "$ANSWER"
 }
 
 Match_http_api1() {

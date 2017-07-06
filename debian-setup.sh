@@ -26,7 +26,7 @@
 #    cd debian-server-tools-master/
 # 2. Aquire settings: hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 4. Set up DNS resource records: PTR, A, AAAA, MX
+# 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
 # 5. Set volume labels:  lsblk -f;tune2fs -L "instanceID-root" /dev/vda1
 # 6. Start!
 #    script --timing=debian-setup.time debian-setup.script
@@ -36,6 +36,8 @@
 #    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
 #    script --timing=debian-setup2.time debian-setup2.script
 #    ./debian-setup2.sh
+# 9. Set up incoming ESP
+
 
 # Features
 #
