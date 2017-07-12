@@ -2,7 +2,7 @@
 #
 # Continue Debian setup on a virtual server.
 #
-# VERSION       :1.1.0
+# VERSION       :1.1.1
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,14 +28,14 @@ IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # _check-system needs most
-apt-get install -y most
+Pkg_install_quiet most
 debian-setup/most
 
 # Manual checks
 debian-setup/_check-system
 
 # Basic packages
-DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
     logtail apg dos2unix ccze colordiff \
@@ -45,21 +45,19 @@ DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
 # From backports
 # List available backports: apt-get upgrade -t jessie-backports
 # @nonDebian
-DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+Pkg_install_quiet \
     -t jessie-backports needrestart unscd mtr-tiny cruft git \
     bash-completion htop
 # From testing
 debian-setup/ca-certificates
 # From custom repos
 # @nonDebian
-DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    goaccess ipset-persistent
+Pkg_install_quiet goaccess ipset-persistent
 
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
     # shellcheck disable=SC2046
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-        $(Data get-values provider-package)
+    Pkg_install_quiet $(Data get-values provider-package)
 fi
 
 # Restore original sudoers file
@@ -103,10 +101,11 @@ debian-setup/initscripts
 CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 if [ "$CPU_COUNT" -gt 1 ]; then
     # Stable has a bug, it exits
-    apt-get install -t jessie-backports -y irqbalance
+    # @nonDebian
+    Pkg_install_quiet -t jessie-backports irqbalance
     cat /proc/interrupts
 elif Is_installed "irqbalance"; then
-    apt-get purge -y irqbalance
+    apt-get purge -qq irqbalance
 fi
 
 # Time synchronization
@@ -120,8 +119,6 @@ debian-setup/util-linux
 # fi
 if [ "$VIRT" == "kvm" ] && ! Is_installed systemd; then
     # @nonDebian
-    apt-get install -t jessie-backports -y libseccomp2
-    apt-get install -y chrony
     debian-setup/chrony
 fi
 # Monitor clock without monit
@@ -137,7 +134,7 @@ if Is_installed "rng-tools"; then
 else
     # Software based entropy source
     cat /proc/sys/kernel/random/entropy_avail
-    apt-get install -y haveged
+    Pkg_install_quiet haveged
     cat /proc/sys/kernel/random/entropy_avail
 fi
 
@@ -189,8 +186,7 @@ fi
 # After MTA
 # From custom repos
 # @nonDebian
-DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-    init-alert
+Pkg_install_quiet init-alert
 
 # Tools
 for TOOL in catconf cnet doc hosthost hostinfo ip.sh lsrev msec reboot revip \
@@ -236,8 +232,8 @@ service fail2ban restart
 
 # Backup
 # @nonDebian
-apt-get install -y -t jessie-backports python3-requests python3-urllib3 python3-six s3ql
-apt-get install -y debconf-utils
+Pkg_install_quiet -t jessie-backports python3-requests python3-urllib3 python3-six s3ql
+Pkg_install_quiet debconf-utils
 
 # CLI tools
 debian-setup/php-wpcli
@@ -272,7 +268,6 @@ apt-get clean
 echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76throttle-download
 
 # etckeeper at last
-apt-get install -y etckeeper
 debian-setup/etckeeper
 
 # Manual inspection of old configuration files

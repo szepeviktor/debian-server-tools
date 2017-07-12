@@ -24,19 +24,19 @@
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    cd debian-server-tools-master/
-# 2. Aquire settings: hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
+# 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
 # 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
-# 5. Set volume labels:  lsblk -f;tune2fs -L "instanceID-root" /dev/vda1
+# 5. Set volume labels:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
 # 6. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh
-# 7. Consider creating a disk or vm template with isc-dhcp-client installed
-# 8. Continue!
+# 7. Continue after reboot!
+#    cd debian-server-tools-master/
 #    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
 #    script --timing=debian-setup2.time debian-setup2.script
 #    ./debian-setup2.sh
-# 9. Set up incoming ESP
+# 8. Set up incoming ESP
 
 
 # Features
@@ -153,7 +153,6 @@ wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
 
 # Add APT repositories
-# @nonDebian
 for REPO in $(Data get-values package.apt.sources); do
     wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
 done

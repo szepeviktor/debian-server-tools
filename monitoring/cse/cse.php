@@ -8,17 +8,10 @@ License: The MIT License (MIT)
 Author: Viktor Szépe
 */
 
-// CSE address
-$to = "cse@worker.szepe.net";
-
 define( 'MAIL_EOL', "\r\n" );
-$server = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
-$headers = sprintf( 'X-Mailer: PHP/%s%sX-Host: %s',
-    phpversion(),
-    MAIL_EOL,
-    $server
-);
-$subject = sprintf( '[cse] ping from %s', $server );
+
+// CSE address
+$to = 'cse@worker.szepe.net';
 
 // http://www.randomtext.me/download/txt/gibberish/p-5/20-35
 $message_template = '
@@ -43,6 +36,14 @@ jeepers folded blubbered wildebeest lighthearted much exultingly yikes yawned
 well winced swept far slowly decorously.
 ';
 
+$server = isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+$headers = sprintf( 'X-Mailer: PHP/%s%sX-Host: %s',
+    phpversion(),
+    MAIL_EOL,
+    $server
+);
+$subject = sprintf( '[cse] ping from %s', $server );
+
 // Shuffle text
 $message_words = explode( ' ', $message_template );
 shuffle( $message_words );
@@ -53,5 +54,5 @@ $message = implode( ' ' , $message_words );
 $mail = mail( $to, $subject, $message, $headers );
 
 if ( true !== $mail ) {
-    printf( "mail() returned: %s", var_export( $mail, true ) );
+    printf( 'CSE mail() returned: %s', var_export( $mail, true ) );
 }

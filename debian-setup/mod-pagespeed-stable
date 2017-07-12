@@ -4,7 +4,7 @@ set -e -x
 
 # mod_pagespeed for poorly written websites
 # @nonDebian
-apt-get install -y mod-pagespeed-stable
+Pkg_install_quiet mod-pagespeed-stable
 
 # Remove duplicate
 ls -l /etc/apt/sources.list.d/*pagespeed*

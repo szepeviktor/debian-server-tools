@@ -26,10 +26,10 @@ export APT_LISTCHANGES_FRONTEND="none"
 APTI_SEARCH="aptitude --disable-columns --display-format %p search"
 
 {
-    ${APTI_SEARCH} '?and(?essential, ?not(?installed), ?architecture(native))'
-    ${APTI_SEARCH} '?and(?priority(required), ?not(?installed), ?architecture(native))'
-    ${APTI_SEARCH} '?and(?priority(important), ?not(?installed), ?architecture(native))'
-    ${APTI_SEARCH} '?and(?priority(standard), ?not(?installed), ?architecture(native))' | grep -Evx "$STANDARD_BLACKLIST"
+    ${APTI_SEARCH} '?and(?archive(stable), ?essential, ?not(?installed), ?architecture(native))'
+    ${APTI_SEARCH} '?and(?archive(stable), ?priority(required), ?not(?installed), ?architecture(native))'
+    ${APTI_SEARCH} '?and(?archive(stable), ?priority(important), ?not(?installed), ?architecture(native))'
+    ${APTI_SEARCH} '?and(?archive(stable), ?priority(standard), ?not(?installed), ?architecture(native))' | grep -Evx "$STANDARD_BLACKLIST"
 } 2>&1 | tee missing.pkgs | grep "." && echo "Missing packages" 1>&2
 
 {

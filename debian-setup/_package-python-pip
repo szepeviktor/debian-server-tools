@@ -3,7 +3,7 @@
 set -e -x
 
 # Get pip
-apt-get install -y python3-dev python-dev
+Pkg_install_quiet python3-dev python-dev
 wget -nv "https://bootstrap.pypa.io/get-pip.py"
 python3 get-pip.py
 python2 get-pip.py
@@ -14,5 +14,6 @@ python2 get-pip.py
 
 # Fix overwritten six
 pip2 uninstall -y six
-apt-get install -qq --reinstall -t jessie-backports python-six
+# @nonDebian
+Pkg_install_quiet --reinstall -t jessie-backports python-six
 debsums -c python-six

@@ -16,7 +16,7 @@ if vmtoolsd --version; then
 fi
 
 # Open VMware tools
-apt-get install -t jessie-backports -y open-vm-tools
+Pkg_install_quiet -t jessie-backports open-vm-tools
 
 # Time synchronization
 vmware-toolbox-cmd timesync enable

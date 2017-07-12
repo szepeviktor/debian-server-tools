@@ -14,10 +14,16 @@ export -f Is_installed
 
 Is_installed_regexp() {
     local PKG="$1"
+    local SEARCH="?and(?installed, ?name(${PKG}))"
 
-    test -n "$(aptitude --disable-columns --display-format "%p" search "?and(?installed, ?name(${PKG}))")"
+    test -n "$(aptitude --disable-columns --display-format "%p" search "$SEARCH")"
 }
 export -f Is_installed_regexp
+
+Pkg_install_quiet() {
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y "$@"
+}
+export -f Pkg_install_quiet
 
 # Download architecture-independent packages
 Getpkg() {

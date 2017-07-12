@@ -40,6 +40,9 @@ mkdir -v --mode=0750 /home/${U}/website
 mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup}
 chmod 0555 /home/${U}/website/html
 
+# Add hosting.yml
+cp hosting.yml /home/${U}/website/
+
 # Install WordPress
 cd /home/${U}/website/html/
 
@@ -72,23 +75,20 @@ chown -cR ${U}:${U} /home/${U}/
 #     /usr/local/src/debian-server-tools/mysql/wp-createdb.sh
 # See /mysql/alter-table.sql
 
+# Check core files
+u wp core verify-checksums
+
+# Add your WP user
+u wp user create viktor viktor@szepe.net --role=administrator --display_name=v --user_pass=PASSWORD
+
 # wp-cli configuration
 # path, url, debug, user, skip-plugins
 editor wp-cli.yml
 
-# Add hosting.yml
-cp hosting.yml /home/${U}/website/
-
-# Check core files
-uwp core verify-checksums
-
-# Add your WP user
-uwp user create viktor viktor@szepe.net --role=administrator --display_name=v --user_pass=<PASSWORD>
-
 # Clean up old data
-uwp transient delete-all
-uwp w3-total-cache flush
-uwp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-run /oldhome/path /home/path
+u wp transient delete-all
+u wp w3-total-cache flush
+u wp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-run /oldhome/path /home/path
 
 # * Mount wp-content/cache on tmpfs
 #     editor /etc/fstab
@@ -102,6 +102,7 @@ sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
 editor ${U}.conf
 
 # SSL certificate
+# See /security/LetsEncrypt.md
 read -e -p "Common Name: " -i "$DOMAIN" CN
 editor /etc/ssl/localcerts/${CN}-public.pem
 nice openssl dhparam 2048 >> /etc/ssl/localcerts/${CN}-public.pem

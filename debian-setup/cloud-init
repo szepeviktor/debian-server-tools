@@ -13,7 +13,7 @@ fi
 
 # # Newer Cloud init
 # echo "cloud-init cloud-init/datasources multiselect NoCloud, ConfigDrive, None" | debconf-set-selections -v
-# apt-get install -y -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
+# Pkg_install_quiet -t jessie-backports cloud-init cloud-utils cloud-initramfs-growroot
 # editor /etc/cloud/cloud.cfg.d/10_fakeconfigdrive.cfg
 
 # Cloud init YAML

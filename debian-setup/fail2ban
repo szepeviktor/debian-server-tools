@@ -7,7 +7,7 @@ set -e -x
 test -n "$IP"
 
 Getpkg geoip-database-contrib
-apt-get install -t jessie-backports -y python3-pyinotify geoip-bin
+Pkg_install_quiet -t jessie-backports python3-pyinotify geoip-bin
 #apt-get install -y fail2ban
 # 0.9.7
 #Getpkg fail2ban sid

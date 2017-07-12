@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.7.1
+# VERSION       :0.7.2
 # DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -107,6 +107,7 @@ Monit_enable() {
 
     # 2) _preinst
     if [ -r "${SERVICE_TEMPLATE}_preinst" ]; then
+        # shellcheck disable=SC1090
         source "${SERVICE_TEMPLATE}_preinst"
     fi
 
@@ -119,6 +120,7 @@ Monit_enable() {
 
     # 4) _postinst
     if [ -r "${SERVICE_TEMPLATE}_postinst" ]; then
+        # shellcheck disable=SC1090
         source "${SERVICE_TEMPLATE}_postinst"
     fi
 
@@ -200,26 +202,28 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.8.0
+# VERSION       :0.9.0
 
-# If apt is not in progress
-if ! fuser /var/lib/dpkg/lock > /dev/null 2>&1; then
-    # Monit is stopped
-    if ! service monit status | grep -qF "monit is running"; then
-        echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
-        service monit restart || service monit start
-    fi
+IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
+
+# APT is in progress
+if fuser -s /var/lib/dpkg/lock; then
+    exit 0
+fi
+
+# Check Monit
+if ! service monit status | grep -qF "monit is running"; then
+    echo "Monit is not responding" | mail -s "Monit ALERT on $(hostname -f)" root
+    service monit restart || service monit start
 fi
 
 # Try remonitor failed services
-IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
 /usr/bin/monit -B summary | tail -n +3 \
     | sed -e 's|Remote Host\s*$|RemoteHost |' \
-    | grep -vE "\sSystem\s*\$|\s(${IGNORED_STATUSES})\s*\S+\s*\$" \
-    | sed -n -e "s|^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*\$|\1|p" \
+    | grep -v -E "\sSystem\s*\$|\s(${IGNORED_STATUSES})\s*\S+\s*\$" \
+    | sed -n -e 's|^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*$|\1|p' \
     | xargs -r -L 1 /usr/bin/monit monitor
 
-# Exit status 0 means it was OK
 if [ $? != 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
     /usr/local/sbin/swap-refresh.sh
 fi

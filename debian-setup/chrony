@@ -2,12 +2,10 @@
 
 set -e -x
 
+Pkg_install_quiet -t jessie-backports libseccomp2
+Pkg_install_quiet chrony
+
 editor /etc/chrony/chrony.conf
-#     pool 0.de.pool.ntp.org offline iburst
-#     pool 0.cz.pool.ntp.org offline iburst
-#     pool 0.hu.pool.ntp.org offline iburst
-#     pool 0.fr.pool.ntp.org offline iburst
-#     pool 0.uk.pool.ntp.org offline iburst
 #     # OVH
 #     server ntp.ovh.net offline iburst
 #     # EZIT

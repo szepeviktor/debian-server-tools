@@ -146,6 +146,9 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 wget -P wp-content/mu-plugins/ https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu.php
 wget -P wp-content/mu-plugins/disable-comments-mu/ https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu/comments-template.php
 
+# disable feeds
+#wp plugin install disable-feeds --activate
+
 # smilies
 wp plugin install classic-smilies --activate
 
@@ -179,18 +182,19 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban
 
 # security suite + audit
 
-wp plugin install custom-sucuri sucuri-scanner --activate
 # audit
 wp plugin install wp-user-activity --activate
 # simple audit
 wp plugin install simple-history --activate
+# Sucuri
+wp plugin install custom-sucuri sucuri-scanner --activate
 
 # prevent spam
 
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php
-wp plugin install obfuscate-email --activate
+#wp plugin install obfuscate-email --activate
 ```
 
 #### Forcing
@@ -219,7 +223,8 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 #### Object cache
 
 ```php
-// WP_CACHE_KEY_SALT in wp-config.php
+// In wp-config.php
+define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 $redis_server = array(
     'host' => '127.0.0.1',
     'port' => 6379,
@@ -230,28 +235,31 @@ $redis_server = array(
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-cache-flush-button/flush-cache-button.php
 
 # Redis @danielbachhuber
-wp transient delete-all
 wp plugin install wp-redis --activate
 wp redis enable
+wp transient delete-all
 
 # Memcached @HumanMade
 wget -P wp-content/ https://github.com/humanmade/wordpress-pecl-memcached-object-cache/raw/master/object-cache.php
 wp transient delete-all
 
 # Memcache (no "d") @Automattic
-wget -P wp-content/ https://github.com/Automattic/wp-memcached/raw/master/object-cache.php
-wp transient delete-all
+#wget -P wp-content/ https://github.com/Automattic/wp-memcached/raw/master/object-cache.php
+#wp transient delete-all
 
 # APCu
 # WARNING! APCu is not available from CLI by default during WP-Cron/WP-CLI
-wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
-wp transient delete-all
+#wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
+#wp transient delete-all
 # Worse plugin: wp plugin install apcu
 
+# FILE-based object cache
+#wp plugin install focus-object-cache --activate
+
 # Tiny cache
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/tiny-cache/tiny-translation-cache.php
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/tiny-cache/tiny-nav-menu-cache.php
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/tiny-cache/tiny-cache.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-translation-cache.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-nav-menu-cache.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-cache.php
 ```
 
 
@@ -260,8 +268,14 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 Resource optimization
 
 ```bash
+# JPEG image quality
+# add_filter( 'jpeg_quality', function ( $quality ) { return 91; } );
+
 # resource-versioning
 wp plugin install resource-versioning --activate
+
+# Tiny CDN
+wp plugin install tiny-cdn --activate
 
 # CDN, Page Cache, Minify
 wp plugin install w3-total-cache --activate
@@ -464,7 +478,10 @@ Manually replace constants in `wp-config.php`
 1. search-and-replace: /wp-includes/ -> /site/wp-includes/
 1. search-and-replace: /wp-content/ -> /static/
 
-S&R links...
+```bash
+wget -O srdb.php https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
+wget https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
+```
 
 ### Signature
 

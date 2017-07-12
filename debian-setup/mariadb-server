@@ -2,7 +2,8 @@
 
 set -e -x
 
-apt-get install -y mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
+# @nonDebian
+Pkg_install_quiet mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
 
 # Steal root password
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815599
@@ -12,7 +13,8 @@ MYSQL_PASSWORD="$(echo "GET mysql-server/root_password_again" | debconf-communic
 echo "RESET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0
 
 # @TODO Clone for percona-server-server
-#apt-get install -y percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
+# @nonDebian
+#Pkg_install_quiet percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
 
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf

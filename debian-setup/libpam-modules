@@ -3,7 +3,7 @@
 set -e -x
 
 # Dependencies
-apt-get install -y bc figlet cowsay
+Pkg_install_quiet bc figlet cowsay
 
 # @FIXME Python 2 does not handle UTF-8 in YAML
 echo -e "*\n*** $(Data get-value system.trespass-warning) ***\n*\n" > /etc/motd.tail
