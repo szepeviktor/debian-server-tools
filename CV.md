@@ -5,13 +5,13 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 # Viktor Szépe from Hungary would work for a Company
 
-My main activity is **proactive** maintenance of existing websites, applications and API-s.  
-These experiences could mean valuable feedback for your developers.  
+My main activity is **proactive** maintenance of existing websites and web applications.  
+These experiences could mean valuable feedback for your developer/s.  
 Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
 
-### What is proactive website maintenance?
+### What does proactive maintenance mean?
 
-- Choosing proper providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
+- Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
 - Server and website [monitoring](/monitoring/README.md) by functional tests and integrity checks
 - Monitoring of 3rd-parties too
 - Log analysis, alerts
