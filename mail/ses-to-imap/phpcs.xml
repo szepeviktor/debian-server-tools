@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="WPCS for SES-to-IMAP">
+	<rule ref="Squiz.PHP.CommentedOutCode"/>
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+	<rule ref="Generic.Commenting.Todo"/>
+	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+	<rule ref="WordPress-Core">
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+	</rule>
+
+	<!-- <rule ref="WordPress-Extra"/> -->
+</ruleset>

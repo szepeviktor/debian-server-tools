@@ -5,7 +5,7 @@ networking:
     method: dhcp
     name: eth0
     resolver:
-        # UpCloud uklon1
+        # UpCloud uklon1 https://www.upcloud.com/support/dns-servers/
         - 94.237.127.9
         # google-public-dns-a.google.com.
         - 8.8.8.8

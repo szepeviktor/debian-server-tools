@@ -165,6 +165,7 @@ if which userdb userdbpw &> /dev/null \
     #userdb "$EMAIL" set "maildir=${NEW_MAILDIR}" || Error 32 "Failed to add to userdb"
     userdb "$EMAIL" set "uid=${VIRTUAL_UID}" || Error 33 "Failed to add to userdb"
     userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 34 "Failed to add to userdb"
+    # @TODO mkpasswd --method=sha-256 "$PASS" "$(openssl rand -base64 12)" |
     echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 35 "Failed to add to userdb"
     [ -z "$DESC" ] || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
     makeuserdb || Error 37 "Failed to make userdb"

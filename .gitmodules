@@ -40,3 +40,6 @@
 [submodule "monitoring/aruba-serclient.deb"]
 	path = monitoring/aruba-serclient.deb
 	url = git@github.com:szepeviktor/aruba-serclient.deb.git
+[submodule "security/mkpasswd"]
+	path = security/mkpasswd
+	url = git@github.com:szepeviktor/mkpasswd.git

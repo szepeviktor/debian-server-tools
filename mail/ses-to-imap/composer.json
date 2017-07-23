@@ -1,0 +1,5 @@
+{
+    "require": {
+        "aws/aws-php-sns-message-validator": "^1.1"
+    }
+}

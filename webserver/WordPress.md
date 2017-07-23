@@ -253,8 +253,9 @@ wp transient delete-all
 #wp transient delete-all
 # Worse plugin: wp plugin install apcu
 
-# FILE-based object cache
-#wp plugin install focus-object-cache --activate
+# FOCUS Cache - FILE-based object cache
+#wp plugin install focus-object-cache
+wget -P wp-content/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/focus-cache/object-cache.php
 
 # Tiny cache
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-translation-cache.php

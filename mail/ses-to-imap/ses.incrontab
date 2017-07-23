@@ -1,0 +1,1 @@
+/home/USER/website/ses-sns-notifications IN_CLOSE_WRITE /usr/local/bin/ses-get-messages.sh $@/$#

@@ -5,7 +5,7 @@ networking:
     method: dhcp
     name: eth0
     resolver:
-        # UpCloud fihel1
+        # UpCloud fihel1 https://www.upcloud.com/support/dns-servers/
         - 80.69.160.26
         # google-public-dns-a.google.com.
         - 8.8.8.8
