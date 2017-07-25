@@ -53,7 +53,7 @@
 # Create target directory
 #     mkdir "$TARGET"
 #
-# '/home' exclude path example
+# Excluded path example in /home
 #     /user/website/session/
 #
 # Mount storage manually

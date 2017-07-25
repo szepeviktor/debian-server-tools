@@ -61,7 +61,7 @@
 # Webserver
 #
 # - Apache 2.4 latest with HTTP/2 and event MPM
-# - PHP 5.6 or 7.0 through PHP-FPM
+# - PHP-FPM 7.0 or 7.1
 # - CLI tools: WP-CLI, Drush, CacheTool
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]
 # - MariaDB 10 or Percona Server 5.7

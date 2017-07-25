@@ -2,20 +2,23 @@
 
 set -e -x
 
+PHP_TZ="Europe/Budapest"
+
 # PHP 7.0
 # @nonDebian
 apt-get install -y php7.0-cli php7.0-fpm \
-    php7.0-mbstring php7.0-mcrypt php7.0-json php7.0-intl \
+    php7.0-mbstring php7.0-json php7.0-intl \
     php7.0-readline php7.0-curl php7.0-gd php7.0-mysql \
     php7.0-xml php7.0-sqlite3 # Not for WP
 
-PHP_TZ="Europe/Budapest"
 sed -i 's/^user_ini.filename\s*=\s*$/user_ini.filename =/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^max_execution_time=.*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^memory_limit\s*=.*$/memory_limit = 128M/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^post_max_size\s*=.*$/post_max_size = 4M/' /etc/php/7.0/fpm/php.ini
-# FullHD random image:  rawtoppm < /dev/urandom 1920 1080 > random-fullhd.ppm
+# FullHD random image
+#     rawtoppm 1920 1080 < /dev/urandom > random-fullhd.ppm
+#     convert random-fullhd.ppm -quality 94 random-fullhd.jpg
 sed -i 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 4M/' /etc/php/7.0/fpm/php.ini # FullHD JPEG
 sed -i 's/^allow_url_fopen\s*=.*$/allow_url_fopen = Off/' /etc/php/7.0/fpm/php.ini
 sed -i "s|^;date.timezone\s*=.*\$|date.timezone = ${PHP_TZ}|" /etc/php/7.0/fpm/php.ini
@@ -26,8 +29,9 @@ sed -i 's/^;opcache.interned_strings_buffer\s*=.*$/opcache.interned_strings_buff
 # Set opcache.restrict_api
 
 # OPcache - There may be more than 2k files
-#     find /home/ -type f -name "*.php"|wc -l
+#     find /home/ -type f -name "*.php" | wc -l
 sed -i 's/^;opcache.max_accelerated_files\s*=.*$/opcache.max_accelerated_files = 10000/' /etc/php/7.0/fpm/php.ini
+
 # APCu
 echo -e "\n[apc]\napc.enabled = 1\napc.shm_size = 64M" >> /etc/php/7.0/fpm/php.ini
 
@@ -50,20 +54,17 @@ cp webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 # - PHP-FPM pool request_terminate_timeout
 
 # Suhosin extension for PHP 7.0
-#     https://github.com/stefanesser/suhosin/releases
-#apt-get install -y php5-suhosin-extension
-#php5enmod -s fpm suhosin
-# Check priority
-#ls -l /etc/php5/fpm/conf.d/70-suhosin.ini
+#     https://github.com/stefanesser/suhosin7/releases
 
 # PHP file modification time protection
 # https://ioncube24.com/signup
 
+# Use realpath cache despite open_basedir restriction
+# https://github.com/Whissi/realpath_turbo
+
 # @TODO .ini-handler, Search for it!
 
 # PHP security directives
-#     mail.add_x_header
-#     assert.active
 #     suhosin.executor.disable_emodifier = On
 #     suhosin.disable.display_errors = 1
 #     suhosin.session.cryptkey = $(apg -m 32)
@@ -74,8 +75,8 @@ cp webserver/phpfpm-pools/* /etc/php/7.0/fpm/
 #     suhosin.request.max_array_index_length = 128
 
 # ionCube Loader
-# https://www.ioncube.com/loaders.php
-#     zend_extension = ioncube_loader_lin_5.6.so
+#     https://www.ioncube.com/loaders.php
+#     zend_extension = ioncube_loader_lin_7.0.so
 #     ic24.enable = Off
 
 # @TODO /webserver/php-env-check.php
