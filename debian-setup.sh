@@ -33,7 +33,7 @@
 #    ./debian-setup.sh
 # 7. Continue after reboot!
 #    cd debian-server-tools-master/
-#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm
+#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm
 #    script --timing=debian-setup2.time debian-setup2.script
 #    ./debian-setup2.sh
 # 8. Set up incoming ESP

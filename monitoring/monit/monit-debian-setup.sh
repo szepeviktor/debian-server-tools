@@ -17,7 +17,7 @@
 #     install --mode=0600 -D -t /etc/monit monit.defaults
 #
 # Exclude packages
-#     MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm ./monit-debian-setup.sh
+#     MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm ./monit-debian-setup.sh
 #
 # List not yet enabled service configs for installed packages
 #     dpkg-query --showformat="\${Package}\n" --show | while read -r PKG; do

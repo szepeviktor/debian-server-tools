@@ -133,6 +133,7 @@ See /webserver/Wp-config-dev.md
 #### Core
 
 ```bash
+export WPSZV="https://github.com/szepeviktor/wordpress-plugin-construction/raw/master"
 mkdir wp-content/mu-plugins/
 
 # InnoDB table engine
@@ -140,7 +141,7 @@ wget -qO- https://github.com/szepeviktor/debian-server-tools/raw/master/mysql/al
  | mysql -N $(cd public_html/;wp eval 'echo DB_NAME;') | mysql
 
 # disable updates
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disable-updates/disable-updates.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-disable-updates/disable-updates.php
 
 # disable comments
 wget -P wp-content/mu-plugins/ https://github.com/solarissmoke/disable-comments-mu/raw/master/disable-comments-mu.php
@@ -168,13 +169,13 @@ wp plugin install polylang --activate
 # users/login
 
 wp plugin install password-bcrypt
-cp wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
+cp -v wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
 wp plugin uninstall password-bcrypt
 wp plugin install user-session-control --activate
 # user role editor
 wp plugin install user-role-editor --activate
 # keepass-button
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-keepass-button/keepass-button.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-keepass-button/keepass-button.php
 
 # Fail2ban Wordpress
 wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
@@ -191,9 +192,11 @@ wp plugin install custom-sucuri sucuri-scanner --activate
 
 # prevent spam
 
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
-wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/contact-form-7-robot-trap/cf7-robot_trap.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-nofollow-robot-trap/nofollow-robot-trap.php
+# CF7 Robot Trap
+wget -P wp-content/plugins/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot_trap.php
+# obfuscate-email
 #wp plugin install obfuscate-email --activate
 ```
 
@@ -201,23 +204,23 @@ wget -P wp-content/plugins/ https://github.com/szepeviktor/wordpress-plugin-cons
 
 ```bash
 # mu-lock-session-ip
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-lock-session-ip/lock-session-ip.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-lock-session-ip/lock-session-ip.php
 
 # prevent-concurrent-logins
 wp plugin install prevent-concurrent-logins --activate
 
 # mu-disallow-weak-passwords
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-disallow-weak-passwords/disallow-weak-passwords.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-disallow-weak-passwords/disallow-weak-passwords.php
 
 # mu-banned-email-addresses
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-banned-email-addresses/banned-email-addresses.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-banned-email-addresses/banned-email-addresses.php
 
 # media
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control.php
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-image-upload-control/image-upload-control-hu.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-image-upload-control/image-upload-control.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-image-upload-control/image-upload-control-hu.php
 
 # protect plugins
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-protect-plugins/protect-plugins.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-protect-plugins/protect-plugins.php
 ```
 
 #### Object cache
@@ -226,13 +229,15 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-c
 // In wp-config.php
 define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 $redis_server = array(
-    'host' => '127.0.0.1',
-    'port' => 6379,
+    'host'     => '127.0.0.1',
+    'port'     => 6379,
+    'auth'     => '12345',
+    'database' => 0,
 );
 ```
 
 ```bash
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/mu-cache-flush-button/flush-cache-button.php
+wget -P wp-content/mu-plugins/ ${WPSZV}/mu-cache-flush-button/flush-cache-button.php
 
 # Redis @danielbachhuber
 wp plugin install wp-redis --activate
@@ -255,7 +260,7 @@ wp transient delete-all
 
 # FOCUS Cache - FILE-based object cache
 #wp plugin install focus-object-cache
-wget -P wp-content/ https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/focus-cache/object-cache.php
+wget -P wp-content/ ${WPSZV}/focus-cache/object-cache.php
 
 # Tiny cache
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-translation-cache.php
@@ -279,8 +284,8 @@ wp plugin install resource-versioning --activate
 wp plugin install tiny-cdn --activate
 
 # CDN, Page Cache, Minify
-wp plugin install w3-total-cache --activate
-wp plugin install https://github.com/szepeviktor/fix-w3tc/releases/download/v0.9.4.2/w3-total-cache.0.9.4.2.zip --activate
+#wp plugin install w3-total-cache --activate
+#wp plugin install https://github.com/szepeviktor/w3-total-cache-fixed/releases/download/0.9.5.4.2/w3-total-cache-fixed-for-v0.9.5.x-users.zip --activate
 
 # minit
 wp plugin install https://github.com/kasparsd/minit/archive/master.zip
@@ -295,8 +300,8 @@ wp plugin install safe-redirect-manager --activate
 wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --activate
 
 ## Autoptimize - CONFLICTS with resource-versioning
+##     define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 #wp plugin install autoptimize --activate
-#     define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 ```
 
 Set up CDN.
@@ -431,6 +436,16 @@ done | diff "$CURRENT" -
 
 #exit 0
 ```
+
+Redux Framework
+
+```php
+// Remove Redux Framework Ads
+// Search for 'opt_name'
+add_filter( 'redux/THEME_OPT_NAME/aURL_filter', '__return_empty_string' );
+$GLOBALS['redux_update_check'] = 1;
+```
+
 
 ### On deploy and Staging->Production Migration
 

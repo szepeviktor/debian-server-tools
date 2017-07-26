@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.4
+# VERSION       :0.2.5
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -15,8 +15,8 @@ U="$(stat . -c %U)"
 #U="${1:-defaultuser}"
 HTTPS="ssl-"
 #HTTPS=""
-EXCLUDES="amazon_cloudfront hetrixtools szepenet"
-#EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools szepenet custom"
+EXCLUDES="amazon_cloudfront hetrixtools custom"
+#EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools custom"
 
 # https://myip.ms/info/bots/Google_Bing_Yahoo_Facebook_etc_Bot_IP_Addresses.html
 Exclude_custom() {
@@ -27,9 +27,14 @@ Exclude_custom() {
         return
     fi
 
-    IPLIST="$(host -t A "$CUSTOM_HOST" | cut -d " " -f 4)"
+    # szepenet
+    #       worker       proxy
+    IPLIST="81.2.236.171,88.151.99.143"
+    echo "$IPLIST" | tr ',' '\n' | Make_excludes
 
-    echo "$IPLIST" | Make_excludes
+    # A host from $CUSTOM_HOST
+    #IPLIST="$(host -t A "$CUSTOM_HOST" | cut -d " " -f 4)"
+    #echo "$IPLIST" | Make_excludes
 
     # Magereport probe servers
     #IPLIST="$(Get_cache_file "https://www.magereport.com/static/ips.txt")"
@@ -39,19 +44,6 @@ Exclude_custom() {
     #IPLIST="$(for N in {01..10};do host -tA crawler-node-${N}.webymon.com.;done|sed -n -e 's/^.* has address \([0-9.]\+\)$/\1/p'|uniq)"
     #IPLIST="138.201.159.186 88.99.187.152 88.99.187.153 91.120.24.189"
     #echo "$IPLIST" | Make_excludes
-}
-
-Exclude_szepenet() {
-    local IPLIST
-
-    if ! Exclude_enabled szepenet; then
-        return
-    fi
-
-    #       worker       proxy
-    IPLIST="81.2.236.171,88.151.99.143"
-
-    echo "$IPLIST" | tr ',' '\n' | Make_excludes
 }
 
 Get_cache_file() {

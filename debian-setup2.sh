@@ -38,7 +38,7 @@ debian-setup/_check-system
 Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
-    logtail apg dos2unix ccze colordiff \
+    logtail apg dos2unix ccze colordiff sipcalc jq \
     net-tools whois ntpdate ipset netcat-openbsd lftp heirloom-mailx \
     gcc libc6-dev make strace \
 

@@ -41,7 +41,7 @@ mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup}
 chmod 0555 /home/${U}/website/html
 
 # Add hosting.yml
-cp hosting.yml /home/${U}/website/
+cp -v /usr/local/src/debian-server-tools/webserver/hosting.yml /home/${U}/website/
 
 # Install WordPress
 cd /home/${U}/website/html/
@@ -142,6 +142,7 @@ openssl dgst -sha384 -binary | openssl enc -base64 -A
 # See https://sslmate.com/labs/caa/
 
 # In case of "www." set ServerAlias
+# Set WORDPRESS_ROOT_URL and WORDPRESS_UPLOADS_URL
 editor ${DOMAIN}.conf
 # Enable site
 a2ensite ${DOMAIN}

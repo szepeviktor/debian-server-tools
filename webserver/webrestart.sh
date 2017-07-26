@@ -2,7 +2,7 @@
 #
 # Reload PHP-FPM and Apache dependently.
 #
-# VERSION       :0.6.1
+# VERSION       :0.6.2
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -21,10 +21,14 @@ Error() {
 }
 
 # PHP-PFM config test
-if which php5-fpm > /dev/null; then
-    php5-fpm -t || Error "PHP5-FPM configuration test failed"
+if hash php5-fpm &> /dev/null; then
+    php5-fpm -t || Error "PHP-FPM 5 configuration test failed"
+elif hash php-fpm7.0 &> /dev/null
+    php-fpm7.0 -t || Error "PHP-FPM 7.0 configuration test failed"
+elif hash php-fpm7.1 &> /dev/null
+    php-fpm7.1 -t || Error "PHP-FPM 7.1 configuration test failed"
 else
-    php-fpm7.0 -t || Error "PHP7-FPM configuration test failed"
+    Error "Unknown PHP version"
 fi
 echo "-----"
 
@@ -69,10 +73,12 @@ apache2ctl configtest || Error "Apache configuration test"
 echo "-----"
 
 # Reload!
-if which php5-fpm > /dev/null; then
-    service php5-fpm reload || Error 'PHP5-FPM reload failed, ACT NOW!'
-else
-    service php7.0-fpm reload || Error 'PHP7-FPM reload failed, ACT NOW!'
+if hash php5-fpm &> /dev/null; then
+    service php5-fpm reload || Error 'PHP-FPM 5 reload failed, ACT NOW!'
+elif hash php-fpm7.0 &> /dev/null
+    service php7.0-fpm reload || Error 'PHP-FPM 7.0 reload failed, ACT NOW!'
+elif hash php-fpm7.1 &> /dev/null
+    service php7.1-fpm reload || Error 'PHP-FPM 7.1 reload failed, ACT NOW!'
 fi
 service apache2 reload || Error 'Apache reload failed, ACT NOW!'
 

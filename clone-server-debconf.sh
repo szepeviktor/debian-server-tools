@@ -76,7 +76,7 @@ grep "^linux-image" packages.selection
 apt-get update -qq
 apt-get install -qq sysvinit-core sysvinit-utils
 cp -v /usr/share/sysvinit/inittab /etc/inittab
-echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd
+echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd.pref
 # Schedule removal of systemd
 echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
 @reboot root apt-get purge -qq --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd

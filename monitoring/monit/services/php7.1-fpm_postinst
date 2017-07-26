@@ -1,0 +1,7 @@
+# Test pool config
+/usr/sbin/php-fpm7.1 -tt 2>&1 \
+    | grep -E "NOTICE:\s\[\S+\]|NOTICE:\s\spm\.status_path = /" \
+    | grep -F -A 1 "$PHP71_USER" \
+    | grep -q -F pm.status_path
+
+wget -q -T 10 -S -O /dev/null "https://${PHP71_STATUS_SSL_SERVER_NAME}/statusphp"
