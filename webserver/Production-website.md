@@ -260,7 +260,13 @@ http://google-public-dns.appspot.com/cache
 ## Upgrade
 
 
-@TODO ## Downgrade
+### Things to stop before upgrade
+
+- External monitoring - wait for Pingdom - `maintenance5.sh`
+- Requests from the Internet - Apache - `service apache stop`
+- Cron jobs (maintenance mode) - `service cron stop`
+- Monitoring - Monit - `monit quit`
+- Incoming emails piped into programs - Courier - disable alias
 
 
 ## Check
