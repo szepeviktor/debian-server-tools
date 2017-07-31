@@ -37,7 +37,7 @@ Providers: Let's Encrypt, RapidSSL (GeoTrust/Symantec), CloudFlare SSL,
 OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 1. [Apache-SSL.md](./Apache-SSL.md)
-1. https://www.ssllabs.com/ssltest/
+1. https://www.ssllabs.com/ssltest/ :snail:
 1. https://crt.sh/
 
 ### WordPress core, theme from git
@@ -50,16 +50,16 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### Plugins
 
-- Plugin licences, access to support
+- Plugin licenses, access to support :snail:
 - See plugin list in [WordPress.md](./WordPress.md#plugins)
 - See MU plugins at https://github.com/szepeviktor/wordpress-plugin-construction
 - Allow accents in URL-s? `mu-latin-accent-urls`
 
 ### Root files
 
-- robots.txt
-- favicon.ico
-- apple-touch-icon.png
+- robots.txt :snail:
+- favicon.ico :snail:
+- apple-touch-icon.png :snail:
 - browserconfig.xml
 - [other files in the document root](https://github.com/szepeviktor/RootFiles)
 
@@ -70,10 +70,10 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### CDN
 
-- Consider multiple A records `host -t A cdn.example.com`
+- Consider multiple A records `host -t A cdn.example.com` :snail:
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 - Combine and minify CSS and JavaScript files
-- HTML caching or no-cache?
+- HTML caching or `no-cache`?
 - Disallow HTML pages on CDN (robots-cdn.txt)
 - https://aws.amazon.com/console/
 - https://www.cloudflare.com/a/login see also [/webserver/CloudFlare.md](/webserver/CloudFlare.md)
@@ -96,7 +96,7 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 - SPF
 - DKIM
 
-Consider transactional email service through HTTP API.
+Consider transactional email service through HTTP API. :snail:
 
 - Mailjet
 - Amazon SES
@@ -105,7 +105,7 @@ Consider transactional email service through HTTP API.
 
 ### Security
 
-- WAF: `wordpress-fail2ban`
+- WAF `wordpress-fail2ban` :snail:
 - Optional for shared hosting: Sucuri Scanner plugin
 - Optional: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
 - Optional: ionCube24 `ic24.enable = on` (PHP file modification time protection)
@@ -122,7 +122,7 @@ Remove left-over WP-Cron events.
 
 `wp cron event list; wp cron schedule list`
 
-Use real cron job.
+Use real cron job. :snail:
 
 `wp-cron-cli.sh`
 
@@ -131,14 +131,14 @@ Use real cron job.
 - General Settings
 - Writing Settings
 - Reading Settings
-- Media Settings (fewer generated image sizes)
+- Media Settings (fewer generated image sizes) :snail:
 - Permalink Settings
-- WP Mail From
+- WP Mail From :snail:
 
 ### User management
 
 - 1 administrator
-- Personal accounts for editors and authors
+- Personal accounts for editors and authors :snail:
 - Modify post and page authors
 - Enable/disable author sitemaps
 
@@ -159,7 +159,7 @@ Use real cron job.
 
 ### Webmaster tools
 
-- Google Search Console
+- Google Search Console :snail:
 - Bing Webmaster
 - Yandex Webmaster
 
@@ -236,13 +236,14 @@ wp db optimize
 
 ### Remove development and testing stuff
 
+- Sample / Demo content :snail:
 - Code editor configuration file `.editorconfig`
 - Files: `find -iname "*example*" -iname "*sample*" -iname "*demo*"`
 - PHP-FPM pool config: `env[WP_ENV] = production`
 
 ### VCS
 
-Put custom theme and plugins under git version control.
+Put custom theme and plugins under git version control. :snail:
 
 Keep git dir above document root.
 
@@ -272,17 +273,17 @@ http://google-public-dns.appspot.com/cache
 ## Check
 
 
-[What people remember on your website](http://www.clueapp.com/)
+[What people remember on your website](http://www.clueapp.com/) :snail:
 
 ### Marketing
 
 - [Videos by one person!](https://wistia.com/blog/startup-ceo-makes-videos)
-- External URL-s should open in new window
+- External URL-s should open in new window :snail:
 - Newsletter subscribe
 - Offer free download
 - Exit modal or Hijack box: *coupon, free download, blog notification, newsletter* etc.
 - Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
-- Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/
+- Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/ :snail:
 - Content to share: https://paper.li/
 - A/B testing - Google Optimize, Optimonk
 
@@ -301,7 +302,7 @@ http://google-public-dns.appspot.com/cache
 1. `vip-scanner`
 1. Frontend Debugger with `?remove-scripts`
 1. `p3-profiler`
-1. https://validator.w3.org
+1. https://validator.w3.org/ :snail:
 1. https://validator.nu/
 
 #### Typical theme and plugin errors
@@ -345,8 +346,8 @@ http://google-public-dns.appspot.com/cache
 
 ### 404 page
 
-- Informative
-- Cooperative (search form, automatic suggestions, Google's fixurl.js)
+- Informative :snail:
+- Cooperative (search form, automatic suggestions, Google's fixurl.js) :snail:
 - Attractive
 - [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
 - [404 pages on AWWWARDS](http://www.awwwards.com/inspiration/search?text=404)
@@ -355,7 +356,7 @@ http://google-public-dns.appspot.com/cache
 
 - Image format `convert PNG --quality 100 JPG`
 - Image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
-- Image optimization `jpeg-recompress JPG OPTI_JPG`
+- Image optimization `jpeg-recompress JPG OPTI_JPG` :snail:
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css > large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, image gallery)
@@ -386,10 +387,6 @@ wp-config.php: `define( 'WP_DEBUG', true );`
 tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 ```
 
-### JavaScript errors
-
-@TODO
-
 ### SEO
 
 - `blog_public` and robots.txt
@@ -409,7 +406,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Legal (EN)
 
-- Privacy policy
+- Privacy policy :snail:
 - [Cookie Consent Kit](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_4) + opt out,
   [cookie notice template](http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
   [Cookie Consent wizard by Insites](https://cookieconsent.insites.com/download/),
@@ -420,7 +417,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Jogi dolgok (HU)
 
-- Adatkezelési tájékoztató (cookie nyilatkozat, üzemeltető neve)
+- Adatkezelési tájékoztató (cookie nyilatkozat, üzemeltető neve) :snail:
 - Impresszum (csak űrlaphoz kell)
 - [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
 - Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
@@ -428,9 +425,9 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Compatiblitity
 
-- Toolbar color of Chrome for Android (`theme-color` meta)
+- Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
-- OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup)
+- OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup) :snail:
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
@@ -450,7 +447,7 @@ Document in `hosting.yml` and check functionality.
 - Video
 - Maps
 - Widgets
-- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
+- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`) :snail:
 - Advertisement
 - Live chat
 - Newsletter subscription
@@ -471,10 +468,10 @@ Gain access, set up and test.
 
 ### Last checks
 
-- Basic site functionality
-- Registration
-- Purchase
-- Contact forms
+- Basic site functionality :snail:
+- Registration :snail:
+- Purchase :snail:
+- Contact forms :snail:
 
 
 ## Monitor

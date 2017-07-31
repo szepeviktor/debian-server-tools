@@ -11,11 +11,11 @@
 # DEPENDS       :apt-get install logtail
 # LOCATION      :/usr/local/bin/magento-report.sh
 
-# Cron job
+# It is a cron job at every hour 59 minutes.
 #
 #     59 *	* * *	USER	/usr/local/bin/magento-report.sh /home/USER/website/html/var/log/
 #
-# Last minute tries to make sure there is a new log file at 00:59.
+# Last minute tries to make sure there is a new log file after midnight at 00:59.
 
 ZEND_LOG_LEVELS="NOTICE|WARN|ERR|CRIT|ALERT|EMERG"
 declare -i EXTRA_LINES="3"

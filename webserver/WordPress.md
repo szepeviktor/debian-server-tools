@@ -437,13 +437,41 @@ done | diff "$CURRENT" -
 #exit 0
 ```
 
-Redux Framework
+Redux Framework (search for 'opt_name')
 
 ```php
-// Remove Redux Framework Ads
-// Search for 'opt_name'
-add_filter( 'redux/THEME_OPT_NAME/aURL_filter', '__return_empty_string' );
+// Prevent Redux Framework HTTP requests
 $GLOBALS['redux_update_check'] = 1;
+add_filter( 'redux/ascend/aURL_filter', '__return_empty_string' );
+add_filter( 'get_user_option_' . 'r_tru_u_x', function () {
+    return array(
+        'expires' => PHP_INT_MAX,
+        'id' => '',
+    );
+} );
+add_action( 'after_setup_theme', function () {
+    remove_all_actions( 'wp_ajax_nopriv_redux_p' );
+    remove_all_actions( 'wp_ajax_redux_p' );
+} );
+```
+
+Kernl - Private WordPress Plugin & Theme Updates
+
+```php
+// Disable Kernl
+class ThemeUpdateChecker { public $purchaseCode = false; }
+class PluginUpdateChecker_2_0 {}
+```
+
+SOGO Accessability plugin
+
+```php
+// SOGO a11y
+add_action( 'wp_ajax_check_license', function () {
+    add_filter( 'pre_http_request', function ( $status ) {
+        return new WP_Error( 'sogo_license_check_disabled' );
+    } );
+} );
 ```
 
 

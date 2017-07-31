@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Install a tool from debian-server-tools.
+# Uninstall a tool from debian-server-tools.
 #
-# VERSION       :0.4.3
-# DATE          :2015-05-29
+# VERSION       :0.1.0
+# DATE          :2015-
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -11,10 +11,9 @@
 
 
 Die() {
-    local -i RET="$1"
-
+    local RET="$1"
     shift
-    echo -e "$*" 1>&2
+    echo -e $@ >&2
     exit "$RET"
 }
 
@@ -25,13 +24,11 @@ Die() {
 #   META
 #####################################################
 Get_meta() {
-    # Defaults to self
+    # defaults to self
     local FILE="${1:-$0}"
-    # Defaults to "VERSION"
+    # defaults to "VERSION"
     local META="${2:-VERSION}"
-    local VALUE
-
-    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ":" -f 2-)"
+    local VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d':' -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -50,7 +47,6 @@ Do_install() {
     local PERMS
     local SYMLINK
     local SCRIPT
-    local PKG
 
     if ! [ -f "$FILE" ]; then
         Die 1 "File does not exist (${FILE})"
@@ -66,7 +62,7 @@ Do_install() {
     fi
     PERMS="$(Get_meta "$FILE" PERMISSION)"
     if [ -z "$PERMS" ] || [ "$PERMS" == "(unknown)" ]; then
-        PERMS="0755"
+        PERMS="755"
     fi
 
     # Check for existence
@@ -76,7 +72,7 @@ Do_install() {
             return
         fi
 
-        echo "Updating ${SCRIPT}"
+        echo "Replacing ${SCRIPT}"
     else
         echo "Installing ${FILE} to ${SCRIPT}"
     fi
@@ -88,38 +84,19 @@ Do_install() {
         || Die 11 "Installation failure (${FILE})"
 
     # Create symlink
-    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d ":" -f 2- \
-        | while read -r SYMLINK; do
+    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d':' -f 2- \
+        | while read SYMLINK; do
             echo -n "Symlinking "
             ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
         done
 
     # Cron jobs
     if head -n 30 "$FILE" | grep -qi "^# CRON"; then
-        "$(dirname "$0")/install-cron.sh" "$FILE" || Die 13 "Cron installation failure (${FILE})"
+        $(dirname $0)/uninstall-cron.sh "$FILE" || Die 13 "Cron uninstallation failure (${FILE})"
     fi
 
     # Display dependencies
     Get_meta "$FILE" DEPENDS
-    # Check APT dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
-        | while read -r -d " " PKG; do
-            if [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" != "install ok installed" ]; then
-                echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
-            fi
-        done
-    # Check PyPA dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's/^pip install \(.\+\)$/\1 /p' \
-        | while read -r -d " " PKG; do
-            if ! pip show "$PKG" | grep -qx "^Version: \S\+"; then
-                echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
-            fi
-        done
-    # Check file dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's;^\(/.\+\)$;\1;p' \
-        | while read -r PKG; do
-            [ -x "$PKG" ] || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
-        done
 }
 
 #####################################################
@@ -132,7 +109,7 @@ Do_dir() {
     local FILE
 
     find "$DIR" -maxdepth 1 -type f \
-        | while read -r FILE; do
+        | while read FILE; do
             Do_install "$FILE"
         done
 }

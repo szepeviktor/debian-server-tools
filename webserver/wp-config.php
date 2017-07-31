@@ -12,7 +12,6 @@ if ( empty( $_SERVER['HOME'] ) ) {
 }
 
 // Different FTP/PHP UID
-define( 'FS_METHOD', 'direct' );
 define( 'FS_CHMOD_DIR', ( 0775 & ~ umask() ) );
 define( 'FS_CHMOD_FILE', ( 0664 & ~ umask() ) );
 
@@ -47,6 +46,8 @@ new \O1\Bad_Request();
 
 // See: wp-config-live-debugger/
 define( 'WP_DEBUG', false );
+// Don't allow any other write method
+define( 'FS_METHOD', 'direct' );
 
 // "wp-content" location
 // EDIT wp-content directory
@@ -102,8 +103,6 @@ define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 //define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 define( 'ENABLE_FORCE_CHECK_UPDATE', true );
 //define( 'YIKES_MC_API_KEY', '00000000-us3' );
-//define( 'ITSEC_FILE_CHECK_CRON', true );
-//define( 'ITSEC_BACKUP_CRON', true );
 //  Non-free
 //define( 'GF_LICENSE_KEY', '' );
 //define( 'OTGS_DISABLE_AUTO_UPDATES', true ); // WPML
@@ -126,9 +125,8 @@ $table_prefix = 'wp_';
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
-    // EDIT core directory
-    //define( 'ABSPATH', dirname( __FILE__ ) . '/site/' );
-    define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+    exit;
+    //define( 'ABSPATH', __DIR__ . '/site/' );
 }
 
 /** Sets up WordPress vars and included files. */

@@ -2,7 +2,7 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.1.2
+# VERSION       :1.1.3
 # DATE          :2015-12-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -29,7 +29,8 @@ APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 Xclude_filter() {
     grep -Ev " AH00162:| wpf2b_| bad_request_| no_wp_here_| 404_not_found\
 | 403_forbidden| df2b| netpromo_| AH00128:|\sFile does not exist:\
-|\sclient denied by server configuration:| Installing seccomp filter failed"
+|\sclient denied by server configuration:| Installing seccomp filter failed\
+| AH02032:"
 }
 
 Color_html() {
