@@ -37,6 +37,7 @@ package:
         prg-http-user: #user
         prg-http-pwd: #secret
         prg-ssl-cn: #prg.1.2.3.4.xip.io
+        mod_ratelimit: disabled
 
 # Mail server reputation
 mail-server:

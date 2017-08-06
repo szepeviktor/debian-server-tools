@@ -31,9 +31,6 @@
 [submodule "mysql/mysql2sqlite"]
 	path = mysql/mysql2sqlite
 	url = https://github.com/dumblob/mysql2sqlite.git
-[submodule "mail/courier-pythonfilter"]
-	path = mail/courier-pythonfilter
-	url = git@github.com:szepeviktor/courier-pythonfilter.git
 [submodule "webserver/server-configs-nginx"]
 	path = webserver/server-configs-nginx
 	url = git@github.com:szepeviktor/server-configs-nginx.git
@@ -43,3 +40,6 @@
 [submodule "security/mkpasswd"]
 	path = security/mkpasswd
 	url = git@github.com:szepeviktor/mkpasswd.git
+[submodule "mail/courier-pythonfilter"]
+	path = mail/courier-pythonfilter
+	url = git@github.com:szepeviktor/courier-pythonfilter.git
