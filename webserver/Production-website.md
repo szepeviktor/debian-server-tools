@@ -390,10 +390,10 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 ### SEO
 
 - `blog_public` and robots.txt
-- XML sitemaps with link from robots.txt
-- Page title (blue in SERP)
-- Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page))
-- Page meta description (grey in SERP)
+- XML sitemaps with link from robots.txt :snail:
+- Page title (blue in SERP) :snail:
+- Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page)) :snail:
+- Page meta description (grey in SERP) :snail:
 - Headings: H1, H2 / H3-H6
 - Images: `alt`, `title`
 - Breadcrumbs
@@ -401,7 +401,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
 - Multilingual site (`hreflang` attribute)
 - Structured data https://schema.org/ http://microformats.org/
-- [Google My Business](https://www.google.com/business/)
+- [Google My Business](https://www.google.com/business/) :snail:
 - [SERPs Google Location Changer](https://serps.com/tools/google-search-location)
 
 ### Legal (EN)
@@ -447,7 +447,7 @@ Document in `hosting.yml` and check functionality.
 - Video
 - Maps
 - Widgets
-- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`) :snail:
+- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
 - Advertisement
 - Live chat
 - Newsletter subscription
@@ -458,7 +458,7 @@ Document in `hosting.yml` and check functionality.
 
 Gain access, set up and test.
 
-- Google Analytics, Google Tag Manager
+- Google Analytics, Google Tag Manager :snail:
 - Facebook Pixel
 - Piwik
 - Clicktale

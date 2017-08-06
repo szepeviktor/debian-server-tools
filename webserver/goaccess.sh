@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.5
+# VERSION       :0.2.6
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -33,7 +33,7 @@ Exclude_custom() {
     echo "$IPLIST" | tr ',' '\n' | Make_excludes
 
     # A host from $CUSTOM_HOST
-    #IPLIST="$(host -t A "$CUSTOM_HOST" | cut -d " " -f 4)"
+    #IPLIST="$(getent ahostsv4 "$CUSTOM_HOST" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
     #echo "$IPLIST" | Make_excludes
 
     # Magereport probe servers
@@ -160,12 +160,11 @@ Goaccess() {
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
         --date-format="%d/%b/%Y" \
         --time-format="%T" \
-        $(Exclude_amazon_cloudfront) \
+        $(Exclude_custom) \
+        $(Exclude_hetrixtools) \
         $(Exclude_pingdom) \
         $(Exclude_cloudflare) \
-        $(Exclude_hetrixtools) \
-        $(Exclude_szepenet) \
-        $(Exclude_custom) \
+        $(Exclude_amazon_cloudfront) \
         --exclude-ip="$IP" \
         "$@"
 }
