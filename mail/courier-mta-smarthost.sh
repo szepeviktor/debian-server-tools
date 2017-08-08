@@ -1,13 +1,13 @@
 #!/bin/bash --version
 #
-# Courier MTA operate as a 'smarthost' and deliver mail to foreign hosts.
+# Courier MTA - operate as a smarthost, deliver outbound messages.
 #
 
 # Locally generated mail (sendmail, notifications)
 #     MTA <-- sendmail (local monitoring scripts)
 #     MTA <-- DSN
 #
-# Receiving as a 'smarthost' (inbound SMTP-MSA, SMTPS)
+# Receiving as a smarthost (inbound SMTP-MSA, SMTPS)
 #     MTA <-- Satellite systems (without authentication)
 #     MTA <-- MUA (authenticated)
 #

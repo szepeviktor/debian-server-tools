@@ -139,8 +139,9 @@ echo "Trash OK."
 echo "Remove home command:  rm -rf '${HOMEDIR}'"
 
 # MySQL authentication
-if which mysql &> /dev/null \
-    && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
+# shellcheck disable=SC1091,SC2154
+if hash mysql 2> /dev/null \
+    && ( source /etc/courier/authdaemonrc; echo "$authmodulelist"; ) | grep -F -w "authmysql"; then
     mysql "$COURIER_AUTH_DBNAME" <<EOF || Error 24 "Failed to insert into database"
 -- USE ${COURIER_AUTH_DBNAME};
 REPLACE INTO \`${COURIER_AUTH_DBTABLE}\` (\`id\`, \`crypt\`, \`clear\`, \`name\`,
@@ -155,10 +156,11 @@ EOF
     echo "                      DELETE FROM \`${COURIER_AUTH_DBTABLE}\` WHERE \`id\` = '${EMAIL}' LIMIT 1;"
 fi
 
-# userdb authentication
-if which userdb userdbpw &> /dev/null \
+# UserDB authentication
+# shellcheck disable=SC1091
+if hash userdb userdbpw 2> /dev/null \
     && [ -r /etc/courier/userdb ] \
-    && grep -q "^authmodulelist=.*\bauthuserdb\b" /etc/courier/authdaemonrc; then
+    && ( source /etc/courier/authdaemonrc; echo "$authmodulelist"; ) | grep -F -w "authuserdb"; then
     userdb "$EMAIL" set "home=${HOMEDIR}" || Error 30 "Failed to add to userdb"
     userdb "$EMAIL" set "mail=${NEW_MAILDIR}" || Error 31 "Failed to add to userdb"
     # `maildir` field is not necessary, see:  man makeuserdb

@@ -39,7 +39,7 @@ editor /var/mail/DOMAIN/LOCAL-USER/.courier-default
 
 courier-restart.sh
 
-} # smarthost
+} # SmarthostConfig
 
 ################## END 'smarthost' configuration ##################
 
@@ -51,21 +51,21 @@ if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-tr
     exit 1
 fi
 
-# Courier MTA installation
+# Courier MTA installation #
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
-apt-get install -y ca-certificates courier-mta courier-ssl -o APT::Install-Recommends=false
+apt-get install -o APT::Install-Recommends=false -y ca-certificates courier-mta courier-ssl
 # Fix dependency on courier-authdaemon
 if dpkg --compare-versions "$(dpkg-query --show --showformat="\${Version}" courier-mta)" lt "0.75.0-11"; then
     sed -i -e '1,20s|^#\s\+Required-Start:\s.*$|& courier-authdaemon|' /etc/init.d/courier-mta
     #update-rc.d courier-mta defaults
 fi
 
-# Restart script
+# Install restart script #
 Dinstall mail/courier-restart.sh
 
-# Route mail through the smarthost
+# Route mail through the smarthost #
 editor /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #     : in-v3.mailjet.com,587 /SECURITY=REQUIRED
@@ -78,16 +78,16 @@ editor /etc/courier/esmtpauthclient
 
 # Unused certificate file
 install -o daemon -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
-# SSL configuration
+# SSL configuration #
 editor /etc/courier/courierd
 # Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready (jessie) for it
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/
-#     TLS_PROTOCOL="TLSv1.2"
 #     # Modern profile as of 2016-08-28
+#     TLS_PROTOCOL="TLSv1.2"
 #     TLS_CIPHER_LIST="ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
 #
-#     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
 #     # Intermediate profile as of 2016-08-28
+#     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
 #     TLS_CIPHER_LIST="ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS"
 #
 #     TLS_COMPRESSION=NULL
@@ -101,7 +101,7 @@ DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
 Dinstall mail/courier-dhparams.sh
 
-# STARTTLS in client mode and 'smarthost' certificate verification
+# STARTTLS in client mode and smarthost certificate verification #
 editor /etc/courier/courierd
 #     ESMTP_USE_STARTTLS=1
 #     ESMTP_TLS_VERIFY_DOMAIN=1
@@ -127,12 +127,12 @@ editor /etc/courier/smtpaccess/default
 # Remove own hostname from locals
 echo "localhost" > /etc/courier/locals
 
-# Set hostname
+# Set hostname #
 editor /etc/courier/me
 editor /etc/courier/defaultdomain
 editor /etc/courier/dsnfrom
 
-# Aliases
+# Aliases #
 editor /etc/courier/aliases/system
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
 #     nobody: postmaster

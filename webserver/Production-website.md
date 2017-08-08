@@ -114,7 +114,8 @@ Consider transactional email service through HTTP API. :snail:
 - Google Search Console ("This site may harm your computer" notification on SERP)
 - Sucuri SiteCheck (includes Google Safe Browsing)
 - Virustotal (HTTP API)
-- Maximum security: convert website into static HTML + [formspree](https://formspree.io/) `simply-static`, `static-html-output-plugin`
+- Maximum security: convert website into static HTML +
+  [doorbell](https://doorbell.io/) or [formspree](https://formspree.io/) `simply-static`, `static-html-output-plugin`
 
 ### Cron jobs
 
@@ -389,7 +390,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### SEO
 
-- `blog_public` and robots.txt
+- `blog_public` and robots.txt :snail:
 - XML sitemaps with link from robots.txt :snail:
 - Page title (blue in SERP) :snail:
 - Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page)) :snail:

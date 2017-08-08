@@ -1,6 +1,35 @@
-# Courier MTA setup
+# Courier MTA
 
-### Receiving (foreign)
+
+| Receive                                  |       |                                Deliver |
+| ---------------------------------------- | :---: | -------------------------------------: |
+| Inbound: foreign, satellite, authenticated |     | Outbound: foreign, smarthost, provider |
+| Local: sendmail/TCP, DSN       | **Courier MTA** |                                Mailbox |
+| Fetchmail: remote mailbox      |      IMAP       |                    SRS: remote mailbox |
+
+
+### Message processing order on reception
+
+1. SMTP communication
+1. `NOADD*=`, `opt MIME=none`
+1. filters
+1. `DEFAULTDELIVERY=`
+
+### SSL settings
+
+**Courier seems to support only `DHE-*` over `TLSv1.2`.**
+
+Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even older systems only SSL3.
+
+- Inbound foreign: Mozilla SSL Intermediate
+- Inbound satellite and authenticated: Mozilla SSL **Modern**
+- [Fetchmail](http://www.fetchmail.info/fetchmail-man.html#8): Mozilla SSL **Modern**
+- Outbound foreign: Mozilla SSL Intermediate
+- Outbound smarthost and provider: Mozilla SSL **Modern**
+- IMAP: Mozilla SSL **Modern**
+
+
+### Inbound (foreign)
 
 - SSL settings
 - `bofh`
@@ -15,7 +44,7 @@
 - AUTH attackers, Fail2ban
 - Tarbaby fake MX
 
-### Receiving
+### Inbound
 
 - Incoming forwarded mail
 - Aliases (system users)
@@ -30,7 +59,7 @@
 2. Trusted providers
 3. Broken mail servers
 
-### Sending
+### Delivering
 
 - Queue and delivery settings (`queuetime`, `queuelo`, `respawnlo`, `sizelimit`)
 - SSL settings
@@ -48,6 +77,7 @@
 - Special cases
 
 ### Others
+
 - IMAP
 - Fetchmail
 - Init scripts

@@ -234,6 +234,10 @@ service fail2ban restart
 # @nonDebian
 Pkg_install_quiet -t jessie-backports python3-requests python3-urllib3 python3-six s3ql
 Pkg_install_quiet debconf-utils
+# Disable Apache configuration from javascript-common
+if hash a2disconf 2> /dev/null; then
+    a2disconf javascript-common
+fi
 
 # CLI tools
 debian-setup/php-wpcli

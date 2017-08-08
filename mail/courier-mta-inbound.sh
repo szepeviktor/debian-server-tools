@@ -1,6 +1,6 @@
 #!/bin/bash --version
 #
-# Courier MTA receive-only configuration with accounts.
+# Courier MTA - inbound configuration with mailboxs.
 #
 
 # Locally generated mail (sendmail, SMTP, notifications)
@@ -11,7 +11,7 @@
 # Receiving from foreign hosts (inbound SMTP, SMTP-MSA)
 #     MTA <-- Internet
 #
-# Delivering to 'smarthosts' or transactional email providers (outbound SMTP)
+# Delivering to smarthosts or transactional email providers (outbound SMTP)
 #     MTA --> smarthosts
 #     MTA --> transactional providers
 #
@@ -33,13 +33,12 @@
 #     - SMTP AUTH methods (CRAM-* needs clear passwords)
 #     - SSL certificate and settings
 # - whitelisting: skip Spamassassin tests, whitelist_block.py
-#     - relay clients (send-only servers using this host as a smarthost, whitelist_relayclients.py)
-#     - managed hosts
+#     - managed hosts (send-only servers using this host as a smarthost, whitelist_relayclients.py)
 #     - keepass-> incoming forwarded mail (upcmail, telekom, gmail, freemail, citromail, indamail)
 #     - keepass-> providers (monitoring, shared/VPS/server hosting, object storage, DNS, WAF/proxy, CDN, ISP)
 #     - keepass-> other subscriptions (banks, mailing lists, forums, trials)
 #     - broken SMTP servers (missing PTR, invalid MAIL FROM: etc.)
-#     - extra cases (can-send-email hosts, timeweb.ru relay)
+#     - special cases (can-send-email hosts, timeweb.ru relay)
 #     - hosts with broken STARTTLS (advertised but unavailable, in esmtproutes `/SECURITY=NONE`)
 # - blacklisting
 #     - courier-pythonfilter filters

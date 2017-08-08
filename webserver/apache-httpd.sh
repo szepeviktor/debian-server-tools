@@ -12,7 +12,8 @@ set -e -x
 
 #apt-get install -y openssl apache2 apache2-utils
 # @nonDebian
-apt-get install -y openssl libssl1.0.0/jessie-backports apache2 apache2-bin apache2-utils
+apt-get install -y openssl/jessie-backports libssl1.0.0/jessie-backports \
+    apache2 apache2-bin apache2-utils
 # No snakeoil
 apt-get purge -y ssl-cert
 # Path to certificates

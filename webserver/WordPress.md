@@ -474,6 +474,13 @@ add_action( 'wp_ajax_check_license', function () {
 } );
 ```
 
+Gravity Forms
+
+```php
+// Gravity Forms - Stop recreating .htaccess file
+add_filter( 'gform_upload_root_htaccess_rules', '__return_empty_string' );
+```
+
 
 ### On deploy and Staging->Production Migration
 

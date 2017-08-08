@@ -1,6 +1,6 @@
 #!/bin/bash --version
 #
-# Courier MTA.
+# Courier MTA - full operation.
 #
 
 # Locally generated mail (sendmail, SMTP, notifications)
@@ -13,7 +13,7 @@
 #     MTA <-- Satellite systems (without authentication)
 #     MTA <-- MUA (authenticated)
 #
-# Delivering to foreign hosts or 'smarthosts' or transactional email providers (outbound SMTP)
+# Delivering to foreign hosts or smarthosts or transactional email providers (outbound SMTP)
 #     MTA --> Internet
 #     MTA --> smarthosts
 #     MTA --> transactional providers
@@ -31,13 +31,6 @@
 #     MUA <-- MDA
 
 exit 0
-
-# Courier-mta message processing order on reception
-#
-# 1. SMTP communication
-# 2. NOADD*, "opt MIME=none"
-# 3. filters
-# 4. DEFAULTDELIVERY
 
 # /package/config-compare.sh
 
@@ -270,7 +263,7 @@ echo "$((25 * 1024**2))" > /etc/courier/sizelimit
 # Infrequent restarts
 echo "23h" > /etc/courier/respawnlo
 
-# Second MX -> Tarbaby fake MX
+# Second MX -> Tarbaby fake MX #
 # http://wiki.junkemailfilter.com/index.php/Project_tarbaby
 editor /etc/courier/smtpaccess/default
 #     # https://tools.ietf.org/html/rfc2821#section-4.2.3

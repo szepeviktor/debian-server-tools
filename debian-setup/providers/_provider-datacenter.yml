@@ -16,11 +16,11 @@ networking:
     gateway: 1.2.3.255
     resolver:
         # DNS Advantage by Neustar
-        # rdns1.ultradns.net.
-        - 156.154.70.1
+        # rdns1.ultradns.net. + no NXDomain redirect
+        - 156.154.70.5
         - $local.NS1
-        # rdns2.ultradns.net.
-        #- 156.154.71.1
+        # rdns2.ultradns.net. + no NXDomain redirect
+        #- 156.154.71.5
         # DNS.WATCH by Ideal-Hosting
         # resolver1.dns.watch
         #- 84.200.69.80
