@@ -1,0 +1,6 @@
+# Authentication, userdb
+COURIER_AUTHDAEMONRC_DEFAULTS='
+authmodulelist="authuserdb"
+DEBUG_LOGIN=0
+DEFAULTOPTIONS=""
+'

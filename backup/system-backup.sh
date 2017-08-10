@@ -327,6 +327,7 @@ CURRENT_DAY="$(date --utc "+%w")"
 # On terminal?
 if [ -t 1 ]; then
     read -r -s -e -p "Start backup? "
+    echo
     S3QL_OPT=""
 else
     S3QL_OPT="--quiet"

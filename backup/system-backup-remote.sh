@@ -287,7 +287,8 @@ set -e
 
 # Terminal?
 if [ -t 1 ]; then
-    read -e -p "Start backup? "
+    read -r -s -e -p "Start backup? "
+    echo
     S3QL_OPT=""
 else
     S3QL_OPT="--quiet"

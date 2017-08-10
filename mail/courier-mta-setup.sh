@@ -32,6 +32,9 @@
 
 exit 0
 
+# Fix perms
+chmod 0640 /etc/courier/esmtpauthclient
+
 # /package/config-compare.sh
 
 # gamin for courier-imap
