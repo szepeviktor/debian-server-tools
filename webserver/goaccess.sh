@@ -29,8 +29,8 @@ Exclude_custom() {
 
     # szepenet
     #       worker       proxy
-    IPLIST="81.2.236.171,88.151.99.143"
-    echo "$IPLIST" | tr ',' '\n' | Make_excludes
+    IPLIST="81.2.236.171 88.151.99.143"
+    echo "$IPLIST" | tr ' ' '\n' | Make_excludes
 
     # A host from $CUSTOM_HOST
     #IPLIST="$(getent ahostsv4 "$CUSTOM_HOST" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
