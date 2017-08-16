@@ -89,3 +89,5 @@ readlink /etc/courier/filters/active/pythonfilter
 # @TODO Well-known and autodiscover
 
 # BLACKLISTS="-block=bl.blocklist.de"
+
+touch /etc/courier/shared/index

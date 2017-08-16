@@ -30,7 +30,7 @@ Check_config_perms() {
     # Changes to these take effect immediately
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtpauthclient
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtproutes
-    sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtpd.pem
+    test -r /etc/courier/esmtpd.pem
     sudo -u "$COURIER_USER" -- test -r /etc/courier/dhparams.pem
 }
 

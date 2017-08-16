@@ -1,15 +1,19 @@
 # SES-to-IMAP
 
-Receiving email with Amazon SES to an IMAP mailbox.
+Receiving emails with Amazon SES, S3 and SNS to an IMAP mailbox.
+
+Internet → Amazon SES → S3 storage → SNS notification → local web hook → incron job → s3cmd
 
 ### Setup
 
 1. Local IMAP server and accounts
-1. SES send and receive
+1. SES send - SMTP
+1. SES receive / Email Receiving / Rule Sets: store to S3 bucket and notify SNS topic
 1. `ses-sns-notifications` directory
-1. Install PHP script
-1. Add incron job
-1. SNS subscription
+1. Install PHP script: `https://example.com/ses-sns/endpoint.php` append to message list file: `user@domain.tld`
+1. Add incron job: `/home/USER/website/ses-emails IN_CREATE,IN_MODIFY /usr/local/bin/ses-mail-download.sh $@ $#`
+1. `ses-get-messages.sh` download messages to the specified inbox with s3cmd and clear the S3 bucket
+1. SNS / Topics: Protocol HTTPS
 
 
 
@@ -39,6 +43,7 @@ Receiving email with Amazon SES to an IMAP mailbox.
 - SNS
     Topics
     deploy PHP code, composer update
+    `composer require aws/aws-php-sns-message-validator`
     Create subscr HTTPS https://lampa.wip.services/ses-sns/endpoint.php
     confirm URL
 - Test

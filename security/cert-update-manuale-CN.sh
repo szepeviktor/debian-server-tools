@@ -40,7 +40,7 @@ Move_challenge_files() {
 
     # Wait for authorization
     sleep 60
-    rm "${WELL_KNOWN_ACME_CHALLENGE}"/*
+    rm -v "${WELL_KNOWN_ACME_CHALLENGE}"/*
 }
 
 set -e

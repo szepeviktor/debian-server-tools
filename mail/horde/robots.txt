@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Please stop sending further requests.

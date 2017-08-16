@@ -130,7 +130,7 @@ editor /etc/courier/esmtpd-ssl
 #
 #     TLS_COMPRESSION=NULL
 #     TLS_DHPARAMS=/etc/courier/dhparams.pem
-#     TLS_CACHEFILE=/var/lib/courier/tmp/ssl_cache
+#     TLS_CACHEFILE=/var/lib/courier/couriersslcache
 #     TLS_CACHESIZE=524288
 
 # Diffie-Hellman parameters

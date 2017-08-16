@@ -1,0 +1,36 @@
+/* Magnification */
+body {
+    font-size: 15px;
+}
+
+div.vpRow {
+    height: 25px;
+}
+
+.horde-drowdown-str {
+    height: 23px;
+}
+
+.horde-buttonbar {
+    min-height: 36px;
+    background-size: 1px 36px;
+}
+.horde-buttonbar li:hover,
+.horde-buttonbar li.horde-active {
+    background-size: 1px 36px;
+}
+.horde-buttonbar li {
+    height: 28px;
+    background-size: 1px 36px;
+}
+
+.horde-table-header,
+table.horde-table thead tr,
+table.horde-table th {
+    background-size: 1px 25px;
+}
+
+form[action^="https://"] input.horde-default[type="submit"] {
+    background-size: auto auto, auto 100%;
+}
+/* -- Magnification */

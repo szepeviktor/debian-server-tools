@@ -38,6 +38,7 @@ chmod 0640 /etc/courier/esmtpauthclient
 # /package/config-compare.sh
 
 # gamin for courier-imap
+apt-get install -y gamin
 
 # Mail Submission Agent (TCP/587)
 editor esmtpd-msa

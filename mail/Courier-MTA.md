@@ -1,11 +1,11 @@
 # Courier MTA
 
 
-| Receive                                  |       |                                Deliver |
-| ---------------------------------------- | :---: | -------------------------------------: |
-| Inbound: foreign, satellite, authenticated |     | Outbound: foreign, smarthost, provider |
-| Local: sendmail/TCP, DSN       | **Courier MTA** |                                Mailbox |
-| Fetchmail: remote mailbox      |      IMAP       |                    SRS: remote mailbox |
+| Receive                                    | :gear:  |                                Deliver |
+| ------------------------------------------ | :-----: | -------------------------------------: |
+| Inbound: foreign, satellite, authenticated | filters | Outbound: foreign, smarthost, provider |
+| Local: sendmail/TCP, DSN           | **Courier MTA** |                                Mailbox |
+| Fetchmail: remote mailbox          |      IMAP       |                    SRS: remote mailbox |
 
 
 ### Message processing order on reception
@@ -64,8 +64,8 @@ Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even o
 - Queue and delivery settings (`queuetime`, `queuelo`, `respawnlo`, `sizelimit`)
 - SSL settings
 - DSN-s
-- ZDKIM Filter (DKIM)
-- Courier-SRS (Sender Rewriting Scheme)
+- DKIM (ZDKIM Filter)
+- Sender Rewriting Scheme (Courier-SRS)
 
 ##### `esmtproutes`
 
@@ -76,12 +76,17 @@ Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even o
 - Broken STARTTLS (advertised but unavailable)
 - Special cases
 
+### Filter
+
+- courier-pythonfilter
+- zdkimfilter
+
 ### Others
 
+- Init scripts
 - IMAP
 - Fetchmail
-- Init scripts
 - Webmail (Horde)
-- Monitoring, feedback loops, whitelists, RBL-s
+- Monitoring, feedback loops, whitelists, RBL checkers
 - SPF
 - Can-send-email

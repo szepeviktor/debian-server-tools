@@ -2,7 +2,7 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -73,8 +73,7 @@ grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9][-a-z0-9_]*(\.[a-z]+)+$' <<< "$EM
     || Error 8 'Non-regular email address'
 
 NEW_DOMAIN="${EMAIL##*@}"
-NEW_MAILDIR="${MAILROOT}/${NEW_DOMAIN}/${EMAIL%%@*}/Maildir"
-#?
+NEW_MAILDIR="${HOMEDIR}/Maildir"
 
 # Check home folder
 [ -d "$HOMEDIR" ] && Error 9 "This home ($HOMEDIR) already exists."

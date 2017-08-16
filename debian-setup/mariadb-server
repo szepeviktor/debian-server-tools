@@ -3,7 +3,7 @@
 set -e -x
 
 # @nonDebian
-Pkg_install_quiet mariadb-server-10.0 mariadb-client-10.0 percona-xtrabackup
+Pkg_install_quiet mariadb-server mariadb-client percona-xtrabackup
 
 # Steal root password
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815599
