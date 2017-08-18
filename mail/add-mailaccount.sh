@@ -134,9 +134,6 @@ ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
 #HU: ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
 echo "Trash OK."
 
-# Removal instruction
-echo "Remove home command:  rm -rf '${HOMEDIR}'"
-
 # MySQL authentication
 # shellcheck disable=SC1091,SC2154
 if hash mysql 2> /dev/null \
@@ -174,6 +171,9 @@ if hash userdb userdbpw 2> /dev/null \
     # Removal instruction
     echo "Remove user command:  userdb '$EMAIL' del"
 fi
+
+# Removal instruction
+echo "Remove home command:  rm -rf '${HOMEDIR}'"
 
 # SMTP authentication test
 {

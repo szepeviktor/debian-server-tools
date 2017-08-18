@@ -10,4 +10,5 @@ $servers['maxer'] = array(
     'port' => 143,
     // STARTTLS
     'secure' => 'tls',
+    'cache' => 'hashtable',
 );

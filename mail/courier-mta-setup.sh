@@ -32,6 +32,32 @@
 
 exit 0
 
+# Functions()
+| Courier MTA
+cert-update.sh
+monit/
+| Inbound: foreign,
+| satellite,
+| authenticated
+| filters
+courier-pythonfilter + custom modules + spamassassin: bayes_* files
+ + pyzor `u pyzor --homedir=/home/horde/.pyzor discover`, PHP runs it, Spamassassin runs it
+   `/usr/bin/spamc -L ham -C revoke` -> only SA runs it ???
+   https://wiki.apache.org/spamassassin/UsingPyzor
+   --allow-tell
+zdkimfilter
+| Outbound: foreign,
+| smarthost,
+| provider
+| Local: sendmail/TCP, DSN
+|                                Mailbox
+| Fetchmail: remote mailbox
+fetchmailrc
+|      IMAP
+gamin
+|                    SRS: remote mailbox
+libsrs + couriersrs
+
 # Fix perms
 chmod 0640 /etc/courier/esmtpauthclient
 

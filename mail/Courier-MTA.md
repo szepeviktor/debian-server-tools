@@ -17,7 +17,7 @@
 
 ### SSL settings
 
-**Courier seems to support only `DHE-*` over `TLSv1.2`.**
+Courier support `ECDHE-*` over `TLSv1.2` with OpenSSL from version 0.74.0 up.
 
 Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even older systems only SSL3.
 

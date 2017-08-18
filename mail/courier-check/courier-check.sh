@@ -2,7 +2,7 @@
 #
 # Check Courier MTA configuration.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2017-08-10
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -30,7 +30,7 @@ Check_config_perms() {
     # Changes to these take effect immediately
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtpauthclient
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtproutes
-    test -r /etc/courier/esmtpd.pem
+    sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtpd.pem
     sudo -u "$COURIER_USER" -- test -r /etc/courier/dhparams.pem
 }
 
@@ -97,7 +97,19 @@ echo "--- esmtpd-msa ---"
 if [ -f /etc/courier/esmtpd-ssl ]; then
     echo "--- esmtpd-ssl ---"
     ! grep '^\s' /etc/courier/esmtpd-ssl
-    ( source /etc/courier/esmtpd-ssl; Check_config "$COURIER_ESMTPD_SSL_DEFAULTS"; )
+    ( source /etc/courier/esmtpd; source /etc/courier/esmtpd-ssl; Check_config "$COURIER_ESMTPD_SSL_DEFAULTS"; )
+fi
+
+if [ -f /etc/courier/imapd ]; then
+    echo "--- imapd ---"
+    ! grep '^\s' /etc/courier/imapd
+    ( source /etc/courier/imapd; Check_config "$COURIER_IMAPD_DEFAULTS"; )
+fi
+
+if [ -f /etc/courier/imapd-ssl ]; then
+    echo "--- imapd-ssl ---"
+    ! grep '^\s' /etc/courier/imapd-ssl
+    ( source /etc/courier/imapd; source /etc/courier/imapd-ssl; Check_config "$COURIER_IMAPD_SSL_DEFAULTS"; )
 fi
 
 # @TODO imap, -ssl, sizelimit, queuetime

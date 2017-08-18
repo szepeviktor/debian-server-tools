@@ -2,7 +2,7 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2016-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -20,8 +20,8 @@ set -e
 
 makesmtpaccess || Error $? "smtpaccess/*"
 
-#if ! grep -qFx "ACCESSFILE=\${sysconfdir}/smtpaccess" /etc/courier/esmtpd-msa &&
-if grep -qFxi "ESMTPDSTART=YES" /etc/courier/esmtpd-msa; then
+#if ! grep -qFx 'ACCESSFILE=${sysconfdir}/smtpaccess' /etc/courier/esmtpd-msa &&
+if grep -qFxi 'ESMTPDSTART=YES' /etc/courier/esmtpd-msa; then
     makesmtpaccess-msa || Error $? "msa smtpaccess/*"
 fi
 
@@ -40,7 +40,7 @@ fi
 makealiases || Error $? "aliases/*"
 
 # Wait for active courierfilters
-if [ -f "/run/courier/courierfilter.pid" ]; then
+if [ -f /run/courier/courierfilter.pid ]; then
     COURIERFILTER_PID="$(head -n 1 /run/courier/courierfilter.pid)"
     FILTER_PIDS="$(pgrep --parent "$COURIERFILTER_PID" || true)"
     if [ -n "$FILTER_PIDS" ]; then
@@ -55,7 +55,8 @@ if [ -f "/run/courier/courierfilter.pid" ]; then
 fi
 
 # Restart courier-mta-ssl also
-if [ "$(dpkg-query --showformat="\${Status}" --show courier-mta-ssl 2> /dev/null)" == "install ok installed" ]; then
+#if [ "$(dpkg-query --showformat='${Status}' --show courier-mta-ssl 2> /dev/null)" == "install ok installed" ]; then
+if [ -f /etc/courier/esmtpd-ssl ]; then
     service courier-mta-ssl restart || Error $? "courier-mta-ssl restart"
 fi
 service courier-mta restart || Error $? "courier-mta restart"

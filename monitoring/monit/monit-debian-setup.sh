@@ -202,7 +202,7 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.9.0
+# VERSION       :0.10.0
 
 IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
 
@@ -217,6 +217,13 @@ if ! service monit status | grep -qF "monit is running"; then
     service monit restart || service monit start
 fi
 
+# Check nice level
+MONIT_PID="$(cat /run/monit.pid)"
+if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" -ne 0 ]; then
+    echo "Monit's nice level changed" | mail -s "Monit ALERT on $(hostname -f)" root
+    renice -n 0 -p "$MONIT_PID"
+fi
+
 # Try remonitor failed services
 /usr/bin/monit -B summary | tail -n +3 \
     | sed -e 's|Remote Host\s*$|RemoteHost |' \
@@ -224,7 +231,7 @@ fi
     | sed -n -e 's|^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*$|\1|p' \
     | xargs -r -L 1 /usr/bin/monit monitor
 
-if [ $? != 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
+if [ $? -ne 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
     /usr/local/sbin/swap-refresh.sh
 fi
 

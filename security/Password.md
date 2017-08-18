@@ -18,6 +18,7 @@
 - soundex
 - Levenshtein
 - metaphone
+- https://siderite.blogspot.com/2014/11/super-fast-and-accurate-string-distance.html
 
 http://php.net/manual/en/function.metaphone.php#39076
 

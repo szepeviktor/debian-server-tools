@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.12.3
+# VERSION       :0.12.4
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -75,6 +75,9 @@ Protect_certs() {
 }
 
 Courier_mta() {
+    COURIER_USER="daemon"
+    #COURIER_USER="courier"
+
     [ -z "$COURIER_COMBINED" ] && return 1
     [ -z "$COURIER_DHPARAMS" ] && return 1
 
@@ -83,12 +86,12 @@ Courier_mta() {
     #cat "$PUB" "$INT" "$PRIV" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     # From Debian jessie on: private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
-    chown daemon:root "$COURIER_COMBINED" || Die 22 "courier owner"
-    chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
+    chown root:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
+    chmod 0640 "$COURIER_COMBINED" || Die 23 "courier perms"
 
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
-    chown daemon:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
-    chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
+    chown root:${COURIER_USER} "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
+    chmod 0640 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
