@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.0.6
+# VERSION       :2.0.7
 # DATE          :2016-07-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -300,7 +300,7 @@ Backup_files() {
 }
 
 Mount() {
-    [ -z "$(find "$TARGET" -type f)" ] || Error 5 "Target directory is not empty"
+    [ -z "$(find "$TARGET" -mindepth 1 -maxdepth 1)" ] || Error 5 "Target directory is not empty"
 
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
     /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test $? == 128

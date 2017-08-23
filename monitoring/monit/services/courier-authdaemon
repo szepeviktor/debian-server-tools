@@ -1,7 +1,7 @@
  check process courier-authdaemon with pidfile /run/courier/authdaemon/pid
    group mail
-   start program = "/etc/init.d/courier-authdaemon start"
-   stop program = "/etc/init.d/courier-authdaemon stop"
+   start program = "/usr/sbin/service courier-authdaemon start"
+   stop program = "/usr/sbin/service courier-authdaemon stop"
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-authdaemon_bin
    depends on courier-authdaemon_init

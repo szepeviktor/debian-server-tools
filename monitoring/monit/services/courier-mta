@@ -1,7 +1,7 @@
  check process courier-mta with pidfile /run/courier/esmtpd.pid
    group mail
-   start program = "/etc/init.d/courier-mta start"
-   stop program = "/etc/init.d/courier-mta stop"
+   start program = "/usr/sbin/service courier-mta start"
+   stop program = "/usr/sbin/service courier-mta stop"
    # When TCPDOPTS="-nodnslookup" is NOT set in Courier
    #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds then restart
    #if 5 restarts within 5 cycles then unmonitor
@@ -18,8 +18,8 @@
 
  check process courier-mta-msa with pidfile /run/courier/esmtpd-msa.pid
    group mail
-   start program = "/etc/init.d/courier-mta start"
-   stop program = "/etc/init.d/courier-mta stop"
+   start program = "/usr/sbin/service courier-mta start"
+   stop program = "/usr/sbin/service courier-mta stop"
    # Extended timeout for DNS queries
    if failed host localhost port 587 type tcp protocol smtp timeout 12 then restart
    if 5 restarts within 5 cycles then unmonitor

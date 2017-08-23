@@ -2,8 +2,8 @@
  check process mdadm with pidfile /run/mdadm/monitor.pid
    group system
    group mdadm
-   start program = "/etc/init.d/mdadm start"
-   stop program = "/etc/init.d/mdadm stop"
+   start program = "/usr/sbin/service mdadm start"
+   stop program = "/usr/sbin/service mdadm stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on mdadm_bin
    depends on mdadm_conf

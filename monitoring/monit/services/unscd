@@ -1,8 +1,8 @@
  check process unscd with pidfile /run/nscd/nscd.pid
    group system
    group unscd
-   start program = "/etc/init.d/unscd start"
-   stop program = "/etc/init.d/unscd stop"
+   start program = "/usr/sbin/service unscd start"
+   stop program = "/usr/sbin/service unscd stop"
    if failed unixsocket /run/nscd/socket then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on unscd_bin

@@ -2,8 +2,8 @@
  check process crond with pidfile /run/crond.pid
    group system
    group crond
-   start program = "/etc/init.d/cron start"
-   stop program = "/etc/init.d/cron stop"
+   start program = "/usr/sbin/service cron start"
+   stop program = "/usr/sbin/service cron stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on crond_bin
    depends on crond_init
@@ -24,6 +24,6 @@
    if failed uid root then unmonitor
    if failed gid crontab then unmonitor
 
- check program crond_test with path "/etc/init.d/cron status" with timeout 10 seconds
+ check program crond_test with path "/usr/sbin/service cron status" with timeout 10 seconds
    group crond
    if status != 0 then alert

@@ -2,8 +2,8 @@
  check process smartd with pidfile /run/smartd.pid
    group system
    group smartd
-   start program = "/etc/init.d/smartmontools start"
-   stop program = "/etc/init.d/smartmontools stop"
+   start program = "/usr/sbin/service smartmontools start"
+   stop program = "/usr/sbin/service smartmontools stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on smartd_bin
    depends on smartd_init

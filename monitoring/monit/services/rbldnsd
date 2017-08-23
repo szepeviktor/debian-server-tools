@@ -1,7 +1,7 @@
  check process rbldnsd with pidfile /run/rbldnsd-dsbl.pid
    group rbldns
-   start program = "/etc/init.d/rbldnsd start"
-   stop program = "/etc/init.d/rbldnsd stop"
+   start program = "/usr/sbin/service rbldnsd start"
+   stop program = "/usr/sbin/service rbldnsd stop"
    if failed host @@RBLDNSD_IP@@ port @@RBLDNSD_PORT@@ type udp protocol dns then alert
    if failed host @@RBLDNSD_IP@@ port @@RBLDNSD_PORT@@ type tcp protocol dns then alert
    if 5 restarts within 5 cycles then unmonitor

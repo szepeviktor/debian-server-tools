@@ -2,13 +2,13 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.2.0
+# VERSION       :0.3.0
 # DATE          :2017-02-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install grub-pc
+# DEPENDS       :apt-get install grub-pc psmisc
 # LOCATION      :/usr/local/sbin/reboot
 
 # Usage
@@ -42,13 +42,24 @@ if ! [ -b "$DISK" ] || ! grep -q "^${DISK}\s" /proc/mounts; then
     exit 1
 fi
 
-clear
 # Stop monit
-if [ "$(dpkg-query --showformat="\${Status}" --show monit 2> /dev/null)" == "install ok installed" ]; then
+clear
+if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
     if service monit status | grep -qF "monit is running"; then
         service monit stop
     fi
 fi
+
+# Start the reboot process
 /sbin/reboot "$@" &
-# Follow syslog until actual reboot
-tail -f /var/log/syslog
+
+# Follow syslog for 5 seconds
+timeout 5 tail -f /var/log/syslog
+
+# Watch processes exit
+while :; do
+    clear
+    date
+    pstree
+    sleep 0.5
+done

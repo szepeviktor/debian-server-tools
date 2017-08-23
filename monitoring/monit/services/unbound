@@ -1,7 +1,7 @@
  check process unbound with pidfile /run/unbound.pid
    group unbound
-   start program = "/etc/init.d/unbound start"
-   stop program = "/etc/init.d/unbound stop"
+   start program = "/usr/sbin/service unbound start"
+   stop program = "/usr/sbin/service unbound stop"
    if failed host localhost port 53 IPV4 type tcp protocol dns then alert
    #if failed host localhost port 53 IPV6 type tcp protocol dns then alert
    if failed host localhost port 53 IPV4 type udp protocol dns then alert

@@ -1,8 +1,8 @@
  check process udevd matching udevd
    group system
    group udevd
-   start program = "/etc/init.d/udev start"
-   stop program = "/etc/init.d/udev stop"
+   start program = "/usr/sbin/service udev start"
+   stop program = "/usr/sbin/service udev stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on udevadm
    depends on udevd_bin

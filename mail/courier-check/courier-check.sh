@@ -68,6 +68,8 @@ source courier-check-courierd-public
 source courier-check-esmtpd-public
 source courier-check-esmtpd-msa-public
 source courier-check-esmtpd-ssl-public
+source courier-check-imapd
+source courier-check-imapd-ssl-public
 #source courier-check-courierd-satellite
 #source courier-check-esmtpd-satellite
 #source courier-check-esmtpd-msa-satellite
@@ -103,7 +105,7 @@ fi
 if [ -f /etc/courier/imapd ]; then
     echo "--- imapd ---"
     ! grep '^\s' /etc/courier/imapd
-    ( source /etc/courier/imapd; Check_config "$COURIER_IMAPD_DEFAULTS"; )
+    ( source /etc/courier/imapd-ssl; source /etc/courier/imapd; Check_config "$COURIER_IMAPD_DEFAULTS"; )
 fi
 
 if [ -f /etc/courier/imapd-ssl ]; then
@@ -112,6 +114,6 @@ if [ -f /etc/courier/imapd-ssl ]; then
     ( source /etc/courier/imapd; source /etc/courier/imapd-ssl; Check_config "$COURIER_IMAPD_SSL_DEFAULTS"; )
 fi
 
-# @TODO imap, -ssl, sizelimit, queuetime
+# @TODO sizelimit, queuetime ...
 
 echo "OK."

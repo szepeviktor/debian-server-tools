@@ -1,7 +1,7 @@
  check process "php7.0-fpm-uds" with pidfile "/run/php/php7.0-fpm.pid"
    group "php-fpm"
-   start program = "/etc/init.d/php7.0-fpm start"
-   stop program = "/etc/init.d/php7.0-fpm stop"
+   start program = "/usr/sbin/service php7.0-fpm start"
+   stop program = "/usr/sbin/service php7.0-fpm stop"
    if failed unixsocket "/run/php/php7.0-fpm-@@PHP7_USER@@.sock" then restart
    if failed host "@@PHP7_STATUS_SSL_SERVER_NAME@@" port 443 with protocol https and request "/statusphp"
      with timeout 2 seconds for 4 times within 5 cycles then restart

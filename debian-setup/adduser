@@ -72,15 +72,16 @@ export PS1="\[$(tput sgr0)\][\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@
 \[$(tput setaf 8;tput setab 4)\]\w\[$(tput sgr0)\]:\t:\
 \[$(tput bold)\]\!\[\$(PS1exitstatus;tput sgr0)\]]\n"
 
-#export IP="$(ip addr show dev eth0|sed -n -e 's/^\s*inet \([0-9.]\+\)\b.*$/\1/p')"
-#export IP="$(ifconfig|sed -n -e '/^eth/{n;s/^\s*inet addr:\([0-9.]\+\)\b.*$/\1/p;q}')"
-export IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+# Address of the primary network interface
+#export IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+ROUTER="$(ip -4 route show to default | sed -n -e '0,/^default via \(\S\+\).*$/s//\1/p')"
+export IP="$(ip -4 route get "$ROUTER" | sed -n -e '0,/^.*\ssrc \(\S\+\).*$/s//\1/p')"
+
 export LS_OPTIONS='--color=auto'
 eval "$(dircolors)"
 alias ls='ls $LS_OPTIONS'
 alias ll='ls $LS_OPTIONS -l'
 alias l='ls $LS_OPTIONS -lA'
-
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -88,14 +89,14 @@ alias mv='mv -i'
 alias grep='grep --color'
 alias iotop='iotop -d 0.1 -qqq -o'
 alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
-alias transit='xz -9|base64 -w $((COLUMNS-1))'
-alias transit-receive='base64 -d|xz -d'
-alias changelog='xargs -I% -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
+alias transit='xz -9 | base64 -w $((COLUMNS-1))'
+alias transit-receive='base64 -d | xz -d'
+alias changelog='xargs -I % -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
 #alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
-#     apt-get install -y tcpdump tcpflow
+# apt-get install -y tcpdump tcpflow
 #alias httpdump='tcpdump -i eth0 -nn -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 # http://www.vim.org/scripts/script.php?script_id=658
-#alias email='vim -c "startinsert" /tmp/e.eml'
+#alias email='vim -c "startinsert" /tmp/message.eml'
 LESS="-S"
 EOF
 

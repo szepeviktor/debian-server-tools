@@ -2,8 +2,8 @@
  check process atd with pidfile /run/atd.pid
    group system
    group atd
-   start program = "/etc/init.d/atd start"
-   stop program = "/etc/init.d/atd stop"
+   start program = "/usr/sbin/service atd start"
+   stop program = "/usr/sbin/service atd stop"
    if 5 restarts within 5 cycles then unmonitor
    depends on atd_bin
    depends on atd_init

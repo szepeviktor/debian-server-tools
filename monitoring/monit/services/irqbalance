@@ -1,8 +1,8 @@
  check process irqbalance with pidfile /run/irqbalance.pid
    group system
    group irqbalance
-   start program = "/etc/init.d/irqbalance start"
-   stop program = "/etc/init.d/irqbalance stop"
+   start program = "/usr/sbin/service irqbalance start"
+   stop program = "/usr/sbin/service irqbalance stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on irqbalance_bin
    depends on irqbalance_init

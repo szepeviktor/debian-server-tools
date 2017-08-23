@@ -2,8 +2,8 @@
  check process "redis" with pidfile "/run/redis/redis-server.pid"
    group "cache"
    group "redis"
-   start program = "/etc/init.d/redis-server start"
-   stop program = "/etc/init.d/redis-server stop"
+   start program = "/usr/sbin/service redis-server start"
+   stop program = "/usr/sbin/service redis-server stop"
    if failed host localhost port 6379 protocol redis then restart
    if cpu > 60% for 2 cycles then alert
    if cpu > 98% for 5 cycles then restart

@@ -1,8 +1,8 @@
  check process chronyd with pidfile /run/chronyd.pid
    group system
    group chronyd
-   start program = "/etc/init.d/chrony start"
-   stop program = "/etc/init.d/chrony stop"
+   start program = "/usr/sbin/service chrony start"
+   stop program = "/usr/sbin/service chrony stop"
 ##   if failed unixsocket /run/chrony/chronyd.sock then restart
    if 4 restarts within 12 cycles then unmonitor
    depends on chronyd_bin

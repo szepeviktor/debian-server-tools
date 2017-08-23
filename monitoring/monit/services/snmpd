@@ -1,8 +1,8 @@
 # From Debian package
  check process snmpd with pidfile /run/snmpd.pid
    group snmpd
-   start program = "/etc/init.d/snmpd start"
-   stop program = "/etc/init.d/snmpd stop"
+   start program = "/usr/sbin/service snmpd start"
+   stop program = "/usr/sbin/service snmpd stop"
    if failed host localhost port 161 type udp then restart
    if failed host localhost port 199 type tcp then restart
    if 5 restarts within 5 cycles then unmonitor

@@ -2,8 +2,8 @@
  check process rsyslogd with pidfile /run/rsyslogd.pid
    group system
    group rsyslogd
-   start program = "/etc/init.d/rsyslog start"
-   stop program = "/etc/init.d/rsyslog stop"
+   start program = "/usr/sbin/service rsyslog start"
+   stop program = "/usr/sbin/service rsyslog stop"
 ##   if failed unixsocket /dev/log then restart
    if 5 restarts with 5 cycles then unmonitor
    depends on rsyslogd_bin

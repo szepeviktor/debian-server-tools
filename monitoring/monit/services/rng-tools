@@ -1,8 +1,8 @@
  check process "rngd" with pidfile "/run/rngd.pid"
    group "system"
    group "rngd"
-   start program = "/etc/init.d/rng-tools start"
-   stop program = "/etc/init.d/rng-tools stop"
+   start program = "/usr/sbin/service rng-tools start"
+   stop program = "/usr/sbin/service rng-tools stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on rngd_bin
    depends on rngd_test

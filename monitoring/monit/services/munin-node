@@ -1,7 +1,7 @@
  check process munin_node with pidfile /run/munin/munin-node.pid
    group munin_node
-   start program = "/etc/init.d/munin-node start"
-   stop program = "/etc/init.d/munin-node stop"
+   start program = "/usr/sbin/service munin-node start"
+   stop program = "/usr/sbin/service munin-node stop"
    if failed host localhost port 4949 type tcp for 2 cycles then restart
    if 5 restarts with 10 cycles then unmonitor
    depends on munin_node_bin

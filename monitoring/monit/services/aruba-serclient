@@ -1,8 +1,8 @@
  check process serclient with pidfile /run/serclient.pid
    group system
    group serclient
-   start program = "/etc/init.d/serclient start"
-   stop program = "/etc/init.d/serclient stop"
+   start program = "/usr/sbin/service serclient start"
+   stop program = "/usr/sbin/service serclient stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on serclient_bin
    depends on serclient_rc

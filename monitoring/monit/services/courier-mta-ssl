@@ -1,7 +1,7 @@
  check process courier-mta-ssl with pidfile /run/courier/esmtpd-ssl.pid
    group mail
-   start program = "/etc/init.d/courier-mta-ssl start"
-   stop program = "/etc/init.d/courier-mta-ssl stop"
+   start program = "/usr/sbin/service courier-mta-ssl start"
+   stop program = "/usr/sbin/service courier-mta-ssl stop"
    if failed host localhost port 465 type tcpssl protocol smtp timeout 12 seconds then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-mta_bin

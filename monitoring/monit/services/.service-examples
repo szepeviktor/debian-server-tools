@@ -4,8 +4,8 @@
  check process "SERVICE" with pidfile "/run/SERVICE.pid"
    group "system"
    group "GROUP"
-   start program = "/etc/init.d/SERVICE_INIT start"
-   stop program = "/etc/init.d/SERVICE_INIT stop"
+   start program = "/usr/sbin/service SERVICE_INIT start"
+   stop program = "/usr/sbin/service SERVICE_INIT stop"
    if failed unixsocket "/run/SERVICE.sock" then restart
    if 5 restarts with 5 cycles then unmonitor
    depends on SERVICE_bin
@@ -19,6 +19,7 @@
    group "GROUP"
    include "/etc/monit/templates/rootbin"
 
+ #check program "SERVICE_test" with path "/usr/sbin/service SERVICE status" with timeout 10 seconds
  check program "SERVICE_test" with path "/usr/bin/SERVICE_TOOL.sh ping" with timeout 2 seconds
    group "GROUP"
    if status != 0 then alert

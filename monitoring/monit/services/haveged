@@ -1,8 +1,8 @@
  check process haveged with pidfile /run/haveged.pid
    group system
    group haveged
-   start program = "/etc/init.d/haveged start"
-   stop program = "/etc/init.d/haveged stop"
+   start program = "/usr/sbin/service haveged start"
+   stop program = "/usr/sbin/service haveged stop"
    if 5 restarts with 5 cycles then unmonitor
    depends on haveged_bin
    depends on haveged_init

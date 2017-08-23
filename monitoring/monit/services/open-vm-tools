@@ -1,7 +1,7 @@
  check process open-vm-tools with pidfile /run/vmtoolsd.pid
    group open-vm-tools
-   start program = "/etc/init.d/open-vm-tools start"
-   stop program = "/etc/init.d/open-vm-tools stop"
+   start program = "/usr/sbin/service open-vm-tools start"
+   stop program = "/usr/sbin/service open-vm-tools stop"
    if 5 restarts within 5 cycles then unmonitor
    depends on open-vm-tools_bin
    depends on vmware-toolbox

@@ -1,7 +1,7 @@
 check process spamd with pidfile /run/spamd.pid
    group mail
-   start program = "/etc/init.d/spamassassin start"
-   stop program = "/etc/init.d/spamassassin stop"
+   start program = "/usr/sbin/service spamassassin start"
+   stop program = "/usr/sbin/service spamassassin stop"
    if 5 restarts within 5 cycles then unmonitor
    # dns_server = worker.szepe.net
    if failed host 81.2.236.171 port 53 type udp protocol dns then alert

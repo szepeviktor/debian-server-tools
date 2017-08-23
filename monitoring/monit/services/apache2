@@ -2,8 +2,8 @@
  check process apache with pidfile /run/apache2/apache2.pid
    group www
    group apache
-   start program = "/etc/init.d/apache2 start"
-   stop program = "/etc/init.d/apache2 stop"
+   start program = "/usr/sbin/service apache2 start"
+   stop program = "/usr/sbin/service apache2 stop"
    # No "?auto" for apache-status
    if failed host @@APACHE_SERVER_NAME@@ port 80 with protocol apache-status path "/server-status"
      with timeout 2 seconds for 4 times within 5 cycles then restart

@@ -1,13 +1,18 @@
 # From Fail2ban
  check process fail2ban with pidfile /run/fail2ban/fail2ban.pid
    group services
-   start program = "/etc/init.d/fail2ban force-start" with timeout 90 seconds
-   stop program = "/etc/init.d/fail2ban stop" with timeout 90 seconds
+   start program = "/usr/sbin/service fail2ban force-start" with timeout 90 seconds
+   stop program = "/usr/sbin/service fail2ban stop" with timeout 90 seconds
    if failed unixsocket /run/fail2ban/fail2ban.sock then restart
    if 5 restarts within 5 cycles then unmonitor
+   depends on fail2ban_init
    depends on fail2ban_db
    depends on fail2ban_test
    # Does not depend on fail2ban_log
+
+ check file "fail2ban_init" with path "/etc/init.d/fail2ban"
+   group services
+   include "/etc/monit/templates/rootbin"
 
  check file fail2ban_db with path /var/lib/fail2ban/fail2ban.sqlite3
    group services
