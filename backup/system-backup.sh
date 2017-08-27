@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install debconf-utils s3ql rsync mariadb-client-10.0 percona-xtrabackup
+# DEPENDS       :apt-get install debconf-utils rsync mariadb-client percona-xtrabackup s3ql
 # DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # OWNER         :root:root
@@ -34,8 +34,8 @@
 #
 # Example configuration
 #     #STORAGE_URL="local:///media/backup-server.sshfs"
-#     #STORAGE_URL="s3://BUCKET/PREFIX_"
-#     STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_"
+#     #STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_"
+#     STORAGE_URL="s3://REGION/BUCKET/PREFIX_"
 #     TARGET="/media/server-backup.s3ql"
 #     #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
 #     AUTHFILE="/root/.s3ql/authinfo2"
@@ -63,6 +63,9 @@
 #
 # Unmount storage
 #     system-backup.sh -u
+#
+# Check incremental status of InnoDB backups
+#     grep '^incremental =' innodb/*/xtrabackup_info
 
 CONFIG="/root/.config/system-backup/configuration"
 HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"

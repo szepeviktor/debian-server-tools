@@ -232,8 +232,10 @@ service fail2ban restart
 
 # Backup
 # @nonDebian
-Pkg_install_quiet -t jessie-backports python3-requests python3-urllib3 python3-six s3ql
-Pkg_install_quiet debconf-utils
+Pkg_install_quiet -t jessie-backports python3-requests python3-urllib3 python3-six
+# @nonDebian
+Pkg_install_quiet percona-xtrabackup s3ql
+Pkg_install_quiet debconf-utils rsync mariadb-client
 # Disable Apache configuration from javascript-common
 if hash a2disconf 2> /dev/null; then
     a2disconf javascript-common

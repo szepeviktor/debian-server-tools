@@ -105,3 +105,4 @@ Sebesség + Biztonság = Üzembiztonság
 - http://wphu.org/wordpress-fejlesztes
 - http://weblabor.hu/munka
 - http://jobs.wordpress.net/post-a-job/
+- https://kinsta.com/blog/hire-wordpress-developer/
