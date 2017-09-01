@@ -98,10 +98,10 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 
 Consider transactional email service through HTTP API. :snail:
 
-- Mailjet
-- Amazon SES
-- SparkPost API WordPress plugin: https://wordpress.org/plugins/sparkpost/
+- Mailgun API: https://wordpress.org/plugins/mailgun/
+- Amazon SES: https://github.com/humanmade/aws-ses-wp-mail
 - Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
+- SparkPost API WordPress plugin: https://wordpress.org/plugins/sparkpost/
 
 ### Security
 

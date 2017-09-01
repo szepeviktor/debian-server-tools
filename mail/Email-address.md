@@ -11,3 +11,7 @@
 - Domain has MX (or A) record
 - MX connection test: SMTP banner
 - Mailbox test: `RCPT TO:<user@example.com>`
+
+### Validation as a service
+
+https://www.mailgun.com/email-validation

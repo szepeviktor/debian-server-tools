@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Look up Prefix WhoIs database.
+#
+# VERSION       :0.1.0
+# DATE          :2017-08-31
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# DOCS          :http://www.pwhois.org/index.who
+# REFS          :pwhois help
+# LOCATION      :/usr/local/bin/pwhois
+
+exec whois -h whois.pwhois.org "$@"

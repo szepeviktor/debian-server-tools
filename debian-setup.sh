@@ -2,7 +2,7 @@
 #
 # Debian jessie setup on a virtual server.
 #
-# VERSION       :1.0.2
+# VERSION       :1.0.3
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -19,26 +19,7 @@
 # - CDN provider (for static files)
 # - Transactional mail provider
 # - Storage provider (for backup)
-
-# Execution Steps
 #
-# 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
-#    cd debian-server-tools-master/
-# 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
-# 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
-# 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
-# 5. Set volume labels:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
-# 6. Start!
-#    script --timing=debian-setup.time debian-setup.script
-#    ./debian-setup.sh
-# 7. Continue after reboot!
-#    cd debian-server-tools-master/
-#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm
-#    script --timing=debian-setup2.time debian-setup2.script
-#    ./debian-setup2.sh
-# 8. Set up incoming ESP
-
-
 # Features
 #
 # - YAML configuration file with provider profiles
@@ -56,15 +37,33 @@
 # - System backup with S3QL
 # - Nice motd welcome screen
 # - Package managers: composer, pip, npm
+# - CLI tools: WP-CLI, Drush, CacheTool
 # - 155 MB memory usage, 2 GB disk usage
 #
 # Webserver
 #
 # - Apache 2.4 latest with HTTP/2 and event MPM
 # - PHP-FPM 7.0 or 7.1
-# - CLI tools: WP-CLI, Drush, CacheTool
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]
 # - MariaDB 10 or Percona Server 5.7
+#
+# Execution Steps
+#
+# 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
+#    cd debian-server-tools-master/
+# 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
+# 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
+# 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
+# 5. Set volume labels:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
+# 6. Start!
+#    script --timing=debian-setup.time debian-setup.script
+#    ./debian-setup.sh
+# 7. Continue after reboot!
+#    cd debian-server-tools-master/
+#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm
+#    script --timing=debian-setup2.time debian-setup2.script
+#    ./debian-setup2.sh
+# 8. Set up incoming ESP
 #
 # Tests
 #

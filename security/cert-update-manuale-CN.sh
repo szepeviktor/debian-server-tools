@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.4
+# VERSION       :0.1.5
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -34,8 +34,9 @@ Move_challenge_files() {
     fi
 
     # Wait for challenge files
-    sleep 5
-    find -type f -mmin -3 -regextype posix-egrep -regex "\./[0-9A-Za-z-]{43}" -print0 \
+    sleep 3
+    echo
+    find -type f -mmin -3 -regextype posix-egrep -regex "\./[0-9A-Za-z_-]{43}" -print0 \
         | xargs -r -0 -I % cp -v % "${WELL_KNOWN_ACME_CHALLENGE}/"
 
     # Wait for authorization

@@ -68,7 +68,7 @@ Dinstall mail/courier-restart.sh
 # Route mail through the smarthost #
 editor /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
-#     : in-v3.mailjet.com,587 /SECURITY=REQUIRED
+#     : smtp.mailgun.org,587 /SECURITY=REQUIRED
 #     : email-smtp.eu-west-1.amazonaws.com,587 /SECURITY=REQUIRED
 #     : SMART-HOST,587 /SECURITY=REQUIRED
 # From jessie on

@@ -11,6 +11,8 @@
 # DEPENDS       :apt-get install openssl ca-certificates
 # LOCATION      :/usr/local/bin/smtps-auth.sh
 
+# Use Swaks instead: http://www.jetmore.org/john/code/swaks/
+
 INITIAL_WAIT="2"
 CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 MODE="auth"

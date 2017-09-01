@@ -54,7 +54,7 @@ https://quixdb.github.io/squash-benchmark/
 - http://www.quicklz.com/
 - [apt-get install lzop](http://www.lzop.org/lzop_man.php)
 - [LZ4 is a very fast lossless compression algorithm](https://github.com/Cyan4973/lz4)
-- [Zstd](https://github.com/Cyan4973/zstd.git)
+- [Zstd](https://fastcompression.blogspot.com/2015/01/zstd-stronger-compression-algorithm.html)
 
 ### Backup all GitHub repos
 

@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.7.2
+# VERSION       :0.7.3
 # DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -202,7 +202,7 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.10.0
+# VERSION       :0.10.1
 
 IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
 
@@ -217,12 +217,12 @@ if ! service monit status | grep -qF "monit is running"; then
     service monit restart || service monit start
 fi
 
-# Check nice level
-MONIT_PID="$(cat /run/monit.pid)"
-if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" -ne 0 ]; then
-    echo "Monit's nice level changed" | mail -s "Monit ALERT on $(hostname -f)" root
-    renice -n 0 -p "$MONIT_PID"
-fi
+## Check nice level
+#MONIT_PID="$(cat /run/monit.pid)"
+#if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" -ne 0 ]; then
+#    echo "Monit's nice level changed" | mail -s "Monit ALERT on $(hostname -f)" root
+#    renice -n 0 -p "$MONIT_PID"
+#fi
 
 # Try remonitor failed services
 /usr/bin/monit -B summary | tail -n +3 \

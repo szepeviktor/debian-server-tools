@@ -15,7 +15,7 @@
 # CIDR: /8 - /30
 #
 # Usage
-#     host -t TXT spf.mailjet.com. | grep -Eo "[0-9/.]{7,}" | xargs -n 1 cidr2courier.sh
+#     host -t TXT spf1.mailgun.org. | grep -Eo "[0-9/.]{7,}" | xargs -n 1 cidr2courier.sh
 
 CIDR="$1"
 
