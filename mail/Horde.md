@@ -1,3 +1,5 @@
+# Horde
+
 ### Installation
 
 First run `/webserver/add-site.sh`
@@ -71,9 +73,9 @@ env[TMPDIR] = /home/horde/website/tmp
 
 `apt-get install -y php-geoip php-horde-lz4 php-imagick php7.0-tidy`
 
-Enable only for horde pool?
+Enable only for horde's FPM pool?
 
-### Horde configuration
+### Configuration
 
 ```bash
 cp -v config/conf.php.dist config/conf.php

@@ -5,7 +5,7 @@
 - Disposable domain, see /mail/mx-check/
 - Disposable MX, see /mail/mx-check/disposable-mx.list
 - Banned user part in address, see /mail/mx-check/banned-addresses.grep
-- Custom domain and address blacklist
+- Custom domain and address blacklist (e.g. own company's domain)
 - Already registered?
 - Domain exists in whois
 - Domain has MX (or A) record

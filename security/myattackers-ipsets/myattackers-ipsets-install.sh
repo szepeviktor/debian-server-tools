@@ -54,3 +54,5 @@ if iptables -w -C INPUT -j "$CHAIN" &> /dev/null; then
 else
     Install_ipsets
 fi
+
+echo "iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v4"

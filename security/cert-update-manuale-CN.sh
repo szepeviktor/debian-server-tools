@@ -41,6 +41,7 @@ Move_challenge_files() {
 
     # Wait for authorization
     sleep 60
+    echo
     rm -v "${WELL_KNOWN_ACME_CHALLENGE}"/*
 }
 

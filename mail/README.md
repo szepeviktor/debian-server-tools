@@ -436,6 +436,7 @@ OK response: `IP Unlisted in the spam sender list None`
 
 - http://www.projecthoneypot.org/search_ip.php `R`
 - http://psky.me/
+- http://blacklist.lashback.com/
 - https://rbl.foobar.hu/
 
 #### Certification Services/IP Reputation
@@ -450,8 +451,9 @@ OK response: `IP Unlisted in the spam sender list None`
 #### Threat Centers
 
 - https://www.talosintelligence.com/reputation_center by Cisco
-- [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange)
 - [AlienVault](https://otx.alienvault.com/browse/pulses/)
+- https://www.mcafee.com/uk/threat-center.aspx
+- [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange)
 
 #### Lookup Tools/Monitoring Tools
 
