@@ -40,7 +40,7 @@ monit/
 | satellite,
 | authenticated
 | filters
-courier-pythonfilter + custom modules + spamassassin: bayes_* files
+courier-pythonfilter + custom modules + spamassassin: bayes_* files (ENABLED=1;CRON=1)
  + pyzor `u pyzor --homedir=/home/horde/.pyzor discover`, PHP runs it, Spamassassin runs it
    `/usr/bin/spamc -L ham -C revoke` -> only SA runs it ???
    https://wiki.apache.org/spamassassin/UsingPyzor

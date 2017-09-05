@@ -193,3 +193,17 @@ $TTL 60
 # Blue-Cloud Hosting services
 77.241.194          LT_info*.tk/.cf @Blue-Cloud/AS15440
 77.241.198          LT_info*.tk/.cf @Blue-Cloud/AS15440
+
+# Quasi Networks LTD. SC-QUASI{1..80}
+#80.82.64.0/22       SC_QUASI*@QUASINETWORKS/AS29073
+#80.82.69.0/24       SC_QUASI*@QUASINETWORKS/AS29073
+#80.82.70.0/24       SC_QUASI*@QUASINETWORKS/AS29073
+#80.82.76.0/22       SC_QUASI*@QUASINETWORKS/AS29073
+#89.248.160.0/20     SC_QUASI*@QUASINETWORKS/AS29073
+#93.174.88.0/21      SC_QUASI*@QUASINETWORKS/AS29073
+#94.102.48.0/20      SC_QUASI*@QUASINETWORKS/AS29073
+
+# Szűcs Károly @Blue Gravity
+64.57.90.64/27      HU_sikerweboldal @Omnis/AS19237
+66.37.0.96/27       HU_sikerweboldal @Omnis/AS19237
+66.37.19.128/27     HU_sikerweboldal @Omnis/AS19237

@@ -403,53 +403,64 @@ OK response: `IP Unlisted in the spam sender list None`
 
 ### Mail server reputation
 
-- `B` - Blacklist a.k.a. RBL (lookup, delist)
-- `L` - Lookup(s)
-- `M` - Monitoring
-- `R` - Registered (whitelist etc.)
-- `F` - Feedback loop
-- `S` - Sender support
-- `A` - Abuse report
+`R` - Register your mail server here
 
-- http://bgp.he.net/ip/1.2.3.4#_rbl `L`
-- http://multirbl.valli.org/ `L`
-- http://psky.me/ `B`
-- https://rbl.foobar.hu/ `B`
-- http://www.senderbase.org/lookup/ by Cisco `L`
-- https://www.senderscore.org/lookup.php by ReturnPath `L`
-- http://www.barracudacentral.org/lookups `L`
-- http://www.cyren.com/ip-reputation-check.html `L`
-- http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx `L` [lookup](http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4)
-- https://support.google.com/mail/contact/msgdelivery `S`
-- https://postoffice.yandex.com/ `S`
-- https://poczta.onet.pl/pomoc/en,odblokuj.html `S`
-- http://ipremoval.sms.symantec.com/lookup/ `S`
-- [Report abuse from Gmail](https://support.google.com/mail/contact/abuse) `A`
-- [Report abuse from Outlook.com](mailto:abuse@outlook.com) `A` See Sender Score
-- [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` `A`
+#### ESP Postmaster Site/Feedback loop (FBL)
 
-Register here:
+- [Google Postmaster Tools](https://postmaster.google.com/) `R` [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/)
+- [Yahoo! Postmaster](https://help.yahoo.com/kb/postmaster) `R`
+- [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx) `R` [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx)
+- [AOL Postmaster](https://postmaster.aol.com/whitelist-request) `R` [IP reputation](https://postmaster.aol.com/ip-reputation)
+- [Yandex Postmaster](https://postoffice.yandex.com/) `R` [Feedback Loop](http://yandexfbl.senderscore.net/)
+- https://poczta.onet.pl/pomoc/en,odblokuj.html
+- http://wiki.wordtothewise.com/ISP_Summary_Information (list)
 
-- http://www.unifiedemail.net/Tools/RBLCheck/ `LM` [registration](https://www.unifiedemail.net/Tools/RBLCheck/Monitoring/default.aspx)
-- https://mxtoolbox.com/problem/blacklist/ `LM` [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
-- http://www.projecthoneypot.org/search_ip.php `LM`
-- https://hetrixtools.com/dashboard/blacklist-monitors/ `LM`
-- https://rbltracker.com/ `M`
-- https://www.rblmon.com/accounts/register/ `M`
+#### ESP Sender Support/Delivery Issues
+
+- https://support.google.com/mail/contact/msgdelivery
+- https://support.google.com/mail/contact/bulk_send_new
+- [Sender Information for Outlook.com Delivery](https://go.microsoft.com/fwlink/?LinkID=614866)
+
+#### ESP Abuse Reporting
+
+- [Report abuse from Gmail](https://support.google.com/mail/contact/abuse)
+- [Report abuse from Outlook.com](mailto:abuse@outlook.com) See SenderScore
+- [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` (list)
+
+#### Whitelists
+
 - https://www.dnswl.org/selfservice/ `R`
-- [Google Postmaster Tools](https://postmaster.google.com/) `R`
-- https://ers.trendmicro.com/reputations `LR`
-- [AOL Postmaster](https://postmaster.aol.com/ip-reputation) `LR`
-- [AOL IP reputation test](https://postmaster.info.aol.com/ip-reputation)
-- http://yandexfbl.senderscore.net/ `F`
-- [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx)
-    - [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) `RF`
-    - [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx) `RF`
-- [Sender Information for Outlook.com Delivery](https://go.microsoft.com/fwlink/?LinkID=614866) `S`
-- [EmailReg.org](http://www.emailreg.org/index.cgi?p=policy) (for Barracuda) `R`
-- [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/) `F`
-- [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange) ?
-- [Yahoo!](https://help.yahoo.com/kb/postmaster) ?
+- ??? [EmailReg.org by Barracuda](http://www.emailreg.org/index.cgi?p=usage)
+
+#### Blacklists (RBL, DNSBL)
+
+- http://www.projecthoneypot.org/search_ip.php `R`
+- http://psky.me/
+- https://rbl.foobar.hu/
+
+#### Certification Services/IP Reputation
+
+- https://www.senderscore.org/lookup.php by ReturnPath
+- https://www.ers.trendmicro.com/reputations/legitimate `R`
+- http://www.barracudacentral.org/lookups
+- http://www.cyren.com/ip-reputation-check.html
+- http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx [lookup](http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4)
+- http://ipremoval.sms.symantec.com/lookup/
+
+#### Threat Centers
+
+- https://www.talosintelligence.com/reputation_center by Cisco
+- [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange)
+- [AlienVault](https://otx.alienvault.com/browse/pulses/)
+
+#### Lookup Tools/Monitoring Tools
+
+- http://bgp.he.net/ip/1.2.3.4#_rbl
+- https://hetrixtools.com/dashboard/blacklist-monitors/
+- http://multirbl.valli.org/
+- https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
+- https://rbltracker.com/ `R`
+- https://www.rblmon.com/accounts/register/ `R`
 
 ### Free e-mail backup server
 
