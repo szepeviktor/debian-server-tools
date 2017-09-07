@@ -2,7 +2,7 @@
 #
 # Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages.
 #
-# VERSION       :1.0.9
+# VERSION       :1.0.10
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists
@@ -128,6 +128,7 @@ Info "Remove packages on standard-blacklist"
 apt-get purge -qq $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST" || true)
 # Exim bug
 getent passwd "Debian-exim" > /dev/null && deluser --force --remove-home "Debian-exim"
+test -f /etc/aliases && rm /etc/aliases
 
 Info "Do dist-upgrade finally"
 

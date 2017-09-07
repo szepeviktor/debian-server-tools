@@ -30,7 +30,8 @@ ini_set( 'log_errors', 1 );
 /** Security */
 
 // WordPress Fail2ban
-//define( 'O1_BAD_REQUEST_ALLOW_CONNECTION_EMPTY', true );
+//define( 'O1_WP_FAIL2BAN_ALLOW_REDIRECT', true ); // Polylang + separate domains
+//define( 'O1_BAD_REQUEST_ALLOW_CONNECTION_EMPTY', true ); // HTTP2
 //define( 'O1_BAD_REQUEST_CDN_HEADERS', 'HTTP_X_AMZ_CF_ID:HTTP_VIA:HTTP_X_FORWARDED_FOR' );
 //require_once __DIR__ . '/wp-miniban-htaccess.inc.php';
 require_once __DIR__ . '/wp-fail2ban-bad-request-instant.inc.php';

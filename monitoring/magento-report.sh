@@ -17,6 +17,21 @@
 #
 # Last minute tries to make sure there is a new log file after midnight at 00:59.
 
+# Logrotate config
+# /home/mage/website/html/var/log/*.log {
+#     su mage mage
+#     weekly
+#     rotate 15
+#     missingok
+#     notifempty
+#     nocreate
+#     nocompress
+#     sharedscripts
+#     postrotate
+#         rm /home/mage/website/html/var/log/*.log.offset
+#     endscript
+# }
+
 ZEND_LOG_LEVELS="NOTICE|WARN|ERR|CRIT|ALERT|EMERG"
 declare -i EXTRA_LINES="3"
 

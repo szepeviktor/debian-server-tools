@@ -10,7 +10,7 @@ system:
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
     storage-provider: #Oktawave
-    mail-provider: #Mailgun
+    mail-provider: #MailGun
 
 # Package settings
 package:
@@ -157,30 +157,40 @@ services:
 # Package management
 packaging:
 
-  apt:
-    list-command: dpkg -l
-    location: /
-  pip2:
-    list-command: pip2 list
-    location: /usr/local/lib/python2.7
-  pip3:
-    list-command: pip3 list
-    location: /usr/local/lib/python3.4
-  # Also PECL
-  pear:
-    list-command: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
-    location: /usr/share/php
-  node:
-    list-command: npm -g ls
-    location: /usr/lib/node_modules
-  ruby:
-    list-command: gem list
-    location: /usr/lib/ruby/vendor_ruby
-
+    apt:
+        list-command: dpkg -l
+        location: /
+    pip2:
+        list-command: pip2 list
+        location: /usr/local/lib/python2.7
+    pip3:
+        list-command: pip3 list
+        location: /usr/local/lib/python3.4
+    # Also PECL
+    pear:
+        list-command: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
+        location: /usr/share/php
+    node:
+        list-command: npm -g ls
+        location: /usr/lib/node_modules
+    ruby:
+        list-command: gem list
+        location: /usr/lib/ruby/vendor_ruby
 
 remarks: |
     Some remarks.
     Other remarks.
+
+teardown:
+    - Notify users
+    - Email accounts
+    - RELAYCLIENT on the smarthost
+    - Remove from whitelists, postmaster tools, RBL monitors
+    - Revoke SSL certificates
+    - Remove from healthchecks.io
+    - Remove DNS records
+    - Remove PTR record
+    - Cancel domain registration
 
 # YAML editor: http://yaml-online-parser.appspot.com/
 #     shyaml get-value < server.yml
