@@ -192,28 +192,34 @@ openstack --os-cloud CLOUD-NAME container list
 openstack --os-cloud CLOUD-NAME object list CONTAINER-NAME
 ```
 
-### Object storage providers
+### Tested object storage providers
+
+- [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
+- [hubiC object storage by OVH](https://hubic.com/en/offers/) `communication failures!`
+- [Exoscale Simple Object Storage](https://www.exoscale.ch/object-storage/)
+- [Google Cloud Storage](https://cloud.google.com/storage/)
+- [Cloudwatt by Orange](https://www.cloudwatt.com/en/products.html)
+- [Brightbox Orbit](https://www.brightbox.com/cloud/storage/)
+- [**Oktawave OCS**](https://www.oktawave.com/en/storage)
+- [**Amazon S3**](https://aws.amazon.com/s3/)
+- [**Backblaze B2**](https://www.backblaze.com/b2/cloud-storage.html)
+- https://www.profitbricks.de/
+- https://auro.io/public_cloud_hosting/product
+- https://www.pcextreme.com/aurora/objects
+- https://zetta.io/en/products/object-storage/
+- https://www.e24cloud.com/en/cloud-features/files-in-the-cloud/
+- https://dunkel.de/s3
+- https://www.citycloud.com/features/full-feature-list/
+- https://advania.com/products-and-services/cloud-marketplace/
 
 Lists
 
 - https://cloudharmony.com/cloudsquare/cloud-storage-in-eu
 - http://gaul.org/object-store-comparison/
 
-Providers
+### Servers with large disks
 
-- [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
-- [hubiC object storage by OVH](https://hubic.com/en/offers/) communication failures!
-- [Exoscale Simple Object Storage](https://www.exoscale.ch/object-storage/)
-- [Cloudwatt by Orange](https://www.cloudwatt.com/en/products.html)
-- [Brightbox Orbit](https://www.brightbox.com/cloud/storage/)
-- [Oktawave OCS](https://www.oktawave.com/en/storage)
-- https://www.profitbricks.de/
-- https://www.pcextreme.com/aurora/objects
-- https://zetta.io/en/products/object-storage/
-- https://www.e24cloud.com/en/cloud-features/files-in-the-cloud/
-- https://dunkel.de/s3
-
-Server with large disks and [minio](https://minio.io/) as S3 compatible storage server
+... and [minio](https://minio.io/) as S3 compatible object storage server
 
 - [Contabo VPS M](https://contabo.com/?show=vps) 500 GB €7/m
 - [OVH/KS-1 server](https://www.kimsufi.com/en/) 500 GB €5/m

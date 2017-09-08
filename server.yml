@@ -10,7 +10,7 @@ system:
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
     storage-provider: #Oktawave
-    mail-provider: #MailGun
+    mail-provider: #Mailgun
 
 # Package settings
 package:

@@ -405,6 +405,8 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [Google My Business](https://www.google.com/business/) :snail:
 - [SERPs Google Location Changer](https://serps.com/tools/google-search-location)
 - http://backlinko.com/google-ranking-factors
+- Adwords campaign as a SEO factor
+- [Growthery](http://thepitch.hu/seo-ugynokseg/) (HU)
 
 ### Legal (EN)
 
