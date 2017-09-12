@@ -17,8 +17,7 @@ package:
     apt:
         # See /package/apt-sources/
         sources:
-            - apache-backports
-            - dotdeb
+            - sury-php
             - nodejs
             - percona
             - szepeviktor

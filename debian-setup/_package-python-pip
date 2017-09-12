@@ -14,6 +14,5 @@ python2 get-pip.py
 
 # Fix overwritten six
 pip2 uninstall -y six
-# @nonDebian
-Pkg_install_quiet --reinstall -t jessie-backports python-six
+Pkg_install_quiet --reinstall python-six
 debsums -c python-six

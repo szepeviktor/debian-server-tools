@@ -1,4 +1,5 @@
 # DEB.SURY.ORG (is in CZ)
-deb https://packages.sury.org/php/ jessie main
+#deb https://packages.sury.org/php/ jessie main
+deb https://packages.sury.org/php/ stretch main
 #K: wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -
 #M: https://packages.sury.org/php/README.txt

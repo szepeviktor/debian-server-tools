@@ -2,7 +2,6 @@
 
 set -e -x
 
-Pkg_install_quiet -t jessie-backports libseccomp2
 Pkg_install_quiet chrony
 
 editor /etc/chrony/chrony.conf

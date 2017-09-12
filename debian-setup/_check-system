@@ -9,10 +9,11 @@ Titled_pager() {
     # @TODO Compare content with Debian's default.
     {
         echo "$TITLE"
-        printf "%*s\n" "${#TITLE}" | tr " " "-"
+        printf '%*s\n' "${#TITLE}" | tr " " "-"
 
         cat
     } | if [ "$DISABLE_TITLED_PAGER" == True ]; then
+        echo
         cat
     else
         pager

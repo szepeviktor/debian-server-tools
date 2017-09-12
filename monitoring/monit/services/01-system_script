@@ -2,7 +2,7 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.11
+# VERSION       :1.0.12
 # DATE          :2016-05-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -145,7 +145,7 @@ case "$CHECK" in
         ;;
     HOP2)
         [ -z "$NEAREST" ] && exit 8
-        RESULT="$(traceroute -n -4 -w 2 -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
+        RESULT="$(traceroute -n -4 -w 2 -f 2 -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
         ;;
     PTR1)
         IP="$("$0" -c IP1)"

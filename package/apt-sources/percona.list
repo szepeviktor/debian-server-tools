@@ -1,4 +1,5 @@
 # Percona
-deb http://repo.percona.com/apt/ jessie main
+#deb http://repo.percona.com/apt/ jessie main
+deb http://repo.percona.com/apt/ stretch main
 #K: apt-key adv --keyserver keys.gnupg.net --recv-keys 9334A25F8507EFA5
 #M: http://www.percona.com/doc/percona-server/5.5/installation/apt_repo.html

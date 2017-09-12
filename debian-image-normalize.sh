@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Normalize Debian OS: jessie 8.x netinst (essential, required, important) and standard packages.
+# Normalize Debian OS: stretch 9.x netinst (essential, required, important) and standard packages.
 #
-# VERSION       :1.0.10
+# VERSION       :2.0.0
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists
@@ -32,8 +32,8 @@ BOOT_PACKAGES="debian-archive-keyring|lsb-release|ca-certificates|wget|apt|apt-u
 |open-vm-tools|open-vm-tools-dkms|dkms|sudo|cloud-init|cloud-initramfs-growroot\
 |elasticstack-container|waagent|scx|omi"
 
-OLD_PACKAGE_QUERY='?and(?installed, ?or(?version(~~squeeze), ?version(\+deb6), ?version(python2\.6), ?version(~~wheezy), ?version(\+deb7)))'
-TILDE_VERSION="cloud-init|grub-common|grub-pc|grub-pc-bin|grub2-common|libgraphite2-3:amd64|intel-microcode"
+OLD_PACKAGE_QUERY='?and(?installed, ?or(?version(~~squeeze), ?version(\+deb6), ?version(python2\.6), ?version(~~wheezy), ?version(\+deb7), ?version(~~jessie), ?version(\+deb8)))'
+TILDE_VERSION="grub-common|grub-pc|grub-pc-bin|grub2-common|liblz4-1:amd64|os-prober|python-apt|python-apt-common|python3-apt|intel-microcode"
 
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
@@ -129,6 +129,8 @@ apt-get purge -qq $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST"
 # Exim bug
 getent passwd "Debian-exim" > /dev/null && deluser --force --remove-home "Debian-exim"
 test -f /etc/aliases && rm /etc/aliases
+# Texinfo config
+test -d /etc/texmf && rm -r /etc/texmf
 
 Info "Do dist-upgrade finally"
 

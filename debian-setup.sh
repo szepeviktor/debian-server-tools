@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Debian jessie setup on a virtual server.
+# Debian stretch setup on a virtual server.
 #
-# VERSION       :1.0.3
+# VERSION       :2.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -80,8 +80,8 @@
 export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
-export IMAGE_CODENAME="jessie"
-#export IMAGE_CODENAME="stretch"
+export IMAGE_CODENAME="stretch"
+#export IMAGE_CODENAME="buster"
 
 export WITHOUT_SYSTEMD="yes"
 
@@ -94,8 +94,8 @@ export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server
 # @TODO Update to https://deb.debian.org/
 # Microsoft Azure Traffic Manager
 export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
-# Amazon CloudFront
-#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
+# Fastly and Amazon CloudFront
+#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-deb.list"
 # Hungarian Debian mirror
 #export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
@@ -108,6 +108,7 @@ set -e -x
 test "$(id -u)" == 0
 
 # Common functions
+# shellcheck disable=SC1091
 source debian-setup-functions
 
 # Necessary packages
@@ -142,8 +143,16 @@ if Is_installed "libgnutls26"; then
         libboost-iostreams1.49.0 libdb5.1 libgcrypt11 libgnutls26 \
         libprocps0 libtasn1-3 libudev0 python2.6 python2.6-minimal
 fi
+# Remove jessie packages
+if Is_installed "gcc-4.9-base"; then
+    apt-get purge -qq \
+        libapt-inst1.5 libapt-pkg4.12 libept1.4.12 libreadline6 libssl1.0.0 libxapian22 \
+        gcc-4.9-base mountall python-reportbug sysvinit
+fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav
+# Remove left-over font
+rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
 apt-get install -qq ssh sudo apt-transport-https virt-what python-yaml

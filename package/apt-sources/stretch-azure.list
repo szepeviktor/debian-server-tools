@@ -8,4 +8,4 @@ deb http://security.debian.org/ stretch/updates main contrib non-free
 deb http://debian-archive.trafficmanager.net/debian stretch-updates main contrib non-free
 
 # Backports
-##deb http://debian-archive.trafficmanager.net/debian stretch-backports main contrib non-free
+deb http://debian-archive.trafficmanager.net/debian stretch-backports main contrib non-free

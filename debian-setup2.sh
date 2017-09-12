@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Continue Debian setup on a virtual server.
+# Continue Debian stretch setup on a virtual server.
 #
-# VERSION       :1.1.1
+# VERSION       :2.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,7 +28,6 @@ IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # _check-system needs most
-Pkg_install_quiet most
 debian-setup/most
 
 # Manual checks
@@ -39,20 +38,22 @@ Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
     logtail apg dos2unix ccze colordiff sipcalc jq \
-    net-tools whois ntpdate ipset netcat-openbsd lftp heirloom-mailx \
+    net-tools whois ntpdate ipset netcat-openbsd lftp s-nail \
     gcc libc6-dev make strace \
+    needrestart unscd mtr-tiny cruft bash-completion htop
 
 # From backports
-# List available backports: apt-get upgrade -t jessie-backports
+# List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian
 Pkg_install_quiet \
-    -t jessie-backports needrestart unscd mtr-tiny cruft git \
-    bash-completion htop
+    -t stretch-backports geoip-database git goaccess
+# geoip-database-contrib is installed in debian-setup/fail2ban
+
 # From testing
 debian-setup/ca-certificates
 # From custom repos
 # @nonDebian
-Pkg_install_quiet goaccess ipset-persistent
+Pkg_install_quiet ipset-persistent
 
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
@@ -101,8 +102,7 @@ debian-setup/initscripts
 CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 if [ "$CPU_COUNT" -gt 1 ]; then
     # Stable has a bug, it exits
-    # @nonDebian
-    Pkg_install_quiet -t jessie-backports irqbalance
+    Pkg_install_quiet irqbalance
     cat /proc/interrupts
 elif Is_installed "irqbalance"; then
     apt-get purge -qq irqbalance
@@ -118,7 +118,6 @@ debian-setup/util-linux
 #     echo "https://s19n.net/articles/2011/kvm_clock.html"
 # fi
 if [ "$VIRT" == "kvm" ] && ! Is_installed systemd; then
-    # @nonDebian
     debian-setup/chrony
 fi
 # Monitor clock without monit
@@ -231,11 +230,9 @@ webserver/add-prg-site-auto.sh
 service fail2ban restart
 
 # Backup
-# @nonDebian
-Pkg_install_quiet -t jessie-backports python3-requests python3-urllib3 python3-six
+Pkg_install_quiet debconf-utils rsync mariadb-client
 # @nonDebian
 Pkg_install_quiet percona-xtrabackup s3ql
-Pkg_install_quiet debconf-utils rsync mariadb-client
 # Disable Apache configuration from javascript-common
 if hash a2disconf 2> /dev/null; then
     a2disconf javascript-common

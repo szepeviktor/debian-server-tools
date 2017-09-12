@@ -1,4 +1,5 @@
 # Modern webserver
-deb http://szepeviktor.github.io/debian/ jessie main
+#deb http://szepeviktor.github.io/debian/ jessie main
+deb http://szepeviktor.github.io/debian/ stretch main
 #K: apt-key adv --keyserver pgp.mit.edu --recv-keys 451A4FBA
 #M: https://github.com/szepeviktor/szepeviktor.github.io
