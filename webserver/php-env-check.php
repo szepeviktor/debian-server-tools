@@ -58,6 +58,10 @@ final class Check_Env {
         // Extensions for WordPress on PHP 7.0
         // http://wordpress.stackexchange.com/a/42212
 
+        // Environment variables
+        $this->assert( 'WP_ENV', getenv( 'WP_ENV' ), 'production' );
+        //$this->assert( 'ENVIRONMENT', getenv( 'ENVIRONMENT' ), 'production' );
+
         // Core directives
         $this->assert_directive( 'user_ini.filename', '' );
         $this->assert_directive( 'expose_php', '' );
@@ -70,6 +74,7 @@ final class Check_Env {
         $this->assert_directive( 'max_input_vars', '1000' );
         $this->assert_directive( 'post_max_size', '4M' );
         $this->assert_directive( 'upload_max_filesize', '4M' );
+        $this->assert_directive( 'display_errors', '' );
 
         // Compiled in Extensions
         // php -n -m | paste -s -d " "

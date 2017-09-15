@@ -15,11 +15,11 @@ Colon at column :16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install package
 # REFS          :url
 # DOCS          :url
 # SOURCE        :url
 # UPSTREAM      :url
+# DEPENDS       :apt-get install package
 # LOCATION      :/usr/local/sbin/script.sh
 # OWNER         :root:root
 # PERMISSION    :0755
@@ -28,7 +28,7 @@ Colon at column :16
 # CRON-DAILY    :/usr/local/sbin/script.sh
 # CRON-WEEKLY   :/usr/local/sbin/script.sh
 # CRON-MONTHLY  :/usr/local/sbin/script.sh | mailx -E -s "subject" root
-# CRON.D        :2 2	* * *	root	/usr/local/sbin/script.sh
+# CRON.D        :02 2	* * *	root	/usr/local/sbin/script.sh
 # CONFIG        :~/.config/script/configuration
 
 # Usage/Remarks

@@ -16,15 +16,25 @@
 
 ### Transactional email providers
 
-- https://www.mailgun.com/ by Rackspace *free:10 000*
 - https://aws.amazon.com/ses/ by Amazon *free:0*
-- https://sendgrid.com/ *free:3000*
+- https://www.sparkpost.com/ on AWS *free:15 000*
 - https://www.mandrill.com/ by MailChimp *free:0*
-- https://www.sparkpost.com/ *free:15 000*
-- https://www.mailjet.com/transactional *free:6000*
-- https://www.sendinblue.com/ *free:9000*
+- https://www.sendinblue.com/ has own AS *free:9000*
+
+* https://sendgrid.com/ *free:3000*
+* https://www.mailgun.com/ by Rackspace *free:10 000*
+* https://www.mailjet.com/transactional *free:6000*
+* https://postmarkapp.com/ by Wildbit *free:1×25 000*
 
 [Integrity Mailszolgáltatás (SMTP+IMAP)](https://integrity.hu/mailszolgaltatas/)
+
+#### Email delivery features
+
+- Shared IP / IP pool / Dedicated IP
+- On whitelists (mailspike, dnswl.org, Return Path)
+- Open tracking (custom domain?, HTTPS?)
+- Click tracking (custom domain?, HTTPS?)
+- Bounce handling
 
 ### Marketing tools
 
@@ -237,7 +247,7 @@ Then browse to https://www.ssllabs.com/ssltest/
 
 See also https://ssl-tools.net/
 
-### Authentication
+### E-mail authentication
 
 - https://www.unlocktheinbox.com/resources/identifieralignments/
 - http://www.openspf.org/Related_Solutions
@@ -245,16 +255,9 @@ See also https://ssl-tools.net/
 #### SPF (HELO, MAIL FROM:)
 
 - setup https://tools.sparkpost.com/spf/builder http://www.spfwizard.net/
-- check http://www.kitterman.com/spf/validate.html http://tools.wordtothewise.com/authentication
+- check https://dmarcian.com/spf-survey/ http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
 - For non-email domains: `v=spf1 -all`
-
-#### Sender ID from Microsoft (From:)
-
-- http://en.wikipedia.org/wiki/Sender_ID
-- http://tools.ietf.org/html/rfc4407#section-2
-- PRA: Resent-Sender > Resent-From > Sender > From > ill-formed
-- http://www.appmaildev.com/
 
 #### DKIM
 
@@ -276,25 +279,36 @@ See also https://ssl-tools.net/
 - http://9vx.org/~dho/dkim_validate.php
 - https://protodave.com/tools/dkim-key-checker/ (DNS only)
 
-#### Domain Keys
+#### DMARC
 
-Deprecated.
+Specs: https://datatracker.ietf.org/doc/rfc7489/
+
+- setup https://unlocktheinbox.com/dmarcwizard/
+- check
+- monitor `host -t TXT _dmarc.example.com`
+- empty record: `v=DMARC1; p=none`
+- permissive record: `v=DMARC1; p=none; rua=mailto:admin@szepe.net; ruf=mailto:admin@szepe.net; fo=1;`
+
+https://blog.returnpath.com/how-to-explain-dmarc-in-plain-english/
 
 #### ADSP
+
+Declared "Historic".
 
 An optional extension to the DKIM E-mail authentication scheme.
 
 https://unlocktheinbox.com/resources/adsp/
 
-#### DMARC
+#### Sender ID from Microsoft (From:)
 
-Specs: https://datatracker.ietf.org/doc/draft-kucherawy-dmarc-base/?include_text=1
+- http://en.wikipedia.org/wiki/Sender_ID
+- http://tools.ietf.org/html/rfc4407#section-2
+- PRA: Resent-Sender > Resent-From > Sender > From > ill-formed
+- http://www.appmaildev.com/
 
-- setup https://unlocktheinbox.com/dmarcwizard/
-- check
-- monitor `host -t TXT _dmarc.$DOMAIN`
+#### Domain Keys
 
-http://www.returnpath.com/solution-content/dmarc-support/what-is-dmarc/
+Deprecated.
 
 ### Bulk mail
 

@@ -14,8 +14,8 @@
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 
 Exceptions() {
-    grep -E -v "rngd\[[0-9]+\]: stats: FIPS 140-2 failures: [0-9]+\$" \
-    | grep -E -v "courierd: SHUTDOWN: respawnlo limit reached, system inactive\.\$" \
+    grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: [0-9]+$' \
+    | grep -E -v 'courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$' \
     #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)\$" \
     #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)\$" \
     #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
