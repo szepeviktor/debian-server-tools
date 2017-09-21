@@ -208,3 +208,18 @@ $TTL 60
 66.37.0.96/27       HU_sikerweboldal @Omnis/AS19237
 66.37.8.168/29      HU_sikerweboldal @Omnis/AS19237
 66.37.19.128/27     HU_sikerweboldal @Omnis/AS19237
+
+# simpletrendz.com @Shock Hosting
+144.208.126         :2:Neighbour of simpletrendz
+144.208.126.156/30  ID_simpletrendz @Shock Hosting/AS395092
+
+# Francis de Lasalle trading as Heymman Servers
+# https://bgp.he.net/search?search%5Bsearch%5D=HEYMMAN&commit=Search
+142.147.96.0/22     US_HEYMMAN/AS19969
+172.96.12.0/23      US_HEYMMAN/AS19969
+185.191.228.0/22    US_HEYMMAN/AS174
+185.199.224.0/22    US_HEYMMAN/AS174
+185.202.172.0/22    US_HEYMMAN/AS174
+185.215.148.0/22    US_HEYMMAN/AS174
+185.218.232.0/22    US_HEYMMAN/AS174
+204.10.160.0/22     US_HEYMMAN/AS32097

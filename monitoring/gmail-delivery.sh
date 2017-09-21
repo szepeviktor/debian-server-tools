@@ -2,18 +2,18 @@
 #
 # Check delivery to Gmail.
 #
-# VERSION       :0.1.1
+# VERSION       :0.2.0
 # DATE          :2017-09-14
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install apg fetchmail
+# DEPENDS       :apt-get install fetchmail
 # DOCS          :https://support.google.com/mail/answer/7104828
 # LOCATION      :/usr/local/sbin/gmail-delivery.sh
 # OWNER         :root:nobody
 # PERMISSION    :0750
-# CRON.D        :02 *	* * *	root	/usr/local/sbin/gmail-delivery.sh
+# CRON.D        :02 *	* * *	nobody	/usr/local/sbin/gmail-delivery.sh
 
 # EDIT
 PROVIDER="SparkPost"
@@ -31,9 +31,21 @@ Alert() {
 }
 
 Send() {
-    # Random words
-    apg -n 30 -m 3 -x 12 | paste -s -d " " \
-        | mail -s "delivery through ${PROVIDER}" "$GMAIL_ACCOUNT"
+    mail -s "delivery through ${PROVIDER}" "$GMAIL_ACCOUNT" <<EOF
+The ease & simplicity of Gmail, available across devices
+
+Meet your new inbox
+New customizable tabs put you back in control so that you can see what’s new at a glance and decide which emails you want to read and when.
+
+Experience Gmail on any device
+The ease & simplicity of Gmail, wherever you are
+
+View attachments instantly
+View files without leaving Gmail. You can even save attachments directly to your Drive to organize and share them in a single, safe place.
+
+Custom themes
+The number of themes has increased from 35 to...infinity. Select your own image to use as a custom theme, or choose from a selection of photos.
+EOF
 }
 
 Fetch() {
@@ -51,7 +63,7 @@ Mda() {
     local TEMP_FILE="$2"
 
     if [ ! -r "$TEMP_FILE" ]; then
-        Alert "Temporary file does not exist"
+        logger -t "gmail-delivery" "Temporary file read failure '${TEMP_FILE}'"
         # We tell fetchmail it is OK.
         cat > /dev/null
         exit 0

@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.3.0
+# VERSION       :0.4.0
 # DATE          :2017-03-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -118,9 +118,9 @@ Dnsquery_multi() {
     fi
 
     # -4 IPv4, -W 2 Timeout, -s No next NS, -r Non-recursive
-    #DBG "LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null"
+    #DBG "LC_ALL=C host -v -4 -W 2 -r -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null"
     # shellcheck disable=SC2086
-    OUTPUT="$(LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
+    OUTPUT="$(LC_ALL=C host -v -4 -W 2 -r -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
 
     if [ $? != 0 ] \
         || [ -z "$OUTPUT" ] \

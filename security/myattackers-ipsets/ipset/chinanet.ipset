@@ -7,4 +7,6 @@ flush chinanet
 add chinanet 122.224.153.104/29
 # ZHEJIANG-GANGKEDA-LTD
 add chinanet 60.191.29.16/29
+# HZ-HITECH
+add chinanet 60.191.48.200/29
 # Also in -> dangerous.dnsbl.zone
