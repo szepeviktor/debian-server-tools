@@ -1,9 +1,9 @@
-[:hungary:](#sz%C3%A9pe-viktor-dolgozna-egy-v%C3%A1llalatnak)&nbsp;&nbsp;&nbsp;[:uk:](#viktor-szépe-from-hungary-would-work-for-a-company)
+[:hungary:](#sz%C3%A9pe-viktor-honlapokat-%C3%BCzemeltet)&nbsp;&nbsp;&nbsp;[:uk:](#viktor-sz%C3%A9pe-from-hungary-does-website-maintenance)
 
 [![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
-# Viktor Szépe from Hungary would work for a Company
+# Viktor Szépe from Hungary does website maintenance
 
 My main activity is **proactive** maintenance of existing websites and web applications.  
 These experiences could mean valuable feedback for your developer/s.  
@@ -12,6 +12,7 @@ Traffic light example :vertical_traffic_light: a developer sees the green light,
 ### What does proactive maintenance mean?
 
 - Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
+- Installing modern OS and software on your server
 - Server and website [monitoring](/monitoring/README.md) by functional tests and integrity checks
 - Monitoring of 3rd-parties too
 - Log analysis, alerts
@@ -57,7 +58,7 @@ Essentially keep every operation in memory!
 - Cut on JavaScripts
 - Continuous monitoring (monit, Pingdom, HetrixTools)
 
-# Szépe Viktor dolgozna egy Vállalatnak
+# Szépe Viktor honlapokat üzemeltet
 
 Létező honlapok és webes rendszerek **proaktív** üzemeltetésével foglalkozok.  
 Olyan dolgokkal, amelyek nem látszanak a képernyőn,
@@ -72,8 +73,9 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 ### Mit jelent a proaktív üzemeltetés?
 
 - Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
+- Modern operációs rendszer és szoftver installálás a szerverére
 - Szerver és honlap [monitorozás](/monitoring/README.md) funkcionális tesztekkel és integritás ellenőrzéssel
-- A harmadik feleket is monitorzom
+- Harmadik feleket is monitorozok
 - Napló kivonatok elemzése, riasztások
 - Szoftver frissítés changelog-ok olvasása alapján
 - Intelligens biztonsági mentés
