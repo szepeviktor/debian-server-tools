@@ -85,6 +85,10 @@ nmap --script ssl-cert,ssl-enum-ciphers -p 443 <TARGET>
 
 [Observatory](https://observatory.mozilla.org/)
 
+### Cryptosense
+
+https://discovery.cryptosense.com/
+
 ### Qualys SSL Labs (online)
 
 [SSL Server Test](https://www.ssllabs.com/ssltest/index.html)

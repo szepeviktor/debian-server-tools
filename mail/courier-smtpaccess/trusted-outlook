@@ -1,2 +1,25 @@
 # Outlook.com Outbound IP Space
-#     wget -qO- https://mail.live.com/mail/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | xargs -n 1 cidr2courier.sh
+#     wget -qO- https://mail.live.com/mail/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | sed -e 's|^.*$|#&\tallow,BLOCK|'
+#65.54.190.0/26	allow,BLOCK
+#65.54.190.64/26	allow,BLOCK
+#65.54.190.128/26	allow,BLOCK
+#65.54.190.192/26	allow,BLOCK
+#65.55.116.0/26	allow,BLOCK
+#65.55.111.64/26	allow,BLOCK
+#65.55.116.64/26	allow,BLOCK
+#65.55.111.128/26	allow,BLOCK
+#65.55.34.0/26	allow,BLOCK
+#65.55.34.64/26	allow,BLOCK
+#65.55.34.128/26	allow,BLOCK
+#65.55.34.192/26	allow,BLOCK
+#65.55.90.0/26	allow,BLOCK
+#65.55.90.64/26	allow,BLOCK
+#65.55.90.128/26	allow,BLOCK
+#65.55.90.192/26	allow,BLOCK
+#65.54.51.64/26	allow,BLOCK
+#65.54.61.64/26	allow,BLOCK
+#207.46.66.0/28	allow,BLOCK
+#157.55.0.192/26	allow,BLOCK
+#157.55.1.128/26	allow,BLOCK
+#157.55.2.0/26	allow,BLOCK
+#157.55.2.64/26	allow,BLOCK

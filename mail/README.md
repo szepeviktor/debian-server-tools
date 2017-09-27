@@ -20,6 +20,7 @@
 - https://www.sparkpost.com/ on AWS *free:15 000*
 - https://www.mandrill.com/ by MailChimp *free:0*
 - https://www.sendinblue.com/ has own AS *free:9000*
+- [M<sup>3</sup>AAWG](https://www.m3aawg.org/about/roster)
 
 * https://sendgrid.com/ *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
@@ -245,7 +246,7 @@ iptables -t nat -A POSTROUTING -p tcp --dst ${COURIER_IP} --dport 465 -j SNAT --
 
 Then browse to https://www.ssllabs.com/ssltest/
 
-See also https://ssl-tools.net/
+See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 
 ### E-mail authentication
 

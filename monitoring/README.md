@@ -12,7 +12,7 @@
 - DNS resource records ([dns-watch.sh](/monitoring/dns-watch.sh))
 - HTTP message body (aka HTML source code)
 - Visual change ([visualping.io](https://visualping.io/))
-- HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/))
+- HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/), [Cryptosense](https://discovery.cryptosense.com/))
 - File changes ([tripwire-fake.sh](/monitoring/tripwire-fake.sh))
 - Application log ([laravel-report.sh](/monitoring/laravel-report.sh))
 - Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/))

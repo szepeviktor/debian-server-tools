@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.12.4
+# VERSION       :0.12.5
 # DATE          :2016-05-03
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -45,7 +45,7 @@ Check_requirements() {
     if ! [ -d "$PRIV_DIR" ] || ! [ -d "$PUB_DIR" ]; then
         Die 4 "Missing cert directory."
     fi
-    # FIXME Was 0710. Why?
+    # ssl-cert packages sets it to 0710 and root:ssl-cert as owner and group.
     if [ "$(stat --format=%a "$PRIV_DIR")" != 700 ] \
         || [ "$(stat --format=%u "$PRIV_DIR")" != 0 ]; then
         Die 5 "Private cert directory needs to be private (0700) and owned by root."
@@ -86,12 +86,12 @@ Courier_mta() {
     #cat "$PUB" "$INT" "$PRIV" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     # From Debian jessie on: private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
-    chown root:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
-    chmod 0640 "$COURIER_COMBINED" || Die 23 "courier perms"
+    chown ${COURIER_USER}:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
+    chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
 
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
-    chown root:${COURIER_USER} "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
-    chmod 0640 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
+    chown ${COURIER_USER}:${COURIER_USER} "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
+    chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
@@ -113,12 +113,12 @@ Courier_mta() {
         echo "SMTP STARTTLS result=$?"
         Readkey
         echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
-            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:465"
+            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:587" -starttls smtp
         echo "SMTPS result=$?"
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:465" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:587 -starttls smtp" 1>&2
     fi
 
     # Check config file for IMAPS

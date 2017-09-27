@@ -2,7 +2,7 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.5.1
+# VERSION       :0.5.2
 # DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -69,7 +69,7 @@ fi
 
 # Validate email address format
 # https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
-grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9][-a-z0-9_]*(\.[a-z]+)+$' <<< "$EMAIL" \
+grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9][-a-z0-9]*(\.[a-z0-9][-a-z0-9]+)*\.[a-z]+$' <<< "$EMAIL" \
     || Error 8 'Non-regular email address'
 
 NEW_DOMAIN="${EMAIL##*@}"

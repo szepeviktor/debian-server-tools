@@ -101,12 +101,12 @@ define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 //define( 'PODS_SESSION_AUTO_START', false );
 //define( 'WPCF7_LOAD_CSS', false );
 //define( 'WPCF7_LOAD_JS', false );
-//define( 'ACF_LITE', true );
+//define( 'ACF_LITE', true ); // -> Use the 'acf/settings/show_admin' filter
 //define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 define( 'ENABLE_FORCE_CHECK_UPDATE', true );
 //define( 'YIKES_MC_API_KEY', '00000000-us3' );
-//  Non-free
-//define( 'GF_LICENSE_KEY', '' );
+// Non-free
+//define( 'GF_LICENSE_KEY', '' ); // Gravity Forms - rg_gforms_key
 //define( 'OTGS_DISABLE_AUTO_UPDATES', true ); // WPML
 
 /** DB */

@@ -2,7 +2,7 @@
 #
 # Test SMTPS authentication.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2016-05-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -102,8 +102,8 @@ Smtp_login() {
         sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
         echo "AUTH LOGIN"; sleep 2
-        echo -n "$SMTP_USER" | base64 --wrap=0; sleep 2
-        echo -n "$SMTP_PASS" | base64 --wrap=0; sleep 2
+        echo -n "$SMTP_USER" | base64 --wrap=0; echo; sleep 2
+        echo -n "$SMTP_PASS" | base64 --wrap=0; echo; sleep 2
         echo "QUIT"
     } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" \
         -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null | grep "^235 "

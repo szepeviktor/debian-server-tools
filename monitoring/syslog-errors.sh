@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last hour. Simple logcheck.
 #
-# VERSION       :0.8.12
+# VERSION       :0.8.13
 # DATE          :2016-04-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -14,8 +14,9 @@
 # CRON-HOURLY   :/usr/local/sbin/syslog-errors.sh
 
 Exceptions() {
-    grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: [0-9]+$' \
+    grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$' \
     | grep -E -v 'courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$' \
+    #| grep -E -v 'rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$' \
     #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)\$" \
     #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)\$" \
     #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \

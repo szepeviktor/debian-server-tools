@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.5.2
+# VERSION       :2.5.3
 # DATE          :2016-12-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,12 +14,12 @@
 
 # Usage
 #
-#     editor /usr/local/bin/ocsp--SITE
+#     editor /usr/local/bin/ocsp--SITE.sh
 #         #!/bin/bash
 #         exec 200<$0;flock --nonblock 200 || exit 0
-#         while ! /usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;do sleep 30;done;exit 0
-#     chmod +x /usr/local/bin/ocsp--SITE
-#     echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--SITE" > /etc/cron.d/ocsp-SITE-NO-DOTS
+#         while ! timeout 10 /usr/local/bin/ocsp-check.sh "www.example.com" > /dev/null;do sleep 30;done;exit 0
+#     chmod +x /usr/local/bin/ocsp--SITE.sh
+#     echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--SITE.sh" > /etc/cron.d/ocsp-SITE-NO-DOTS
 
 HOST="$1"
 

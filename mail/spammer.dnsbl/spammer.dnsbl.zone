@@ -216,6 +216,7 @@ $TTL 60
 # Francis de Lasalle trading as Heymman Servers
 # https://bgp.he.net/search?search%5Bsearch%5D=HEYMMAN&commit=Search
 142.147.96.0/22     US_HEYMMAN/AS19969
+172.96.8.0/22       US_HEYMMAN/AS19969
 172.96.12.0/23      US_HEYMMAN/AS19969
 185.191.228.0/22    US_HEYMMAN/AS174
 185.199.224.0/22    US_HEYMMAN/AS174

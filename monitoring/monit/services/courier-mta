@@ -39,7 +39,7 @@
    if failed checksum then unmonitor
    if failed permission 600 then unmonitor
    if failed uid "daemon" then unmonitor
-   if failed gid "root" then unmonitor
+   if failed gid "daemon" then unmonitor
 
  check program courier-mta_mailq with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
    group mail
