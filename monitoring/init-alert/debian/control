@@ -2,13 +2,13 @@ Source: init-alert
 Section: misc
 Priority: optional
 Maintainer: Viktor Szépe <viktor@szepe.net>
-Standards-Version: 3.9.6
+Standards-Version: 4.1.0
 Homepage: https://github.com/szepeviktor/debian-server-tools
 Build-Depends: debhelper (>= 9)
 
 Package: init-alert
 Architecture: all
-Depends: ${misc:Depends}, lsb-base (>= 3.0-6), bsd-mailx | mailx, psmisc, courier-mta
+Depends: ${misc:Depends}, lsb-base (>= 4.1), s-nail | mailx, psmisc
 Description: Send alert mail on boot and on shutdown,
  on boot send pstree to know what services are started,
  on halt send a list of who is logged on

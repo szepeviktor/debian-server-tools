@@ -3,10 +3,12 @@
 #: iptables -w -I myattackers-ipset -m set --match-set chinanet src -j REJECT
 create chinanet hash:net family inet hashsize 256 maxelem 32
 flush chinanet
-# JINFANDA-CHEMICAL-LTD
-add chinanet 122.224.153.104/29
 # ZHEJIANG-GANGKEDA-LTD
 add chinanet 60.191.29.16/29
 # HZ-HITECH
 add chinanet 60.191.48.200/29
+# ZHEJING-MINGFENGJIA-LIMITED
+add chinanet 60.191.49.184/29
+# JINFANDA-CHEMICAL-LTD
+add chinanet 122.224.153.104/29
 # Also in -> dangerous.dnsbl.zone

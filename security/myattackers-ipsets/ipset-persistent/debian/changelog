@@ -1,3 +1,9 @@
+ipset-persistent (2.0.0) stable; urgency=high
+
+  * Make it a netfilter-persistent plugin.
+
+ -- Viktor Szépe <viktor@szepe.net>  Sun, 01 Oct 2017 10:16:42 +0000
+
 ipset-persistent (1.1.0) stable; urgency=high
 
   * Fix netfilter-persistent compatibility. Set Default-Start to "S".

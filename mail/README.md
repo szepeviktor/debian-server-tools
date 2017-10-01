@@ -20,7 +20,7 @@
 - https://www.sparkpost.com/ on AWS *free:15 000*
 - https://www.mandrill.com/ by MailChimp *free:0*
 - https://www.sendinblue.com/ has own AS *free:9000*
-- [M<sup>3</sup>AAWG](https://www.m3aawg.org/about/roster)
+- [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 
 * https://sendgrid.com/ *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
@@ -446,6 +446,7 @@ OK response: `IP Unlisted in the spam sender list None`
 
 - https://www.dnswl.org/selfservice/ `R`
 - ??? [EmailReg.org by Barracuda](http://www.emailreg.org/index.cgi?p=usage)
+- ??? [Whitelisted.org by UCEPROTECT](http://www.whitelisted.org/)
 
 #### Blacklists (RBL, DNSBL)
 

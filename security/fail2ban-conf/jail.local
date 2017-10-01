@@ -60,6 +60,7 @@ logpath  = /var/log/apache2/access.log
 maxretry = 3
 # 24h
 bantime  = 86400
+port     = all
 
 [apache-combined]
 enabled  = true
@@ -152,6 +153,8 @@ findtime = 604800
 maxretry = 3
 # 1 week
 bantime  = 604800
+# Not just TCP
+protocol = all
 # No email alert
 action   = iptables-allports[name=recidive]
 #           cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]

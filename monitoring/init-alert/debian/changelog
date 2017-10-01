@@ -1,3 +1,9 @@
+init-alert (0.3.2) stable; urgency=low
+
+  * Clean up dependencies
+
+ -- Viktor Szépe <viktor@szepe.net>  Sun, 01 Oct 2017 09:26:39 +0000
+
 init-alert (0.3.1) stable; urgency=low
 
   * Quieter default email address

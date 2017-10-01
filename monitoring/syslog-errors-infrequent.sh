@@ -25,6 +25,7 @@ Exceptions() {
     #| grep -E -v "courieresmtpd: error,relay=.*,msg=\"(502 ESMTP command error|writev: Connection reset by peer)\",cmd:" \
     #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
     #| grep -F -v "/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting" \
+    #| grep -E -v '@(citromail\.hu|vipmail\.hu)>,status: deferred$' \
 
 }
 

@@ -2,8 +2,8 @@
 #
 # Move old messages to a yearly folder.
 #
-# VERSION       :0.1.1
-# DATE          :2014-10-18
+# VERSION       :0.2.0
+# DATE          :2017-10-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -54,26 +54,34 @@ TO_FOLDER="$3"
 [ -d "$TO_FOLDER" ] || exit 3
 [ "$(basename "$FROM_FOLDER")" == "cur" ] || exit 4
 [ "$(basename "$TO_FOLDER")" == "cur" ] || exit 5
+[ -d "${FROM_FOLDER}/../tmp" ] || exit 6
+[ -d "${TO_FOLDER}/../tmp" ] || exit 7
 
-YEAR_START="$(date -d"${YEAR}-01-01 00:00:00" "+%s")"
-YEAR_END="$(date -d"${YEAR}-12-31 23:59:59" "+%s")"
+FROM_LOCK="${FROM_FOLDER}/../tmp/courier.lock"
+TO_LOCK="${TO_FOLDER}/../tmp/courier.lock"
+YEAR_START="$(date -d "${YEAR}-01-01 00:00:00" "+%s")"
+YEAR_END="$(date -d "${YEAR}-12-31 23:59:59" "+%s")"
+
+touch "$FROM_LOCK" "$TO_LOCK"
 
 find "$FROM_FOLDER" -type f \
-    | while read -r FILE; do
-        # Determine date from timestamp in filename
-        DATE_STAMP="$(basename "$FILE")"
+    | while read -r MESSAGE; do
+        # Determine date from timestamp in file name
+        DATE_STAMP="$(basename "$MESSAGE")"
         DATE_STAMP="${DATE_STAMP:0:10}"
 
         # Validity
-        if [ -z "$DATE_STAMP" ] || ! [ -z "${DATE_STAMP//[0-9]/}" ]; then
-            echo "Couldn't get timestamp from file name: ${FILE}" 1>&2
+        if [ -z "$DATE_STAMP" ] || [ -n "${DATE_STAMP//[0-9]/}" ]; then
+            echo "Couldn't get timestamp from file name: ${MESSAGE}" 1>&2
             continue
         fi
 
         # Move messages of the specified year
         if [ "$DATE_STAMP" -ge "$YEAR_START" ] && [ "$DATE_STAMP" -le "$YEAR_END" ]; then
             echo -n "$(date -R -d "@${DATE_STAMP}") "
-            # `move` keeps owner and permissions
-            mv -v "$FILE" "$TO_FOLDER"
+            # mv command retains owner and permissions
+            mv -v "$MESSAGE" "$TO_FOLDER"
         fi
     done
+
+rm "$FROM_LOCK" "$TO_LOCK"

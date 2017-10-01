@@ -31,7 +31,9 @@ Not only a WordPress site!
 - For receiving referrer information (up to April 2012)
 - Very cheap
 
-Providers: Let's Encrypt, RapidSSL (GeoTrust/Symantec), CloudFlare SSL,
+Providers: Let's Encrypt,
+[RapidSSL](https://cheapsslsecurity.com/sslbrands/rapidssl.html) (GeoTrust/Symantec),
+CloudFlare SSL,
 [SSL Certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
 
 OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
@@ -274,7 +276,7 @@ http://google-public-dns.appspot.com/cache
 ## Check
 
 
-[What people remember on your website](http://www.clueapp.com/) :snail:
+[What people remember on your website](https://zurb.com/helio) :snail:
 
 ### Marketing
 

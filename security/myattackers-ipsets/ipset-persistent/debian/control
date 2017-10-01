@@ -2,14 +2,11 @@ Source: ipset-persistent
 Section: net
 Priority: optional
 Maintainer: Viktor Szépe <viktor@szepe.net>
-Standards-Version: 3.9.6
-Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 4.1.0
+Build-Depends: debhelper (>= 9.2)
 
 Package: ipset-persistent
 Architecture: all
-Depends: ${misc:Depends}, ipset, iptables-persistent
-Conflicts: lightwrapper
-Homepage: https://sourceforge.net/projects/ipset-persistent/
-Description: Boot-time loader for ipset rules
- This package provides a system startup script that restores ipset rules from
- a configuration file.
+Depends: ${misc:Depends}, ipset, netfilter-persistent
+Description: IP set plugin for netfilter-persistent
+ Originally by @jordanrinke
