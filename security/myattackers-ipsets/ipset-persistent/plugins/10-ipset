@@ -8,67 +8,67 @@ set -e
 rc="0"
 
 load_rules() {
-	# Load IP sets
-	if [ ! -f /etc/iptables/ipset ]; then
-		echo "Warning: skipping IP sets (no rules to load)"
-	elif [ ! -x /sbin/ipset ]; then
-		rc="2"
-	else
-		# Although ipset command automatically loads ip_set* modules
-		/sbin/modprobe --quiet ip_set
-		/sbin/ipset restore -exist < /etc/iptables/ipset 2> /dev/null
-		if [ $? -ne 0 ]; then
-			rc="1"
-		fi
-	fi
+    # Load IP sets
+    if [ ! -f /etc/iptables/ipset ]; then
+        echo "Warning: skipping IP sets (no rules to load)"
+    elif [ ! -x /sbin/ipset ]; then
+        rc="2"
+    else
+        # Although ipset command automatically loads ip_set* modules
+        /sbin/modprobe --quiet ip_set
+        /sbin/ipset restore -exist < /etc/iptables/ipset 2> /dev/null
+        if [ $? -ne 0 ]; then
+            rc="1"
+        fi
+    fi
 }
 
 save_rules() {
-	if [ ! -x /sbin/ipset ]; then
-		rc="2"
-	else
-		# Although ipset command automatically loads ip_set* modules
-		/sbin/modprobe --quiet ip_set
-		touch /etc/iptables/ipset
-		chmod 0640 /etc/iptables/ipset
-		/sbin/ipset save > /etc/iptables/ipset
-		if [ $? -ne 0 ]; then
-			rc="1"
-		fi
-		# Exclude Fail2ban IP sets
-		# Avoid piping
-		sed -i -e '/ f2b-/d' /etc/iptables/ipset
-	fi
+    if [ ! -x /sbin/ipset ]; then
+        rc="2"
+    else
+        # Although ipset command automatically loads ip_set* modules
+        /sbin/modprobe --quiet ip_set
+        touch /etc/iptables/ipset
+        chmod 0640 /etc/iptables/ipset
+        /sbin/ipset save > /etc/iptables/ipset
+        if [ $? -ne 0 ]; then
+            rc="1"
+        fi
+        # Exclude Fail2ban IP sets
+        # Avoid piping
+        sed -i -e '/ f2b-/d' /etc/iptables/ipset
+    fi
 }
 
 flush_rules() {
-	if [ ! -x /sbin/ipset ]; then
-		rc="2"
-	else
-		ipset destroy
-	fi
+    if [ ! -x /sbin/ipset ]; then
+        rc="2"
+    else
+        /sbin/ipset destroy
+    fi
 }
 
 case "$1" in
-	start|restart|reload|force-reload)
-		load_rules
-		;;
-	save)
-		save_rules
-		;;
-	stop)
-		# Why? because if stop is used, the firewall gets flushed for a variable
-		# amount of time during package upgrades, leaving the machine vulnerable
-		# It's also not always desirable to flush during purge
-		echo "Automatic flushing disabled, use 'flush' instead of 'stop'"
-		;;
-	flush)
-		flush_rules
-		;;
-	*)
-		echo "Usage: $0 {start|restart|reload|force-reload|save|flush}" 1>&2
-		exit 1
-		;;
+    start|restart|reload|force-reload)
+        load_rules
+        ;;
+    save)
+        save_rules
+        ;;
+    stop)
+        # Why? because if stop is used, the firewall gets flushed for a variable
+        # amount of time during package upgrades, leaving the machine vulnerable
+        # It's also not always desirable to flush during purge
+        echo "Automatic flushing disabled, use 'flush' instead of 'stop'"
+        ;;
+    flush)
+        flush_rules
+        ;;
+    *)
+        echo "Usage: $0 {start|restart|reload|force-reload|save|flush}" 1>&2
+        exit 1
+        ;;
 esac
 
 exit "$rc"

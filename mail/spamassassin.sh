@@ -8,3 +8,11 @@ apt-get install -y libmail-dkim-perl \
     libcrypt-openssl-bignum-perl
 
 Getpkg spamassassin
+
+# Rule updating
+# # SVN revision lookup by reverse version number
+# host -t TXT 1.4.3.updates.spamassassin.org.
+# # Get mirror URL
+# wget https://svn.apache.org/repos/asf/spamassassin/site/updates/MIRRORED.BY
+# # Download rules
+# wget ${MIRROR_URL}/${SVN_REVISION}.tar.gz

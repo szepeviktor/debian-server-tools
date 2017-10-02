@@ -44,11 +44,8 @@
 
 ### Webmails
 
-http://www.rainloop.net/changelog/
-
-### Disposable email address
-
-http://nincsmail.hu/ (inbox and sending)
+- https://www.horde.org/
+- https://www.rainloop.net/changelog/
 
 
 ## Problems

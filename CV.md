@@ -98,10 +98,6 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
 Remélem bele illek a képbe valahogyan: viktor@szepe.net
 
-### WordPress telepítés
-
-Sebesség + Biztonság = Üzembiztonság
-
 ## WordPress fejlesztő keresés
 
 - http://wphu.org/wordpress-fejlesztes
