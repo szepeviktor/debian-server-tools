@@ -431,6 +431,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Compatiblitity
 
+- Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup) :snail:

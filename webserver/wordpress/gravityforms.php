@@ -19,6 +19,20 @@ add_filter( 'gform_notification', function ( $notification ) {
     return $notification;
 } );
 
+// Add charset attribute to Content-Type headers in multipart messages
+add_filter( 'gform_pre_send_email', function ( $email, $message_format ) {
+    if ( 'multipart' === $message_format ) {
+        $charset = sprintf( ' charset="%s";', get_option( 'blog_charset' ) );
+        // '\S+' could be preg_quote( GFCommon::$email_boundary )
+        $email['message'] = preg_replace(
+            '/^(--\S+\r?\nContent-Type: text\/(plain|html);)(\r?\n)/m',
+            '\1' . $charset . '\3',
+            $email['message']
+        );
+    }
+    return $email;
+}, 10, 2 );
+
 // Hide admin tooltips
 add_filter( 'gform_tooltips', '__return_empty_array' );
 

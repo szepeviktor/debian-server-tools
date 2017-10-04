@@ -48,14 +48,16 @@
 - http://bgp.he.net/
 - http://mxtoolbox.com/DNSLookup.aspx
 
-## Domain registrars
-
-- https://uk.godaddy.com/
-- https://aws.amazon.com/route53/
-- https://www.dynadot.com/
-- https://www.forpsi.hu/
-- http://www.freenom.com/en/freeandpaiddomains.html
-
 ## Dynamic DNS on Amazon
 
 http://www.duckdns.org/
+
+## Domain registrars
+
+- https://aws.amazon.com/route53/
+- https://uk.godaddy.com/
+- https://www.dynadot.com/
+- https://www.forpsi.hu/
+- https://www.cloudflare.com/registrar/
+- https://www.gandi.net/
+- http://www.freenom.com/en/freeandpaiddomains.html
