@@ -1,13 +1,40 @@
-# AS29073 - Ecatel LTD, type: SSH,HTTP
+# AS29073 - Ecatel LTD / Quasi Networks / Novogara, type: SSH,HTTP
 #: ipset -exist restore < ipset/ecatel.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set ecatel src -j REJECT
 create ecatel hash:net family inet hashsize 64 maxelem 32
 flush ecatel
-add ecatel 80.82.64.0/20
+add ecatel 5.8.18.0/24
+add ecatel 46.243.146.0/24
+add ecatel 46.243.148.0/24
+add ecatel 77.72.83.0/24
+add ecatel 80.82.64.0/24
+add ecatel 80.82.65.0/24
+add ecatel 80.82.66.0/24
+add ecatel 80.82.67.0/24
+add ecatel 80.82.68.0/24
+add ecatel 80.82.69.0/24
+add ecatel 80.82.70.0/24
+# 71-75: https://bgp.he.net/AS56611
+add ecatel 80.82.76.0/24
+add ecatel 80.82.77.0/24
+add ecatel 80.82.78.0/24
+add ecatel 80.82.79.0/24
 add ecatel 89.248.160.0/21
-add ecatel 89.248.168.0/22
+add ecatel 89.248.168.0/24
+add ecatel 89.248.169.0/24
+add ecatel 89.248.170.0/23
 add ecatel 89.248.172.0/23
 add ecatel 89.248.174.0/24
 add ecatel 93.174.88.0/21
 add ecatel 94.102.48.0/20
-# Also in -> dangerous.dnsbl.zone
+add ecatel 145.249.104.0/22
+add ecatel 185.216.140.0/23
+add ecatel 188.72.103.0/24
+add ecatel 188.72.106.0/24
+add ecatel 188.72.117.0/24
+add ecatel 196.16.0.0/14
+add ecatel 213.184.105.0/24
+add ecatel 213.184.113.0/24
+add ecatel 213.184.115.0/24
+add ecatel 213.184.117.0/24
+add ecatel 213.184.124.0/24
