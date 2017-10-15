@@ -57,12 +57,8 @@ TO_FOLDER="$3"
 [ -d "${FROM_FOLDER}/../tmp" ] || exit 6
 [ -d "${TO_FOLDER}/../tmp" ] || exit 7
 
-FROM_LOCK="${FROM_FOLDER}/../tmp/courier.lock"
-TO_LOCK="${TO_FOLDER}/../tmp/courier.lock"
 YEAR_START="$(date -d "${YEAR}-01-01 00:00:00" "+%s")"
 YEAR_END="$(date -d "${YEAR}-12-31 23:59:59" "+%s")"
-
-touch "$FROM_LOCK" "$TO_LOCK"
 
 find "$FROM_FOLDER" -type f \
     | while read -r MESSAGE; do
@@ -83,5 +79,3 @@ find "$FROM_FOLDER" -type f \
             mv -v "$MESSAGE" "$TO_FOLDER"
         fi
     done
-
-rm "$FROM_LOCK" "$TO_LOCK"

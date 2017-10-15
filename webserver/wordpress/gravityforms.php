@@ -12,6 +12,9 @@ define( 'GFORM_DISABLE_AUTO_UPDATE', true );
 // Prevent continuous .htaccess file creation in wp-content/uploads/gravity_form/
 add_filter( 'gform_upload_root_htaccess_rules', '__return_empty_string' );
 
+// Hide admin tooltips
+add_filter( 'gform_tooltips', '__return_empty_array' );
+
 // Multipart emails
 // https://docs.gravityforms.com/gform_notification/#4-change-the-message-format
 add_filter( 'gform_notification', function ( $notification ) {
@@ -33,9 +36,6 @@ add_filter( 'gform_pre_send_email', function ( $email, $message_format ) {
     return $email;
 }, 10, 2 );
 
-// Hide admin tooltips
-add_filter( 'gform_tooltips', '__return_empty_array' );
-
 // Make honeypot the second field
 add_filter( 'gform_pre_render', function ( $form ) {
     if ( count( $form['fields'] ) > 1
@@ -47,4 +47,13 @@ add_filter( 'gform_pre_render', function ( $form ) {
         array_splice( $form['fields'], 1, 0, array( $honeypot ) );
     }
     return $form;
+} );
+
+// Delay inline (printed) script execution, jQuery loads in the footer
+add_filter( 'gform_init_scripts_footer', '__return_true' );
+add_filter( 'gform_cdata_open', function () {
+    return 'document.addEventListener( "DOMContentLoaded", function () { ';
+} );
+add_filter( 'gform_cdata_close', function () {
+    return ' }, false );';
 } );

@@ -16,6 +16,7 @@ if vmtoolsd --version; then
 fi
 
 # Open VMware tools
+# @nonDebian
 Pkg_install_quiet -t jessie-backports open-vm-tools
 
 # Time synchronization

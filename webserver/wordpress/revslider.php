@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Trigger fail2ban on Revolution Slider upload attempt.
  *
  * revslider/revslider_admin.php:389

@@ -95,29 +95,34 @@ Courier_mta() {
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
-    # Check config files for SMTP STARTTLS, SMTPS and outgoing SMTP
-    # By default don't check client certificate
-    #if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/courierd \
-    if grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/courierd \
-        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd \
-        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd-ssl \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd-ssl; then
+    # Check config files for SMTP STARTTLS and outgoing SMTP
+    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd; then
 
         service courier-mta restart
-        service courier-mta-ssl restart
 
-        # Tests SMTP STARTTLS, SMTPS
+        # Test SMTP STARTTLS
         echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
             -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
-        Readkey
+    else
+        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
+        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+    fi
+
+    # Check config files for submission
+    if grep -q "^ESMTPDSTART=YES\$" /etc/courier/esmtpd-msa \
+        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
+        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd; then
+
+        service courier-mta restart
+
+        # Test SMTP-MSA STARTTLS
         echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
             -servername "$SERVER_NAME" -connect "${SERVER_NAME}:587" -starttls smtp
-        echo "SMTPS result=$?"
+        echo "SMTPS-MSA result=$?"
     else
-        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier configs: esmtpd, esmtpd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:587 -starttls smtp" 1>&2
     fi
 
@@ -127,7 +132,7 @@ Courier_mta() {
 
         service courier-imap-ssl restart
 
-        # Tests IMAPS
+        # Test IMAPS
         echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
             -servername "$SERVER_NAME" -connect "${SERVER_NAME}:993"
         echo "IMAPS result=$?"

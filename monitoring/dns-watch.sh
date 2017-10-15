@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.4.0
+# VERSION       :0.5.0
 # DATE          :2017-03-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -92,7 +92,7 @@ Dnsquery_multi() {
 
     # Sort MX records
     if [ "$TYPE" == "MX" ]; then
-        RR_SORT="sort -k 6 -g -r"
+        RR_SORT="sort -k 5,5 -g -r"
     else
         RR_SORT="cat"
     fi
@@ -118,9 +118,9 @@ Dnsquery_multi() {
     fi
 
     # -4 IPv4, -W 2 Timeout, -s No next NS, -r Non-recursive
-    #DBG "LC_ALL=C host -v -4 -W 2 -r -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null"
+    #DBG "LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null"
     # shellcheck disable=SC2086
-    OUTPUT="$(LC_ALL=C host -v -4 -W 2 -r -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
+    OUTPUT="$(LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
 
     if [ $? != 0 ] \
         || [ -z "$OUTPUT" ] \
@@ -211,7 +211,7 @@ Generate_rr() {
     local NS="$3"
     local RR
 
-    RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort | paste -s -d ";")"
+    RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort -g | paste -s -d ";")"
     if [ $? == 0 ] && [ -n "$RR" ]; then
         echo "${TYPE}=${RR}"
     fi
@@ -225,6 +225,7 @@ Is_ipv4() {
     [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
 }
 
+# shellcheck disable=SC1090
 source "$DNS_WATCH_RC"
 
 Is_online
@@ -343,7 +344,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         fi
         RRTYPE="${RR%%=*}"
         RRVALUES="${RR#*=}"
-        RRVALUES_SORTED="$(sort <<< "$RRVALUES")"
+        RRVALUES_SORTED="$(sort -g <<< "$RRVALUES")"
 
         # All nameservers
         while read -r NS; do
@@ -353,7 +354,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
             if Is_ipv4 "$DNAME"; then
                 # NS hack
                 ANSWERS="$(Dnsquery_multi PTR "$DNAME" " ")"
-                ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d ";")"
+                ANSWERS_SORTED="$(sort -g <<< "$ANSWERS" | paste -s -d ";")"
                 if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
                     Alert "${DNAME}/PTR" \
                         "Failed to query type PTR of ${DNAME}"
@@ -408,7 +409,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                         "Failed to query type ${RRTYPE} of ${DNAME} from ${NS}=${NS_IP} on protocol (${PROTO_TEXT}) at $((DRETRY - RETRY + 1)). retry"
                     continue
                 fi
-                ANSWERS_SORTED="$(sort <<< "$ANSWERS" | paste -s -d ";")"
+                ANSWERS_SORTED="$(sort -g <<< "$ANSWERS" | paste -s -d ";")"
                 if [ "$ANSWERS_SORTED" != "$RRVALUES_SORTED" ]; then
                     #DBG "$ANSWERS_SORTED||$RRVALUES_SORTED"
                     Alert "${DNAME}/${RRTYPE}/${NS}/${PROTO}" \

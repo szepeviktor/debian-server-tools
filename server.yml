@@ -9,8 +9,8 @@ system:
     host-color: 7
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
-    storage-provider: #Oktawave
-    mail-provider: #Mailgun
+    storage-provider: #Amazon S3
+    mail-provider: #SparkPost
 
 # Package settings
 package:
@@ -108,7 +108,7 @@ services:
       source: non-packaged
       description: /usr/lib/php5/20121212
     mod-pagespeed:
-      # daemon, apache module?
+      # daemon or Apache module?
     drush:
       source: composer
       location: /opt/drush
@@ -123,7 +123,7 @@ services:
       transport: uds
     vmwaretools:
       transport: VMCI socket
-      description: ATW/autorent
+      description: Virtual Machine Communication Interface
     unattended-upgrades:
       type: cron job
     unscd:
@@ -184,6 +184,7 @@ teardown:
     - Notify users
     - Email accounts
     - RELAYCLIENT on the smarthost
+    - DNS resolver access
     - Remove from whitelists, postmaster tools, RBL monitors
     - Revoke SSL certificates
     - Remove from healthchecks.io

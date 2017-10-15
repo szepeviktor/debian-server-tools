@@ -36,6 +36,7 @@ sed -i -e '/<Location \/server-status>/,/<\/Location>/d' /etc/apache2/mods-avail
 # Modules
 a2enmod actions rewrite headers deflate expires proxy_fcgi http2
 yes | cp -f webserver/apache-conf-available/ssl-mozilla-intermediate.default /etc/apache2/mods-available/ssl.conf
+# ssl module depends on socache_shmcb
 a2enmod ssl
 
 # Configuration

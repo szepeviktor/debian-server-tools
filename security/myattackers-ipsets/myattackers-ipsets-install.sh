@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Deny traffic from dangerous networks.
+# Deny traffic from hostile networks.
 #
 # VERSION       :0.3.0
 # DATE          :2017-10-01
@@ -13,7 +13,7 @@
 CHAIN="myattackers-ipset"
 
 Add_ipsets() {
-    head ipset/*.ipset | grep "^#: ip.\+" | cut -d " " -f 2- | /bin/bash -x
+    head ipset/*.ipset | grep '^#: ip.\+' | cut -d " " -f 2- | /bin/bash -x
 }
 
 Install_ipsets() {
@@ -63,4 +63,4 @@ else
     Install_ipsets
 fi
 
-echo "iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v4"
+echo "iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]\$| [0:0]|' > /etc/iptables/rules.v4"

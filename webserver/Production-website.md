@@ -256,6 +256,8 @@ Keep git dir above document root.
 
 `https://www.google.com/search?q=site:DOMAIN`
 
+Also redirect popular images.
+
 ### Flush Google public DNS cache
 
 http://google-public-dns.appspot.com/cache

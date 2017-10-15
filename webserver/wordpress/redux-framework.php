@@ -6,7 +6,7 @@ add_filter( 'redux/ascend/aURL_filter', '__return_empty_string' );
 add_filter( 'get_user_option_' . 'r_tru_u_x', function () {
     return array(
         'expires' => PHP_INT_MAX,
-        'id' => '',
+        'id'      => '',
     );
 } );
 add_action( 'after_setup_theme', function () {

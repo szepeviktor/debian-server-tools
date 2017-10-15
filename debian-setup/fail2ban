@@ -7,8 +7,10 @@ set -e -x
 test -n "$IP"
 
 Getpkg geoip-database-contrib
+# @nonDebian
 Pkg_install_quiet -t jessie-backports python3-pyinotify geoip-bin
-#apt-get install -y fail2ban
+
+#Pkg_install_quiet fail2ban
 Getpkg fail2ban sid
 
 for CONFIG in fail2ban.local jail.local; do

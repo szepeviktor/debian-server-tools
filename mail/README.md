@@ -470,6 +470,7 @@ OK response: `IP Unlisted in the spam sender list None`
 
 #### Lookup Tools/Monitoring Tools
 
+- https://glockapps.com/spam-testing `R`
 - http://bgp.he.net/ip/1.2.3.4#_rbl
 - https://hetrixtools.com/dashboard/blacklist-monitors/
 - http://multirbl.valli.org/

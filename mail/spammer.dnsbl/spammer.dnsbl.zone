@@ -7,8 +7,9 @@
 #### TEST          :host -t ANY $(revip 1.2.3.4).spammer.dnsbl worker.szepe.net
 #### LOCATION      :/var/lib/rbldns/spammer/spammer.dnsbl.zone
 
-####  1 - Spammer
-####  2 - Neighbour
+####  1   - Spammer
+####  2   - Neighbour
+####  255 - Excluded
 
 #### http://magyarspammer.com/blog/
 #### http://spamlap.hu/archive_month/index.html
@@ -93,6 +94,7 @@ $TTL 60
 # Iliad (Online SAS, Dedibox servers)
 195.154             :2:Neighbour of FR-ILIAD-ENTREPRISES-CUSTOMERS
 195.154.40          FR_FR-ILIAD-ENTREPRISES-CUSTOMERS/AS12876
+195.154.40.119      :255:excluded_support.2bhosted.eu._Snel.com
 62.4.15             :2:Neighbour of *.hoverstyle.com.
 62.4.15.221         FR_*.hoverstyle.com. @DEDIBOX-POOL-IPFO/AS12876
 212.129.32.0/19     :2:Neighbour of *.nyshkickball.com.
