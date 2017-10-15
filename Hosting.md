@@ -29,10 +29,6 @@
 - [OVH Cloud VPS](http://www.ovh.ie/vps/vps-cloud.xml) VMware
 - [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage VPS
 
-## CDN
-
-- [Keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
-
 ## Shared hosting
 
 [**Hawk Host**](https://www.hawkhost.com/shared-web-hosting)
@@ -57,6 +53,14 @@
 - https://blazingfast.io/ fast (DDoS page)
 - http://www.hostinger.co.uk/ free, latest hardware
 - https://ifastnet.com/portal/sharedhosting.php free, 24 CPU cores
+
+## Managed hosting
+
+- [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
+
+## CDN
+
+- [Keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
 
 ## Dedicated server
 

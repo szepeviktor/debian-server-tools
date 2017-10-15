@@ -8,6 +8,7 @@ networking:
         - 10.0.0.1
         - 8.8.8.8
         - 8.8.4.4
+#ntp-server: ntp.provider.net
 provider-package:
     # Cloud-init
     - cloud-init

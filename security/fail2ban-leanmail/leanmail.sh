@@ -70,6 +70,10 @@ DNSBL6_BARRACUDA="%s.b.barracudacentral.org"
 # https://www.dshield.org/api/
 # handlers-a-t-isc.sans.edu
 HTTPAPI3_DSHIELD="https://dshield.org/api/ip/%s"
+# https://access.watch/
+HTTPAPI4_ACCESSWATCH_APIKEY=""
+HTTPAPI4_ACCESSWATCH="https://api.access.watch/1.1/address/%s"
+grep -F -A 1 '"reputation": {' | grep -q -E '"status": "(bad|suspicious)",'
 
 # IP list
 

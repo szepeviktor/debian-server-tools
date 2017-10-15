@@ -59,6 +59,6 @@ Courier_dbg() {
 
 Courier_dbg >> "$LOG" 2>&1
 
-cat "$LOG" | mailx -s "[$(hostname -f)] courier debug (see /tmp/)" admin@szepe.net
+cat "$LOG" | mail -s "[$(hostname -f)] courier debug (see /tmp/)" admin@szepe.net
 
 # echo "12h" > respawnlo

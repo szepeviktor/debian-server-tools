@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/package-versions.sh
 # DEPENDS       :pip-review-debian.patch
-# CRON-MONTHLY  :/usr/local/sbin/package-versions.sh | mailx -E -S from="pkgs <root>" -s "[admin] package versions and updates" root
+# CRON-MONTHLY  :/usr/local/sbin/package-versions.sh | mail -E -S from="pkgs <root>" -s "[admin] package versions and updates" root
 
 
 h1() {

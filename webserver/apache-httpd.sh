@@ -12,10 +12,7 @@ set -e -x
 
 #apt-get install -y openssl apache2 apache2-utils
 # Install-Recommends=false prevents installing: ssl-cert
-# @nonDebian
-apt-get install -o APT::Install-Recommends=false -y \
-    openssl/jessie-backports libssl1.0.0/jessie-backports \
-    apache2 apache2-bin apache2-utils
+Pkg_install_quiet -o APT::Install-Recommends=false apache2
 # Path to certificates
 mkdir /etc/ssl/localcerts
 

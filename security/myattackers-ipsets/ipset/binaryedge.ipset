@@ -1,0 +1,14 @@
+## BinaryEdge
+##: ipset -exist restore < ipset/binaryedge.ipset
+##: iptables -w -I myattackers-ipset -m set --match-set binaryedge src -j REJECT
+#create binaryedge hash:net family inet hashsize 256 maxelem 32
+#flush binaryedge
+## @Linode
+#add binaryedge 45.33.87.212
+#add binaryedge 45.79.162.36
+#add binaryedge 172.104.132.219
+#add binaryedge 172.104.132.253
+#add binaryedge 176.58.105.195
+#add binaryedge 198.74.56.84
+
+# https://www.google.com/search?q="binaryedge"+linode

@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2017-03-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -202,7 +202,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | mailx -S from="${DAEMON} <root>" -s "[ad.min] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | mail -S from="${DAEMON} <root>" -s "[ad.min] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Generate_rr() {

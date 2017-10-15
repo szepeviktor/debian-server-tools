@@ -2,7 +2,7 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.5
+# VERSION       :0.1.6
 # DATE          :2015-08-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -125,6 +125,6 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
             printf "http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n" "${DOMAIN%.hu}"
         fi
     fi
-done | mailx -E -S from="${DAEMON} <root>" -s "domain expiry alert" root
+done | mail -E -S from="${DAEMON} <root>" -s "domain expiry alert" root
 
 exit 0

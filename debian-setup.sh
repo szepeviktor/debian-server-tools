@@ -147,7 +147,7 @@ fi
 if Is_installed "gcc-4.9-base"; then
     apt-get purge -qq \
         libapt-inst1.5 libapt-pkg4.12 libept1.4.12 libreadline6 libssl1.0.0 libxapian22 \
-        gcc-4.9-base mountall python-reportbug sysvinit
+        gcc-4.9-base python-reportbug sysvinit
 fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav

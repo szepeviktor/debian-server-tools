@@ -13,7 +13,7 @@
    if status != 0 then alert
    if changed status then alert
 
- check file udevd_bin with path /sbin/udevd
+ check file udevd_bin with path /lib/systemd/systemd-udevd
    group udevd
    include /etc/monit/templates/rootbin
 

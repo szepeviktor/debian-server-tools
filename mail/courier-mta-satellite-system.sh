@@ -77,7 +77,7 @@ editor /etc/courier/esmtpauthclient
 #     SMART-HOST,587 USER-NAME PASSWORD
 
 # Unused certificate file
-install -o daemon -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
+install -o courier -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
 # SSL configuration #
 editor /etc/courier/courierd
 # Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready (jessie) for it
@@ -97,7 +97,7 @@ editor /etc/courier/courierd
 
 # Diffie-Hellman parameters
 rm -f /etc/courier/dhparams.pem
-DH_BITS=2048 nice /usr/sbin/mkdhparams
+TLS_DHPARAMS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
 Dinstall mail/courier-dhparams.sh
 
@@ -141,6 +141,6 @@ editor /etc/courier/aliases/system
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail." | mailx -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | mail -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
 
 echo "Outbound SMTP (port 25) may be blocked."

@@ -37,7 +37,7 @@ debian-setup/_check-system
 Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
-    logtail apg dos2unix ccze colordiff sipcalc jq \
+    logtail apg bc dos2unix ccze colordiff sipcalc jq \
     net-tools whois ntpdate ipset netcat-openbsd lftp s-nail \
     gcc libc6-dev make strace \
     needrestart unscd mtr-tiny cruft bash-completion htop
@@ -52,6 +52,8 @@ Pkg_install_quiet \
 # From testing
 debian-setup/ca-certificates
 # From custom repos
+echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections -v
+echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections -v
 # @nonDebian
 Pkg_install_quiet ipset-persistent
 
@@ -286,4 +288,4 @@ history -c
 # @TODO Automate:
 echo "hosts, users, set up backup"
 
-echo "OK. (exit from script command)"
+echo "OK. (exit from script command now)"

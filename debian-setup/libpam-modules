@@ -11,6 +11,10 @@ echo -e "*\n*** $(Data get-value system.trespass-warning) ***\n*\n" > /etc/motd.
 Data get-value system.host-color "7" > /etc/hostcolor
 
 if [ -d /etc/update-motd.d ]; then
+    # Remove default uname script
+    if [ -f /etc/update-motd.d/10-uname ] && [ "$(stat -c "%s" /etc/update-motd.d/10-uname)" == 23 ];then
+        rm /etc/update-motd.d/10-uname
+    fi
     # Halt on non-empty script directory
     test -z "$(find /etc/update-motd.d/ -type f -prune)"
 else

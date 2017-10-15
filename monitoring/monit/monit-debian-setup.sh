@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.7.3
+# VERSION       :0.8.0
 # DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -29,6 +29,7 @@
 # - Document putty port-forward 2812+N (Monit web interface)
 # - Add "/etc/init.d/SERVICE status" checks
 # - Check permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
+# - Add PID change checks
 
 DEBIAN_SERVER_TOOLS_INSTALLER="../../install.sh"
 MONIT_SERVICES="./services"
@@ -268,8 +269,8 @@ set -e
 
 trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 
-if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.18"; then
-    echo "Minimum Monit version needed: 5.18" 1>&2
+if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.20"; then
+    echo "Minimum Monit version needed: 5.20" 1>&2
     exit 1
 fi
 if Is_pkg_installed systemd; then
@@ -287,7 +288,7 @@ if ! Is_pkg_installed bc; then
     apt-get install -y bc
 fi
 if ! Is_pkg_installed monit; then
-    apt-get install -t jessie-backports -y monit
+    apt-get install -y monit
 fi
 service monit stop || true
 # Disable all services

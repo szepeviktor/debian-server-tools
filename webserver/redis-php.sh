@@ -3,8 +3,7 @@
 set -e -x
 
 # Redis, in-memory cache
-# From Dotdeb
-# @nonDebian
+# @TODO move to stretch-backports
 apt-get install -y redis-server
 
 # PHP 5 extension from PECL

@@ -4,29 +4,29 @@ virtualization: kvm
 networking:
     method: static
     name: eth0
-    ipv4: 
+    ipv4: #1.2.3.4
     netmask: 255.255.255.0
-    gateway: 
+    gateway: #1.2.3.254
     inet6:
         method: static
         name: eth0
-        ipv6: 2a000:120:9800::1
-        netmask: 120
-        gateway: 2a000:120:9800::7f
+        ipv6: #2a000:120:9800::1
+        netmask: #120
+        gateway: #2a000:120:9800::7f
         resolver:
-            - dns6.ovh.net.
+            # cdns.ovh.net.
+            - 2001:41d0:3:163::1
     resolver:
         # cdns.ovh.net.
         - 213.186.33.99
-    ntp:
-        - ntp.ovh.net.
-        - id-co.in.
-        - ntp.cornuwel.net.
-        - ntp.syari.net.
-        - fry.helpfulhosting.net.
 software:
-    ovh-kernel: Install /security/ovh-kernel-update.sh
-    ovhrc: Instance data in /etc/ovhrc
+    ovh-kernel: "Install /security/ovh-kernel-update.sh"
+    ovhrc: "Instance data in /etc/ovhrc"
 documentation:
     - http://help.ovh.com/InstallOvhKey
     - http://help.ovh.com/RealTimeMonitoring
+ntp-server: ntp.ovh.net
+#ntp-server: id-co.in
+#ntp-server: ntp.cornuwel.net
+#ntp-server: ntp.syari.net
+#ntp-server: fry.helpfulhosting.net

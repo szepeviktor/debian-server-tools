@@ -2,7 +2,7 @@
 #
 # Report traffic from unknown robots
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2015-11-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -71,6 +71,6 @@ done <<< "$APACHE_CONFIGS" \
     | Filter_ua \
     | Digest_ua \
     | sed -e 's;^;|;' \
-    | mailx -E -S from="robots unknown <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
+    | mail -E -S from="robots unknown <root>" -s "$EMAIL_SUBJECT" "$EMAIL_ADDRESS"
 
 exit 0

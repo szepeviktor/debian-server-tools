@@ -46,7 +46,7 @@ Daily_warning() {
 
             popd > /dev/null
             rm -rf "$MDIR"
-        done | mailx -E -S "from=message size exceeded <root>" -s "${MPATH} on $(hostname -f)" root
+        done | mail -E -S "from=message size exceeded <root>" -s "${MPATH} on $(hostname -f)" root
 }
 
 find "$MAIL_ROOT" -mindepth 2 -maxdepth 2 -type d \

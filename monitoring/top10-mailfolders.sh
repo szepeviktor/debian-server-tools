@@ -46,6 +46,6 @@ Top_579() {
     echo -e "All mail folders\n"
     du -s --block-size=G "$MAILROOT"
 
-} | mailx -S from="top 10 mail folders <root>" -s "[admin] TOP 10 mail folders on $(hostname -f)" root
+} | mail -S from="top 10 mail folders <root>" -s "[admin] TOP 10 mail folders on $(hostname -f)" root
 
 exit 0

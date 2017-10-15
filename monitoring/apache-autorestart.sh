@@ -101,7 +101,7 @@ relive() {
     debug "relive started"
     logger -t apache-autorestart "relive started"
 
-    echo "$(date -R)" | mailx -S from="apache autorestart <root>" -s "[ad.min] relive started..." "$NOTIFY_EMAIL"
+    echo "$(date -R)" | mail -S from="apache autorestart <root>" -s "[ad.min] relive started..." "$NOTIFY_EMAIL"
 
     # TOP 5 (ESTABLISHED) connections
     #netstat -ntp | tail -n +3 | grep "ESTABLISHED [0-9]\+/apache2" \

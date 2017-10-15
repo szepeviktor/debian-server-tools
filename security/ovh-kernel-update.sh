@@ -25,5 +25,5 @@ NEW="$(ls /boot/*-xxxx-grs-ipv6-64-vps)"
 
 if [ "$CURRENT" != "$NEW" ]; then
     echo -e "Run update-grub\nNewest kernels: $(ls -1tr /boot/bzImage-* | tail -n 2)" \
-        | mailx -s "New kernel from OVH on $(hostname --fqdn)" root
+        | mail -s "New kernel from OVH on $(hostname --fqdn)" root
 fi

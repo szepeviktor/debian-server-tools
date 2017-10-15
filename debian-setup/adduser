@@ -92,7 +92,7 @@ alias iftop='NCURSES_NO_UTF8_ACS=1 iftop -nP'
 alias transit='xz -9 | base64 -w $((COLUMNS-1))'
 alias transit-receive='base64 -d | xz -d'
 alias changelog='xargs -I % -- zless /usr/share/doc/%/changelog.Debian.gz <<<'
-#alias readmail='MAIL=/var/mail/MAILDIR/ mailx'
+#alias readmail='MAIL=/var/mail/MAILDIR/ mail'
 # apt-get install -y tcpdump tcpflow
 #alias httpdump='tcpdump -i eth0 -nn -s 1500 -l -w - "dst port 80 and dst host ${IP}" | tcpflow -c -r -'
 # http://www.vim.org/scripts/script.php?script_id=658

@@ -60,7 +60,8 @@ logpath  = /var/log/apache2/access.log
 maxretry = 3
 # 24h
 bantime  = 86400
-port     = all
+protocol = all
+banaction = %(banaction_allports)s
 
 [apache-combined]
 enabled  = true

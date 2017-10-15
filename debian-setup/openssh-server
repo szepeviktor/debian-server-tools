@@ -9,7 +9,7 @@ test -n "${SSH_PORT}"
 test "${SSH_PORT}" == "${SSH_PORT/22/}"
 
 # Change port
-sed -i -e "s|^Port\s.*\$|#&\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
+sed -i -e "s|^#*Port\s.*\$|#&\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
 sshd -T | grep -qFx "port ${SSH_PORT}"
 
 # Disable root login

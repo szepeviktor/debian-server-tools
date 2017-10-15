@@ -2,7 +2,7 @@
 #
 # Check specified S.M.A.R.T. attributes of all hard drives and SSD-s.
 #
-# VERSION       :0.3.1
+# VERSION       :0.3.2
 # DATE          :2015-05-16
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -44,7 +44,7 @@ Smart_error() {
         echo "[${LEVEL}] ${MESSAGE}" 1>&2
     else
         echo "$MESSAGE" \
-            | mailx -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
+            | mail -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
     fi
 }
 
@@ -66,7 +66,7 @@ Check_zero() {
     return 1
 }
 
-which smartctl mailx &> /dev/null || exit 99
+which smartctl mail &> /dev/null || exit 99
 
 # /dev/sd* and /dev/hd*
 # shellcheck disable=SC2013

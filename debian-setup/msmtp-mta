@@ -10,4 +10,4 @@ cp -vf mail/msmtprc /etc/
 # Configure Mandrill
 #     https://www.mandrill.com/signup/
 #     http://msmtp.sourceforge.net/doc/msmtp.html
-echo "This is a t3st mail." | mailx -s "[$(hostname -f)] Subject of the first email" admin@szepe.net
+echo "This is a t3st mail." | mail -s "[$(hostname -f)] Subject of the first email" admin@szepe.net

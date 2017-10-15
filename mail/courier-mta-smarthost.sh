@@ -244,7 +244,7 @@ makeuserdb
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail." | mailx -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | mail -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
 #tail -f /var/log/syslog
 journalctl -f
 

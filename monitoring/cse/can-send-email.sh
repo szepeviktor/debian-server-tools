@@ -9,7 +9,6 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :/usr/local/bin/txtlocal.py
-# DEPENDS       :apt-get install mailx
 # LOCATION      :/usr/local/sbin/can-send-email.sh
 # CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh trigger
 # CRON.D        :57 *	* * *	daemon	/usr/local/sbin/can-send-email.sh check
@@ -116,9 +115,9 @@ Trigger() {
             "mail")
                 RECIPIENT="${URL#mailto:}"
                 # Hack to pass from address to sendmail
-                #     mailx -- RECIPIENT -fSENDER
+                #     mail -- RECIPIENT -fSENDER
                 echo -e "Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n" \
-                    | mailx -s "[cse] bounce message / Email kézbesítés monitorozás" \
+                    | mail -s "[cse] bounce message / Email kézbesítés monitorozás" \
                     -S "from=${CSE_ADDRESS}" -- "$RECIPIENT" "-f${CSE_ADDRESS}" \
                     || echo "Trigger failed ($?) for ${URL}"
                 ;;
@@ -213,7 +212,7 @@ case "$1" in
             [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" 1>&2
 
             # 2. E-mail
-            echo "Failures: ${FAILURES}" | mailx -S from="can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
+            echo "Failures: ${FAILURES}" | mail -S from="can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
 
             # 3. Syslog
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"

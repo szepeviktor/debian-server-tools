@@ -9,5 +9,4 @@ networking:
         - 87.229.108.201
         # dnsc2.ezit.hu.
         - 80.249.168.18
-    ntp:
-        - ntp.ezit.hu.
+ntp-server: ntp.ezit.hu

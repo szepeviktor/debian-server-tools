@@ -1,5 +1,5 @@
 # Provider in DataCenter
-hosting-company: Provider
+hosting-company: #Provider
 virtualization: kvm
 #virtualization: vmware
 #virtualization: xen
@@ -11,9 +11,9 @@ networking:
     #method: dhcp
     method: static
     name: eth0
-    ipv4: 1.2.3.4
+    ipv4: #1.2.3.4
     netmask: 255.255.255.0
-    gateway: 1.2.3.255
+    gateway: #1.2.3.254
     resolver:
         # DNS Advantage by Neustar
         # rdns1.ultradns.net. + no NXDomain redirect
@@ -34,24 +34,23 @@ networking:
         #method: auto
         method: static
         name: eth0
-        ipv6: 2a00:3055:1000:900:8000:e2ff:feee:aeef
+        ipv6: #2a00:3055:1000:900:8000:e2ff:feee:aeef
         resolver:
-            - 2a00:3055:1000:900:1
+            - #2a00:3055:1000:900:1
     # Second interface
     eth1:
         method: static
         name: eth1
-        ipv4: 10.0.0.103
+        ipv4: #10.0.0.103
         netmask: 255.255.255.0
-        gateway: 10.0.0.255
-    ntp:
-        - ntp.ezit.hu.
+        gateway: #10.0.0.255
 software:
     ovhrc: "Instance data in /etc/ovhrc"
     serclient-deb: "Aruba ExtraControl"
 documentation:
     - http://help.ovh.com/InstallOvhKey
     - http://help.ovh.com/RealTimeMonitoring
+ntp-server: ntp.provider.net
 provider-package:
     # Soft restart needs
     - acpid

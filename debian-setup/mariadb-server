@@ -6,38 +6,12 @@ Pkg_install_quiet mariadb-server mariadb-client
 # @nonDebian
 Pkg_install_quiet percona-xtrabackup
 
-# Steal root password
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=815599
-MYSQL_PASSWORD="$(echo "GET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0 | cut -d " " -f 2-)"
-#MYSQL_PASSWORD="$(Data get-value package.mariadb-server.root-pwd)"
-# Remove password from debconf
-echo "RESET mysql-server/root_password_again" | debconf-communicate mariadb-server-10.0
-
 # @TODO Clone for percona-server-server
 # @nonDebian
 #Pkg_install_quiet percona-server-server-5.7 percona-server-client-5.7 percona-xtrabackup
 
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
-
-# Root password
-cat >> /root/.my.cnf <<EOF
-[mysql]
-user=root
-password=${MYSQL_PASSWORD}
-default-character-set=utf8
-
-[mysqldump]
-user=root
-password=${MYSQL_PASSWORD}
-default-character-set=utf8
-
-[xtrabackup]
-user=root
-password=${MYSQL_PASSWORD}
-default-character-set=utf8
-EOF
-chmod 0600 /root/.my.cnf
 
 Dinstall mysql/mysql-optimize.sh
 
