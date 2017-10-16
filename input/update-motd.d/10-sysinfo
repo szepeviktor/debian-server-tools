@@ -2,7 +2,7 @@
 #
 # Display system status, fast.
 #
-# VERSION       :1.0.4
+# VERSION       :1.1.0
 # DOCS          :https://wiki.debian.org/motd
 # DOCS          :http://apt.armbian.com/pool/main/l/linux-jessie-root-odroidxu4/linux-jessie-root-odroidxu4_5.11_armhf.deb
 # DOCS          :http://archive.ubuntu.com/ubuntu/pool/main/u/update-notifier/update-notifier_3.168.dsc
@@ -119,7 +119,8 @@ declare -i LOAD_AVG000="$(echo "(${LOAD_AVG} * 100)/1" | bc -q)"
 declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 Display_left "System load" "$LOAD_AVG" "$(Tl_limits "$LOAD_AVG000" $((CPU_COUNT * 100)) $((CPU_COUNT * 50)))" #"
 
-MEM_USAGE="$(free | awk '/Mem/ { printf("%.0f",($2 - $4 - $7) / $2 * 100) }')"
+# Changed in stretch:                     ( total - free - buff/cache )
+MEM_USAGE="$(free | awk '/Mem/ { printf("%.0f",($2 - $4 - $6) / $2 * 100) }')"
 Display_left "Memory usage" "${MEM_USAGE} %" "$(Tl_limits "$MEM_USAGE" 90 80)"
 
 ROOT_USAGE="$(df / | awk '/\// { print $(NF-1) }')"

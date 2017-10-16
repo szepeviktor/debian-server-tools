@@ -109,3 +109,8 @@
 # RU-CENTER NCC - relay1o.nic.ru. relay2o.nic.ru.
 109.70.27.60	allow,BLOCK
 31.177.69.4	allow,BLOCK
+# ITS AS28716 - smtp0*.invionewsletter.it - Fly Flot newsletter
+164.138.48.40	allow,BLOCK
+164.138.48.41	allow,BLOCK
+164.138.48.42	allow,BLOCK
+164.138.48.43	allow,BLOCK

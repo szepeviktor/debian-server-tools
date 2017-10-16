@@ -3,7 +3,7 @@
 
 system:
     fqdn: #host.example.com
-    os: "Debian “jessie”"
+    os: "Debian “stretch”"
     install-date: #YYYY-MM-DD
     # tput sgr0;for C in {1..7};do tput setaf $C;echo -n "■${C}■  ";tput sgr0;done;echo
     host-color: 7

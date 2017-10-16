@@ -129,6 +129,7 @@ apt-get purge -qq $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST"
 # Exim bug
 getent passwd "Debian-exim" > /dev/null && deluser --force --remove-home "Debian-exim"
 test -f /etc/aliases && rm /etc/aliases
+test -d /var/spool/exim4 && rm -rf /var/spool/exim4
 # Texinfo config
 test -d /etc/texmf && rm -r /etc/texmf
 

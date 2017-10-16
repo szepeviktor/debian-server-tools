@@ -1,31 +1,33 @@
 # Shodan.io, type: all protocols
-#     for S in "" census{1..9} census1{0..2} {atlantic,pacific,rim,ninja,pirate,turtle}.census atlantic.dns blog hello.data www; do
+#: ipset -exist restore < ipset/shodan.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set shodan src -j REJECT
+create shodan hash:net family inet hashsize 64 maxelem 32
+flush shodan
+# Also border.census.shodan.io.
+add shodan 198.20.87.98
+#     for S in "" census{1..9} census1{0..2} {atlantic,border,pacific,rim,ninja,pirate,turtle}.census atlantic.dns blog hello.data www; do
 #         host -t A "${S}.shodan.io"
 #     done | sed -e 's|^.* \(has address\|has IPv4 address\) ||' | sortip | uniq
-#: ipset -exist restore < ipset/shodan-io.ipset
-#: iptables -w -I myattackers-ipset -m set --match-set shodan-io src -j REJECT
-create shodan-io hash:net family inet hashsize 64 maxelem 32
-flush shodan-io
-add shodan-io 66.240.192.138
-add shodan-io 66.240.236.119
-add shodan-io 71.6.135.131
-add shodan-io 71.6.158.166
-add shodan-io 71.6.165.200
-add shodan-io 71.6.167.142
-add shodan-io 82.221.105.6
-add shodan-io 82.221.105.7
-add shodan-io 85.25.43.94
-add shodan-io 85.25.103.50
-add shodan-io 93.120.27.62
-add shodan-io 104.25.154.35
-add shodan-io 104.25.155.35
-add shodan-io 104.131.0.69
-add shodan-io 104.236.198.48
-add shodan-io 185.181.102.18
-add shodan-io 188.138.9.50
-add shodan-io 198.20.69.74
-add shodan-io 198.20.69.98
-add shodan-io 198.20.70.114
-add shodan-io 198.20.99.130
-add shodan-io 209.126.110.38
-add shodan-io 216.117.2.180
+add shodan 66.240.192.138
+add shodan 66.240.236.119
+add shodan 71.6.135.131
+add shodan 71.6.158.166
+add shodan 71.6.165.200
+add shodan 71.6.167.142
+add shodan 82.221.105.6
+add shodan 82.221.105.7
+add shodan 85.25.43.94
+add shodan 85.25.103.50
+add shodan 93.120.27.62
+add shodan 104.25.154.35
+add shodan 104.25.155.35
+add shodan 104.131.0.69
+add shodan 104.236.198.48
+add shodan 185.181.102.18
+add shodan 188.138.9.50
+add shodan 198.20.69.74
+add shodan 198.20.69.98
+add shodan 198.20.70.114
+add shodan 198.20.99.130
+add shodan 209.126.110.38
+add shodan 216.117.2.180
