@@ -326,7 +326,7 @@ Deprecated.
 - Sender's contact details (postal address, phone number)
 - Who (recipient name, email address, why) is subscribed
 - Unsubscribe link
-- Forward to a friend
+- [Forward to a friend](/mail/forward-to-a-friend.png)
 
 #### Email headers
 

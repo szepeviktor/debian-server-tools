@@ -2,7 +2,7 @@
 #
 # Send Monit alert to Slack.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2017-09-26
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -11,14 +11,12 @@
 # DOCS          :https://mmonit.com/monit/documentation/monit.html#ENVIRONMENT
 # DEPENDS       :pip3 install slack-webhook-cli
 # LOCATION      :/usr/local/sbin/monit-slack.sh
-# OWNER         :root:root
-# PERMISSION    :0750
 
 # Usage
 #
 # Edit webhook, then modify Monit service configuration
 #
-#     if status != 0 then exec "/usr/local/sbin/monit-slack.sh 'https://hooks.slack.com/services/EDIT-HERE'"
+#     if status != 0 then exec "/usr/local/sbin/monit-slack.sh 'SLACK_WEBHOOK_URL'" uid "nobody" gid "nogroup"
 
 WEB_HOOK="$1"
 

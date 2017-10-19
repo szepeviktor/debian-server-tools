@@ -20,7 +20,7 @@
 # 1. Set ENVELOPE_FROM address, CAMPAIGN name, LIST file name here
 # 1. Test send using addr-test
 # 1. mail-tester.com
-# 1. Save part2 as online version REPLACE @@ with Analytics snippet REMOVE online link, unsub link, tracker image
+# 1. Save part2 as online version, REPLACE @@ with Analytics snippet, REMOVE online link, unsub link, tracker image
 #
 # Check HTML table:  grep -Eo '^.*</?(table|tbody|tr|td)(>| ).{0,10}'
 #
