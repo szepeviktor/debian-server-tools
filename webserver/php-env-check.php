@@ -8,7 +8,7 @@
  *     php /path/to/php-env-check.php | jq .
  *
  * @package php-env-check
- * @version 0.2.3
+ * @version 0.2.4
  * @author Viktor Szépe <viktor@szepe.net>
  */
 
@@ -59,8 +59,8 @@ final class Check_Env {
         // http://wordpress.stackexchange.com/a/42212
 
         // Environment variables
-        $this->assert( 'WP_ENV', getenv( 'WP_ENV' ), 'production' );
-        //$this->assert( 'ENVIRONMENT', getenv( 'ENVIRONMENT' ), 'production' );
+        $this->assert( 'WP_ENV', 'production', getenv( 'WP_ENV' ) );
+        //$this->assert( 'ENVIRONMENT', 'production', getenv( 'ENVIRONMENT' ) );
 
         // Core directives
         $this->assert_directive( 'user_ini.filename', '' );

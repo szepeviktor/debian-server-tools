@@ -1,10 +1,10 @@
-# SecurityScorecard, type: all protocols
-# 208.100.26.224 - 208.100.26.254 in AS32748 Steadfast Networks
-# ip*.208-100-26.static.steadfastdns.net.
+# AS32748 - SecurityScorecard, type: all protocols
 #: ipset -exist restore < ipset/security-scorecard.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set security-scorecard src -j REJECT
 create security-scorecard hash:net family inet hashsize 64 maxelem 32
 flush security-scorecard
+# ip*.208-100-26.static.steadfastdns.net.
+# 208.100.26.224 - 208.100.26.254 in AS32748 Steadfast Networks
 add security-scorecard 208.100.26.224/28
 add security-scorecard 208.100.26.240/29
 add security-scorecard 208.100.26.248/30

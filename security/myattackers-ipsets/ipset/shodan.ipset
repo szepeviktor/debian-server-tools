@@ -7,7 +7,7 @@ flush shodan
 add shodan 198.20.87.98
 #     for S in "" census{1..9} census1{0..2} {atlantic,border,pacific,rim,ninja,pirate,turtle}.census atlantic.dns blog hello.data www; do
 #         host -t A "${S}.shodan.io"
-#     done | sed -e 's|^.* \(has address\|has IPv4 address\) ||' | sortip | uniq
+#     done | sed -e 's/^.* \(has address\|has IPv4 address\) //' | sortip | uniq | sed -e 's|^|add shodan |'
 add shodan 66.240.192.138
 add shodan 66.240.236.119
 add shodan 71.6.135.131

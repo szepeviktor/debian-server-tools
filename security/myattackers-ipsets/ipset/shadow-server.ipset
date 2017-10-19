@@ -1,8 +1,8 @@
-# The Shadow Server Foundation
-# scan-*.shadowserver.org.
+# AS6939 - The Shadow Server Foundation
 #: ipset -exist restore < ipset/shadow-server.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set shadow-server src -j REJECT
 create shadow-server hash:net family inet hashsize 64 maxelem 32
 flush shadow-server
+# scan-*.shadowserver.org.
 add shadow-server 184.105.139.64/26
 add shadow-server 184.105.247.192/26

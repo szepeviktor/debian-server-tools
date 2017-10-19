@@ -1,9 +1,10 @@
-# BinaryEdge @Linode
-# wget -qO- https://api.binaryedge.io/v1/minions | jq -r ".scanners[]" | sortip | sed -e 's|^|add binaryedge |'
+# AS63949 - BinaryEdge
+# (some other AS-es)
 #: ipset -exist restore < ipset/binaryedge.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set binaryedge src -j REJECT
 create binaryedge hash:net family inet hashsize 256 maxelem 256
 flush binaryedge
+# wget -qO- https://api.binaryedge.io/v1/minions | jq -r ".scanners[]" | sortip | sed -e 's|^|add binaryedge |'
 add binaryedge 45.33.5.89
 add binaryedge 45.33.13.121
 add binaryedge 45.33.69.25
