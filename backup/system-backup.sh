@@ -2,8 +2,8 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.0.7
-# DATE          :2016-07-30
+# VERSION       :2.1.0
+# DATE          :2017-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -11,11 +11,9 @@
 # DEPENDS       :apt-get install debconf-utils rsync mariadb-client percona-xtrabackup s3ql
 # DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
 # LOCATION      :/usr/local/sbin/system-backup.sh
-# OWNER         :root:root
-# PERMISSION    :700
 # CI            :shellcheck -e SC2086 system-backup.sh
-# CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
+# CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
 
 # Usage
 #
@@ -101,16 +99,16 @@ Error() {
     exit "$STATUS"
 }
 
-Rotate_weekly() {
+Rotate_weekly() { # Error 9x
     local DIR="$1"
     local -i PREVIOUS
 
     if [ -z "$DIR" ]; then
-        Error 60 "No directory to rotate"
+        Error 90 "No directory to rotate"
     fi
 
-    if ! [ -d "${TARGET}/${DIR}/6" ]; then
-        mkdir "${TARGET}/${DIR}"/{0..6} 1>&2 || Error 61 "Cannot create weekday directories"
+    if [ ! -d "${TARGET}/${DIR}/6" ]; then
+        mkdir "${TARGET}/${DIR}"/{0..6} 1>&2 || Error 91 "Cannot create weekday directories"
     fi
 
     PREVIOUS="$((CURRENT_DAY - 1))"
@@ -119,17 +117,17 @@ Rotate_weekly() {
     fi
 
     /usr/bin/s3qlrm ${S3QL_OPT} "${TARGET}/${DIR}/${CURRENT_DAY}" 1>&2 \
-        || Error 62 "Failed to remove current day's directory"
+        || Error 92 "Failed to remove current day's directory"
     /usr/bin/s3qlcp ${S3QL_OPT} "${TARGET}/${DIR}/${PREVIOUS}" "${TARGET}/${DIR}/${CURRENT_DAY}" 1>&2 \
-        || Error 63 "Cannot duplicate last daily backup"
+        || Error 93 "Cannot duplicate last daily backup"
 
     # Return current directory
     echo "${TARGET}/${DIR}/${CURRENT_DAY}"
 }
 
-Check_paths() {
-    [ -r "$AUTHFILE" ] || Error 4 "Authentication file cannot be read"
-    [ -d "$TARGET" ] || Error 3 "Target does not exist"
+Check_paths() { # Error 1x
+    test -r "$AUTHFILE" || Error 10 "Authentication file cannot be read"
+    test -d "$TARGET" || Error 11 "Target directory does not exist"
 }
 
 List_dbs() {
@@ -137,20 +135,20 @@ List_dbs() {
         | grep -E -v "information_schema|mysql|performance_schema"
 }
 
-Backup_system_dbs() {
-    if ! [ -d "${TARGET}/db-system" ]; then
-        mkdir "${TARGET}/db-system" || Error 44 "Failed to create 'db-system' directory in target"
+Backup_system_dbs() { # Error 4x
+    if [ ! -d "${TARGET}/db-system" ]; then
+        mkdir "${TARGET}/db-system" || Error 40 "Failed to create 'db-system' directory in target"
     fi
 
     mysqldump --skip-lock-tables mysql > "${TARGET}/db-system/mysql-mysql.sql" \
-        || Error 5 "MySQL system databases backup failed"
+        || Error 41 "MySQL system databases backup failed"
     mysqldump --skip-lock-tables information_schema > "${TARGET}/db-system/mysql-information_schema.sql" \
-        || Error 6 "MySQL system databases backup failed"
+        || Error 42 "MySQL system databases backup failed"
     mysqldump --skip-lock-tables performance_schema > "${TARGET}/db-system/mysql-performance_schema.sql" \
-        || Error 7 "MySQL system databases backup failed"
+        || Error 43 "MySQL system databases backup failed"
 }
 
-Check_db_schemas() {
+Check_db_schemas() { # Error 5x
     local DBS
     local DB
     local SCHEMA
@@ -161,8 +159,8 @@ Check_db_schemas() {
     # `return` is not available within a pipe
     DBS="$(List_dbs)"
 
-    if ! [ -d "${TARGET}/db" ]; then
-        mkdir "${TARGET}/db" || Error 43 "Failed to create 'db' directory in target"
+    if [ ! -d "${TARGET}/db" ]; then
+        mkdir "${TARGET}/db" || Error 50 "Failed to create 'db' directory in target"
     fi
     while read -r DB; do
         if [ -n "$DB_EXCLUDE" ] && [[ "$DB" =~ ${DB_EXCLUDE} ]]; then
@@ -181,7 +179,7 @@ Check_db_schemas() {
             fi
             rm -f "$TEMP_SCHEMA"
         else
-            mv "$TEMP_SCHEMA" "$SCHEMA" || Error 11 "New schema saving failed for ${DB}"
+            mv "$TEMP_SCHEMA" "$SCHEMA" || Error 52 "New schema saving failed for '${DB}'"
             echo "New schema created for ${DB}"
         fi
     done <<< "$DBS"
@@ -204,7 +202,7 @@ Get_base_db_backup_dir() {
     return 1
 }
 
-Backup_innodb() {
+Backup_innodb() { # Error 6x
     local BASE
     local -i ULIMIT_FD
     local -i MYSQL_TABLES
@@ -219,26 +217,26 @@ Backup_innodb() {
         # Get base directory
         # @TODO Use last incremental as base?
         BASE="$(Get_base_db_backup_dir)"
-        if [ -z "$BASE" ] || ! [ -d "${TARGET}/innodb/${BASE}" ]; then
-            Error 12 "No base InnoDB backup"
+        if [ -z "$BASE" ] || [ ! -d "${TARGET}/innodb/${BASE}" ]; then
+            Error 60 "No base InnoDB backup"
         fi
         innobackupex --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
             "${TARGET}/innodb" \
-            2>> "${TARGET}/innodb/backupex.log" || Error 13 "Incremental InnoDB backup failed"
+            2>> "${TARGET}/innodb/backupex.log" || Error 61 "Incremental InnoDB backup failed"
     else
         # Create base backup
         echo "Creating base InnoDB backup"
         mkdir "${TARGET}/innodb"
         innobackupex --throttle=100 \
             "${TARGET}/innodb" \
-            2>> "${TARGET}/innodb/backupex.log" || Error 14 "Base InnoDB backup failed"
+            2>> "${TARGET}/innodb/backupex.log" || Error 62 "Base InnoDB backup failed"
     fi
     # Check OK message
     tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F ' completed OK!' \
-        || Error 15 "InnoDB backup operation not OK"
+        || Error 63 "InnoDB backup operation not OK"
 }
 
-Backup_files() {
+Backup_files() { # Error 7x
     local WEEKLY_ETC
     local WEEKLY_HOME
     local WEEKLY_MAIL
@@ -246,12 +244,12 @@ Backup_files() {
     declare -a HOME_EXCLUDE
 
     # /etc
-    if ! [ -d "${TARGET}/etc" ]; then
-        mkdir "${TARGET}/etc" || Error 40 "Failed to create 'etc' directory in target"
+    if [ ! -d "${TARGET}/etc" ]; then
+        mkdir "${TARGET}/etc" || Error 70 "Failed to create 'etc' directory in target"
     fi
     WEEKLY_ETC="$(Rotate_weekly etc)"
-    if [ -z "$WEEKLY_ETC" ] || ! [ -d "$WEEKLY_ETC" ]; then
-        Error 41 "Failed to create weekly directory for 'etc'"
+    if [ -z "$WEEKLY_ETC" ] || [ ! -d "$WEEKLY_ETC" ]; then
+        Error 71 "Failed to create weekly directory for 'etc'"
     fi
     tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
     # Save debconf data
@@ -261,13 +259,13 @@ Backup_files() {
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_ETC"
 
     # /home
-    if ! [ -d "${TARGET}/homes" ]; then
-        mkdir "${TARGET}/homes" || Error 42 "Failed to create 'homes' directory in target"
+    if [ ! -d "${TARGET}/homes" ]; then
+        mkdir "${TARGET}/homes" || Error 72 "Failed to create 'homes' directory in target"
     fi
     WEEKLY_HOME="$(Rotate_weekly homes)"
     #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
-    if [ -z "$WEEKLY_HOME" ] || ! [ -d "$WEEKLY_HOME" ]; then
-        Error 43 "Failed to create weekly directory for 'home'"
+    if [ -z "$WEEKLY_HOME" ] || [ ! -d "$WEEKLY_HOME" ]; then
+        Error 73 "Failed to create weekly directory for 'home'"
     fi
     # Exclude file
     if [ -r "$HOME_EXCLUDE_LIST" ]; then
@@ -278,45 +276,45 @@ Backup_files() {
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_HOME"
 
     # /var/mail
-    if ! [ -d "${TARGET}/email" ]; then
-        mkdir "${TARGET}/email" || Error 44 "Failed to create 'email' directory in target"
+    if [ ! -d "${TARGET}/email" ]; then
+        mkdir "${TARGET}/email" || Error 74 "Failed to create 'email' directory in target"
     fi
     WEEKLY_MAIL="$(Rotate_weekly email)"
-    if [ -z "$WEEKLY_MAIL" ] || ! [ -d "$WEEKLY_MAIL" ]; then
-        Error 45 "Failed to create weekly directory for 'mail'"
+    if [ -z "$WEEKLY_MAIL" ] || [ ! -d "$WEEKLY_MAIL" ]; then
+        Error 75 "Failed to create weekly directory for 'mail'"
     fi
     ionice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_MAIL"
 
     # /usr/local
-    if ! [ -d "${TARGET}/usr" ]; then
-        mkdir "${TARGET}/usr" || Error 46 "Failed to create 'usr' directory in target"
+    if [ ! -d "${TARGET}/usr" ]; then
+        mkdir "${TARGET}/usr" || Error 76 "Failed to create 'usr' directory in target"
     fi
     WEEKLY_USR="$(Rotate_weekly usr)"
-    if [ -z "$WEEKLY_USR" ] || ! [ -d "$WEEKLY_USR" ]; then
-        Error 47 "Failed to create weekly directory for 'usr'"
+    if [ -z "$WEEKLY_USR" ] || [ ! -d "$WEEKLY_USR" ]; then
+        Error 77 "Failed to create weekly directory for 'usr'"
     fi
     ionice rsync --exclude="/src/" -a --delete /usr/local/ "$WEEKLY_USR"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_USR"
 }
 
-Mount() {
-    [ -z "$(find "$TARGET" -mindepth 1 -maxdepth 1)" ] || Error 5 "Target directory is not empty"
+Mount() { # Error 2x
+    test -z "$(find "$TARGET" -mindepth 1 -maxdepth 1)" || Error 20 "Target directory is not empty"
 
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
     /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test $? == 128
 
     nice /usr/bin/mount.s3ql ${S3QL_OPT} ${MOUNT_OPTIONS} \
-        "$STORAGE_URL" "$TARGET" || Error 1 "Cannot mount storage"
+        "$STORAGE_URL" "$TARGET" || Error 21 "Cannot mount storage"
 
-    /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null || Error 2 "Cannot stat storage"
+    /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null || Error 22 "Cannot stat storage"
 }
 
-Umount() {
-    /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET" || Error 31 "Flush failed"
-    /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 32 "Umount failed"
+Umount() { # Error 3x
+    /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET" || Error 30 "Flush failed"
+    /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 31 "Umount failed"
 }
 
 declare -i CURRENT_DAY
@@ -337,7 +335,7 @@ else
 fi
 
 # Read configuration
-[ -r "$CONFIG" ] || Error 100 "Unconfigured"
+test -r "$CONFIG" || Error 100 "Unconfigured"
 # shellcheck disable=SC1090
 source "$CONFIG"
 
@@ -371,7 +369,7 @@ Umount
 logger -t "system-backup" "Finished. $*"
 
 if [ -n "$HCHK_UUID" ]; then
-    wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -q -F -x "OK"
+    wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -q -F -x "OK" || Error 101 "hchk.io non-OK response"
 fi
 
 exit 0

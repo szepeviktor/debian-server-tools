@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# Make SQL dumps executable.
+#
+# VERSION       :0.1.0
+# DATE          :2017-10-23
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# BASH-VERSION  :4.2+
+# LOCATION      :/usr/local/bin/mysqlscript
+
+# Use it as a shebang
+#
+#     #!/usr/local/bin/mysqlscript
+
+SCRIPT="$1"
+shift
+
+mysql "$@" < "$SCRIPT"
