@@ -314,10 +314,11 @@ Deprecated.
 
 - :sunny: :sunny: :sunny: Descriptive From name "Firstname from Company"
 - :sunny: :sunny: Descriptive subject line
-- :sunny: Short preview line at top of the message
+- :sunny: Short [preview text](https://litmus.com/blog/the-ultimate-guide-to-preview-text-support) at top of the message
 - Link to online version (newsletter archive)
+- Company logo
 - Short main header
-- :bulb: Sections: image + title + description + call2action, see https://litmus.com/subscribe
+- :bulb: Sections: image + title + description + call2action + background color, see https://litmus.com/subscribe
 - External resources should be able to load through HTTPS (opening in a HTTPS webmail)
 - :iphone: Mobile compatible
 
@@ -327,20 +328,22 @@ Deprecated.
 - Who (recipient name, email address, why) is subscribed
 - Unsubscribe link
 - [Forward to a friend](/mail/forward-to-a-friend.png)
+- [NAIH nyilvántartási szám](https://www.naih.hu/bejelentkezes.html)
 
 #### Email headers
 
-- `List-Unsubscribe: URL` (invisible)
-- `Precedence: bulk` (invisible)
-- `Return-Path: bounce@example.com` (invisible)
-- `Reply-to: reply@example.com` (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
 - `From: sender@example.com`
+- `Reply-to: reply@example.com` (invisible) [How to video](https://youtu.be/mGSPj4CyOMQ?t=1m20s)
 - `To: recipients@addre.ss`
+- `Precedence: bulk` (invisible)
+- `List-Unsubscribe: URL` (invisible)
+- `Return-Path: bounce@example.com` (invisible)
 - bounce `X-Autoreply: yes`
 - bounce `Auto-Submitted: auto-replied`
 
 #### Others
 
+- **When to send a newsletter?**
 - SMTP `MAIL FORM: <user@example.com>`
 - HTML and plain text payload
 - From address SPF `include:servers.mcsv.net`

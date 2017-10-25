@@ -6,7 +6,7 @@
 1. Honnan jön? organikus, hírlevél, PPC, közösségi, térkép, másik honlap
 1. Nézetek különböző készülékeken, böngészőkben
 1. Piramis elv (mindent egyszerre megmutatni hiba) főoldal → tematikus aloldal → cikk/lexikon; sok információ: szétszórt figyelem, kevés: fókusz
-1. Navigációs elemek UX problémái: lokáció, kinyílás, méret
+1. Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
 1. CTA (call-to-action) elemek
 1. Mivel foglalkozunk? pozícionáló mondat (szlogen)
 1. Interaktív elemek, statikus elemek: **videó**, Ken Burns effektes galéria, hírlevél, letölthető, beúszó feliratkoztató, kupon/kedvezmény, exit modal, megosztás, friss hírek
