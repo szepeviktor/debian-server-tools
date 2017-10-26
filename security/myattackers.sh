@@ -35,7 +35,7 @@ Ban malicious hosts manually.
 
 Without parameters runs cron job to unban expired addresses without traffic.
   -i                    set up iptables chain
-  -d                    remove iptables chain
+  -d                    show iptables chain removal commands
   -s                    show active rules
   -p <PROTOCOL>         ban only ports associated with this protocol
                           (ALL, SMTP, HTTP, SSH), default: ALL

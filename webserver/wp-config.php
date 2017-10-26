@@ -127,6 +127,7 @@ $table_prefix = 'wp_';
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
+    error_log( 'Please use wp-load.php to load WordPress.' );
     exit;
     //define( 'ABSPATH', __DIR__ . '/site/' );
 }

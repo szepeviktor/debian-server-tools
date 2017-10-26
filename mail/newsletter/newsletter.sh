@@ -14,13 +14,13 @@
 # 1. Unpack original email:  dos2unix -k original.eml; munpack -t original.eml
 # 1. Edit part2: insert utm links into href="..."
 # 1. Edit part2: insert tracker image
-# 1. Edit part1
+# 1. Edit part1: remove HTML entities from links
 # 1. Prepare message skeleton:  cp skel.tpl.eml skeleton.eml
 # 1. echo "Encode headers" | /usr/local/src/debian-server-tools/mail/conv2047.pl -e
-# 1. Set ENVELOPE_FROM address, CAMPAIGN name, LIST file name here
+# 1. Set ENVELOPE_FROM address, CAMPAIGN name, LIST file name in this script
 # 1. Test send using addr-test
-# 1. mail-tester.com
-# 1. Save part2 as online version, REPLACE @@ with Analytics snippet, REMOVE online link, unsub link, tracker image
+# 1. https://mail-tester.com/
+# 1. Save part2 as online version: REMOVE online link, unsub link, tracker image, REPLACE @@ placeholders, add Analytics snippet
 #
 # Check HTML table:  grep -Eo '^.*</?(table|tbody|tr|td)(>| ).{0,10}'
 #
