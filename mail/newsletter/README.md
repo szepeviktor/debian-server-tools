@@ -1,10 +1,12 @@
-Új le- és feliratkozók: ...
+# Hírlevél adatlap
 
-From: Name <info@example.com>
+Új le- és feliratkozók listája
+
+Feladó: Name <info@example.com>
 
 Válasz cím: info@example.com
 
-Visszapatt: /hirlevel/?
+Visszapattanó cím: am-user@exmaple.com
 
 Tárgy: ([Emoji](https://getemoji.com/)) Subject
 
@@ -22,7 +24,7 @@ Szöveg: **vastaggal** kiemelt szavak a szövegben
 
 Logo: Alt + Link
 
-Képek: Alt + Link (ha kell) padding-top: 20px;
+Képek: Alt + Link `padding-top:20px;`
 
 Kép-linkek: (amikor még nincs a kép betöltve) `text-decoration:none; color:#C2B593`
 
@@ -36,6 +38,6 @@ Leiratkozás: *Nem szeretne többször e-mailben értesülni akcióinkról? Ide 
 
 Jogi: NAIH azonosító
 
-Teszt-címek: our-addresses@example.com, mail-tester.com
+Teszt-címek: our-addresses@example.com, https://mail-tester.com
 
 Kiküldési idő: 09:00 - 11:00

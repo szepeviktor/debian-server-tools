@@ -2,7 +2,7 @@
 #
 # Send newsletter.
 #
-# VERSION       :0.2.1
+# VERSION       :0.3.0
 # DEPENDS       :apt-get install mpack qprint dos2unix uuid-runtime
 # DOCS          :https://ga-dev-tools.appspot.com/campaign-url-builder/
 # DOCS          :https://developers.google.com/analytics/devguides/collection/protocol/v1/email
@@ -39,9 +39,9 @@ CAMPAIGN="NL_2017_campaign"
 #LIST="addr"
 LIST="addr-test"
 
-[ -f "$LIST" ] || exit 1
-[ -f part1 ] || exit 1
-[ -f part2 ] || exit 1
+test -f "$LIST" || exit 1
+test -f part1 || exit 1
+test -f part2 || exit 1
 
 declare -i COUNT="0"
 
@@ -53,6 +53,14 @@ dos2unix -q part1.qp
 sed -i -e 's|\s\s\+| |g' -e 's|^\s||' part2
 qprint -e part2 | sed 's|\t|=09|g' > part2.qp
 dos2unix -q part2.qp
+
+# qprint may brake placeholders onto two lines
+if ! cat part1.qp part2.qp | sed -e 's/[^@]//g' \
+    | xargs -I% bash -c 'echo -n "%"|wc -c' \
+    | grep -qvEx '4|8|12|16|20'; then
+    echo "Broken @@placeholders@@" 1>&2
+    exit 2
+fi
 
 while read -r ADDRESS; do
     echo -n "$((++COUNT)). ${ADDRESS}"
