@@ -17,24 +17,16 @@ u nice pip3 install --upgrade --user manuale
 u mkdir --parents --mode=700 ssl/lets-encrypt
 cd ssl/lets-encrypt/
 read -r EMAIL
-u ../../.local/bin/manuale register $EMAIL
+u ../../.local/bin/manuale register "$EMAIL"
 u ../../.local/bin/manuale info; echo
 
 # Issue or Renew
 cd /home/prg[0-9]*/ssl/lets-encrypt/
 read -r -e -i $(hostname -f) DOMAIN
 #read -r DOMAIN2
-#     # HTTP challenge
-#     u ../../.local/bin/manuale authorize --method http $DOMAIN $DOMAIN2
-#     # Only for ONE challenge file!
-#     CHALLENGE=???????????????????????????????????????????
-#     install -D -m 644 $CHALLENGE .well-known/acme-challenge/$CHALLENGE
-#     python3 -m http.server 80
 u ../../.local/bin/manuale authorize $DOMAIN $DOMAIN2
 # EC key: u ../../.local/bin/manuale issue --key-file param-${DOMAIN}-private.key $DOMAIN $DOMAIN2
 u ../../.local/bin/manuale issue $DOMAIN $DOMAIN2
-
-alias manuale='u ../../.local/bin/manuale'
 ```
 
 Add TXT record by AWS CLI

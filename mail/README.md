@@ -470,6 +470,8 @@ OK response: `IP Unlisted in the spam sender list None`
 - [AlienVault](https://otx.alienvault.com/browse/pulses/)
 - https://www.mcafee.com/uk/threat-center.aspx
 - [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange)
+- [Open Threat Intelligence](https://cymon.io/)
+- List of Data Sources: https://github.com/HurricaneLabs/machinae
 
 #### Lookup Tools/Monitoring Tools
 

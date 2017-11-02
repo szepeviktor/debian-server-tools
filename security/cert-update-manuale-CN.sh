@@ -11,6 +11,9 @@
 # CI            :shellcheck -e SC2034 cert-update-manuale-CN.sh
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 
+# Install manuale
+# See LetsEncrypt.md
+#
 # Create a new account and register
 #     manuale register "$EMAIL"
 #

@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.8
+# VERSION       :0.4.9
 # DATE          :2017-01-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -71,9 +71,8 @@ DNSBL6_BARRACUDA="%s.b.barracudacentral.org"
 # handlers-a-t-isc.sans.edu
 HTTPAPI3_DSHIELD="https://dshield.org/api/ip/%s"
 # https://access.watch/
-HTTPAPI4_ACCESSWATCH_APIKEY=""
+HTTPAPI4_ACCESSWATCH_APIKEY="*****"
 HTTPAPI4_ACCESSWATCH="https://api.access.watch/1.1/address/%s"
-grep -F -A 1 '"reputation": {' | grep -q -E '"status": "(bad|suspicious)",'
 
 # IP list
 
@@ -132,6 +131,7 @@ declare -a AS_HOSTING=(
 )
 
 # Labs
+# Open Threat Intelligence API by eSentire http://docs.cymon.io/
 # wget -q -O- "http://api.abuseipdb.com/check/?ip=${IP}&cids=12,4,11,10,3,5,15,7,6,14,9,17,16,13&uid=${ABUSEIPDB_UID}&skey=${ABUSEIPDB_SKEY}&o=xml" \
 #     | grep -q '<report cid="[0-9]\+" total="[0-9]\+" />'
 # https://zeltser.com/malicious-ip-blocklists/
@@ -471,6 +471,27 @@ Match_http_api3() {
     return 10
 }
 
+Match_http_api4() {
+    local HTTPAPI="$1"
+    local IP="$2"
+    local APIKEY="$3"
+    local URL
+
+    # shellcheck disable=SC2059
+    printf -v URL "$HTTPAPI" "$IP"
+
+    #if wget -q -T "$TIMEOUT" -t 1 -O- \
+    if wget -q -T "10" -t 1 -O- \
+        --header="Accept: application/json" \
+        --header="Api-Key: ${APIKEY}" \
+        "$URL" 2> /dev/null | grep -F -A 1 '"reputation": {' | grep -q -E '"status": "(bad|suspicious)",'; then
+        # IP is positive
+        return 0
+    fi
+
+    return 10
+}
+
 Match_country() {
     local COUNTRY="$1"
     local IP="$2"
@@ -538,7 +559,12 @@ Match_any() {
     fi
 
     # Network
-    if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then # High hit rate
+    if Match_http_api4 "$HTTPAPI4_ACCESSWATCH" "$IP" "$HTTPAPI4_ACCESSWATCH_APIKEY"; then # High hit rate
+        Log_match "accesswatch"
+        return 0
+    fi
+
+    if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
         Log_match "spamhaus"
         return 0
     fi
@@ -605,6 +631,9 @@ Match_all() {
     fi
     if Match_http_api3 "$HTTPAPI3_DSHIELD" "$IP"; then
         echo "dshield"
+    fi
+    if Match_http_api4 "$HTTPAPI4_ACCESSWATCH" "$IP" "$HTTPAPI4_ACCESSWATCH_APIKEY"; then
+        echo "accesswatch"
     fi
     exit
 }

@@ -13,14 +13,14 @@ sed -i -e "s|^#*Port\s.*\$|#&\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
 sshd -T | grep -qFx "port ${SSH_PORT}"
 
 # Disable root login
-sed -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' -i /etc/ssh/sshd_config
+sed -i -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' /etc/ssh/sshd_config
 sshd -T | grep -qFx "permitrootlogin no"
 
 # Disable password login for sudoers
-echo -e "\nMatch Group sudo\n    PasswordAuthentication no" >> /etc/ssh/sshd_config
+echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
 
 # Disable DSA host key
-sed -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' -i /etc/ssh/sshd_config
+sed -i -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' /etc/ssh/sshd_config
 ! sshd -T | grep -qFx "hostkey /etc/ssh/ssh_host_dsa_key"
 
 # Add blocked networks

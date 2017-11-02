@@ -91,6 +91,12 @@ U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";
 ssh-keygen -y -f ~/.ssh/id_ecdsa
 ```
 
+### List sshd host keys
+
+```bash
+ls /etc/ssh/ssh_host_*_key.pub | xargs -n 1 ssh-keygen -l -f
+```
+
 ### Record terminal session
 
 ```bash

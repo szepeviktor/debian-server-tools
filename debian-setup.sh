@@ -31,7 +31,7 @@
 # - IRQ balance
 # - Time synchronization
 # - Hardware TRNG or HAVEGE generator
-# - Fail2ban and blocking dangerous networks
+# - Fail2ban and blocking hostile networks
 # - Monit monitoring
 # - Courier MTA
 # - System backup with S3QL

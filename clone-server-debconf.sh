@@ -44,7 +44,6 @@ tar --exclude-from=etc-blacklist.txt \
 ## Special handling dirs
 # /var/mail
 # /var/lib/mysql
-# /media/backup
 
 
 # Restore on the "clone"
@@ -83,19 +82,23 @@ echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
 # Normalize OS
 ../debian-image-normalize.sh
+# Install packages needed for cloning
+apt-get install -qq apt-transport-https apt-utils dselect debsums
 
+# Inspect changes in /etc
+while read -r F; do diff -u "$F" "${F/etc/root/clone/etc}"; done < etc-blacklist.txt
 # Restore /etc
 chmod -c 0755 ./etc
 mv -vf /etc/ /root/etc && mv -vf ./etc /
-# Inspect changes in /etc
-while read -r F; do diff -u "${F/etc/root/etc}" "$F"; done < etc-blacklist.txt
 # Restore blacklisted files to /etc
-xargs -I%% cp -vf /root%% %% < etc-blacklist.txt
+xargs -I % cp -vf /root% % < etc-blacklist.txt
 # Recreate homes
 sed -ne 's/^\(\S\+\):x:1[0-9][0-9][0-9]:.*$/\1/p' /etc/passwd | xargs -n1 mkhomedir_helper
 #tar -C /home/ -xvf ./homes.tar.gz
 apt-get update -qq
 
+# Process blacklisted files
+#alias editor="nano"
 # Kernel modules
 ls -l /etc/modprobe.d/
 # Network
@@ -121,7 +124,6 @@ pvdisplay && lvs
 ifconfig
 
 # Restore packages
-apt-get install -qq apt-transport-https apt-utils dselect debsums
 dselect update
 clear; debconf-set-selections < debconf.selections
 # @FIXME Question type: error
@@ -132,7 +134,7 @@ dpkg-reconfigure openssh-server && service ssh restart
 dpkg-reconfigure -f noninteractive locales
 rm -f /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata && service rsyslog restart
-dpkg-reconfigure -f noninteractive unattended-upgrades
+#dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Package blacklist
 grep -E "^(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)" packages.selection
@@ -155,12 +157,13 @@ netstat -anp | grep "ssh" || echo 'no SSH !!!'
 # LOG IN NOW WITHOUT LOGGING OUT
 
 
-## Restore data dirs and special handling dirs
+## Restore data dirs and special-handling directories
 
 cd /usr/local/src/
+rm -rf debian-server-tools
 git clone https://github.com/szepeviktor/debian-server-tools.git
 
-chown -cR virtual:virtual /var/mail/*
+chown -R virtual:virtual /var/mail/*
 cat /etc/courier/me
 
 # Check services from server.yml

@@ -83,8 +83,7 @@ Courier_mta() {
 
     [ -d "$(dirname "$COURIER_COMBINED")" ] || Die 20 "courier ssl dir"
 
-    #cat "$PUB" "$INT" "$PRIV" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
-    # From Debian jessie on: private + public + intermediate
+    # Private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     chown ${COURIER_USER}:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
     chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
