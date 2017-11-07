@@ -1,8 +1,15 @@
 #!/bin/sh
 #
-# Last part of motd: /etc/motd.tail
+# Last part of motd: motd.tail.
 #
+# VERSION       :semver
+# DATE          :2017-12-31
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
 # LOCATION      :/etc/update-motd.d/20-tail
+# CONFIG        :/etc/motd.tail
 
 test -f /etc/motd.tail || exit 0
 

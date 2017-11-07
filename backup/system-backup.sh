@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.1.0
+# VERSION       :2.1.1
 # DATE          :2017-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -271,7 +271,7 @@ Backup_files() { # Error 7x
     if [ -r "$HOME_EXCLUDE_LIST" ]; then
         HOME_EXCLUDE=( "--exclude-from=${HOME_EXCLUDE_LIST}" )
     fi
-    ionice rsync "${HOME_EXCLUDE[@]}" -a --delete /home/ "$WEEKLY_HOME"
+    ionice rsync "${HOME_EXCLUDE[@]}" -a --delete --force /home/ "$WEEKLY_HOME"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_HOME"
 
@@ -283,7 +283,7 @@ Backup_files() { # Error 7x
     if [ -z "$WEEKLY_MAIL" ] || [ ! -d "$WEEKLY_MAIL" ]; then
         Error 75 "Failed to create weekly directory for 'mail'"
     fi
-    ionice rsync -a --delete /var/mail/ "$WEEKLY_MAIL"
+    ionice rsync -a --delete --force /var/mail/ "$WEEKLY_MAIL"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_MAIL"
 
@@ -295,7 +295,7 @@ Backup_files() { # Error 7x
     if [ -z "$WEEKLY_USR" ] || [ ! -d "$WEEKLY_USR" ]; then
         Error 77 "Failed to create weekly directory for 'usr'"
     fi
-    ionice rsync --exclude="/src/" -a --delete /usr/local/ "$WEEKLY_USR"
+    ionice rsync --exclude="/src/" -a --delete --force /usr/local/ "$WEEKLY_USR"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_USR"
 }
