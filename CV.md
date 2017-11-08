@@ -42,7 +42,7 @@ I hope I'll fit into your picture: viktor@szepe.net
 
 Essentially keep every operation in memory!
 
-- Modern CPU, high *memory* bandwidth as WordPress is mainly memory copying, sub-msec disk access time, try [UpCloud](https://www.upcloud.com/)!
+- Modern CPU, high *memory* bandwidth as WordPress is mainly memory copying, sub-msec disk access time, try [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S)!
 - Thin virtualization layer, try UpCloud! Keep away from popular, non-enterprise providers
 - Fast operating system: No systemd, Enough entropy, IRQ balance, Low memory usage
 - Block hammering attackers: Fail2ban, permanently block shadow nets

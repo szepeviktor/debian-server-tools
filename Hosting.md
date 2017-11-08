@@ -19,7 +19,7 @@
 
 ## VPS, cloud server
 
-- [**UpCloud**](https://www.upcloud.com/) fastest VPS
+- [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest VPS
 - [Contabo](https://contabo.com/?show=vps) large memory
 - [Vultr](http://www.vultr.com/?ref=6815796) CPU, storage VPS
 - [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
