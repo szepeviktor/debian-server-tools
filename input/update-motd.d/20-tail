@@ -2,7 +2,7 @@
 #
 # Last part of motd: motd.tail.
 #
-# VERSION       :semver
+# VERSION       :0.1.0
 # DATE          :2017-12-31
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>

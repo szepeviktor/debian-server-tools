@@ -11,6 +11,7 @@
 # Usage
 #
 # 1. Remove unsubscribed addresses: maildir, website/unsub.log
+# 1. Add new addresses
 # 1. Unpack original email:  dos2unix -k original.eml; munpack -t original.eml
 # 1. Edit part2: insert utm links into href="..."
 # 1. Edit part2: insert tracker image

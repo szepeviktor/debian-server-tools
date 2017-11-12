@@ -2,7 +2,7 @@
 #
 # Deny traffic from hostile networks.
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2017-10-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,7 +13,7 @@
 CHAIN="myattackers-ipset"
 
 Add_ipsets() {
-    find ipset/ -type f -name "*.ipset" -print0 | sort -z | xargs -r -0 \
+    find ipset/ -type f -name "*.ipset" -print0 | sort -z -r | xargs -r -0 \
         head | grep '^#: ip.\+' | cut -d " " -f 2- | /bin/bash -x
 }
 

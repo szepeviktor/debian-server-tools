@@ -3,7 +3,7 @@
 ### Szempontok
 
 1. Ki miért jön? Kinek mit érdemes ajánlani?
-1. Honnan jön? organikus, hírlevél, PPC, közösségi, térkép, másik honlap
+1. Honnan jön? organikus, hírlevél, PPC, közösségi, térkép, másik honlap (árgép, netpincér, hírportál)
 1. Nézetek különböző készülékeken, böngészőkben
 1. Piramis elv (mindent egyszerre megmutatni hiba) főoldal → tematikus aloldal → cikk/lexikon; sok információ: szétszórt figyelem, kevés: fókusz
 1. Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)

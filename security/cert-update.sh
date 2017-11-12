@@ -2,8 +2,8 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.12.5
-# DATE          :2016-05-03
+# VERSION       :0.13.0
+# DATE          :2017-11-10
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -33,16 +33,13 @@ Check_requirements() {
     if [ "$(id --user)" != 0 ]; then
         Die 1 "You need to be root."
     fi
-    if [ "$(stat --format=%a .)" != 700 ] \
-        #|| [ "$(stat --format=%u .)" != 0 ]; then
-        #Die 2 "This directory needs to be private (0700) and owned by root."
-        then
+    if [ "$(stat --format=%a .)" != 700 ]; then
         Die 2 "This directory needs to be private (0700)."
     fi
-    if ! [ -f "$INT" ] || ! [ -f "$PRIV" ] || ! [ -f "$PUB" ] || ! [ -f "$CABUNDLE" ]; then
+    if [ ! -f "$INT" ] || [ ! -f "$PRIV" ] || [ ! -f "$PUB" ] || [ ! -f "$CABUNDLE" ]; then
         Die 3 "Missing cert or CA bundle."
     fi
-    if ! [ -d "$PRIV_DIR" ] || ! [ -d "$PUB_DIR" ]; then
+    if [ ! -d "$PRIV_DIR" ] || [ ! -d "$PUB_DIR" ]; then
         Die 4 "Missing cert directory."
     fi
     # ssl-cert packages sets it to 0710 and root:ssl-cert as owner and group.
@@ -50,7 +47,7 @@ Check_requirements() {
         || [ "$(stat --format=%u "$PRIV_DIR")" != 0 ]; then
         Die 5 "Private cert directory needs to be private (0700) and owned by root."
     fi
-    if ! [ -f /usr/local/sbin/cert-expiry.sh ] || ! [ -f /etc/cron.weekly/cert-expiry1 ]; then
+    if [ ! -f /usr/local/sbin/cert-expiry.sh ] || [ ! -f /etc/cron.weekly/cert-expiry1 ]; then
         Die 6 "./install.sh monitoring/cert-expiry.sh"
     fi
 
@@ -72,6 +69,50 @@ Protect_certs() {
     ## New non-root issuance
     ##chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
     chmod 0600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
+}
+
+Apache2() {
+    test -z "$APACHE_PUB" && return 1
+    test -z "$APACHE_PRIV" && return 1
+    test -r "$APACHE_VHOST_CONFIG" || return 1
+
+    test -d "$(dirname "$APACHE_PUB")" || Die 40 "apache ssl dir"
+
+    {
+        cat "$PUB" "$INT"
+        #nice openssl dhparam 4096
+        nice openssl dhparam 2048
+    } > "$APACHE_PUB" || Die 41 "apache cert creation"
+    cp "$PRIV" "$APACHE_PRIV" || Die 42 "apache private"
+    chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 43 "apache owner"
+    chmod 0640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
+
+    # Check SSL config
+    if [ ! -h /etc/apache2/mods-enabled/ssl.conf ] \
+        || ! grep -qx '\s*SSLCACertificatePath\s\+/etc/ssl/certs/' /etc/apache2/mods-available/ssl.conf \
+        || ! grep -qx "\s*SSLCACertificateFile\s\+${CABUNDLE}" /etc/apache2/mods-available/ssl.conf; then
+        Die 47 "apache SSL configuration"
+    fi
+    # Check config
+    SITE_DOMAIN="$(sed -n -e '0,/^\s*Define\s\+SITE_DOMAIN\s\+\(\S\+\)\s*$/s||\1|p' "$APACHE_VHOST_CONFIG")"
+    test -z "$SITE_DOMAIN" && Die 45 "apache SITE_DOMAIN"
+    SERVER_NAME="$(sed -n -e '0,/^\s*ServerName\s\+\(\S\+\)\s*$/s||\1|p' "$APACHE_VHOST_CONFIG")"
+    SERVER_NAME="${SERVER_NAME/\$\{SITE_DOMAIN\}/${SITE_DOMAIN}}"
+    test -z "$SERVER_NAME" && Die 46 "apache ServerName"
+    if sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
+        | grep -qx "\s*SSLCertificateFile\s\+${APACHE_PUB}" \
+        && sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
+        | grep -qx "\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}"; then
+
+        apache2ctl configtest && service apache2 restart
+
+        # Test HTTPS
+        echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
+        echo "HTTPS result=$?"
+    else
+        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
+        echo "echo -n | openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
+    fi
 }
 
 Courier_mta() {
@@ -141,49 +182,6 @@ Courier_mta() {
     fi
 
     echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
-}
-
-Apache2() {
-    [ -z "$APACHE_PUB" ] && return 1
-    [ -z "$APACHE_PRIV" ] && return 1
-    [ -z "$APACHE_VHOST_CONFIG" ] && return 1
-
-    [ -d "$(dirname "$APACHE_PUB")" ] || Die 40 "apache ssl dir"
-
-    {
-        cat "$PUB" "$INT"
-        #nice openssl dhparam 4096
-        nice openssl dhparam 2048
-    } > "$APACHE_PUB" || Die 41 "apache cert creation"
-    cp "$PRIV" "$APACHE_PRIV" || Die 42 "apache private"
-    chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 43 "apache owner"
-    chmod 0640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
-
-    # Check config
-    if sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
-        | grep -q "^\s*SSLCertificateFile\s\+${APACHE_PUB}$" \
-        && sed -e "s;\${SITE_DOMAIN};${APACHE_DOMAIN};" "$APACHE_VHOST_CONFIG" \
-        | grep -q "^\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}$"; then
-        # @TODO Moved to /etc/apache2/mods-available/ssl.conf
-        #&& grep -q "^\s*SSLCACertificatePath\s\+/etc/ssl/certs/$" "$APACHE_VHOST_CONFIG" \
-        #&& grep -q "^\s*SSLCACertificateFile\s\+${CABUNDLE}$" "$APACHE_VHOST_CONFIG"; then
-
-        apache2ctl configtest && service apache2 restart
-
-        # Test HTTPS
-        # FIXME        sed -n -e
-        SERVER_NAME="$(grep -i -o -m1 "ServerName\s\+\S\+" "$APACHE_VHOST_CONFIG" | cut -d " " -f 2)"
-        # FIXME "ServerName www.${SITE_DOMAIN}"
-        if [ "$SERVER_NAME" == "\${SITE_DOMAIN}" ]; then
-            SERVER_NAME="$(sed -ne '0,/^\s\+Define\s\+SITE_DOMAIN\s\+\(\S\+\).*$/s//\1/p' "$APACHE_VHOST_CONFIG")"
-        fi
-        echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
-        echo "HTTPS result=$?"
-    else
-        #echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile, SSLCACertificatePath and SSLCACertificateFile" 1>&2
-        echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
-        echo "echo -n | openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
-    fi
 }
 
 Nginx() {
@@ -311,13 +309,13 @@ Webmin() {
 Check_requirements
 Protect_certs
 
-Courier_mta && Readkey
-
-Proftpd && Readkey
-
 Apache2 && Readkey
 
+Courier_mta && Readkey
+
 Nginx && Readkey
+
+Proftpd && Readkey
 
 Dovecot && Readkey
 
