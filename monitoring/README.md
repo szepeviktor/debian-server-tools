@@ -29,7 +29,7 @@
 - RTC, entropy, server integrity ([monit](/monitoring/monit/services))
 - Datacenter: gateway, DNS resolvers ([monit](/monitoring/monit/services))
 - All processes: binary, functional test, rc script, init script, log ([monit](/monitoring/monit/services))
-- Cron jobs ([cron-grandchild.sh](/monitoring/cron-grandchild.sh), [cron-old.sh](/monitoring/cron-old.sh))
+- Cron jobs ([cron-grandchild.sh](/monitoring/cron-grandchild.sh), [cron-long.sh](/monitoring/cron-long.sh))
 - Custom kernel updates ([ovh-kernel-update.sh](/security/ovh-kernel-update.sh))
 - ICMP response ([monit](/monitoring/monit/services))
 - SSH port ([ssh-watch.sh](/monitoring/ssh-watch.sh), [monit](/monitoring/monit/services))

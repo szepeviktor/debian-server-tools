@@ -282,7 +282,7 @@ http://google-public-dns.appspot.com/cache
 
 ### Marketing
 
-- [Videos by one person!](https://wistia.com/blog/startup-ceo-makes-videos)
+- [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos)
 - External URL-s should open in new window :snail:
 - Newsletter subscribe
 - Offer free download

@@ -2,22 +2,24 @@
 #
 # Alert on long-running cron jobs.
 #
-# VERSION       :0.2.0
-# DATE          :2016-04-18
+# VERSION       :0.3.0
+# DATE          :2017-11-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/sbin/cron-old.sh
-# CRON.D        :*/30 *	* * *	root	/usr/local/sbin/cron-old.sh
+# LOCATION      :/usr/local/sbin/cron-long.sh
+# CRON.D        :*/30 *	* * *	root	/usr/local/sbin/cron-long.sh
 
-# In minutes
+# Age threshold in minutes
 declare -i CRON_MAX_AGE="50"
 
 declare -i CRON_CHILD_AGE
 
+CROND_PID="$(head -n 1 /run/crond.pid)"
+
 # Oldest cron job
-CRON_CHILD_PID="$(pgrep --parent "$(head -n 1 /run/crond.pid)" --oldest)" #"
+CRON_CHILD_PID="$(pgrep --parent "$CROND_PID" --oldest)"
 
 if [ -z "$CRON_CHILD_PID" ]; then
     exit 0

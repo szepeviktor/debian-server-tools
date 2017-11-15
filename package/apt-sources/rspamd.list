@@ -1,0 +1,5 @@
+# Rspamd
+deb http://rspamd.com/apt-stable/ stretch main
+#K: wget -qO- https://rspamd.com/apt-stable/gpg.key | apt-key add -
+#M: https://rspamd.com/downloads.html#system2
+#F: BF21E25E:3FA347D5E599BE4595CA2576FFA232EDBF21E25E

@@ -17,15 +17,15 @@ Exceptions() {
     grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$' \
     | grep -E -v 'courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$' \
     #| grep -E -v 'rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$' \
-    #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)\$" \
-    #| grep -E -v "couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)\$" \
-    #| grep -E -v ": 554 Mail rejected|: 535 Authentication failed|>: 451\b" \
-    #| grep -E -v "spamd\[[0-9]+\]: spamd:|error@" \
-    #| grep -E -v "courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX\$|,msg=\"535 Authentication rejected\",cmd:)" \
-    #| grep -E -v "courieresmtpd: error,relay=.*,msg=\"(502 ESMTP command error|writev: Connection reset by peer)\",cmd:" \
-    #| grep -E -v "mysqld: .* Unsafe statement written to the binary log .* Statement:" \
-    #| grep -F -v "/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting" \
+    #| grep -E -v 'couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)$' \
+    #| grep -E -v 'couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)$' \
+    #| grep -E -v '(courieresmtpd|courierfilter).*(: 554 Mail rejected|: 535 Authentication failed|>: 451\b)' \
+    #| grep -E -v 'courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX$|,msg="535 Authentication rejected",cmd:)' \
+    #| grep -E -v 'courieresmtpd: error,relay=.*,msg="(502 ESMTP command error|writev: Connection reset by peer)",cmd:' \
     #| grep -E -v '@(citromail\.hu|vipmail\.hu)>,status: deferred$' \
+    #| grep -E -v 'spamd\[[0-9]+\]: spamd:|error@' \
+    #| grep -E -v 'mysqld: .* Unsafe statement written to the binary log .* Statement:' \
+    #| grep -F -v '/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting' \
 
 }
 

@@ -7,4 +7,4 @@ sed -i -e "s|^#\s*\(EXTRA_OPTS='-L 5'\)|\1|" /etc/default/cron
 service cron restart
 
 # Alert for long-running cron jobs
-Dinstall monitoring/cron-old.sh
+Dinstall monitoring/cron-long.sh

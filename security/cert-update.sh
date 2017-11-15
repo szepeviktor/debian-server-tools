@@ -88,9 +88,7 @@ Apache2() {
     chmod 0640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
 
     # Check SSL config
-    if [ ! -h /etc/apache2/mods-enabled/ssl.conf ] \
-        || ! grep -qx '\s*SSLCACertificatePath\s\+/etc/ssl/certs/' /etc/apache2/mods-available/ssl.conf \
-        || ! grep -qx "\s*SSLCACertificateFile\s\+${CABUNDLE}" /etc/apache2/mods-available/ssl.conf; then
+    if [ ! -h /etc/apache2/mods-enabled/ssl.conf ]; then
         Die 47 "apache SSL configuration"
     fi
     # Check config

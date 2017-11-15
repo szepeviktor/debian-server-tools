@@ -277,9 +277,9 @@ debian-setup/etckeeper
 
 # Manual inspection of old configuration files
 echo "### Old configs ###"
-find /etc -type f -iname "*old"
+find /etc/ -type f -iname "*old" -or -iname "*dist"
 
-# Manual inspection emails
+# Manual inspection of emails
 find /var/mail/ -type f -exec grep -H "^" "{}" ";"
 
 # Clear Bash history

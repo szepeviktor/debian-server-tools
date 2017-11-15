@@ -29,8 +29,8 @@ tar --exclude-from=etc-blacklist.txt \
     -vczf server.tar.gz debconf.selections packages.selection etc-blacklist.txt /etc/*
 ## Data dirs
 # /home
-# /opt
 # /root
+# /opt
 # /srv
 # /usr/local
 # /var
@@ -44,7 +44,7 @@ tar --exclude-from=etc-blacklist.txt \
 ## Special handling dirs
 # /var/mail
 # /var/lib/mysql
-
+# @TODO Exclude /var/lib/dpkg and /var/lib/apt
 
 # Restore on the "clone"
 
@@ -55,6 +55,8 @@ pvdisplay && lvs
 ifconfig
 
 # Clean package cache
+apt-get update
+apt-get upgrade
 apt-get clean
 rm -vrf /var/lib/apt/lists/*
 apt-get clean

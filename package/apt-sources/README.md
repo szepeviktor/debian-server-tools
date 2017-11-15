@@ -19,3 +19,10 @@ Fastest mirror
 apt-get install netselect-apt
 netselect-apt -c COUNTRY-CODE stable
 ```
+
+### Get key ID and fingerprint from a URL
+
+```bash
+wget -qO- https://example.com/gpg.key | gpg - | sed -ne 's|^pub  \S\+/\(\S\+\) .*$|\1|p'
+wget -qO- https://example.com/gpg.key | gpg --with-fingerprint --with-colons - | sed -ne 's|^fpr:::::::::\([0-9A-F]\+\):$|\1|p'
+```
