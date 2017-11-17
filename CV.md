@@ -66,7 +66,7 @@ amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák **váratlanul**
 
 Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
 
-A fejlesztésbe technológiai tanácsokkal és konkrét kivitelezéssel segítek be a tapasztalataim alapján.  
+A **fejlesztésbe** technológiai tanácsokkal és konkrét kivitelezéssel segítek be a tapasztalataim alapján.  
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
@@ -83,7 +83,7 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 - Felhasználó menedzsment, és felhasználó támogatás telefonon, emailben, chat-en és [videókkal](https://www.youtube.com/user/szepeviktor) (EN/HU)
 - Monitorozó programok, **teljesítmény növelő és biztonsági** [eszközök fejlesztése](https://github.com/szepeviktor/)
 - Gondosan készített [WordPress bővítmények](https://profiles.wordpress.org/szepeviktor#content-plugins)
-- [Fejlesztői eszközök](https://github.com/szepeviktor/wordpress-plugin-construction) gyártása WordPress sablon készítéshez, bővítmény fekete-lista és javaslatok
+- [Fejlesztői eszközök](https://github.com/szepeviktor/wordpress-plugin-construction) gyártása WordPress sablon készítéshez, bővítmény fekete-lista és javasolt bővítmények
 - Kép fájl optimalizálás
 - [Email kézbesítés](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md) (EN)
 

@@ -2,7 +2,7 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.5.2
+# VERSION       :0.6.0
 # DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -107,14 +107,14 @@ if ! sudo -u virtual -- maildirmake -f "Drafts" "$NEW_MAILDIR"; then
 fi
 echo "Drafts OK."
 
-if ! sudo -u virtual -- maildirmake -f "Spam" "$NEW_MAILDIR"; then
-    Error 21 "Cannot create Spam folder"
+if ! sudo -u virtual -- maildirmake -f "Junk" "$NEW_MAILDIR"; then
+    Error 21 "Cannot create Junk folder"
 fi
-echo "Quota counts symlinked directories"
-ln -s ".Spam" "${NEW_MAILDIR}/.Junk"
-ln -s ".Spam" "${NEW_MAILDIR}/.Junk E-mail"
-#HU: ln -s ".Spam" "${NEW_MAILDIR}/.Lev&AOk-lszem&AOk-t"
-echo "Spam OK."
+echo "WARNING - Quota counts symlinked folders" 1>&2
+ln -s ".Junk" "${NEW_MAILDIR}/.Spam"
+ln -s ".Junk" "${NEW_MAILDIR}/.Junk E-mail"
+#HU: ln -s ".Junk" "${NEW_MAILDIR}/.Lev&AOk-lszem&AOk-t"
+echo "Junk OK."
 
 if ! sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
     Error 22 "Cannot create Sent folder"
