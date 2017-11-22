@@ -4,9 +4,6 @@
 [submodule "mysql/mysqltuner"]
 	path = mysql/mysqltuner
 	url = https://github.com/major/MySQLTuner-perl.git
-[submodule "monitoring/monit/FladischerMichael"]
-	path = monitoring/monit/FladischerMichael
-	url = https://github.com/szepeviktor/FladischerMichael.monit.git
 [submodule "image/packjpg"]
 	path = image/packjpg
 	url = https://github.com/packjpg/packJPG.git
