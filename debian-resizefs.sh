@@ -5,7 +5,7 @@
 # Alternative: http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.shtml
 
 # Check current filesystem type
-ROOT_FS_TYPE="$(sed -n -e 's|^/dev/[a-z]\+[1-9]\+ / \(ext4\) .*$|\1|p' /proc/mounts)"
+ROOT_FS_TYPE="$(sed -n -e 's|^/dev/.* / \(ext4\) .*$|\1|p' /proc/mounts)"
 test "$ROOT_FS_TYPE" == ext4 || exit 100
 
 # Copy resize2fs to initrd
