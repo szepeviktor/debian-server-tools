@@ -5,7 +5,7 @@
 # Alternative: http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.shtml
 
 # Check current filesystem type
-ROOT_FS_TYPE="$(sed -n -e 's|^/dev/[a-z]\+[1-9]\+ / \(ext4\) .*$|\1|p' /proc/mounts)"
+ROOT_FS_TYPE="$(sed -n -e 's|^/dev/.* / \(ext4\) .*$|\1|p' /proc/mounts)"
 test "$ROOT_FS_TYPE" == ext4 || exit 100
 
 # Copy resize2fs to initrd
@@ -48,11 +48,12 @@ case "$1" in
         ;;
 esac
 
-/sbin/e2fsck -f "$ROOT" || echo "e2fsck: $?"
-# Size in filesystem blocks, usually 4 KB
-# tune2fs -l /dev/vda1
-# 1310720 blocks = 5 GB
-/sbin/resize2fs -d 8 "$ROOT" 1310720 || echo "resize2fs: $?"
+# Size resize root fs to
+ROOT_SIZE=8G
+
+wait-for-root "${ROOT}" 20
+/sbin/e2fsck -y -f "${ROOT}" || echo "e2fsck: $?"
+/sbin/resize2fs -d 8 "${ROOT}" ${ROOT_SIZE} || echo "resize2fs: $?"
 EOF
 chmod +x /etc/initramfs-tools/scripts/init-premount/resize
 
