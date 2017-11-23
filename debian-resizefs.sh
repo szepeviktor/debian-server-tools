@@ -48,11 +48,9 @@ case "$1" in
         ;;
 esac
 
-/sbin/e2fsck -f "$ROOT" || echo "e2fsck: $?"
-# Size in filesystem blocks, usually 4 KB
-# tune2fs -l /dev/vda1
-# 1310720 blocks = 5 GB
-/sbin/resize2fs -d 8 "$ROOT" 1310720 || echo "resize2fs: $?"
+wait-for-root "${ROOT}" 20
+/sbin/e2fsck -y -f "$ROOT" || echo "e2fsck: $?"
+/sbin/resize2fs -d 8 "$ROOT" 8G || echo "resize2fs: $?"
 EOF
 chmod +x /etc/initramfs-tools/scripts/init-premount/resize
 
