@@ -48,9 +48,12 @@ case "$1" in
         ;;
 esac
 
+# Size resize root fs to
+ROOT_SIZE=8G
+
 wait-for-root "${ROOT}" 20
-/sbin/e2fsck -y -f "$ROOT" || echo "e2fsck: $?"
-/sbin/resize2fs -d 8 "$ROOT" 8G || echo "resize2fs: $?"
+/sbin/e2fsck -y -f "${ROOT}" || echo "e2fsck: $?"
+/sbin/resize2fs -d 8 "${ROOT}" ${ROOT_SIZE} || echo "resize2fs: $?"
 EOF
 chmod +x /etc/initramfs-tools/scripts/init-premount/resize
 
