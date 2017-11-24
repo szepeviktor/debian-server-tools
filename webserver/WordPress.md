@@ -25,25 +25,7 @@ DOCROOT/─┬─index.php
          └─wp-content/
 ```
 
-
-### Subdirectory structure
-
-```
-wp-cli.yml
-DOCROOT/─┬─index.php (modified)
-         ├─wp-config.php
-         ├─wp-login.php (trap)
-         ├─xmlrpc.php (trap)
-         ├─CORE/─┬─index.php
-         │       ├─wp-load.php
-         │       ├─wp-login.php
-         │       ├─wp-admin/
-         │       └─wp-includes/
-         └─static/ (wp-content)
-```
-
-
-### Half-secret structure
+### Half-secret Subdirectory structure
 
 ```
 wp-cli.yml
@@ -59,6 +41,9 @@ DOCROOT/─┬─index.php (modified)
          └─wp-content/
 ```
 
+`CORE` may be the abbreviation of the project.
+
+`wp-content` can be renamed.
 
 ### Installation by WP-CLI
 

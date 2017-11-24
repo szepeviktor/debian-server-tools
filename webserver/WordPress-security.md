@@ -1,4 +1,4 @@
-# Prevent WordPress attack vectors
+# Block WordPress attack vectors
 
 ### Compromise from hosting provider
 
@@ -11,25 +11,26 @@
 - Use modern server software (OS, web server, PHP version, cache, database)
 - Hide server software version
 - Don't install multiple websites on a server / separate by OS user
-- Disable file upload on the server
 
 ### Server-side
 
-- HTTPS websites receive less attacks, force HTTPS (HSTS)
+- HTTPS websites receive less attacks: force HTTPS (HSTS)
 - Block known hostile networks (myattackers-ipset)
 - Preventively block vulnerability scanners (wpf2b)
 - Restrict access to core, theme and plugin files and directories (wordpress.inc.conf)
+- Disable file upload on the server
 - Source code integrity check (hourly)
 - Alert on source code change (hourly)
-- Have daily offsite backups
+- Have daily offsite backup
 - Keep backups for several days (a week)
 
 ### Application
 
 - Delete unused plugins and themes
-- Auditing plugins and themes (source code) - prefer authors providing enterprise services
+- Audit plugins and themes (source code) - prefer authors providing enterprise services
 - Install an auditing plugin
 - Disable file editing
+- Block on WordPress security events (wpf2b)
 
 ### Authentication
 
