@@ -2,15 +2,13 @@
 #
 # Create patch file of changes in config files by directory.
 #
-# VERSION       :0.1.0
-# DEPENDS       :apt-get install aptitude
+# VERSION       :0.1.1
 # LOCATION      :/usr/local/bin/config-compare.sh
 
 # Absolute path of configuration directory
 CONFIGDIR="$1"
 
-# Name of your release
-#DIST="jessie"
+# Debian release
 DIST="$(lsb_release --short --codename)"
 
 EXTRACTDIR="./fsroot"
@@ -24,10 +22,10 @@ CONFIGDIR="${CONFIGDIR%/}"
 dpkg -S "${CONFIGDIR}/*" \
     | sed 's/, /:\n/g' | cut -d ":" -f 1 \
     | sort | uniq \
-    | xargs -r -L 1 aptitude -t "$DIST" download || exit 10
+    | xargs -r -L 1 apt-get -t "$DIST" download || exit 10
 
 # Extract packages
-ls *.deb | xargs -I %% dpkg-deb --extract %% "$EXTRACTDIR" || exit 11
+ls *.deb | xargs -I % dpkg-deb --extract % "$EXTRACTDIR" || exit 11
 
 # Create patch file
 PATCH="$(basename "$CONFIGDIR")-config.patch"

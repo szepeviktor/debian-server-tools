@@ -3,12 +3,12 @@
 ## Where do I find ...?
 
 - Development environment: [/webserver/WP-config-dev.md](/webserver/WP-config-dev.md)
-- Development tools: wordpress-sitebuild/
+- Development tools: wordpress-sitebuild/ repo
 - Production environment: [/webserver/Production-website.md](/webserver/Production-website.md)
 - Production on cPanel and migration to cPanel: [wordpress-plugin-construction/shared-hosting-aid/cPanel/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/shared-hosting-aid/cPanel/README.md)
 - Content plugins: [wordpress-plugin-construction/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/README.md)
 - WordPress installation: standard, subdirectory (optionally using git) [in this document](#standard-directory-structure)
-- WordPress imigration: dev->live, live->other domain [/webserver/Production-website.md](/webserver/Production-website.md#migration)
+- WordPress migration: dev->live, live->other domain [/webserver/Production-website.md](/webserver/Production-website.md#migration)
 
 
 ### Standard Directory structure
@@ -102,16 +102,6 @@ wp plugin install child-theme-configurator --activate
 ```
 
 Keep changes in git.
-
-### Redis object cache as a service
-
-[Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
-
-
-### Development
-
-See /webserver/Wp-config-dev.md
-
 
 ### Plugins
 
@@ -253,6 +243,9 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/mas
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-cache.php
 ```
 
+Redis object cache as a service:
+[Free 30 MB Redis instance by redislab](https://redislabs.com/redis-cloud)
+
 
 #### Optimize HTML + HTTP
 
@@ -296,14 +289,14 @@ Set up CDN.
 
 MU Plugin Template
 
-`disable-3rd-party-updates.php`
+`custom-PROJECT.php`
 
 ```php
 <?php
 /*
-Plugin Name: disable custom updates (MU)
+Plugin Name: customizations (MU)
 Version: 0.0.0
-Description: This MU plugin contains hooks to disable custom updates.
+Description: This MU plugin contains customizations.
 Plugin URI: https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/WordPress.md#plugin-fixes
 Author: Viktor Szépe
 */
@@ -311,7 +304,7 @@ Author: Viktor Szépe
 
 See /website/wordpress/ directory.
 
-### On deploy and Staging->Production Migration
+### On deploy and Staging->Production migration
 
 @TODO Move to Production-website.md
 

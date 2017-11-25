@@ -11,9 +11,8 @@ https://github.com/avleen/bashttpd
 
 ### Private pull CDN
 
-http://www.symkat.com/sympull-cdn
-
-https://github.com/symkat/SymPullCDN
+- Apache mod_proxy in shm
+- http://www.symkat.com/sympull-cdn https://github.com/symkat/SymPullCDN
 
 ### Measure latency/timing in Apache + PHP-FPM
 
@@ -46,6 +45,12 @@ location ~* ^(.+)\.\d\d+\.(js|css|png|jpg|jpeg|gif|ico)$ {
     // TODO Add expiration etc. for js|css|png|jpg|jpeg|gif|ico files
     try_files $1.$2 /index.php?$args;
 }
+```
+
+### Quick look at the web traffic
+
+```bash
+zgrep -cH '^' /var/log/apache2/*access.log.2.gz|sort -t: -k2 -n|column -s: -t
 ```
 
 ### CDN log format

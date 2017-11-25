@@ -4,4 +4,6 @@
 create sks-lugan hash:net family inet hashsize 64 maxelem 32
 flush sks-lugan
 add sks-lugan 91.200.12.0/22
+# add sks-lugan 194.79.60.0/22
+# add sks-lugan 213.111.128.0/18
 # Also in -> dangerous.dnsbl.zone
