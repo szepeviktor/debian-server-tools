@@ -15,6 +15,7 @@
    depends on courier-mta_init
    depends on courier-mta_cert
    depends on courier-mta_mailq
+   depends on courier-mta_sendmail_bin
 
  check process courier-mta-msa with pidfile /run/courier/esmtpd-msa.pid
    group mail
@@ -44,6 +45,13 @@
  check program courier-mta_mailq with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
    group mail
    if status != 0 then alert
+
+ check file courier-mta_sendmail_bin with path "/usr/sbin/sendmail"
+   group mail
+   if failed checksum then unmonitor
+   if failed permission 4755 then unmonitor
+   if failed uid "root" then unmonitor
+   if failed gid "courier" then unmonitor
 
  check process courierfilter with pidfile /run/courier/courierfilter.pid
    group mail

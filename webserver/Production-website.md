@@ -242,7 +242,7 @@ wp db optimize
 
 - Sample / Demo content :snail:
 - Code editor configuration file `.editorconfig`
-- Files: `find -iname "*example*" -iname "*sample*" -iname "*demo*"`
+- Files: `find -iname "*example*" -or -iname "*sample*" -or -iname "*demo*"`
 - PHP-FPM pool config: `env[WP_ENV] = production`
 
 ### VCS
