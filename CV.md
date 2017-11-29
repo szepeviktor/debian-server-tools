@@ -1,9 +1,9 @@
-[:hungary:](#sz%C3%A9pe-viktor-honlapokat-%C3%BCzemeltet)&nbsp;&nbsp;&nbsp;[:uk:](#viktor-sz%C3%A9pe-from-hungary-does-website-maintenance)
+[:hungary:](#hu)&nbsp;&nbsp;&nbsp;[:uk:](#en)
 
 [![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
-# Viktor Szépe from Hungary does website maintenance
+# <a name="en"></a>Infrastructure, source code management and support for websites
 
 My main activity is **proactive** maintenance of existing websites and web applications.  
 These experiences could mean valuable feedback for your developer/s.  
@@ -45,7 +45,7 @@ Essentially keep every operation in memory!
 - Modern CPU, high *memory* bandwidth as WordPress is mainly memory copying, sub-msec disk access time, try [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S)!
 - Thin virtualization layer, try UpCloud! Keep away from popular, non-enterprise providers
 - Fast operating system: No systemd, Enough entropy, IRQ balance, Low memory usage
-- Block hammering attackers: Fail2ban, permanently block shadow nets
+- Block hammering attackers: Fail2ban, permanently block hostile networks
 - Anycast DNS
 - Quick webserver: Apache with Event MPM
 - Parallel connection CDN with RAM-like speeds (Amazon CloudFront)
@@ -58,7 +58,7 @@ Essentially keep every operation in memory!
 - Cut on JavaScripts
 - Continuous monitoring (monit, Pingdom, HetrixTools)
 
-# Szépe Viktor honlapokat üzemeltet
+# <a name="hu"></a>Infrastruktúra, forrás kód kezelés és műszaki támogatás honlapokhoz
 
 Létező honlapok és webes rendszerek **proaktív** üzemeltetésével foglalkozok.  
 Olyan dolgokkal, amelyek nem látszanak a képernyőn,
