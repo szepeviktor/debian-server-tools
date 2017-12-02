@@ -42,11 +42,6 @@
 173.0.84.226	allow,BLOCK
 173.0.84.227	allow,BLOCK
 173.0.84.228	allow,BLOCK
-# StartCom - mta{1..4}.startssl.com.
-52.71.67.119	allow,BLOCK
-52.70.93.190	allow,BLOCK
-106.38.193.210	allow,BLOCK
-106.38.193.211	allow,BLOCK
 # Magyar Telekom - mtmail*.mail.telekom.hu.
 84.2.42.62	allow,BLOCK
 84.2.42.63	allow,BLOCK
@@ -114,3 +109,5 @@
 164.138.48.41	allow,BLOCK
 164.138.48.42	allow,BLOCK
 164.138.48.43	allow,BLOCK
+# Dynadot
+166.88.19.39	allow,BLOCK

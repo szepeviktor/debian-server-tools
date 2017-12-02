@@ -344,12 +344,12 @@ Deprecated.
 #### Others
 
 - **When to send a newsletter?**
-- SMTP `MAIL FORM: <user@example.com>`
 - HTML and plain text payload
-- From address SPF `include:servers.mcsv.net`
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 - [Spamhaus Marketing FAQ](https://www.spamhaus.org/faq/section/Marketing%20FAQs)
 - :cloud: CDN for images
+- SMTP `MAIL FORM: <user@example.com>`
+- SMTP Envelope sender SPF `include:servers.mcsv.net`
 
 ### Email templates
 

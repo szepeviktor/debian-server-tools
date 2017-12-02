@@ -1,67 +1,69 @@
 #!/bin/bash
 #
-# Directs you to backport a Debian package.
-# A fully manual version of debackport.sh
+# Manually backport a Debian package.
 #
-# VERSION       :0.1
-# DATE          :2014-08-01
+# VERSION       :0.2.0
+# DATE          :2017-12-02
+# URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
-# URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# LOCATION      :/usr/local/bin/debackport-manual.sh
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
+# DEPENDS       :apt-get install devscripts
+# LOCATION      :/usr/local/bin/debackport-manual.sh
 
+# A fully manual version of debackport.sh
+
+SUITE="jessie"
+BPOREV="~bpo8+"
+# Email address and name for dh_make
+export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
+
+set -e
 
 PKG="$1"
-SUITE="jessie"
-BPOREV="~bpo70+"
-export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
-# comment out SHORTBUILD to run debian/rules before building
-SHORTBUILD="yes"
-# upon "gpg: Can't check signature: public key not found" use --allow-unauthenticated
-ALLOW_UNAUTH="--allow-unauthenticated"
-# you may add special backport instructions
-#SPECIAL_BACKPORT="yes"
 
+# Debian release code name
+CURRENT_SUITE="$(lsb_release -s --codename)"
 
-# get Debian release
-CURRENTSUITE="$(lsb_release --codename | cut -f2)"
-
-# get package name from parent dir's name
-[ -z "$PKG" ] && PKG="$(basename "$PWD")"
-[ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
-AVAILABLE="$(rmadison "$PKG" -a "$ARCH" -s "$SUITE")"
-echo "rmadison: ${AVAILABLE}"
-
-echo "Download sources:  dget --allow-unauthenticated -x DSCURL"
-bash
-
-echo "Find and Install missing build dependencies"
-SOURCES="$(grep -m1 "^Source: " *.dsc | cut -d' ' -f2)"
-if [ -z "$SOURCES" ] || [ "$(wc -l <<< "$SOURCES")" -gt 1 ]; then
-    ls -1d */
-    read -p "Please enter source package name: " SOURCES
+# Package name from parent directory's name
+test -z "$PKG" && PKG="$(basename "$PWD")"
+if [ "$(uname --machine)" == "x86_64" ]; then
+    ARCH="amd64"
+else
+    ARCH="i386"
 fi
-DIR="$(find -maxdepth 1 -type d -iname "${SOURCES}-*" | head -n 1)"
 
-pushd "$DIR"
+echo -n "rmadison: "
+rmadison -a "$ARCH" -s "$SUITE" "$PKG"
 
-# check build dependencies
-echo "dpkg-checkbuilddeps"
+echo "Download sources:  dget --allow-unauthenticated -x \$DSC_URL"
 bash
 
-echo "Indicate revision number"
-dch --local "$BPOREV" --distribution "${CURRENTSUITE}-backports"
+SOURCE_PKG="$(grep -m 1 "^Source: " ./*.dsc | cut -d " " -f 2)"
+if [ -z "$SOURCE_PKG" ] || [ "$(wc -l <<< "$SOURCE_PKG")" -gt 1 ]; then
+    ls -d -1 -- */
+    read -r -p "Please enter source package name: " SOURCE_PKG
+fi
+SOURCE_DIR="$(find -maxdepth 1 -type d -iname "${SOURCE_PKG}-*" | head -n 1)"
+
+echo -n "Changing directory to: "
+pushd "$SOURCE_DIR"
+
+echo "Check and Install build dependencies:  dpkg-checkbuilddeps"
+bash
+
+echo "Indicating revision number"
+sleep 2
+dch --local "$BPOREV" --distribution "${CURRENT_SUITE}-backports"
 
 echo "Build binary packages:  dpkg-buildpackage -b -us -uc"
 bash
 
+echo -n "Changing back to: "
 popd
 
-echo
-echo "dpkg-sig -k 451A4FBA --sign builder *.deb"
-echo "cd /var/www/mirror/server/debian"
-echo "reprepro remove ${CURRENTSUITE} ${PKG}"
-echo "reprepro includedeb ${CURRENTSUITE} /var/www/mirror/debs/*.deb"
+echo "Running lintian"
+lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
 
+echo "OK."
