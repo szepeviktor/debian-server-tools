@@ -1,0 +1,3 @@
+jpeg-archive: embedded-library usr/bin/jpeg-compare: libjpeg
+jpeg-archive: embedded-library usr/bin/jpeg-hash: libjpeg
+jpeg-archive: embedded-library usr/bin/jpeg-recompress: libjpeg

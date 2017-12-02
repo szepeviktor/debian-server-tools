@@ -1,0 +1,13 @@
+Source: jpeg-archive
+Section: graphics
+Priority: extra
+Maintainer: Viktor Szépe <viktor@szepe.net>
+Build-Depends: debhelper (>= 9), dh-autoreconf, git, nasm
+Standards-Version: 3.9.6
+Homepage: https://github.com/danielgtaylor/jpeg-archive
+
+Package: jpeg-archive
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: parallel | ladon
+Description: Utilities for archiving JPEGs for long term storage
