@@ -6,5 +6,6 @@ export DEB_BUILD_HARDENING=1
 %:
 	dh $@
 
+# Without this dh_auto_install installs to /usr/bin
 override_dh_auto_install:
 	make install PREFIX=debian/jpeg-archive/usr

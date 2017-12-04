@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :0.13.0
+# VERSION       :0.13.1
 # DATE          :2017-11-10
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -124,11 +124,16 @@ Courier_mta() {
 
     # Private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
-    chown ${COURIER_USER}:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
+    chown ${COURIER_USER}:root "$COURIER_COMBINED" || Die 22 "courier owner"
     chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
 
+    # Reload monit
+    if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
+        service monit reload
+    fi
+
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
-    chown ${COURIER_USER}:${COURIER_USER} "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
+    chown ${COURIER_USER}:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
     chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"

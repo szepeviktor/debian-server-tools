@@ -2,7 +2,7 @@ Source: jpeg-archive
 Section: graphics
 Priority: extra
 Maintainer: Viktor Szépe <viktor@szepe.net>
-Build-Depends: debhelper (>= 9), dh-autoreconf, git, nasm
+Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.6
 Homepage: https://github.com/danielgtaylor/jpeg-archive
 

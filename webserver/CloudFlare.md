@@ -1,6 +1,6 @@
-# Setup a website on the CloudFlare platform
+# Setup a website on the Cloudflare platform
 
-CloudFlare has a data center in Budapest!
+Cloudflare has a data center in Budapest!
 
 1. Set up cloudflare.local Fail2ban action
 1. Add new LogFormat
@@ -38,12 +38,14 @@ wget -O /etc/apache2/conf-available/cloudflare-ipv4.list "https://www.cloudflare
 Apache mod_remoteip module. Add to each vhost config.
 
 ```apache
-    # mod_remoteip - CloudFlare is trusted by us
+    # mod_remoteip - Cloudflare is trusted by us
     RemoteIPHeader CF-Connecting-IP
     RemoteIPTrustedProxyList conf-available/cloudflare-ipv4.list
 ```
 
 `a2enmod remoteip && apache2ctl configtest && service apache2 reload`
+
+See https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers-
 
 ### CDN-only settings
 
@@ -87,6 +89,6 @@ Restrict access
 - In Apache `RemoteIPTrustedProxyList`
 - In Linux firewall on port 80 and 443 using an ipset
 
-SSL encryption toward CloudFlare edges
+SSL encryption toward Cloudflare edges
 
 [Origin CA](https://blog.cloudflare.com/cloudflare-ca-encryption-origin/#3clicommandlineinterfacelinuxonly)
