@@ -2,7 +2,7 @@
 #
 # Install s3ql systemwide by pip.
 #
-# VERSION       :2.21
+# VERSION       :2.24
 # DATE          :2016-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -15,11 +15,18 @@
 # Test in Docker
 #     cp s3ql-jessie.sh s3ql-3C4E599F.asc /opt/results/
 #     docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
+#
 # Install to the Python user install directory
-#     Replace `sudo pip3 install` with `pip3 install --user`
+#     Replace `sudo pip3 install` with ``
 #     And add set `export PATH="~/.local/bin:${PATH}"`
 
-RELEASE_FILE="s3ql-2.21.tar.bz2"
+RELEASE_FILE="s3ql-2.24.tar.bz2"
+
+Pip_install() {
+    sudo pip3 install "$@"
+    # User install
+    #pip3 install --user "$@"
+}
 
 set -e
 
@@ -33,24 +40,26 @@ curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
 
 # Required packages
 # https://bitbucket.org/nikratio/s3ql/src/default/setup.py#setup.py-130
-sudo pip3 install pycrypto defusedxml requests "llfuse<2.0,>=1.0" "dugong<4.0,>=3.4"
+Pip_install pycrypto defusedxml requests "llfuse<2.0,>=1.0" "dugong<4.0,>=3.4"
 # Must be the same version as Debian package libsqlite3
 # dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed 's/-.*$/-r1/'
 # 3.8.7.1-r1 for jessie
-sudo pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.7.1-r1/apsw-3.8.7.1-r1.zip
+Pip_install https://github.com/rogerbinns/apsw/releases/download/3.8.7.1-r1/apsw-3.8.7.1-r1.zip
+# 3.16.2-r1 for stretch
+#Pip_install https://github.com/rogerbinns/apsw/releases/download/3.16.2-r1/apsw-3.16.2-r1.zip
 
 # Import key "Nikolaus Rath <Nikolaus@rath.org>"
-gpg --batch --keyserver pgp.mit.edu --keyserver-options timeout=10 --recv-keys 3C4E599F \
+gpg --batch --keyserver pgp.mit.edu --keyserver-options timeout=10 --recv-keys "3C4E599F" \
     || gpg --batch --import "$(dirname "$0")/s3ql-3C4E599F.asc"
 
-# Download s3ql
+# Download s3ql source code
 curl -s -L -O -J "https://bitbucket.org/nikratio/s3ql/downloads/${RELEASE_FILE}"
 curl -s -L -O -J "https://bitbucket.org/nikratio/s3ql/downloads/${RELEASE_FILE}.asc"
 # Verify tarball integrity
 gpg --batch --verify "${RELEASE_FILE}.asc" "$RELEASE_FILE"
 
 # Install s3ql
-sudo pip3 install "$RELEASE_FILE"
+Pip_install "$RELEASE_FILE"
 s3qlctrl --version
 
 rm -f "$RELEASE_FILE" "${RELEASE_FILE}.asc"

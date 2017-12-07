@@ -3,6 +3,14 @@ Debian server tools
 
 Various scripts and tools mainly for Debian servers.
 
+### World&#39;s fastest cloud servers
+
+Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
+
+### How to choose VPS provider?
+
+See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
+
 ### Model of how systems work
 
 [Richard Cook at Velocity NY 2013](https://youtu.be/PGLYEDpNu60?t=5m44s)
@@ -11,59 +19,25 @@ Various scripts and tools mainly for Debian servers.
 
 Select Expert install.
 
-### /backup
+### Directories
 
-Tools related to archiving.
-
-### /image
-
-Tools related to image optimization.
-
-### /input
-
-Tools related to the terminal.
-
-### /mail
-
-Tools related to email account management.
-
-### /monitoring
-
-Tools related to server monitoring, alert and statistics emails.
-
-### /mysql
-
-Tools related to database management.
-
-### /package
-
-Tools related to Debian packages and general packaging.
-
-### /security
-
-Security and SSL certificate related tools.
-
-### /tools
-
-Various small tools.
-
-### /virtualization
-
-Docker containers.
-
-### /webserver
-
-Tools related to building webservers.
+- /backup - Tools related to archiving
+- /image - Tools related to image optimization
+- /input - Tools related to the terminal
+- /mail - Tools related to email account management
+- /monitoring - Tools related to server monitoring, alert and statistics emails
+- /mysql - Tools related to database management
+- /package - Tools related to Debian packages and general packaging
+- /security - Security and SSL certificate related tools
+- /tools - Various small tools
+- /virtualization - Docker containers
+- /webserver - Tools related to building webservers
 
 ### Script development
 
 - Check shell scripts: http://www.shellcheck.net/
 - Code styling: https://google.github.io/styleguide/shell.xml
 - Bashism: https://wiki.ubuntu.com/DashAsBinSh `checkbashisms -f bash-script.sh`
-
-### How to choose VPS provider?
-
-See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
 
 ### Install your own SSH key
 

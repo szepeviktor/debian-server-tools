@@ -229,11 +229,10 @@ EOF
 munin_multiping() {
     cat > "${PLUGIN_CONF_DIR}/multiping" <<EOF
 [multiping]
-# One hop away from BIX
 #     http://lg.net.telekom.hu/
 #     http://lg.invitel.net/
-#        Telekom         UPC           DIGI       Invitel       ocsp.startssl.com
-env.host 145.236.128.199 89.135.214.78 94.21.3.57 79.120.128.70 95.101.88.90
+#        Telekom         UPC             DIGI            Invitel
+env.host 84.3.64.1       84.116.240.33   94.21.3.57      217.113.63.72
 EOF
 
     Enable_plugin "multiping"
