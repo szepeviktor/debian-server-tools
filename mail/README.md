@@ -427,6 +427,7 @@ OK response: `IP Unlisted in the spam sender list None`
 - [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx) `R` [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx)
 - [AOL Postmaster](https://postmaster.aol.com/whitelist-request) `R` [IP reputation](https://postmaster.aol.com/ip-reputation)
 - [Yandex Postmaster](https://postoffice.yandex.com/) `R` [Feedback Loop](http://yandexfbl.senderscore.net/)
+- [mail.ru Postmaster](https://postmaster.mail.ru/)
 - https://poczta.onet.pl/pomoc/en,odblokuj.html
 - http://wiki.wordtothewise.com/ISP_Summary_Information (list)
 
