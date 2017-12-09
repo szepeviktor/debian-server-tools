@@ -1,0 +1,122 @@
+# AS200557 - REGION40 / depo40.ru / Trusov / QualityNetwork / Digital Energy Technologies / Host1Plus
+#: ipset -exist restore < ipset/region40.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set region40 src -j REJECT
+create region40 hash:net family inet hashsize 64 maxelem 128
+flush region40
+add region40 5.8.36.0/24
+add region40 5.8.37.0/24
+add region40 5.8.39.0/24
+add region40 5.8.44.0/24
+add region40 5.8.45.0/24
+add region40 5.8.46.0/24
+add region40 5.8.47.0/24
+add region40 5.101.216.0/24
+add region40 5.101.217.0/24
+add region40 5.101.218.0/24
+add region40 5.101.219.0/24
+add region40 5.101.220.0/24
+add region40 5.101.221.0/24
+add region40 5.101.222.0/24
+add region40 5.188.216.0/24
+add region40 5.188.219.0/24
+add region40 5.189.200.0/24
+add region40 5.189.201.0/24
+add region40 5.189.202.0/24
+add region40 5.189.203.0/24
+add region40 5.189.204.0/24
+add region40 5.189.205.0/24
+add region40 5.189.206.0/24
+add region40 5.189.207.0/24
+add region40 37.9.40.0/24
+add region40 37.9.41.0/24
+add region40 37.9.42.0/24
+add region40 37.18.42.0/24
+add region40 46.148.112.0/24
+add region40 46.148.120.0/24
+add region40 46.148.127.0/24
+add region40 46.161.56.0/24
+add region40 46.161.57.0/24
+add region40 46.161.58.0/24
+add region40 46.161.59.0/24
+add region40 46.161.60.0/24
+add region40 46.161.61.0/24
+add region40 46.161.62.0/24
+add region40 46.161.63.0/24
+add region40 46.243.173.0/24
+add region40 79.110.17.0/24
+add region40 79.110.18.0/24
+add region40 79.110.19.0/24
+add region40 79.110.22.0/24
+add region40 79.110.25.0/24
+add region40 79.133.107.0/24
+add region40 91.200.80.0/24
+add region40 91.200.81.0/24
+add region40 91.200.82.0/24
+add region40 91.200.83.0/24
+add region40 91.200.164.0/22
+add region40 91.216.3.0/24
+add region40 91.243.90.0/24
+add region40 91.243.91.0/24
+add region40 91.243.93.0/24
+add region40 93.179.88.0/24
+add region40 93.179.89.0/24
+add region40 93.179.90.0/24
+add region40 93.179.91.0/24
+add region40 95.85.80.0/24
+add region40 95.85.81.0/24
+add region40 95.181.176.0/24
+add region40 95.181.177.0/24
+add region40 95.181.182.0/24
+add region40 95.181.183.0/24
+add region40 95.181.216.0/24
+add region40 95.181.217.0/24
+add region40 95.181.219.0/24
+add region40 141.101.132.0/24
+add region40 141.101.201.0/24
+add region40 146.185.200.0/24
+add region40 146.185.201.0/24
+add region40 146.185.202.0/24
+add region40 146.185.203.0/24
+add region40 146.185.204.0/24
+add region40 146.185.205.0/24
+add region40 146.185.206.0/24
+add region40 178.57.65.0/24
+add region40 178.57.66.0/24
+add region40 178.57.67.0/24
+add region40 178.57.68.0/24
+add region40 178.159.97.0/24
+add region40 179.61.200.0/23
+add region40 181.214.37.0/24
+add region40 185.2.32.0/24
+add region40 185.14.192.0/24
+add region40 185.14.193.0/24
+add region40 185.14.195.0/24
+add region40 185.46.84.0/22
+add region40 185.50.250.0/24
+add region40 185.50.251.0/24
+# ATOMOHOST
+#add region40 185.71.0.0/22
+add region40 185.101.68.0/24
+add region40 185.101.71.0/24
+add region40 185.106.104.0/23
+add region40 188.68.0.0/24
+add region40 188.68.1.0/24
+add region40 188.68.3.0/24
+add region40 188.72.96.0/24
+add region40 188.72.126.0/24
+add region40 188.72.127.0/24
+add region40 191.101.24.0/24
+add region40 191.101.54.0/23
+# ATOMOHOST
+#add region40 193.9.158.0/24
+add region40 193.93.192.0/24
+add region40 193.93.195.0/24
+# FOP Kutcevol Maksum Mukolaevich
+add region40 193.105.171.0/24
+
+
+# AS50896 - Trusov Ilya Igorevych
+#add region40 5.188.217.0/24
+#add region40 37.230.212.0/23
+#add region40 91.198.127.0/24
+#add region40 146.185.207.0/24

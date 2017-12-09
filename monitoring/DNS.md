@@ -48,6 +48,12 @@
 - http://bgp.he.net/
 - http://mxtoolbox.com/DNSLookup.aspx
 
+### Peering (routes, prefixes)
+
+- https://bgp.he.net/AS8075#_peers
+- https://www.peeringdb.com/asn/8075
+- https://www.robtex.com/as/AS8075.html
+
 ## Dynamic DNS on Amazon
 
 http://www.duckdns.org/

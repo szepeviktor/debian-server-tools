@@ -111,3 +111,15 @@
 164.138.48.43	allow,BLOCK
 # Dynadot
 166.88.19.39	allow,BLOCK
+# GitHub notification by SendGrid - o{1.11}.sgmail.github.com.
+192.254.114.176	allow,BLOCK
+192.254.112.60	allow,BLOCK
+192.254.112.98	allow,BLOCK
+192.254.112.99	allow,BLOCK
+192.254.113.10	allow,BLOCK
+192.254.113.101	allow,BLOCK
+167.89.101.198	allow,BLOCK
+167.89.101.199	allow,BLOCK
+167.89.101.2	allow,BLOCK
+167.89.101.201	allow,BLOCK
+167.89.101.202	allow,BLOCK

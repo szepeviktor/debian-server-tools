@@ -441,6 +441,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup) :snail:
+- Emojis (entering, storing, displaying)
 - [Printer](http://www.printfriendly.com/)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)

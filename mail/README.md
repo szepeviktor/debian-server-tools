@@ -22,7 +22,7 @@
 - https://www.sendinblue.com/ has own AS *free:9000*
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 
-* https://sendgrid.com/ *free:3000*
+* https://sendgrid.com/ has own AS *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
 * https://www.mailjet.com/transactional *free:6000*
 * https://postmarkapp.com/ by Wildbit *free:1×25 000*
