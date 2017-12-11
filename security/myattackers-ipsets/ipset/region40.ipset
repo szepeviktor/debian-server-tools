@@ -120,3 +120,11 @@ add region40 193.105.171.0/24
 #add region40 37.230.212.0/23
 #add region40 91.198.127.0/24
 #add region40 146.185.207.0/24
+
+
+# AS49453 - GLOBALLAYER
+# QualityNetwork
+add region40 178.159.100.0/24
+add region40 178.159.107.0/24
+add region40 193.93.193.0/24
+add region40 193.93.194.0/24

@@ -2,7 +2,7 @@
 #
 # Send Monit alert to Slack.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2017-09-26
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -16,6 +16,7 @@
 #
 # Edit webhook, then modify Monit service configuration
 #
+#     #if status != 0 then alert
 #     if status != 0 then exec "/usr/local/sbin/monit-slack.sh 'SLACK_WEBHOOK_URL'" uid "nobody" gid "nogroup"
 
 WEB_HOOK="$1"

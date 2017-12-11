@@ -35,7 +35,7 @@ Traffic light example :vertical_traffic_light: a developer sees the green light,
 - Higher Google Search ranking
 - Fewer **unexpected** situations
 
-I hope I'll fit into your picture: viktor@szepe.net
+Contact me: viktor@szepe.net
 
 
 ### Webserver stack
@@ -96,7 +96,7 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 - Jobb helyezés a Google Keresőben
 - Kevesebb **váratlan** incidens
 
-Remélem bele illek a képbe valahogyan: viktor@szepe.net
+Keressen meg: viktor@szepe.net
 
 ## WordPress fejlesztő keresés
 

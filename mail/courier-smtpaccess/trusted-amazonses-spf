@@ -1,0 +1,5 @@
+# Amazon SES
+#     host -t TXT amazonses.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|^.*$|&\tallow,BLOCK|'
+199.255.192.0/22	allow,BLOCK
+199.127.232.0/22	allow,BLOCK
+54.240.0.0/18	allow,BLOCK

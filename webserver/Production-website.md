@@ -411,6 +411,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [SERPs Google Location Changer](https://serps.com/tools/google-search-location)
 - http://backlinko.com/google-ranking-factors
 - Adwords campaign as a SEO factor
+- [SEO for startups :play_or_pause_button:](https://www.youtube.com/watch?v=El3IZFGERbM)
 - [Growthery](http://thepitch.hu/seo-ugynokseg/) (HU)
 
 ### Legal (EN)

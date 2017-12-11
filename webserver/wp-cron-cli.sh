@@ -2,7 +2,7 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.9.0
+# VERSION       :0.10.0
 # DATE          :2015-07-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -38,12 +38,15 @@ Die() {
     exit "$RET"
 }
 
+# shellcheck disable=SC2120
 Get_meta() {
     # Defaults to self
     local FILE="${1:-$0}"
     # Defaults to "VERSION"
     local META="${2:-VERSION}"
-    local VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ':' -f 2-)"
+    local VALUE
+
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ':' -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -80,16 +83,15 @@ export REMOTE_ADDR="127.0.0.1"
 export REQUEST_METHOD="GET"
 #export REQUEST_URI="/<SUBDIR>/wp-cron.php"
 #export SERVER_PROTOCOL="HTTP/1.1"
-export HTTP_USER_AGENT="Wp-cron/$(Get_meta) (php-cli; Linux)"
+# shellcheck disable=SC2119
+WPCRON_VERSION="$(Get_meta)"
+export HTTP_USER_AGENT="Wp-cron/${WPCRON_VERSION} (php-cli; Linux)"
 
-pushd "$WPCRON_DIR" > /dev/null || Die 2 "Cannot change to directory (${WPCRON_DIR})"
+cd "$WPCRON_DIR" || Die 2 "Cannot change to directory (${WPCRON_DIR})"
 test -r wp-cron.php || Die 3 "File not found (${WPCRON_DIR}/wp-cron.php)"
 
 # Alternative:  wp cron event run --due-now
-if ! nice /usr/bin/php -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php; then
-    Die 4 "PHP exit status $? in ${WPCRON_DIR}/wp-cron.php"
-fi
-
-popd > /dev/null
+nice /usr/bin/php -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
+    || Die 4 "PHP exit status $? in ${WPCRON_DIR}/wp-cron.php"
 
 exit 0

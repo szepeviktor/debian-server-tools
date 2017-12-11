@@ -112,22 +112,23 @@ LIST_AVAULT="https://reputation.alienvault.com/reputation.snort"
 
 # Servers only, no humans
 declare -a AS_HOSTING=(
-    AS14618 # Amazon.com, Inc.
-    AS16509 # Amazon.com, Inc.
-    AS16276 # OVH SAS
-    AS18978 # Enzu Inc.
-    AS12876 # ONLINE S.A.S.
-    AS5577  # root SA
-    AS36352 # ColoCrossing
-    AS29073 # Ecatel LTD
-    AS24940 # Hetzner Online GmbH
-    AS8972  # PlusServer AG
-    AS46606 # Unified Layer
-    AS45055 # NForce Entertainment B.V.
-    AS26496 # GoDaddy.com, LLC
-    AS56322 # ServerAstra Kft.
-    AS28573 # CLARO S.A. (ISP)
-    AS9299  # Philippine Long Distance Telephone Company (ISP)
+    AS14618  # Amazon.com, Inc.
+    AS16509  # Amazon.com, Inc.
+    AS16276  # OVH SAS
+    AS18978  # Enzu Inc.
+    AS12876  # ONLINE S.A.S.
+    AS5577   # root SA
+    AS36352  # ColoCrossing
+    AS29073  # Ecatel LTD
+    AS24940  # Hetzner Online GmbH
+    AS8972   # PlusServer AG
+    AS46606  # Unified Layer
+    AS45055  # NForce Entertainment B.V.
+    AS26496  # GoDaddy.com, LLC
+    AS56322  # ServerAstra Kft.
+    AS28573  # CLARO S.A. (ISP)
+    AS9299   # Philippine Long Distance Telephone Company (ISP)
+    AS200557 # Region40
 )
 
 # Labs

@@ -2,13 +2,12 @@
 #
 # Install a tool from debian-server-tools.
 #
-# VERSION       :0.4.3
+# VERSION       :0.4.4
 # DATE          :2015-05-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-
 
 Die() {
     local -i RET="$1"
@@ -88,14 +87,14 @@ Do_install() {
         || Die 11 "Installation failure (${FILE})"
 
     # Create symlink
-    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d ":" -f 2- \
+    head -n 30 "$FILE" | grep '^# SYMLINK\s*:' | cut -d ":" -f 2- \
         | while read -r SYMLINK; do
             echo -n "Symlinking "
             ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
         done
 
     # Cron jobs
-    if head -n 30 "$FILE" | grep -qi "^# CRON"; then
+    if head -n 30 "$FILE" | grep -q -i '^# CRON'; then
         "$(dirname "$0")/install-cron.sh" "$FILE" || Die 13 "Cron installation failure (${FILE})"
     fi
 
@@ -111,14 +110,20 @@ Do_install() {
     # Check PyPA dependencies
     Get_meta "$FILE" DEPENDS | sed -n -e 's/^pip install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
-            if ! pip show "$PKG" | grep -qx "^Version: \S\+"; then
+            if ! pip show "$PKG" | grep -q -x 'Version: \S\+'; then
                 echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
             fi
         done
+    Get_meta "$FILE" DEPENDS | sed -n -e 's/^pip3 install \(.\+\)$/\1 /p' \
+        | while read -r -d " " PKG; do
+            if ! pip3 show "$PKG" | grep -q -x 'Version: \S\+'; then
+                echo "MISSING DEPENDECY: pip3 install ${PKG}" 1>&2
+            fi
+        done
     # Check file dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's;^\(/.\+\)$;\1;p' \
+    Get_meta "$FILE" DEPENDS | sed -n -e 's|^\(/.\+\)$|\1|p' \
         | while read -r PKG; do
-            [ -x "$PKG" ] || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
+            test -x "$PKG" || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
         done
 }
 
