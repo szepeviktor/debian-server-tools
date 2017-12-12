@@ -1,13 +1,22 @@
 # Hosting
 
-## VPS in Hungary
+### Types of website hosting
+
+- Dedicated server (old-style bare metal)
+- VPS (a slice of one physical server)
+- **Cloud server** (redundant hypervisor, network and storage)
+- Platform as a Service - PaaS (preinstalled and fine-tuned virtual servers or containers)
+- Manged hosting (usually a fine-tuned virtual server plus maintenance)
+- Shared hosting (a user and a virtualhost on a physical web server)
+
+### VPS in Hungary
 
 - [Rackforest](https://rackforest.hu/vps/linux-vps/)
 - https://www.cloudvps.hu/ssd-vps by Magyar Hosting
 - [Neo Cloud VPS](https://www.cloud.hu/szerver/neo-cloud-vps/) by EZIT - real cloud
 - http://servira.com/ by Rendszerinformatika - real cloud
 
-## Shared hosting in Hungary
+### Shared hosting in Hungary
 
 - [**Rackforest**](http://rackforest.hu/korlatlan-tarhely/) LiteSpeed, fast CPU, SSH
 - [Cloud Webtárhely Plus](https://client.ezit.hu/aff.php?aff=036) LiteSpeed, PHP OPcache, real cloud, SSH
@@ -17,7 +26,7 @@
 - http://www.profitarhely.hu/webtarhely fast CPU
 - https://spaceweb.hu/ssd-felho-webtarhely Litespeed, SSD
 
-## VPS, cloud server
+### VPS, cloud server
 
 - [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest VPS
 - [Contabo](https://contabo.com/?show=vps) large memory
@@ -29,7 +38,7 @@
 - [OVH Cloud VPS](http://www.ovh.ie/vps/vps-cloud.xml) VMware
 - [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage VPS
 
-## Shared hosting
+### Shared hosting
 
 [**Hawk Host**](https://www.hawkhost.com/shared-web-hosting)
 
@@ -54,19 +63,19 @@
 - http://www.hostinger.co.uk/ free, latest hardware
 - https://ifastnet.com/portal/sharedhosting.php free, 24 CPU cores
 
-## Managed hosting
+### Managed hosting
 
 - [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
 
-## CDN
+### CDN
 
 - [Keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
 
-## Dedicated server
+### Dedicated server
 
 https://www.worldstream.nl/more_info.php?id=14 €30
 
-## PaaS
+### PaaS
 
 - Heroku
 - Pagodabox (Nanobox)

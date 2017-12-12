@@ -2,8 +2,8 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.1.3
-# DATE          :2015-12-12
+# VERSION       :1.2.0
+# DATE          :2017-12-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -27,10 +27,17 @@ Content-Transfer-Encoding: quoted-printable
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 
 Xclude_filter() {
-    grep -Ev " AH00162:| wpf2b_| bad_request_| no_wp_here_| 404_not_found\
-| 403_forbidden| df2b| netpromo_| AH00128:|\sFile does not exist:\
-|\sclient denied by server configuration:| Installing seccomp filter failed\
-| AH02032:"
+    # AH00128: File does not exist
+    # #AH00162: server seems busy, (you may need "to increase StartServers, or Min/MaxSpareServers)
+    # AH02032: Hostname %s provided via SNI and hostname %s provided via HTTP are different
+    # WordPress Fail2ban
+    # Apache access control
+    # Apache restart messages at 6 AM
+    grep -Ev "\sAH00128:|\sAH02032:\
+|\swpf2b_|\sbad_request_|\sno_wp_here_|\s404_not_found|\s403_forbidden|\snetpromo_|\sFile does not exist:\
+|\sclient denied by server configuration:" \
+    | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094):.*' \
+
 }
 
 Color_html() {

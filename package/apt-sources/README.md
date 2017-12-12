@@ -26,3 +26,11 @@ netselect-apt -c COUNTRY-CODE stable
 wget -qO- https://example.com/gpg.key | gpg - | sed -ne 's|^pub  \S\+/\(\S\+\) .*$|\1|p'
 wget -qO- https://example.com/gpg.key | gpg --with-fingerprint --with-colons - | sed -ne 's|^fpr:::::::::\([0-9A-F]\+\):$|\1|p'
 ```
+
+### Proposed updates
+
+```
+deb http://ftp.us.debian.org/debian stable-proposed-updates main contrib non-free
+```
+
+https://www.debian.org/releases/proposed-updates.html
