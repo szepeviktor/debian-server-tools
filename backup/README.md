@@ -81,7 +81,7 @@ Add to `/usr/lib/s3ql/s3ql/fsck.py` in `main()` after `if param['seq_no'] > seq_
             param['needs_fsck'] = True
 ```
 
-### B2 on BackBlaze
+### S3QL on BackBlaze B2
 
 ```
 cat > ~/.s3ql/authinfo2 <<EOF
@@ -156,6 +156,19 @@ chmod -v 0600 ~/.s3ql/authinfo2
 | South America (São Paulo) | sa-east-1 |
 
 Source: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+
+### S3QL on Selectel
+
+```bash
+cat > ~/.s3ql/authinfo2 <<EOF
+[selectel]
+storage-url: swift://auth.selcdn.ru/OS_CONTAINER
+backend-login: OS_USERNAME
+backend-password: OS_PASSWORD
+fs-passphrase: $(apg -m32 -n1)
+EOF
+chmod -v 0600 ~/.s3ql/authinfo2
+```
 
 ### S3QL on any S3
 

@@ -93,12 +93,13 @@
 # WordPress.org
 66.155.40.8	allow,BLOCK
 66.155.40.19	allow,BLOCK
-# Aruba
+# Aruba, mx-out.forpsi.com.
 62.149.128.188	allow,BLOCK
 62.149.128.214	allow,BLOCK
 62.149.128.215	allow,BLOCK
 62.149.128.216	allow,BLOCK
 62.149.128.217	allow,BLOCK
+81.2.196.50	allow,BLOCK
 # DotRoll - staffmx.dotroll.com.
 185.33.52.26	allow,BLOCK
 # RU-CENTER NCC - relay1o.nic.ru. relay2o.nic.ru.
