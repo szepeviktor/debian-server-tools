@@ -2,7 +2,7 @@
 #
 # Update Cloudflare IPv4 list for mod_remoteip.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2016-12-31
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -39,6 +39,7 @@ if ! diff -q "$APACHE_CONF_IPV4" "$TEMP_IPV4"; then
         service apache2 reload > /dev/null
     else
         echo "ERROR: Cloudflare IPv4 change caused Apache syntax error: ${APACHE_SYNTAX_OK}" 1>&2
+        exit 2
     fi
 fi
 

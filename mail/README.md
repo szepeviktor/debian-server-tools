@@ -347,6 +347,7 @@ Deprecated.
 - HTML and plain text payload
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 - [Spamhaus Marketing FAQ](https://www.spamhaus.org/faq/section/Marketing%20FAQs)
+- [Rackspace Postmaster](https://postmaster.emailsrvr.com/sending-to-us)
 - :cloud: CDN for images
 - SMTP `MAIL FORM: <user@example.com>`
 - SMTP Envelope sender SPF `include:servers.mcsv.net`

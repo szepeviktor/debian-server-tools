@@ -194,15 +194,16 @@ openstack --os-cloud CLOUD-NAME object list CONTAINER-NAME
 
 ### Tested object storage providers
 
+- [**Oktawave OCS**](https://www.oktawave.com/en/storage)
+- [**Amazon S3**](https://aws.amazon.com/s3/)
+- [**Backblaze B2**](https://www.backblaze.com/b2/cloud-storage.html)
+- [**Selectel Cloud Storage**](https://selectel.com/services/cloud/storage/)
 - [OVH Public Cloud Object Storage](https://docs.ovh.com/pages/releaseview.action?pageId=18121668)
 - [hubiC object storage by OVH](https://hubic.com/en/offers/) `communication failures!`
 - [Exoscale Simple Object Storage](https://www.exoscale.ch/object-storage/)
 - [Google Cloud Storage](https://cloud.google.com/storage/)
 - [Cloudwatt by Orange](https://www.cloudwatt.com/en/products.html)
 - [Brightbox Orbit](https://www.brightbox.com/cloud/storage/)
-- [**Oktawave OCS**](https://www.oktawave.com/en/storage)
-- [**Amazon S3**](https://aws.amazon.com/s3/)
-- [**Backblaze B2**](https://www.backblaze.com/b2/cloud-storage.html)
 - https://www.profitbricks.de/
 - https://auro.io/public_cloud_hosting/product
 - https://www.pcextreme.com/aurora/objects
