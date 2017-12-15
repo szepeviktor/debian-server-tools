@@ -6,6 +6,12 @@ set -e -x
 # @TODO move to stretch-backports
 apt-get install -y redis-server
 
+# @TODO Prevent shutdown during background saving
+cat > /etc/sysctl.d/redis-overcommit.conf <<"EOF"
+# https://redis.io/topics/faq#background-saving-fails-with-a-fork-error-under-linux-even-if-i-have-a-lot-of-free-ram
+#vm.overcommit_memory = 1
+EOF
+
 # PHP 5 extension from PECL
 if [ "$(dpkg-query --showformat="\${Status}" --show php5-cli 2> /dev/null)" == "install ok installed" ]; then
     pecl install redis

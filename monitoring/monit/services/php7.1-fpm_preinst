@@ -1,1 +1,4 @@
+PHP71_CACHETOOL_SOCKET_DEFAULT="$(echo /run/php/php7.1-fpm-prg[0-9]*.sock)"
+PHP71_CACHETOOL_TEMP_DEFAULT="$(echo /home/prg[0-9]*/website/tmp)"
+
 echo "Consider enabling /statusphp in the webmail through https" 2>&1

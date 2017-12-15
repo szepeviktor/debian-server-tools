@@ -2,7 +2,7 @@
 #
 # Display OCSP response.
 #
-# VERSION       :2.5.3
+# VERSION       :2.5.4
 # DATE          :2016-12-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -33,7 +33,7 @@ Onexit() {
     rm -f "$CERTIFICATE" "$CA_ISSUER_CERT" "$CA_ISSUER_CERT_PEM" &> /dev/null
 
     if [ "$RET" -ne 0 ]; then
-        echo "COMMAND WITH ERROR: ${BASH_CMD}" 1>&2
+        echo "$(date "+%b %e %T") COMMAND WITH ERROR: ${BASH_CMD}" 1>&2
     fi
 
     exit "$RET"

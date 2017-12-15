@@ -8,6 +8,7 @@
    if 3 restarts within 5 cycles then unmonitor
    depends on php5-fpm_bin
    depends on php5-fpm_init
+   depends on php5-fpm_check
 
  check file php5-fpm_bin with path /usr/sbin/php5-fpm
    group php-fpm
@@ -16,3 +17,9 @@
  check file php5-fpm_init with path /etc/init.d/php5-fpm
    group php-fpm
    include /etc/monit/templates/rootbin
+
+ # Check OPcache
+ check program php5-fpm_check
+   with path "/usr/local/sbin/opcache-check.sh '@@PHP5_CACHETOOL_SOCKET@@' '@@PHP5_CACHETOOL_TEMP@@'" every 33 cycles
+   group php-fpm
+   if status != 0 then alert

@@ -92,7 +92,7 @@
 
  # Default IPv4 gateway
  check program network_gateway
-    with path "/usr/local/sbin/server-integrity.sh -c GATEWAY -r '@@INTEGRITY_GATEWAY@@'" every 33 cycles
+   with path "/usr/local/sbin/server-integrity.sh -c GATEWAY -r '@@INTEGRITY_GATEWAY@@'" every 33 cycles
    group integrity
    if status != 0 then alert
 
