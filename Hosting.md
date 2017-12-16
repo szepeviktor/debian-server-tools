@@ -28,14 +28,14 @@
 
 ### VPS, cloud server
 
-- [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest VPS
+- [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest servers
 - [Contabo](https://contabo.com/?show=vps) large memory
-- [Vultr](https://www.vultr.com/?ref=6815796) CPU, storage VPS
+- [Vultr](https://www.vultr.com/?ref=6815796) CPU
 - [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
 - [Linode](https://www.linode.com/?r=66de78b7ac99f79ec3a8e89a60c6c825dd107df1)
 - [OVH Public Cloud](https://www.ovh.com/fr/public-cloud/instances/tarifs/#cpu) CPU instances
 - [OVH Cloud VPS](https://www.ovh.ie/vps/vps-cloud.xml) VMware
-- [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage VPS
+- [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage instances
 
 ### Shared hosting
 
