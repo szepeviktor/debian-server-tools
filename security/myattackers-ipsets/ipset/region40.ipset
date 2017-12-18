@@ -116,7 +116,8 @@ add region40 193.105.171.0/24
 
 
 # AS50896 - Trusov Ilya Igorevych
-add region40 5.188.217.0/24
+# Already in GigeNET
+#add region40 5.188.217.0/24
 add region40 37.230.212.0/23
 add region40 91.198.127.0/24
 add region40 146.185.207.0/24

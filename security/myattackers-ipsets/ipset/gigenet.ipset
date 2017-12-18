@@ -5,7 +5,8 @@ create gigenet hash:net family inet hashsize 64 maxelem 128
 flush gigenet
 # Link Telecom LLC
 add gigenet 5.62.152.0/21
-#add gigenet 5.188.217.0/24
+# Trusov Ilya Igorevych
+add gigenet 5.188.217.0/24
 # Link Telecom LLC
 add gigenet 37.9.44.0/22
 #add gigenet 45.41.133.0/24

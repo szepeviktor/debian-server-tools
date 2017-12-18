@@ -22,6 +22,7 @@
 # 1. Test send using addr-test
 # 1. https://mail-tester.com/
 # 1. Save part2 as online version: REMOVE online link, unsub link, tracker image, REPLACE @@ placeholders, add Analytics snippet
+# 1. Schedule:  echo "./newsletter.sh" | at -m 09:00 tomorrow
 #
 # Check HTML table:  grep -Eo '^.*</?(table|tbody|tr|td)(>| ).{0,10}'
 #
