@@ -1,5 +1,6 @@
 # Disposable email domains
 
+- `grep -Eixv '[a-z0-9._-]+@[a-z0-9-]+(\.[a-z]{2,5})+'`
 - gmail-typo.grep
 - banned-addresses.grep (user name part)
 - disposable-email/*.grep (domain)

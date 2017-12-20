@@ -17,7 +17,7 @@
 # - Server provider (e.g. UpCloud)
 # - SSL certificate provider (for HTTPS)
 # - CDN provider (for static files)
-# - Transactional mail provider
+# - Transactional email provider
 # - Storage provider (for backup)
 #
 # Features
