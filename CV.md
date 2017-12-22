@@ -9,7 +9,7 @@ My main activity is **proactive** maintenance of existing websites and web appli
 These experiences could mean valuable feedback for your developer/s.  
 Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
 
-### What does proactive maintenance mean?
+### What does proactive maintenance include?
 
 - Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
 - Installing modern OS and software on your server
@@ -70,13 +70,13 @@ A **fejlesztésbe** technológiai tanácsokkal és konkrét kivitelezéssel seg�
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light: a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 
-### Mit jelent a proaktív üzemeltetés?
+### Mit végzek el proaktív üzemeltetés néven?
 
 - Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
 - Modern operációs rendszer és szoftver installálás a szerverére
 - Szerver és honlap [monitorozás](/monitoring/README.md) funkcionális tesztekkel és integritás ellenőrzéssel
 - Harmadik feleket is monitorozok
-- Napló kivonatok elemzése, riasztások
+- Reggelente/óráként napló kivonatok elemzése, riasztások
 - Szoftver frissítés changelog-ok olvasása alapján
 - Intelligens biztonsági mentés
 - **Hibajegy nyitás** a szerkesztőknek és a fejlesztőknek

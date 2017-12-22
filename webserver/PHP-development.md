@@ -40,7 +40,7 @@ Bytes and whitespaces.
 
 ### CI outside tests
 
-What to check with 0% coverage?
+What to include in continuous integration with 0% coverage?
 (no unit tests, no functional test)
 
 - Syntax (php-parallel-lint)
@@ -52,7 +52,7 @@ What to check with 0% coverage?
 - Metrics (phpmetrics)
 - Build assets (grunt)
 
-### CI with test
+### CI with tests
 
 - PHPUnit
 - Measure code coverage
@@ -61,13 +61,16 @@ What to check with 0% coverage?
 - Test deploy
 
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
+https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu
 
 ### Tips for structuring your application
 
 - Comment your source code like a travel guide!
+- The less indentation the better code
 - Make your frontend a UI for your API :star:
 - Separate frontend, backend, API, cron/workers
-- Move resource intensive tasks to cron
+- Move resource-intensive tasks to cron
+- Store and calculate dates, times in UTC and display it in the user's timezone
 
 ### Parts of an application
 
