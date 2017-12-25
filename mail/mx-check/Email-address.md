@@ -14,4 +14,5 @@
 
 ### Validation as a service
 
-https://www.mailgun.com/email-validation
+- https://www.mailgun.com/email-validation
+- https://neverbounce.com/features

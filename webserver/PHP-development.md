@@ -7,7 +7,7 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 
 ### Forces influencing development
 
-- First an foremost keeping the codebase clean to avoid rewrites in the far future
+- First an foremost keeping the codebase clean to avoid rewrites in long term
 - Make profit!
 - Move fast with development, use no tools that slows down development
 - Keep developer morale high
@@ -23,9 +23,10 @@ Bytes and whitespaces.
 > or it SHOULD execute logic with side effects,
 > but SHOULD NOT do both.
 
+- Execute bit off
 - UTF-8 encoding without BOM
 - LF lineends
-- One kind of indentation
+- Consistent indentation
 - **Strip trailing spaces**
 
 ### Use others's work
@@ -43,12 +44,15 @@ Bytes and whitespaces.
 What to include in continuous integration with 0% coverage?
 (no unit tests, no functional test)
 
+- Modern task runner (consolidation/robo)
+- Package installation (hirak/prestissimo)
+- Git hook integration (phpro/grumphp)
 - Syntax (php-parallel-lint)
 - Coding style (PSR-2, phpcs)
 - Warn on moving `TODO` and `FIXME` into issues (phpcs)
 - Static analysis (phpstan, phan)
 - Mess Detector (phpmd)
-- Critical vulnerabilities in dependencies (Gemnasium)
+- Critical vulnerabilities in dependencies ([Gemnasium](https://gemnasium.com/))
 - Metrics (phpmetrics)
 - Build assets (grunt)
 
@@ -61,16 +65,17 @@ What to include in continuous integration with 0% coverage?
 - Test deploy
 
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
-https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu
+[on Debian](https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu)
 
 ### Tips for structuring your application
 
 - Comment your source code like a travel guide!
 - The less indentation the better code
 - Make your frontend a UI for your API :star:
-- Separate frontend, backend, API, cron/workers
-- Move resource-intensive tasks to cron
+- Separate frontend, backend, API, CLI, cron/workers
+- Move resource-intensive tasks to cron jobs
 - Store and calculate dates, times in UTC and display it in the user's timezone
+- Develop maintenance (e.g. deploy, import, export) tools for the command line
 
 ### Parts of an application
 
@@ -88,5 +93,5 @@ https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-wit
 - User roles and capabilities
 - Email composing and sending
 - Document generation (PDF, Excel, image)
-- Image management
+- Image management ([Cloudinary](https://cloudinary.com/))
 - Static asset management

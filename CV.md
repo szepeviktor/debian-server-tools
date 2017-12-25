@@ -76,7 +76,7 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 - Modern operációs rendszer és szoftver installálás a szerverére
 - Szerver és honlap [monitorozás](/monitoring/README.md) funkcionális tesztekkel és integritás ellenőrzéssel
 - Harmadik feleket is monitorozok
-- Reggelente/óráként napló kivonatok elemzése, riasztások
+- Reggelente/óránként napló kivonatok elemzése, riasztások
 - Szoftver frissítés changelog-ok olvasása alapján
 - Intelligens biztonsági mentés
 - **Hibajegy nyitás** a szerkesztőknek és a fejlesztőknek

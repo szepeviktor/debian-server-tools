@@ -528,6 +528,7 @@ See [/monitoring/README.md](/monitoring/README.md)
 - PHP-FPM pool
 - DB, DB user
 - Webserver vhost, add placeholder page
+- Revoke SSL certificates
 - Fail2ban `logpath`
 - Webserver logs
 - Files
