@@ -79,38 +79,38 @@ Check_config_perms
 
 # Authentication
 echo "--- authdaemonrc ---"
-! grep '^\s' /etc/courier/authdaemonrc
+( ! grep '^\s' /etc/courier/authdaemonrc )
 ( source /etc/courier/authdaemonrc; Check_config "$COURIER_AUTHDAEMONRC_DEFAULTS"; )
 
 # Outbound
 echo "--- courierd ---"
-! grep '^\s' /etc/courier/courierd
+( ! grep '^\s' /etc/courier/courierd )
 ( source /etc/courier/courierd; Check_config "$COURIER_COURIERD_DEFAULTS"; )
 
 # Inbound
 echo "--- esmtpd ---"
-! grep '^\s' /etc/courier/esmtpd
+( ! grep '^\s' /etc/courier/esmtpd )
 ( source /etc/courier/esmtpd; Check_config "$COURIER_ESMTPD_DEFAULTS"; )
 
 echo "--- esmtpd-msa ---"
-! grep '^\s' /etc/courier/esmtpd-msa
+( ! grep '^\s' /etc/courier/esmtpd-msa )
 ( source /etc/courier/esmtpd; source /etc/courier/esmtpd-msa; Check_config "$COURIER_ESMTPD_MSA_DEFAULTS"; )
 
 if [ -f /etc/courier/esmtpd-ssl ]; then
     echo "--- esmtpd-ssl ---"
-    ! grep '^\s' /etc/courier/esmtpd-ssl
+    ( ! grep '^\s' /etc/courier/esmtpd-ssl )
     ( source /etc/courier/esmtpd; source /etc/courier/esmtpd-ssl; Check_config "$COURIER_ESMTPD_SSL_DEFAULTS"; )
 fi
 
 if [ -f /etc/courier/imapd ]; then
     echo "--- imapd ---"
-    ! grep '^\s' /etc/courier/imapd
+    ( ! grep '^\s' /etc/courier/imapd )
     ( source /etc/courier/imapd-ssl; source /etc/courier/imapd; Check_config "$COURIER_IMAPD_DEFAULTS"; )
 fi
 
 if [ -f /etc/courier/imapd-ssl ]; then
     echo "--- imapd-ssl ---"
-    ! grep '^\s' /etc/courier/imapd-ssl
+    ( ! grep '^\s' /etc/courier/imapd-ssl )
     ( source /etc/courier/imapd; source /etc/courier/imapd-ssl; Check_config "$COURIER_IMAPD_SSL_DEFAULTS"; )
 fi
 

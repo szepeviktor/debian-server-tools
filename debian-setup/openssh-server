@@ -21,7 +21,7 @@ echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_con
 
 # Disable DSA host key
 sed -i -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' /etc/ssh/sshd_config
-! sshd -T | grep -qFx "hostkey /etc/ssh/ssh_host_dsa_key"
+( ! sshd -T | grep -qFx "hostkey /etc/ssh/ssh_host_dsa_key" )
 
 # Add blocked networks
 HOSTS_CHINA="https://github.com/szepeviktor/debian-server-tools/raw/master/security/hosts.deny.sshd.China"

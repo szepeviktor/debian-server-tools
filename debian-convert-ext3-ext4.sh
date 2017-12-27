@@ -27,6 +27,7 @@ esac
 . /usr/share/initramfs-tools/hook-functions
 copy_exec /sbin/tune2fs /sbin
 EOF
+
 chmod +x /etc/initramfs-tools/hooks/tune2fs
 
 # Execute tune2fs before mounting root filesystem
@@ -46,8 +47,10 @@ case "$1" in
         ;;
 esac
 
-/sbin/tune2fs -O extents,uninit_bg,dir_index -f "$ROOT" || echo "tune2fs: $?"
+echo "Starting ${ROOT} conversion"
+/sbin/tune2fs -O extent,uninit_bg,dir_index -f "$ROOT" || echo "tune2fs: $?"
 EOF
+
 chmod +x /etc/initramfs-tools/scripts/init-premount/ext4
 
 # Change specified filesystem
@@ -60,6 +63,12 @@ update-initramfs -v -u
 rm -f /etc/initramfs-tools/hooks/tune2fs /etc/initramfs-tools/scripts/init-premount/ext4
 
 reboot
+
+# List files in initrd
+# lsinitramfs /boot/initrd.img-*-amd64
+
+# List filesystem features
+# tune2fs -l "$DEVICE" | sed -ne 's|^Filesystem features:\s\+\(.*\)$|\1|p'
 
 # Remove files from initrd after reboot
 # update-initramfs -u

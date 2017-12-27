@@ -50,7 +50,7 @@ test -z "${URL##https*}"
 # Parse host name
 HOST="$(sed -e 's|^\([^/]*//\)\?\([^:/]\+\).*$|\2|' <<< "$URL")"
 test -n "$HOST"
-! IsIP "$HOST"
+( ! IsIP "$HOST" )
 
 # Parse request path
 REQ="${URL##*$HOST}"

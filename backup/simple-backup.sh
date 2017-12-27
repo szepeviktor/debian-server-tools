@@ -42,7 +42,7 @@ logger -t "simple-backup" "Started. $*"
 CURRENT_DAY="$(date --utc "+%w")"
 
 Echo "mount"
-! grep -w "$BACKUP_DIR" /proc/mounts
+( ! grep -w "$BACKUP_DIR" /proc/mounts )
 #sshfs -p $PORT "${SSHFS_USER}@${SSHFS_HOST}:backup/${CURRENT_DAY}" "${BACKUP_DIR}" -o IdentityFile="/root/backup/id_ecdsa" -o idmap=user
 cd "$BACKUP_DIR"
 

@@ -11,13 +11,18 @@ set -e -x
 # fallocate works only on ext4
 
 # Check existing swap
-! grep -q "^${SWAP_FILE}\s" /etc/fstab
+( ! grep -q "^${SWAP_FILE}\s" /proc/swaps )
+( ! grep -q "^${SWAP_FILE}\s" /etc/fstab )
+( ! test -f "$SWAP_FILE" )
+
 # Create sparse file
 dd if=/dev/zero of="$SWAP_FILE" bs=1M seek="$SWAP_SIZE" count=0
+
 # Swap file can’t be a sparse file
 # http://www.lucas-nussbaum.net/blog/?p=332
 fallocate --length "$(stat --format=%s "$SWAP_FILE")" "$SWAP_FILE"
 chmod 0600 "$SWAP_FILE"
+
 # Autogenerate a label and format
 mkswap --label "${SWAP_FILE#/}" "$SWAP_FILE"
 

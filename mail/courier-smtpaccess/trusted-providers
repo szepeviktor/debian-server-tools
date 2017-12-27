@@ -1,9 +1,5 @@
 # /etc/courier/smtpaccess/default
 
-# timeweb.ru.
-92.53.117	allow,RELAYCLIENT
-
-
 # --- Trusted senders, e.g. forwarded addresses - allow,BLOCK
 
 # Art Medic - mail.dlmc.hu.
