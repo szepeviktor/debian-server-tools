@@ -1,6 +1,6 @@
 # PHP development notes
 
-How to keep our codebase clean?
+How to move fast while keeping the codebase clean?
 
 See an article on [Moving Fast With High Code Quality](https://engineering.quora.com/Moving-Fast-With-High-Code-Quality)
 and [clearPHP rules](https://github.com/dseguy/clearPHP)
@@ -72,11 +72,11 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 > or it SHOULD execute logic with side effects,  
 > but SHOULD NOT do both.
 
+- Separate frontend, backend, API, CLI, cron/workers
+- Make your frontend a UI for your API :star:
 - Comment your source code like a travel guide!
 - The less indentation the better code
 - Leave environment settings to the server, and check environment (php-env-check.php)
-- Make your frontend a UI for your API :star:
-- Separate frontend, backend, API, CLI, cron/workers
 - Move resource-intensive tasks to cron jobs
 - Store and calculate dates, times in UTC and display it in the user's timezone
 - Develop maintenance (e.g. deploy, import, export) tools for the command line
