@@ -9,14 +9,14 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 
 - First an foremost keeping the codebase clean to avoid rewrites in long term
 - Make profit!
-- Other's interest in integration with our project (API)
-- Move fast with development, use no tool that slows down development
+- Other's interest in integration with your project (API)
+- Move fast with development, don't use a tool if it slows down development
 - Keep developer morale high
 - Think about the far future when making decisions today
 
 ### Editor settings
 
-Bytes and whitespaces.
+Bits and bytes.
 
 - Execute bit off
 - UTF-8 encoding without BOM
@@ -24,20 +24,22 @@ Bytes and whitespaces.
 - Consistent indentation
 - **Strip trailing spaces**
 
-### Use others's work
+### Use others' work
 
 - Consider [PSR-s](http://www.php-fig.org/psr/)
 - Frameworks/CMS-s
-- Packages/Libraries (composer)
+- Packages/Libraries
 - SaaS
-- Development tools
+- Development tools (CI)
 - Deployment tools
-- Application monitoring
+- Application monitoring (performance, errors)
 
 ### CI outside tests
 
 What to include in continuous integration with 0% coverage?
 (no unit tests, no functional test)
+
+Use Docker **containers** for testing.
 
 - Modern task runner (consolidation/robo, npm only, grunt, gulp)
 - Package installation (hirak/prestissimo)
@@ -62,12 +64,12 @@ What to include in continuous integration with 0% coverage?
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
 [on Debian](https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu)
 
-### Tips for structuring your application
+### Tips for developing your application
 
 [PSR-1: Basic Coding Standard](http://www.php-fig.org/psr/psr-1/)
 
-> A file SHOULD declare new symbols (classes, functions, constants, etc.) and cause no other side effects,
-> or it SHOULD execute logic with side effects,
+> A file SHOULD declare new symbols (classes, functions, constants, etc.) and cause no other side effects,  
+> or it SHOULD execute logic with side effects,  
 > but SHOULD NOT do both.
 
 - Comment your source code like a travel guide!
@@ -85,17 +87,17 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - ORM
 - Object caching (PSR-6)
 - Session handling
-- HTTP security and request handling
+- HTTP security and request handling (WAF)
 - Input validation, sanitization
 - Escaping (SQL, HTML, JavaScript)
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Internationalization (i18n)
 - Templating
-- Authentication
+- Authentication (2FA)
 - User roles and capabilities
-- Email composing and sending
+- Email addresses, composing and sending (plain text version, NeverBounce, mailcheck.js)
 - Document generation (PDF, Excel, image)
-- Image management ([Cloudinary](https://cloudinary.com/))
-- Static asset management
+- Image management (Cloudinary)
+- Static asset management (building, versioning) and loading
 - Analytics, visitor tracking

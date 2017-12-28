@@ -3,3 +3,5 @@
 set -e -x
 
 sed -i -e 's|^#*HWCLOCKACCESS\b.*$|HWCLOCKACCESS=no|' /etc/default/hwclock
+
+sed -i -e 's|^GRUB_CMDLINE_LINUX="\(.*\)"|GRUB_CMDLINE_LINUX="\1 consoleblank=0"|' /etc/default/grub
