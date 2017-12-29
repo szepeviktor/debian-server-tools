@@ -59,7 +59,7 @@ final class Check_Env {
         // http://wordpress.stackexchange.com/a/42212
 
         // Environment variables
-        $this->assert( 'WP_ENV', 'production', getenv( 'WP_ENV' ) );
+        $this->assert( 'APP_ENV', 'production', getenv( 'APP_ENV' ) );
         //$this->assert( 'ENVIRONMENT', 'production', getenv( 'ENVIRONMENT' ) );
 
         // Core directives
@@ -72,20 +72,20 @@ final class Check_Env {
         $this->assert_directive( 'max_execution_time', '30' );
         $this->assert_directive( 'memory_limit', '128M' );
         $this->assert_directive( 'max_input_vars', '1000' );
-        $this->assert_directive( 'post_max_size', '4M' );
-        $this->assert_directive( 'upload_max_filesize', '4M' );
+        $this->assert_directive( 'post_max_size', '50M' );
+        $this->assert_directive( 'upload_max_filesize', '20M' );
         $this->assert_directive( 'display_errors', '' );
 
         // Compiled in Extensions
         // php -n -m | paste -s -d " "
         // Core date filter hash libxml openssl pcntl pcre Reflection session SPL standard zlib
         $this->assert_extension( 'date' );
-        $this->assert_directive( 'date.timezone', 'Europe/Budapest' );
+        $this->assert_directive( 'date.timezone', 'UTC' );
         $this->assert_extension( 'filter' );
         $this->assert_extension( 'hash' );
         $this->assert_extension( 'openssl' );
-        $this->assert_extension( 'pcre' );
-        $this->assert_extension( 'SPL' );
+        //$this->assert_extension( 'pcre' );
+        //$this->assert_extension( 'SPL' );
         $this->assert_extension( 'zlib' );
 
         // Common Extensions
