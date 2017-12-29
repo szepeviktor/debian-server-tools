@@ -5,7 +5,7 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 # <a name="en"></a>Infrastructure, source code management and support for websites
 
-My main activity is **proactive** maintenance of existing websites and web applications.  
+My main activity is **proactive** maintenance of existing websites and [web applications](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).  
 These experiences could mean valuable feedback for your developer/s.  
 Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
 
@@ -60,7 +60,7 @@ Essentially keep every operation in memory!
 
 # <a name="hu"></a>Infrastruktúra, forrás kód kezelés és műszaki támogatás honlapokhoz
 
-Létező honlapok és webes rendszerek **proaktív** üzemeltetésével foglalkozok.  
+Létező honlapok és [webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md) **proaktív** üzemeltetésével foglalkozok.  
 Olyan dolgokkal, amelyek nem látszanak a képernyőn,
 amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák **váratlanul** jönnek elő.
 

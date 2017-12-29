@@ -42,3 +42,7 @@
 - Alert on foreign country logins (PHP `geoip_country_code_by_name()` or Apache mod_maxminddb)
 - Analyse HTTP headers on login ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
 - Limit login attempts ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
+
+### Maintenance
+
+Have me on board: viktor@szepe.net

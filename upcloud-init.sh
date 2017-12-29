@@ -7,7 +7,7 @@
 
 # http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/
 GEOIP_VERSION="1.19"
-DEBIAN_CODENAME="jessie"
+DEBIAN_CODENAME="stretch"
 
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"

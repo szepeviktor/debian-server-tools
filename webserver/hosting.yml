@@ -123,7 +123,7 @@ cron:
       email: #notification@example.com
 remarks: |
   #languages: HU,EN
-  #cli-tool:wp-cli,n98-magerun,artisan
+  #cli-tool: wp-cli,n98-magerun,artisan
   #issues: URL
   #repository: URL
   #template-demo: URL

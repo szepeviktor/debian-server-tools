@@ -42,6 +42,9 @@ Pkg_install_quiet \
     gcc libc6-dev make strace \
     needrestart unscd mtr-tiny cruft bash-completion htop
 
+# Provide mail command
+debian-setup/s-nail
+
 # From backports
 # List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian

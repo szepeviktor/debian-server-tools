@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.0
+# VERSION       :2.0.1
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -54,7 +54,7 @@
 # 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
 # 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
-# 5. Set volume labels:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
+# 5. Check fs type, set volume label:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
 # 6. Start!
 #    script --timing=debian-setup.time debian-setup.script
 #    ./debian-setup.sh
@@ -155,7 +155,7 @@ rm -rf /var/lib/clamav /var/log/clamav
 rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
-apt-get install -qq ssh sudo apt-transport-https virt-what python-yaml
+apt-get install -qq ssh sudo dirmngr apt-transport-https virt-what python-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml

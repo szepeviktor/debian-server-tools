@@ -54,3 +54,6 @@ echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > 
 
 # Log search
 Dinstall monitoring/logsearch.sh
+
+# Run as APACHE_RUN_* user and group
+service apache2 restart

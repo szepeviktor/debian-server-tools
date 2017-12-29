@@ -46,7 +46,7 @@ Use Docker **containers** for testing.
 - Git hook integration (phpro/grumphp)
 - Syntax check (php-parallel-lint)
 - PSR-2-based coding style (phpcs)
-- Warn on moving `TODO` and `FIXME` into issues (phpcs)
+- Warn on `TODO` and `FIXME`: Move it into issues! (phpcs)
 - Static analysis (phpstan, phan)
 - Mess Detector (phpmd)
 - Critical vulnerabilities in dependencies ([Gemnasium](https://gemnasium.com/))
@@ -101,3 +101,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Image management (Cloudinary)
 - Static asset management (building, versioning) and loading
 - Analytics, visitor tracking
+
+### Maintenance
+
+Have me on board: viktor@szepe.net

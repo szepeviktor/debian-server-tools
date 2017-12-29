@@ -146,9 +146,6 @@ services:
     apache2:
       type: daemon
       transport: [ tcp/80, tcp/443 ]
-    antivirus mirror:
-      type: vhost
-      description: vhost.name
     can-send-email:
       type: vhost
       description: PHP script

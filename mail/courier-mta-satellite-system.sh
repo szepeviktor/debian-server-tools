@@ -130,8 +130,8 @@ editor /etc/courier/dsnfrom
 # Aliases #
 editor /etc/courier/aliases/system
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
-#     nobody: postmaster
 #     postmaster: postmaster@szepe.net
+#     nobody: postmaster
 
 courier-restart.sh
 

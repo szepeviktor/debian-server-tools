@@ -55,6 +55,7 @@ wait-for-root "${ROOT}" 20
 /sbin/e2fsck -y -f "${ROOT}" || echo "e2fsck: $?"
 /sbin/resize2fs -d 8 "${ROOT}" "${ROOT_SIZE}" || echo "resize2fs: $?"
 EOF
+
 chmod +x /etc/initramfs-tools/scripts/init-premount/resize
 
 # Regenerate initrd
@@ -64,6 +65,9 @@ update-initramfs -v -u
 rm -f /etc/initramfs-tools/hooks/resize2fs /etc/initramfs-tools/scripts/init-premount/resize
 
 reboot
+
+# List files in initrd
+# lsinitramfs /boot/initrd.img-*-amd64
 
 # Remove files from initrd after reboot
 # update-initramfs -u
