@@ -92,7 +92,7 @@ editor /etc/courier/courierd
 
 # Diffie-Hellman parameters
 rm -f /etc/courier/dhparams.pem
-TLS_DHPARAMS=2048 nice /usr/sbin/mkdhparams
+DH_BITS=2048 nice /usr/sbin/mkdhparams
 # DH params cron job
 Dinstall mail/courier-dhparams.sh
 

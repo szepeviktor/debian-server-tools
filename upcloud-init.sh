@@ -51,7 +51,7 @@ apt-get update -q
 apt-get dist-upgrade -q -y
 
 # docker
-apt-get install -qq apt-transport-https
+apt-get install -qq dirmngr apt-transport-https
 apt-key adv --keyserver "hkp://p80.pool.sks-keyservers.net:80" --recv-keys 2C52609D
 echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
     > /etc/apt/sources.list.d/docker.list

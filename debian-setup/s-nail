@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e -x
+
+# Provide mail command
+ln -s /usr/bin/s-nail /usr/local/bin/mail

@@ -8,8 +8,8 @@
  *     php /path/to/php-env-check.php | jq .
  *
  * @package php-env-check
+ * @author  Viktor Szépe <viktor@szepe.net>
  * @version 0.2.4
- * @author Viktor Szépe <viktor@szepe.net>
  */
 
 namespace O1;
@@ -28,7 +28,7 @@ if ( function_exists( 'opcache_invalidate' ) ) {
 }
 
 // Check environment
-$check = new Check_Env();
+$check  = new Check_Env();
 $status = empty( $check->errors );
 
 // Display report and exit
@@ -165,6 +165,9 @@ final class Check_Env {
         // Session
         $this->assert_extension( 'session' );
         $this->assert_directive( 'session.gc_maxlifetime', '1440' );
+
+        // Process
+        //$this->assert_function( 'proc_open' );
     }
 
     /**
@@ -225,5 +228,21 @@ final class Check_Env {
             $id = $directive_name;
         }
         $this->assert( $id, $expected, ini_get( $directive_name ) );
+    }
+
+    /**
+     * Assert for a PHP function.
+     *
+     * @param $function_name string  Function name
+     * @param $expected string       Expected value
+     * @param $id string             Optional assert ID
+     */
+    private function assert_function( $function_name, $id = '' ) {
+
+        // Automatic ID
+        if ( '' === $id ) {
+            $id = $function_name;
+        }
+        $this->assert( $id, true, function_exists( $function_name ) );
     }
 }
