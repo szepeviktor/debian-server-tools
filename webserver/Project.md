@@ -25,26 +25,27 @@
 
 ### Third Party integrations
 
-- service - ID
-- service - ID
-- service - ID
+- service: ID
+- service: ID
+- service: ID
 
 #### Low priority
 
-- service - ID
-- service - ID
-- service - ID
+- service: ID
+- service: ID
+- service: ID
 
-### Production fresh installation
+### Fresh installation on Production server
 
-- code checkout
-- database migration
-- maitenance mode (splash)
-- unit tests
-- test procedure
+- Source code checkout
+- Database seeding
+- Create caches
+- Static analysis
+- Unit tests
+- Functional tests
 
-### Production new release installation
+### Release deployment on Production server
 
-### Dev/staging server new installation
+### New installation on Development/Staging server
 
-### Local development new installation
+### New installation in Local environment

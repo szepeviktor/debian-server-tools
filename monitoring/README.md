@@ -9,7 +9,7 @@
 
 ### Per website and dependency monitoring
 
-- DNS resource records ([dns-watch.sh](/monitoring/dns-watch.sh))
+- DNS resource records ([dns-watch.sh](/monitoring/dns-watch.sh), [dnsspy.io](https://dnsspy.io/))
 - HTTP message body (aka HTML source code)
 - Visual change ([visualping.io](https://visualping.io/))
 - HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/), [Cryptosense](https://discovery.cryptosense.com/))
@@ -51,7 +51,7 @@
 
 ### Per domain monitoring
 
-- Domain locking
+- Domain locking ([Cloudflare Domain Security](https://www.cloudflare.com/domain-security-check/))
 - Domain expiry ([domain-expiry.sh](/monitoring/domain-expiry.sh))
 - RBL - DNS blacklists
 

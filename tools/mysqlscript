@@ -2,7 +2,7 @@
 #
 # Make SQL dumps executable.
 #
-# VERSION       :0.1.0
+# VERSION       :0.2.0
 # DATE          :2017-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -17,4 +17,4 @@
 SCRIPT="$1"
 shift
 
-mysql "$@" < "$SCRIPT"
+exec mysql "$@" < "$SCRIPT"

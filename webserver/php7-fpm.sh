@@ -11,6 +11,7 @@ apt-get install -y php7.0-cli php7.0-fpm \
     php7.0-readline php7.0-curl php7.0-gd php7.0-mysql \
     php7.0-xml php7.0-sqlite3 # Not for WP
 
+sed -i 's|^;process_control_timeout\s*=.*$|process_control_timeout = 30s|' /etc/php/7.0/fpm/php-fpm.conf
 sed -i 's/^user_ini.filename\s*=\s*$/user_ini.filename =/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^expose_php\s*=.*$/expose_php = Off/' /etc/php/7.0/fpm/php.ini
 sed -i 's/^max_execution_time=.*$/max_execution_time = 65/' /etc/php/7.0/fpm/php.ini
