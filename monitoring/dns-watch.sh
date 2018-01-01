@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.5.1
+# VERSION       :0.5.2
 # DATE          :2017-03-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -69,7 +69,7 @@ Dnsquery_multi() {
         # Answer section (between two lines)
         #     First RR-s with matching type
         sed '/^;; ANSWER SECTION:$/,/^$/{//!b};d' \
-            | sed -ne "/^\S\+\s\+[0-9]\+\sIN\s${TYPE}\s\(.\+\)$/!q;s//\1/p"
+            | sed -ne "/^\S\+\s\+[0-9]\+\sIN\s${TYPE}\s\(.\+\)\$/!q;s//\1/p"
     }
 
     local TYPE="$1"
@@ -82,8 +82,8 @@ Dnsquery_multi() {
     local ANSWERS
     local IP_REGEX='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
     local IPV6_REGEX='^[0-9a-fA-F:]+$'
-    local HOST_REGEX='^[a-z0-9A-Z.-]+$'
-    local MX_REGEX='^[0-9]+ [a-z0-9A-Z.-]+$'
+    local HOST_REGEX='^[a-z0-9A-Z_.-]+$'
+    local MX_REGEX='^[0-9]+ [a-z0-9A-Z_.-]+$'
 
     # Empty input
     [ -z "$HOST" ] || [ -z "$TYPE" ] && return 1
@@ -289,12 +289,13 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
         exit 2
     fi
 
-    # Escape spaces, double-quotes and semi-colons
-    DOMAIN_CONFIG="${DOMAIN_CONFIG// /\\ }"
-    DOMAIN_CONFIG="${DOMAIN_CONFIG//\"/\\\"}"
-    DOMAIN_CONFIG="${DOMAIN_CONFIG//;/\\;}"
+    # Escape special characters
+    DOMAIN_CONFIG="${DOMAIN_CONFIG//\\/\\\\}" # backslash
+    DOMAIN_CONFIG="${DOMAIN_CONFIG// /\\ }"   # space
+    DOMAIN_CONFIG="${DOMAIN_CONFIG//\"/\\\"}" # double-quote
+    DOMAIN_CONFIG="${DOMAIN_CONFIG//;/\\;}"   # semi-colon
 
-    echo -e "DNS_WATCH+=(\n  ${DNAME}:$(paste -s -d "," <<< "${DOMAIN_CONFIG}")\n)" >> "$DNS_WATCH_RC"
+    printf "DNS_WATCH+=(\n  %s:%s\n)\n" "$DNAME" "$(paste -s -d "," <<< "${DOMAIN_CONFIG}")" >> "$DNS_WATCH_RC"
 
     # Make me remember www domain
     if [ "$DNAME" == "${DNAME#www}" ]; then

@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# NPM global config: /usr/etc/npmrc
+
 set -e -x
 
-# Make sure packages are installed under /usr/local
+# Make sure packages are not installed under /usr/lib/node_modules
 npm config -g set prefix "/usr/local"
 npm config -g set unicode true
 
@@ -11,5 +13,5 @@ if hash a2disconf 2> /dev/null; then
     a2disconf javascript-common
 fi
 
-# Example
-#     npm install -g less less-plugin-clean-css
+# Update NPM
+npm install -g npm@latest

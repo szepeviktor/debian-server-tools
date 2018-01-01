@@ -281,13 +281,15 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 
 Specs: https://datatracker.ietf.org/doc/rfc7489/
 
-- setup https://unlocktheinbox.com/dmarcwizard/
-- check
-- monitor `host -t TXT _dmarc.example.com`
+- setup http://www.kitterman.com/dmarc/assistant.html
+- check https://dmarcian.com/dmarc-inspector/
+- monitor `host -t TXT _dmarc.example.com` https://www.dmarcanalyzer.com/
 - empty record: `v=DMARC1; p=none`
-- permissive record: `v=DMARC1; p=none; rua=mailto:admin@szepe.net; ruf=mailto:admin@szepe.net; fo=1;`
+- permissive record: `v=DMARC1; p=none; rua=mailto:admin@szepe.net; ruf=mailto:admin@szepe.net; fo=1`
 
 https://blog.returnpath.com/how-to-explain-dmarc-in-plain-english/
+
+External destination verification: https://space.dmarcian.com/what-is-external-destination-verification/
 
 #### ADSP
 

@@ -36,7 +36,7 @@ Bits and bytes.
 
 ### CI outside tests
 
-What to include in continuous integration with 0% coverage?
+What to include in continuous integration with 0% code coverage?
 (no unit tests, no functional test)
 
 Use Docker **containers** for testing.
@@ -47,7 +47,7 @@ Use Docker **containers** for testing.
 - Syntax check (php-parallel-lint)
 - PSR-2-based coding style (phpcs)
 - Warn on `TODO` and `FIXME`: Move it into issues! (phpcs)
-- Static analysis (phpstan, phan)
+- [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, phan)
 - Mess Detector (phpmd)
 - Critical vulnerabilities in dependencies ([Gemnasium](https://gemnasium.com/))
 - Metrics (phpmetrics)
@@ -77,7 +77,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Comment your source code like a travel guide!
 - The less indentation the better code
 - Leave environment settings to the server, and check environment (php-env-check.php)
-- Move resource-intensive tasks to cron jobs
+- Move resource-intensive tasks to cron jobs/workers
 - Store and calculate dates, times in UTC and display it in the user's timezone
 - Develop maintenance (e.g. deploy, import, export) tools for the command line
 

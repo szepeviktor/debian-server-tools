@@ -115,7 +115,7 @@ editor /etc/courier/esmtpd
 #     ESMTPAUTH_TLS=""
 
 # Don't listen on port SMTPS (465/tcp)
-editor /etc/courier/esmtpd
+editor /etc/courier/esmtpd-ssl
 #     ESMTPDSSLSTART=NO
 
 # SMTP access for localhost

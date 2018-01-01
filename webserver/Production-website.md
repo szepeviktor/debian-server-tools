@@ -45,7 +45,7 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 ### WordPress core, theme from git
 
 1. Set up database connection in `wp-config.php`
-1. Define contants, generate salts based on [wp-config.php skeleton](./wp-config.php)
+1. Define constants, generate salts based on [wp-config.php skeleton](./wp-config.php)
 1. Edit `../wp-cli.yml`
 1. **Use child theme** for purchased themes
 1. Keep custom themes in git `git clone --recursive ssh://user@server:port/path/to/git`
@@ -187,7 +187,7 @@ Replace constants in `wp-config.php`.
 1. `EMAIL@ADDRESS.ES` (all addresses)
 1. `DOMAIN.TLD` (now without protocol)
 
-Check home and siteurl.
+Check `home` and `siteurl`.
 
 ```bash
 wp option get home
@@ -243,13 +243,13 @@ wp db optimize
 - Sample / Demo content :snail:
 - Code editor configuration file `.editorconfig`
 - Files: `find -iname "*example*" -or -iname "*sample*" -or -iname "*demo*"`
-- PHP-FPM pool config: `env[WP_ENV] = production`
+- PHP-FPM pool configuration: `env[WP_ENV] = production`
 
 ### VCS
 
 Put custom theme and plugins under git version control. :snail:
 
-Keep git dir above document root.
+Keep git directory above document root.
 
 ### Redirect old URL-s (SEO)
 
@@ -328,7 +328,7 @@ http://google-public-dns.appspot.com/cache
 - Non-200 HTTP responses
 - Extra server-side requests: HTTP, DNS, file access
 - Independent e-mail sending (fix: `grep -E "\b(wp_)?mail\("`)
-- Propiertary install/update (fix: disable TGM-Plugin-Activation)
+- Proprietary install/update (fix: disable TGM-Plugin-Activation)
 - Home call, external URL-s (fix: search for URL-s, use Snitch plugin and `tcpdump`)
 - Form field for file upload `<input type="file" />`
 - Insufficient or excessive font character sets (fix: `&subset=latin,latin-ext`)
@@ -370,7 +370,7 @@ http://google-public-dns.appspot.com/cache
 - Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
 - [DNS Prefetch, Preconnect, Prefetch, Prerender](http://w3c.github.io/resource-hints/#resource-hints)
-- YouTube custom video thumbnail (FullHD)
+- YouTube custom video thumbnail (Full HD)
 
 ### HTTP
 
@@ -410,7 +410,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [Google My Business](https://www.google.com/business/) :snail:
 - [SERPs Google Location Changer](https://serps.com/tools/google-search-location)
 - http://backlinko.com/google-ranking-factors
-- Adwords campaign as a SEO factor
+- AdWords campaign as a SEO factor
 - [SEO for startups :play_or_pause_button:](https://www.youtube.com/watch?v=El3IZFGERbM)
 - [Growthery](http://thepitch.hu/seo-ugynokseg/) (HU)
 
