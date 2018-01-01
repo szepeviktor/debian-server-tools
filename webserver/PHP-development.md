@@ -24,6 +24,8 @@ Bits and bytes.
 - Consistent indentation
 - **Strip trailing spaces**
 
+[PSR2 ruleset](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR2/ruleset.xml)
+
 ### Use others' work
 
 - Consider [PSR-s](http://www.php-fig.org/psr/)

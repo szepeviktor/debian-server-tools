@@ -7,24 +7,52 @@
  * And: http://php.net/manual/en/ini.core.php#ini.cgi.fix-pathinfo
  */
 
-$me = basename( __FILE__ );
+function print_path_information() {
 
-$server_elements = array(
-    'proxy-fcgi-pathinfo' => '',
-    'REQUEST_URI' => sprintf( '/%s/path-info?parameter=value', $me ),
-    'PHP_SELF' => sprintf( '/%s/path-info', $me ),
-    'SCRIPT_NAME' => sprintf( '/%s', $me ),
-    'SCRIPT_FILENAME' => __FILE__,
-    'PATH_INFO' => '/path-info',
-    'QUERY_STRING' => 'parameter=value',
-);
+    $me = basename( __FILE__ );
 
-$row_template = '<tr><td class="e">%s</td><td class="v%s"><pre>%s</pre></td></tr>' . "\n";
+    $row_template = '<tr><td class="e">%s</td><td class="v%s"><pre>%s</pre></td></tr>' . "\n";
 
-if ( ! isset( $_GET['parameter'] ) ) {
-    header( sprintf( 'Location: /%s/path-info?parameter=value', $me ) );
-    exit;
+    $server_elements = array(
+        'proxy-fcgi-pathinfo' => '',
+        'REQUEST_URI'         => sprintf( '/%s/path-info?parameter=value', $me ),
+        'PHP_SELF'            => sprintf( '/%s/path-info', $me ),
+        'SCRIPT_NAME'         => sprintf( '/%s', $me ),
+        'SCRIPT_FILENAME'     => __FILE__,
+        'PATH_INFO'           => '/path-info',
+        'QUERY_STRING'        => 'parameter=value',
+    );
+
+    $output = '';
+
+    if ( ! isset( $_GET['parameter'] ) ) {
+        header( sprintf( 'Location: /%s/path-info?parameter=value', $me ) );
+        exit;
+    }
+
+    // cgi.fix_pathinfo
+    $output .= sprintf(
+        $row_template,
+        htmlspecialchars( 'cgi.fix_pathinfo' ),
+        '',
+        htmlspecialchars( ini_get( 'cgi.fix_pathinfo' ) )
+    );
+
+    // $_SERVER
+    foreach ( $server_elements as $elem => $expected ) {
+        $current = '';
+        $class   = '';
+        if ( isset( $_SERVER[ $elem ] ) ) {
+            $current = $_SERVER[ $elem ];
+            $class   = ( $current === $expected ) ? ' ok' : ' nok';
+        }
+        $output .= sprintf( $row_template, htmlspecialchars( $elem ), $class, htmlspecialchars( $current ) );
+    }
+
+    return $output;
 }
+
+$rows = print_path_information();
 ?>
 
 <style type="text/css">
@@ -37,24 +65,14 @@ if ( ! isset( $_GET['parameter'] ) ) {
     .nok {background-color: red;}
 </style>
 
-<h1>Path information elements</h1>
+<h1>Path information elements when using ProxyPass</h1>
 
 <table>
 
-<?php
-printf( $row_template, htmlspecialchars( 'cgi.fix_pathinfo' ), '', htmlspecialchars( ini_get( 'cgi.fix_pathinfo' ) ) );
-foreach ( $server_elements as $elem => $expected ) {
-    $current = '';
-    $class = '';
-    if ( isset( $_SERVER[ $elem ] ) ) {
-        $current = $_SERVER[ $elem ];
-        $class = ( $current === $expected ) ? ' ok' : ' nok';
-    }
-    printf( $row_template, htmlspecialchars( $elem ), $class, htmlspecialchars( $current ) );
-}
-?>
+    <?php print $rows; ?>
 
 </table>
 
-<a href="https://bugs.php.net/bug.php?id=74088">PATH_INFO is not set using PHP-FPM and mod_proxy_fcgi</a>
-<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=51517">mod_proxy_fcgi is not RFC 3875 compliant</a>
+<a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_fcgi.html#env" target="_blank"><code>proxy-fcgi-pathinfo</code> environment variable</a>,
+<a href="https://bugs.php.net/bug.php?id=74088" target="_blank">PATH_INFO is not set using PHP-FPM and mod_proxy_fcgi</a>,
+<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=51517" target="_blank">mod_proxy_fcgi is not RFC 3875 compliant</a>

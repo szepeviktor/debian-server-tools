@@ -2,10 +2,9 @@
 #
 # Optimize all MySQL tables.
 #
-# https://www.justin.my/2010/09/optimize-only-fragmented-tables-in-mysql/
-# https://www.percona.com/blog/2010/12/09/mysql-optimize-tables-innodb-stop/
-#
 # VERSION       :0.2.0
+# DOCS          :https://www.percona.com/blog/2010/12/09/mysql-optimize-tables-innodb-stop/
+# DOCS          :https://www.justin.my/2010/09/optimize-only-fragmented-tables-in-mysql/
 # LOCATION      :/usr/local/sbin/mysql-optimize.sh
 
 # 30%
@@ -21,7 +20,7 @@ while read -r DATABASE; do
     # Check
     mysqlcheck --silent --check --extended "$DATABASE"
 
-    # 1                                                  7                                        10
+    # 1.                                                 7.                                       10.
     # Name Engine Version Row_format Rows Avg_row_length Data_length Max_data_length Index_length Data_free Auto_increment Create_time Update_time Check_time Collation Checksum Create_options Comment
     TABLESTATUS="$(mysql --skip-column-names --batch -e "SHOW TABLE STATUS;" "$DATABASE" | cut -f 1,7,10)"
     while read -r TABLENAME DATALENGTH DATAFREE; do

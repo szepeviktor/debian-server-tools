@@ -59,10 +59,10 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### Root files
 
-- robots.txt :snail:
-- favicon.ico :snail:
-- apple-touch-icon.png :snail:
-- browserconfig.xml
+- `/robots.txt` :snail:
+- `/favicon.ico` :snail:
+- `/apple-touch-icon.png` :snail:
+- `/browserconfig.xml`
 - [other files in the document root](https://github.com/szepeviktor/RootFiles)
 
 ### Maintenance mode and placeholder page
@@ -72,7 +72,7 @@ OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
 
 ### CDN
 
-- Consider multiple A records `host -t A cdn.example.com` :snail:
+- Consider a CDN with multiple A records `host -t A cdn.example.com` :snail:
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 - Combine and minify CSS and JavaScript files
 - HTML caching or `no-cache`?
@@ -107,10 +107,10 @@ Consider transactional email service through HTTP API. :snail:
 
 ### Security
 
-- WAF `wordpress-fail2ban` :snail:
-- Optional for shared hosting: Sucuri Scanner plugin
-- Optional: [Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)
-- Optional: ionCube24 `ic24.enable = on` (PHP file modification time protection)
+- WAF [`wordpress-fail2ban`](https://github.com/szepeviktor/wordpress-fail2ban) :snail:
+- _For shared hosting: Sucuri Scanner plugin_
+- _[Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)_
+- _PHP extension: ionCube24 `ic24.enable = on` (PHP file modification time protection)_
 - File change notification
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`
 - Google Search Console ("This site may harm your computer" notification on SERP)
@@ -141,9 +141,9 @@ Use real cron job. :snail:
 
 ### User management
 
-- 1 administrator
+- 1 administrator :snail:
 - Personal accounts for editors and authors :snail:
-- Modify post and page authors
+- Correct post and page authors
 - Enable/disable author sitemaps
 
 ### RSS feed
@@ -158,7 +158,7 @@ Use real cron job. :snail:
 ### Signature as HTML comment
 
 ```html
-<!-- Setup & Maintenance: Viktor Szépe <viktor@szepe.net> -->
+<!-- Infrastructure, source code management and support: Viktor Szépe <viktor@szepe.net> -->
 ```
 
 ### Webmaster tools
@@ -261,7 +261,7 @@ Also redirect popular images.
 
 ### Flush Google public DNS cache
 
-http://google-public-dns.appspot.com/cache
+http://google-public-dns.appspot.com/cache :snail:
 
 
 ## Upgrade
@@ -443,7 +443,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup) :snail:
 - Emojis (entering, storing, displaying)
-- [Printer](http://www.printfriendly.com/)
+- [Printer](http://www.printfriendly.com/), [Gutenberg framework](https://github.com/BafS/Gutenberg)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 - Microsoft/Libre Office (copy-and-paste content or open URL)
@@ -494,6 +494,8 @@ Gain access, set up and test.
 
 See [/monitoring/README.md](/monitoring/README.md)
 
+Uptime ([pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/)) :snail:
+
 [List of all errors in Apache httpd](https://wiki.apache.org/httpd/ListOfErrors)
 
 @TODO Report JavaScript errors
@@ -536,4 +538,3 @@ See [/monitoring/README.md](/monitoring/README.md)
 - Email accounts
 - External resources (3rd party services)
 - [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
-- @TODO

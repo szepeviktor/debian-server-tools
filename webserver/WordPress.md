@@ -361,5 +361,5 @@ wget https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.p
 ### Signature
 
 ```bash
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-sitebuild/raw/master/theme-development/Signature.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/debian-server-tools/raw/master/webserver/szv-signature.php
 ```

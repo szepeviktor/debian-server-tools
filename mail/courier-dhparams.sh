@@ -16,7 +16,7 @@
 DH_BITS=2048 nice /usr/sbin/mkdhparams 2> /dev/null
 
 if ! [ -r /etc/courier/dhparams.pem ] \
-    || ! openssl dhparam -in /etc/courier/dhparams.pem -check > /dev/null; then
+    || ! openssl dhparam -in /etc/courier/dhparams.pem -check -noout 2> /dev/null; then
     echo "Failed to generate DH params" 1>&2
     exit 1
 fi
