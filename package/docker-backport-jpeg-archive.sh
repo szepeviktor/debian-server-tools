@@ -2,7 +2,7 @@
 #
 # Build jpeg-archive package from git master branch.
 #
-# DEPENDS       :docker pull szepeviktor/jessie-backport
+# DEPENDS       :docker pull szepeviktor/stretch-backport
 
 PKG_VERSION="jpeg-archive_2.1.1"
 
@@ -39,5 +39,5 @@ EOT
 
 
 # Build package
-docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="$PKG_VERSION" szepeviktor/jessie-backport
+docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="$PKG_VERSION" szepeviktor/stretch-backport
 rm -f /opt/results/debackport-source

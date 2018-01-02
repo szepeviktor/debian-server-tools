@@ -33,7 +33,7 @@ Bits and bytes.
 - Packages/Libraries
 - SaaS
 - Development tools (CI)
-- Deployment tools
+- Build and deployment tools
 - Application monitoring (performance, errors)
 
 ### CI outside tests
@@ -43,7 +43,7 @@ What to include in continuous integration with 0% code coverage?
 
 Use Docker **containers** for testing.
 
-- Modern task runner (consolidation/robo, npm only, grunt, gulp)
+- Modern task runner (composer:scripts, consolidation/robo, npm only, grunt, gulp)
 - Package installation (hirak/prestissimo)
 - Git hook integration (phpro/grumphp)
 - Syntax check (php-parallel-lint)
@@ -65,6 +65,46 @@ Use Docker **containers** for testing.
 
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
 [on Debian](https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu)
+
+### Workflow in git
+
+- New feature or fix is ready and "works for me" -> _PR_ (new branch)
+- CI all green -> _dev branch_
+- previous feature approved -> _staging branch_ + deploy to staging server
+- testing folks approve it -> _master branch_
+- wait for release -> tag + build + deploy to production server
+
+Commit checklist:
+code, tests, changelog, commit message, issue link, watch CI (in `PULL_REQUEST_TEMPLATE.md`)
+
+[Release checklist](https://make.wordpress.org/cli/handbook/release-checklist/):
+tag, build, deploy, announce (Wiki)
+
+### Application environment
+
+- Document everything in `hosting.yml`
+- Declare directives, functions, extensions and test them in
+  [php-env-check](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/php-env-check.php),
+  run in composer.json:pre-install-cmd
+- PHP version and extensions also in composer.json:require
+- Publish Dockerfile of CI
+- Build and deploy script (file permissions)
+- Cron jobs and workers
+- Check queues in a cron job
+- Maintenance mode switch and placeholder page (HTTP/503)
+- Generate sitemaps
+- File change notification: `siteprotection.sh`
+- Manage and monitor application/config/route/view cache and sessions
+- Run `git status` hourly
+- Send filtered application log hourly
+- Logrotate application log
+- Local queuing MTA for fast email delivery (SMTP is slow), bounce handling
+- Move webserver configuration to vhost configuration
+- Redirect removed routes, substitute missing images (URL-s)
+- Include Fail2ban triggers at least for 404-s, failed login attempts and hidden form fields (WAF)
+- Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
+- Register to webmaster tools (Google, Bing, Yandex)
+- Differences of a staging/development environment
 
 ### Tips for developing your application
 
@@ -98,7 +138,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Templating
 - Authentication (2FA)
 - User roles and capabilities
-- Email addresses, composing and sending (plain text version, NeverBounce, mailcheck.js)
+- Email addresses, composing and sending
+  (plain text version, NeverBounce, mailcheck.js, form spam, obfuscate email addresses)
 - Document generation (PDF, Excel, image)
 - Image management (Cloudinary)
 - Static asset management (building, versioning) and loading

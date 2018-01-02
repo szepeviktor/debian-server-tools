@@ -39,7 +39,7 @@ editor /var/mail/DOMAIN/LOCAL-USER/.courier-default
 
 courier-restart.sh
 
-} # SmarthostConfig
+}
 
 ################## END 'smarthost' configuration ##################
 

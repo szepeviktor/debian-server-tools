@@ -10,7 +10,7 @@ Colon at column :16
 # One line description for this script.
 #
 # VERSION       :semver
-# DATE          :2017-12-31
+# DATE          :2018-12-31
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
