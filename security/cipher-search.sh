@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 # http://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml
 IANA_URL="http://www.iana.org/assignments/tls-parameters/tls-parameters-4.csv"
 # head -n 1 tls-parameters-4.csv | grep -o "," | wc -l
@@ -63,15 +65,17 @@ Get_iana() {
 Parse_simple_csv() {
     # "SSL_CK_DES_192_EDE3_CBC_WITH_MD5,0x07"
     # "SSL_EN_RC4_128_WITH_MD5,0xFF01"
+    return
 }
 
 Get_nss() {
     "$NSS_URL"
+    return
 }
 
 # sqlite3 ?
 
-# cipher-search.sh
+# Steps
 # input something IANA/OpenSSL/GnuTLS/NSS, name/hex, "003C" too
 # output name -iana -openssl -gnutls -nss
 # output hex -xiana -xopenssl -xgnutls -xnss

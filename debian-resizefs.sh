@@ -8,7 +8,7 @@
 ROOT_FS_TYPE="$(sed -n -e 's|^/dev/\S\+ / \(ext4\) .*$|\1|p' /proc/mounts)"
 test "$ROOT_FS_TYPE" == ext4 || exit 100
 
-# Copy resize2fs to initrd
+# Copy e2fsck and resize2fs to initrd
 cat > /etc/initramfs-tools/hooks/resize2fs <<"EOF"
 #!/bin/sh
 
@@ -29,6 +29,7 @@ esac
 copy_exec /sbin/e2fsck /sbin
 copy_exec /sbin/resize2fs /sbin
 EOF
+
 chmod +x /etc/initramfs-tools/hooks/resize2fs
 
 # Execute resize2fs before mounting root filesystem

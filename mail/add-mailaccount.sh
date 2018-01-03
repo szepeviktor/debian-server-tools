@@ -170,6 +170,7 @@ if hash userdb userdbpw 2> /dev/null \
 
     # Removal instruction
     echo "Remove user command:  userdb '$EMAIL' del"
+    echo "Change password:  echo \"new.user.password\" | userdbpw -md5 | userdb \"$EMAIL\" set systempw"
 fi
 
 # Removal instruction

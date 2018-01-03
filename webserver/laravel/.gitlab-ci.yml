@@ -1,0 +1,86 @@
+#
+# GitLab CI for a Laravel project.
+#
+# https://docs.gitlab.com/ee/ci/yaml/README.html
+
+image: project/php-build:7.1
+
+services:
+  - mysql:5.7
+
+variables:
+  # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
+  MYSQL_DATABASE: dbuser
+  MYSQL_ROOT_PASSWORD: dbpassword
+
+# Move Composer cache inside the project workspace
+cache:
+  paths:
+    - .composercache
+
+before_script:
+  # Environment information
+  - lsb_release --all
+  - mysql --version
+  - redis-server --version
+  - php -v
+  - whoami
+  - pwd
+  - ls -la
+  # Gitlab's public key
+  - mkdir --mode=0700 ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  # Private Gitlab repositories access (ECDSA)
+  - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_ecdsa
+  - chmod 0600 ~/.ssh/id_ecdsa
+  # Private Composer repositories access
+  - mkdir --parents ~/.composer
+  - echo "$COMPOSER_AUTH_JSON" | base64 --decode > ~/.composer/auth.json
+  - chmod 0600 ~/.composer/auth.json
+  # Composer
+  - composer config cache-dir ~/.composercache
+  - composer validate --ansi
+  # Includes artisan optimize - depends on 'app.debug'
+  - composer install --ansi --optimize-autoloader
+  # On Deploy: - composer install --no-dev --classmap-authoritative
+  #            - check .env: APP_ENV=production , APP_DEBUG=false
+  #            - caches: application (Redis), configuration, route, view
+  - composer outdated --ansi --direct
+  #- security-checker security:check # roave/security-advisories
+  # Jorijn/laravel-security-checker
+  # dependencies.io
+  # Set up database
+  - echo 'APP_NAME=Laravel' > .env
+  - echo 'APP_ENV=local' >> .env
+  - echo 'APP_KEY=base64:8WQ2S3IXjxCHxUdtzpY3JQmM00OKgSJTOVf+rqQ8fh0=' >> .env
+  - echo 'APP_DEBUG=true' >> .env
+  - echo 'DB_HOST=mysql' >> .env
+  - php artisan db:seed
+
+test:
+  script:
+    # Syntax check
+    - parallel-lint --blame --exclude vendor/ .
+    # Blade check - require: melihovv/laravel-compile-views
+    - composer info --installed melihovv/laravel-compile-views
+    #- sed -e 's|//$|//\n$this->app->register(\\Melihovv\\LaravelCompileViews\\ServiceProvider::class);|' -i app/Providers/AppServiceProvider.php
+    - php artisan view:compile
+    - parallel-lint storage/framework/views
+    ## Facade support - require: barryvdh/laravel-ide-helper
+    #- composer info --installed barryvdh/laravel-ide-helper
+    ##- sed -e 's|//$|//\n$this->app->register(\\Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider::class);|' -i app/Providers/AppServiceProvider.php
+    #- php artisan ide-helper:generate
+    ## Fix duplicate Redis class (rejected in laravel-ide-helper)
+    #- sed -e 's|class Redis |class Redis__ |' -e 's|exit(|// exit(|' -i _ide_helper.php
+    # Static analysis
+    - phpstan analyse --no-progress --configuration=phpstan.neon --level=7 -- app/
+    # Unit tests
+    - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+
+after_script:
+  # Warnings
+  - bash ./project-warnings.sh
+  # Clean up secrets
+  - rm ~/.ssh/id_ecdsa ~/.ssh/known_hosts ~/.composer/auth.json
+  # Code Quality
+  # https://docs.gitlab.com/ee/ci/examples/code_climate.html

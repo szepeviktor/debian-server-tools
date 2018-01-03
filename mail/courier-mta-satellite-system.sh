@@ -53,14 +53,14 @@ fi
 
 # Courier MTA installation #
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
-echo "courier-ssl courier-ssl/certnotice note" | debconf-set-selections -v
+echo "courier-base courier-base/certnotice note" | debconf-set-selections -v
+echo "courier-base courier-base/courier-user note" | debconf-set-selections -v
+echo "courier-base courier-base/maildirpath note" | debconf-set-selections -v
+echo "courier-base courier-base/maildir string Maildir" | debconf-set-selections -v
+echo "courier-mta courier-mta/dsnfrom string mailer-daemon@$(hostname -f)" | debconf-set-selections -v
+echo "courier-mta courier-mta/defaultdomain string" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
-apt-get install -o APT::Install-Recommends=false -y ca-certificates courier-mta courier-ssl
-# Fix dependency on courier-authdaemon
-if dpkg --compare-versions "$(dpkg-query --show --showformat="\${Version}" courier-mta)" lt "0.75.0-11"; then
-    sed -i -e '1,20s|^#\s\+Required-Start:\s.*$|& courier-authdaemon|' /etc/init.d/courier-mta
-    #update-rc.d courier-mta defaults
-fi
+apt-get install -o APT::Install-Recommends=false -y ca-certificates courier-mta
 
 # Install restart script #
 Dinstall mail/courier-restart.sh
