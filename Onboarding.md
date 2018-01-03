@@ -5,7 +5,7 @@
 - Domain registrar (AWS, Gandi, noip, dyn, Rackforest/.hu)
 - DNS provider (AWS, HE, Cloudflare, Rackforest/.hu)
 - Server provider (UpCloud)
-- SSL certificate provider for HTTPS (cheapsslsecurity.com)
+- SSL certificate provider for HTTPS (cheapsslsecurity.com, DigiCert)
 - CDN provider (AWS)
 - Transactional email provider (AWS, SparkPost)
 - Storage provider (AWS)
