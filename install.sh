@@ -2,7 +2,7 @@
 #
 # Install a tool from debian-server-tools.
 #
-# VERSION       :0.4.4
+# VERSION       :0.4.5
 # DATE          :2015-05-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -61,7 +61,7 @@ Do_install() {
     fi
     OWNER="$(Get_meta "$FILE" OWNER)"
     if [ -z "$OWNER" ] || [ "$OWNER" == "(unknown)" ]; then
-        OWNER="root:root"
+        OWNER="root:staff"
     fi
     PERMS="$(Get_meta "$FILE" PERMISSION)"
     if [ -z "$PERMS" ] || [ "$PERMS" == "(unknown)" ]; then

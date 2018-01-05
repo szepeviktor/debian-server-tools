@@ -84,6 +84,7 @@ editor "$TEMP_JSON"
 
 # Build the request
 # @FIXME Ugly hack: the same file is input and output at the same time
+# @TODO Delete RRs by changing action to "Action": "DELETE",
 printf '{
     "Changes": [
         {

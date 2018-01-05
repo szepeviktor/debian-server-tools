@@ -26,6 +26,7 @@ case "$1" in
 esac
 
 . /usr/share/initramfs-tools/hook-functions
+copy_exec /sbin/findfs /sbin
 copy_exec /sbin/e2fsck /sbin
 copy_exec /sbin/resize2fs /sbin
 EOF
@@ -49,12 +50,18 @@ case "$1" in
         ;;
 esac
 
-# Size resize root fs to
+# New size of root filesystem
 ROOT_SIZE="8G"
 
-wait-for-root "${ROOT}" 20
-/sbin/e2fsck -y -f "${ROOT}" || echo "e2fsck: $?"
-/sbin/resize2fs -d 8 "${ROOT}" "${ROOT_SIZE}" || echo "resize2fs: $?"
+# Convert root from possible UUID to device name
+echo "root=${ROOT}  "
+ROOT_DEVICE="$(/sbin/findfs "$ROOT")"
+echo "root device name is ${ROOT_DEVICE}  "
+# Check root filesystem
+/sbin/e2fsck -y -v -f "$ROOT_DEVICE" || echo "e2fsck: $?  "
+# Resize
+# debug-flag 8 means debug moving the inode table
+/sbin/resize2fs -d 8 "$ROOT_DEVICE" "$ROOT_SIZE" || echo "resize2fs: $?  "
 EOF
 
 chmod +x /etc/initramfs-tools/scripts/init-premount/resize

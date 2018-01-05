@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last 3 hours. Simple logcheck.
 #
-# VERSION       :0.8.14
+# VERSION       :0.8.15
 # DATE          :2016-04-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -33,7 +33,7 @@ Failures() {
     # -intERRupt,-bERRy, -WARNer, -fail2ban, -MISSy, -deFAULT
     grep -Ei "crit|[^f]err[os]|warn[^e]|fail[^2]|alert|unknown|unable|miss[^y]\
 |except|disable|invalid|[^e]fault|cannot|denied|broken|exceed|too big|unsafe|unsolicited\
-|limit reach|unhandled|traps|\bbad\b|corrupt|but got status"
+|limit reach|unhandled|traps|\bbad\b|corrupt|but got status|oom-killer"
 }
 
 # Search recent log entries

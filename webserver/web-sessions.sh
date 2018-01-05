@@ -67,7 +67,7 @@ Display_sessions() {
 
         REQUEST="${SESSION_DATA[${ID}_REQUEST]}"
         if [ ${#REQUEST} -gt 53 ]; then
-            REQUEST="${REQUEST:0:20}...${REQUEST:(-30)}"
+            REQUEST="${REQUEST:0:22}…${REQUEST:(-30)}"
         fi
 
         UA="${SESSION_DATA[${ID}_UA]}"

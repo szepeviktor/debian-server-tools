@@ -3,32 +3,29 @@
 # Uninstall a tool from debian-server-tools.
 #
 # VERSION       :0.1.0
-# DATE          :2015-
+# DATE          :2018-01-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 
-
 Die() {
     local RET="$1"
+
     shift
-    echo -e $@ >&2
+
+    echo -e "$*" 1>&2
     exit "$RET"
 }
 
-#####################################################
-# Parses out a meta value from a script
-# Arguments:
-#   FILE
-#   META
-#####################################################
 Get_meta() {
     # defaults to self
     local FILE="${1:-$0}"
     # defaults to "VERSION"
     local META="${2:-VERSION}"
-    local VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d':' -f 2-)"
+    local VALUE
+
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ':' -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -36,104 +33,54 @@ Get_meta() {
     echo "$VALUE"
 }
 
-#####################################################
-# Copies files in place, sets permissions and owner
-# Arguments:
-#   FILE
-#####################################################
-Do_install() {
+Do_uninstall() {
     local FILE="$1"
-    local OWNER
-    local PERMS
     local SYMLINK
     local SCRIPT
-
-    if ! [ -f "$FILE" ]; then
-        Die 1 "File does not exist (${FILE})"
-    fi
 
     SCRIPT="$(Get_meta "$FILE" LOCATION)"
     if [ -z "$SCRIPT" ] || [ "$SCRIPT" == "(unknown)" ]; then
         Die 2 "Invalid location (${SCRIPT})"
     fi
-    OWNER="$(Get_meta "$FILE" OWNER)"
-    if [ -z "$OWNER" ] || [ "$OWNER" == "(unknown)" ]; then
-        OWNER="root:root"
-    fi
-    PERMS="$(Get_meta "$FILE" PERMISSION)"
-    if [ -z "$PERMS" ] || [ "$PERMS" == "(unknown)" ]; then
-        PERMS="755"
-    fi
 
     # Check for existence
     if [ -f "$SCRIPT" ]; then
-        if diff -q "$FILE" "$SCRIPT" &> /dev/null; then
-            echo "Already up-to-date ${SCRIPT}"
-            return
-        fi
-
-        echo "Replacing ${SCRIPT}"
+        echo "Uninstalling ${SCRIPT}"
     else
-        echo "Installing ${FILE} to ${SCRIPT}"
+        Die 3 "Script does not exist (${SCRIPT})"
     fi
 
-    # Install
-    install -v -D --no-target-directory --preserve-timestamps \
-        --owner="${OWNER%:*}" --group="${OWNER#*:}" --mode "$PERMS" \
-        "$FILE" "$SCRIPT" \
-        || Die 11 "Installation failure (${FILE})"
+    # Uninstall
+    rm -v "$SCRIPT" || Die 11 "Uninstallation failure (${SCRIPT})"
 
     # Create symlink
     head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d':' -f 2- \
-        | while read SYMLINK; do
-            echo -n "Symlinking "
-            ln -s -v -f "$SCRIPT" "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
+        | while read -r SYMLINK; do
+            echo -n "Removing symlink "
+            rm -v "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
         done
 
     # Cron jobs
     if head -n 30 "$FILE" | grep -qi "^# CRON"; then
-        $(dirname $0)/uninstall-cron.sh "$FILE" || Die 13 "Cron uninstallation failure (${FILE})"
+        "$(dirname "$0")/uninstall-cron.sh" "$FILE" || Die 13 "Cron uninstallation failure (${SCRIPT})"
     fi
-
-    # Display dependencies
-    Get_meta "$FILE" DEPENDS
 }
 
-#####################################################
-# Process all files in a directory NOT recursively
-# Arguments:
-#   DIR
-#####################################################
-Do_dir() {
-    local DIR="$1"
-    local FILE
-
-    find "$DIR" -maxdepth 1 -type f \
-        | while read FILE; do
-            Do_install "$FILE"
-        done
-}
-
-
-#########################################################
-
-INSTALL_PATH="$1"
+UNINSTALL_PATH="$1"
 
 # Check user
 if [ "$(id --user)" -ne 0 ]; then
-    Die 1 "Only root is allowed to install"
+    Die 1 "Only root is allowed to uninstall"
 fi
 
 # Display version
-if [ "$INSTALL_PATH" == "--version" ]; then
+if [ "$UNINSTALL_PATH" == "--version" ]; then
     Get_meta
     exit 0
 fi
 
-if [ -d "$INSTALL_PATH" ]; then
-    Do_dir "$INSTALL_PATH"
-elif [ -f "$INSTALL_PATH" ]; then
-    Do_install "$INSTALL_PATH"
+if [ -f "$UNINSTALL_PATH" ]; then
+    Do_uninstall "$UNINSTALL_PATH"
 else
-    Die 2 "Specified path does not exist (${INSTALL_PATH})"
+    Die 2 "Specified file does not exist (${UNINSTALL_PATH})"
 fi

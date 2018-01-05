@@ -106,7 +106,7 @@
 164.138.48.41	allow,BLOCK
 164.138.48.42	allow,BLOCK
 164.138.48.43	allow,BLOCK
-# Dynadot
+# Dynadot - mail-out-newsletter.dynadot.com.
 166.88.19.39	allow,BLOCK
 # GitHub notification by SendGrid - o{1.11}.sgmail.github.com.
 192.254.114.176	allow,BLOCK

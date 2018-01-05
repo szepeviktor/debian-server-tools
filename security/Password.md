@@ -12,6 +12,7 @@
 - May not contain characters: ?
 - Consecutive identical characters (aaa), alphabetical series (abc), number series (123), keyboard series (asd)
 - Similarity to: username, previous password, email address, name
+- Don't allow TOP 1000 passwords
 
 ### Similarity
 
