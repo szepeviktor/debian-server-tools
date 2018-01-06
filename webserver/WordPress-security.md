@@ -4,7 +4,7 @@
 
 - Choose an enterprise-level server provider (e.g. [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S))
 - Secure control panel access: 2FA, login notification
-- Secure API
+- Secure API (IP whitelist)
 - Subscribe to status updates
 
 ### Compromise through server software

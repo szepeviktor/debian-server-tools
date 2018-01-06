@@ -37,7 +37,6 @@ Traffic light example :vertical_traffic_light: a developer sees the green light,
 
 Contact me: viktor@szepe.net
 
-
 ### Webserver stack
 
 Essentially keep every operation in memory!
@@ -58,9 +57,55 @@ Essentially keep every operation in memory!
 - Cut on JavaScripts
 - Continuous monitoring (monit, Pingdom, HetrixTools)
 
-# <a name="hu"></a>Infrastruktúra, forrás kód kezelés és műszaki támogatás honlapokhoz
 
-Létező honlapok és [webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md) **proaktív** üzemeltetésével foglalkozok.  
+
+# <a name="hu"></a>Infrastruktúra, forrás kód kezelés és műszaki támogatás webes applikációkhoz
+
+A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.  
+[Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
+**proaktív** üzemeltetésével foglalkozok, ami magában foglalja az applikáció vizsgálatát,
+a folyamatos integrációs teszteket (CI) és automatizált telepítést (deploy, CD).
+Ezeket nem csak üzemeltetem, hanem meg is írom.
+
+A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
+hogy a hibák **ne váratlanul** jönnek elő.
+A technológiai ismereteim kiegészítik a fejlesztő ismereteit.
+
+Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
+
+### Mit végzek el proaktív üzemeltetés néven?
+
+- Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
+- Modern operációs rendszer és szoftver installálása
+- Szerver és applikáció és külső szolgáltató [monitorozás](/monitoring/README.md)
+  funkcionális tesztekkel és integritás ellenőrzéssel
+- Napló kivonatok elemzése
+- Szoftver frissítés changelog-ok olvasása alapján
+- Intelligens és titkosított biztonsági mentés
+
+* Folyamatos integráció (CI) megtervezése, kivitelezése
+* Applikáció telepítés (deploy, CD) automatizálás, ellenőrzés
+* **Hibajegy nyitás** a fejlesztőknek
+* Monitorozó programok, **teljesítmény növelő és biztonsági** [eszközök fejlesztése](https://github.com/szepeviktor/)
+* Kép fájl optimalizálás
+* [Email kézbesítés és visszapattanók](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md) (EN)
+
+### Előnyök
+
+- **Stabil üzem**
+- Applikáció sérülékenységek kiküszöbölése
+- Gyors oldal betöltés
+- Jobb felhasználó élmény (UX) az ügyfeleknek
+- Jobb helyezés a Google Keresőben
+- Kevesebb **váratlan** incidens
+
+Keressen meg: viktor@szepe.net
+
+
+
+# <a name="hu-wp"></a>WordPress üzemeltetés cloud szerveren és műszaki támogatás
+
+Létező honlapok **proaktív** üzemeltetésével foglalkozok.  
 Olyan dolgokkal, amelyek nem látszanak a képernyőn,
 amiről sokan azt hisszük, hogy rendben vannak, tehát a hibák **váratlanul** jönnek elő.
 
@@ -97,6 +142,8 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 - Kevesebb **váratlan** incidens
 
 Keressen meg: viktor@szepe.net
+
+
 
 ## WordPress fejlesztő keresés
 
