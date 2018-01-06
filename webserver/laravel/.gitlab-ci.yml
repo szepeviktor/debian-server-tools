@@ -1,63 +1,70 @@
 #
 # GitLab CI for a Laravel project.
 #
-# https://docs.gitlab.com/ee/ci/yaml/README.html
+# https://gitlab.com/help/ci/yaml/README.md
+# https://gitlab.com/help/ci/variables/README.md
+# Secret        :SSH_KNOWN_HOSTS
+# Secret        :SSH_PRIVATE_KEY
+# Secret        :COMPOSER_AUTH_JSON
 
-image: project/php-build:7.1
+# https://gitlab.com/help/user/project/container_registry
+image: registry.gitlab.com/group/project:7.0
 
 services:
   - mysql:5.7
 
 variables:
   # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-  MYSQL_DATABASE: dbuser
-  MYSQL_ROOT_PASSWORD: dbpassword
+  MYSQL_ROOT_PASSWORD: "dbpassword"
+  MYSQL_DATABASE: "dbuser"
 
 # Move Composer cache inside the project workspace
 cache:
   paths:
     - .composercache
 
-before_script:
-  # Environment information
-  - lsb_release --all
-  - mysql --version
-  - redis-server --version
-  - php -v
-  - whoami
-  - pwd
-  - ls -la
-  # Gitlab's public key
-  - mkdir --mode=0700 ~/.ssh
-  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-  # Private Gitlab repositories access (ECDSA)
-  - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_ecdsa
-  - chmod 0600 ~/.ssh/id_ecdsa
-  # Private Composer repositories access
-  - mkdir --parents ~/.composer
-  - echo "$COMPOSER_AUTH_JSON" | base64 --decode > ~/.composer/auth.json
-  - chmod 0600 ~/.composer/auth.json
-  # Composer
-  - composer config cache-dir ~/.composercache
-  - composer validate --ansi
-  # Includes artisan optimize - depends on 'app.debug'
-  - composer install --ansi --optimize-autoloader
-  # On Deploy: - composer install --no-dev --classmap-authoritative
-  #            - check .env: APP_ENV=production , APP_DEBUG=false
-  #            - caches: application (Redis), configuration, route, view
-  - composer outdated --ansi --direct
-  #- security-checker security:check # roave/security-advisories
-  # Jorijn/laravel-security-checker
-  # dependencies.io
-  # Set up database
-  - echo 'APP_NAME=Laravel' > .env
-  - echo 'APP_ENV=local' >> .env
-  - echo 'APP_KEY=base64:8WQ2S3IXjxCHxUdtzpY3JQmM00OKgSJTOVf+rqQ8fh0=' >> .env
-  - echo 'APP_DEBUG=true' >> .env
-  - echo 'DB_HOST=mysql' >> .env
-  - php artisan db:seed
-
 test:
+  before_script:
+    # Environment information
+    - lsb_release --all
+    - mysql --version
+    - redis-server --version
+    - php -v
+    - whoami
+    - pwd
+    - ls -lA
+    # Gitlab's public key
+    - mkdir --mode=0700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    # Private Gitlab repositories access (ECDSA)
+    - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_ecdsa
+    - chmod 0600 ~/.ssh/id_ecdsa
+    # Private Composer repositories access
+    - mkdir --parents ~/.composer
+    - echo "$COMPOSER_AUTH_JSON" | base64 --decode > ~/.composer/auth.json
+    - chmod 0600 ~/.composer/auth.json
+    # Composer
+    - composer config cache-dir "${CI_PROJECT_DIR}/.composercache"
+    - composer validate --ansi
+    # Includes artisan optimize - depends on 'app.debug'
+    - composer install --ansi --prefer-dist --no-suggest
+    # On Deploy: - composer install --no-dev --prefer-dist --prefer-stable --classmap-authoritative
+    #            - check .env: APP_ENV=production , APP_DEBUG=false
+    #            - caches: application (Redis), configuration, route, view
+    - composer outdated --ansi --direct
+    #- security-checker security:check # roave/security-advisories
+    # Jorijn/laravel-security-checker
+    # dependencies.io
+    # Set up database
+    - echo "APP_NAME=Laravel" > .env
+    - echo "APP_ENV=testing" >> .env
+    - echo 'APP_KEY=base64:8WQ2S3IXjxCHxUdtzpY3JQmM00OKgSJTOVf+rqQ8fh0=' >> .env
+    - echo "APP_DEBUG=true" >> .env
+    - echo "DB_HOST=mysql" >> .env
+    - echo "DB_DATABASET=${MYSQL_DATABASE}" >> .env
+    - echo "DB_USERNAME=root" >> .env
+    - echo "DB_PASSWORD=${MYSQL_ROOT_PASSWORD}" >> .env
+    - php artisan migrate:refresh --seed
   script:
     # Syntax check
     - parallel-lint --blame --exclude vendor/ .
@@ -73,14 +80,17 @@ test:
     ## Fix duplicate Redis class (rejected in laravel-ide-helper)
     #- sed -e 's|class Redis |class Redis__ |' -e 's|exit(|// exit(|' -i _ide_helper.php
     # Static analysis
-    - phpstan analyse --no-progress --configuration=phpstan.neon --level=7 -- app/
+    - phpstan analyse --ansi --no-progress --configuration=phpstan.neon --level=7 -- app/
     # Unit tests
-    - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+    # https://phpunit.de/manual/current/en/textui.html#textui.clioptions
+    - vendor/bin/phpunit --colors=always --configuration phpunit.xml --coverage-text
+  after_script:
+    # Warnings
+    - bash ./project-warnings.sh
+    # Clean up secrets
+    - rm ~/.ssh/id_ecdsa ~/.ssh/known_hosts ~/.composer/auth.json
 
-after_script:
-  # Warnings
-  - bash ./project-warnings.sh
-  # Clean up secrets
-  - rm ~/.ssh/id_ecdsa ~/.ssh/known_hosts ~/.composer/auth.json
-  # Code Quality
-  # https://docs.gitlab.com/ee/ci/examples/code_climate.html
+# Code Quality
+# https://docs.gitlab.com/ee/ci/examples/code_climate.html
+
+# Control deploy from commit messages: [deploy:staging]

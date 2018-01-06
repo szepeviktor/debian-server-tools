@@ -26,7 +26,7 @@ Bits and bytes.
 
 [PSR2 ruleset](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR2/ruleset.xml)
 
-### Use others' work
+### Use others' work :exclamation:
 
 - Consider [PSR-s](http://www.php-fig.org/psr/)
 - Frameworks/CMS-s
@@ -36,13 +36,13 @@ Bits and bytes.
 - Build and deployment tools
 - Application monitoring (performance, errors)
 
-### Workflow in git
+### Workflow in git :octocat:
 
 - New feature or fix is ready and "works for me" → _PR_ (new branch)
 - → CI all green → _dev branch_
-- → Previous feature approved → _staging branch_ + deploy to staging server :computer:
+- → Previous feature approved → _staging branch_ + deploy to staging server :ship:
 - → Testing folks approve it → _master branch_
-- → Wait for release → tag + build + deploy to production server :computer:
+- → Wait for release → tag and deploy to production server :ship:
 
 Commit checklist:
 code, tests, changelog, commit message, issue link, watch CI (`PULL_REQUEST_TEMPLATE.md`)
@@ -50,14 +50,14 @@ code, tests, changelog, commit message, issue link, watch CI (`PULL_REQUEST_TEMP
 [Release checklist](https://make.wordpress.org/cli/handbook/release-checklist/):
 tag, build, deploy, announce (Wiki)
 
-### Hotfix flow
+### Hotfix flow :boom:
 
-- Catastrophe → _hotfix branch_ + deploy to production server :computer:
+- Catastrophe → _hotfix branch_ + deploy to production server :ship:
 - Alert (email, chat, SMS)
 - Watch logs
-- Open a _PR_ (new branch)
+- Merge changes to _dev branch_
 
-### CI outside tests
+### CI outside tests :mag:
 
 What to include in continuous integration with 0% code coverage?
 (no unit tests, no functional test)
@@ -76,7 +76,7 @@ Use Docker **containers** for testing.
 - Metrics (phpmetrics)
 - Build assets (webpack)
 
-### CI with tests
+### CI with tests :mag_right:
 
 - PHPUnit
 - Measure code coverage
@@ -108,7 +108,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Autoloading (composer)
 - ORM
-- Object caching (PSR-6)
+- Object caching ([PSR-6](https://github.com/php-cache/illuminate-adapter))
 - Session handling
 - HTTP security and request handling (WAF)
 - Input validation, sanitization
@@ -129,12 +129,12 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 ### Application environment
 
 - Document everything in `hosting.yml`
-- Set environment variables (PHP-FPM pool, `.env`)
-- Declare directives, functions, extensions and test them in
+- Declare PHP version, extensions, directives, functions and test them in
   [php-env-check](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/php-env-check.php),
   run in composer.json:pre-install-cmd
-- PHP version and extensions also in composer.json:require
-- Publish Dockerfile of CI
+- **PHP version** and extensions also in composer.json:require
+- Set environment variables (PHP-FPM pool, `.env`)
+- Publish Dockerfile of CI (GitLab Container Registry)
 - Build and deploy script (file permissions)
 - Cron jobs and workers
 - Check queues in a cron job
@@ -153,6 +153,6 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Register to webmaster tools (Google, Bing, Yandex)
 - Differences of a staging/development environment (different TLD, email, 3rd parties)
 
-### Maintenance
+### Maintenance :wrench:
 
 Have me on board: viktor@szepe.net

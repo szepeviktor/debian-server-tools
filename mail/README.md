@@ -42,7 +42,7 @@
 - https://www.getdrip.com/features
 - https://www.campaignmonitor.com/
 
-### Webmails
+### Webmail
 
 - https://www.horde.org/
 - https://www.rainloop.net/changelog/
@@ -203,6 +203,10 @@ ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost
 ### Courier as smarthost client
 
 `esmtproutes` "both MX and A records get looked up"
+
+### Non-email domains
+
+[Tarbaby](http://wiki.junkemailfilter.com/index.php/Project_tarbaby#Using_Tarbaby_with_Dead_Domains)
 
 
 ## Test

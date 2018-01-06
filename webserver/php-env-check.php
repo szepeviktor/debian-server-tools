@@ -166,7 +166,7 @@ final class Check_Env {
         $this->assert_extension( 'session' );
         $this->assert_directive( 'session.gc_maxlifetime', '1440' );
 
-        // Process
+        // System program execution
         //$this->assert_function( 'proc_open' );
     }
 
