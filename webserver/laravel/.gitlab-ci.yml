@@ -1,11 +1,11 @@
 #
 # GitLab CI for a Laravel project.
 #
-# https://gitlab.com/help/ci/yaml/README.md
-# https://gitlab.com/help/ci/variables/README.md
-# Secret        :SSH_KNOWN_HOSTS
-# Secret        :SSH_PRIVATE_KEY
-# Secret        :COMPOSER_AUTH_JSON
+# DOCS          :https://gitlab.com/help/ci/yaml/README.md
+# DOCS          :https://gitlab.com/help/ci/variables/README.md
+# SECRET        :SSH_KNOWN_HOSTS
+# SECRET        :SSH_PRIVATE_KEY
+# SECRET        :COMPOSER_AUTH_JSON
 
 # https://gitlab.com/help/user/project/container_registry
 image: registry.gitlab.com/group/project:7.0

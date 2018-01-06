@@ -60,7 +60,7 @@ final class Check_Env {
 
         // Environment variables
         $this->assert( 'WP_ENV', 'production', getenv( 'WP_ENV' ) );
-        //$this->assert( 'ENVIRONMENT', 'production', getenv( 'ENVIRONMENT' ) );
+        //$this->assert( 'APP_ENV', 'production', getenv( 'APP_ENV' ) );
 
         // Core directives
         $this->assert_directive( 'user_ini.filename', '' );

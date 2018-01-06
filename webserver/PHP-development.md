@@ -113,9 +113,9 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - HTTP security and request handling (WAF)
 - Input validation, sanitization
 - Escaping (SQL, HTML, JavaScript)
+- Internationalization (PHP, JavaScript)
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
-- Internationalization (i18n)
 - Templating
 - Authentication (2FA, password security)
 - User roles and capabilities
