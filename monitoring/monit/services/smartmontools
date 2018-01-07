@@ -4,6 +4,7 @@
    group smartd
    start program = "/usr/sbin/service smartmontools start"
    stop program = "/usr/sbin/service smartmontools stop"
+   restart program = "/usr/sbin/service smartmontools restart"
    if 5 restarts with 5 cycles then unmonitor
    depends on smartd_bin
    depends on smartd_init

@@ -4,6 +4,7 @@
    group "redis"
    start program = "/usr/sbin/service redis-server start"
    stop program = "/usr/sbin/service redis-server stop"
+   restart program = "/usr/sbin/service redis-server restart"
    if failed host localhost port 6379 protocol redis then restart
    if cpu > 60% for 2 cycles then alert
    if cpu > 98% for 5 cycles then restart

@@ -2,6 +2,7 @@
    group "php-fpm"
    start program = "/usr/sbin/service php7.1-fpm start"
    stop program = "/usr/sbin/service php7.1-fpm stop"
+   restart program = "/usr/sbin/service php7.1-fpm restart"
    if failed unixsocket "/run/php/php7.1-fpm-@@PHP71_USER@@.sock" then restart
    if failed host "@@PHP71_STATUS_SSL_SERVER_NAME@@" port 443 with protocol https and request "/statusphp"
      with timeout 2 seconds for 4 times within 5 cycles then restart

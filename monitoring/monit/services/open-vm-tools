@@ -2,6 +2,7 @@
    group open-vm-tools
    start program = "/usr/sbin/service open-vm-tools start"
    stop program = "/usr/sbin/service open-vm-tools stop"
+   restart program = "/usr/sbin/service open-vm-tools restart"
    if 5 restarts within 5 cycles then unmonitor
    depends on open-vm-tools_bin
    depends on vmware-toolbox

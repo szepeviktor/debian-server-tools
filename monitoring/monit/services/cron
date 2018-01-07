@@ -4,6 +4,7 @@
    group crond
    start program = "/usr/sbin/service cron start"
    stop program = "/usr/sbin/service cron stop"
+   restart program = "/usr/sbin/service cron restart"
    if 5 restarts with 5 cycles then unmonitor
    depends on crond_bin
    depends on crond_init

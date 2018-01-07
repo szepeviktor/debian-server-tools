@@ -3,6 +3,7 @@
    group services
    start program = "/usr/sbin/service fail2ban force-start" with timeout 90 seconds
    stop program = "/usr/sbin/service fail2ban stop" with timeout 90 seconds
+   restart program = "/usr/sbin/service fail2ban restart" with timeout 90 seconds
    if failed unixsocket /run/fail2ban/fail2ban.sock then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on fail2ban_init

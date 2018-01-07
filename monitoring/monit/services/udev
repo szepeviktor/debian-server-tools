@@ -3,6 +3,7 @@
    group udevd
    start program = "/usr/sbin/service udev start"
    stop program = "/usr/sbin/service udev stop"
+   restart program = "/usr/sbin/service udev restart"
    if 5 restarts with 5 cycles then unmonitor
    depends on udevadm
    depends on udevd_bin

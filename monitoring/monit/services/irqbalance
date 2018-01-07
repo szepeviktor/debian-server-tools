@@ -3,6 +3,7 @@
    group irqbalance
    start program = "/usr/sbin/service irqbalance start"
    stop program = "/usr/sbin/service irqbalance stop"
+   restart program = "/usr/sbin/service irqbalance restart"
    if 5 restarts with 5 cycles then unmonitor
    depends on irqbalance_bin
    depends on irqbalance_init

@@ -48,7 +48,7 @@ test:
     - composer validate --ansi
     # Includes artisan optimize - depends on 'app.debug'
     - composer install --ansi --prefer-dist --no-suggest
-    # On Deploy: - composer install --no-dev --prefer-dist --prefer-stable --classmap-authoritative
+    # On Deploy: - composer install --no-dev --prefer-dist --prefer-stable --classmap-authoritative --no-suggest
     #            - check .env: APP_ENV=production , APP_DEBUG=false
     #            - caches: application (Redis), configuration, route, view
     - composer outdated --ansi --direct

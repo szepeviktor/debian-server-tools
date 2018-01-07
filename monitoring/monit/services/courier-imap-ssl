@@ -2,6 +2,7 @@
    group mail
    start program = "/usr/sbin/service courier-imap-ssl start"
    stop program = "/usr/sbin/service courier-imap-ssl stop"
+   restart program = "/usr/sbin/service courier-imap-ssl restart"
    if failed host localhost port 993 type tcpssl protocol imap then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-imap_bin

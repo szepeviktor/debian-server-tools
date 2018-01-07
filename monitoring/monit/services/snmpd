@@ -3,6 +3,7 @@
    group snmpd
    start program = "/usr/sbin/service snmpd start"
    stop program = "/usr/sbin/service snmpd stop"
+   restart program = "/usr/sbin/service snmpd restart"
    if failed host localhost port 161 type udp then restart
    if failed host localhost port 199 type tcp then restart
    if 5 restarts within 5 cycles then unmonitor

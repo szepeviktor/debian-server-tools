@@ -2,6 +2,7 @@
    group munin_node
    start program = "/usr/sbin/service munin-node start"
    stop program = "/usr/sbin/service munin-node stop"
+   restart program = "/usr/sbin/service munin-node restart"
    if failed host localhost port 4949 type tcp for 2 cycles then restart
    if 5 restarts with 10 cycles then unmonitor
    depends on munin_node_bin

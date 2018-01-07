@@ -3,6 +3,7 @@
    group haveged
    start program = "/usr/sbin/service haveged start"
    stop program = "/usr/sbin/service haveged stop"
+   restart program = "/usr/sbin/service haveged restart"
    if 5 restarts with 5 cycles then unmonitor
    depends on haveged_bin
    depends on haveged_init

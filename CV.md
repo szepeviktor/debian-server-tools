@@ -69,7 +69,7 @@ Ezeket nem csak üzemeltetem, hanem meg is írom.
 
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
 hogy a hibák **ne váratlanul** jönnek elő.
-A technológiai ismereteim kiegészítik a fejlesztő ismereteit.
+A technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
 Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
 
@@ -92,10 +92,10 @@ Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az 
 
 ### Előnyök
 
-- **Stabil üzem**
+- **Stabil üzem** - leállások megelőzése
 - Applikáció sérülékenységek kiküszöbölése
+- Jobb felhasználói élmény (UX) az ügyfeleknek
 - Gyors oldal betöltés
-- Jobb felhasználó élmény (UX) az ügyfeleknek
 - Jobb helyezés a Google Keresőben
 - Kevesebb **váratlan** incidens
 
@@ -137,7 +137,7 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 - **Stabil üzem**
 - Gyors oldal betöltés
 - Honlap sérülékenységek kiküszöbölése
-- Jobb felhasználó élmény (UX) a látogatóknak és a szerkesztőknek is
+- Jobb felhasználói élmény (UX) a látogatóknak és a szerkesztőknek is
 - Jobb helyezés a Google Keresőben
 - Kevesebb **váratlan** incidens
 

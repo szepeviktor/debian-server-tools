@@ -3,6 +3,7 @@
    group "rngd"
    start program = "/usr/sbin/service rng-tools start"
    stop program = "/usr/sbin/service rng-tools stop"
+   restart program = "/usr/sbin/service rng-tools restart"
    if 5 restarts with 5 cycles then unmonitor
    depends on rngd_bin
    depends on rngd_test

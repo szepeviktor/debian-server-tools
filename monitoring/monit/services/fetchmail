@@ -3,6 +3,7 @@
    group mail
    start program = "/usr/sbin/service fetchmail start"
    stop program = "/usr/sbin/service fetchmail stop"
+   restart program = "/usr/sbin/service fetchmail restart"
    depends on fetchmail_bin
    depends on fetchmail_init
    depends on fetchmail_rc

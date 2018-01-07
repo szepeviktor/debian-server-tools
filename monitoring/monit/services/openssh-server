@@ -4,6 +4,7 @@
    group sshd
    start program = "/usr/sbin/service ssh start"
    stop program = "/usr/sbin/service ssh stop"
+   restart program = "/usr/sbin/service ssh restart"
    if failed host localhost port @@SSH_PORT@@ with proto ssh then restart
    if 5 restarts with 5 cycles then unmonitor
    depends on sshd_bin

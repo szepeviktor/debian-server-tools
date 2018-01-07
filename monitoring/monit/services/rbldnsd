@@ -2,6 +2,7 @@
    group rbldns
    start program = "/usr/sbin/service rbldnsd start"
    stop program = "/usr/sbin/service rbldnsd stop"
+   restart program = "/usr/sbin/service rbldnsd restart"
    if failed host @@RBLDNSD_IP@@ port @@RBLDNSD_PORT@@ type udp protocol dns then alert
    if failed host @@RBLDNSD_IP@@ port @@RBLDNSD_PORT@@ type tcp protocol dns then alert
    if 5 restarts within 5 cycles then unmonitor

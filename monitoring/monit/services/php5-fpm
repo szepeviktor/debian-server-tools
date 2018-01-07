@@ -2,6 +2,7 @@
    group php-fpm
    start program = "/usr/sbin/service php5-fpm start"
    stop program = "/usr/sbin/service php5-fpm stop"
+   restart program = "/usr/sbin/service php5-fpm restart"
    if failed unixsocket /run/php5-fpm-@@PHP5_USER@@.sock then restart
    if failed host @@PHP5_STATUS_SSL_SERVER_NAME@@ port 443 with protocol https and request "/statusphp"
      with timeout 25 seconds for 4 times within 5 cycles then restart

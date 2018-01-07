@@ -1,7 +1,8 @@
  check process "rabbitmq" with pidfile "/run/rabbitmq/pid"
    group "rabbitmq"
-   start program = "/usr/sbin/service rabbitmq-server"
-   stop program = "/usr/sbin/service rabbitmq-server"
+   start program = "/usr/sbin/service rabbitmq-server start"
+   stop program = "/usr/sbin/service rabbitmq-server stop"
+   restart program = "/usr/sbin/service rabbitmq-server restart"
    if 5 restarts with 5 cycles then unmonitor
    # AMQP port
    if failed port 5672 then alert

@@ -86,7 +86,7 @@ export IMAGE_CODENAME="stretch"
 export WITHOUT_SYSTEMD="yes"
 
 export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils aptitude"
-#:ubuntu
+#:ubuntu test "$(dpkg-vendor --query vendor)" == Ubuntu
 #export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils"
 
 # APT sources must be hardcoded as shyaml is unavailable before OS image normalization

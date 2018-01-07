@@ -1,5 +1,9 @@
 # Infrastructure and application setup for new clients
 
+*Welcome to the process of setting up your infrastructure and your application!*
+
+Details about [infrastructure and source code management](/master/CV.md)
+
 ### Choose infrastructure providers
 
 - Domain registrar (AWS, Gandi, noip, dyn, Rackforest/.hu)
@@ -13,10 +17,10 @@
 ### Infrastructure setup
 
 - Document in hosting.yml / server.yml
-- Gain access (web based sub-account or API)
+- Gain access to providers (web based sub-account or API)
 - Manage migrations
 - DNS records (check, clean up, monitor)
-- PTR/IPv4 PTR/IPv6 records
+- PTR/IPv4, PTR/IPv6 records
 - Incoming ESP and bounce notification
 - My email address: `webmaster@COMPANY.TLD`
 - Whitelisted IP-s (office)
@@ -25,8 +29,10 @@
 
 - 3rd parties (document, gain access, set up)
 - User names and SSH keys
-- Git repository
+- Git repository, branch usage (git flow)
 - Issue tracker
-- Paid plugins, libraries (update, access, support)
-- Application environment
+- Paid plugins, libraries (updates, gain access, support)
+- Application environment definition
+- Set up CI
+- Write deploy script
 - Notifications (email, chat, SMS)

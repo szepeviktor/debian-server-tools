@@ -6,6 +6,7 @@
    group "GROUP"
    start program = "/usr/sbin/service SERVICE_INIT start"
    stop program = "/usr/sbin/service SERVICE_INIT stop"
+   restart program = "/usr/sbin/service SERVICE_INIT restart"
    if failed unixsocket "/run/SERVICE.sock" then restart
    if 5 restarts with 5 cycles then unmonitor
    depends on SERVICE_bin

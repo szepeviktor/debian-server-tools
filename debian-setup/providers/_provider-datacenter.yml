@@ -30,6 +30,7 @@ networking:
         #- 2001:1608:10:25::9249:d69b
         # MAXNS=3
         #- $local.NS2
+        # https://gist.github.com/roge-/e7d926a3b3551a0f3769
     inet6:
         #method: auto
         method: static
