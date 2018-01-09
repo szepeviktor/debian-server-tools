@@ -66,6 +66,10 @@
 
 - [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
 
+### Server manager
+
+- [RunCloud](https://runcloud.io/)
+
 ### CDN
 
 - [Keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland

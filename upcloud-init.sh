@@ -2,11 +2,11 @@
 #
 # Prepare UpCloud server with docker and pip.
 #
-# Initialization script: https://github.com/szepeviktor/debian-server-tools/raw/master/upcloud-init.sh
-# Follow log: tail -f /var/log/upcloud_userdata.log
+# Initialization script:  https://github.com/szepeviktor/debian-server-tools/raw/master/upcloud-init.sh
+# Follow log:  tail -f /var/log/upcloud_userdata.log
 
-# http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/
-GEOIP_VERSION="1.19"
+# http://deb.debian.org/debian/pool/contrib/g/geoipupdate/
+GEOIPUPDATE_VERSION="2.5.0-1"
 DEBIAN_CODENAME="stretch"
 
 export LC_ALL="C"
@@ -15,18 +15,19 @@ export DEBIAN_FRONTEND="noninteractive"
 Auto_country() {
     apt-get clean
     apt-get update
-    apt-get install -qq geoip-bin netselect-apt
-    wget -nv "http://deb.debian.org/debian/pool/contrib/g/geoip-database-contrib/geoip-database-contrib_${GEOIP_VERSION}_all.deb"
-    dpkg -i geoip-database-contrib_*_all.deb
+    apt-get install -qq mmdb-bin netselect-apt
+    wget -nv "http://deb.debian.org/debian/pool/contrib/g/geoipupdate/geoipupdate_${GEOIPUPDATE_VERSION}_amd64.deb"
+    dpkg -i geoipupdate_*_amd64.deb
+    geoipupdate
 
-    IP="$(ifconfig|sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+    IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
     test -n "$IP"
-    COUNTRY="$(geoiplookup -f /usr/share/GeoIP/GeoIP.dat "$IP"|sed -ne 's|^GeoIP Country Edition: \(..\),.*$|\1|p')"
+    COUNTRY="$(mmdblookup --file /var/lib/GeoIP/GeoLite2-Country.mmdb --ip "$IP" registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p')" #'
     test -n "$COUNTRY"
     netselect-apt -c "$COUNTRY" stable
-    MIRROR="$(sed -ne '0,/^deb \(http\S\+\) .*$/s//\1/p' sources.list)"
+    MIRROR="$(sed -n -e '0,/^deb \(http\S\+\) .*$/s//\1/p' sources.list)"
     test -n "$MIRROR"
-    rm -f geoip-database-contrib_*_all.deb sources.list
+    rm -f geoipupdate_*_amd64.deb sources.list
 
     wget -nv -O- "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/sources.list" \
         | sed -e "s|@@MIRROR@@|${MIRROR}|" > /etc/apt/sources.list
@@ -35,7 +36,7 @@ Auto_country() {
 set -e -x
 
 # Create temporary files in /tmp
-[ -d /tmp ] && cd /tmp/
+test -d /tmp && cd /tmp/
 
 # Output may end up in a log file
 echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty

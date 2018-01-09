@@ -1,8 +1,8 @@
-#!/bin/bash -x
+#!/bin/bash
 #
 # Install s3ql systemwide by pip.
 #
-# VERSION       :2.24
+# VERSION       :2.24.0
 # DATE          :2016-10-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -17,8 +17,8 @@
 #     docker run --rm --tty -i -v /opt/results:/opt/results --entrypoint="/opt/results/s3ql-jessie.sh" szepeviktor/jessie-build
 #
 # Install to the Python user install directory
-#     Replace `sudo pip3 install` with ``
-#     And add set `export PATH="~/.local/bin:${PATH}"`
+#     Replace `sudo pip3 install` with `pip3 install --user`
+#     And add `export PATH="~/.local/bin:${PATH}"`
 
 RELEASE_FILE="s3ql-2.24.tar.bz2"
 
@@ -28,7 +28,7 @@ Pip_install() {
     #pip3 install --user "$@"
 }
 
-set -e
+set -e -x
 
 # Debian packages
 sudo apt-get update -qq
@@ -36,7 +36,7 @@ sudo apt-get install -y fuse python3-pkg-resources python3-systemd libjs-sphinxd
     curl build-essential pkg-config python3-dev libattr1-dev libfuse-dev libsqlite3-dev
 
 # Get pip
-curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3
+curl -s "https://bootstrap.pypa.io/get-pip.py" | sudo python3
 
 # Required packages
 # https://bitbucket.org/nikratio/s3ql/src/default/setup.py#setup.py-130
@@ -65,6 +65,6 @@ s3qlctrl --version
 rm -f "$RELEASE_FILE" "${RELEASE_FILE}.asc"
 
 # Optionally remove these packages
-#apt-get purge -y curl libattr1-dev libfuse-dev libsqlite3-dev build-essential dpkg-dev pkg-config python3-dev
+#     apt-get purge curl libattr1-dev libfuse-dev libsqlite3-dev build-essential dpkg-dev pkg-config python3-dev
 
 echo "OK."

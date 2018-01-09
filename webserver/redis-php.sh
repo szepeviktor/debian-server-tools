@@ -22,8 +22,8 @@ fi
 if [ "$(dpkg-query --showformat="\${Status}" --show php7.0-cli 2> /dev/null)" == "install ok installed" ]; then
     # Is php7.0-redis available?
     if [ -n "$(aptitude --disable-columns --display-format "%p" search "?exact-name(php7.0-redis)")" ]; then #"
-        # PHP 7 extension from dotdeb
-        apt-get install -y php7.0-redis
+        # PHP 7 extension
+        apt-get install -y php-redis
     else
         # PHP 7 extension from source
         apt-get install -y php7.0-dev re2c

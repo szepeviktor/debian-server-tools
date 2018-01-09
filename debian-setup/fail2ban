@@ -6,7 +6,9 @@ set -e -x
 
 test -n "$IP"
 
-Pkg_install_quiet geoip-database-contrib python3-pyinotify geoip-bin
+Pkg_install_quiet python3-pyinotify geoipupdate mmdb-bin
+# Update GeoIP2 databases
+geoipupdate -v
 
 Getpkg fail2ban sid
 

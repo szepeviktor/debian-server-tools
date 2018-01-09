@@ -21,7 +21,7 @@ Colon at column :16
 # UPSTREAM      :url
 # DEPENDS       :apt-get install package
 # LOCATION      :/usr/local/sbin/script.sh
-# OWNER         :root:root
+# OWNER         :root:staff
 # PERMISSION    :0755
 # SYMLINK       :/usr/local/sbin/alias.sh
 # CRON-HOURLY   :/usr/local/sbin/script.sh

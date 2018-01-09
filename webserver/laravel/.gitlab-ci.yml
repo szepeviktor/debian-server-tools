@@ -30,6 +30,10 @@ test:
     - mysql --version
     - redis-server --version
     - php -v
+    - composer --version
+    - robo --version
+    - parallel-lint --help | head -n 1
+    - phpstan --version
     - whoami
     - pwd
     - ls -lA

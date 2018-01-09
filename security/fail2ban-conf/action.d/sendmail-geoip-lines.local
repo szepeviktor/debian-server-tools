@@ -13,8 +13,8 @@ before = sendmail-common.conf
 # Option:  actionban
 # Notes.:  Command executed when banning an IP. Take care that the
 #          command is executed with Fail2Ban user rights.
-#          You need to install geoiplookup and the GeoLite or GeoIP databases.
-#          (geoip-bin and geoip-database in Debian)
+#          You need to install mmdblookup and the GeoLite2 databases.
+#          (mmdblookup and geoipupdate in Debian)
 #          The host command comes from bind9-host package.
 # Tags:    See jail.conf(5) man page
 # Values:  CMD
@@ -26,8 +26,8 @@ actionban = printf %%b "X-Fail2ban: <ip>,<sender>
             To: <dest>\n
             <failures> attempts against <name> - http://szepeviktor.github.io/ip-info/?<ip>\n
             https://toolbox.googleapps.com/apps/dig/#TXT/`echo '<ip>' | sed -e 's|^\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)$|\4.\3.\2.\1|'`.abuse-contacts.abusix.org\n\n
-            Country:`geoiplookup -f /usr/share/GeoIP/GeoIP.dat '<ip>' | cut -d ':' -f 2-`
-            AS:`geoiplookup -f /usr/share/GeoIP/GeoIPASNum.dat '<ip>' | cut -d ':' -f 2-`
+            Country: `mmdblookup --file /var/lib/GeoIP/GeoLite2-Country.mmdb --ip '<ip>' registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p'`
+            AS: AS`mmdblookup --file /var/lib/GeoIP/GeoLite2-ASN.mmdb --ip '<ip>' autonomous_system_number | sed -n -e '0,/.*\s\([0-9]\+\)\s.*/s//\1/p'`
             Hostname: `host -W 3 -t PTR '<ip>' 2>&1`\n
             Lines containing IP <ip> in <logpath>\n
             `grep -E <grepopts> '(^|[^0-9])<ip>([^0-9]|$)' <logpath> | sed -e 's|\\\\|\\\\\\\\|g'`\n\n

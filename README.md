@@ -112,14 +112,6 @@ Produces:
 echo "- - -" > /sys/class/scsi_host/host0/scan
 ```
 
-### geoipupdate with free GeoLite
-
-```ini
-UserId 999999
-LicenseKey 000000000000
-ProductIds 506 533
-```
-
 ### Flush Google public DNS cache
 
 http://google-public-dns.appspot.com/cache

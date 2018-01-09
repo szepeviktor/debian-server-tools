@@ -40,7 +40,7 @@ Pkg_install_quiet \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
     net-tools whois ntpdate ipset netcat-openbsd lftp s-nail \
     gcc libc6-dev make strace \
-    needrestart unscd mtr-tiny cruft bash-completion htop
+    needrestart unscd mtr-tiny cruft bash-completion htop mmdb-bin
 
 # Provide mail command
 debian-setup/s-nail
@@ -49,8 +49,8 @@ debian-setup/s-nail
 # List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian
 Pkg_install_quiet \
-    -t stretch-backports geoip-database git goaccess
-# geoip-database-contrib is installed in debian-setup/fail2ban
+    -t stretch-backports geoipupdate git goaccess
+# Also in debian-setup/fail2ban
 
 # From testing
 debian-setup/ca-certificates
