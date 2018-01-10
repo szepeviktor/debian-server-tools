@@ -6,7 +6,7 @@
 # Run as a cron job: git.sh status --porcelain
 
 # Exclude a period
-[ 1500000000 -gt $(date +%s) ] && exit 0
+test 1500000000 -gt "$(date +%s)" && exit 0
 
 git --git-dir=/home/user/Repo/.git --work-tree=/home/user/website/html "${@:-status}"
 

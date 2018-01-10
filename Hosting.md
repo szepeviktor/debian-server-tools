@@ -65,6 +65,7 @@
 ### Managed hosting
 
 - [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
+- https://closte.com/ WP hosting, on Google Cloud Platform
 
 ### Server manager
 

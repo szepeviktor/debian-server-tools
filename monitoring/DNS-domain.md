@@ -67,3 +67,20 @@ http://www.duckdns.org/
 - https://www.cloudflare.com/registrar/
 - https://www.gandi.net/
 - http://www.freenom.com/en/freeandpaiddomains.html
+
+# How to choose a domain registrar?
+
+- DNSSEC support
+- Domain locking
+- Is automatic domain transfer possible to another registrar?
+- Auto-renew domains
+- Procedure when a credit card expires
+- Procedure when (before/after) a domain expires
+- Support outside working hours
+- Administrative interface (for domain registration, nameservers, DNSSEC)
+- One user or user management?
+- Password security (plain text password, minimum complexity, max. login retries, forgotten password procedure)
+- Password change procedure
+- Two-factor authentication
+- Login notification email
+- Restrict access to the administrative interface by IP address

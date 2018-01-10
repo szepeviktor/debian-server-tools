@@ -1,4 +1,4 @@
-# Analytics URL builder
+# Analytics URL builder (HU)
 
 Kötelező mezők:
 

@@ -538,3 +538,9 @@ Uptime ([pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetri
 - Email accounts
 - External resources (3rd party services)
 - [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
+
+
+
+### Maintenance :wrench:
+
+Have me on board: viktor@szepe.net

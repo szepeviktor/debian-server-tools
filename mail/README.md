@@ -321,6 +321,7 @@ Deprecated.
 - :sunny: :sunny: :sunny: Descriptive From name "Firstname from Company"
 - :sunny: :sunny: Descriptive subject line
 - :sunny: Short [preview text](https://litmus.com/blog/the-ultimate-guide-to-preview-text-support) at top of the message
+- [Gmail actions](https://developers.google.com/gmail/markup/actions/actions-overview)
 - Link to online version (newsletter archive)
 - Company logo
 - Short main header

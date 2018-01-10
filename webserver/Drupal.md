@@ -1,4 +1,4 @@
-# Drupal setup
+# Drupal installation
 
 http://drushcommands.com/
 
@@ -91,4 +91,4 @@ Enable inclusion per content type.
 
 - http://cgit.drupalcode.org/drush/plain/docs/cron.html
 - /usr/local/bin/drush --quiet --root=/home/webuser/website/html core-cron
-- /usr/bin/wget -qO- "http://www.website.net/cron.php?cron_key=AAAAAAAAAAAAAAAAAA1111111111111111111111111"
+- /usr/bin/wget -qO- "http://www.example.com/cron.php?cron_key=AAAAAAAAAAAAAAAAAA1111111111111111111111111"

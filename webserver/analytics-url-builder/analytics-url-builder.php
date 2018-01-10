@@ -14,8 +14,8 @@
  */
 new O1_UTM( 'utm.url-builder.tld', array(
     // error -> Site to redirect to in case of errors.
-    'error'            => 'http://website.net/',
-    'site-reg'         => 'https://web.site.tld/register/',
+    'error'    => 'http://website.net/',
+    'site-reg' => 'https://web.site.tld/register/',
 ) );
 
 /**
@@ -35,7 +35,7 @@ final class O1_UTM {
 
         // Security check
         $this->hostname = $hostname;
-        $bad_request = $this->bad_request();
+        $bad_request    = $this->bad_request();
         if ( false !== $bad_request ) {
             error_log( sprintf( 'Break-in attempt detected: %s %s',
                 $bad_request
@@ -52,7 +52,8 @@ final class O1_UTM {
 
         $this->sites = $sites;
 
-        if ( ! $url = $this->parse_path() ) {
+        $url = $this->parse_path();
+        if ( ! $url ) {
             $this->error();
         }
 
@@ -65,6 +66,7 @@ final class O1_UTM {
             || count( $this->sites ) < 1
             || empty( $_SERVER['REQUEST_URI'] )
         ) {
+
             return false;
         }
 
@@ -82,6 +84,7 @@ final class O1_UTM {
 
         // Minimum:  "site/source/medium/campaign"
         if ( count( $parts ) < 4 ) {
+
             return false;
         }
 
@@ -92,6 +95,7 @@ final class O1_UTM {
 
         // Non-existent site
         if ( ! array_key_exists( $parts[0], $this->sites ) ) {
+
             return false;
         }
 
@@ -100,6 +104,7 @@ final class O1_UTM {
             || empty( $parts[2] )
             || empty( $parts[3] )
         ) {
+
             return false;
         }
 
@@ -142,6 +147,7 @@ final class O1_UTM {
         // Too big HTTP request URI
         // Apache: LimitRequestLine directive
         if ( strlen( $_SERVER['REQUEST_URI'] ) > 2000 ) {
+
             return 'bad_request_uri_length';
         }
 
@@ -150,11 +156,13 @@ final class O1_UTM {
         // Google Translate makes OPTIONS requests
         $utm_methods = array( 'GET', 'OPTIONS' );
         if ( false === in_array( $request_method, $utm_methods ) ) {
+
             return 'bad_request_http_method';
         }
 
         // Request URI does not begin with forward slash (may begin with URL scheme)
         if ( '/' !== substr( $_SERVER['REQUEST_URI'], 0, 1 ) ) {
+
             return 'bad_request_uri_slash';
         }
 
@@ -167,15 +175,17 @@ final class O1_UTM {
         // unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
         // "#" removed
         // "%" added
-        if ( substr_count( $_SERVER['REQUEST_URI'] , '?' ) > 1
+        if ( substr_count( $_SERVER['REQUEST_URI'], '?' ) > 1
             || false !== strpos( $_SERVER['REQUEST_URI'], '#' )
             || 1 === preg_match( "/[^%:\/?\[\]@!$&'()*+,;=A-Za-z0-9._~-]/", $_SERVER['REQUEST_URI'] )
         ) {
+
             return 'bad_request_uri_encoding';
         }
 
         // Hostname
         if ( empty( $_SERVER['HTTP_HOST'] ) || $this->hostname !== $_SERVER['HTTP_HOST'] ) {
+
             return 'bad_request_hostname';
         }
 

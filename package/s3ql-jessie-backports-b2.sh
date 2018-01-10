@@ -24,6 +24,7 @@ s3ql (2.21+dfsg-1~bpo8+2) jessie-backports; urgency=medium
  -- Nikolaus Rath <Nikolaus@rath.org>  Wed, 19 Apr 2017 23:56:59 +0000
 
 EOF
+
 mv "$B2_TEMP" debian/changelog
 
 # Dependencies
@@ -38,3 +39,5 @@ dpkg-checkbuilddeps 2>&1 | cut -d: -f3- \
 
 # Build it
 dpkg-buildpackage -uc -us -B
+
+echo "OK."

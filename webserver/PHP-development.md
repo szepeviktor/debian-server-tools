@@ -95,12 +95,12 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 > or it SHOULD execute logic with side effects,  
 > but SHOULD NOT do both.
 
-- Separate frontend, backend, API, CLI, cron/workers
+- Separate frontend, backend, API, CLI, cron/queue
 - Make your frontend a UI for your API :star:
 - Comment your source code like a travel guide!
 - The less indentation the better code
 - Leave environment settings to the server, and check environment (php-env-check.php)
-- Move resource-intensive tasks to cron jobs/workers
+- Move resource-intensive tasks to cron jobs/queues
 - Store and calculate dates, times in UTC and display it in the user's timezone
 - Develop simple maintenance tools (e.g. deploy, import, export) for the command line
 
@@ -136,8 +136,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Set environment variables (PHP-FPM pool, `.env`)
 - Publish Dockerfile of CI (GitLab Container Registry)
 - Build and deploy script (file permissions)
-- Cron jobs and workers
-- Check queues in a cron job
+- Cron jobs and queues (check periodically, email sending and time consuming tasks)
 - Maintenance mode switch and placeholder page (HTTP/503)
 - Generate sitemaps
 - File change notification: `siteprotection.sh`
@@ -145,13 +144,13 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Run `git status` hourly
 - Email filtered application log hourly (recipients)
 - Logrotate application log
-- Move webserver configuration to vhost configuration
+- Move per directory webserver configuration to vhost configuration
 - Redirect removed routes, substitute missing images (URL-s)
-- Local queuing MTA for fast email delivery (SMTP is slow), bounce handling
+- Use local queuing MTA for fast email delivery (SMTP is slow), bounce handling
 - Include Fail2ban triggers at least for 404-s, failed login attempts and hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
-- Differences of a staging/development environment (different TLD, email, 3rd parties)
+- Differences of a staging/development environment (different TLD, email delivery, 3rd parties)
 
 ### Maintenance :wrench:
 
