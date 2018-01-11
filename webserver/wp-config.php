@@ -52,8 +52,8 @@ define( 'FS_METHOD', 'direct' );
 
 // "wp-content" location
 // EDIT wp-content directory
-define( 'WP_CONTENT_DIR', '/HOME/WP-ROOT-DIR/static' );
-define( 'WP_CONTENT_URL', 'http://DOMAIN.URL/static' );
+define( 'WP_CONTENT_DIR', '/HOME/USER/SITE/DOC-ROOT/wp-content' );
+define( 'WP_CONTENT_URL', 'https://DOMAIN.TLD/wp-content' );
 
 // Moving to subdirs
 //     siteurl += /site
@@ -95,6 +95,9 @@ define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 //define( 'WP_APCU_KEY_SALT', 'SITE-SHORT_' );
 //define( 'MEMCACHED_SERVERS', '127.0.0.1:11211:0' );
 // https://polylang.wordpress.com/documentation/documentation-for-developers/list-of-options-which-can-be-set-in-wp-config-php/
+// Tiny CDN - No trailing slash!
+define( 'TINY_CDN_INCLUDES_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-includes' );
+define( 'TINY_CDN_CONTENT_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-content' );
 //define( 'PLL_LINGOTEK_AD', false );
 //define( 'PLL_WPML_COMPAT', false );
 //define( 'PODS_LIGHT', true );

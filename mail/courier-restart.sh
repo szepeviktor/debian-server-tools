@@ -2,7 +2,7 @@
 #
 # Rebuild Courier .dat databases and restart Courier MTA.
 #
-# VERSION       :0.4.1
+# VERSION       :0.4.2
 # DATE          :2016-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -55,8 +55,7 @@ if [ -f /run/courier/courierfilter.pid ]; then
 fi
 
 # Restart courier-mta-ssl also
-#if [ "$(dpkg-query --showformat='${Status}' --show courier-mta-ssl 2> /dev/null)" == "install ok installed" ]; then
-if [ -f /etc/courier/esmtpd-ssl ]; then
+if [ -f /etc/courier/esmtpd-ssl ] && grep -qFxi 'ESMTPDSSLSTART=YES' /etc/courier/esmtpd-ssl; then
     service courier-mta-ssl restart || Error $? "courier-mta-ssl restart"
 fi
 service courier-mta restart || Error $? "courier-mta restart"

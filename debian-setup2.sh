@@ -289,7 +289,7 @@ find /etc/ -type f -iname "*old" -or -iname "*dist"
 history -c
 
 # @TODO Automate
-echo "hosts, users, server backup, monitoring"
+echo "hosts, users, server backup, monit/apache+php, monitoring"
 echo "https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md"
 
 echo "OK. (exit from script command now)"

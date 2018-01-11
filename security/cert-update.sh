@@ -114,8 +114,8 @@ Apache2() {
 }
 
 Courier_mta() {
-    COURIER_USER="daemon"
-    #COURIER_USER="courier"
+    #COURIER_USER="daemon"
+    COURIER_USER="courier"
 
     [ -z "$COURIER_COMBINED" ] && return 1
     [ -z "$COURIER_DHPARAMS" ] && return 1

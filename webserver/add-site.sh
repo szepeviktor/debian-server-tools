@@ -48,11 +48,13 @@ cd /home/${U}/website/html/
 
 # Migrate files NOW!
 #
+# See /webserver/WordPress.md
+#
 # HTML-ize WordPress
 #     https://gist.github.com/szepeviktor/4535c5f20572b77f1f52
 
 # Repair permissions, line ends
-find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
+#find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
 find -type f -not -perm 644; find -type d -not -perm 755
 find -type f -exec chmod --changes 0644 "{}" ";"
 find -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"

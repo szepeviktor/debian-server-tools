@@ -2,21 +2,14 @@
 #
 # Check Courier MTA configuration.
 #
-# VERSION       :0.1.1
+# VERSION       :0.2.0
 # DATE          :2017-08-10
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DOCS          :url
-# CONFIG        :courier-check-authdaemonrc
-# CONFIG        :courier-check-courierd-public
-# CONFIG        :courier-check-courierd-satellite
-# CONFIG        :courier-check-esmtpd-msa-public
-# CONFIG        :courier-check-esmtpd-msa-satellite
-# CONFIG        :courier-check-esmtpd-public
-# CONFIG        :courier-check-esmtpd-satellite
-# CONFIG        :courier-check-esmtpd-ssl-public
+# CONFIG        :courier-check-*
 
 COURIER_USER="courier"
 
@@ -27,7 +20,7 @@ Check_user() {
 }
 
 Check_config_perms() {
-    # Changes to these take effect immediately
+    # Changes to these files take effect immediately
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtpauthclient
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtproutes
     sudo -u "$COURIER_USER" -- test -r /etc/courier/esmtpd.pem
@@ -73,6 +66,7 @@ source courier-check-imapd-ssl-public
 #source courier-check-courierd-satellite
 #source courier-check-esmtpd-satellite
 #source courier-check-esmtpd-msa-satellite
+#source courier-check-esmtpd-ssl-satellite
 
 Check_user
 Check_config_perms

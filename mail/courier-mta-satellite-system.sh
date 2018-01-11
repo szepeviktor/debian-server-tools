@@ -14,6 +14,7 @@
 
 set -e -x
 
+# shellcheck disable=SC1091
 . debian-setup-functions
 
 #################### 'smarthost' configuration ####################
@@ -83,7 +84,9 @@ Courier_config esmtproutes /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #     : email-smtp.eu-west-1.amazonaws.com,587 /SECURITY=REQUIRED
 #     : smtp.sparkpostmail.com,587 /SECURITY=REQUIRED
-#     : smtp-relay.gmail.com,587 /SECURITY=REQUIRED
+#     : smtp.gmail.com,587 /SECURITY=REQUIRED
+# FIXME Set proper owner and group
+chown courier:root /etc/courier/esmtpauthclient
 # Credentials for smarthosts
 echo "#SMART-HOST,587 USER-NAME PASSWORD" > /etc/courier/esmtpauthclient
 #     #SMART-HOST,587 USER-NAME PASSWORD

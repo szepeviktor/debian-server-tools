@@ -41,7 +41,7 @@ DOCROOT/─┬─index.php (modified)
          └─wp-content/
 ```
 
-`CORE` may be the abbreviation of the project.
+The value of `CORE` may be the abbreviation of the project.
 
 `wp-content` can be renamed.
 
@@ -172,7 +172,7 @@ wp plugin install custom-sucuri sucuri-scanner --activate
 # Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # CF7 Robot Trap
-wget -P wp-content/plugins/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot_trap.php
+wget -P wp-content/plugins/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot-trap.php
 # obfuscate-email
 #wp plugin install obfuscate-email --activate
 ```
@@ -189,7 +189,7 @@ wp plugin install prevent-concurrent-logins --activate
 # mu-disallow-weak-passwords
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-disallow-weak-passwords/disallow-weak-passwords.php
 
-# mu-banned-email-addresses
+# user registration: mu-banned-email-addresses
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-banned-email-addresses/banned-email-addresses.php
 
 # media
@@ -233,7 +233,7 @@ wp transient delete-all
 # WARNING! APCu is not available from CLI by default during WP-Cron/WP-CLI
 #wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
 #wp transient delete-all
-# Worse plugin: wp plugin install apcu
+# Not-so-good plugin: wp plugin install apcu
 
 # FOCUS Cache - FILE-based object cache
 #wp plugin install focus-object-cache
@@ -264,8 +264,7 @@ wp plugin install resource-versioning --activate
 wp plugin install tiny-cdn --activate
 
 # CDN, Page Cache, Minify
-#wp plugin install w3-total-cache --activate
-#wp plugin install https://github.com/szepeviktor/w3-total-cache-fixed/releases/download/0.9.5.4.2/w3-total-cache-fixed-for-v0.9.5.x-users.zip --activate
+#wp plugin install https://github.com/szepeviktor/w3-total-cache-fixed/releases/download/0.9.5.4.3/w3-total-cache-fixed-for-v0.9.5.x-users.zip --activate
 
 # minit
 wp plugin install https://github.com/kasparsd/minit/archive/master.zip
@@ -291,7 +290,7 @@ Set up CDN.
 
 MU Plugin Template
 
-`custom-PROJECT.php`
+`custom-PROJECT-NAME.php`
 
 ```php
 <?php
@@ -304,7 +303,7 @@ Author: Viktor Szépe
 */
 ```
 
-See /website/wordpress/ directory.
+See /website/wordpress/ directory for its content.
 
 ### On deploy and Staging->Production migration
 

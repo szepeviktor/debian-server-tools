@@ -1,7 +1,8 @@
 -- Alter table engine
 --
--- Source: http://georgepavlides.info/?p=628
--- Usage: mysql -N DATABASE-NAME < alter-table.sql | mysql
+-- Usage:  mysql -N DATABASE-NAME < alter-table.sql | mysql
+--
+-- Source:  http://georgepavlides.info/?p=628
 
 
 -- To Aria
