@@ -51,4 +51,4 @@ fi
 php --ri redis
 
 # Check server
-echo "FLUSHALL" | nc -C -q 10 localhost 6379
+echo "FLUSHALL" | nc -C -q 3 localhost 6379

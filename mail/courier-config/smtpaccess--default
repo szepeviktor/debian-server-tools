@@ -1,0 +1,9 @@
+# Copyright 1998 - 2011 Double Precision, Inc.  See COPYING for
+# distribution information.
+#
+# Default access policies for courieresmtpd
+#
+# By default, enable relaying for localhost.
+
+127.0.0.1	allow,RELAYCLIENT
+:0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT

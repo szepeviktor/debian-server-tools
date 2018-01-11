@@ -19,12 +19,13 @@
 #
 # Create S3QL configuration file
 #     mkdir /root/.s3ql; editor /root/.s3ql/authinfo2; chmod 0600 /root/.s3ql/authinfo2
+#     cat /root/.s3ql/authinfo2
 #
 # Example S3QL configuration for Swift
-#     [provider]
-#     storage-url: STORAGE_URL/CONTAINER
-#     backend-login: OS_TENANT_NAME:OS_USERNAME
-#     backend-password: OS_PASSWORD
+#     [aws]
+#     storage-url: s3://S3_REGION/S3_BUCKET/S3_PREFIX_
+#     backend-login: IAM_ACCESS_KEY_ID
+#     backend-password: IAM_SECRET_ACCESS_KEY
 #     fs-passphrase: $(apg -m32 -n1)
 #
 # Create configuration file
@@ -40,7 +41,7 @@
 #     DB_EXCLUDE="excluded-db1|excluded-db2"
 #     HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 #
-# Add an [xtrabackup] section to /root/.my.cnf
+# Add an [xtrabackup] section to /root/.my.cnf if UDS-based authentication is not available
 #     editor /root/.my.cnf
 #
 # Format storage

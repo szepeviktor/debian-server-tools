@@ -1,0 +1,453 @@
+##VERSION: $Id: adc0520ced8273a86c27958032fb1b2be8e98a6b-20160508084730$
+#
+#
+# esmtpd created from esmtpd.dist by sysconftool
+#
+# Do not alter lines that begin with ##, they are used when upgrading
+# this configuration.
+#
+#  Copyright 1998 - 2013 Double Precision, Inc.  See COPYING for
+#  distribution information.
+#
+#  This configuration file sets various options for Courier's esmtpd server.
+#  It is started by couriertcpd, Courier's TCP server.
+#  A lot of the stuff here is documented in the manual page for couriertcpd.
+
+##NAME: PATH:0
+#
+#  Specify the default PATH that everything inherits.
+
+PATH=/usr/bin:/bin:/usr/bin:/usr/local/bin
+
+##NAME: SHELL:0
+#
+#  The default shell
+
+SHELL=/bin/sh
+
+##NAME: SYSLOGNAME:0
+#
+# Name that courieresmtpd uses to log to syslog
+#
+# SYSLOGNAME=courieresmtpd
+
+##NAME: ULIMIT:0
+#
+#  Sets the maximum size of courieresmtpd's data segment
+#
+
+ULIMIT=32768
+
+##NAME: BOFHCHECKDNS:0
+#
+#  Comment out the following line in order to accept mail with a bad
+#  return address.
+
+BOFHCHECKDNS=1
+
+##NAME: BOFHNOEXPN:1
+#
+#  Set BOFHNOEXP to 1 to disable EXPN
+
+BOFHNOEXPN=1
+
+##NAME: BOFHNOVRFY:1
+#
+#  Set BOFHNOVERIFY to disable VRFY
+
+BOFHNOVRFY=1
+
+##NAME: TARPIT:1
+#
+#  Set TARPIT to 0 to disable tarpitting
+
+TARPIT=1
+
+##NAME: NOADDMSGID:0
+#
+#  The following environment variables keep Courier from adding
+#  default Date: and Message-ID: header to messages which do not have them.
+#  If you would like to add default headers only for mail from certain
+#  IP address ranges, you can override them in couriertcpd access file,
+#  see couriertcpd(8).
+
+NOADDMSGID=1
+
+##NAME: NOADDDATE:0
+#
+
+NOADDDATE=1
+
+##NAME: NOADDRREWRITE:0
+#
+# Don't rewrite To:, From:, and Cc: headers.  Set to 2 in order to omit
+# rewriting them only if there is a DKIM-Signature.
+
+NOADDRREWRITE=0
+
+##NAME: ESMTP_LOG_DIALOG:0
+#
+#  If set, log the esmtp dialog.
+
+ESMTP_LOG_DIALOG=0
+
+##NAME: AUTH_REQUIRED:0
+#
+# Set AUTH_REQUIRED to 1 in order to force the client to use ESMTP
+# authentication.  You can override AUTH_REQUIRED on a per-IP address basis
+# using smtpaccess.  See makesmtpaccess(8).
+#
+# This setting requires ESMTP authentication from everyone. Since all
+# other mail servers on the Internet will not have a valid password to
+# authenticate with, this setting should not be enabled on mail servers
+# used to receive incoming mail from the Internet.
+
+AUTH_REQUIRED=0
+
+#########################################################################
+#
+##NAME: COURIERTLS:0
+#
+# The following variables configure ESMTP STARTTLS.  If OpenSSL or GnuTLS
+# is available during configuration, the couriertls helper gets compiled, and
+# upon installation a dummy TLS_CERTFILE gets generated. courieresmtpd will
+# automatically advertise the ESMTP STARTTLS extension if both TLS_CERTFILE
+# and COURIERTLS exist.
+#
+# WARNING: Peer certificate verification has NOT yet been tested.  Proceed
+# at your own risk.  Only the basic SSL/TLS functionality is known to be
+# working. Keep this in mind as you play with the following variables.
+
+COURIERTLS=/usr/bin/couriertls
+
+##NAME: ESMTP_TLS_REQUIRED:0
+#
+# Set ESMTP_TLS_REQUIRED to 1 if you REQUIRE SSL/TLS to be used for receiving
+# mail.  Setting it here will require it for every connection.  You can also
+# set ESMTP_TLS_REQUIRED in the smtpaccess file, see makesmtpaccess(8) for
+# more information
+#
+# ESMTP_TLS_REQUIRED=1
+
+##NAME: TLS_PRIORITY:0
+#
+# GnuTLS setting only
+#
+# Set TLS protocol priority settings (GnuTLS only)
+#
+# DEFAULT: NORMAL:-CTYPE-OPENPGP
+#
+# TLS_PRIORITY="NORMAL:-CTYPE-OPENPGP"
+
+##NAME: TLS_PROTOCOL:0
+#
+# TLS_PROTOCOL sets the protocol version.  The possible versions are:
+#
+# OpenSSL:
+#
+# TLSv1 - TLS1
+# TLSv1.1 - TLS1.1
+# TLSv1.2 - TLS1.2
+#
+# TLSv1+, TLSv1.1+, and TLSv1.2+ - the corresponding protocol, and all
+# higher protocols.
+#
+# The default value is TLSv1+
+
+##NAME: TLS_CIPHER_LIST:0
+#
+# TLS_CIPHER_LIST optionally sets the list of ciphers to be used by the
+# OpenSSL library.  In most situations you can leave TLS_CIPHER_LIST
+# undefined
+#
+# OpenSSL:
+#
+# TLS_CIPHER_LIST="TLSv1:HIGH:!LOW:!MEDIUM:!EXP:!NULL:!aNULL@STRENGTH"
+#
+#
+
+##NAME: TLS_MIN_DH_BITS:0
+#
+# TLS_MIN_DH_BITS=n
+#
+# GnuTLS only:
+#
+# Set the minimum number of acceptable bits for a DH key exchange.
+#
+# GnuTLS's compiled-in default is 727 bits (as of GnuTLS 1.6.3). Some server
+# have been encountered that offer 512 bit keys. You may have to set
+# TLS_MIN_DH_BITS=512 here, if necessary.
+
+##NAME: TLS_TIMEOUT:0
+# TLS_TIMEOUT is currently not implemented, and reserved for future use.
+# This is supposed to be an inactivity timeout, but its not yet implemented.
+
+##NAME: TLS_CERTFILE:0
+#
+# TLS_CERTFILE - certificate to use.  TLS_CERTFILE is required for SSL/TLS
+# servers, and is optional for SSL/TLS clients.  TLS_CERTFILE is usually
+# treated as confidential, and must not be world-readable. Set TLS_CERTFILE
+# instead of TLS_DHCERTFILE if this is a garden-variety certificate
+#
+#
+# VIRTUAL HOSTS ON THE SAME IP ADDRESS.
+#
+# Install each certificate $TLS_CERTFILE.domain, so if TLS_CERTFILE is set to
+# /etc/certificate.pem, then you'll need to install the actual certificate
+# files as /etc/certificate.pem.www.example.com,
+# /etc/certificate.pem.www.domain.com and so on. Then, create a link from
+# $TLS_CERTFILE to whichever certificate you consider to be the main one,
+# for example:
+# /etc/certificate.pem => /etc/certificate.pem.www.example.com
+#
+# IP-BASED VIRTUAL HOSTS:
+#
+# There may be a need to support older SSL/TLS client that don't support
+# virtual hosts on the same IP address, and require a dedicated IP address
+# for each SSL/TLS host. If so, install each certificate file as
+# $TLS_CERTFILE.aaa.bbb.ccc.ddd, where "aaa.bbb.ccc.ddd" is the IP address
+# for the certificate's domain name. So, if TLS_CERTFILE is set to
+# /etc/certificate.pem, then you'll need to install the actual certificate
+# files as /etc/certificate.pem.192.168.0.2, /etc/certificate.pem.192.168.0.3
+# and so on, for each IP address.
+#
+# In all cases, $TLS_CERTFILE needs to be linked to one of the existing
+# certificate files.
+
+TLS_CERTFILE=/etc/courier/esmtpd.pem
+
+##NAME: TLS_DHPARAMS:0
+#
+# TLS_DHPARAMS - DH parameter file.
+#
+TLS_DHPARAMS=/etc/courier/dhparams.pem
+
+##NAME: TLS_TRUSTCERTS:0
+#
+# TLS_TRUSTCERTS=pathname - load trusted certificates from pathname.
+# pathname can be a file or a directory. If a file, the file should
+# contain a list of trusted certificates, in PEM format. If a
+# directory, the directory should contain the trusted certificates,
+# in PEM format, one per file and hashed using OpenSSL's c_rehash
+# script. TLS_TRUSTCERTS is used by SSL/TLS clients (by specifying
+# the -domain option) and by SSL/TLS servers (TLS_VERIFYPEER is set
+# to PEER or REQUIREPEER).
+#
+#
+# TLS_TRUSTCERTS=
+
+TLS_TRUSTCERTS=/etc/ssl/certs
+
+##NAME: TLS_VERIFYPEER:0
+#
+# TLS_VERIFYPEER - how to verify peer certificates.  The possible values of
+# this setting are:
+#
+# NONE - do not verify anything
+#
+# PEER - verify the peer certificate, if one's presented
+#
+# REQUIREPEER - require a peer certificate, fail if one's not presented
+#
+# SSL/TLS servers will usually set TLS_VERIFYPEER to NONE.  SSL/TLS clients
+# will usually set TLS_VERIFYPEER to REQUIREPEER.
+#
+TLS_VERIFYPEER=NONE
+
+##NAME: TLS_EXTERNAL:0
+#
+# To enable SSL certificate-based authentication:
+#
+# 1) TLS_TRUSTCERTS must be set to a pathname that holds your certificate
+#    authority's SSL certificate
+#
+# 2) TLS_VERIFYPEER=PEER or TLS_VERIFYPEER=REQUIREPEER (the later settings
+#    requires all SSL clients to present a certificate, and rejects
+#    SSL/TLS connections without a valid cert).
+#
+# 3) Set TLS_EXTERNAL, below, to the subject field that holds the login ID.
+#    Example:
+#
+#  TLS_EXTERNAL=emailaddress
+#
+# The above example retrieves the login ID from the "emailaddress" subject
+# field. The certificate's emailaddress subject must match exactly the login
+# ID in the courier-authlib database.
+
+##NAME: MAILUSERGROUP:0
+#
+#  Mail user and group
+
+MAILUSER=courier
+MAILGROUP=courier
+
+##NAME: ADDRESS:0
+#
+#  Address to listen on, can be set to a single IP address.
+#
+ADDRESS=127.0.0.1
+
+##NAME: PORT:1
+#
+#  PORT specified the port number to listen on.  The standard "smtp" port
+#  is port 25.
+#
+#  Multiple port numbers can be separated by commas.  When multiple port
+#  numbers are used it is possibly to select a specific IP address for a
+#  given port as "ip.port".  For example, "127.0.0.1.900,192.68.0.1.900"
+#  accepts connections on port 900 on IP addresses 127.0.0.1 and 192.68.0.1
+#  The ADDRESS setting, if given, is a default for ports that do not have
+#  a specified IP address.
+
+PORT=smtp
+
+##NAME: BLACKLISTS:1
+#
+#  Blacklists we query.
+#
+#  The BLOCK environment variable is automatically enforced by submit.
+#  Nobody really does anything about BLOCK2, this is mainly for use by
+#  plug-in mail filters.  If you want Courier to unilaterally block
+#  mail from IP addresses listed by Spamhaus or CBL, and you have a separate
+#  localmailfilter that keys off BLOCK2, uncomment the following.  If you want
+#  to unilaterally block everything listed by Spamhaus or CBL, just replace
+#  BLOCK2 with BLOCK.
+#
+# BLACKLISTS='-block=zen.spamhaus.org,BLOCK2 -block=cbl.abuseat.org,BLOCK2'
+#
+# The BLACKLISTS setting can also contain -allow options to implement
+# DNS-based whitelists. See the couriertcpd(1) man page for more information.
+# The -block and -allow options from this setting are passed directly to
+# couriertcpd(1).
+
+BLACKLISTS=""
+
+##NAME: ALLOW_EXCLUSIVE:0
+#
+# The -allow option adds an Authentication-Results: header to a received
+# message, if the sender's IP was found in the -allow lookup.
+#
+# If you use -allow to implement whitelists, you should set ALLOW_EXCLUSIVE=1.
+# This renames any existing Authentication-Results: headers in a received
+# message to Old-Authentication-Results, so any Authentication-Results:
+# in the received message will always come from this server. Otherwise, the
+# sender can trivially spoof it.
+#
+# ALLOW_EXCLUSIVE=1
+
+##NAME: DROP:0
+#
+#  Drop blacklisted connections immediately, rather than postponing them and
+#  having all ESMTP transactions rejected.
+#
+#  By default, all ESMTP transactions from blacklisted IP addresses are
+#  rejected. Uncomment this setting to immediately drop connections, instead.
+#  See the couriertcpd man page for more information about the -drop
+#  option to couriertcpd.
+#
+# DROP="-drop"
+
+##NAME: ACCESSFILE:1
+#
+#  Access file: $ACCESSFILE - plain text file/dir, $ACCESSFILE.dat - compiled
+#  database.
+#
+
+ACCESSFILE=${sysconfdir}/smtpaccess
+
+##NAME: MAXDAEMONS:0
+#
+#  Maximum number of daemons started
+#
+
+MAXDAEMONS=40
+
+##NAME: MAXPERC:0
+#
+#  Maximum number of connections accepted from the same C address block
+#
+
+MAXPERC=5
+
+##NAME: MAXPERID:0
+#
+#
+#  Maximum number of connections accepted from the same IP address
+
+MAXPERIP=5
+
+##NAME: PIDFILE:0
+#
+#  File where couriertcpd will save its process ID
+#
+
+PIDFILE=/run/courier/esmtpd.pid
+
+##NAME: TCPDOPTS:3
+#
+# TCPDOPTS can contain other couriertcpd options, such as
+# -nodnslookup and -noidentlookup.
+#
+
+# Don't look up localhost
+TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger -noidentlookup -nodnslookup"
+
+##NAME: ESMTPAUTH:4
+#
+# To enable authenticated SMTP relaying, uncomment the ESMTPAUTH setting,
+# below, and set it to ESMTP authentication mechanisms we support.  Currently
+# LOGIN and CRAM-MD5 are available:
+#
+# ESMTPAUTH="LOGIN"
+#
+# You can also try PLAIN. CRAM-MD5, CRAM-SHA1, and CRAM-SHA256 may also be
+# specified, if CRAM authentication has been configured.  See INSTALL for more
+# information.
+#
+
+ESMTPAUTH=""
+
+##NAME: ESMTPAUTH_WEBADMIN:5
+#
+# ESMTPAUTH_WEBADMIN is used by the webadmin module
+#
+# Don't touch this setting.
+
+ESMTPAUTH_WEBADMIN="LOGIN CRAM-MD5 CRAM-SHA1 CRAM-SHA256"
+
+##NAME: ESMTPAUTHINFOTLS:3
+#
+# To enable SASL PLAIN authentication when using TLS, uncomment the following.
+# To enable SASL PLAIN with or without TLS, just add PLAIN to ESMTPAUTH,
+# above:
+#
+# ESMTPAUTH_TLS="PLAIN LOGIN CRAM-MD5"
+#
+# ESMTPAUTH_TLS_WEBADMIN is used by the webadmin module
+
+ESMTPAUTH_TLS=""
+
+##NAME: ESMTPAUTH_TLS_WEBADMIN:5
+
+ESMTPAUTH_TLS_WEBADMIN="PLAIN LOGIN CRAM-MD5 CRAM-SHA1 CRAM-SHA256"
+
+##NAME: ESMTPDSTART:0
+#
+# ESMTPDSTART is not referenced anywhere in the standard Courier programs
+# or scripts.  Rather, this is a convenient flag to be read by your system
+# startup script in /etc/rc.d, like this:
+#
+#  prefix=/usr
+#  exec_prefix=/usr
+#  . ${sysconfdir}/esmtpd
+#  case x$ESMTPDSTART in
+#  x[yY]*)
+#        /usr/sbin/esmtpd start
+#        ;;
+#  esac
+#
+# The default setting is going to be NO, until Courier is shipped by default
+# with enough platforms so that people get annoyed with having to flip it to
+# YES every time.
+
+ESMTPDSTART=YES

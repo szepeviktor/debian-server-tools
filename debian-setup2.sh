@@ -278,17 +278,18 @@ echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/
 # etckeeper at last
 debian-setup/etckeeper
 
+# Manual inspection of emails
+find /var/mail/ -type f -exec grep -H '^' "{}" ";"
+
 # Manual inspection of old configuration files
 echo "### Old configs ###"
 find /etc/ -type f -iname "*old" -or -iname "*dist"
 
-# Manual inspection of emails
-find /var/mail/ -type f -exec grep -H "^" "{}" ";"
-
 # Clear Bash history
 history -c
 
-# @TODO Automate:
-echo "hosts, users, set up backup"
+# @TODO Automate
+echo "hosts, users, server backup, monitoring"
+echo "https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md"
 
 echo "OK. (exit from script command now)"

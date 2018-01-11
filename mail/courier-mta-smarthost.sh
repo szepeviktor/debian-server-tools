@@ -135,7 +135,7 @@ editor /etc/courier/esmtpd-ssl
 
 # Diffie-Hellman parameters
 rm -f /etc/courier/dhparams.pem
-DH_BITS=2048 nice /usr/sbin/mkdhparams
+DH_BITS=medium nice /usr/sbin/mkdhparams
 # DH params cron job
 ( cd ${D}; ./install.sh mail/courier-dhparams.sh )
 

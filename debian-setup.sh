@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.1
+# VERSION       :2.0.2
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,10 +15,10 @@
 # - Domain registrar
 # - DNS provider
 # - Server provider (e.g. UpCloud)
-# - SSL certificate provider (for HTTPS)
-# - CDN provider (for static files)
+# - SSL certificate provider (HTTPS)
+# - CDN provider (static files)
 # - Transactional email provider
-# - Storage provider (for backup)
+# - Storage provider (server backup)
 #
 # Features
 #
@@ -42,7 +42,7 @@
 #
 # Webserver
 #
-# - Apache 2.4 latest with HTTP/2 and event MPM
+# - Apache 2.4 with HTTP/2 and event MPM
 # - PHP-FPM 7.0 or 7.1
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]
 # - MariaDB 10 or Percona Server 5.7
@@ -50,18 +50,19 @@
 # Execution Steps
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
-#    cd debian-server-tools-master/
+#    export LC_ALL=C.UTF-8; cd debian-server-tools-master/
 # 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
-# 3. Compile /root/server.yml from /server.yml and from /debian-setup/providers/*.yml
+# 3. cat server.yml debian-setup/providers/upcloud-defra1.yml > /root/server.yml
+#    editor /root/server.yml
 # 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
 # 5. Check fs type, set volume label:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
 # 6. Start!
-#    script --timing=debian-setup.time debian-setup.script
+#    script --timing=../debian-setup.time ../debian-setup.script
 #    ./debian-setup.sh
 # 7. Continue after reboot!
 #    cd debian-server-tools-master/
-#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm
-#    script --timing=debian-setup2.time debian-setup2.script
+#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
+#    script --timing=../debian-setup2.time ../debian-setup2.script
 #    ./debian-setup2.sh
 # 8. Set up incoming ESP and bounce notification
 #

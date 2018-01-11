@@ -12,7 +12,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 - SSL certificate provider for HTTPS (cheapsslsecurity.com, [SSLMate](https://sslmate.com/), DigiCert)
 - CDN provider (AWS, KeyCDN)
 - Transactional email provider (AWS, SparkPost)
-- Storage provider (AWS, Backblaze B2, Exoscale, Selectel)
+- Storage provider (AWS, Backblaze B2, Selectel)
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
@@ -26,7 +26,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 - Gain access to providers (web based sub-account or API)
 - Manage migrations
 - DNS records (check, clean up, monitor)
-- PTR/IPv4, PTR/IPv6 records
+- **PTR/IPv4, PTR/IPv6 records**
 - Incoming ESP and bounce notification
 - My email address: `webmaster@COMPANY.TLD`
 - Whitelisted IP-s (office)

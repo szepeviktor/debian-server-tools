@@ -41,56 +41,10 @@ See [/monitoring/aws-route53-rrs.sh](/monitoring/aws-route53-rrs.sh)
   "ResourceRecordSet": {
     "Name": "_acme-challenge.DOMAIN.TLD.",
     "Type": "TXT",
-    "ResourceRecords": [ { "Value": "\"AAAAAAAAAAAAAAAA\"" } ],
+    "ResourceRecords": [ { "Value": "\"BBBBBBBBBBBBBBBB\"" } ],
     "TTL": 86400
   }
 } ] }
-```
-
-[Certbot](https://github.com/certbot/certbot) *not recommended
-
-```bash
-# https://github.com/certbot/certbot/blob/master/certbot-auto#L246
-apt-get install -y dialog ca-certificates python-dev gcc libssl-dev libffi-dev
-apt-get install -t jessie-backports -y python-six
-pip2 install --upgrade certbot
-
-read -r EMAIL
-read -r DOMAIN
-#read -r DOMAIN2
-# -d $DOMAIN2
-
-# Manual for webservers
-certbot certonly --verbose --text --manual --agree-tos --manual-public-ip-logging-ok --email $EMAIL -d $DOMAIN
-
-# Webroot for webservers with port 80 open
-#certbot certonly --verbose --text --webroot --agree-tos --email $EMAIL -d $DOMAIN --webroot-path=$DOC_ROOT
-
-# Standalone for non-webservers
-#certbot certonly --verbose --text --standalone --agree-tos --email $EMAIL -d $DOMAIN
-
-( cd /etc/letsencrypt/live/$DOMAIN
-  cat privkey.pem fullchain.pem > priv-pub-int.pem )
-```
-
-Renew
-
-```bash
-pip2 install --upgrade certbot
-# https://certbot.eff.org/docs/using.html
-certbot renew --verbose --manual --manual-public-ip-logging-ok
-#certbot renew --verbose --standalone
-#certbot renew --verbose --webroot --webroot-path=$DOCUMENT_ROOT
-
-# Courier MTA
-read -r CN
-( cd /etc/letsencrypt/live/$DOMAIN
-  cat privkey.pem cert.pem chain.pem > /etc/courier/esmtpd.pem )
-rm -f /etc/courier/dhparams.pem
-DH_BITS=2048 nice /usr/sbin/mkdhparams
-courier-restart.sh
-# Verify
-openssl s_client -connect $(hostname -f):587 -starttls smtp < /dev/null
 ```
 
 ### Alternatives

@@ -1,0 +1,429 @@
+##VERSION: $Id: adc0520ced8273a86c27958032fb1b2be8e98a6b-20160623122258$
+#
+# courierd created from courierd.dist by sysconftool
+#
+# Do not alter lines that begin with ##, they are used when upgrading
+# this configuration.
+#
+#  Copyright 1998 - 2013 Double Precision, Inc.  See COPYING for
+#  distribution information.
+#
+#  This configuration file sets various global options for Courier.
+#  The contents of this file is turned into courierd's environment by
+#  the courierctl.start script.
+
+##NAME: prefixes:0
+#
+
+prefix="/usr"
+exec_prefix="/usr"
+
+##NAME: SYSLOCALE:0
+#
+# Define the default system locale.
+#
+# Put whatever's needed here to load the default system locale into a completely
+# empty environment.
+#
+# Example (for Fedora <18/CentOs):
+#
+#   . /etc/sysconfig/i18n
+#
+# Fedora 18+:
+#   . /etc/locale.conf
+#
+# Alternatively, manually set the necessary environment variable directly:
+#
+#   LANG=en_US.utf-8
+#
+
+. /etc/environment
+
+##NAME: PATH:0
+#
+#
+#  Specify the default PATH that everything inherits -- including commands
+#  executed from individual .courier files
+
+PATH=/usr/bin:/bin:/usr/bin:/usr/local/bin
+
+##NAME: SHELL:0
+#
+#  The default shell
+
+SHELL=/bin/sh
+
+##NAME: DSNNOTIFY:0
+#
+#  If you would like to suppress all bounces for mail forwarded via an
+#  individual .courier file, uncomment the following:
+#
+# DSNNOTIFY=N
+
+##NAME: DSNTOAUTHADDR:0
+#
+#  If DSNTOAUTHADDR=1 and the ESMTP client authenticates, bounces will be
+#  sent to the authenticated address, and not the return address the sender
+#  provided.  This will work only if:
+#
+#  * The authenticated address is a full <user@domain> address.
+#
+#  * The authenticated address does not contain 8bit chars!
+#
+#  Enabling the DSNTOAUTHADDR=1 setting helps prevent abusive backscatter
+#  originating from local users.  Turn it off if you want to.
+
+DSNTOAUTHADDR=0
+
+##NAME: DYNAMICDELIVERIES:0
+#
+#  If you would like to disable the ability to generate dynamic delivery
+#  instructions, set the following variable to 0.  See dot-courier(5)
+#  for more information.
+
+DYNAMICDELIVERIES=1
+
+##NAME: AUTH_MKHOMEDIR_SKEL:0
+#
+# Uncomment this setting to automatically create a home directory when
+# the first message is received. If the AUTH_MKHOMEDIR_SKEL environment
+# variable is set, and the home directory does not exist, the home
+# directory gets created, with its initial contents copied fro
+# AUTH_MKHOMEDIR_SKEL which must be a directory, typically /etc/skel.
+#
+# Note that this must be a complete home directory structure, including
+# the maildir. Typically:
+#
+# mkdir /etc/skel
+# chmod 700 /etc/skel
+# maildirmak /etc/skel/Maildir
+#
+# This directory gets copied as is, preserving each file/subdirectory's
+# permissions, with only userid/groupid changed to match the account's.
+#
+# AUTH_MKHOMEDIR_SKEL=/etc/skel
+
+########################################################################
+#
+##NAME: DEFAULTDELIVERY:0
+#
+#  Specify default delivery instructions by setting DEFAULTDELIVERY
+#  One of the following definitions of DEFAULTDELIVERY should be
+#  uncommented.
+#
+#  Default deliveries to $HOME/Maildir
+#
+#  DEFAULTDELIVERY=./Maildir
+#
+#  Alternatively, use procmail to deliver mail to local mailboxes.
+#
+#  DEFAULTDELIVERY="| /usr/bin/preline /usr/bin/procmail"
+#
+#  Here's how to have maildrop handle local deliveries.
+#
+#  DEFAULTDELIVERY="| /usr/bin/maildrop"
+#
+#  If you want to automatically enable .forward support globally,
+#  use something like this:
+#
+#  DEFAULTDELIVERY="|| dotforward
+#  ./Maildir"
+#
+#  Yes, it's two lines long, with an embedded newline.  Of course, you can use
+#  any default local mail delivery instruction in place of ./Maildir.
+
+DEFAULTDELIVERY=./Maildir
+
+##NAME: MAILDROPDEFAULT:0
+#
+#  The following setting initializes the DEFAULT variable in maildrop,
+#  the location of the default mailbox.  You should not change this setting
+#  unless you REALLY know what you're doing.
+
+MAILDROPDEFAULT=./Maildir
+
+##NAME: ESMTP_CORK:0
+#
+#  ESMTP_CORK=1 is an extension used with Linux kernel >2.2 that avoids sending
+#  partial frames when sending a message via ESMTP.  Set ESMTP_CORK to 0 to
+#  disable it (diagnostic option).  In certain situations this option has no
+#  effect.  For example, when using SSL the entire channel has an encryption
+#  layer around, so courieresmtp is actually talking to a pipe.
+
+ESMTP_CORK=1
+
+##NAME: ESMTP_BLOCKBACKSCATTER:0
+#
+# Default setting of ESMTP_BLOCKBACKSCATTER drops backscatter bounces.
+#
+# "Backscatter" is generally defined as a non-delivery notice sent to a
+# forged return address.  Since we all know that anyone can use any return
+# address on unauthenticated SMTP mail, any bounce message may potentially
+# go to a victim of E-mail forgery.
+#
+# Courier is very good at refusing unwanted mail, and should rarely
+# bounce a message after accepting it.  Still, sometimes this can happen,
+# usually due to a rejection by a local mail filter.
+#
+# This is the default setting:
+#
+# ESMTP_BLOCKBACKSCATTER=smtp/dsn
+#
+# This setting silently discards a message when all of the following
+# conditions are true.
+#
+# 1) The message is sent via SMTP
+# 2) The message is a delivery status notification
+# 3) The delivery status notification was in response to a message received
+#    via SMTP.
+# 4) The original message did not originate from a sender with relaying
+#    privileges (not a trusted IP address, no SMTP authentication took place).
+#
+#
+# The following setting does the same thing, except that backscatter from
+# senders with relaying privileges is also discarded.
+#
+# ESMTP_BLOCKBACKSCATTER=smtp/dsn,authsmtp/dsn
+#
+# To turn off backscatter suppression completely, remove this setting
+# altogether.
+#
+# Do not set this variable to anything else.
+#
+# Important: if you've configured Courier to enforce mailbox quotas, and
+# mailbox overquota is a hard bounce, messages sent to overquota mailboxes
+# will be lost!
+
+ESMTP_BLOCKBACKSCATTER=smtp/dsn
+
+##NAME: SOURCE_ADDRESS:0
+#
+# The SOURCE_ADDRESS and SOURCE_ADDRESS_IPV6 settings have been deprecated and
+# replaced by the ipout and ip6out configuration files. See the courier(8)
+# man page for more information. These settings will be removed completely in
+# a future release.
+
+##NAME: UUXFLAGS:0
+#
+#  Specify additional flags to uux.  Allowed flags are -g [grade], -j, and
+#  -r ONLY.  This environment variable is parsed in a rather simplistic
+#  fashion -- it is broken up into space-separate words, and each one is
+#  passed to uux together with the mandatory uux flags (namely -p).
+
+UUXFLAGS="-j -g C"
+
+##NAME: ARCHIVEDIR:0
+#
+#  This is the big-brother option that saves a copy of EACH and EVERY
+#  message passing through the system.  Uncomment ARCHIVEDIR, and after
+#  a message is delivered, its queue and data file is moved to ARCHIVEDIR
+#  instead of being deleted.  You must create the ARCHIVEDIR directory
+#  yourself, and it must be owned by the "courier" userid.
+#
+#  Also, ARCHIVEDIR *MUST* be on the same partition/volume as Courier's
+#  mail queue directory.
+#
+#  All messages will be saved into a flat directory, with one subdirectory
+#  created each calendar day.  Therefore, you will need to make sure that
+#  your filesystem can handle it.  Each message consists of two files,
+#  the control file, and the message data file.  The Linux ext2 filesystem,
+#  for example, will start to have problems once there are more than
+#  32,000 files in the same directory, so if your system carries a higher
+#  daily volume, you'll need to purge out the archive subdirectory several
+#  times a day.
+#
+#  If you fill up an archive directory, mail will continue to move, but
+#  not archived.  Caveat emptor.
+#
+#  ARCHIVEDIR="/usr/lib/courier/bigbrother"
+
+##NAME: ESMTP_USE_STARTTLS:0
+#
+# The following variables specify whether or not the ESMTP *client* will use
+# SSL when talking to a remote ESMTP server that supports SSL.
+
+ESMTP_USE_STARTTLS=1
+
+##NAME: COURIERTLS:0
+#
+# For SSL to work, OpenSSL must be available when Courier is compiled, and
+# couriertls must be installed here:
+#
+# If couriertls is not installed, ESMTP_USE_TLS is quietly ignored.
+
+COURIERTLS=/usr/bin/couriertls
+
+##NAME: ESMTP_TLS_VERIFY_DOMAIN:0
+#
+# The following variables specify SSL/TLS properties for the ESMTP SSL client.
+#
+# Set ESMTP_TLS_VERIFY_DOMAIN to 1 if we must verify the domain in the remote
+# server's certificate.  For this to actually work as intended, you must
+# install root authority certificates in the locations specified by the
+# TLS_TRUSTCERTS setting, and set TLS_VERIFYPEER to PEER.  Otherwise, this is
+# meaningless.
+#
+# This setting must be set to 1 when Courier uses a smarthost that requires
+# SMTP SSL certificates for authentication and relaying privileges.
+
+ESMTP_TLS_VERIFY_DOMAIN=1
+
+##NAME: ESMTP_PREFER_IPV6_MX:0
+#
+# Enable ESMTP_PREFER_IPV6_MX=1 to prefer IPv6 hosts over IPv4.
+#
+# Remove this setting to prefer IPv4 hosts over IPv6.
+
+ESMTP_PREFER_IPV6_MX=1
+
+##NAME: TLS_PRIORITY:0
+#
+# Set TLS protocol priority settings (GnuTLS only)
+#
+# DEFAULT: NORMAL:-CTYPE-OPENPGP
+#
+# TLS_PRIORITY="NORMAL:-CTYPE-OPENPGP"
+#
+# This setting is also used to select the available ciphers.
+#
+# The actual list of available ciphers depend on the options GnuTLS was
+# compiled against. The possible ciphers are:
+#
+# AES256, 3DES, AES128, ARC128, ARC40, RC2, DES, NULL
+#
+# Also, the following aliases:
+#
+# HIGH -- all ciphers that use more than a 128 bit key size
+# MEDIUM -- all ciphers that use a 128 bit key size
+# LOW -- all ciphers that use fewer than a 128 bit key size, the NULL cipher
+#        is not included
+# ALL -- all ciphers except the NULL cipher
+#
+# See GnuTLS documentation, gnutls_priority_init(3) for additional
+# documentation.
+
+##NAME: TLS_PROTOCOL:0
+#
+# TLS_PROTOCOL sets the protocol version.  The possible versions are:
+#
+# OpenSSL:
+#
+# TLSv1 - TLS1
+# TLSv1.1 - TLS1.1
+# TLSv1.2 - TLS1.2
+#
+#
+# TLSv1+, TLSv1.1+, and TLSv1.2+ - the corresponding protocol, and all
+# higher protocols.
+#
+# The default value is TLSv1+
+
+TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
+# Modern
+#TLS_PROTOCOL="TLSv1.2"
+
+##NAME: TLS_CIPHER_LIST:0
+#
+# TLS_CIPHER_LIST optionally sets the list of ciphers to be used by the
+# OpenSSL library.  In most situations you can leave TLS_CIPHER_LIST
+# undefined
+#
+# OpenSSL:
+#
+# TLS_CIPHER_LIST="SSLv3:TLSv1:HIGH:!LOW:!MEDIUM:!EXP:!NULL:!aNULL@STRENGTH"
+#
+# GnuTLS:
+#
+# TLS_CIPHER_LIST="HIGH:MEDIUM"
+#
+# The actual list of available ciphers depend on the options GnuTLS was
+# compiled against. The possible ciphers are:
+#
+# AES256, 3DES, AES128, ARC128, ARC40, RC2, DES, NULL
+#
+# Also, the following aliases:
+#
+# HIGH -- all ciphers that use more than a 128 bit key size
+# MEDIUM -- all ciphers that use a 128 bit key size
+# LOW -- all ciphers that use fewer than a 128 bit key size, the NULL cipher
+#        is not included
+# ALL -- all ciphers except the NULL cipher
+#
+# See GnuTLS documentation, gnutls_priority_init(3) for additional
+# documentation.
+
+TLS_CIPHER_LIST="ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS"
+# Modern
+#TLS_CIPHER_LIST="ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
+
+##NAME: TLS_MIN_DH_BITS:0
+#
+# TLS_MIN_DH_BITS=n
+#
+# GnuTLS only:
+#
+# Set the minimum number of acceptable bits for a DH key exchange.
+#
+# GnuTLS's compiled-in default is 727 bits (as of GnuTLS 1.6.3). Some server
+# have been encountered that offer 512 bit keys. You may have to set
+# TLS_MIN_DH_BITS=512 here, if necessary.
+
+##NAME: TLS_TIMEOUT:0
+# TLS_TIMEOUT is currently not implemented, and reserved for future use.
+# This is supposed to be an inactivity timeout, but its not yet implemented.
+#
+
+##NAME: TLS_CERTFILE:0
+#
+# TLS_CERTFILE - client SSL certificate
+#
+# This setting must be set when Courier uses a smarthost that requires
+# SMTP SSL certificates for authentication and relaying privileges.
+#
+# TLS_CERTFILE=
+
+
+##NAME: TLS_TRUSTCERTS:1
+#
+# TLS_TRUSTCERTS=pathname - load trusted certificates from pathname.
+# Use this setting to define SSL certificate authorities
+#
+# This setting must be set when Courier uses a smarthost that requires
+# SMTP SSL certificates for authentication and relaying privileges.
+
+TLS_TRUSTCERTS=/etc/ssl/certs
+
+##NAME: TLS_TRUSTSECURITYCERTS:0
+#
+# TLS_TRUSTSECURITYCERTS=pathname - same as TLS_TRUSTCERTS, except that
+# these certs are used when the Courier-specific SECURITY extension is
+# specified for a given message. ESMTP_USE_STARTTLS must be set to 1,
+# above, and this option implies ESMTP_TLS_VERIFY_DOMAIN.
+#
+# This setting, of course, can be same as TLS_TRUSTCERTS, however it is
+# often desirable to use a separate, private, root CA cert in order to
+# create private, organization-internal, secure mail delivery channel
+# over an untrusted network, that's validated by X.509 certs signed
+# by a private root CA.
+#
+# !!!NOTE!!! this is an experimental, not heavily tested, extension
+#
+# TLS_TRUSTSECURITYCERTS=
+
+##NAME: TLS_VERIFYPEER:1
+#
+# TLS_VERIFYPEER - how to verify server certificates.  Possible settings:
+#
+# NONE - do not verify anything
+#
+# PEER - verify the client certificate, if one's presented
+#
+# REQUIREPEER - require a client certificate, fail if one's not presented
+#
+# Most SMTP server certificates on the Internet are self signed, so this
+# setting should be left at its default value of "NONE".
+#
+# This setting must be set to "PEER" when Courier uses a smarthost that requires
+# SMTP SSL certificates for authentication and relaying privileges.
+
+TLS_VERIFYPEER=REQUIREPEER

@@ -43,7 +43,20 @@ courier-restart.sh
 
 ################## END 'smarthost' configuration ##################
 
+Courier_config() {
+    local NEW="$1"
+    local CURRENT="$2"
+    local ORIGINAL
 
+    ORIGINAL="mail/courier-config/${NEW}.orig"
+
+    if [ -f "$ORIGINAL" ] && ! catconf "$CURRENT" | diff -q -w - "$ORIGINAL"; then
+        echo "Courier MTA configuration has changed '${CURRENT}'" 1>&2
+        exit 100
+    fi
+
+    cp -v -f "mail/courier-config/${NEW}" "$CURRENT"
+}
 
 # Check for other MTA-s
 if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))')" ]; then
@@ -51,7 +64,7 @@ if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-tr
     exit 1
 fi
 
-# Courier MTA installation #
+# Courier MTA installation
 echo "courier-base courier-base/webadmin-configmode boolean false" | debconf-set-selections -v
 echo "courier-base courier-base/certnotice note" | debconf-set-selections -v
 echo "courier-base courier-base/courier-user note" | debconf-set-selections -v
@@ -62,25 +75,32 @@ echo "courier-mta courier-mta/defaultdomain string" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
 apt-get install -o APT::Install-Recommends=false -y ca-certificates courier-mta
 
-# Install restart script #
+# Install restart script
 Dinstall mail/courier-restart.sh
 
-# Route mail through the smarthost #
-editor /etc/courier/esmtproutes
+# Route mail through the smarthost
+Courier_config esmtproutes /etc/courier/esmtproutes
 #     szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
-#     : smtp.mailgun.org,587 /SECURITY=REQUIRED
 #     : email-smtp.eu-west-1.amazonaws.com,587 /SECURITY=REQUIRED
-#     : SMART-HOST,587 /SECURITY=REQUIRED
-# From jessie on
-#     : SMART-HOST,465 /SECURITY=SMTPS
-editor /etc/courier/esmtpauthclient
-#     SMART-HOST,587 USER-NAME PASSWORD
+#     : smtp.sparkpostmail.com,587 /SECURITY=REQUIRED
+#     : smtp-relay.gmail.com,587 /SECURITY=REQUIRED
+# Credentials for smarthosts
+echo "#SMART-HOST,587 USER-NAME PASSWORD" > /etc/courier/esmtpauthclient
+#     #SMART-HOST,587 USER-NAME PASSWORD
 
 # Unused certificate file
 install -o courier -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
-# SSL configuration #
-editor /etc/courier/courierd
-# Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready (jessie) for it
+
+# Diffie-Hellman parameters
+rm -f /etc/courier/dhparams.pem
+# medium=2048, high=3072
+DH_BITS=medium nice /usr/sbin/mkdhparams
+# DH params cron job
+Dinstall mail/courier-dhparams.sh
+
+# SSL configuration, STARTTLS in client mode and smarthost certificate verification
+Courier_config courierd /etc/courier/courierd
+# Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready for it (from jessie on)
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/
 #     # Modern profile as of 2016-08-28
 #     TLS_PROTOCOL="TLSv1.2"
@@ -89,50 +109,40 @@ editor /etc/courier/courierd
 #     # Intermediate profile as of 2016-08-28
 #     TLS_PROTOCOL="TLSv1.2:TLSv1.1:TLS1"
 #     TLS_CIPHER_LIST="ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS"
-
-# Diffie-Hellman parameters
-rm -f /etc/courier/dhparams.pem
-DH_BITS=2048 nice /usr/sbin/mkdhparams
-# DH params cron job
-Dinstall mail/courier-dhparams.sh
-
-# STARTTLS in client mode and smarthost certificate verification
-editor /etc/courier/courierd
 #     ESMTP_USE_STARTTLS=1
 #     ESMTP_TLS_VERIFY_DOMAIN=1
 #     TLS_TRUSTCERTS=/etc/ssl/certs
 #     TLS_VERIFYPEER=REQUIREPEER
-#     # Courier verifies against resolved CNAME-s!
-#     # https://github.com/svarshavchik/courier-libs/commit/5e522ab14f45c6f4f43c43e32a2f72fbf6354f1c
-#     # addcr|ESMTP_USE_STARTTLS=1 ESMTP_TLS_VERIFY_DOMAIN=1 TLS_PROTOCOL=TLS1 TLS_VERIFYPEER=REQUIREPEER TLS_TRUSTCERTS=/etc/ssl/certs /usr/bin/couriertls -port=587 -protocol=smtp -host=smart.host.tld
 
 # Listen on localhost and disable authentication
-editor /etc/courier/esmtpd
+Courier_config esmtpd /etc/courier/esmtpd
 #     ADDRESS=127.0.0.1
 #     # Don't look up localhost
 #     TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger -noidentlookup -nodnslookup"
 #     ESMTPAUTH=""
 #     ESMTPAUTH_TLS=""
 
+# @TODO Fix courier-mta package's default value
+sed -i -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' /etc/courier/esmtpd-ssl
 # Don't listen on port SMTPS (465/tcp)
-editor /etc/courier/esmtpd-ssl
+sed -i -e 's|^ESMTPDSSLSTART=.*$|ESMTPDSSLSTART=NO|' /etc/courier/esmtpd-ssl
 #     ESMTPDSSLSTART=NO
 
 # SMTP access for localhost
-editor /etc/courier/smtpaccess/default
+Courier_config smtpaccess--default /etc/courier/smtpaccess/default
 #     127.0.0.1	allow,RELAYCLIENT
 #     :0000:0000:0000:0000:0000:0000:0000:0001	allow,RELAYCLIENT
 
 # Remove own hostname from locals
 echo "localhost" > /etc/courier/locals
 
-# Set hostname #
-editor /etc/courier/me
-editor /etc/courier/defaultdomain
-editor /etc/courier/dsnfrom
+# Set hostname
+hostname -f > /etc/courier/me
+hostname -f > /etc/courier/defaultdomain
+# /etc/courier/dsnfrom set from debconf
 
-# Aliases #
-editor /etc/courier/aliases/system
+# Aliases
+sed -i -e 's|^postmaster:.*$|postmaster: postmaster@szepe.net\nnobody: postmaster|' /etc/courier/aliases/system
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
 #     postmaster: postmaster@szepe.net
 #     nobody: postmaster
