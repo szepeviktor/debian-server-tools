@@ -187,10 +187,10 @@ editor /etc/courier/esmtpauthclient
 # Goaccess
 # See /webserver/goaccess.sh
 
-# Fill in hosting.yml
+# Document in hosting.yml
 # See /webserver/hosting.yml
 
-# Install A Honey Pot
+# Install a Honey Pot
 # http://www.projecthoneypot.org/faq.php#c
 
 # Webmaster tools

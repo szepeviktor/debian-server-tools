@@ -21,8 +21,6 @@ Traffic light example :vertical_traffic_light: a developer sees the green light,
 - **Reporting issues** to editors and developers
 - User management, user support over the phone, in email or chat and [how-to videos](https://www.youtube.com/user/szepeviktor) EN/HU
 - Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
-- Handmade [WordPress plugins](https://profiles.wordpress.org/szepeviktor#content-plugins)
-- WordPress theme developer [tools](https://github.com/szepeviktor/wordpress-plugin-construction), plugin blacklist and suggestions
 - [Email delivery](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md)
 
 ### Benefits

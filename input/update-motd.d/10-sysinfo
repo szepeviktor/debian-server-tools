@@ -2,7 +2,7 @@
 #
 # Display system status, fast.
 #
-# VERSION       :1.3.2
+# VERSION       :1.3.3
 # DATE          :2017-11-01
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -119,13 +119,14 @@ Display_left "Up time" "$UPTIME" "$(Tl_limits "$UPTIME_SECONDS" 15552000 1486080
 
 LOAD_AVG="$(< /proc/loadavg)"
 LOAD_AVG="${LOAD_AVG%% *}"
-# shellcheck disable=SC2155
-declare -i LOAD_AVG00="$(echo "$LOAD_AVG" | awk '{ printf("%.0f",($1 * 100)) }')"
-# shellcheck disable=SC2155
-declare -i CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
+declare -i LOAD_AVG00
+LOAD_AVG00="$(echo "$LOAD_AVG" | awk '{ printf("%.0f",($1 * 100)) }')"
+declare -i CPU_COUNT
+CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 Display_left "System load" "$LOAD_AVG" "$(Tl_limits "$LOAD_AVG00" $((CPU_COUNT * 100)) $((CPU_COUNT * 50)))" #"
 
-if free | grep -qF "buff/cache"; then
+declare -i MEM_USAGE
+if free | grep -q -F 'buff/cache'; then
     # Changed in stretch:                     ( total - free - buff/cache )
     MEM_USAGE="$(free | awk '/Mem/ { printf("%.0f",($2 - $4 - $6) / $2 * 100) }')"
 else
@@ -138,13 +139,13 @@ ROOT_USAGE="$(df / | awk '/\// { print $(NF-1) }')"
 ROOT_USAGE="${ROOT_USAGE/%%/}"
 Display_left "Root fs usage" "${ROOT_USAGE} %" "$(Tl_limits "$ROOT_USAGE" 95 83)"
 
-# shellcheck disable=SC2155
-declare -i SWAP_USAGE="$(free | awk '/Swap/ { printf("%.0f", $3 / $2 * 100) }')"
+declare -i SWAP_USAGE
+SWAP_USAGE="$(free | awk '/Swap/ { printf("%.0f", $3 / $2 * 100) }')"
 Display_left "Swap usage" "${SWAP_USAGE} %" "$(Tl_limits "$SWAP_USAGE" 75 50)"
 
 if hash mailq 2> /dev/null; then
-    # shellcheck disable=SC2155
-    declare -i MAIL_QUEUE="$(mailq -batch | grep -vc '^messages: ')"
+    declare -i MAIL_QUEUE
+    MAIL_QUEUE="$(mailq -batch | grep -v -c '^messages: ')"
     Display_left "Mail queue" "$MAIL_QUEUE" "$(Tl_limits "$MAIL_QUEUE" 10 1)"
 fi
 
@@ -162,7 +163,7 @@ Display_right "Date" "$CURRENT_DATE" "$(if [ "${LATE_HOURS[$CURRENT_HOUR]}" == 1
 declare -i LOGGED_IN="$(users | wc -w)"
 Display_right "Users" "$LOGGED_IN" "$(Tl_limits "$LOGGED_IN" 10 2)"
 
-PUBLIC_IPV4="$(ip addr show | sed -n -e 's;^\s*inet \([0-9\.]\+\)\b.*$;\1;p' | grep -v -x -m 1 "127\.[0-9]\+\.[0-9]\+\.[0-9]\+")"
+PUBLIC_IPV4="$(ip addr show | sed -n -e 's|^\s*inet \([0-9\.]\+\)\b.*$|\1|p' | grep -v -x -m 1 '127\.[0-9]\+\.[0-9]\+\.[0-9]\+')"
 Display_right "Public IPv4" "$PUBLIC_IPV4" "$(if [ -z "$PUBLIC_IPV4" ]; then echo " "; else echo "G"; fi)"
 
 # shellcheck disable=SC2155
@@ -170,8 +171,8 @@ declare -i PACKAGE_UPGRADES="$(apt-get -s -o Debug::NoLocking=true upgrade | gre
 Display_right "Package upgrades" "$PACKAGE_UPGRADES" "$(Tl_limits "$PACKAGE_UPGRADES" 5 1)"
 
 BACKUP_CTRL_FILE="/media/server-backup.s3ql/.__s3ql__ctrl__"
-if test -d "$(dirname "$BACKUP_CTRL_FILE")"; then
-    if test -e "$BACKUP_CTRL_FILE"; then
+if [ -d "$(dirname "$BACKUP_CTRL_FILE")" ]; then
+    if [ -e "$BACKUP_CTRL_FILE" ]; then
         Display_right "Backup" "in progress" Y
     else
         Display_right "Backup" "standby" G
@@ -181,13 +182,18 @@ fi
 if hash hddtemp 2> /dev/null; then
     declare -i HDD_TEMP
     for HARDDISK in /dev/sd? /dev/hd?; do
-        if ! [ -b "$HARDDISK" ]; then
+        if [ ! -b "$HARDDISK" ]; then
             continue
         fi
         #HDD_TEMP="$(/usr/sbin/smartctl -A "$HARDDISK" | grep -w "Temperature_Celsius" | awk '{print $10}')"
         HDD_TEMP="$(/usr/sbin/hddtemp --quiet --numeric --wake-up "$HARDDISK")"
         Display_right "HDD temp" "${HDD_TEMP} °C" "$(Tl_limits "$HDD_TEMP" 50 45)"
     done
+fi
+
+if hash redis-cli 2> /dev/null; then
+    Display_right "Redis memory" "$(echo "INFO memory" | redis-cli | tr -d '\r' | grep -Fw "used_memory_human" | cut -d ":" -f 2)" G
+    Display_right "Redis keys" "$(echo "DBSIZE" | redis-cli | tr -d '\r' | cut -d " " -f 2)" G
 fi
 
 Do_display

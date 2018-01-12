@@ -172,7 +172,7 @@ wp plugin install custom-sucuri sucuri-scanner --activate
 # Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # CF7 Robot Trap
-wget -P wp-content/plugins/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot-trap.php
+wget -P wp-content/plugins/contact-form-7-robot-trap/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot-trap.php
 # obfuscate-email
 #wp plugin install obfuscate-email --activate
 ```

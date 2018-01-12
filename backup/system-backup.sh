@@ -2,16 +2,16 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.1.1
-# DATE          :2017-10-23
+# VERSION       :2.2.0
+# DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install debconf-utils rsync mariadb-client percona-xtrabackup s3ql
 # DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
-# LOCATION      :/usr/local/sbin/system-backup.sh
 # CI            :shellcheck -e SC2086 system-backup.sh
+# LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
 
@@ -23,7 +23,7 @@
 #
 # Example S3QL configuration for Swift
 #     [aws]
-#     storage-url: s3://S3_REGION/S3_BUCKET/S3_PREFIX_
+#     storage-url: s3://S3_REGION/S3_BUCKET/PREFIX_
 #     backend-login: IAM_ACCESS_KEY_ID
 #     backend-password: IAM_SECRET_ACCESS_KEY
 #     fs-passphrase: $(apg -m32 -n1)
@@ -34,12 +34,13 @@
 # Example configuration
 #     #STORAGE_URL="local:///media/backup-server.sshfs"
 #     #STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_"
-#     STORAGE_URL="s3://REGION/BUCKET/PREFIX_"
+#     STORAGE_URL="s3://S3_REGION/S3_BUCKET/PREFIX_"
 #     TARGET="/media/server-backup.s3ql"
 #     #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
+#     MOUNT_OPTIONS="--compress zlib-5"
 #     AUTHFILE="/root/.s3ql/authinfo2"
-#     DB_EXCLUDE="excluded-db1|excluded-db2"
-#     HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
+#     #DB_EXCLUDE="excluded-db1|excluded-db2"
+#     HCHK_URL="https://hchk.io/aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 #
 # Add an [xtrabackup] section to /root/.my.cnf if UDS-based authentication is not available
 #     editor /root/.my.cnf
@@ -47,7 +48,7 @@
 # Format storage
 #     /usr/bin/mkfs.s3ql "$STORAGE_URL"
 #
-# Save encryption master key!
+# Save encryption master key
 #
 # Create target directory
 #     mkdir "$TARGET"
@@ -340,7 +341,7 @@ test -r "$CONFIG" || Error 100 "Unconfigured"
 # shellcheck disable=SC1090
 source "$CONFIG"
 
-logger -t "system-backup" "Started. $*"
+logger -t "system-backup" "Started. ${*}"
 
 Check_paths
 
@@ -367,9 +368,11 @@ Backup_files
 Umount
 
 # Log file: /root/.s3ql/mount.log
-logger -t "system-backup" "Finished. $*"
+logger -t "system-backup" "Finished. ${*}"
 
-if [ -n "$HCHK_UUID" ]; then
+if [ -n "$HCHK_URL" ]; then
+    wget -q -t 3 -O- "${HCHK_URL}" | grep -q -F -x "OK" || Error 101 "hchk.io non-OK response"
+elif [ -n "$HCHK_UUID" ]; then
     wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -q -F -x "OK" || Error 101 "hchk.io non-OK response"
 fi
 
