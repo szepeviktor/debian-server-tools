@@ -2,7 +2,7 @@
 #
 # Reload PHP-FPM and Apache dependently.
 #
-# VERSION       :0.6.3
+# VERSION       :0.6.4
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -21,11 +21,11 @@ Error() {
 }
 
 # PHP-PFM config test
-if hash php5-fpm &> /dev/null; then
+if hash php5-fpm 2> /dev/null; then
     php5-fpm -t || Error "PHP-FPM 5 configuration test failed"
-elif hash php-fpm7.0 &> /dev/null; then
+elif hash php-fpm7.0 2> /dev/null; then
     php-fpm7.0 -t || Error "PHP-FPM 7.0 configuration test failed"
-elif hash php-fpm7.1 &> /dev/null; then
+elif hash php-fpm7.1 2> /dev/null; then
     php-fpm7.1 -t || Error "PHP-FPM 7.1 configuration test failed"
 else
     Error "Unknown PHP version"
@@ -34,7 +34,7 @@ echo "-----"
 
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 while read -r CONFIG_FILE; do
-    DOCROOT_MISSING="$(grep "^\s*<VirtualHost\|^\s*DocumentRoot" "$CONFIG_FILE" | sed -n -e '/VirtualHost/n;/DocumentRoot/!p')"
+    DOCROOT_MISSING="$(grep '^\s*<VirtualHost\|^\s*DocumentRoot' "$CONFIG_FILE" | sed -n -e '/VirtualHost/n;/DocumentRoot/!p')"
     if [ -n "$DOCROOT_MISSING" ]; then
         Error "Missing DocumentRoot directive in ${CONFIG_FILE}"
     fi
@@ -63,7 +63,7 @@ ROBOTS_URLS="$(apache2ctl -S | sed -n -e '/namevhost localhost/d' \
     -e 's|^\s\+port 443 namevhost \(\S\+\) (.*)$|https://\1/robots.txt|p')"
 while read -r ROBOTS_URL; do
     echo -n "."
-    wget -t 1 -q -O - "$ROBOTS_URL" | grep -qi "^User-agent:" \
+    wget -t 1 -q -O - "$ROBOTS_URL" | grep -q -i '^User-agent:' \
         || Error "robots.txt is not set up (${ROBOTS_URL})"
 done <<< "$ROBOTS_URLS"
 echo
@@ -73,11 +73,11 @@ apache2ctl configtest || Error "Apache configuration test"
 echo "-----"
 
 # Reload!
-if hash php5-fpm &> /dev/null; then
+if hash php5-fpm 2> /dev/null; then
     service php5-fpm reload || Error 'PHP-FPM 5 reload failed, ACT NOW!'
-elif hash php-fpm7.0 &> /dev/null; then
+elif hash php-fpm7.0 2> /dev/null; then
     service php7.0-fpm reload || Error 'PHP-FPM 7.0 reload failed, ACT NOW!'
-elif hash php-fpm7.1 &> /dev/null; then
+elif hash php-fpm7.1 2> /dev/null; then
     service php7.1-fpm reload || Error 'PHP-FPM 7.1 reload failed, ACT NOW!'
 fi
 service apache2 reload || Error 'Apache reload failed, ACT NOW!'

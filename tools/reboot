@@ -2,7 +2,7 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.3.0
+# VERSION       :0.4.0
 # DATE          :2017-02-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,22 +22,35 @@ if [ "$REBOOT" != 1 ]; then
     exit 100
 fi
 
-# shellcheck disable=SC2016
-FIRST_ROOT="$(sed -ne '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
+if [ -f "/extlinux.conf" ] && [ -f "/ldlinux.sys" ]; then
+    # shellcheck disable=SC2016
+    FIRST_ROOT="$(sed -n -e '0,/^append /s/^.*\sroot=\(\S\+\).*$/\1/p' /extlinux.conf)"
+else
+    # shellcheck disable=SC2016
+    FIRST_ROOT="$(sed -n -e '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
+fi
+
 DISK=""
 
-# Block device
+# Find block device by name
 if [ "${FIRST_ROOT:0:5}" == "/dev/" ]; then
     DISK="$(realpath "$FIRST_ROOT")"
 fi
 
-# UUID
+# Find disk by UUID
 if [ "${FIRST_ROOT:0:5}" == "UUID=" ]; then
     DISK="$(readlink -e "/dev/disk/by-uuid/${FIRST_ROOT#UUID=}")"
 fi
 
+# Disk and mounted device differ
+if [ "${FIRST_ROOT:0:12}" == "/dev/mapper/" ]; then
+    MOUNTED="$FIRST_ROOT"
+else
+    MOUNTED="$DISK"
+fi
+
 # Not a mounted block device
-if ! [ -b "$DISK" ] || ! grep -q "^${DISK}\s" /proc/mounts; then
+if [ ! -b "$DISK" ] || ! grep -q "^${MOUNTED}\s" /proc/mounts; then
     echo "Root device not found (${FIRST_ROOT})" 1>&2
     exit 1
 fi
@@ -45,7 +58,7 @@ fi
 # Stop monit
 clear
 if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
-    if service monit status | grep -qF "monit is running"; then
+    if service monit status | grep -q -F 'monit is running'; then
         service monit stop
     fi
 fi

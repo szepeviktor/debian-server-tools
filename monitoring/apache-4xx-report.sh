@@ -2,13 +2,13 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.3.1
+# VERSION       :1.3.2
 # DATE          :2017-03-05
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install mail-transport-agent apache2 ccze recode
+# DEPENDS       :apt-get install mail-transport-agent apache2 ccze perl
 # DEPENDS       :/usr/local/bin/dategrep
 # LOCATION      :/usr/local/sbin/apache-4xx-report.sh
 # CRON-DAILY    :/usr/local/sbin/apache-4xx-report.sh
@@ -30,12 +30,12 @@ Filter_client_server_error() {
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
-        | grep -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$'
+        | grep -v -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$'
 }
 
 Color_html() {
     ccze --plugin httpd --html --options "cssfile=${CCZE_CSS_URL}" -c "cssbody=${CCZE_BODY_BG}" \
-        | recode -f UTF-8..UTF-8/QP
+        | perl -MMIME::QuotedPrint -p -e '$_=MIME::QuotedPrint::encode_qp($_);'
 }
 
 Maybe_sendmail() {

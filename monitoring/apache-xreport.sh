@@ -2,13 +2,13 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.2.0
+# VERSION       :1.2.1
 # DATE          :2017-12-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install mail-transport-agent apache2 ccze recode
+# DEPENDS       :apt-get install mail-transport-agent apache2 ccze perl
 # DEPENDS       :/usr/local/bin/dategrep
 # LOCATION      :/usr/local/sbin/apache-xreport.sh
 # CRON-DAILY    :/usr/local/sbin/apache-xreport.sh
@@ -42,7 +42,7 @@ Xclude_filter() {
 
 Color_html() {
     ccze --html --options "cssfile=${CCZE_CSS_URL}" -c "cssbody=${CCZE_BODY_BG}" \
-        | recode -f UTF-8..UTF-8/QP
+        | perl -MMIME::QuotedPrint -p -e '$_=MIME::QuotedPrint::encode_qp($_);'
 }
 
 Maybe_sendmail() {

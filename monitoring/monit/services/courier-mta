@@ -24,7 +24,7 @@
    stop program = "/usr/sbin/service courier-mta stop"
    restart program = "/usr/sbin/service courier-mta restart"
    # Extended timeout for DNS queries
-   if failed host localhost port 587 type tcp protocol smtp timeout 12 then restart
+   if failed host localhost port 587 type tcp protocol smtp timeout 12 seconds then restart
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-mta_bin
    depends on courier-mta_init

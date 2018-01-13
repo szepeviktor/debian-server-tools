@@ -37,16 +37,16 @@ Details about [infrastructure and source code management](/master/CV.md)
 - Support Plan: Basic
 - Route53 / Domain + DNS
 - CloudFront / CDN
-- SES / Domain + SMTP credentials
-  + [Move Out of the Sandbox](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html)
-  + Bounce notification
+- SES / Domain + SMTP credentials +
+  [Move Out of the Sandbox](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html) +
+  Bounce notification
 - S3 / Server backup bucket
 - IAM / Route53 API user + CloudFront API user + S3 API user
 - Document credentials
 
 ### Infrastructure setup
 
-- Document in hosting.yml / server.yml
+- Document in hosting.yml and server.yml
 - Gain access to providers (web based sub-account or API)
 - Manage migrations
 - PTR/IPv4, PTR/IPv6 records

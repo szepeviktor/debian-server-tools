@@ -367,6 +367,7 @@ Deprecated.
 
 ### Email design
 
+- https://heml.io/
 - https://www.klaviyo.com/
 - https://mailchimp.com/
 - https://wireframe.cc/

@@ -75,7 +75,7 @@ wp core install --title="WP" --admin_user="viktor" --admin_email="viktor@szepe.n
 
 wp option set home "$WPHOMEURL"
 wp option set blog_public "0"
-wp option set admin_email "support@company.net"
+wp option set admin_email "webmaster@example.com"
 ```
 
 @TODO Move to wp-lib
@@ -157,6 +157,8 @@ wget -P wp-content/mu-plugins/ ${WPSZV}/mu-keepass-button/keepass-button.php
 # Fail2ban Wordpress
 wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
+#wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/non-wp-projects/wp-login.php
+#wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/non-wp-projects/xmlrpc.php
 
 # security suite + audit
 
