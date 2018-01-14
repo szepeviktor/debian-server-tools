@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Create, list and edit AWS Route53 DNS resource record sets.
+# Create, list and update AWS Route53 DNS resource record sets.
 #
 # VERSION       :0.1.2
 # DOCS          :http://jmespath.org/examples.html

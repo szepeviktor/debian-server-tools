@@ -123,6 +123,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
   (plain text version, NeverBounce, mailcheck.js, form spam, obfuscate email addresses)
 - Document generation (PDF, Excel, image)
 - Image management (Cloudinary)
+- Maintenance mode switch and placeholder page (HTTP/503)
 - Static asset management (building, versioning) and loading
 - Analytics, visitor tracking
 
@@ -137,7 +138,6 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Publish Dockerfile of CI (GitLab Container Registry)
 - Build and deploy script (file permissions)
 - Cron jobs and queues (check periodically, email sending and time consuming tasks)
-- Maintenance mode switch and placeholder page (HTTP/503)
 - Generate sitemaps
 - File change notification: `siteprotection.sh`
 - Manage and monitor application/config/route/view cache and sessions
@@ -150,7 +150,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Include Fail2ban triggers at least for 404-s, failed login attempts and hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
-- Differences of a staging/development environment (different TLD, email delivery, 3rd parties)
+- Differences of a **staging/development** environment (different TLD, email delivery, 3rd parties)
 
 ### Maintenance :wrench:
 

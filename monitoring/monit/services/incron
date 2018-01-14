@@ -1,0 +1,22 @@
+ check process "incron" with pidfile "/run/incrond.pid"
+   group "system"
+   group "incron"
+   start program = "/usr/sbin/service incron start"
+   stop program = "/usr/sbin/service incron stop"
+   restart program = "/usr/sbin/service incron restart"
+   if 5 restarts with 5 cycles then unmonitor
+   depends on incron_bin
+   depends on incron_rc
+   depends on incron_init
+
+ check file "incron_bin" with path "/usr/sbin/incrond"
+   group "incron"
+   include "/etc/monit/templates/rootbin"
+
+ check file "incron_rc" with path "/etc/incron.conf"
+   group "incron"
+   include "/etc/monit/templates/rootrc"
+
+ check file "incron_init" with path "/etc/init.d/incron"
+   group "incron"
+   include "/etc/monit/templates/rootbin"

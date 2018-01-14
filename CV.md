@@ -43,7 +43,7 @@ A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.
 **proaktív** üzemeltetésével foglalkozok, ami magában foglalja az applikáció vizsgálatát,
 a folyamatos integrációs teszteket (CI) és automatizált telepítést (deploy, CD).
 Ezeket nem csak üzemeltetem, hanem meg is írom.
-A technológiai ismereteim kiegészítik a fejlesztők ismereteit.
+A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
 hogy a hibák **ne váratlanul** jönnek elő.

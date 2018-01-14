@@ -23,5 +23,5 @@
 
 - [Google Cégem](https://support.google.com/business/answer/7091)
 - [Google Tudáspanel](https://support.google.com/business/answer/6331288)
-- Google Maps
+- Google Térkép
 - Google+

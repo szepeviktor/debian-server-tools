@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Create, list and edit Godaddy DNS resource record sets.
+# Create, list and update Godaddy DNS resource record sets.
 #
 # VERSION       :0.1.2
 # DOCS          :https://developer.godaddy.com/doc

@@ -21,7 +21,7 @@
 #     mkdir /root/.s3ql; editor /root/.s3ql/authinfo2; chmod 0600 /root/.s3ql/authinfo2
 #     cat /root/.s3ql/authinfo2
 #
-# Example S3QL configuration for Swift
+# Example S3QL configuration for S3
 #     [aws]
 #     storage-url: s3://S3_REGION/S3_BUCKET/PREFIX_
 #     backend-login: IAM_ACCESS_KEY_ID
