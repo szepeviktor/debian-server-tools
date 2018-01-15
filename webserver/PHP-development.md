@@ -14,6 +14,14 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 - Keep developer morale high
 - Think about the far future when making decisions today
 
+### High level overview
+
+- Software architecture :sunny: :sunny: :sunny:
+- Documented **code design** :sunny: :sunny:
+- Implementation (source code writing) :sunny:
+- Automatic and manual testing
+- Periodic code review, audit
+
 ### Editor settings
 
 Bits and bytes.
@@ -108,9 +116,9 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Autoloading (composer)
 - ORM
-- Object caching ([PSR-6](https://github.com/php-cache/illuminate-adapter))
-- Session handling
+- Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
 - HTTP security and request handling (WAF)
+- Session handling
 - Input validation, sanitization
 - Escaping (SQL, HTML, JavaScript)
 - Internationalization (PHP, JavaScript)
@@ -120,12 +128,14 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Authentication (2FA, password security)
 - User roles and capabilities
 - Email addresses, composing and sending
-  (plain text version, NeverBounce, mailcheck.js, form spam, obfuscate email addresses)
-- Document generation (PDF, Excel, image)
+  (plain text version, NeverBounce, mailcheck.js, form hidden field, obfuscate email addresses)
+- Document generation (CSV, PDF, Excel, image)
 - Image management (Cloudinary)
 - Maintenance mode switch and placeholder page (HTTP/503)
 - Static asset management (building, versioning) and loading
-- Analytics, visitor tracking
+- Analytics, visitor tracking (Hotjar, Clicktale)
+- Performance (application monitoring, New Relic)
+- Error tracking (PHP, JavaScript)
 
 ### Application environment
 
@@ -143,15 +153,17 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Manage and monitor application/config/route/view cache and sessions
 - Run `git status` hourly
 - Email filtered application log hourly (recipients)
-- Logrotate application log
-- Move per directory webserver configuration to vhost configuration
+- Rotate application log
+- Move per-directory webserver configuration to vhost configuration
 - Redirect removed routes, substitute missing images (URL-s)
 - Use local queuing MTA for fast email delivery (SMTP is slow), bounce handling
-- Include Fail2ban triggers at least for 404-s, failed login attempts and hidden form fields (WAF)
+- Include Fail2ban triggers at least for: 404-s, failed login attempts, hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
-- Differences of a **staging/development** environment (different TLD, email delivery, 3rd parties)
+- Differences of a **staging/development** environment (different domain name, email delivery, disable 3rd parties)
 
 ### Maintenance :wrench:
 
 Have me on board: viktor@szepe.net
+
+*These lists are theory-free! All of them were real-life problems.*

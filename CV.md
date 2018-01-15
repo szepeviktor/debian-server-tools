@@ -3,25 +3,31 @@
 [![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
-# <a name="en"></a>Infrastructure, source code management and support for websites
+# <a name="en"></a>Infrastructure, source code management and consulting for web applications
 
-My main activity is **proactive** maintenance of existing websites and [web applications](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).  
-These experiences could mean valuable feedback for your developer/s.  
-Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
+DevOps could be a foundation to understand my work.
+My main activity is **proactive** maintenance of [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
+which includes the examination of the application, continuous integration (CI) and automated deployment (CD).  
+My knowledge of technologies complete the knowledge of developers.
+
+My focus is on stability, vulnerability and performance.
+
+You may benefit from my services in low fault tolerant areas.
 
 ### What does proactive maintenance include?
 
 - Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
-- Installing modern OS and software on your server
-- Server and website [monitoring](/monitoring/README.md) by functional tests and integrity checks
-- Monitoring of 3rd-parties too
-- Log analysis, alerts
-- Software updates by reading changelogs
-- Intelligent backup
-- **Reporting issues** to editors and developers
-- User management, user support over the phone, in email or chat and [how-to videos](https://www.youtube.com/user/szepeviktor) EN/HU
-- Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
-- [Email delivery](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md)
+- Installing modern OS and software
+- Controlled environment for the application
+- [Monitoring](/monitoring/README.md) all these and 3rd parties too by functional tests and integrity checks
+- Regular log analysis
+- Intelligent and encrypted backup to a highly durable storage provider
+
+* Design and implementation of continuous integration (CI)
+* Automated and monitord application deployment (CD)
+* **Reporting issues** to developers
+* Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
+* [Email delivery](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md)
 
 ### Benefits
 
@@ -42,7 +48,6 @@ A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.
 [Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
 **proaktív** üzemeltetésével foglalkozok, ami magában foglalja az applikáció vizsgálatát,
 a folyamatos integrációs teszteket (CI) és automatizált telepítést (deploy, CD).
-Ezeket nem csak üzemeltetem, hanem meg is írom.
 A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
