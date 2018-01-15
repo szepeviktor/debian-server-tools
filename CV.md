@@ -24,7 +24,7 @@ You may benefit from my services in low fault tolerant areas.
 - Intelligent and encrypted backup to a highly durable storage provider
 
 * Design and implementation of continuous integration (CI)
-* Automated and monitord application deployment (CD)
+* Automated and monitored application deployment (CD)
 * **Reporting issues** to developers
 * Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
 * [Email delivery](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md)
@@ -32,9 +32,9 @@ You may benefit from my services in low fault tolerant areas.
 ### Benefits
 
 - **Stable operation**
+- Prevent application vulnerability
+- Better UX for clients
 - Fast page loads
-- Website security
-- Better UX for visitors and editors also
 - Higher Google Search ranking
 - Fewer **unexpected** situations
 

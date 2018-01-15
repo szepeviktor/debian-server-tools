@@ -6,14 +6,14 @@ Details about [infrastructure and source code management](/master/CV.md)
 
 ### Choose infrastructure providers
 
-- Domain registrar (AWS, Gandi, noip, dyn, Rackforest/.hu)
-- DNS provider (AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Rackforest/.hu)
-- Server provider (UpCloud)
-- SSL certificate provider for HTTPS ([Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html), [SSLMate](https://sslmate.com/), DigiCert)
-- CDN provider (AWS, KeyCDN)
-- Transactional email provider (AWS, SparkPost)
-- Storage provider (AWS, Backblaze B2, Selectel)
-- Incoming ESP (G Suite, [Protonmail](https://protonmail.com/signup))
+- Domain registrar: **AWS, Gandi, noip, dyn, Rackforest/.hu**
+- DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Rackforest/.hu**
+- Server provider: **UpCloud**
+- SSL certificate provider for HTTPS: **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html), [SSLMate](https://sslmate.com/), DigiCert**
+- CDN provider: **AWS, KeyCDN**
+- Transactional email provider: **AWS, SparkPost**
+- Storage provider: **AWS, Backblaze B2, Selectel**
+- Incoming ESP: **G Suite, [Protonmail](https://protonmail.com/signup)**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
@@ -46,7 +46,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 
 ### Infrastructure setup
 
-- Document in hosting.yml and server.yml
+- Document in hosting.yml and server.yml (including Skype and Google Contacts)
 - Gain access to providers (web based sub-account or API)
 - Manage migrations
 - PTR/IPv4, PTR/IPv6 records

@@ -125,7 +125,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating
-- Authentication (2FA, password security)
+- Authentication (2FA, password security, lock session to IP address)
 - User roles and capabilities
 - Email addresses, composing and sending
   (plain text version, NeverBounce, mailcheck.js, form hidden field, obfuscate email addresses)
