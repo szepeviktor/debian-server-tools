@@ -5,14 +5,14 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 # <a name="en"></a>Infrastructure, source code management and consulting for web applications
 
-DevOps could be a foundation to understand my work.
+DevOps could be a foundation to understand my work.  
 My main activity is **proactive** maintenance of [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
 which includes the examination of the application, continuous integration (CI) and automated deployment (CD).  
 My knowledge of technologies complete the knowledge of developers.
 
 My focus is on stability, vulnerability and performance.
 
-You may benefit from my services in low fault tolerant areas.
+You may benefit from my services if you do not really tolerate outage and malfunction.
 
 ### What does proactive maintenance include?
 

@@ -3,7 +3,7 @@
 [![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
-# <a name="en"></a>Infrastructure, source code management and support for websites
+# <a name="en"></a>Maintenance of WordPress websites on a cloud server and technical support
 
 My main activity is **proactive** maintenance of existing websites and [web applications](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).  
 These experiences could mean valuable feedback for your developer/s.  
