@@ -6,6 +6,7 @@
 - Secure control panel access: 2FA, login notification
 - Secure API (IP whitelist)
 - Subscribe to status updates
+- Protect computers used for logging in (HitmanPro.Alert)
 
 ### Compromise through server software
 

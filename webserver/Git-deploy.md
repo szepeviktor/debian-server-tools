@@ -42,8 +42,8 @@ Host HOST-ALIAS
 ```
 
 ```bash
-echo "wp-content/uploads" >> .gitignore
-echo "videos" >> .gitignore
+echo "/wp-content/uploads/" >> .gitignore
+echo "/videos/" >> .gitignore
 ```
 
 ### WordPress Theme switching

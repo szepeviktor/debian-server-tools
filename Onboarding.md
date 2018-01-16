@@ -13,7 +13,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 - CDN provider: **AWS, KeyCDN**
 - Transactional email provider: **AWS, SparkPost**
 - Storage provider: **AWS, Backblaze B2, Selectel**
-- Incoming ESP: **G Suite, [Protonmail](https://protonmail.com/signup)**
+- Incoming [ESP](https://twofactorauth.org/#email): **G Suite, [Protonmail](https://protonmail.com/signup)**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
@@ -24,6 +24,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 ### UpCloud registration
 
 - Referral URL
+- Enable 2FA
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
@@ -35,6 +36,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 - https://aws.amazon.com/
 - Account type: Professional
 - Support Plan: Basic
+- Enable 2FA
 - Route53 / Domain + DNS
 - CloudFront / CDN
 - SES / Domain + SMTP credentials +
@@ -66,3 +68,17 @@ Details about [infrastructure and source code management](/master/CV.md)
 - Set up CI
 - Write deploy script
 - Notifications (email, chat, SMS)
+
+### Secure browser in an ephemeral cloud instance
+
+- Deploy [Windows Server 2016 Standard instance](https://my.upcloud.com/server/create)
+- Finish installation on the console: set language
+- Log in as `administrator` with [RDP](https://itunes.apple.com/us/app/microsoft-remote-desktop-8-0/id715768417)
+- Download [Basilisk browser](http://eu.basilisk-browser.org/release/basilisk-latest.win64.zip)
+- Create UpCloud on the Desktop: `basilisk.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
+- Create AWS icon: `https://portal.aws.amazon.com/gp/aws/developer/registration/index.html`
+- Download user.js <kbd>Raw</kbd> `https://github.com/szepeviktor/windows-workstation/blob/master/upcloud/user.js`
+  to `%APPDATA%\Moonchild Productions\Basilisk\Profiles`
+- Open On-Screen Keyboard for entering passwords
+- Use the browser
+- Delete the instance

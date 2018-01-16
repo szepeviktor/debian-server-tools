@@ -160,7 +160,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Include Fail2ban triggers at least for: 404-s, failed login attempts, hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
-- Differences of a **staging/development** environment (different domain name, email delivery, disable 3rd parties)
+- Match production/staging/development/local environments (Docker, php-env-check)
+- Differences of a **staging/development** environment (different domain name, robots.txt, email delivery, disable 3rd parties)
 
 ### Maintenance :wrench:
 

@@ -2,7 +2,7 @@
 
 HTTP/2-enabled webserver: server push, server hinting, header compression.
 
-```
+```bash
 apt-get install -y wget build-essential cmake pkgconf zlib1g-dev \
     autoconf automake libtool  # For wslay
 # From jessie-backports
@@ -37,7 +37,7 @@ make install
 
 ### Browser test
 
-`http://http2.golang.org/gophertiles`
+http://http2.golang.org/gophertiles
 
 ### Debug
 

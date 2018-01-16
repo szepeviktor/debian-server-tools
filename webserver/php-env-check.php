@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.2.4
+ * @version 0.2.5
  */
 
 namespace O1;
@@ -24,7 +24,7 @@ if ( 'cli' !== php_sapi_name() && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_A
 
 // Remove cached version of this file
 if ( function_exists( 'opcache_invalidate' ) ) {
-    opcache_invalidate( __FILE__ );
+    @opcache_invalidate( __FILE__ );
 }
 
 // Check environment
