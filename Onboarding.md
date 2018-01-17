@@ -21,6 +21,20 @@ Details about [infrastructure and source code management](/master/CV.md)
 
 [AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#services_used)
 
+### Secure browser in an ephemeral cloud instance
+
+- Deploy [Windows Server 2016 Standard instance](https://my.upcloud.com/server/create)
+- Finish installation on the console: set language
+- Log in as `administrator` with [RDP](https://itunes.apple.com/us/app/microsoft-remote-desktop-8-0/id715768417)
+- Download [Basilisk browser](http://eu.basilisk-browser.org/release/basilisk-latest.win64.zip)
+- Create UpCloud shortcut on the Desktop: `basilisk.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
+- Create AWS shortcut: `https://portal.aws.amazon.com/gp/aws/developer/registration/index.html`
+- Download user.js <kbd>Raw</kbd> `https://github.com/szepeviktor/windows-workstation/blob/master/upcloud/user.js`
+  to `%APPDATA%\Moonchild Productions\Basilisk\Profiles`
+- Open On-Screen Keyboard for entering passwords
+- Use the browser
+- Delete the instance
+
 ### UpCloud registration
 
 - Referral URL
@@ -68,17 +82,3 @@ Details about [infrastructure and source code management](/master/CV.md)
 - Set up CI
 - Write deploy script
 - Notifications (email, chat, SMS)
-
-### Secure browser in an ephemeral cloud instance
-
-- Deploy [Windows Server 2016 Standard instance](https://my.upcloud.com/server/create)
-- Finish installation on the console: set language
-- Log in as `administrator` with [RDP](https://itunes.apple.com/us/app/microsoft-remote-desktop-8-0/id715768417)
-- Download [Basilisk browser](http://eu.basilisk-browser.org/release/basilisk-latest.win64.zip)
-- Create UpCloud on the Desktop: `basilisk.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
-- Create AWS icon: `https://portal.aws.amazon.com/gp/aws/developer/registration/index.html`
-- Download user.js <kbd>Raw</kbd> `https://github.com/szepeviktor/windows-workstation/blob/master/upcloud/user.js`
-  to `%APPDATA%\Moonchild Productions\Basilisk\Profiles`
-- Open On-Screen Keyboard for entering passwords
-- Use the browser
-- Delete the instance
