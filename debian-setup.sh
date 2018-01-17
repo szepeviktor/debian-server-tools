@@ -65,6 +65,7 @@
 #    script --timing=../debian-setup2.time ../debian-setup2.script
 #    ./debian-setup2.sh
 # 8. Set up incoming ESP and bounce notification
+# 9. PuTTY session: Connection/Data: viktor, xterm-256color; Connection/SSH/Auth: [ ] keyboard-interactive
 #
 # Tests
 #
