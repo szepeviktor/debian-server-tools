@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install bind9-host
+# DEPENDS       :apt-get install bind9-host s-nail
 # LOCATION      :/usr/local/bin/dns-watch.sh
 # CRON-HOURLY   :/usr/local/bin/dns-watch.sh
 # CONFIG        :/etc/dnswatchrc
@@ -202,7 +202,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | mail -S from="${DAEMON} <root>" -s "[ad.min] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | s-nail -S from="${DAEMON} <root>" -s "[ad.min] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Generate_rr() {

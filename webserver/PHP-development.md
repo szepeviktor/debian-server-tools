@@ -20,7 +20,7 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 - Documented **code design** :sunny: :sunny:
 - Implementation (source code writing) :sunny:
 - Automatic and manual testing
-- Periodic code review, audit
+- Periodic code review, security audit
 
 ### Editor settings
 
@@ -40,13 +40,14 @@ Bits and bytes.
 - Frameworks/CMS-s
 - Packages/Libraries
 - SaaS
-- Development tools (CI)
+- Development tools (Vagrant)
+- Testing tools (CI)
 - Build and deployment tools
 - Application monitoring (performance, errors)
 
 ### Workflow in git :octocat:
 
-- New feature or fix is ready and "works for me" → _PR_ (new branch)
+- New feature or fix is ready and "works for me" → _PR (new branch)_
 - → CI all green → _dev branch_
 - → Previous feature approved → _staging branch_ + deploy to staging server :ship:
 - → Testing folks approve it → _master branch_

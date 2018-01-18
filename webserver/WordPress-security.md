@@ -35,6 +35,7 @@
 - Install an [auditing plugin](https://wordpress.org/plugins/wp-user-activity/)
 - Disable file editing
 - Block on WordPress security events ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
+- Add SRI (Subresource Integrity) attributes to elements with foreign CDN content
 - Choose wisely if you decide on a [page builder](https://www.wpbeaverbuilder.com/)
 
 ### Authentication

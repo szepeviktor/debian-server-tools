@@ -120,9 +120,9 @@ cd /etc/apache2/sites-available/
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # OCSP server monitoring
 ( cd /usr/local/src/debian-server-tools/; ./install.sh monitoring/ocsp-check.sh
-editor /usr/local/bin/ocsp--${DOMAIN}
-chmod +x /usr/local/bin/ocsp--${DOMAIN}
-echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" > /etc/cron.d/ocsp-${DOMAIN//./-} )
+  editor /usr/local/bin/ocsp--${DOMAIN}
+  chmod +x /usr/local/bin/ocsp--${DOMAIN}
+  echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" > /etc/cron.d/ocsp-${DOMAIN//./-} )
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
 # * Non-SSL
@@ -192,6 +192,9 @@ editor /etc/courier/esmtpauthclient
 
 # Install a Honey Pot
 # http://www.projecthoneypot.org/faq.php#c
+
+# * Development/Staging environment?
+# SMTP, robots.txt etc.
 
 # Webmaster tools
 echo "https://www.google.com/webmasters/tools/dashboard?siteUrl=https://${DOMAIN}/"

@@ -2,13 +2,13 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.6
+# VERSION       :0.1.7
 # DATE          :2015-08-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install heirloom-mailx
+# DEPENDS       :apt-get install s-nail
 # LOCATION      :/usr/local/bin/domain-expiry.sh
 # CRON-WEEKLY   :/usr/local/bin/domain-expiry.sh
 # CONFIG        :/etc/domainexpiryrc
@@ -125,6 +125,6 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
             printf "http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n" "${DOMAIN%.hu}"
         fi
     fi
-done | mail -E -S from="${DAEMON} <root>" -s "domain expiry alert" root
+done | s-nail -E -S from="${DAEMON} <root>" -s "domain expiry alert" root
 
 exit 0

@@ -2,12 +2,13 @@
 #
 # Can-send-email triggers and checks.
 #
-# VERSION       :1.3.3
+# VERSION       :1.3.4
 # DATE          :2015-10-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install s-nail
 # DEPENDS       :/usr/local/bin/txtlocal.py
 # LOCATION      :/usr/local/sbin/can-send-email.sh
 # CRON.D        :40 */6	* * *	daemon	/usr/local/sbin/can-send-email.sh trigger
@@ -117,7 +118,7 @@ Trigger() {
                 # Hack to pass from address to sendmail
                 #     mail -- RECIPIENT -fSENDER
                 echo -e "Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n" \
-                    | mail -s "[cse] bounce message / Email kézbesítés monitorozás" \
+                    | s-nail -s "[cse] bounce message / Email kézbesítés monitorozás" \
                     -S "from=${CSE_ADDRESS}" -- "$RECIPIENT" "-f${CSE_ADDRESS}" \
                     || echo "Trigger failed ($?) for ${URL}"
                 ;;
@@ -212,7 +213,7 @@ case "$1" in
             [ "$SMSOK" == "OK" ] || echo "SMS failure: ${RET}, ${SMSOK}" 1>&2
 
             # 2. E-mail
-            echo "Failures: ${FAILURES}" | mail -S from="can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
+            echo "Failures: ${FAILURES}" | s-nail -S from="can-send-email <daemon>" -s "Can-send-email failure" "$ALERT_ADDRESS"
 
             # 3. Syslog
             logger -t "can-send-email" "Can-send-email failures: ${FAILURES}"

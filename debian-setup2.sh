@@ -2,7 +2,7 @@
 #
 # Continue Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.0
+# VERSION       :2.0.2
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -54,11 +54,9 @@ Pkg_install_quiet \
 
 # From testing
 debian-setup/ca-certificates
+
 # From custom repos
-echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections -v
-echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections -v
-# @nonDebian
-Pkg_install_quiet ipset-persistent
+debian-setup/ipset-persistent
 
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
@@ -143,13 +141,13 @@ else
 fi
 
 # @TODO
-#if [ "$VIRT" == "kvm" ]; then
+#if [ "$VIRT" == kvm ]; then
 #    debian-setup/_virt-kvm
 #fi
-if [ "$VIRT" == "xen" ]; then
+if [ "$VIRT" == xen ]; then
     debian-setup/_virt-xen
 fi
-if [ "$VIRT" == "vmware" ]; then
+if [ "$VIRT" == vmware ]; then
     debian-setup/_virt-vmware
 fi
 
@@ -169,6 +167,10 @@ debian-setup/mc
 Dinstall security/myattackers.sh
 # Initialize iptables chain
 myattackers.sh -i
+# Save iptables rules
+iptables-save \
+    | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' \
+    > /etc/iptables/rules.v4
 
 # After security/myattackers.sh
 debian-setup/fail2ban
@@ -203,6 +205,7 @@ Dinstall webserver/apache-resolve-hostnames.sh
 if Is_installed "mod-pagespeed-stable"; then
     debian-setup/mod-pagespeed-stable
 fi
+
 # PHP-FPM
 #webserver/php5-fpm.sh
 webserver/php7-fpm.sh
@@ -226,9 +229,6 @@ debian-setup/mariadb-server
 
 # Add the development website, needs composer
 webserver/add-prg-site-auto.sh
-
-# Add a production website
-# See /webserver/add-site.sh
 
 # apache-default, apache-combined and apache-instant Fail2ban jails are enabled by default
 service fail2ban restart
@@ -282,7 +282,7 @@ find /var/mail/ -type f -exec grep -H '^' "{}" ";"
 
 # Manual inspection of old configuration files
 echo "### Old configs ###"
-find /etc/ -type f -iname "*old" -or -iname "*dist"
+find /etc/ -type f -iname "*old" -or -iname "*dist" | paste -s -d " "
 
 # Clear Bash history
 history -c
@@ -290,7 +290,7 @@ history -c
 set +x
 
 # @TODO Automate
-echo "TODO: iptables-save, hosts, users, server backup, monit/apache+php, monitoring"
+echo "TODO: iptables-save, hosts, users, server backup, monit/apache+php"
 echo "      https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md"
 
 echo "OK. (exit from script command now)"

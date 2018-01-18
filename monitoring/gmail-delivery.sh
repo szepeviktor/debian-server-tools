@@ -8,7 +8,7 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install fetchmail
+# DEPENDS       :apt-get install fetchmail s-nail
 # DOCS          :https://support.google.com/mail/answer/7104828
 # LOCATION      :/usr/local/sbin/gmail-delivery.sh
 # OWNER         :root:nobody
@@ -25,13 +25,13 @@ declare -i THRESHOLD="60"
 
 Alert() {
     logger -t "gmail-delivery" "$*"
-    echo "$*" | mail -s "Gmail delivery failure on $(hostname -f)" admin@szepe.net
+    echo "$*" | s-nail -s "Gmail delivery failure on $(hostname -f)" admin@szepe.net
 
     exit 10
 }
 
 Send() {
-    mail -s "delivery through ${PROVIDER}" "$GMAIL_ACCOUNT" <<EOF
+    s-nail -s "delivery through ${PROVIDER}" "$GMAIL_ACCOUNT" <<EOF
 The ease & simplicity of Gmail, available across devices
 
 Meet your new inbox

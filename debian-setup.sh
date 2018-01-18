@@ -125,7 +125,7 @@ done
 if [ "$IS_FUNCTIONAL" != "yes" ]; then
     apt-get update -qq || true
     # shellcheck disable=SC2086
-    apt-get install -y --force-yes ${SETUP_PACKAGES} || true
+    apt-get install -y ${SETUP_PACKAGES} || true
 fi
 # These packages should be auto-installed
 apt-mark auto lsb-release ca-certificates

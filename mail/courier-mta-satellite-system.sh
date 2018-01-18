@@ -154,6 +154,6 @@ sed -i -e 's|^postmaster:.*$|postmaster: postmaster@szepe.net\nnobody: postmaste
 courier-restart.sh
 
 # Test
-echo "This is a t3st mail." | mail -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
+echo "This is a t3st mail." | s-nail -s "[$(hostname -f)] The 1st outgoing mail" admin@szepe.net
 
 echo "Outbound SMTP (port 25) may be blocked."

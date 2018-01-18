@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install heirloom-mailx smartmontools
+# DEPENDS       :apt-get install s-nail smartmontools
 # LOCATION      :/usr/local/sbin/smart-zeros.sh
 # CRON-HOURLY   :/usr/local/sbin/smart-zeros.sh
 
@@ -44,7 +44,7 @@ Smart_error() {
         echo "[${LEVEL}] ${MESSAGE}" 1>&2
     else
         echo "$MESSAGE" \
-            | mail -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
+            | s-nail -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
     fi
 }
 

@@ -2,13 +2,13 @@
 #
 # Check SSH connection.
 #
-# VERSION       :0.1.8
+# VERSION       :0.1.9
 # DATE          :2015-11-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install bind9-host scanssh
+# DEPENDS       :apt-get install bind9-host scanssh s-nail
 # LOCATION      :/usr/local/bin/ssh-watch.sh
 # CRON-HOURLY   :/usr/local/bin/ssh-watch.sh
 # CONFIG        :/etc/ssh-watchrc
@@ -64,7 +64,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | mail -S from="${DAEMON} <root>" -s "[alert] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | s-nail -S from="${DAEMON} <root>" -s "[alert] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 # shellcheck disable=SC1090

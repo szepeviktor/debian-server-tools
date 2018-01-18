@@ -1,5 +1,5 @@
 # Deb-multimedia
 deb http://www.deb-multimedia.org/ jessie main non-free
 deb http://www.deb-multimedia.org/ jessie-backports main
-#K: apt-get update && apt-get install -y --force-yes deb-multimedia-keyring
+#K: apt-get update && apt-get install -y deb-multimedia-keyring
 #M: https://www.deb-multimedia.org/

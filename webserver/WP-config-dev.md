@@ -6,7 +6,7 @@
 - PHP-FPM pool
 - Fail2ban
 - MTA
-- Backup to object storage (s3ql with OpenStack swift or S3)
+- Backup (with S3QL to an S3 bucket or OpenStack swift)
 
 ### Website
 
@@ -195,7 +195,9 @@ By `sendmail` (calling `mail()` function)
 
 By SMTP
 
-- Use local SMTP server: `smtp-uri` and [Mailcatcher](https://mailcatcher.me/) or [MailHog](https://github.com/mailhog/MailHog)
+- Use local SMTP server: `smtp-uri` and [Mailcatcher](https://mailcatcher.me/)
+  or [MailHog](https://github.com/mailhog/MailHog)
+  or [mailtrap](https://mailtrap.io/)
 - Forward SMTP traffic to Mailcatcher, MailHog or any other SMTP server
 - Block outgoing SMTP traffic (TCP port 25, 587 and 465) by user
 
