@@ -102,10 +102,17 @@ A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
 Keressen meg: viktor@szepe.net
 
 
-
 ## WordPress fejlesztő keresés
 
 - http://wphu.org/wordpress-fejlesztes
 - http://weblabor.hu/munka
 - http://jobs.wordpress.net/post-a-job/
 - https://kinsta.com/blog/hire-wordpress-developer/
+
+
+## Honlap tervezés
+
+- http://neeed.us/
+- https://www.upsolution.hu/
+- http://maarsk.com/
+- http://www.surmanngyula.hu/

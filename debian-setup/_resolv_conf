@@ -1,20 +1,15 @@
 #!/bin/bash
 
-# Free DNS resolvers
-#
-# - Google Public DNS
-# - DNS Advantage by Neustar
-
 declare -i RESOLVERS="0"
 # See resolv.conf(5)
 declare -i MAXNS="3"
-EXAMPLECOM_IP="93.184.216.34"
+declare -r EXAMPLECOM_IP="93.184.216.34"
 
 Check_resolver() {
     local NS="$1"
 
     host -v -t A example.com "$NS" \
-        | grep -E "^example\.com\.\s+[0-9]+\s+IN\s+A\s+${EXAMPLECOM_IP//./\\.}\$" 1>&2
+        | grep -E -x "example\.com\.\s+[0-9]+\s+IN\s+A\s+${EXAMPLECOM_IP//./\\.}" 1>&2
 }
 
 set -e -x
@@ -22,11 +17,11 @@ set -e -x
 # Backup original configuration
 cp -f /etc/resolv.conf /root/resolv.conf.orig
 
-# @FIXME Keep resolv.conf
 PRIMARY_METHOD="$(Data get-value networking.method)"
 if [ "$PRIMARY_METHOD" == dhcp ]; then
-    [ -d "/etc/dhcp/dhclient-enter-hooks.d" ] || mkdir -p /etc/dhcp/dhclient-enter-hooks.d
+    test -d /etc/dhcp/dhclient-enter-hooks.d || mkdir -p /etc/dhcp/dhclient-enter-hooks.d
     echo -e "make_resolv_conf() {\n    true\n}" > /etc/dhcp/dhclient-enter-hooks.d/keep-resolvconf
+    # @FIXME else keep resolv.conf
 fi
 
 {
@@ -51,8 +46,8 @@ fi
     #echo "options rotate"
 
     # Check number of resolvers
-    [ "$RESOLVERS" -gt 0 ]
-    [ "$RESOLVERS" -le "$MAXNS" ]
+    test "$RESOLVERS" -gt 0
+    test "$RESOLVERS" -le "$MAXNS"
 } > /etc/resolv.conf
 
 # Check IPv6 connectivity

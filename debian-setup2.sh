@@ -177,6 +177,12 @@ debian-setup/fail2ban
 
 #debian-setup/proftpd-basic
 
+# Tools (courier uses catconf)
+for TOOL in catconf cnet doc hosthost hostinfo ip.sh lsrev msec reboot revip \
+    sortip swap-usage.sh u udrush uwp whichdo whoistop; do
+    Dinstall "tools/${TOOL}"
+done
+
 # Courier MTA - deliver all messages to a smarthost
 mail/courier-mta-satellite-system.sh
 
@@ -187,16 +193,9 @@ fi
 #    debian-setup/nullmailer
 #fi
 
-# After MTA
-# From custom repos
+# init-alert (after MTA)
 # @nonDebian
 Pkg_install_quiet init-alert
-
-# Tools
-for TOOL in catconf cnet doc hosthost hostinfo ip.sh lsrev msec reboot revip \
-    sortip swap-usage.sh u udrush uwp whichdo whoistop; do
-    Dinstall "tools/${TOOL}"
-done
 
 # Apache 2.4
 webserver/apache-httpd.sh
@@ -288,8 +287,10 @@ find /etc/ -type f -iname "*old" -or -iname "*dist"
 # Clear Bash history
 history -c
 
+set +x
+
 # @TODO Automate
-echo "hosts, users, server backup, monit/apache+php, monitoring"
-echo "https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md"
+echo "TODO: iptables-save, hosts, users, server backup, monit/apache+php, monitoring"
+echo "      https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md"
 
 echo "OK. (exit from script command now)"

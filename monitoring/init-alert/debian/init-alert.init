@@ -43,7 +43,7 @@ do_start() {
   fi
 
   if printf "Host FULLY BOOTED at %s\n\n%s\n\n%s\n" "$(date -R)" "$(last -x -n 10)" "$(COLUMNS=120 pstree -aA)" \
-    | mail -s "Host is BOOTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
+    | s-nail -s "Host is BOOTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
     # Wait for message delivery
     sleep 5
     return 0
@@ -63,7 +63,7 @@ do_stop() {
   fi
 
   if printf "Host HALTED at %s\n\n%s\n" "$(date -R)" "$(COLUMNS=120 w --ip-addr)" \
-    | mail -s "Host is HALTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
+    | s-nail -s "Host is HALTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
     # Wait for message delivery
     sleep 5
     return 0
@@ -112,4 +112,4 @@ case "$1" in
 
 esac
 
-:
+true

@@ -9,8 +9,8 @@ system:
     host-color: 7
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
-    storage-provider: #Amazon S3
-    mail-provider: #SparkPost
+    storage-provider: #"Amazon S3"
+    mail-provider: #"SparkPost"
 
 # Package settings
 package:
@@ -26,7 +26,7 @@ package:
         install-testing: true
     adduser:
         firstuser:
-            name: "viktor"
+            name: viktor
             ssh-key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa"
     openssh-server:
         port: #222 (preferably under 1024)
@@ -72,31 +72,26 @@ cruft:
 # Clients using this server
 clients:
 
-  #Client Name:
+  #"Client Name":
   #  type: user account|empty domain|email account|cron job|SeoPanel|Piwik|OWA|website|mailman|mirror
   #  services:
   #      - service 1
   #      - service 2
-
-  #Client Other:
-  #  type: user account
-  #  services:
-  #      - service 2
-  #      - service 3
 
 # Services provided by this server
 services:
 
   private:
 
-    #service name 1:
+    #"service name 1":
     #  type: daemon|login script|cron job
-    #  transport: tcp/123|php-ext|vhost|uds|name service
+    #  transport: tcp/123|php-ext|vhost|uds|name-service
     #  source: non-packaged|non-repo
     #  location: /path/dir
     #  description: text
-    #service name 2:
-    #  type: tcp/123
+    #"service name 2":
+    #  type: daemon
+    #  transport: tcp/443
     #  description: vhost.name
     irqbalance:
       type: daemon
@@ -162,7 +157,7 @@ packaging:
     pip3:
         list-command: pip3 list
         location: /usr/local/lib/python3.4
-    # Also PECL
+    # PEAR + PECL
     pear:
         list-command: pear list-channels && pear list -c CHANNEL && pear list -c pecl.php.net
         location: /usr/share/php

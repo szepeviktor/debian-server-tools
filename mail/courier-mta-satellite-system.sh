@@ -130,6 +130,7 @@ sed -i -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' /etc/courier/es
 # Don't listen on port SMTPS (465/tcp)
 sed -i -e 's|^ESMTPDSSLSTART=.*$|ESMTPDSSLSTART=NO|' /etc/courier/esmtpd-ssl
 #     ESMTPDSSLSTART=NO
+service courier-mta-ssl stop
 
 # SMTP access for localhost
 Courier_config smtpaccess--default /etc/courier/smtpaccess/default
