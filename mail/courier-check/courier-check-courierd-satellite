@@ -1,4 +1,4 @@
-# Smarthost delivery, STARTTLS, SSL Intermediate/ECDHE+DHE
+# Smarthost delivery, STARTTLS, SSL Intermediate with only ECDHE-* and DHE-* (-3DES-CBC -RSA -VERS-TLS-ALL +VERS-TLS1.2)
 # gnutls-cli --priority="..." --list
 COURIER_COURIERD_DEFAULTS='
 DEFAULTDELIVERY=./Maildir

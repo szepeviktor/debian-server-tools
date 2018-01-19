@@ -61,7 +61,7 @@ Details about [infrastructure and source code management](/master/CV.md)
 
 ### Infrastructure setup
 
-- Document in hosting.yml and server.yml (including Skype and Google Contacts)
+- Document in hosting.yml and server.yml (Skype, Google Contacts, KeePass, link-torzs)
 - Gain access to providers (web based sub-account or API)
 - Manage migrations
 - PTR/IPv4, PTR/IPv6 records

@@ -20,7 +20,9 @@
 - Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
 - Traffic ([goaccess.sh](/webserver/goaccess.sh), [Google Analytics](https://analytics.google.com/analytics/web/))
 - Report JavaScript errors @TODO
-- Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/))
+- Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/),
+  [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/),
+  [Oh Dear!](https://ohdearapp.com/))
 - Dependencies: listed in [hosting.yaml](/webserver/hosting.yml)
 - Dependencies: OCSP response ([ocsp-check.sh](/monitoring/ocsp-check.sh))
 
