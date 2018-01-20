@@ -89,10 +89,10 @@ if [ ! -s "$PRIV" ]; then
     exit 0
 fi
 
-# Enter intermediate certificate
-editor "$INT"
 # Enter public key, the signed certificate
 editor "$PUB"
+# Enter intermediate certificate
+editor "$INT"
 # Verify signature
 openssl verify -purpose sslserver -CAfile "$INT" "$PUB"
 

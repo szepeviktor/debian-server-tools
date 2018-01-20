@@ -9,6 +9,7 @@
 
 # Usage
 #     Add HOSTED_ZONE_ID=HOSTED-ZONE-ID to your ~/.profile
+#     aws configure
 #     aws-route53-edit-rrs.sh . TXT
 #     aws-route53-edit-rrs.sh non-existent-to-create.example.com. AAAA
 #     aws-route53-edit-rrs.sh example.com. A

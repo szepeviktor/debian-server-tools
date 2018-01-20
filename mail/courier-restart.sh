@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-# Rebuild Courier .dat databases and restart Courier MTA.
+# Rebuild Courier gdbm databases and restart Courier MTA.
 #
-# VERSION       :0.4.2
-# DATE          :2016-08-11
+# VERSION       :1.0.0
+# DATE          :2018-01-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -18,12 +18,14 @@ Error() {
 
 set -e
 
-makesmtpaccess || Error $? "smtpaccess/*"
-
-#if ! grep -qFx 'ACCESSFILE=${sysconfdir}/smtpaccess' /etc/courier/esmtpd-msa &&
-if grep -qFxi 'ESMTPDSTART=YES' /etc/courier/esmtpd-msa; then
-    makesmtpaccess-msa || Error $? "msa smtpaccess/*"
+if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courier-mta)" lt "0.75.0-15"; then
+    echo "This restart script is for new init scripts using init-d-script" 1>&2
+    #wget "https://github.com/szepeviktor/debian-server-tools/raw/35fe029cc3260bb27393bdb90ea0d75c69727083/mail/courier-restart.sh"
+    exit 100
 fi
+
+# Recreate gdbm databases
+makesmtpaccess || Error $? "smtpaccess/*"
 
 if [ -d /etc/courier/esmtpacceptmailfor.dir ]; then
     makeacceptmailfor || Error $? "esmtp acceptmailfor.dir/*"
@@ -39,6 +41,8 @@ fi
 
 makealiases || Error $? "aliases/*"
 
+
+# Restart services
 # Wait for active courierfilters
 if [ -f /run/courier/courierfilter.pid ]; then
     COURIERFILTER_PID="$(head -n 1 /run/courier/courierfilter.pid)"
@@ -53,11 +57,21 @@ if [ -f /run/courier/courierfilter.pid ]; then
         done
     fi
 fi
+service courierfilter restart || Error $? "courierfilter restart"
 
-# Restart courier-mta-ssl also
-if [ -f /etc/courier/esmtpd-ssl ] && grep -qFxi 'ESMTPDSSLSTART=YES' /etc/courier/esmtpd-ssl; then
+service courier restart || Error $? "courier (outbound) restart"
+
+service courier-mta restart || Error $? "courier-mta restart"
+
+if [ -f /etc/courier/esmtpd-ssl ] && grep -q -F -x -i 'ESMTPDSSLSTART=YES' /etc/courier/esmtpd-ssl; then
     service courier-mta-ssl restart || Error $? "courier-mta-ssl restart"
 fi
-service courier-mta restart || Error $? "courier-mta restart"
+
+# @FIXME Detect different access file
+# if ! grep -qFx 'ACCESSFILE=${sysconfdir}/smtpaccess' /etc/courier/esmtpd-msa &&
+if [ -f /etc/courier/esmtpd-msa ] && grep -q -F -x -i 'ESMTPDSTART=YES' /etc/courier/esmtpd-msa; then
+    makesmtpaccess-msa || Error $? "msa smtpaccess/*"
+    service courier-msa restart || Error $? "courier-msa restart"
+fi
 
 echo "OK."
