@@ -2,7 +2,7 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.7
+# VERSION       :0.1.8
 # DATE          :2015-08-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -44,12 +44,12 @@ Publicsuffix_regexp() {
     #   remove empty lines and comments,
     #   escape dots, asterisks and add SLD regexp
     wget -q -O- "$LIST_URL" \
-        | grep -v "^\s*$\|^\s*//" \
+        | grep -v '^\s*$\|^\s*//' \
         | sed -e 's/\./\\./g' -e 's/\*/.*/' -e 's/^\(.*\)$/[^.]\\+\\.\1$/'
 }
 
 Apache_domains() {
-    apache2ctl -S | sed -n -e 's;^.* \(namevhost\|alias\) \(\S\+\).*$;\2;p'
+    apache2ctl -S | sed -n -e 's/^.* \(namevhost\|alias\) \(\S\+\).*$/\2/p'
 }
 
 Courier_domains() {
@@ -118,11 +118,17 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
     fi
 
     if [ "$EXPIRY_SEC" -lt "$ALERT_SEC" ]; then
-        echo "Domain ${DOMAIN} is about to expire at ${EXPIRY}."
-        if [ "$DOMAIN" == "${DOMAIN%.hu}" ]; then
-            printf "http://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
-        else
+        echo "Domain ${DOMAIN} is about to expire at ${EXPIRY}"
+
+        # Print links
+        if [ "$DOMAIN" != "${DOMAIN%.hu}" ]; then
+            # .hu
             printf "http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n" "${DOMAIN%.hu}"
+        elif [ "$DOMAIN" != "${DOMAIN%.eu}" ]; then
+            # .eu
+            printf "https://whois.eurid.eu/en/?domain=%s\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
+        else
+            printf "http://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
         fi
     fi
 done | s-nail -E -S from="${DAEMON} <root>" -s "domain expiry alert" root

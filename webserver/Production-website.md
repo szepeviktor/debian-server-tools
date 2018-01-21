@@ -109,7 +109,7 @@ Consider transactional email service through HTTP API. :snail:
 
 - WAF [`wordpress-fail2ban`](https://github.com/szepeviktor/wordpress-fail2ban) :snail:
 - _For shared hosting: Sucuri Scanner plugin_
-- _[Ninja Firewall Pro](http://ninjafirewall.com/pro/download.php)_
+- _[Ninja Firewall Pro](https://nintechnet.com/ninjafirewall/)_
 - _PHP extension: ionCube24 `ic24.enable = on` (PHP file modification time protection)_
 - File change notification
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`

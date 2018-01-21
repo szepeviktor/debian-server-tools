@@ -1,0 +1,32 @@
+{
+    "name": "szepeviktor/required-extensions",
+    "description": "Compiled-in: Core,date,filter,hash,libxml,openssl,pcntl,pcre,Reflection,session,SPL,standardzlib",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.0.0",
+        "ext-ctype": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-tokenizer": "*",
+        "ext-pdo": "*",
+        "ext-mysqlnd": "*",
+        "ext-pdo_mysql": "*",
+        "ext-zend-opcache": "*",
+        "ext-redis": "*",
+        "ext-igbinary": "*"
+    },
+    "suggest": {
+        "php": "composer show --platform",
+        "ext-ctype": "Character type checking",
+        "ext-json": "JavaScript Object Notation",
+        "ext-mbstring": "Multibyte String",
+        "ext-tokenizer": "Tokenizer",
+        "ext-pdo": "PHP Data Objects",
+        "ext-mysqlnd": "MySQL Native Driver",
+        "ext-pdo_mysql": "PDO MySQL Functions",
+        "ext-zend-opcache": "OPcache, precompiled script bytecode stored in shared memory",
+        "ext-redis": "A PHP extension for Redis",
+        "ext-igbinary": "Igbinary is a drop in replacement for the standard PHP serializer"
+    }
+}

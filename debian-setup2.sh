@@ -281,7 +281,7 @@ debian-setup/etckeeper
 find /var/mail/ -type f -exec grep -H '^' "{}" ";"
 
 # Manual inspection of old configuration files
-echo "### Old configs ###"
+echo "@TODO - Old configs"
 find /etc/ -type f -iname "*old" -or -iname "*dist" | paste -s -d " "
 
 # Clear Bash history
@@ -289,8 +289,21 @@ history -c
 
 set +x
 
-# @TODO Automate
-echo "TODO: iptables-save, hosts, users, server backup, monit/apache+php"
-echo "      https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md"
+# @TODO Automate these
+cat <<"EOT"
+# TODO - iptables-save
+iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v4
+# TODO - hosts
+editor /etc/hosts
+# TODO - users
+adduser USER
+# TODO - server backup
+./install.sh backup/system-backup.sh
+# TODO - monit/apache+php
+monitoring/monit/monit-debian-setup.sh
+# TODO - Monitoring
+https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md
+
+EOT
 
 echo "OK. (exit from script command now)"

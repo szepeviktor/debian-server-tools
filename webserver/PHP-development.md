@@ -143,8 +143,9 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Document everything in `hosting.yml`
 - Declare PHP version, extensions, directives, functions and test them in
   [php-env-check](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/php-env-check.php),
-  run in composer.json:pre-install-cmd
-- **PHP version** and extensions also in composer.json:require
+  run in composer.json:pre-install-cmd,
+  **PHP version** and extensions also in composer.json:require
+- Have an update policy for PHP, framework, packages
 - Set environment variables (PHP-FPM pool, `.env`)
 - Publish Dockerfile of CI (GitLab Container Registry)
 - Build and deploy script (file permissions)
@@ -153,7 +154,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - File change notification: `siteprotection.sh`
 - Manage and monitor application/config/route/view cache and sessions
 - Run `git status` hourly
-- Email filtered application log hourly (recipients)
+- Email application log extract hourly (recipients)
 - Rotate application log
 - Move per-directory webserver configuration to vhost configuration
 - Redirect removed routes, substitute missing images (URL-s)
@@ -162,7 +163,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
 - Match production/staging/development/local environments (Docker, php-env-check)
-- Differences of a **staging/development** environment (different domain name, robots.txt, email delivery, disable 3rd parties)
+- Differences of a **staging/development** environments:
+  different domain name, robots.txt, email delivery, disable 3rd parties
 
 ### Maintenance :wrench:
 
