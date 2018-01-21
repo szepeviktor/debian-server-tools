@@ -134,7 +134,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Image management (Cloudinary)
 - Maintenance mode switch and placeholder page (HTTP/503)
 - Static asset management (building, versioning) and loading
-- Analytics, visitor tracking (Hotjar, Clicktale)
+- Analytics, visitor tracking (HEAP, Hotjar, Clicktale)
 - Performance (application monitoring, New Relic)
 - Error tracking (PHP, JavaScript)
 

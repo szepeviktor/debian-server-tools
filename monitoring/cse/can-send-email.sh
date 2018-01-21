@@ -119,8 +119,9 @@ Trigger() {
                 #     mail -- RECIPIENT -fSENDER
                 echo -e "Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n" \
                     | s-nail -s "[cse] bounce message / Email kézbesítés monitorozás" \
-                    -S "from=${CSE_ADDRESS}" -- "$RECIPIENT" "-f${CSE_ADDRESS}" \
-                    || echo "Trigger failed ($?) for ${URL}"
+                    -S "from=${CSE_ADDRESS}" -S sendwait -S expandargv -- "$RECIPIENT" "-f${CSE_ADDRESS}" \
+                    || echo "Trigger failed ($?) for '${URL}'"
+                # @TODO Set envelope sender address with s-nail -r "$CSE_ADDRESS"
                 ;;
         esac
     done

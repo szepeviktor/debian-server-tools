@@ -473,7 +473,7 @@ Document in `hosting.yml` and check functionality.
 
 Gain access, set up and test.
 
-- Google Analytics, Google Tag Manager :snail:
+- Google Analytics, Google Tag Manager, [HEAP](https://heapanalytics.com/) :snail:
 - Facebook Pixel
 - Piwik
 - Clicktale

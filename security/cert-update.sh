@@ -25,7 +25,7 @@ Die() {
 }
 
 Readkey() {
-    read -r -p "Press any key ..." -n 1 -s
+    read -r -p "[cert-update.sh] Press any key ..." -n 1 -s
     echo
 }
 

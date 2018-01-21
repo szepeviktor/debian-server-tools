@@ -18,7 +18,7 @@
 - Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/))
 - PageSpeed ([PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/), [webpagetest.org](https://www.webpagetest.org/))
 - Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
-- Traffic ([goaccess.sh](/webserver/goaccess.sh), [Google Analytics](https://analytics.google.com/analytics/web/))
+- Traffic ([goaccess.sh](/webserver/goaccess.sh), [HEAP](https://heapanalytics.com/), [Google Analytics](https://analytics.google.com/analytics/web/))
 - Report JavaScript errors @TODO
 - Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/),
   [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/),

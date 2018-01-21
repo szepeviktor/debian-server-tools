@@ -8,5 +8,5 @@ elif Is_pkg_installed pwgen; then
     MYSQL_PASS_DEFAULT="$(pwgen -s 30 1)"
 fi
 echo "-- Create a low privilege user for MariaDB."
-echo "CREATE USER '${MYSQL_USER_DEFAULT}'@'localhost' IDENTIFIED BY '${MYSQL_PASS_DEFAULT}';"
-echo "FLUSH PRIVILEGES;"
+echo "MariaDB [monit]> CREATE USER '${MYSQL_USER_DEFAULT}'@'localhost' IDENTIFIED BY '${MYSQL_PASS_DEFAULT}';"
+echo "MariaDB [monit]> FLUSH PRIVILEGES;"
