@@ -5,21 +5,28 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 # <a name="en"></a>Infrastructure, source code management and consulting for web applications
 
-DevOps could be a foundation to understand my work.  
-My main activity is **proactive** maintenance of [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
-which includes the examination of the application, continuous integration (CI) and automated deployment (CD).  
-My knowledge of technologies complete the knowledge of developers.
+DevOps can be seen as the foundation of my work,
+which focuses on **proactive** maintenance of
+[web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).
+This includes comprehensive understanding of the application,
+continuous integration (CI) and automated deployment (CD).
 
-My focus is on stability, vulnerability and performance.
+My knowledge of these technologies,
+and experience in implementing them in production environments
+complements the knowledge of developers.
 
-You may benefit from my services if you do not really tolerate outage and malfunction.
+My goals for any project are to increase stability,
+reduce vulnerabilities and achieve maximum performance.
+If you can't stand outages or performance lags,
+and are looking for a partner to help you minimize them -
+then we should talk!
 
 ### What does proactive maintenance include?
 
 - Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
 - Installing modern OS and software
 - Controlled environment for the application
-- [Monitoring](/monitoring/README.md) all these and 3rd parties too by functional tests and integrity checks
+- [Monitoring](/monitoring/README.md) all these and 3rd parties by functional tests and integrity checks
 - Regular log analysis
 - Intelligent and encrypted backup to a highly durable storage provider
 
