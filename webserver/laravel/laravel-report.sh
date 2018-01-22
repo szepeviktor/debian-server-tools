@@ -2,7 +2,7 @@
 #
 # List log items above NOTICE severity of the Laravel log.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2016-09-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -22,8 +22,8 @@
 #
 # Last minute tries to make sure there is a new log file at 00:59.
 
-MONOLOG_LEVELS="NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY"
-declare -i EXTRA_LINES="3"
+declare -r MONOLOG_LEVELS="NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY"
+declare -r -i EXTRA_LINES="3"
 
 set -e
 

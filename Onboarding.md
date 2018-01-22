@@ -2,7 +2,7 @@
 
 *Welcome to the process of setting up your infrastructure and your application!*
 
-Details about [infrastructure and source code management](/master/CV.md)
+Details about [infrastructure and source code management](/CV.md)
 
 ### Choose infrastructure providers
 

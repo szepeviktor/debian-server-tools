@@ -41,11 +41,13 @@ do_start() {
   if [ "$INIT_ALERT_BOOT_ALERT" != "yes" ]; then
     return 0
   fi
+  if [ -z "$INIT_ALERT_MAIL" ]; then
+    log_failure_msg "Empty email address"
+    return 4
+  fi
 
   if printf "Host FULLY BOOTED at %s\n\n%s\n\n%s\n" "$(date -R)" "$(last -x -n 10)" "$(COLUMNS=120 pstree -aA)" \
-    | s-nail -s "Host is BOOTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
-    # Wait for message delivery
-    sleep 5
+    | s-nail -S sendwait -s "Host is BOOTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
     return 0
   else
     return 3
@@ -61,10 +63,14 @@ do_stop() {
   if [ "$INIT_ALERT_HALT_ALERT" != "yes" ]; then
     return 0
   fi
+  if [ -z "$INIT_ALERT_MAIL" ]; then
+    log_failure_msg "Empty email address"
+    return 4
+  fi
 
   if printf "Host HALTED at %s\n\n%s\n" "$(date -R)" "$(COLUMNS=120 w --ip-addr)" \
-    | s-nail -s "Host is HALTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
-    # Wait for message delivery
+    | s-nail -S sendwait -s "Host is HALTED: $(hostname -f)" ${INIT_ALERT_MAIL}; then
+    # Wait for MTA to delivery the message
     sleep 5
     return 0
   else

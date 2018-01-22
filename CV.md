@@ -8,7 +8,7 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 DevOps can be seen as the foundation of my work,
 which focuses on **proactive** maintenance of
 [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).
-This includes comprehensive understanding of the application,
+This&nbsp;includes comprehensive understanding of the application,
 continuous integration (CI) and automated deployment (CD).
 
 My knowledge of these technologies,

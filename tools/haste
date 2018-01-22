@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+#
+# Haste Client
+#
+# VERSION       :0.2.0
+# AUTHOR        :@meunierd
+# URL           :https://gist.github.com/meunierd/1668147
+# LICENSE       :???
+# DEPENDS       :apt-get install python3-requests
+# LOCATION      :/usr/local/bin/haste
+
+"""
+Usage:
+$ cat /usr/local/bin/haste | haste
+https://hastebin.com/KEY1
+$ haste /usr/local/bin/haste
+https://hastebin.com/KEY2
+"""
+
+import json
+import requests
+import sys
+
+URL = "https://hastebin.com/"
+
+if sys.stdin.isatty():
+    with open(sys.argv[1], "r") as filedata:
+        data = "".join(filedata.readlines()).strip()
+else:
+    data = "".join(sys.stdin.readlines()).strip()
+
+response = requests.post(URL + "documents", data)
+
+sys.stdout.write("%s%s\n" % (URL, json.loads(response.text)["key"]))

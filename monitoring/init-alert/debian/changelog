@@ -1,3 +1,11 @@
+init-alert (0.3.4) stable; urgency=low
+
+  * Proper s-nail usage
+  * Don't wait on boot
+  * Check email address
+
+ -- Viktor Szépe <viktor@szepe.net>  Mon, 22 Jan 2018 03:53:41 +0000
+
 init-alert (0.3.3) stable; urgency=high
 
   * Depend only on s-nail
