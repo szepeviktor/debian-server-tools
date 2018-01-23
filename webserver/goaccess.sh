@@ -37,13 +37,17 @@ Exclude_custom() {
     #echo "$IPLIST" | Make_excludes
 
     # Magereport probe servers
-    #IPLIST="$(Get_cache_file "https://www.magereport.com/static/ips.txt")"
-    #grep -x "[0-9.]\{7,15\}" "$IPLIST" | Make_excludes
+    #MAGE_LIST="$(Get_cache_file "https://www.magereport.com/static/ips.txt")"
+    #grep -x "[0-9.]\{7,15\}" "$MAGE_LIST" | Make_excludes
 
     # WebyMon servers
     #IPLIST="$(for N in {01..10};do host -tA crawler-node-${N}.webymon.com.;done|sed -n -e 's/^.* has address \([0-9.]\+\)$/\1/p'|uniq)"
     #IPLIST="138.201.159.186 88.99.187.152 88.99.187.153 91.120.24.189"
     #echo "$IPLIST" | Make_excludes
+
+    # Oh Dear! servers
+    #OHDEAR_LIST="$(Get_cache_file "https://ohdearapp.com/used-ips")"
+    #grep -x "[0-9.]\{7,15\}" "$OHDEAR_LIST" | Make_excludes
 }
 
 Get_cache_file() {

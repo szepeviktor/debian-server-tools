@@ -118,7 +118,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Autoloading (composer)
 - ORM
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
-- HTTP security and request handling (WAF)
+- HTTP request handling and security (URL structure, WAF)
 - Session handling
 - Input validation, sanitization
 - Escaping (SQL, HTML, JavaScript)
@@ -154,16 +154,16 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - File change notification: `siteprotection.sh`
 - Manage and monitor application/config/route/view cache and sessions
 - Run `git status` hourly
-- Email application log extract hourly (recipients)
+- Report application log extract hourly (recipients)
 - Rotate application log
 - Move per-directory webserver configuration to vhost configuration
 - Redirect removed routes, substitute missing images (URL-s)
-- Use local queuing MTA for fast email delivery (SMTP is slow), bounce handling
+- Use queuing MTA for fast email delivery (SMTP is slow), bounce handling
 - Include Fail2ban triggers at least for: 404-s, failed login attempts, hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
 - Match production/staging/development/local environments (Docker, php-env-check)
-- Differences of a **staging/development** environments:
+- Differences of **staging and development** environments:
   different domain name, robots.txt, email delivery, disable 3rd parties
 
 ### Maintenance :wrench:

@@ -13,12 +13,14 @@
 1. Bámészkodók, visszafordulók, visszatérők kezelése
 1. Zsákutca (Alul hova tovább?) hiba
 1. Fölös háttér kihasználása
+1. Letörölt és időszakos oldalak (URL-ek) kezelése: 404 hiba vagy átirányítás
 
 ### Technológia
 
 1. [Tervezés/prototyping](https://www.invisionapp.com/)
 1. Szövegszerkesztővel bevihető elemek megtervezése: alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes info (author bio)
 1. Nyelvek
+1. Időszakos kampányok
 1. Mérés: látogatás, esemény, konverzió, egér követés, hőtérképek
 
 - [Google Cégem](https://support.google.com/business/answer/7091)
