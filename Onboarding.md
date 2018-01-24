@@ -2,18 +2,20 @@
 
 *Welcome to the process of setting up your infrastructure and your application!*
 
-Details about [infrastructure and source code management](/CV.md)
+Details about [infrastructure and source code management](https://git.io/vNryB)
 
 ### Choose infrastructure providers
 
 - Domain registrar: **AWS, Gandi, noip, dyn, Rackforest/.hu**
 - DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Rackforest/.hu**
 - Server provider: **UpCloud**
-- SSL certificate provider for HTTPS: **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html), [SSLMate](https://sslmate.com/), DigiCert**
+- SSL certificate provider for HTTPS:
+  **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html), [SSLMate](https://sslmate.com/), DigiCert**
 - CDN provider: **AWS, KeyCDN**
 - Transactional email provider: **AWS, SparkPost**
 - Storage provider: **AWS, Backblaze B2, Selectel**
-- Incoming [ESP](https://twofactorauth.org/#email): **G Suite, [Protonmail](https://protonmail.com/signup)**
+- Incoming [ESP](https://twofactorauth.org/#email):
+  **G Suite, [Protonmail](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 

@@ -134,3 +134,9 @@ Update page title: `msgfmt -o locale/en/LC_MESSAGES/horde.mo locale/en/LC_MESSAG
 # Upgrade database schema
 # Upgrade configuration
 ```
+
+### Debug
+
+```php
+Horde::logMessage($result, __FILE__, __LINE__, PEAR_LOG_ERR);
+```

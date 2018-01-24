@@ -21,3 +21,13 @@ Run `myattackers-install.sh`
 grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
     | xargs -L 1 echo iptables -I myattackers -j REJECT -s
 ```
+
+### Usage in htaccess files
+
+```bash
+echo "<RequireAll>"
+echo "Require all granted"
+grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
+    | xargs -L 1 echo Require not ip
+echo "</RequireAll>"
+```
