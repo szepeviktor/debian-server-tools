@@ -72,9 +72,9 @@
 
     #   The protocols to enable.
     #   Available values: all, SSLv3, TLSv1, TLSv1.1, TLSv1.2
-    #   SSL v2  is no longer supported
+    #   SSL v2 is no longer supported
     SSLProtocol all -SSLv3
-    # @TODO When to move to Modern_compatibility ?
+    # @TODO When to move to Modern_compatibility?
     #SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
 
     #   Allow insecure renegotiation with clients which do not yet support the
@@ -98,7 +98,7 @@
     SSLStaplingResponderTimeout 5
     SSLStaplingReturnResponderErrors off
     SSLStaplingCache "shmcb:${APACHE_RUN_DIR}/ssl_gcache_data(128000)"
-    SSLStaplingStandardCacheTimeout 36000
+    SSLStaplingStandardCacheTimeout 43200
 
 </IfModule>
 

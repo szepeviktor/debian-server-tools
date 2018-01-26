@@ -1,0 +1,10 @@
+# https://mmonit.com/monit/documentation/
+
+ check host "SMTP-PROVIDER" with address "SMTP.EXAMPLE.COM"
+   group "mail"
+   if failed host "SMTP.EXAMPLE.COM" port 587 with protocol smtps
+     with timeout 10 seconds then alert
+   #if failed host "SMTP.EXAMPLE.COM" port 465 with protocol smtps
+   #  with timeout 10 seconds then alert
+   if failed ping4 then alert
+   #if failed ping6 then alert

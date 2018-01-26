@@ -72,7 +72,7 @@ Display_sessions() {
 
         UA="${SESSION_DATA[${ID}_UA]}"
         # Abbreviate Mozilla/5.0
-        UA="${UA/Mozilla\/5.0 /M●}"
+        UA="${UA/Mozilla\/5.0 /M⁵}"
 
         echo "${SESSION_DATA[${ID}_MARK]}${SESSION_DATA[${ID}_IP]}${TAB}${GEO:0:30}${TAB}${REQUEST}${TAB}${UA:0:60}"
     done

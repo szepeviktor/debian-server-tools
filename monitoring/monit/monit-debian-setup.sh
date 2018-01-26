@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.8.1
+# VERSION       :0.8.2
 # DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -214,14 +214,14 @@ fi
 
 # Check Monit
 if ! service monit status | grep -qF "monit is running"; then
-    echo "Monit is not responding" | s-nail -s "Monit ALERT on $(hostname -f)" root
+    echo "Monit is not responding" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname -f)" root
     service monit restart || service monit start
 fi
 
 ## Check nice level
 #MONIT_PID="$(cat /run/monit.pid)"
 #if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" -ne 0 ]; then
-#    echo "Monit's nice level changed" | s-nail -s "Monit ALERT on $(hostname -f)" root
+#    echo "Monit's nice level changed" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname -f)" root
 #    renice -n 0 -p "$MONIT_PID"
 #fi
 
