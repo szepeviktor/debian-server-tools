@@ -7,7 +7,8 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 My main activity is **proactive** maintenance of existing websites and [web applications](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).  
 These experiences could mean valuable feedback for your developer/s.  
-Traffic light example :vertical_traffic_light: a developer sees the green light, I see red and amber.
+Traffic light example :vertical_traffic_light: a developer sees the green light,
+[I see red](/webserver/WordPress-security.md) and amber.
 
 ### What does proactive maintenance include?
 
@@ -70,7 +71,7 @@ Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az 
 A **fejlesztésbe** technológiai tanácsokkal és konkrét kivitelezéssel segítek be a tapasztalataim alapján.  
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light:
 a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
-A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van.
+A figyelmem az üzembiztonságon, a [sérülékenységen](/webserver/WordPress-security.md) és a sebességen van.
 
 ### Mit végzek el proaktív üzemeltetés néven?
 
@@ -109,6 +110,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konveziót hozó honl
 - http://neeed.us/
 - https://www.upsolution.hu/
 - http://www.finetune.hu/
+- http://www.rblmarketing.hu/
 - http://maarsk.com/
 - http://www.surmanngyula.hu/
 

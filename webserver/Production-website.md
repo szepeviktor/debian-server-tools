@@ -283,7 +283,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 ### Marketing
 
-- [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos)
+- [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos), [Intro video](http://technomatic.hu/)
 - External URL-s should open in new window :snail:
 - Newsletter subscribe
 - Offer free download
@@ -352,6 +352,8 @@ http://google-public-dns.appspot.com/cache :snail:
 
 ### 404 page
 
+- Post and image removal policy
+  (for bots, for humans, redirect to another post, show 404 page with specific category archive)
 - Informative :snail:
 - Cooperative (search form, automatic suggestions, Google's fixurl.js) :snail:
 - Attractive
@@ -457,7 +459,7 @@ Document in `hosting.yml` and check functionality.
 
 - Certificate Authority (OCSP servers for obtaining SSL certificate revocation status)
 - A/B testing
-- External search
+- [External search](https://sitesearch360.com/)
 - External resources (fonts)
 - Social media ([Twitter card](https://cards-dev.twitter.com/validator))
 - Video
@@ -474,9 +476,10 @@ Document in `hosting.yml` and check functionality.
 
 Gain access, set up and test.
 
-- Google Analytics, Google Tag Manager, [HEAP](https://heapanalytics.com/) :snail:
+- Google Analytics, Google Tag Manager :snail:
 - Facebook Pixel
 - Piwik
+- [HEAP](https://heapanalytics.com/)
 - Clicktale
 - Smartlook
 - Hotjar

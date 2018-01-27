@@ -2,6 +2,8 @@
 #
 # Display current web sessions.
 #
+# DEPENDS       :pip3 install geoip2
+# DEPENDS       :./web-sessions-geoiplookup.py
 
 ACCESS_LOG="/var/log/apache2/project-ssl-access.log"
 SERVER_IP="1.2.3.4"
@@ -25,6 +27,7 @@ Exclude() {
     [ "$UA" != "${UA/ bingbot\//}" ] && return 0
     [ "$UA" != "${UA/ Yahoo\! Slurp/}" ] && return 0
     [ "$UA" != "${UA/ YandexBot\//}" ] && return 0
+    [ "$UA" != "${UA/ YandexImages\//}" ] && return 0
 
     # SEO
     [ "$UA" != "${UA/ AhrefsBot\//}" ] && return 0
@@ -49,24 +52,14 @@ Exclude() {
 Display_sessions() {
     local ID
     local GEO
-    local PTR
     local REQUEST
     local UA
 
     for ID in "${SESSIONS[@]}"; do
-        GEO="$(geoiplookup -f /var/lib/geoip-database-contrib/GeoLiteCity.dat "${SESSION_DATA[${ID}_IP]}" | cut -d ":" -f 2-)"
-        # FIXME GeoIP data may be in Latin2 encoding | iconv -c -f LATIN2 -t UTF-8)"
-        # Trim leading space
-        GEO="${GEO# }"
-        if [ "${GEO/N\/A,/}" != "$GEO" ]; then
-            PTR="$(getent hosts "${SESSION_DATA[${ID}_IP]}")"
-            if [ $? -eq 0 ]; then
-                GEO="${PTR##* }"
-            fi
-        fi
-
+        GEO="$(./web-sessions-geoiplookup.py "${SESSION_DATA[${ID}_IP]}")"
         REQUEST="${SESSION_DATA[${ID}_REQUEST]}"
         if [ ${#REQUEST} -gt 53 ]; then
+            # 1-22 + ellipsis + last 30 characters
             REQUEST="${REQUEST:0:22}…${REQUEST:(-30)}"
         fi
 
@@ -236,7 +229,7 @@ while read -r LOG_LINE; do
     fi
 
     LAST_DISPLAY="$NOW"
-    jobs -p | xargs -r kill -s SIGHUP
+    jobs -r -p | xargs -r kill -s SIGHUP
     clear
     Display_sessions \
         | column -s "$TAB" -t -c "$((COLUMNS + 1))" \
