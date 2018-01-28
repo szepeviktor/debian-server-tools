@@ -367,7 +367,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - Image optimization `jpeg-recompress JPG OPTI_JPG` :snail:
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css > large.css`
-- Conditional, lazy or late loading (slider, map, facebook content, image gallery)
+- Conditional, lazy or late loading (slider, map, facebook content, [image gallery](https://www.freepik.com/))
 - Use [async and defer](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html) for JavaScripts
 - Light loading, e.g. `&controls=2` for YouTube
 - HTTP/2 server push
@@ -439,18 +439,18 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 ### Compatiblitity
 
 - [\<head> cheatsheet](http://gethead.info/)
+- Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
 - Text selection: color+background-color, disable selection
 - Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:
+- Emojis (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph) and [Twitter](https://dev.twitter.com/cards/markup) :snail:
-- Emojis (entering, storing, displaying)
 - [Printer](http://www.printfriendly.com/), [Gutenberg framework](https://github.com/BafS/Gutenberg)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
 - Microsoft/Libre Office (copy-and-paste content or open URL)
-- Adblock and filter lists (Adblock Plus, uBlock Origin, Disconnect, Ghostery)
 - Reader mode (from Firefox `chrome://global/skin/aboutReaderContent.css`)
 
 ### Integration (3rd party services)
