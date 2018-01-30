@@ -119,6 +119,16 @@ Update page title: `msgfmt -o locale/en/LC_MESSAGES/horde.mo locale/en/LC_MESSAG
 - /services/prefs.php?app=imp&group=mboxdisplay
 - /services/prefs.php?app=imp&group=folderdisplay
 
+### Exchange ActiveSync compatible service
+
+```apache
+Alias /Microsoft-Server-ActiveSync ${DOCUMENT_ROOT}/rpc.php
+Alias /microsoft-server-activesync ${DOCUMENT_ROOT}/rpc.php
+Alias /autodiscover/autodiscover.xml ${DOCUMENT_ROOT}/rpc.php
+Alias /Autodiscover/Autodiscover.xml ${DOCUMENT_ROOT}/rpc.php
+Alias /AutoDiscover/AutoDiscover.xml ${DOCUMENT_ROOT}/rpc.php
+```
+
 ### Upgrade
 
 ```bash

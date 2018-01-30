@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.6
+# VERSION       :0.1.7
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -30,16 +30,22 @@ manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
 
 Move_challenge_files() {
     local WELL_KNOWN_ACME_CHALLENGE="$1"
+    local N
+    local -i DELAY="0"
 
     if [ ! -d "$WELL_KNOWN_ACME_CHALLENGE" ]; then
         echo "Missing .well-known/acme-challenge directory: '${WELL_KNOWN_ACME_CHALLENGE}'" 1>&2
         exit 10
     fi
 
-    # Wait for challenge files
-    sleep 3
+    # Wait for all challenge files
+    for N in ${CN} ${DOMAIN_NAMES}; do
+        DELAY+="4"
+    done
+    sleep "$DELAY"
     echo
-    find -type f -mmin -3 -regextype posix-egrep -regex "\./[0-9A-Za-z_-]{43}" -print0 \
+
+    find -type f -mmin -3 -regextype posix-egrep -regex '\./[0-9A-Za-z_-]{43}' -print0 \
         | xargs -r -0 -I % cp -v % "${WELL_KNOWN_ACME_CHALLENGE}/"
 
     # Wait for authorization

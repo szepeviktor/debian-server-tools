@@ -21,10 +21,10 @@ If you can't stand outages or performance lags,
 and are looking for a partner to help you minimize them -
 then we should talk!
 
-### What does proactive maintenance include?
+### Proactive maintenance features
 
-- Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
-- Installing modern OS and software
+- Choosing service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
+- Modern OS and software
 - Controlled environment for the application
 - [Monitoring](/monitoring/README.md) all these and 3rd parties by functional tests and integrity checks
 - Regular log analysis

@@ -440,7 +440,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 - [\<head> cheatsheet](http://gethead.info/)
 - Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
-- Text selection: color+background-color, disable selection
+- Text selection: color+background-color, disable selection, display share options on select (see Feedly)
 - Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:
 - Emojis (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
