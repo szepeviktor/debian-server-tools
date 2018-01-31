@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.1
 # DATE          :2017-11-10
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -78,6 +78,7 @@ Apache2() {
 
     test -d "$(dirname "$APACHE_PUB")" || Die 40 "apache ssl dir"
 
+    echo "Installing Apache certificate ..."
     {
         cat "$PUB" "$INT"
         #nice openssl dhparam 4096
@@ -87,7 +88,7 @@ Apache2() {
     chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 43 "apache owner"
     chmod 0640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
 
-    # Check SSL config
+    # Check SSL config (symlink)
     if [ ! -h /etc/apache2/mods-enabled/ssl.conf ]; then
         Die 47 "apache SSL configuration"
     fi
@@ -98,9 +99,9 @@ Apache2() {
     SERVER_NAME="${SERVER_NAME/\$\{SITE_DOMAIN\}/${SITE_DOMAIN}}"
     test -z "$SERVER_NAME" && Die 46 "apache ServerName"
     if sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
-        | grep -qx "\s*SSLCertificateFile\s\+${APACHE_PUB}" \
+        | grep -q -x "\s*SSLCertificateFile\s\+${APACHE_PUB}" \
         && sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
-        | grep -qx "\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}"; then
+        | grep -q -x "\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}"; then
 
         apache2ctl configtest && service apache2 restart
 
@@ -117,11 +118,12 @@ Courier_mta() {
     #COURIER_USER="daemon"
     COURIER_USER="courier"
 
-    [ -z "$COURIER_COMBINED" ] && return 1
-    [ -z "$COURIER_DHPARAMS" ] && return 1
+    test -z "$COURIER_COMBINED" && return 1
+    test -z "$COURIER_DHPARAMS" && return 1
 
-    [ -d "$(dirname "$COURIER_COMBINED")" ] || Die 20 "courier ssl dir"
+    test -d "$(dirname "$COURIER_COMBINED")" || Die 20 "courier ssl dir"
 
+    echo "Installing Courier MTA certificate ..."
     # Private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
     chown ${COURIER_USER}:root "$COURIER_COMBINED" || Die 22 "courier owner"
@@ -139,8 +141,8 @@ Courier_mta() {
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
     # Check config files for SMTP STARTTLS and outgoing SMTP
-    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd; then
+    if grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
+        && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
 
         service courier-mta restart
 
@@ -153,10 +155,10 @@ Courier_mta() {
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
     fi
 
-    # Check config files for submission
-    if grep -q "^ESMTPDSTART=YES\$" /etc/courier/esmtpd-msa \
-        && grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/esmtpd \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/esmtpd; then
+    # Check config files for submission (MSA)
+    if grep -q -x "ESMTPDSTART=YES" /etc/courier/esmtpd-msa \
+        && grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
+        && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
 
         service courier-mta restart
 
@@ -170,8 +172,9 @@ Courier_mta() {
     fi
 
     # Check config file for IMAPS
-    if grep -q "^TLS_CERTFILE=${COURIER_COMBINED}\$" /etc/courier/imapd-ssl \
-        && grep -q "^TLS_DHPARAMS=${COURIER_DHPARAMS}\$" /etc/courier/imapd-ssl; then
+    if [ -f /etc/courier/imapd-ssl ] \
+        && grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/imapd-ssl \
+        && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/imapd-ssl; then
 
         service courier-imap-ssl restart
 
@@ -184,7 +187,7 @@ Courier_mta() {
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:993" 1>&2
     fi
 
-    echo "$(tput setaf 1)WARNING: Update msmtprc on SMTP clients.$(tput sgr0)"
+    echo "$(tput setaf 1)WARNING: Update msmtprc:tls_fingerprint on SMTP clients.$(tput sgr0)"
 }
 
 Nginx() {
@@ -195,6 +198,7 @@ Nginx() {
 
     [ -d "$(dirname "$NGINX_PUB")" ] || Die 70 "nginx ssl dir"
 
+    echo "Installing Nginx certificate ..."
     cat "$PUB" "$INT" > "$NGINX_PUB" || Die 71 "nginx cert creation"
     nice openssl dhparam 2048 > "$NGINX_DHPARAM" || Die 72 "nginx private"
     cp "$PRIV" "$NGINX_PRIV" || Die 73 "nginx private"
@@ -225,6 +229,7 @@ Proftpd() {
 
     [ -d "$(dirname "$APACHE_PUB")" ] || Die 30 "proftpd ssl dir"
 
+    echo "Installing Proftpd certificate ..."
     cp "$PUB" "$PROFTPD_PUB" || Die 31 "proftpd public"
     cp "$PRIV" "$PROFTPD_PRIV" || Die 32 "proftpd private"
     cp "$INT" "$PROFTPD_INT" || Die 33 "proftpd intermediate"
@@ -253,6 +258,7 @@ Dovecot() {
 
     [ -d "$(dirname "$DOVECOT_PUB")" ] || Die 50 "dovecot ssl dir"
 
+    echo "Installing Dovecot certificate ..."
     # Dovecot: public + intermediate
     cat "$PUB" "$INT" > "$DOVECOT_PUB" || Die 51 "dovecot cert creation"
     cat "$PRIV" > "$DOVECOT_PRIV" || Die 52 "dovecot private cert creation"
@@ -289,6 +295,7 @@ Webmin() {
 
     [ -d "$(dirname "$WEBMIN_COMBINED")" ] || Die 60 "webmin ssl dir"
 
+    echo "Installing Webmin certificate ..."
     # Webmin: private + public
     cat "$PRIV" "$PUB" > "$WEBMIN_COMBINED" || Die 61 "webmin public"
     cp "$INT" "$WEBMIN_INT" || Die 62 "webmin intermediate"

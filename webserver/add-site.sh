@@ -194,7 +194,7 @@ editor /etc/courier/esmtpauthclient
 # http://www.projecthoneypot.org/faq.php#c
 
 # * Development/Staging environment?
-# SMTP, robots.txt etc.
+# domain name, SMTP, robots.txt
 
 # Webmaster tools
 echo "https://www.google.com/webmasters/tools/dashboard?siteUrl=https://${DOMAIN}/"

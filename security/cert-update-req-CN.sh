@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.6
+# VERSION       :0.2.7
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -13,20 +13,20 @@
 
 # Intermediate certificates and root certificates
 #
-# Let’s Encrypt
-#     wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
-#     https://letsencrypt.org/certificates/
+# RapidSSL
+#     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=INFO1548
 # ComodoSSL, EssentialSSL, PositiveSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust
 #     https://www.geotrust.com/resources/root-certificates/
-# RapidSSL
-#     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=INFO1548
+# Let’s Encrypt
+#     wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
+#     https://letsencrypt.org/certificates/
 # NetLock (HU)
 #     https://www.netlock.hu/html/cacrl.html
 # Microsec (HU)
 #     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
-# szepenet
+# szepenet (own)
 #     wget http://ca.szepe.net/szepenet-ca.pem
 
 set -e
@@ -48,8 +48,8 @@ INT="intermediate.pem"
 # Certificate signing request
 CSR="request-${TODAY}.csr"
 
-# Certificate name for directory and file names
-read -r -p "CertificateName=" CN
+# Certificate name for directory and file names (not Common Name)
+read -r -p "Certificate name? " CN
 #CN="example.com"
 test -n "$CN"
 
@@ -69,6 +69,9 @@ if [ ! -s "$PRIV" ]; then
     echo
 
     # Generate request
+    if [ -f "../cert-update-req-${CN}-openssl.conf" ]; then
+        cp "../cert-update-req-${CN}-openssl.conf" "${CN}-openssl.conf"
+    fi
     editor "${CN}-openssl.conf"
     test -s "${CN}-openssl.conf"
     openssl req -out "$CSR" -new -key "$PRIV" \
@@ -82,7 +85,7 @@ if [ ! -s "$PRIV" ]; then
 
     # Get certificate from a CA!
 
-    # HTTP validation file (e.g. for RapidSSL)
+    # HTTP validation file (e.g. for RapidSSL, AS13649 ViaWest, "DigiCert DCV Bot/1.1")
     echo
     echo "http://${CN}/.well-known/pki-validation/fileauth.txt"
 
@@ -108,7 +111,7 @@ PUB_DIR="/etc/ssl/localcerts"
 # "include intermediate CA certificates, sorted from leaf to root"
 
 # Use Common Name as domain name
-APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')"
+APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's|^.*[/=]CN \?= \?\([^/]\+\).*$|\1|p')"
 #
 # Use last Subject Alternative Name as domain name
 #APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"

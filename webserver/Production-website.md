@@ -352,13 +352,18 @@ http://google-public-dns.appspot.com/cache :snail:
 
 ### 404 page
 
-- Post and image removal policy
-  (for bots, for humans, redirect to another post, show 404 page with specific category archive)
+- Post and image removal policy (for bots, for humans, redirect to another post)
 - Informative :snail:
-- Cooperative (search form, automatic suggestions, Google's fixurl.js) :snail:
-- Attractive
+- Attractive [404 pages on AWWWARDS](http://www.awwwards.com/inspiration/search?text=404)
+- Cooperative :snail:
+  - Search form
+  - Out of stock message
+    `get_page_by_path( untrailingslashit( $_SERVER['REQUEST_URI'] ) . '__trashed', OBJECT, $post_type )`
+  - Automatic suggestions (specific category archive)
+  - Promotions
+  - Google's fixurl.js
 - [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
-- [404 pages on AWWWARDS](http://www.awwwards.com/inspiration/search?text=404)
+- Redirect with delay `<meta http-equiv="refresh" content="8; URL=/">`
 
 ### Resource optimization
 
@@ -369,7 +374,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css > large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, [image gallery](https://www.freepik.com/))
 - Use [async and defer](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html) for JavaScripts
-- Light loading, e.g. `&controls=2` for YouTube
+- Light loading, `&controls=2` for YouTube
 - HTTP/2 server push
 - [DNS Prefetch, Preconnect, Prefetch, Prerender](http://w3c.github.io/resource-hints/#resource-hints)
 - YouTube custom video thumbnail (Full HD)
@@ -385,7 +390,8 @@ http://google-public-dns.appspot.com/cache :snail:
 - https://speedcurve.com/
 - https://insites.com/
 - Does the website have a public API? (WP REST API, WooCommerce API)
-- Test (REST) API [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
+- Test (REST) API with
+  [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
 
 ### PHP errors
 

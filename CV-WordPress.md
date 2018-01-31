@@ -3,6 +3,8 @@
 [![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
+
+
 # <a name="en"></a>Maintenance of WordPress websites on a cloud server and technical support
 
 My main activity is **proactive** maintenance of existing websites and [web applications](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).  
@@ -10,10 +12,10 @@ These experiences could mean valuable feedback for your developer/s.
 Traffic light example :vertical_traffic_light: a developer sees the green light,
 [I see red](/webserver/WordPress-security.md) and amber.
 
-### What does proactive maintenance include?
+### Proactive maintenance features
 
-- Choosing proper service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
-- Installing modern OS and software on your server
+- Choosing service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
+- Modern OS and software on your server
 - Server and website [monitoring](/monitoring/README.md) by functional tests and integrity checks
 - Monitoring of 3rd-parties too
 - Log analysis, alerts
