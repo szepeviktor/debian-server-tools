@@ -49,7 +49,7 @@ Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even o
 - Incoming forwarded mail
 - Aliases (system users)
 - Bounce from managed servers as virtual domain
-- `locals` + `esmtpacceptmailfor` + `hosteddomains`
+- `esmtpacceptmailfor` + `locals` + `hosteddomains`
 - SMTP AUTH methods
 - Accounts (userdb, `.courier` files)
 

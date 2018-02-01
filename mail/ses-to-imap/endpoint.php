@@ -18,7 +18,7 @@ function curl_get_contents( $url ) {
         return false;
     }
 
-    $ch = curl_init();
+    $ch      = curl_init();
     $timeout = 60;
 
     curl_setopt( $ch, CURLOPT_URL, $url );
@@ -33,7 +33,7 @@ function curl_get_contents( $url ) {
 /**
  * Main program
  */
-$message = Message::fromRawPostData();
+$message   = Message::fromRawPostData();
 $validator = new MessageValidator( 'curl_get_contents' );
 
 // Validate request
@@ -67,24 +67,36 @@ switch ( $message['Type'] ) {
 
         // Process only the "Received" notification
         if ( isset( $message_data['notificationType'] ) && 'Received' === $message_data['notificationType'] ) {
-            if ( ! is_array( $message_data['mail'] ) || empty( $message_data['mail']['messageId'] ) ) {
+            if ( empty( $message_data['mail']['messageId'] ) ) {
                 throw new \RuntimeException( 'Missing SNS MessageID.' );
             }
+            /* Old: .mail.destination[]
             if ( empty( $message_data['mail']['destination'] ) || ! is_array( $message_data['mail']['destination'] ) ) {
                 throw new \RuntimeException( 'Missing SNS destination address.' );
             }
             $ses_address = $message_data['mail']['destination'][0];
-            // Log received message ID
-            error_log( 'SNS Notification: Received ' . $message_data['mail']['messageId'] );
-            // Append to a file on incron-watched path
-            file_put_contents(
-                SES_NOTIFICATIONS_PATH . DIRECTORY_SEPARATOR . $ses_address,
-                SES_S3_PATH . $message_data['mail']['messageId'] . "\n",
-                FILE_APPEND | LOCK_EX
-            );
+            */
+            if ( empty( $message_data['receipt']['recipients'] ) || ! is_array( $message_data['receipt']['recipients'] ) ) {
+                throw new \RuntimeException( 'Missing SNS recipient address.' );
+            }
+            // Check action
+            if ( empty( $message_data['receipt']['action']['type'] ) || 'S3' !== $message_data['receipt']['action']['type'] ) {
+                throw new \RuntimeException( 'Message not saved to S3 bucket.' );
+            }
+            foreach ( $message_data['receipt']['recipients'] as $ses_address ) {
+                // Log received message ID
+                error_log( 'SNS Notification: Received ' . $message_data['mail']['messageId'] );
+                // Append to a file on incron-watched path
+                file_put_contents(
+                    SES_NOTIFICATIONS_PATH . DIRECTORY_SEPARATOR . $ses_address,
+                    // FIXME Get path Prefix from .receipt.action.objectKey instead of SES_S3_PATH
+                    SES_S3_PATH . $message_data['mail']['messageId'] . "\n",
+                    FILE_APPEND | LOCK_EX
+                );
+            }
         } else {
             // Dump unknown Notification
             $file = tempnam( ini_get( 'upload_tmp_dir' ), 'sns_unknown_' );
-            file_put_contents( $file, var_export( json_decode( $message['Message'], true ), true ) );
+            file_put_contents( $file, var_export( $message_data, true ) );
         }
 }

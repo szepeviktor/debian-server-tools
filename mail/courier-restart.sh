@@ -31,6 +31,7 @@ if [ -d /etc/courier/esmtpacceptmailfor.dir ]; then
     makeacceptmailfor || Error $? "esmtp acceptmailfor.dir/*"
 fi
 
+# File or directory
 if [ -e /etc/courier/hosteddomains ]; then
     makehosteddomains || Error $? "hosted domains"
 fi

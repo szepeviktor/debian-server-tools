@@ -40,7 +40,7 @@ Move_challenge_files() {
 
     # Wait for all challenge files
     for N in ${CN} ${DOMAIN_NAMES}; do
-        DELAY+="4"
+        DELAY+="5"
     done
     sleep "$DELAY"
     echo
