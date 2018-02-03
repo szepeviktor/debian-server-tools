@@ -36,12 +36,12 @@
 - Disable file editing
 - Block on WordPress security events ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
 - Add SRI (Subresource Integrity) attributes to elements with foreign CDN content
-- Choose wisely if you decide on a [page builder](https://www.wpbeaverbuilder.com/)
+- Choose wisely if you decide on a [page builder](https://www.wpbeaverbuilder.com/?fla=2082)
 
 ### Authentication
 
-- One administrator
-- One user per natural person
+- One administrator per site
+- One user account per natural person
 - Remove roles from unused accounts
 - Disallow weak passwords
 - Two-factor authentication
@@ -52,3 +52,5 @@
 ### Maintenance :wrench:
 
 Have me on board: viktor@szepe.net
+
+###### This page contains affiliate links
