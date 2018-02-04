@@ -1,4 +1,4 @@
-# MariaDB 10.1
-deb http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.1/debian jessie main
-#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys cbcb082a1bb943db
+# MariaDB 10.2
+deb http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.2/debian stretch main
+#K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xF1656F24C74CD1D8
 #M: https://downloads.mariadb.org/mariadb/repositories/#distro=Debian

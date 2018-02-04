@@ -2,3 +2,6 @@ User-agent: *
 Disallow: /
 Allow: /wp-includes/
 Allow: /wp-content/
+Host: www.example.com
+
+Sitemap: https://www.example.com/sitemap_index.xml

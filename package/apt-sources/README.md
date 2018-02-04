@@ -20,11 +20,14 @@ apt-get install netselect-apt
 netselect-apt -c COUNTRY-CODE stable
 ```
 
-### Get key ID and fingerprint from a URL
+### Get key ID and fingerprint
 
 ```bash
-wget -qO- https://example.com/gpg.key | gpg - | sed -ne 's|^pub  \S\+/\(\S\+\) .*$|\1|p'
-wget -qO- https://example.com/gpg.key | gpg --with-fingerprint --with-colons - | sed -ne 's|^fpr:::::::::\([0-9A-F]\+\):$|\1|p'
+wget -qO- $KEY_URL | gpg - | sed -ne 's|^pub\s\+\S\+/\(\S\+\) .*$|\1|p'
+wget -qO- $KEY_URL | gpg --with-fingerprint --with-colons - | sed -ne 's|^fpr:::::::::\([0-9A-F]\+\):$|\1|p'
+
+apt-key adv --fingerprint $KEY_ID | sed -ne 's|^pub\s\+\S\+/\(\S\+\) .*$|\1|p'
+apt-key adv --fingerprint --with-colons $KEY_ID | sed -ne 's|^fpr:::::::::\([0-9A-F]\+\):$|\1|p'
 ```
 
 ### Proposed updates
