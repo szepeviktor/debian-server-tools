@@ -49,7 +49,7 @@ Contact me: viktor@szepe.net
 
 
 
-# <a name="hu"></a>Infrastruktúra, forrás kód kezelés és technológiai tanácsadás webes applikációkhoz
+# <a name="hu"></a>Infrastruktúra, forráskód kezelés és technológiai tanácsadás webes applikációkhoz
 
 A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.  
 [Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)

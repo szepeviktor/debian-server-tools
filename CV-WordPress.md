@@ -107,7 +107,7 @@ Keressen meg: viktor@szepe.net
 
 ## Honlap tervezés
 
-Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konveziót hozó honlapot tervezzenek.
+Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot tervezzenek.
 
 - http://neeed.us/
 - https://www.upsolution.hu/

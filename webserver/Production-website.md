@@ -425,7 +425,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Legal (EN)
 
-- Privacy policy :snail:
+- Privacy Policy :snail:
 - [Cookie Consent Kit](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_4) + opt out,
   [cookie notice template](http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
   [Cookie Consent wizard by Insites](https://cookieconsent.insites.com/download/),
@@ -433,6 +433,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Terms & Conditions
 - *Operated by*, *Hosted at*
 - `/.well-known/dnt-policy.txt`
+- See https://termsfeed.com/
 
 ### Jogi dolgok (HU)
 

@@ -13,7 +13,7 @@ See also Access Watch database: https://access.watch/database
 
 ### Usage
 
-Run `myattackers-install.sh`
+Run `myattackers-ipsets-install.sh`
 
 ### Usage on systems without ipset
 

@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.4.9
+# VERSION       :0.5.0
 # DATE          :2017-01-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,14 +14,14 @@
 
 # Usage and remarks
 #
-# Make sure your MTA runs as "daemon" user
+# Make sure your MTA runs as "courier" user
 #     ps -A -o user,cmd | grep couriertls
 # Pipe destination address into leanmail.sh in MTA config
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@szepe.net
 # Set destination address in jail.local
 #     destemail = f2bleanmail
 # Create known list with read/write permission for MTA
-#     install -o root -g daemon -m 0660 /dev/null /var/lib/fail2ban/known.list
+#     install -o root -g courier -m 0660 /dev/null /var/lib/fail2ban/known.list
 # Prepend X-Fail2ban header to your action in sendmail-*.local
 #     actionban = printf %%b "X-Fail2ban: <ip>,<sender>
 # Restart fail2ban
@@ -216,7 +216,7 @@ Update_cache() {
     if [ -s "$CACHE_FILE_TEMP" ]; then
         dos2unix --quiet "$CACHE_FILE_TEMP" 2> /dev/null
         mv -f "$CACHE_FILE_TEMP" "$CACHE_FILE"
-        chown root:daemon "$CACHE_FILE"
+        chown root:courier "$CACHE_FILE"
         chmod 0660 "$CACHE_FILE"
     else
         rm -f "$CACHE_FILE_TEMP"
@@ -534,8 +534,8 @@ Match_known() {
 
 Match_any() {
     # Local
-    if Match_known "$IP"; then
-        Log_match "known-attacker"
+    if Match_list "$LIST_BLDE" "$IP"; then
+        Log_match "blde"
         return 0
     fi
     if Match_multi_AS "$IP" "${AS_HOSTING[@]}"; then # High hit rate
@@ -546,16 +546,16 @@ Match_any() {
         Log_match "greensnow"
         return 0
     fi
-    if Match_list "$LIST_AVAULT" "$IP"; then
-        Log_match "alienvault"
-        return 0
-    fi
-    if Match_list "$LIST_BLDE" "$IP"; then
-        Log_match "blde"
+    if Match_known "$IP"; then
+        Log_match "known-attacker"
         return 0
     fi
     if Match_country A1 "$IP"; then
         Log_match "anonymous-proxy"
+        return 0
+    fi
+    if Match_list "$LIST_AVAULT" "$IP"; then
+        Log_match "alienvault"
         return 0
     fi
 
@@ -564,7 +564,6 @@ Match_any() {
         Log_match "accesswatch"
         return 0
     fi
-
     if Match_dnsbl2 "$DNSBL2_SPAMHAUS" "$IP"; then
         Log_match "spamhaus"
         return 0
@@ -573,16 +572,16 @@ Match_any() {
         Log_match "barracuda"
         return 0
     fi
-    if Match_dnsbl3 "$DNSBL3_DANGEROUS" "$IP"; then
-        Log_match "dangerous"
+    if Match_http_api3 "$HTTPAPI3_DSHIELD" "$IP"; then
+        Log_match "dshield"
         return 0
     fi
     if Match_dnsbl4 "$DNSBL4_TORDNSEL" "$IP"; then
         Log_match "tordnsel"
         return 0
     fi
-    if Match_http_api3 "$HTTPAPI3_DSHIELD" "$IP"; then
-        Log_match "dshield"
+    if Match_dnsbl3 "$DNSBL3_DANGEROUS" "$IP"; then
+        Log_match "dangerous"
         return 0
     fi
 

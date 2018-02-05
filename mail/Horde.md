@@ -132,6 +132,7 @@ Alias /AutoDiscover/AutoDiscover.xml ${DOCUMENT_ROOT}/rpc.php
 ### Upgrade
 
 ```bash
+script --timing=../horde-pear.time ../horde-pear.script
 ./horde-pear clear-cache
 ./horde-pear -vvv update-channels
 ./horde-pear upgrade PEAR
@@ -139,8 +140,11 @@ Alias /AutoDiscover/AutoDiscover.xml ${DOCUMENT_ROOT}/rpc.php
 ./horde-pear list-upgrades
 ./horde-pear -vvv upgrade --nobuild --onlyreqdeps -c horde
 #./horde-pear -vvv upgrade --nobuild --alldeps -c horde
+./horde-pear list-upgrades
+exit
+service php7.0-fpm reload
 
-# $HORDE_URL/admin/config/
+# Browse to: https://HORDE-URL/admin/config/
 # Upgrade database schema
 # Upgrade configuration
 ```
