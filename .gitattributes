@@ -1,0 +1,2 @@
+webserver/apache-conf-available/*.conf linguist-language=ApacheConf
+webserver/apache-sites-available/*.conf linguist-language=ApacheConf
