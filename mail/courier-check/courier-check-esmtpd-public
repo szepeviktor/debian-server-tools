@@ -1,4 +1,4 @@
-# Public 25/tcp, STARTTLS, SSL Intermediate, no ESMTPAUTH
+# Public 25/tcp, STARTTLS, SSL Intermediate, no ESMTPAUTH, bl.blocklist.de
 COURIER_ESMTPD_DEFAULTS='
 ESMTPDSTART=YES
 MAILUSER=${COURIER_USER}

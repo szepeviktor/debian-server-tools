@@ -2,8 +2,8 @@
 #
 # Package "z" DKIM filter for Courier MTA.
 #
-# VERSION       :1.5.4
-# DATE          :2016-12-05
+# VERSION       :1.6.1
+# DATE          :2018-02-06
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -12,11 +12,11 @@
 
 # Usage
 #
-# cp zdkimfilter-jessie.sh /opt/results/
-# docker run --rm -it -v /opt/results:/opt/results -i --entrypoint=/opt/results/zdkimfilter-jessie.sh szepeviktor/jessie-build
+# cp zdkimfilter.sh /opt/results/
+# docker run --rm -it -v /opt/results:/opt/results -i --entrypoint=/opt/results/zdkimfilter.sh szepeviktor/stretch-build
 
-PKGVERSION="1.5"
-PKGRELEASE="4"
+PKGVERSION="1.6"
+PKGRELEASE="1"
 SOURCE_URL="http://www.tana.it/sw/zdkimfilter/zdkimfilter-${PKGVERSION}.tar.gz"
 MAINTAINER="Viktor Szépe \\<viktor@szepe.net\\>"
 
@@ -46,29 +46,31 @@ case "$(lsb_release -s -c)" in
         ;;
 esac
 
-wget -O- "$SOURCE_URL" | tar xz
-cd zdkimfilter-*
+wget -O- "$SOURCE_URL" | tar -xz
+(
+    cd zdkimfilter-*
 
-./configure --prefix=/usr --enable-dkimsign-setuid
-colormake
-colormake check
+    ./configure --prefix=/usr --enable-dkimsign-setuid
+    colormake
+    colormake check
 
-echo "'z' DKIM filter for Courier-MTA" > description-pak
-# Recommends: opendkim-tools
-# Mark as config: zdkimfilter.conf.dist -> zdkimfilter.conf
-sudo checkinstall -D -y --nodoc --strip --stripso --install=no \
-    --pkgname="zdkimfilter" \
-    --pkgversion="$PKGVERSION" \
-    --pkgrelease="$PKGRELEASE" \
-    --pkgarch="$(dpkg --print-architecture)" \
-    --pkggroup="mail" \
-    --pkgsource="$SOURCE_URL" \
-    --pkglicense="GPL" \
-    --maintainer="$MAINTAINER" \
-    --requires="libc6 \(\>= 2.19\), libunistring0, libidn2-0, libnettle4, libopendbx1, ${LIBOPENDKIM}, courier-mta" \
-    --pakdir="../"
+    echo "'z' DKIM filter for Courier-MTA" > description-pak
+    # Recommends: opendkim-tools
+    # Mark as config: zdkimfilter.conf.dist -> zdkimfilter.conf
+    # shellcheck disable=SC1117
+    sudo checkinstall -D -y --nodoc --strip --stripso --install=no \
+        --pkgname="zdkimfilter" \
+        --pkgversion="$PKGVERSION" \
+        --pkgrelease="$PKGRELEASE" \
+        --pkgarch="$(dpkg --print-architecture)" \
+        --pkggroup="mail" \
+        --pkgsource="$SOURCE_URL" \
+        --pkglicense="GPL" \
+        --maintainer="$MAINTAINER" \
+        --requires="libc6 \(\>= 2.19\), libunistring0, libidn2-0, libnettle4, libopendbx1, ${LIBOPENDKIM}, courier-mta" \
+        --pakdir="../"
+)
 
-cd -
 # --no-tag-display-limit
 lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
 sudo cp -av ./*.deb /opt/results/

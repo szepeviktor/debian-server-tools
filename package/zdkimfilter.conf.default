@@ -153,3 +153,6 @@ all_mode = Y
 
 # (secs)
 # dns_timeout = 0
+
+# (bool)
+# let_relayclient_alone = N

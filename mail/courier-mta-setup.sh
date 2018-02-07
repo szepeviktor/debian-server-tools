@@ -139,27 +139,6 @@ GRANT SELECT ON `mail`.`passwords` TO 'courierauthu'@'localhost';
 
 service courier-authdaemon restart
 
-# Python Courier filters (python3)
-apt-get install -y libpython2.7-dev libxml2-dev libxslt1-dev cython python-gdbm
-pip2 install lxml html2text
-#pip2 install courier-pythonfilter
-# http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/
-
-# Custom Python filters
-git clone https://github.com/szepeviktor/courier-pythonfilter-custom
-# /usr/local/lib/python${VERSION}
-ln -sv email-correct.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
-ln -sv spamassassin3.py /usr/local/lib/python2.7/dist-packages/pythonfilter/
-editor /etc/pythonfilter.conf
-# log_mailfrom_rcptto
-# noduplicates
-# whitelist_auth
-# whitelist_relayclients
-# spamassassin3
-# email-correct
-ln -sv /usr/local/bin/pythonfilter /usr/lib/courier/filters
-filterctl start pythonfilter
-
 # MAXDELS - Maximum number of simultaneous delivery attempts
 # http://www.courier-mta.org/queue.html
 editor /etc/courier/module.esmtp
@@ -308,3 +287,7 @@ editor /etc/courier/smtpaccess/default
 
 # FORGED_YAHOO_RCVD check_for_forged_yahoo_received_headers()
 # grep -Ex "[^.]+(\.(access|consmr|stg\.consmr|biz|sbc|vespa|bt|prem|asd|sb))?(\.bullet)?\.mail\.[a-z][a-z][1-9]\.yahoo\.com\."
+
+# Well-known and autodiscover
+
+test -f /etc/courier/shared/index || touch /etc/courier/shared/index

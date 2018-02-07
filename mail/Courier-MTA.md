@@ -34,8 +34,8 @@ Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even o
 - SSL settings
 - `bofh`
 - `BLACKLISTS="-block=bl.blocklist.de"`
-- Courier Python Filters (attachments)
-- Custom *Courier Python Filters* modules
+- Courier pythonfilter (attachments)
+- Custom *Courier pythonfilter* modules
 - Spamassassin + Pyzor
 - ClamAV
 - BIG-mail spammers
@@ -78,7 +78,7 @@ Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even o
 
 ### Filter
 
-- courier-pythonfilter
+- courier-pythonfilter + custom modules
 - zdkimfilter
 
 ### Others

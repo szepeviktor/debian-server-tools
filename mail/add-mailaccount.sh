@@ -2,7 +2,7 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -29,9 +29,9 @@ ACCOUNT="$1"
 MAILROOT="/var/mail"
 CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 
-[ "$(id --user)" == 0 ] || Error 1 "Only root is allowed to add mail accounts."
-[ -z "$ACCOUNT" ] && Error 1 "No account given."
-[ -d "$MAILROOT" ] || Error 1 "Mail root (${MAILROOT}) does not exist."
+test "$(id --user)" == 0 || Error 1 "Only root is allowed to add mail accounts."
+test -z "$ACCOUNT" && Error 1 "No account given."
+test -d "$MAILROOT" || Error 1 "Mail root (${MAILROOT}) does not exist."
 
 # Get inputs
 for V in EMAIL PASS DESC HOMEDIR; do
@@ -43,7 +43,7 @@ for V in EMAIL PASS DESC HOMEDIR; do
             DEFAULT="$(apg -n 1 -M NC)"
             # xkcd-style password
             WORDLIST_HU="/usr/local/share/password2remember/password2remember_hu.txt"
-            if [ -f "$WORDLIST_HU" ] && which xkcdpass &> /dev/null; then
+            if [ -f "$WORDLIST_HU" ] && hash xkcdpass 2> /dev/null; then
                 DEFAULT="$(xkcdpass -d . -w "$WORDLIST_HU" -n 4)"
             fi
             ;;
@@ -69,19 +69,19 @@ fi
 
 # Validate email address format
 # https://fightingforalostcause.net/content/misc/2006/compare-email-regex.php
-grep -qE '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9][-a-z0-9]*(\.[a-z0-9][-a-z0-9]+)*\.[a-z]+$' <<< "$EMAIL" \
+grep -q -E '^[-a-z0-9_]+(\.[-a-z0-9_]+)*@[a-z0-9][-a-z0-9]*(\.[a-z0-9][-a-z0-9]+)*\.[a-z]+$' <<< "$EMAIL" \
     || Error 8 'Non-regular email address'
 
 NEW_DOMAIN="${EMAIL##*@}"
 NEW_MAILDIR="${HOMEDIR}/Maildir"
 
 # Check home folder
-[ -d "$HOMEDIR" ] && Error 9 "This home ($HOMEDIR) already exists."
+test -d "$HOMEDIR" && Error 9 "This home ($HOMEDIR) already exists."
 
 # Check domain
-grep -qFxr "${NEW_DOMAIN}" /etc/courier/esmtpacceptmailfor.dir \
+grep -q -F -x -r "${NEW_DOMAIN}" /etc/courier/esmtpacceptmailfor.dir \
     || echo "[WARNING] This domain is not accepted here (${NEW_DOMAIN})" 1>&2
-grep -qFxr "${NEW_DOMAIN}" /etc/courier/hosteddomains /etc/courier/locals \
+grep -q -F -x -r "${NEW_DOMAIN}" /etc/courier/hosteddomains /etc/courier/locals \
     || echo "[WARNING] This domain is not hosted here (${NEW_DOMAIN})" 1>&2
 
 # Account home folder and maildir
@@ -165,7 +165,7 @@ if hash userdb userdbpw 2> /dev/null \
     userdb "$EMAIL" set "gid=${VIRTUAL_UID}" || Error 34 "Failed to add to userdb"
     # @TODO mkpasswd --method=sha-256 "$PASS" "$(openssl rand -base64 12)" |
     echo "$PASS" | userdbpw -md5 | userdb "$EMAIL" set systempw || Error 35 "Failed to add to userdb"
-    [ -z "$DESC" ] || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
+    test -z "$DESC" || userdb "$EMAIL" set "fullname=${DESC}" || Error 36 "Failed to add to userdb"
     makeuserdb || Error 37 "Failed to make userdb"
 
     # Removal instruction
@@ -174,14 +174,14 @@ if hash userdb userdbpw 2> /dev/null \
 fi
 
 # Removal instruction
-echo "Remove home command:  rm -rf '${HOMEDIR}'"
+echo "Remove home command:  rm -r -f '${HOMEDIR}'"
 
 # SMTP authentication test
 {
     sleep 2
     echo "EHLO $(hostname -f)"
     sleep 2
-    echo "AUTH PLAIN $(echo -ne "\x00${EMAIL}\x00${PASS}" | base64 --wrap=0)"
+    echo "AUTH PLAIN $(echo -ne "\\x00${EMAIL}\\x00${PASS}" | base64 --wrap=0)"
     sleep 2
     echo "QUIT"
 } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" -connect "$(hostname -f):465" 2> /dev/null \

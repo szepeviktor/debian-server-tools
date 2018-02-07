@@ -20,8 +20,6 @@
 
 exit 0
 
-COURIER_PYTHONFILTER_URL="http://phantom.dragonsdawn.net/~gordon/courier-pythonfilter/courier-pythonfilter-1.11.tar.gz"
-
 # Add an MX record
 host -t MX $(hostname -f)
 # Receive mail on a mailserver with accounts (alias, acceptmailfor)
@@ -145,43 +143,6 @@ touch /etc/courier/esmtpd.pem
 chmod 0600 /etc/courier/esmtpd.pem
 Dinstall monitoring/cert-expiry.sh
 
-# DKIM signature (zdkimfilter)
-#     http://www.tana.it/sw/zdkimfilter/zdkimfilter.html
-read -r -p "DKIM domain? " DOMAIN
-# Depends on backported libopendkim11
-apt-get install -y -t jessie-backports libopendkim11
-apt-get install -y opendkim-tools zdkimfilter
-cd /etc/courier/filters/
-install -o daemon -g root -m 700 -d privs
-mkdir keys
-# Configuration file
-cp -v zdkimfilter.conf.dist zdkimfilter.conf
-editor zdkimfilter.conf
-#     header_canon_relaxed = Y
-#     default_domain = $DOMAIN
-#     add_auth_pass = Y
-#     tempfail_on_error = Y
-#     # Debug header z=
-#     #add_ztags = Y
-#     db_backend = sqlite3
-#     db_host = /etc/courier/filters/
-#     db_database = zdkim.sqlite
-# http://www.linuxnetworks.de/doc/index.php/OpenDBX/Configuration#sqlite3_backend
-install -b -o daemon -g root -m 600 /dev/null zdkim.sqlite
-# New key
-DKIM_SELECTOR="dkim$(date -u "+%Y%m")"
-cd /etc/courier/filters/privs/
-opendkim-genkey -v --domain="${DOMAIN}" --selector="$DKIM_SELECTOR"
-chown -c daemon:root "$DKIM_SELECTOR"*
-cd ../keys/
-ln -vs "../privs/dkim${DKIM_SELECTOR}.private" "${DOMAIN}"
-cd ../
-# Add new key to DNS
-cat "/etc/courier/filters/privs/${DKIM_SELECTOR}.txt"
-host -t TXT "${DKIM_SELECTOR}._domainkey.${DOMAIN}"
-# Enable zdkimfilter
-filterctl start zdkimfilter; ls -l /etc/courier/filters/active
-
 # ClamAV + no_received_headers
 apt-get install -y python2.7 clamav-daemon uuid-runtime
 freshclam -v
@@ -193,14 +154,13 @@ wget -qO- https://bootstrap.pypa.io/get-pip.py | python2
 adduser clamav daemon
 # Install pythonfilter
 # Alternative: http://www.tana.it/sw/avfilter/
-#pip2 install courier-pythonfilter
-pip2 install "$COURIER_PYTHONFILTER_URL"
-cat <<EOF > /etc/pythonfilter.conf
+pip2 -v install "https://bitbucket.org/gordonmessmer/courier-pythonfilter/get/default.tar.gz"
+cat > /etc/pythonfilter.conf <<EOF
 clamav
 attachments
 noreceivedheaders
 EOF
-cat <<EOF > /etc/pythonfilter-modules.conf
+cat > /etc/pythonfilter-modules.conf <<EOF
 [clamav.py]
 localSocket = '/run/clamav/clamd.ctl'
 action = 'quarantine'

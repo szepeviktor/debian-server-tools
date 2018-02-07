@@ -2,7 +2,7 @@
 #
 # Cancel messages in Courier mail queue.
 #
-# VERSION       :1.1.2
+# VERSION       :1.2.0
 # DATE          :2015-10-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,14 +21,15 @@
 # editor /etc/sudoers
 #     root	ALL=(ALL:ALL) ALL
 
-MAIL_GROUP="daemon"
+# shellcheck disable=SC1091
+MAILGROUP="$(source /etc/courier/esmtpd; echo "$MAILGROUP")"
 
 mailq -sort -batch | head -n -1 \
     | cut -d ";" -f 2,4 \
     | grep -F "$1" \
     | while read -r ID_USER; do
         # shellcheck disable=SC2086
-        sudo -u ${ID_USER#*;} -g ${MAIL_GROUP} -- cancelmsg "${ID_USER%;*}" \
+        sudo -u ${ID_USER#*;} -g ${MAILGROUP} -- cancelmsg "${ID_USER%;*}" \
             || echo "Cancellation failed. (${ID_USER%;*})" 1>&2
     done
 
