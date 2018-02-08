@@ -2,8 +2,8 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.5.2
-# DATE          :2017-03-17
+# VERSION       :0.6.0
+# DATE          :2018-02-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -27,15 +27,16 @@
 #
 #     DNS_WATCH=(
 #       domain.net:TYPE=value
-#       szepe.net:A=95.140.33.67
-#       95.140.33.67:PTR=szepe.net
+#       szepe.net:A=1.2.3.4
+#       1.2.3.4:PTR=szepe.net.
+#       2000,300f,,1:PTR=szepe.net.
 #     )
 #
 # Multiple RR-s - ","
 # Double-quotes and spaces must be escaped or single-quoted
 #
-#     szepe.net:A=95.140.33.67,TXT=\"value\ here\"
-#     'szepe.net:A=95.140.33.67,TXT="value here"'
+#     szepe.net:A=1.2.3.4,TXT=\"value\ here\"
+#     'szepe.net:A=1.2.3.4,TXT="value here"'
 #
 # Multiple values - escaped ";"
 # WARNING! Values must be in `sort`-ed order.
@@ -56,7 +57,7 @@ declare -a DNS_WATCH
 
 # Return all RR-s
 Dnsquery_multi() {
-    # dnsquery_multi() ver 0.1.0
+    # dnsquery_multi() ver 0.2.0
     # error 1:  Empty host/IP
     # error 2:  Invalid answer
     # error 3:  Invalid query type
@@ -86,7 +87,9 @@ Dnsquery_multi() {
     local MX_REGEX='^[0-9]+ [a-z0-9A-Z_.-]+$'
 
     # Empty input
-    [ -z "$HOST" ] || [ -z "$TYPE" ] && return 1
+    if [ -z "$HOST" ] || [ -z "$TYPE" ]; then
+        return 1
+    fi
 
     TYPE="$(echo "$TYPE" | tr '[:lower:]' '[:upper:]')"
 
@@ -97,12 +100,14 @@ Dnsquery_multi() {
         RR_SORT="cat"
     fi
 
-    # All but NS RR-s should be looked up without recursion
-    if [ "$TYPE" == "NS" ]; then
+    # All but NS and PTR RR-s should be looked up without recursion
+    if [ "$TYPE" == NS ]; then
         RECURSIVE=""
         if [ -n "$3" ]; then
             NS="$3"
         fi
+    elif [ "$TYPE" == PTR ]; then
+        RECURSIVE=""
     else
         RECURSIVE="-r"
         NS="$3"
@@ -202,7 +207,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | s-nail -S from="${DAEMON} <root>" -s "[ad.min] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | s-nail -S "hostname=" -S from="${DAEMON} <root>" -s "[admin] DNS failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 Generate_rr() {
@@ -225,6 +230,20 @@ Is_ipv4() {
     [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
 }
 
+Is_ipv6() {
+    local TOBEIP6="$1"
+    local COLONS
+    local HEX="[0-9A-Fa-f]"
+    local HEX_COLON="[0-9A-Fa-f:]"
+
+    COLONS="${TOBEIP6//[^:]/}"
+    if [ "${#COLONS}" -lt 2 ] || [ "${#COLONS}" -gt 7 ]; then
+        return 1
+    fi
+
+    [[ "$TOBEIP6" =~ ^${HEX}${HEX_COLON}+$ ]]
+}
+
 # shellcheck disable=SC1090
 source "$DNS_WATCH_RC"
 
@@ -235,7 +254,7 @@ if [ $# == 1 ]; then
     DNAME="$1"
 
     # PTR record
-    if Is_ipv4 "$DNAME"; then
+    if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
         # NS hack
         Generate_rr PTR "$DNAME" " "
         exit 0
@@ -264,7 +283,7 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
     DNAME="$2"
 
     # PTR record
-    if Is_ipv4 "$DNAME"; then
+    if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
         # NS hack
         DOMAIN_CONFIG="$(Generate_rr PTR "$DNAME" " ")"
     else
@@ -320,7 +339,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         DRETRY="1"
     fi
 
-    if Is_ipv4 "$DNAME"; then
+    if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
         # NS hack
         NSS=" "
     else
@@ -350,9 +369,9 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         # All nameservers
         while read -r NS; do
 
-            #[ "$NS" == ns.xoo.hu ] && continue
+            #test "$NS" == failing.dns.server && continue
 
-            if Is_ipv4 "$DNAME"; then
+            if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
                 # NS hack
                 ANSWERS="$(Dnsquery_multi PTR "$DNAME" " ")"
                 ANSWERS_SORTED="$(sort -g <<< "$ANSWERS" | paste -s -d ";")"
@@ -378,7 +397,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
             for PROTO in "" "T/"; do
 
                 case "$PROTO" in
-                    T/)
+                    "T/")
                         PROTO_TEXT="TCP"
                         ;;
                     "")
@@ -423,7 +442,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         done <<< "$NSS"
     done <<< "${RRS},"
 
-    Log "${DNAME} OK"
+    Log "${DNAME} OK."
     # Pause DNS queries
     sleep 1
 done

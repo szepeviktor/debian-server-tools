@@ -131,6 +131,6 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
             printf "http://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
         fi
     fi
-done | s-nail -E -S from="${DAEMON} <root>" -s "domain expiry alert" root
+done | s-nail -E -S "hostname=" -S from="${DAEMON} <root>" -s "domain expiry alert" root
 
 exit 0

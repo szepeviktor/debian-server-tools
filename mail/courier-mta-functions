@@ -34,6 +34,7 @@ noduplicates
 #clamav
 whitelist_auth
 whitelist_relayclients
+whitelist_block
 spamassassin3
 email-correct
 EOT
@@ -97,9 +98,9 @@ EOF
         echo -n "${DKIM_SELECTOR}._domainkey.${DKIM_DOMAIN} IN TXT "
         sed -n -e 's/.*"\([^"]\+\)".*/\1/p' "${DKIM_SELECTOR}.txt" | paste -s -d ""
         echo "host -t TXT ${DKIM_SELECTOR}._domainkey.${DKIM_DOMAIN}."
-        # Enable key
+        # Enable key, use domain names
 ##        chown -c "${MAILUSER}:root" "${DKIM_SELECTOR}."{private,txt}
-        ln -s -v "../privs/${DKIM_SELECTOR}.private" ../keys
+        ln -s -v "../privs/${DKIM_DOMAIN}" ../keys
     )
 
     # Activation

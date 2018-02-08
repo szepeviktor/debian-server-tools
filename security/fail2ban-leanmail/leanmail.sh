@@ -21,7 +21,7 @@
 # Set destination address in jail.local
 #     destemail = f2bleanmail
 # Create known list with read/write permission for MTA
-#     install -o root -g courier -m 0660 /dev/null /var/lib/fail2ban/known.list
+#     install -o courier -g root -m 0640 /dev/null /var/lib/fail2ban/known.list
 # Prepend X-Fail2ban header to your action in sendmail-*.local
 #     actionban = printf %%b "X-Fail2ban: <ip>,<sender>
 # Restart fail2ban
@@ -40,7 +40,7 @@ DEST="${1:-admin@szepe.net}"
 # DNS blacklist
 
 # https://www.projecthoneypot.org/httpbl_api.php
-DNSBL1_HTTPBL_ACCESSKEY="hsffbftuslgh"
+DNSBL1_HTTPBL_ACCESSKEY="*****"
 DNSBL1_HTTPBL="${DNSBL1_HTTPBL_ACCESSKEY}.%s.dnsbl.httpbl.org"
 # Combination of SBL, SBLCSS, XBL and PBL blocklists
 # https://www.spamhaus.org/zen/

@@ -64,7 +64,7 @@ Alert() {
     local SUBJECT="$1"
 
     Log "${SUBJECT} is DOWN"
-    echo "$*" | s-nail -S from="${DAEMON} <root>" -s "[alert] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
+    echo "$*" | s-nail -S "hostname=" -S from="${DAEMON} <root>" -s "[alert] SSH failure: ${SUBJECT}" "$ALERT_ADDRESS"
 }
 
 # shellcheck disable=SC1090

@@ -44,7 +44,7 @@ Smart_error() {
         echo "[${LEVEL}] ${MESSAGE}" 1>&2
     else
         echo "$MESSAGE" \
-            | s-nail -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
+            | s-nail -S "hostname=" -S from="s.m.a.r.t. zeros <root>" -s "[${LEVEL}] S.M.A.R.T. error on $(hostname --fqdn)" "$ALERT_ADDRESS"
     fi
 }
 

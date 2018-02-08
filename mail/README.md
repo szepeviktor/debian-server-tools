@@ -166,8 +166,9 @@ echo "|/pipe/command" > /var/mail/domain/user/.courier-foo-default
 ### Spamtrap
 
 ```
-spamtrap@domain.net:  |/usr/local/bin/multi-stdout.sh "/usr/bin/spamc -4 --learntype=spam --max-size=1048576" "/usr/bin/spamc -4 --reporttype=report --max-size=1048576"
-problematic@address.es:  spamtrap@domain.net
+# Reporting includes learning
+spamtrap@domain.net:                    |/usr/bin/spamc --reporttype=report --max-size=1048576
+problematic@address.es:                 spamtrap@domain.net
 ```
 
 ### NAIH nyilvántartási szám - "Hungarian National Authority for Data Protection and Freedom of Information" registry

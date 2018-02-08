@@ -1,9 +1,8 @@
 #!/bin/bash
 #
-# Mini DoS mitigation for Apache webserver
-# Restart Apache on high loads (HTTP floods)
+# Mini DoS mitigation for Apache webserver, Restart Apache on high loads (HTTP floods)
 #
-# VERSION       :0.2
+# VERSION       :0.2.0
 # DATE          :2014-08-11
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -19,7 +18,7 @@
 
 
 # notification email address
-NOTIFY_EMAIL="sms@szepe.net"
+NOTIFY_EMAIL="admin@szepe.net"
 
 # server's public IP
 SERVER="95.140.33.67"
@@ -101,7 +100,7 @@ relive() {
     debug "relive started"
     logger -t apache-autorestart "relive started"
 
-    echo "$(date -R)" | mail -S from="apache autorestart <root>" -s "[ad.min] relive started..." "$NOTIFY_EMAIL"
+    echo "$(date -R)" | s-nail -S "hostname=" -S from="apache autorestart <root>" -s "[admin] relive started..." "$NOTIFY_EMAIL"
 
     # TOP 5 (ESTABLISHED) connections
     #netstat -ntp | tail -n +3 | grep "ESTABLISHED [0-9]\+/apache2" \
