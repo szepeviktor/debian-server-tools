@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install usbutils host
+# DEPENDS       :apt-get install usbutils bind9-host
 # LOCATION      :/usr/local/sbin/server-integrity.sh
 
 # Checks
@@ -149,10 +149,10 @@ case "$CHECK" in
         ;;
     PTR1)
         IP="$("$0" -c IP1)"
-        RESULT="$(host -t PTR "$IP" | sed -n -e '0,/^[0-9.]\+\.in-addr\.arpa domain name pointer \(.\+\)$/s//\1/p')"
+        RESULT="$(host -W 2 -t PTR "$IP" | sed -n -e '0,/^[0-9.]\+\.in-addr\.arpa domain name pointer \(.\+\)$/s//\1/p')"
         ;;
     MX1)
-        MX1="$(host -t MX "$(hostname -f)")" #"
+        MX1="$(host -W 2 -t MX "$(hostname -f)")" #"
         [ "$MX1" == "${MX1/ mail is handled by /}" ] && exit 10
         RESULT="$(echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s//\1/p')"
         ;;

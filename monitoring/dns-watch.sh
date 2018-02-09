@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2018-02-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -127,7 +127,7 @@ Dnsquery_multi() {
     # shellcheck disable=SC2086
     OUTPUT="$(LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
 
-    if [ $? != 0 ] \
+    if [ "$?" -ne 0 ] \
         || [ -z "$OUTPUT" ] \
         || [ "$OUTPUT" != "${OUTPUT/ ANSWER: 0/}" ]; then
         # Not found
@@ -217,7 +217,7 @@ Generate_rr() {
     local RR
 
     RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort -g | paste -s -d ";")"
-    if [ $? == 0 ] && [ -n "$RR" ]; then
+    if [ "$?" -eq 0 ] && [ -n "$RR" ]; then
         echo "${TYPE}=${RR}"
     fi
 }
@@ -250,7 +250,7 @@ source "$DNS_WATCH_RC"
 Is_online
 
 # Display answers
-if [ $# == 1 ]; then
+if [ "$#" -eq 1 ]; then
     DNAME="$1"
 
     # PTR record
@@ -261,7 +261,7 @@ if [ $# == 1 ]; then
     fi
 
     FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
-    if [ $? != 0 ] || [ -z "$FIRST_NS" ]; then
+    if [ "$?" -ne 0 ] || [ -z "$FIRST_NS" ]; then
         MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
         FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
     fi
@@ -279,7 +279,7 @@ fi
 
 
 # Generate configuration for a domain
-if [ "$1" == "-d" ] && [ $# == 2 ]; then
+if [ "$1" == "-d" ] && [ "$#" -eq 2 ]; then
     DNAME="$2"
 
     # PTR record
@@ -288,7 +288,7 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
         DOMAIN_CONFIG="$(Generate_rr PTR "$DNAME" " ")"
     else
         FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
-        if [ $? != 0 ] || [ -z "$FIRST_NS" ]; then
+        if [ "$?" -ne 0 ] || [ -z "$FIRST_NS" ]; then
             MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
             FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
         fi
@@ -314,7 +314,8 @@ if [ "$1" == "-d" ] && [ $# == 2 ]; then
     DOMAIN_CONFIG="${DOMAIN_CONFIG//\"/\\\"}" # double-quote
     DOMAIN_CONFIG="${DOMAIN_CONFIG//;/\\;}"   # semi-colon
 
-    printf "DNS_WATCH+=(\n  %s:%s\n)\n" "$DNAME" "$(paste -s -d "," <<< "${DOMAIN_CONFIG}")" >> "$DNS_WATCH_RC"
+    # IPv6 addresses should use comma as a separator
+    printf "DNS_WATCH+=(\n  %s:%s\n)\n" "${DNAME//:/,}" "$(paste -s -d "," <<< "${DOMAIN_CONFIG}")" >> "$DNS_WATCH_RC"
 
     # Make me remember www domain
     if [ "$DNAME" == "${DNAME#www}" ]; then
@@ -339,17 +340,20 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         DRETRY="1"
     fi
 
+    # IPv6 addresses should use comma as a separator
+    DNAME="${DNAME//,/:}"
+
     if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
         # NS hack
         NSS=" "
     else
         NSS="$(Dnsquery_multi NS "$DNAME")"
-        if [ $? != 0 ] || [ -z "$NSS" ]; then
+        if [ "$?" -ne 0 ] || [ -z "$NSS" ]; then
             MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
             NSS="$(Dnsquery_multi NS "$MAIN_DOMAIN")"
         fi
     fi
-    if [ $? != 0 ] || [ -z "$NSS" ]; then
+    if [ "$?" -ne 0 ] || [ -z "$NSS" ]; then
         Alert "${DNAME}/NS" \
             "Failed to get NS RR-s of ${DNAME}"
         continue
@@ -413,13 +417,13 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
                     #DBG "${DNAME}/${RRTYPE}/${NS}=${NS_IP}/${PROTO}@${RETRY}: $ANSWERS"
 
                     # Exit the loop on successful query or no more retries
-                    if [ "$QUERY_RET" == 0 ] || [ "$RETRY" == 0 ]; then
+                    if [ "$QUERY_RET" -eq 0 ] || [ "$RETRY" -eq 0 ]; then
                         break
                     fi
                     RETRY+="-1"
                     sleep "$RETRY_DELAY"
                 done
-                if [ "$QUERY_RET" != 0 ]; then
+                if [ "$QUERY_RET" -ne 0 ]; then
                     NS_FAILURES[$NS_IP]+="1"
                     if [ "${NS_FAILURES[$NS_IP]}" -gt "$MAX_FAILURES" ]; then
                         Log "Over max failures: ${DNAME}/${RRTYPE}/${NS}/${PROTO}"

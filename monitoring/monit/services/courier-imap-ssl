@@ -7,7 +7,16 @@
    if 5 restarts within 5 cycles then unmonitor
    depends on courier-imap_bin
    depends on courier-imap-ssl_init
+   depends on courier-imap-ssl_cert
 
  check file courier-imap-ssl_init with path /etc/init.d/courier-imap-ssl
    group mail
    include /etc/monit/templates/rootbin
+
+ check file courier-imap-ssl_cert with path /etc/courier/imapd.pem
+   group mail
+   if failed checksum then unmonitor
+   if failed permission 640 then unmonitor
+   if failed uid "root" then unmonitor
+   if failed gid "courier" then unmonitor
+

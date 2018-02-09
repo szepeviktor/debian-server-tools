@@ -40,9 +40,9 @@
  check file courier-mta_cert with path /etc/courier/esmtpd.pem
    group mail
    if failed checksum then unmonitor
-   if failed permission 600 then unmonitor
-   if failed uid "courier" then unmonitor
-   if failed gid "root" then unmonitor
+   if failed permission 640 then unmonitor
+   if failed uid "root" then unmonitor
+   if failed gid "courier" then unmonitor
 
  check program courier-mta_mailq with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
    group mail

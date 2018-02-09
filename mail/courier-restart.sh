@@ -25,7 +25,9 @@ if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courie
 fi
 
 # Recreate gdbm databases
+
 makesmtpaccess || Error $? "smtpaccess/*"
+# if catconf /etc/courier/smtpaccess/* | grep -v -x '\S\+\s\S\+'; then Error $? "smtpaccess syntax"; fi
 
 if [ -d /etc/courier/esmtpacceptmailfor.dir ]; then
     makeacceptmailfor || Error $? "esmtp acceptmailfor.dir/*"
@@ -41,9 +43,11 @@ if [ -f /etc/courier/userdb ]; then
 fi
 
 makealiases || Error $? "aliases/*"
+# if catconf /etc/courier/aliases/* | grep -v -E -x '\S+:\s*\S+|\S+:\s*\|.+|\S+:\s*\S+,.+'; then Error $? "alias syntax"; fi
 
 
 # Restart services
+
 # Wait for active courierfilters
 if [ -f /run/courier/courierfilter.pid ]; then
     COURIERFILTER_PID="$(head -n 1 /run/courier/courierfilter.pid)"

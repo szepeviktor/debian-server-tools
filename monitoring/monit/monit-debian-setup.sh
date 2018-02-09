@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.8.2
+# VERSION       :0.8.3
 # DATE          :2017-01-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -28,7 +28,7 @@
 # - Integrate cert-expiry as "openssl"
 # - Document putty port-forward 2812+N (Monit web interface)
 # - Add "/etc/init.d/SERVICE status" checks
-# - Check permissions: grep -i -l -m 1 "^\s*check\s" services/* | xargs ls -l
+# - Check permissions: grep -i -l -m 1 '^\s*check\s' services/* | xargs ls -l
 # - Add PID change checks
 
 DEBIAN_SERVER_TOOLS_INSTALLER="../../install.sh"
@@ -48,6 +48,7 @@ Monit_template() {
     local VARIABLES
     local VAR_NAME
     local DEFAULT_NAME
+    local DEFAULT_VALUE
     local VALUE
 
     if ! install --no-target-directory --mode=0600 "$TPL" "$OUT"; then
@@ -55,7 +56,7 @@ Monit_template() {
         exit 11
     fi
 
-    VARIABLES="$(grep -o "@@[A-Z0-9_]\+@@" "$TPL" | nl | sort -k 2 | uniq -f 1 | sort -n | sed -e 's;\s*[0-9]\+\s\+;;')"
+    VARIABLES="$(grep -o '@@[A-Z0-9_]\+@@' "$TPL" | nl | sort -k 2 | uniq -f 1 | sort -n | sed -e 's;\s*[0-9]\+\s\+;;')"
     if [ -z "$VARIABLES" ]; then
         return 0
     fi
@@ -71,7 +72,8 @@ Monit_template() {
         DEFAULT_NAME="${VAR_NAME}_DEFAULT"
         if grep -q "^${DEFAULT_NAME}=" "$MONIT_DEFAULTS"; then
             # Override with previous value
-            declare "${DEFAULT_NAME}=$(sed -n -e "0,/^${DEFAULT_NAME}=\"\(.*\)\"\$/s//\1/p" "$MONIT_DEFAULTS")" #"
+            DEFAULT_VALUE="$(sed -n -e "0,/^${DEFAULT_NAME}=\"\\(.*\\)\"\$/s//\\1/p" "$MONIT_DEFAULTS")" #"
+            declare "${DEFAULT_NAME}=${DEFAULT_VALUE}"
             # Read value into $VAR_NAME
             read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
         else
@@ -152,10 +154,10 @@ Monit_all_packages() {
     local PACKAGES
     local PACKAGE
 
-    PACKAGES="$(dpkg-query --showformat="\${Package}\n" --show)"
+    PACKAGES="$(dpkg-query --showformat='${Package}\n' --show)"
 
     while read -r PACKAGE <&4; do
-        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -qF ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
+        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -q -F ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
             Monit_enable "$PACKAGE"
         fi
     done 4<<< "$PACKAGES"
@@ -174,7 +176,7 @@ Monit_virtual_packages() {
             continue
         fi
         for PACKAGE in ${VPACKAGES[$MAIN_PACKAGE]//,/ }; do
-            if Is_pkg_installed "$PACKAGE" && ! grep -qF ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
+            if Is_pkg_installed "$PACKAGE" && ! grep -q -F ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
                 Monit_enable "$MAIN_PACKAGE"
                 break
             fi
@@ -213,7 +215,7 @@ if fuser -s /var/lib/dpkg/lock; then
 fi
 
 # Check Monit
-if ! service monit status | grep -qF "monit is running"; then
+if ! service monit status | grep -q -F 'monit is running'; then
     echo "Monit is not responding" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname -f)" root
     service monit restart || service monit start
 fi
@@ -261,7 +263,7 @@ Monit_start() {
         echo "tail -f /var/log/monit.log"
     else
         echo "ERROR: Syntax check failed" 1>&2
-        echo "$MONIT_SYNTAX_CHECK" | grep -vFx "Control file syntax OK" 1>&2
+        echo "$MONIT_SYNTAX_CHECK" | grep -v -F -x 'Control file syntax OK' 1>&2
     fi
 }
 
@@ -269,7 +271,7 @@ set -e
 
 trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 
-if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?exact-name(monit)')" lt "1:5.20"; then
+if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?and(?exact-name(monit), ?architecture(native))')" lt "1:5.20"; then
     echo "Minimum Monit version needed: 5.20" 1>&2
     exit 1
 fi
