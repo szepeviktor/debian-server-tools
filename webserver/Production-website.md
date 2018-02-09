@@ -26,7 +26,7 @@ Not only a WordPress site!
 - For safety (personal data)
 - For security (less attacks)
 - For trust (green lock in browsers)
-- For better SEO ranking
+- For [better SEO ranking since 2014](https://webmasters.googleblog.com/2014/08/https-as-ranking-signal.html)
 - For speed (enables HTTP/2)
 - For receiving referrer information (up to April 2012)
 - Very cheap

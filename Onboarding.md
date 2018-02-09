@@ -7,10 +7,11 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 ### Choose infrastructure providers
 
 - Domain registrar: **AWS, Gandi :eu:, noip, dyn, Rackforest/.hu :eu:**
-- DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Rackforest/.hu :eu:, Gandi :eu:**
+- DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Gandi :eu:**
 - Server provider: **UpCloud :eu:**
 - SSL certificate provider for HTTPS:
-  **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html), [SSLMate](https://sslmate.com/), DigiCert**
+  **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
+  [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:**
 - CDN provider: **AWS, KeyCDN :eu:**
 - Transactional email provider: **AWS, SparkPost, Mailjet :eu:**
 - Storage provider: **AWS, Backblaze B2, Selectel, Oktawave :eu:**
