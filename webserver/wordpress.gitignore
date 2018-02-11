@@ -32,3 +32,10 @@
 /wp-content/cache/**/*.css.gz
 /wp-content/cache/**/*.js
 /wp-content/cache/**/*.js.gz
+# From _get_dropins()
+#/wp-content/advanced-cache.php
+#/wp-content/db.php
+#/wp-content/db-error.php
+#/wp-content/install.php
+#/wp-content/maintenance.php
+#/wp-content/object-cache.php

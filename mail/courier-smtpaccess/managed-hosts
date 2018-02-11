@@ -1,4 +1,4 @@
-# /etc/courier/smtpaccess/default
+# /etc/courier/smtpaccess/managed-hosts
 
 # --- Managed hosts - allow,RELAYCLIENT
 #     On ports 587 and 465 with forced authentication - allow,RELAYCLIENT,AUTH_REQUIRED=0

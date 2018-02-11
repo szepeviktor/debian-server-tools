@@ -1,11 +1,16 @@
-# /etc/courier/smtpaccess/default
+# /etc/courier/smtpaccess/trusted-providers
 
 # --- Trusted senders, e.g. forwarded addresses - allow,BLOCK
 
 # Art Medic - mail.dlmc.hu.
 62.77.208.234	allow,BLOCK
+
 # ATW - mail.atw.hu.
 88.151.96.10	allow,BLOCK
+# Contabo
+91.205.175.50	allow,BLOCK
+91.194.91.216	allow,BLOCK
+91.194.91.215	allow,BLOCK
 # Magyar Hosting by EZIT - mhosting.hu.
 79.172.201.68	allow,BLOCK
 # EZIT - mx.ezit.hu., cp{1..5}.ezit.hu.
@@ -23,11 +28,27 @@
 178.238.210.92	allow,BLOCK
 178.238.210.100	allow,BLOCK
 178.238.210.232	allow,BLOCK
+# Aruba, mx-out.forpsi.com.
+62.149.128.188	allow,BLOCK
+62.149.128.214	allow,BLOCK
+62.149.128.215	allow,BLOCK
+62.149.128.216	allow,BLOCK
+62.149.128.217	allow,BLOCK
+81.2.196.50	allow,BLOCK
 
 
 # Díjnet - smtp1.dbrt.hu. mx4.dijnet.hu.
 91.198.198.4	allow,BLOCK
 91.198.198.12	allow,BLOCK
+# Magyar Telekom - mtmail*.mail.telekom.hu.
+84.2.42.62	allow,BLOCK
+84.2.42.63	allow,BLOCK
+84.2.42.64	allow,BLOCK
+84.2.42.65	allow,BLOCK
+84.2.227.160	allow,BLOCK
+# Debian Security List: bendel.debian.org.
+82.195.75.100	allow,BLOCK
+:2001:41b8:0202:0deb:0216:36ff:fe40:4002	allow,BLOCK
 # ISZT - aramis.iszt.hu.
 193.239.149.113	allow,BLOCK
 # Pingdom - mailer1.pingdom.com. mailer2.pingdom.com.
@@ -38,12 +59,6 @@
 173.0.84.226	allow,BLOCK
 173.0.84.227	allow,BLOCK
 173.0.84.228	allow,BLOCK
-# Magyar Telekom - mtmail*.mail.telekom.hu.
-84.2.42.62	allow,BLOCK
-84.2.42.63	allow,BLOCK
-84.2.42.64	allow,BLOCK
-84.2.42.65	allow,BLOCK
-84.2.227.160	allow,BLOCK
 # UPC - *.mx.upcmail.net.
 62.179.121	allow,BLOCK
 # OVH - *.mail-out.ovh.net. *.ovh.net.
@@ -55,8 +70,6 @@
 # MegaCP - www.megacp.com.
 91.82.237.28	allow,BLOCK
 194.38.104.210	allow,BLOCK
-# autoresponder.hu @Silihost - azonnalismtpkuldes.autoresponder.hu.
-80.249.160.208	allow,BLOCK
 # Server4You {df,ft}-ms-l1.BRAND.TLD
 85.25.38.19	allow,BLOCK
 85.25.38.20	allow,BLOCK
@@ -82,20 +95,11 @@
 82.165.36.226	allow,BLOCK
 # dnswl.org - mail.dnswl.org.
 84.200.208.90	allow,BLOCK
-# Debian Security List: bendel.debian.org.
-82.195.75.100	allow,BLOCK
 # Facebook - *.outmail.facebook.com.
 66.220.155	allow,BLOCK
 # WordPress.org
 66.155.40.8	allow,BLOCK
 66.155.40.19	allow,BLOCK
-# Aruba, mx-out.forpsi.com.
-62.149.128.188	allow,BLOCK
-62.149.128.214	allow,BLOCK
-62.149.128.215	allow,BLOCK
-62.149.128.216	allow,BLOCK
-62.149.128.217	allow,BLOCK
-81.2.196.50	allow,BLOCK
 # DotRoll - staffmx.dotroll.com.
 185.33.52.26	allow,BLOCK
 # RU-CENTER NCC - relay1o.nic.ru. relay2o.nic.ru.

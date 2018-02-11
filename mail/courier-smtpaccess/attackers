@@ -3,6 +3,7 @@
 # --- ATTACKERS - deny
 
 # SYSTECH Global 91.82.84.0/23 BIG-mail spammer
+# smtp3.egyediajanlat.hu.
 91.82.84.145	deny
 
 # SERVERFARM 217.113.62.0/24 BIG-mail spammer
@@ -16,7 +17,11 @@
 212.129.57.0	deny
 212.129.58.0	deny
 212.129.61.255	deny
+# IE-POOL-BUSINESS-HOSTING
 62.210.27.233	deny
 
+# HTTP over SMTP ("Broken pipe")
+# UNICOM-HA
+182.118	deny
 # HINET-NET in 220.135.192.0/18 "from=<support@microsoft.com>"
 220.135.220	deny

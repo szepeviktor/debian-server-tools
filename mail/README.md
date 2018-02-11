@@ -432,11 +432,16 @@ OK response: `IP Unlisted in the spam sender list None`
 
 #### ESP Postmaster Site/Feedback loop (FBL)
 
-- [Google Postmaster Tools](https://postmaster.google.com/) `R` [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/)
+- [Google Postmaster Tools](https://postmaster.google.com/) `R`
+  [Gmail Spam FBL](https://www.sparkpost.com/blog/all-you-need-to-know-about-gmail-feedback-loop-offering/)
 - [Yahoo! Postmaster](https://help.yahoo.com/kb/postmaster) `R`
-- [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx) `R` [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/) [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx)
-- [AOL Postmaster](https://postmaster.aol.com/whitelist-request) `R` [IP reputation](https://postmaster.aol.com/ip-reputation)
-- [Yandex Postmaster](https://postoffice.yandex.com/) `R` [Feedback Loop](http://yandexfbl.senderscore.net/)
+- [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx) `R`
+  [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/)
+  [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx)
+- [AOL Postmaster](https://postmaster.aol.com/whitelist-request) `R`
+  [IP reputation](https://postmaster.aol.com/ip-reputation)
+- [Yandex Postmaster](https://postoffice.yandex.com/) `R`
+  [Feedback Loop](http://yandexfbl.senderscore.net/)
 - [mail.ru Postmaster](https://postmaster.mail.ru/)
 - https://poczta.onet.pl/pomoc/en,odblokuj.html
 - http://wiki.wordtothewise.com/ISP_Summary_Information (list)
@@ -474,6 +479,7 @@ OK response: `IP Unlisted in the spam sender list None`
 - http://www.cyren.com/ip-reputation-check.html
 - http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx [lookup](http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4)
 - http://ipremoval.sms.symantec.com/lookup/
+- https://postmaster.aol.com/ip-reputation
 
 #### Threat Centers
 

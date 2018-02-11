@@ -285,6 +285,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 - [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos), [Intro video](http://technomatic.hu/)
 - External URL-s should open in new window :snail:
+- [Contact widget](https://pepper.swat.io/)
 - Newsletter subscribe
 - Offer free download
 - Exit modal or Hijack box: *coupon, free download, blog notification, newsletter* etc.
@@ -404,10 +405,13 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 ### SEO
 
 - `blog_public` and robots.txt :snail:
-- XML sitemaps with link from robots.txt :snail:
+- XML sitemaps linked from robots.txt :snail:
 - Page title (blue in SERP) :snail:
 - Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page)) :snail:
 - Page meta description (grey in SERP) :snail:
+- Keyword planning: [Google suggested searches](https://moz.com/blog/how-googles-search-suggest-instant-works-whiteboard-friday),
+  [Google related searches](https://moz.com/blog/how-google-gives-us-insight-into-searcher-intent-through-the-results-whiteboard-friday),
+  [Google Trends](https://trends.google.com/)
 - Headings: H1, H2 / H3-H6
 - Images: `alt`, `title`
 - Breadcrumbs

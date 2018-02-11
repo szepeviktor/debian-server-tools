@@ -18,6 +18,7 @@
 - https://www.ultratools.com/domainHealthReport
 - http://dnscheck.ripe.net/
 - http://www.domain.hu/domain/regcheck/ (for .hu TLD)
+- https://www.buddyns.com/delegation-lab/
 
 - `http://intodns.com/DOMAIN`
 - `http://www.dnsinspect.com/DOMAIN`
@@ -26,6 +27,7 @@
 - `https://www.ultratools.com/domainHealthReport`
 - `http://dnscheck.ripe.net/`
 - `http://www.domain.hu/domain/regcheck/?dname=DOMAIN` (for .hu TLD)
+- `https://www.buddyns.com/delegation-lab/DOMAIN`
 
 [DNS Hosting Speed](https://www.ultratools.com/tools/dnsHostingSpeed)
 
