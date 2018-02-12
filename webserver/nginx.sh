@@ -4,7 +4,7 @@ NGXC="/etc/nginx"
 
 set -e -x
 
-. debian-setup-functions
+. debian-setup-functions.inc.sh
 
 # Nginx 1.8
 apt-get install -y nginx-lite

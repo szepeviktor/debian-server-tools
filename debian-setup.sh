@@ -111,7 +111,7 @@ test "$(id -u)" == 0
 
 # Common functions
 # shellcheck disable=SC1091
-source debian-setup-functions
+source debian-setup-functions.inc.sh
 
 # Necessary packages
 IS_FUNCTIONAL="yes"

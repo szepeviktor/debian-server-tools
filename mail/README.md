@@ -438,6 +438,7 @@ OK response: `IP Unlisted in the spam sender list None`
 - [Outlook.com by Microsoft](https://mail.live.com/mail/services.aspx) `R`
   [Smart Network Data Service (SNDS)](https://postmaster.live.com/snds/)
   [Junk Email Reporting Program (JMRP)](https://postmaster.live.com/snds/JMRP.aspx)
+  [Office 365 Delisting Service](https://sender.office.com/Delist)
 - [AOL Postmaster](https://postmaster.aol.com/whitelist-request) `R`
   [IP reputation](https://postmaster.aol.com/ip-reputation)
 - [Yandex Postmaster](https://postoffice.yandex.com/) `R`

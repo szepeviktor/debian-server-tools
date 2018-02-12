@@ -1,7 +1,7 @@
 ### pam_motd scripts installation
 
 ```bash
-. debian-setup-functions
+. debian-setup-functions.inc.sh
 debian-setup/libpam-modules
 ```
 

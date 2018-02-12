@@ -2,7 +2,7 @@
 
 set -e -x
 
-. debian-setup-functions
+. debian-setup-functions.inc.sh
 
 # TODO Apache-SSL move out ssl.conf to a file
 # Consider libapache2-mod-qos (testing backport)

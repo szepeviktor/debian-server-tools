@@ -1,3 +1,15 @@
+# Office 365 Delisting Service
+#     host -t TXT spfb.protection.outlook.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|^.*$|&\tallow,BLOCK|'
+#23.103.128.0/19	allow,BLOCK
+#23.103.198.0/23	allow,BLOCK
+#65.55.88.0/24	allow,BLOCK
+104.47.0.0/17	allow,BLOCK
+#23.103.200.0/21	allow,BLOCK
+#23.103.208.0/21	allow,BLOCK
+#23.103.191.0/24	allow,BLOCK
+#216.32.180.0/23	allow,BLOCK
+#94.245.120.64/26	allow,BLOCK
+
 # Outlook.com Outbound IP Space
 #     wget -qO- https://mail.live.com/mail/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | sed -e 's|^.*$|#&\tallow,BLOCK|'
 #65.54.190.0/26	allow,BLOCK

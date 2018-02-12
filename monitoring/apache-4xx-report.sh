@@ -2,7 +2,7 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.3.2
+# VERSION       :1.3.3
 # DATE          :2017-03-05
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -30,7 +30,9 @@ Filter_client_server_error() {
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
-        | grep -v -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$'
+        | grep -v -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$' \
+        | grep -v -E 'GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx).* "Amazon CloudFront"' \
+
 }
 
 Color_html() {

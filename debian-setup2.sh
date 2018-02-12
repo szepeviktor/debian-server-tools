@@ -19,7 +19,7 @@ declare -i CPU_COUNT
 set -e -x
 
 # shellcheck disable=SC1091
-. debian-setup-functions
+. debian-setup-functions.inc.sh
 
 VIRT="$(Data get-value virtualization)"
 export VIRT

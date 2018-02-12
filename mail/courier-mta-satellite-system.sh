@@ -16,7 +16,7 @@
 set -e -x
 
 # shellcheck disable=SC1091
-. debian-setup-functions
+. debian-setup-functions.inc.sh
 
 #################### 'smarthost' configuration ####################
 
