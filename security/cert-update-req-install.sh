@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :cert-update-req-CN-openssl.conf
 # DEPENDS       :cert-update-req-CN.sh
-# DEPENDS       :/usr/local/sbin/cert-update.sh
+# DEPENDS       :/usr/local/sbin/cert-update-req-install.sh
 
 REPO="/usr/local/src/debian-server-tools"
 
@@ -20,8 +20,8 @@ CN="$1"
 test -n "$CN"
 echo "Setting up cert-update-req for ${CN} ..."
 
-sed -e "s/@@CN@@/${CN}/g" "${REPO}/cert-update-req-CN-openssl.conf" > "./cert-update-req-${CN}-openssl.conf"
+sed -e "s/@@CN@@/${CN}/g" "${REPO}/security/cert-update-req-CN-openssl.conf" > "./cert-update-req-${CN}-openssl.conf"
 
-cp -v "${REPO}/cert-update-req-CN.sh" "./cert-update-req-${CN}.sh"
+cp -v "${REPO}/security/cert-update-req-CN.sh" "./cert-update-req-${CN}.sh"
 
 echo "OK."

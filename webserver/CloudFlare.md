@@ -65,6 +65,10 @@ Use a CNAME. May be the CNAME of *another* domain.
 - Don't let browsers send cookies to CDN on a subdomain
 - Add `Host:` to both `robots.txt`-s
 
+### Trace Report
+
+`https://example.com/cdn-cgi/trace`
+
 ### Notes
 
 Log format
