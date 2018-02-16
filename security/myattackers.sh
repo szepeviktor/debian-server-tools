@@ -2,8 +2,8 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.5.11
-# DATE          :2015-12-29
+# VERSION       :0.5.12
+# DATE          :2018-02-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -38,7 +38,7 @@ Without parameters runs cron job to unban expired addresses without traffic.
   -d                    show iptables chain removal commands
   -s                    show active rules
   -p <PROTOCOL>         ban only ports associated with this protocol
-                          (ALL, SMTP, HTTP, SSH), default: ALL
+                          (ALL, SMTP, IMAP, HTTP, SSH), default: ALL
   -t <BANTIME>          ban time (1d, 1m, p[ermanent]),
                           default: 1d
   -l <FILE>             read addresses from a file (one per line)
@@ -320,6 +320,9 @@ case "$PROTOCOL" in
         ;;
     smtp|SMTP)
         PROTOCOL_OPTION="-p tcp -m multiport --dports smtp,submission,smtps"
+        ;;
+    imap|IMAP)
+        PROTOCOL_OPTION="-p tcp -m multiport --dports imap2,imaps"
         ;;
     ssh|SSH)
         PROTOCOL_OPTION="-p tcp --dport ${SSH_PORT}"

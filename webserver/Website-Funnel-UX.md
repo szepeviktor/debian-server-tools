@@ -1,20 +1,21 @@
 # Webhely látogatási folyamat (HU)
 
-### Szempontok
+### Stratégia
 
-1. Ki miért jön? Ki melyik oldalra élrkezik? Kinek mit érdemes ajánlani?
+1. Ki miért jön? Ki melyik oldalra érkezik? Kivel mit érdemes közölni/ajánlani neki?
 1. Honnan jön? organikus, PPC, közösségi, hírlevél, térkép, másik honlap (árgép, netpincér, hírportál)
-1. Mivel foglalkozunk? pozícionáló mondat/szlogen/mottó
+1. Mivel foglalkozunk? pozicionáló mondat/szlogen/mottó
 1. Kampányok megtervezése
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek
-1. Bámészkodók, visszafordulók kezelése
+1. Bámészkodók és visszafordulók kezelése
 1. Visszatérők kezelése
 
 ### Tartalom
 
 Piramis elv (mindent egyszerre megmutatni hiba)
-főoldal → tematikus aloldal → cikk/lexikon  
-Sok információ: szétszórt figyelem &lt;-&gt; Kevés információ: fókusz
+főoldal → tematikus aloldal → cikk/lexikon
+
+Sok információ: szétszórt figyelem ↔ Kevés információ: fókusz
 
    - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
    - CTA (call-to-action) gombok
@@ -22,6 +23,7 @@ Sok információ: szétszórt figyelem &lt;-&gt; Kevés információ: fókusz
      letölthető anyag, beúszó feliratkoztató, kupon/kedvezmény, exit modal, friss hírek, megosztás
    - Zsákutca hiba (Alul hova tovább?)
    - Fölös háttér, belépő oldal, köszönjük oldal, értesítő levél kihasználása
+
 ### Technológia
 
 1. [Tervezés/prototyping](https://www.invisionapp.com/)

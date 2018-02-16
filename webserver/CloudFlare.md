@@ -86,6 +86,12 @@ Just log CF-Connecting-IP header insecurely
 LogFormat "%h %{CF-Connecting-IP}i %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" cloudflare
 ```
 
+Redirection on non-https origin server
+
+```apache
+RewriteCond "%{HTTP:X-Forwarded-Proto}" "!=https" [OR]
+```
+
 ### Security
 
 Restrict access

@@ -142,6 +142,9 @@ hostname -f > /etc/courier/me
 hostname -f > /etc/courier/defaultdomain
 # /etc/courier/dsnfrom is set from debconf
 
+# Allow long log reports
+echo "$((25 * 1024**2))" > /etc/courier/sizelimit
+
 # Aliases
 sed -i -e 's|^postmaster:.*$|postmaster: postmaster@szepe.net\nnobody: postmaster|' /etc/courier/aliases/system
 

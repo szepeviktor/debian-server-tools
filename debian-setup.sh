@@ -65,7 +65,7 @@
 #    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
 #    script --timing=../debian-setup2.time ../debian-setup2.script
 #    ./debian-setup2.sh
-# 9. Set up incoming ESP and bounce notification
+# 9. Set up inbound ESP and bounce notification
 #
 # Tests
 #

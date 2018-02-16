@@ -39,7 +39,7 @@
 
 ### Marketing tools
 
-- https://www.getdrip.com/features
+- https://www.drip.com/features
 - https://www.campaignmonitor.com/
 
 ### Webmail
