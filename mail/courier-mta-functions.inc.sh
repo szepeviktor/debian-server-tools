@@ -65,7 +65,7 @@ Z_dkim_filter()
 
     # Data directory
     # shellcheck disable=SC1091
-##    MAILUSER="$(source /etc/courier/esmtpd; echo "$MAILUSER")"
+    MAILUSER="$(source /etc/courier/esmtpd; echo "$MAILUSER")"
 ##    install -v --owner="$MAILUSER" --group=root -m 700 -d /etc/courier/filters/privs
     install -v --owner=root --group=root -m 700 -d /etc/courier/filters/privs
     mkdir -v /etc/courier/filters/keys
@@ -99,8 +99,9 @@ EOF
         sed -n -e 's/.*"\([^"]\+\)".*/\1/p' "${DKIM_SELECTOR}.txt" | paste -s -d ""
         echo "host -t TXT ${DKIM_SELECTOR}._domainkey.${DKIM_DOMAIN}."
         # Enable key, use domain names
-##        chown -c "${MAILUSER}:root" "${DKIM_SELECTOR}."{private,txt}
-        ln -s -v "../privs/${DKIM_DOMAIN}" ../keys
+        chown -c "root:${MAILUSER}" "${DKIM_SELECTOR}.private"
+        chmod -c 0640 "${DKIM_SELECTOR}.private"
+        ln -s -v "../privs/${DKIM_SELECTOR}.private" "../keys/${DKIM_DOMAIN}"
     )
 
     # Activation

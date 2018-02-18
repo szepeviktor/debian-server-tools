@@ -6,7 +6,7 @@
 # - Invalid envelop sender (MAIL FROM:) BOFHCHECKDNS=0
 
 
-# --- Broken SMTP servers and special cases - allow,BLOCK,BOFHCHECKDNS=0,BOFHCHECKHELO=0
+# Broken SMTP servers and special cases - allow,BLOCK,BOFHCHECKDNS=0,BOFHCHECKHELO=0
 
 # StartCom (no PTR)
 104.192.110.50	allow,BLOCK,BOFHCHECKDNS=0,BOFHCHECKHELO=0
@@ -14,6 +14,12 @@
 # kisgep.hu - mail.phantasy.hu. (spammy transactional emails)
 94.199.181.186	allow,BLOCK
 
-# mail.com - AUTH PLAIN attacker neighbor
+# mail.com - AUTH PLAIN attacker neighbors
 74.208.4.200	allow,BLOCK
 74.208.4.201	allow,BLOCK
+
+# ITS AS28716 - smtp0*.invionewsletter.it - Fly Flot newsletter
+164.138.48.40	allow,BLOCK
+164.138.48.41	allow,BLOCK
+164.138.48.42	allow,BLOCK
+164.138.48.43	allow,BLOCK

@@ -1,6 +1,6 @@
 # /etc/courier/smtpaccess/attackers
 
-# --- ATTACKERS - deny
+# ATTACKERS - deny
 
 # SYSTECH Global 91.82.84.0/23 BIG-mail spammer
 # smtp3.egyediajanlat.hu.

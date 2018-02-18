@@ -2,8 +2,8 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.4.0
-# DATE          :2017-02-10
+# VERSION       :0.5.0
+# DATE          :2018-02-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -18,41 +18,47 @@
 GRUB_CONFIG="/boot/grub/grub.cfg"
 
 if [ "$REBOOT" != 1 ]; then
-    echo "Try  REBOOT=1 reboot $*"
+    echo "Try  REBOOT=1 reboot ${*}" 1>&2
     exit 100
 fi
 
 if [ -f "/extlinux.conf" ] && [ -f "/ldlinux.sys" ]; then
+    # Extlinux
     # shellcheck disable=SC2016
     FIRST_ROOT="$(sed -n -e '0,/^append /s/^.*\sroot=\(\S\+\).*$/\1/p' /extlinux.conf)"
 else
+    # GRUB
     # shellcheck disable=SC2016
     FIRST_ROOT="$(sed -n -e '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
 fi
 
 DISK=""
 
-# Find block device by name
-if [ "${FIRST_ROOT:0:5}" == "/dev/" ]; then
-    DISK="$(realpath "$FIRST_ROOT")"
-fi
+case "${FIRST_ROOT:0:5}" in
+    "/dev/")
+        # Find block device by name
+        DISK="$(realpath --canonicalize-existing "$FIRST_ROOT")"
+        ;;
+    "UUID=")
+        # Find disk by UUID
+        DISK="$(realpath --canonicalize-existing "/dev/disk/by-uuid/${FIRST_ROOT#UUID=}")"
+        ;;
+    *)
+        echo "Root device not found (${FIRST_ROOT})" 1>&2
+        exit 1
+esac
 
-# Find disk by UUID
-if [ "${FIRST_ROOT:0:5}" == "UUID=" ]; then
-    DISK="$(readlink -e "/dev/disk/by-uuid/${FIRST_ROOT#UUID=}")"
-fi
+MOUNTED="$DISK"
 
-# Disk and mounted device differ
-if [ "${FIRST_ROOT:0:12}" == "/dev/mapper/" ]; then
+# Disk and mounted device may differ on LVM
+if [ "${FIRST_ROOT:0:12}" == "/dev/mapper/" ] && grep -q "^${FIRST_ROOT} / " /proc/mounts; then
     MOUNTED="$FIRST_ROOT"
-else
-    MOUNTED="$DISK"
 fi
 
-# Not a mounted block device
-if [ ! -b "$DISK" ] || ! grep -q "^${MOUNTED}\s" /proc/mounts; then
-    echo "Root device not found (${FIRST_ROOT})" 1>&2
-    exit 1
+# Check mounted block device
+if [ ! -b "$DISK" ] || ! grep -q "^${MOUNTED}\\s" /proc/mounts; then
+    echo "Root device is not a block device or not mounted (${FIRST_ROOT})" 1>&2
+    exit 2
 fi
 
 # Stop monit
@@ -70,9 +76,10 @@ fi
 timeout 5 tail -f /var/log/syslog
 
 # Watch processes exit
-while :; do
+while true; do
     clear
     date
     pstree
+
     sleep 0.5
 done

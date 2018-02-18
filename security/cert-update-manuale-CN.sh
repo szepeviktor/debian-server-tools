@@ -30,8 +30,7 @@ manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
 
 Move_challenge_files() {
     local WELL_KNOWN_ACME_CHALLENGE="$1"
-    local N
-    local -i DELAY="0"
+    local SLEEP
 
     if [ ! -d "$WELL_KNOWN_ACME_CHALLENGE" ]; then
         echo "Missing .well-known/acme-challenge directory: '${WELL_KNOWN_ACME_CHALLENGE}'" 1>&2
@@ -39,10 +38,9 @@ Move_challenge_files() {
     fi
 
     # Wait for all challenge files
-    for N in ${CN} ${DOMAIN_NAMES}; do
-        DELAY+="5"
+    for SLEEP in ${CN} ${DOMAIN_NAMES}; do
+        sleep 5
     done
-    sleep "$DELAY"
     echo
 
     find -type f -mmin -3 -regextype posix-egrep -regex '\./[0-9A-Za-z_-]{43}' -print0 \
