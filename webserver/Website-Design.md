@@ -3,16 +3,17 @@
 Egy üzletileg eredményes honlaphoz - ami eltart egy céget - szerintem ezekre van szükség.
 
 - Monitorozott infrastruktúra (nem ez a legfontosabb)
-- Marketing terv, ami illeszkedik az eladandó termékhez és a célközönséghez
-- Megfelelő platformokon (a honlap, Google Kereső, Facebook, hírlevél stb.)
+- Marketing terv, ami illeszkedik a termékhez és a célközönséghez
+- Megfelelő platformokon (honlap, Google Kereső, Facebook, hírlevél stb.)
   megfelelő eszközök alkalmazása, tehát a kampányokat is megtervezzük
-- Ez tulajdonképpen már adja a drótvázat ([wireframe](https://www.canva.com/))
+- Látogatási folyamat (user flow) szimuláció és validálás
+- Ez tulajdonképpen már adja a [drótvázat](https://www.canva.com/hu_hu/)
 
 Innentől a kevésbé kreatív munkafolymatok jönnek.
 
 - Konverzióra ösztönző grafika mindenféle képernyő méretre
-- HTML sitebuild
-- WordPress sablon, tartalom ábrázolás
+- HTML kód készítes (sitebuild)
+- WordPress sablon készítés, tartalom ábrázolás
 - Tartalom feltöltés
 - Ellenőrzés és javítások
 - Követő kódok és mérések beállítása

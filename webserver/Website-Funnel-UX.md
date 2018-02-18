@@ -8,7 +8,7 @@
 1. Kampányok megtervezése
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek
 1. Bámészkodók és visszafordulók kezelése
-1. Visszatérők kezelése
+1. Visszatérő látogatók kezelése
 
 ### Tartalom
 

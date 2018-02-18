@@ -1,36 +1,27 @@
 #
-# SpamAssassin config file: DNS blacklist tests and scores.
+# SpamAssassin config file: Custom DNS blacklist
 #
-# /etc/spamassassin/20_spammer.dnsbl.cf
-#
-###########################################################################
+# COMMENT       :spammer.dnsbl on worker.szepe.net.
+# LOCATION      :/etc/spamassassin/20_spammer.dnsbl.cf
 
 require_version 3.004001
 
-###########################################################################
-
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
-# See: http://commons.oreilly.com/wiki/index.php/SpamAssassin/SpamAssassin_Rules#check_rbl.28_.29
-# and: https://spamassassin.apache.org/full/3.4.x/doc/Mail_SpamAssassin_Conf.html
-
-# ---------------------------------------------------------------------------
-# spammer.dnsbl on worker.szepe.net.
-
 header   __RCVD_IN_BL_SPAMMER eval:check_rbl('spammer', 'spammer.dnsbl.')
-describe __RCVD_IN_BL_SPAMMER SPAMMER: Received via a relay
 tflags   __RCVD_IN_BL_SPAMMER net
+describe __RCVD_IN_BL_SPAMMER SPAMMER: Received via a relay
 
+# Spammer
 header   RCVD_IN_BL_SPAMMER_IS eval:check_rbl_sub('spammer', '127.0.0.1')
-score    RCVD_IN_BL_SPAMMER_IS 10.0
-describe RCVD_IN_BL_SPAMMER_IS SPAMMER: Is a spammer
 tflags   RCVD_IN_BL_SPAMMER_IS net
+describe RCVD_IN_BL_SPAMMER_IS Is a SPAMMER
+score    RCVD_IN_BL_SPAMMER_IS 10.0
 
+# Neighbour of a spammer
 header   RCVD_IN_BL_SPAMMER_NEIGH eval:check_rbl_sub('spammer', '127.0.0.2')
-score    RCVD_IN_BL_SPAMMER_NEIGH 3.0
-describe RCVD_IN_BL_SPAMMER_NEIGH SPAMMER: Neighbour of a spammer
 tflags   RCVD_IN_BL_SPAMMER_NEIGH net
+describe RCVD_IN_BL_SPAMMER_NEIGH Neighbour of a SPAMMER
+score    RCVD_IN_BL_SPAMMER_NEIGH 3.0
 
 endif
-
-# Check: sudo -u daemon -- spamassassin --lint

@@ -1,0 +1,134 @@
+#
+# SpamAssassin config file: local.cf
+#
+# MAN           :man Mail::SpamAssassin::Conf
+# LOCATION      :/etc/spamassassin/local.cf
+#
+# This is the right place to customize your installation of SpamAssassin.
+#
+# See 'perldoc Mail::SpamAssassin::Conf' for details of what can be
+# tweaked.
+#
+# Only a small subset of options are listed below
+#
+###########################################################################
+
+#   Add *****SPAM***** to the Subject header of spam e-mails
+#
+# rewrite_header Subject *****SPAM*****
+
+
+#   Save spam messages as a message/rfc822 MIME attachment instead of
+#   modifying the original message (0: off, 2: use text/plain instead)
+#
+# report_safe 1
+
+
+#   Set which networks or hosts are considered 'trusted' by your mail
+#   server (i.e. not spammers)
+#
+# trusted_networks 212.17.35.
+
+
+#   Set file-locking method (flock is not safe over NFS, but is faster)
+#
+# lock_method flock
+
+
+#   Set the threshold at which a message is considered spam (default: 5.0)
+#
+# required_score 5.0
+
+
+#   Use Bayesian classifier (default: 1)
+#
+# use_bayes 1
+
+
+#   Bayesian classifier auto-learning (default: 1)
+#
+# bayes_auto_learn 1
+
+
+#   Set headers which may provide inappropriate cues to the Bayesian
+#   classifier
+#
+# bayes_ignore_header X-Bogosity
+# bayes_ignore_header X-Spam-Flag
+# bayes_ignore_header X-Spam-Status
+
+
+#   Whether to decode non- UTF-8 and non-ASCII textual parts and recode
+#   them to UTF-8 before the text is given over to rules processing.
+#
+# normalize_charset 1
+
+#   Some shortcircuiting, if the plugin is enabled
+# 
+ifplugin Mail::SpamAssassin::Plugin::Shortcircuit
+#
+#   default: strongly-whitelisted mails are *really* whitelisted now, if the
+#   shortcircuiting plugin is active, causing early exit to save CPU load.
+#   Uncomment to turn this on
+#
+shortcircuit USER_IN_WHITELIST       on
+# shortcircuit USER_IN_DEF_WHITELIST   on
+# shortcircuit USER_IN_ALL_SPAM_TO     on
+# shortcircuit SUBJECT_IN_WHITELIST    on
+
+#   the opposite; blacklisted mails can also save CPU
+#
+shortcircuit USER_IN_BLACKLIST       on
+# shortcircuit USER_IN_BLACKLIST_TO    on
+# shortcircuit SUBJECT_IN_BLACKLIST    on
+
+#   if you have taken the time to correctly specify your "trusted_networks",
+#   this is another good way to save CPU
+#
+shortcircuit ALL_TRUSTED             on
+
+#   and a well-trained bayes DB can save running rules, too
+#
+# shortcircuit BAYES_99                spam
+# shortcircuit BAYES_00                ham
+
+endif # Mail::SpamAssassin::Plugin::Shortcircuit
+
+# General
+report_contact          postmaster@szepe.net
+# worker
+# multi.uribl.com does not work with public/high traffic resolvers
+dns_server              81.2.236.171
+trusted_networks        81.2.236.171
+# Explicitly enable network checks
+#     man Mail::SpamAssassin::Plugin::Pyzor
+skip_rbl_checks         0
+
+# Pyzor
+use_razor2              0
+use_pyzor               1
+pyzor_timeout           20
+
+# Blacklists
+blacklist_from          *@mindenaneten.hu
+blacklist_from          *@mmofromhome.co.uk
+blacklist_from          *@setfreelife.com
+# Spamtrap
+whitelist_to            spamtrap@szepe.net
+# No Chinese locale (zh)
+# all = en ja ko ru th zh
+ok_locales              en ja ko ru th
+
+# Whitelists
+#whitelist_from          user@example.com user2@example.com
+#whitelist_to            user@example.com
+#whitelist_from_rcvd     user@example.com mail.example.com
+
+# Scores
+#score RDNS_NONE                         3.00
+score RDNS_DYNAMIC                      2.00
+score DYN_RDNS_AND_INLINE_IMAGE         3.00
+score DNS_FROM_RFC_BOGUSMX              4.00
+score T_DKIM_INVALID                    1.00
+score SPF_HELO_FAIL                     2.00
+score FM_FAKE_HELO_HOTMAIL              2.00

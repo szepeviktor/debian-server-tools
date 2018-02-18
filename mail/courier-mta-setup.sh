@@ -32,32 +32,6 @@
 
 exit 0
 
-# Functions()
-| Courier MTA
-cert-update.sh
-monit/
-| Inbound: foreign,
-| satellite,
-| authenticated
-| filters
-courier-pythonfilter + custom modules + spamassassin: bayes_* files (ENABLED=1;CRON=1)
- + pyzor `u pyzor --homedir=/home/horde/.pyzor discover`, PHP runs it, Spamassassin runs it
-   `/usr/bin/spamc -L ham -C revoke` -> only SA runs it ???
-   https://wiki.apache.org/spamassassin/UsingPyzor
-   --allow-tell
-zdkimfilter
-| Outbound: foreign,
-| smarthost,
-| provider
-| Local: sendmail/TCP, DSN
-|                                Mailbox
-| Fetchmail: remote mailbox
-fetchmailrc
-|      IMAP
-gamin
-|                    SRS: remote mailbox
-libsrs + couriersrs
-
 # Fix perms
 chmod 0640 /etc/courier/esmtpauthclient
 
@@ -143,71 +117,6 @@ service courier-authdaemon restart
 # http://www.courier-mta.org/queue.html
 editor /etc/courier/module.esmtp
 
-# Spamassassin
-#     http://svn.apache.org/repos/asf/spamassassin/trunk/
-editor /etc/default/spamassassin
-# man spamd
-#    OPTIONS="--create-prefs --max-children 2 --helper-home-dir --ipv4 --allow-tell --username=virtual --groupname=virtual --nouser-config --virtual-config-dir=/var/mail/.spamassassin"
-
-# whitelist_to spamtrap@domain.tld
-# Disable uribl.com checks
-score URIBL_BLACK 0
-score URIBL_RED 0
-score URIBL_GREY 0
-score URIBL_BLOCKED 0
-
-# For DKIM check and Pyzor
-apt-get install -y pyzor libmail-dkim-perl
-
-## Compile rules for Spamassassin 3.4.0
-mkdir -p /var/lib/spamassassin/compiled && chmod -R go-w,go+rX /var/lib/spamassassin/
-# Patch for being quiet
-(
-    cd /etc/cron.hourly/
-    patch -p0 < /mail/spamassassin340.patch
-)
-
-editor /etc/courier/smtpaccess/default
-# :::1	allow,RELAYCLIENT
-
-# Document: message way SMTP, courier C, courier filters (spamassassin, pyzor), aliases, .courier
-
-# @TODO Where to whitelist: courier domain,IP; sa domain; dnsbl known_hosts;
-#       What: own IP, servers, (smtp.timeweb.ru), broken SMTP servers
-#             providers (ISP, bank, shared hosting, VPS, server, DNS, Incapsula/CloudFlare/StackPath)
-#             subscriptions, account (ifttt, linkedin, hubiC)
-#             freemail?? (gmail, freemail, citromail, indamail)
-
-editor /etc/spamassassin/local.cf
-# host -t A worker.szepe.net
-dns_server              81.2.236.171
-
-# 20_spammer.dnsbl.cf
-# 20_dangerous.dnsbl.cf
-    ####  1   - Dangerous network
-    ####  128 - Blocked network
-
-# MISSING_MID monitoring cron job
-
-# maildrop: https://help.ubuntu.com/community/MailServerCourierSpamAssassin
-
-# Custom scores
-score RDNS_NONE                  3.0 -> spamassassin3.py rejects
-score RDNS_DYNAMIC               2.0
-score DYN_RDNS_AND_INLINE_IMAGE  3.0
-score DNS_FROM_RFC_BOGUSMX       4.0
-
-score SPF_HELO_FAIL              2.0
-score FM_FAKE_HELO_HOTMAIL       2.0
-
-score T_DKIM_INVALID             1.0
-
-
-whitelist_from *@domain.tld
-
-whitelist_to spamtrap@szepe.net
-#whitelist_to other.spamtrap@domain.tld
-
 # Monitoring
 #
 # - MAIL_RECEPTION='courieresmtpd: error.*534 SIZE=Message too big\|courieresmtpd: error.*523 Message length .* exceeds administrative limit'
@@ -216,35 +125,6 @@ whitelist_to spamtrap@szepe.net
 # - weekly: grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554"
 # - yearly: archive inbox and sent folders
 # - monthly: top10-mailfolders.sh
-
-# DNSBL (Spamassassin configuration)
-
-# ?junkemailfilter?.cf
-
-# http://wiki.junkemailfilter.com/index.php/Spam_DNS_Lists#Spam_Assassin_Examples
-ifplugin Mail::SpamAssassin::Plugin::DNSEval
-
-header __RCVD_IN_HOSTKARMA eval:check_rbl('HOSTKARMA-lastexternal','hostkarma.junkemailfilter.com.')
-describe __RCVD_IN_HOSTKARMA Sender listed in JunkEmailFilter
-tflags __RCVD_IN_HOSTKARMA net
-
-header RCVD_IN_HOSTKARMA_W eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.1')
-describe RCVD_IN_HOSTKARMA_W Sender listed in HOSTKARMA-WHITE
-tflags RCVD_IN_HOSTKARMA_W net nice
-
-header RCVD_IN_HOSTKARMA_BL eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.2')
-describe RCVD_IN_HOSTKARMA_BL Sender listed in HOSTKARMA-BLACK
-tflags RCVD_IN_HOSTKARMA_BL net
-
-header RCVD_IN_HOSTKARMA_BR eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.4')
-describe RCVD_IN_HOSTKARMA_BR Sender listed in HOSTKARMA-BROWN
-tflags RCVD_IN_HOSTKARMA_BR net
-
-score RCVD_IN_HOSTKARMA_W -5
-score RCVD_IN_HOSTKARMA_BL 3.0
-score RCVD_IN_HOSTKARMA_BR 1.0
-
-endif
 
 # @TODO add-domain.sh
 info@%DOMAIN%:        admin@%DOMAIN%

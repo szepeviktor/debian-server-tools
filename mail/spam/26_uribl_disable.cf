@@ -1,0 +1,5 @@
+# Disable uribl.com checks
+score URIBL_BLACK                       0
+score URIBL_RED                         0
+score URIBL_GREY                        0
+score URIBL_BLOCKED                     0

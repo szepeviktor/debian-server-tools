@@ -101,6 +101,8 @@ Add `hordeadmin` IMAP user.
 
 Copy `/mail/horde/*` files.
 
+Copy logrotate configuration.
+
 Update page title: `msgfmt -o locale/en/LC_MESSAGES/horde.mo locale/en/LC_MESSAGES/horde.po`
 
 ### Setup account defaults

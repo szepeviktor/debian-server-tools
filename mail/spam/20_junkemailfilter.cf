@@ -1,0 +1,30 @@
+#
+# SpamAssassin config file: Junk Email Filter - Hosted spam filtering and virus blocking service
+#
+# DOCS          :http://wiki.junkemailfilter.com/index.php/Spam_DNS_Lists#Spam_Assassin_Examples
+# LOCATION      :/etc/spamassassin/20_junkemailfilter.cf
+
+require_version 3.004000
+
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+header   __RCVD_IN_HOSTKARMA eval:check_rbl('HOSTKARMA-lastexternal','hostkarma.junkemailfilter.com.')
+describe __RCVD_IN_HOSTKARMA Sender listed in JunkEmailFilter
+tflags   __RCVD_IN_HOSTKARMA net
+
+header   RCVD_IN_HOSTKARMA_W eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.1')
+describe RCVD_IN_HOSTKARMA_W Sender listed in HOSTKARMA-WHITE
+tflags   RCVD_IN_HOSTKARMA_W net nice
+score    RCVD_IN_HOSTKARMA_W -5.00
+
+header   RCVD_IN_HOSTKARMA_BL eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.2')
+describe RCVD_IN_HOSTKARMA_BL Sender listed in HOSTKARMA-BLACK
+tflags   RCVD_IN_HOSTKARMA_BL net
+score    RCVD_IN_HOSTKARMA_BL 3.00
+
+header   RCVD_IN_HOSTKARMA_BR eval:check_rbl_sub('HOSTKARMA-lastexternal', '127.0.0.4')
+describe RCVD_IN_HOSTKARMA_BR Sender listed in HOSTKARMA-BROWN
+tflags   RCVD_IN_HOSTKARMA_BR net
+score    RCVD_IN_HOSTKARMA_BR 1.00
+
+endif

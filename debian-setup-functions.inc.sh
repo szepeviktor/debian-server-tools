@@ -1,5 +1,7 @@
 # shellcheck shell=bash
+#
 # Common functions for debian-setup
+#
 
 Error() {
     echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)${*}$(tput sgr0)" 1>&2
@@ -32,13 +34,13 @@ Getpkg() {
     local PKG_PAGE="https://packages.debian.org/${R}/all/${P}/download"
     local URL
 
-    URL="$(wget -q -O- "$PKG_PAGE" | grep -o '[^"]\+ftp.de.debian.org/debian[^"]\+\.deb')"
+    URL="$(wget -q -O- "$PKG_PAGE" | grep -o '[^"]\+ftp\.de\.debian\.org/debian[^"]\+\.deb')"
 
-    [ -z "$URL" ] && return 1
+    test -z "$URL" && return 1
 
     (
         cd /root/dist-mod/ || return 1
-        wget -q -O "${P}.deb" "$URL"
+        wget -nv -O "${P}.deb" "$URL"
         dpkg -i "${P}.deb"
     )
 }
@@ -48,7 +50,7 @@ export -f Getpkg
 Dinstall() {
     (
         cd /usr/local/src/ || return 1
-        if ! [ -d "debian-server-tools" ]; then
+        if [ ! -d "debian-server-tools" ]; then
             git clone https://github.com/szepeviktor/debian-server-tools.git
         fi
         cd debian-server-tools/ || return 1

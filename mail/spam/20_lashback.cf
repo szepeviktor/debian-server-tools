@@ -1,10 +1,8 @@
 #
 # SpamAssassin config file: The LashBack UBL - The Unsubscribe Blacklist
 #
-# DOCS            :http://blacklist.lashback.com/
-# LOCATION        :/etc/spamassassin/20_lashback.cf
-#
-###########################################################################
+# DOCS          :http://blacklist.lashback.com/
+# LOCATION      :/etc/spamassassin/20_lashback.cf
 
 require_version 3.004000
 

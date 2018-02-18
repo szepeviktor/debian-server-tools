@@ -17,20 +17,17 @@ $servers['imap'] = array(
             'unit' => 'MB',
         ),
     ),
+    // 'debug' => '/home/horde/website/log/horde-debug.log',
     'spam' => array(
          'innocent' => array(
              'display' => true,
-             // 'program' => '/usr/bin/spamc -L ham',
-             // 'program' => '/usr/local/bin/multi-stdout.sh "/usr/bin/spamc -L ham" "/usr/bin/pyzor --homedir=/home/horde/.pyzor whitelist"',
-             // Learn and report
-             'program' => '/usr/bin/spamc -L ham -C revoke',
+             // Revoke and also unlearn
+             'program' => '/usr/bin/spamc --reporttype=revoke --max-size=1048576',
          ),
          'spam' => array(
              'display' => false,
-             // 'program' => '/usr/bin/spamc -L spam',
-             // 'program' => '/usr/local/bin/multi-stdout.sh "/usr/bin/spamc -L spam" "/usr/bin/pyzor --homedir=/home/horde/.pyzor report"',
-             // Learn and report
-             'program' => '/usr/bin/spamc -L spam -C report',
+             // Report and also learn
+             'program' => '/usr/bin/spamc --reporttype=report --max-size=1048576',
          ),
     ),
 );

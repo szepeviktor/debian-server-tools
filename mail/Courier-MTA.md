@@ -11,15 +11,15 @@
 ### Message processing order on reception
 
 1. SMTP communication
-1. `NOADD*=`, `opt MIME=none`
-1. filters
+1. `NOADD*=`
+1. Filters
 1. `DEFAULTDELIVERY=`
 
 ### SSL settings
 
 Courier support `ECDHE-*` over `TLSv1.2` with OpenSSL from version 0.74.0 up.
 
-Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even older systems only SSL3.
+Many mail servers (with OpenSSL before version 1.0.1) support only `TLSv1`, even older systems only `SSLv3`.
 
 - Inbound foreign: Mozilla SSL Intermediate
 - Inbound satellite and authenticated: Mozilla SSL **Modern**
@@ -31,15 +31,14 @@ Many mail servers (with OpenSSL before version 1.0.1) support only TLSv1, even o
 
 ### Inbound (foreign)
 
-- SSL settings
 - `bofh`
 - `BLACKLISTS="-block=bl.blocklist.de"`
-- Courier pythonfilter (attachments)
+- Courier pythonfilter (+attachments module)
 - Custom *Courier pythonfilter* modules
-- Spamassassin + Pyzor
+- Spamassassin
 - ClamAV
 - BIG-mail spammers
-- spamtrap@
+- `spamtrap@example.com`
 - Kitchen sink
 - AUTH attackers, Fail2ban
 - Tarbaby fake MX
