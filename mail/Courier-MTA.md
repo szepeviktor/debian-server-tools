@@ -36,7 +36,7 @@ Many mail servers (with OpenSSL before version 1.0.1) support only `TLSv1`, even
 - Courier pythonfilter (+attachments module)
 - Custom *Courier pythonfilter* modules
 - Spamassassin
-- ClamAV
+- ClamAV, SpamAssassin AntiVirus plugin
 - BIG-mail spammers
 - `spamtrap@example.com`
 - Kitchen sink
@@ -47,8 +47,8 @@ Many mail servers (with OpenSSL before version 1.0.1) support only `TLSv1`, even
 
 - Incoming forwarded mail
 - Aliases (system users)
-- Bounce from managed servers as virtual domain
-- `esmtpacceptmailfor` + `locals` + `hosteddomains`
+- Bounce from managed servers as virtual domains
+- `esmtpacceptmailfor` + `locals` or `hosteddomains` or only virtual domain
 - SMTP AUTH methods
 - Accounts (userdb, `.courier` files)
 
@@ -63,8 +63,8 @@ Many mail servers (with OpenSSL before version 1.0.1) support only `TLSv1`, even
 - Queue and delivery settings (`queuetime`, `queuelo`, `respawnlo`, `sizelimit`)
 - SSL settings
 - DSN-s
-- DKIM (ZDKIM Filter)
-- Sender Rewriting Scheme (Courier-SRS)
+- DKIM ("z" DKIM filter)
+- Sender Rewriting Scheme (Courier SRS)
 
 ##### `esmtproutes`
 
@@ -85,7 +85,7 @@ Many mail servers (with OpenSSL before version 1.0.1) support only `TLSv1`, even
 - Init scripts
 - IMAP
 - Fetchmail
-- Webmail (Horde)
+- Horde webmail
 - Monitoring, feedback loops, whitelists, RBL checkers
-- SPF
+- SPF and DMARC
 - Can-send-email

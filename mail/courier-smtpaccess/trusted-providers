@@ -11,6 +11,8 @@
 216.105.38.0/26	allow,BLOCK
 # Debian Security List - bendel.debian.org.
 82.195.75.100	allow,BLOCK
+# Horde - lists.horde.org.
+188.227.186.61	allow,BLOCK
 
 # Hosting (HU)
 # ISZT - aramis.iszt.hu.

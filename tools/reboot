@@ -46,6 +46,7 @@ case "${FIRST_ROOT:0:5}" in
     *)
         echo "Root device not found (${FIRST_ROOT})" 1>&2
         exit 1
+        ;;
 esac
 
 MOUNTED="$DISK"
