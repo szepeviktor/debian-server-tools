@@ -283,6 +283,9 @@ wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --ac
 ## Autoptimize - CONFLICTS with resource-versioning
 ##     define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
 #wp plugin install autoptimize --activate
+
+#https://github.com/optimalisatie/above-the-fold-optimization
+#https://github.com/o10n-x
 ```
 
 Set up CDN.

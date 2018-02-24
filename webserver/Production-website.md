@@ -478,7 +478,7 @@ Document in `hosting.yml` and check functionality.
 - Widgets
 - Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
 - Advertisement
-- Live chat
+- [Live chat](https://www.drift.com/product-tour/)
 - Newsletter subscription
 - Payment gateway
 - CDN

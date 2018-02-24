@@ -2,8 +2,8 @@
 #
 # Check certificate expiry.
 #
-# VERSION       :0.5.5
-# DATE          :2016-06-19
+# VERSION       :0.5.6
+# DATE          :2018-02-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -70,10 +70,9 @@ for HOST_PORT in "${CERT_EXPIRY_REMOTES[@]}"; do
     # Set file name for expiry reporting
     CERT_EXPIRY_TMP="$(mktemp "/tmp/${HOST_PORT%%:*}-XXXXX")"
 
-    openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
+    if openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
         -connect "$HOST_PORT" -servername "${HOST_PORT%%:*}" \
-        < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null
-    if [ $? == 0 ]; then
+        < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null; then
         Check_cert "$CERT_EXPIRY_TMP"
     else
         echo "Certificate check error for ${HOST_PORT}" 1>&2
