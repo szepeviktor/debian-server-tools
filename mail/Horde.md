@@ -97,13 +97,15 @@ $conf[user][verify_from_addr] = true;
 
 Add `hordeadmin` IMAP user.
 
-@TODO      php-env-check.php from /test.php
+@TODO php-env-check.php from Horde's `/test.php`
 
 Copy `/mail/horde/*` files.
 
 Copy logrotate configuration.
 
 Update page title: `msgfmt -o locale/en/LC_MESSAGES/horde.mo locale/en/LC_MESSAGES/horde.po`
+
+Log reporter: `./install.sh mail/horde/_bin/horde-report.sh`
 
 ### Setup account defaults
 
