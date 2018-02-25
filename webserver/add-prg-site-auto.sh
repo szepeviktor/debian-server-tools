@@ -75,7 +75,7 @@ cp webserver/ocp.php ${PRG_ROOT}/
 # APC/APCu ontrol panel
 # apc.php from APC trunk for PHP 5.4-
 #     php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
-#         && wget -nv -O${TOOLS_DOCUMENT_ROOT}/apc.php "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
+#         && wget -nv -O${PRG_ROOT}/apc.php "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
 # apc.php from APCu master for PHP 5.5+
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -nv -O ${PRG_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/master/apc.php"

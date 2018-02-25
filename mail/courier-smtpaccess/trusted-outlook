@@ -1,5 +1,5 @@
 # Office 365 Delisting Service
-#     host -t TXT spfb.protection.outlook.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|^.*$|&\tallow,BLOCK|'
+#     host -t TXT spfb.protection.outlook.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|$|\tallow,BLOCK|'
 #23.103.128.0/19	allow,BLOCK
 #23.103.198.0/23	allow,BLOCK
 #65.55.88.0/24	allow,BLOCK

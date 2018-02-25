@@ -2,7 +2,7 @@
 #
 # Draws a line as long as the execution time in miliseconds.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2015-07-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -40,7 +40,7 @@ DOT="${MSEC_DOT:--}"
 MAX_COLUMN="$(($(tput cols) - 4))"
 PREV_VALUE="N/A"
 
-while :; do
+while true; do
     # Format: "0.123"
     WALLTIME="$(TIMEFORMAT="%3R" bash -c -- "time \"\$@\" &> /dev/null" time "$@" 2>&1)"
     MSEC="$(echo "${WALLTIME} * 1000 / 1" | bc)"
@@ -61,14 +61,16 @@ while :; do
     fi
 
     if [ -z "$MSEC_PERC" ]; then
-        printf "%4d%s\n" "$MSEC" "$TIMELINE"
+        printf '%4d%s\n' "$MSEC" "$TIMELINE"
     else
         if [ "$PREV_VALUE" == N/A ]; then
             PREV_VALUE="$MSEC"
         fi
-        printf "%3d%%%s\n" "$(echo "(${MSEC} * 100 / ${PREV_VALUE} - 100) / 1" | bc)" "$TIMELINE"
+        printf '%3d%%%s\n' "$(echo "(${MSEC} * 100 / ${PREV_VALUE} - 100) / 1" | bc)" "$TIMELINE"
         PREV_VALUE="$MSEC"
     fi
 
-    [ "$DELAY" == 0 ] || sleep "$DELAY"
+    if [ "$DELAY" != 0 ]; then
+        sleep "$DELAY"
+    fi
 done

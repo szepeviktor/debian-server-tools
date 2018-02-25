@@ -1,6 +1,6 @@
 # Mailgun by Rackspace
-#     host -t TXT spf1.mailgun.org. | grep -Eo "[0-9/.]{7,}" | sed -e 's|^.*$|&\tallow,BLOCK|'
-#     host -t TXT spf2.mailgun.org. | grep -Eo "[0-9/.]{7,}" | sed -e 's|^.*$|&\tallow,BLOCK|'
+#     host -t TXT spf1.mailgun.org. | grep -Eo "[0-9/.]{7,}" | sed -e 's|$|\tallow,BLOCK|'
+#     host -t TXT spf2.mailgun.org. | grep -Eo "[0-9/.]{7,}" | sed -e 's|$|\tallow,BLOCK|'
 173.193.210.32/27	allow,BLOCK
 50.23.218.192/27	allow,BLOCK
 174.37.226.64/27	allow,BLOCK

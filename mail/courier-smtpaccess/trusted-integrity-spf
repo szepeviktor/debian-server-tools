@@ -1,5 +1,5 @@
 # Integrity
-#     host -t TXT _spf.integrity.hu. | grep -Eo "[0-9/.]{7,}" | sed -e 's|^.*$|&\tallow,BLOCK|'
+#     host -t TXT _spf.integrity.hu. | grep -Eo "[0-9/.]{7,}" | sed -e 's|$|\tallow,BLOCK|'
 212.52.165.211	allow,BLOCK
 212.52.165.212/30	allow,BLOCK
 212.52.165.216/30	allow,BLOCK

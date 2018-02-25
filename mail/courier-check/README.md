@@ -16,4 +16,6 @@ Almost Mozilla SSL **Intermediate** profile.
 TLS_PRIORITY="NONE:+CHACHA20-POLY1305:+AES-128-GCM:+AES-256-GCM:+AES-128-CBC:+AES-256-CBC:+3DES-CBC:+ECDHE-ECDSA:+ECDHE-RSA:+DHE-RSA:+RSA:+SHA256:+SHA384:+AEAD:+SHA1:+COMP-NULL:+VERS-TLS-ALL:+SIGN-ALL:+CURVE-SECP384R1:+CTYPE-X509"
 ```
 
+Test: `gnutls-cli --priority="$TLS_PRIORITY" --list`
+
 See https://www.gnutls.org/manual/gnutls.html#Priority-Strings
