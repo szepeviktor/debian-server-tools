@@ -84,3 +84,4 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 - Set up CI
 - Write deploy script
 - Notifications (email, chat, SMS)
+- **Development (who has access, where to develop, how to deploy)**

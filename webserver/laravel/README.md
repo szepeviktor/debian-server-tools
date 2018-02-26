@@ -4,9 +4,15 @@ Laravel upgrade: https://laravelshift.com/
 
 ### Caches
 
-- Compiled classes /bootstrap/cache/compiled.php
-- Compiled services /bootstrap/cache/services.php
-- Application cache (CACHE_DRIVER)
-- Configuration cache /bootstrap/cache/config.php
-- Routes cache /bootstrap/cache/routes.php
-- Blade templates cache /storage/framework/views/*.php
+- Compiled classes `/bootstrap/cache/compiled.php`
+  [removed in 5.4](https://github.com/laravel/framework/commit/09964cc8c04674ec710af02794f774308a5c92ca#diff-427cac03b212e5fd24785d55149d3aea)
+- Services `/bootstrap/cache/services.php` - flushed in composer script `post-autoload-dump`
+- Discovered packages `/bootstrap/cache/packages.php` - flushed in composer script `post-autoload-dump`
+- Configuration cache `/bootstrap/cache/config.php` - flushed by `artisan config:clear`
+- Routes cache `/bootstrap/cache/routes.php` - flushed by `artisan route:clear`
+- Application cache (`CACHE_DRIVER`) - flushed by `artisan cache:clear`
+- Blade templates cache `/storage/framework/views/*.php` - flushed by `artisan view:clear`
+
+See `/vendor/laravel/framework/src/Illuminate/Foundation/Application.php`
+
+Caching depends on `APP_ENV` variable.

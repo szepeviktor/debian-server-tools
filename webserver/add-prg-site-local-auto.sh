@@ -8,6 +8,8 @@
 # DEPENDS       :/usr/local/sbin/apache-resolve-hostnames.sh
 # DEPENDS       :/usr/local/sbin/webrestart.sh
 
+DOMAIN="prg.local"
+
 set -e
 
 # Check debian-server-tools

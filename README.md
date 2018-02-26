@@ -46,10 +46,11 @@ S="${HOME}/.ssh";mkdir --mode 0700 "$S";editor "${S}/authorized_keys"
 ssh-keygen -v -l -f "${S}/authorized_keys"
 ```
 
-Parameters
+`authorized_keys` parameters:
 
 ```
-no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="echo 'Please login as the user \"debian\" rather than the user \"root\".';echo;sleep 10" ssh-rsa AAAA...
+# restrict == no-port-forwarding,no-agent-forwarding,no-X11-forwarding,no-pty,no-user-rc
+restrict,command="echo 'Please login as the user \"debian\" rather than the user \"root\".';echo;sleep 10" ssh-rsa AAAA...
 ```
 
 ### Install a user's SSH key
