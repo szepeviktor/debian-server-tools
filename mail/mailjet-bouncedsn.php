@@ -16,7 +16,7 @@ namespace Mailjet;
  */
 class BounceDsn {
 
-    const VERSION = '0.1.1';
+    const VERSION = '0.1.2';
 
     private $event;
 
@@ -76,8 +76,8 @@ Diagnostic-Code: smtp; %s/%s
             return false;
         }
 
-        if ( defined( 'MJ_LOG_FILE' ) && MJ_LOG_FILE ) {
-            file_put_contents( MJ_LOG_FILE,  $log_entry . "\n", FILE_APPEND );
+        if ( defined( 'MJ_LOG_FILE' ) && is_string( MJ_LOG_FILE ) ) {
+            file_put_contents( MJ_LOG_FILE, $log_entry . "\n", FILE_APPEND | LOCK_EX );
         } else {
             error_log( 'Mailjet Event: ' . $log_entry );
         }
@@ -98,7 +98,7 @@ Diagnostic-Code: smtp; %s/%s
         // Bounce message
         $bounce_msg = '';
         if ( 'bounce' === $this->event->event ) {
-            $bounce_msg = sprintf( '%s bouce: %s',
+            $bounce_msg = sprintf( '%s bounce: %s',
                 ( 1 == $this->event->hard_bounce ) ? 'hard' : 'soft',
                 $this->event->error
             );
@@ -117,12 +117,12 @@ Diagnostic-Code: smtp; %s/%s
 
     private function send_mail( $from, $to ) {
 
-        $mail = new \PHPMailer;
+        $mail          = new \PHPMailer();
         $mail->XMailer = 'Mailjet Bounce Notification ' . self::VERSION;
 
         $mail->setFrom( $from, 'Mailjet Bounce Notification' );
-        $mail->Subject = 'Delivery Status Notification (Failure)';
         $mail->addAddress( $to );
+        $mail->Subject = 'Delivery Status Notification (Failure)';
 
         $mail->ContentType = 'multipart/report; report-type=delivery-status; boundary="=_mailjet_bounce_0"';
         // @FIXME Add X-Mailjet-Campaign if $this->event->customcampaign

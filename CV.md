@@ -9,7 +9,7 @@ DevOps can be seen as the foundation of my work,
 which focuses on **proactive** maintenance of
 [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).
 This&nbsp;includes comprehensive understanding of the application,
-continuous integration (CI) and automated deployment (CD).
+continuous integration ([CI](/webserver/Continuous-integration-Continuous-delivery.md)) and automated deployment (CD).
 
 My knowledge of these technologies,
 and experience in implementing them in production environments
@@ -54,7 +54,8 @@ Contact me: viktor@szepe.net
 A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.  
 [Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
 **proaktív** üzemeltetésével foglalkozok, ami magában foglalja az applikáció vizsgálatát,
-a folyamatos integrációs teszteket (CI) és automatizált telepítést (deploy, CD).
+a folyamatos integrációs teszteket ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
+és automatizált telepítést (deploy, CD).
 A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
