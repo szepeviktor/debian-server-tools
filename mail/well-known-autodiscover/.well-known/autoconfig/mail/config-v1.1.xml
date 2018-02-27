@@ -6,7 +6,7 @@
     <emailProvider id="szepe.net">
       <domain>@@DOMAIN@@</domain>
 
-      <displayName>szepe.net email</displayName>
+      <displayName>szepenet email</displayName>
       <displayShortName>szepenet</displayShortName>
 
       <incomingServer type="imap">

@@ -9,7 +9,7 @@ DevOps can be seen as the foundation of my work,
 which focuses on **proactive** maintenance of
 [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).
 This&nbsp;includes comprehensive understanding of the application,
-continuous integration ([CI](/webserver/Continuous-integration-Continuous-delivery.md)) and automated deployment (CD).
+continuous integration (CI) and automated deployment (CD).
 
 My knowledge of these technologies,
 and experience in implementing them in production environments
@@ -30,7 +30,7 @@ then we should talk!
 - Regular log analysis
 - Intelligent and encrypted backup to a highly durable storage provider
 
-* Design and implementation of continuous integration (CI)
+* Design and implementation of [continuous integration](/webserver/Continuous-integration-Continuous-delivery.md) (CI)
 * Automated and monitored application deployment (CD)
 * **Reporting issues** to developers
 * Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
@@ -54,7 +54,7 @@ Contact me: viktor@szepe.net
 A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.  
 [Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
 **proaktív** üzemeltetésével foglalkozok, ami magában foglalja az applikáció vizsgálatát,
-a folyamatos integrációs teszteket ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
+a folyamatos integrációs teszteket (CI)
 és automatizált telepítést (deploy, CD).
 A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
@@ -73,7 +73,7 @@ Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és
 - Napló kivonatok rendszeres elemzése
 - Intelligens és titkosított biztonsági mentés nagy adatsérülés-tűrésű szolgáltatóhoz
 
-* Folyamatos integráció (CI) megtervezés és kivitelezés
+* [Folyamatos integráció](/webserver/Continuous-integration-Continuous-delivery.md) (CI) megtervezés és kivitelezés
 * Applikáció telepítés (deploy, CD) automatizálás és ellenőrzés
 * **Hibajegy nyitás** a fejlesztők felé
 * Monitorozó programok, **teljesítmény növelő és biztonsági** [eszközök fejlesztése](https://github.com/szepeviktor/)

@@ -255,14 +255,14 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 - https://www.unlocktheinbox.com/resources/identifieralignments/
 - http://www.openspf.org/Related_Solutions
 
-#### SPF (HELO, MAIL FROM:)
+#### SPF (SMTP HELO, MAIL FROM:)
 
 - setup https://tools.sparkpost.com/spf/builder http://www.spfwizard.net/
 - check https://dmarcian.com/spf-survey/ http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
 - For non-email domains: `v=spf1 -all`
 
-#### DKIM
+#### DKIM (any header field and message body)
 
 - [RFC 6376](https://tools.ietf.org/html/rfc6376)
 - setup http://www.tana.it/sw/zdkimfilter/
@@ -282,7 +282,7 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 - http://9vx.org/~dho/dkim_validate.php
 - https://protodave.com/tools/dkim-key-checker/ (DNS only)
 
-#### DMARC
+#### DMARC (RFC5322.From)
 
 Specs: https://datatracker.ietf.org/doc/rfc7489/
 

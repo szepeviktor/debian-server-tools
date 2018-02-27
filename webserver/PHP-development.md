@@ -41,8 +41,8 @@ Bits and bytes.
 - Packages/Libraries
 - SaaS
 - Development tools (Vagrant)
-- Testing tools (CI)
-- Build and deployment tools
+- Testing tools ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
+- Build and [deployment](/webserver/Continuous-integration-Continuous-delivery.md) tools
 - Application monitoring (performance, errors)
 
 ### Workflow in git :octocat:

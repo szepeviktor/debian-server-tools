@@ -2,7 +2,13 @@
 
 ### Stratégia
 
-1. Ki miért jön? Ki melyik oldalra érkezik? Kivel mit érdemes közölni/ajánlani neki?
+1. A honlap mely részeire van kapacitásunk, hogy *életben* tartsuk, azaz módosítsuk különböző visszajelzések
+   (statisztika, telefonos kérdések, eladási eredmények) alapján?
+1. Mi legyen a honlapon? krumpli pecsét **vs.** *Ez szokott lenni egy honlapon*
+   **vs.** visszajelzések alapján priorizált tartalom
+1. Személyes jelleg fotókkal, videóval, idézetekkel
+   **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
+1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
 1. Honnan jön? organikus, PPC, közösségi, hírlevél, térkép, másik honlap (árgép, netpincér, hírportál)
 1. Mivel foglalkozunk? pozicionáló mondat/szlogen/mottó
 1. Kampányok megtervezése
@@ -31,7 +37,7 @@ Sok információ: szétszórt figyelem ↔ Kevés információ: fókusz
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
    alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes info (author bio)
 1. Nyelvek
-1. Mérés: látogatás, esemény, konverzió, bevétel, egér követés, hőtérképek
+1. Mérés: látogatás, esemény (kattintás), konverzió, bevétel, egér követés, hőtérképek
 
 - [Google Cégem](https://support.google.com/business/answer/7091)
 - [Google Tudáspanel](https://support.google.com/business/answer/6331288)

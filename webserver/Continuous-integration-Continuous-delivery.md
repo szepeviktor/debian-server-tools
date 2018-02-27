@@ -6,18 +6,20 @@ How to design and implement CI and CD.
 
 - Run in a premade container or install packages
 - Display environment information
-- Access credentials
+- Set access credentials
 - Cache OS and language library packages
 - Check package management configuration
 - Check outdated packages and known security vulnerabilities
+- Build code
 - Configure application
-- Lint code
+- Lint source code
 - Lint template files
+- Check coding style
 - Do static analysis
 - Run tests
 - Custom checks and warnings
-- Code coverage
-- Start CD by SSH-ing to own server (restrict,command in authorized_keys and DenyUsers in sshd.conf)
+- Measure code coverage
+- Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)
 - Wipe sensitive data
 
 ### CD
@@ -28,13 +30,13 @@ How to design and implement CI and CD.
 - Log every output to a file, log start and finish to syslog
 - Limit execution time of time-consuming steps (timeout)
 - Optionally back up project files before starting to deploy
-- Create a bot user for git access with SSH key (@companybot)
-- Detect changes in current project files
-- Turn on maintenance mode (HTML, static file, AJAX and API requests)
-- Disable cron jobs and background workers
+- Create a bot user on the server for git access with SSH key (@companybot)
+- List changes in current project files
+- Turn on maintenance mode covering static resource, page, AJAX and API requests
+- Disable cron jobs and background workers (email piped to a program)
 - Clear caches (configuration, routes, application, template etc.)
 - Identify git repository and branch
-- Checkout by commit hash (not branch HEAD)
+- Checkout by commit hash (not by branch HEAD)
 - At least **lint the source code**
 - Don't deploy testing packages
 - Enable production optimizations in package manager
@@ -45,4 +47,5 @@ How to design and implement CI and CD.
 - Run at least 1 basic functional or unit test (e.g. log in or display dashboard)
 - Check HTML output
 - Special sudo configuration for reloading php-fpm
+- **Alert on failure**
 - Send email, Slack or Trello notification

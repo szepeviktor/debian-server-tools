@@ -93,7 +93,7 @@ If unspecified, the default is set to on.
 <Server>mail.szepe.net</Server>
 <Port>465</Port>
 <DomainRequired>on</DomainRequired>
-<DomainName>enetha.com</DomainName>
+<DomainName>@@DOMAIN@@</DomainName>
 <SPA>off</SPA>
 <SSL>on</SSL>
 <AuthRequired>on</AuthRequired>
