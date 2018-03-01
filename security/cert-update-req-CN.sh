@@ -15,6 +15,7 @@
 #
 # RapidSSL
 #     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=INFO1548
+#     https://www.geocerts.com/api_spec.pdf
 # ComodoSSL, EssentialSSL, PositiveSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust

@@ -32,7 +32,8 @@ How to design and implement CI and CD.
 - Optionally back up project files before starting to deploy
 - Create a bot user on the server for git access with SSH key (@companybot)
 - List changes in current project files
-- Turn on maintenance mode covering static resource, page, AJAX and API requests
+- Turn on [maintenance mode](https://github.com/laravel/framework/blob/18402cd4b83fd1d944f3baa0d8cc26d7dfcce333/src/Illuminate/Foundation/Application.php#L927-L930)
+  covering static resource, page, AJAX and API requests
 - Disable cron jobs and background workers (email piped to a program)
 - Clear caches (configuration, routes, application, template etc.)
 - Identify git repository and branch

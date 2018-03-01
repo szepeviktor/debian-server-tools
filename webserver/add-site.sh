@@ -50,7 +50,7 @@ cd /home/${U}/website/html/
 #
 # See /webserver/WordPress.md
 #
-# HTML-ize WordPress
+# * HTML-ize WordPress
 #     https://gist.github.com/szepeviktor/4535c5f20572b77f1f52
 
 # Repair permissions, line ends
@@ -65,10 +65,9 @@ find -name .htaccess -exec chmod -v 0640 "{}" ";"
 # Set owner
 chown -cR ${U}:${U} /home/${U}/
 
-# WordPress wp-config.php skeleton
-#     define( 'ABSPATH', dirname( __FILE__ ) . '/html/' );
+# wp-config.php skeleton
 
-# Wordpress Fail2ban
+# WordPress Fail2ban
 
 # Migrate database NOW!
 #
@@ -89,7 +88,7 @@ editor wp-cli.yml
 
 # Clean up old data
 u wp transient delete-all
-u wp w3-total-cache flush
+#u wp w3-total-cache flush
 u wp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-run /oldhome/path /home/path
 
 # * Mount wp-content/cache on tmpfs
@@ -128,14 +127,14 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-si
 # * Non-SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
 
-# HPKP (HTTP Public Key Pinning) including backup public key
+# * HPKP (HTTP Public Key Pinning) including backup public key
 #     Headers: Public-Key-Pins-Report-Only Public-Key-Pins
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
 # See https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
 openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
- | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
+  | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
 
-# SRI (Subresource Integrity) for foreign CDN content
+# * SRI (Subresource Integrity) for foreign CDN content
 #     <link href="URL" integrity="sha384-SHA384-HASH" crossorigin="anonymous">
 # See https://www.srihash.org/
 openssl dgst -sha384 -binary | openssl enc -base64 -A
@@ -184,13 +183,16 @@ editor /etc/courier/esmtpauthclient
 # * Monit
 # See /monitoring/monit/services/.website
 
+# Git status check
+# See /monitoring/tripwire-fake.sh
+
 # Goaccess
 # See /webserver/goaccess.sh
 
 # Document in hosting.yml
 # See /webserver/hosting.yml
 
-# Install a Honey Pot
+# * Install a Honey Pot
 # http://www.projecthoneypot.org/faq.php#c
 
 # * Development/Staging environment?

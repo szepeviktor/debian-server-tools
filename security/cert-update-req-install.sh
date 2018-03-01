@@ -10,7 +10,7 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :cert-update-req-CN-openssl.conf
 # DEPENDS       :cert-update-req-CN.sh
-# DEPENDS       :/usr/local/sbin/cert-update-req-install.sh
+# LOCATION      :/usr/local/sbin/cert-update-req-install.sh
 
 REPO="/usr/local/src/debian-server-tools"
 
