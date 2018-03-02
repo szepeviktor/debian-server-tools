@@ -248,6 +248,13 @@ iptables -t nat -A POSTROUTING -p tcp --dst ${COURIER_IP} --dport 465 -j SNAT --
 
 Then browse to https://www.ssllabs.com/ssltest/
 
+Local alternative:
+
+```bash
+addcr | TLS_PRIORITY="$TLS_PRIORITY_STRING" TLS_VERIFYPEER=PEER TLS_TRUSTCERTS=/etc/ssl/certs \
+couriertls -host=example.com -port=25 -protocol=smtp -verify=example.com
+```
+
 See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 
 ### E-mail authentication

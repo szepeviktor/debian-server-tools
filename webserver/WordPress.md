@@ -338,24 +338,75 @@ Also in /webserver/Production-website.md
 
 ```bash
 wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
-wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
-wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
-wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
 ```
 
-1. http://DOMAIN.TLD or https (no trailing slash)
+1. https://DOMAIN.TLD (no trailing slash)
 1. /home/PATH/TO/SITE (no trailing slash)
 1. EMAIL@ADDRESS.ES (all addresses)
-1. DOMAIN.TLD (now without http)
+1. DOMAIN.TLD (now without https)
 
-Manually replace constants in `wp-config.php`
-
+And manually replace constants in `wp-config.php`
 
 ### Moving a site to a subdirectory
 
-1. siteurl += /site
-1. search-and-replace: /wp-includes/ -> /site/wp-includes/
-1. search-and-replace: /wp-content/ -> /static/
+```bash
+SUBDIR="site"
+URL="$(wp option get home)"
+
+# Change 'siteurl'
+wp option set siteurl ${URL}/${SUBDIR}
+
+# Change URL in database
+wp search-replace --precise --recurse-objects --all-tables-with-prefix "/wp-includes/" "/${SUBDIR}/wp-includes/"
+
+# Change constants in wp-config.php
+# - WP_CONTENT_DIR
+# - WP_CONTENT_URL
+# - TINY_CDN_INCLUDES_URL
+# - TINY_CDN_CONTENT_URL
+editor wp-config.php
+
+# Move core to subdir
+xargs -I % mv -v ./% ./${SUBDIR}/ <<EOF
+wp-admin
+wp-includes
+licenc.txt
+license.txt
+olvasdel.html
+readme.html
+wp-activate.php
+wp-blog-header.php
+wp-comments-post.php
+wp-config-sample.php
+wp-cron.php
+wp-links-opml.php
+wp-load.php
+wp-login.php
+wp-mail.php
+wp-settings.php
+wp-signup.php
+wp-trackback.php
+xmlrpc.php
+EOF
+cp -v ./index.php ./${SUBDIR}/
+
+# Modify /index.php
+sed -e "s|'/wp-blog-header\.php'|'/${SUBDIR}/wp-blog-header.php'|" -i ./index.php
+
+# Move files from parent dir
+mv -v ../wp-config.php ./
+mv -v ../wp-fail2ban-bad-request-instant.inc.php ./
+
+# Edit 'path:' in wp-cli.yml
+editor ../wp-cli.yml
+
+# Fix Apache VirtualHost configuration
+
+# Flush cache
+wp cache flush
+```
+
+Web-base search&replace tool:
 
 ```bash
 wget -O srdb.php https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php

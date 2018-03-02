@@ -31,7 +31,7 @@ Filter_client_server_error() {
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$' \
-        | grep -v -E 'GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx).* "Amazon CloudFront"' \
+        | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx).* "Amazon CloudFront"' \
 
 }
 

@@ -1,9 +1,19 @@
 # Public delivery, STARTTLS, SSL Intermediate
 # gnutls-cli --priority="..." --list
 COURIER_COURIERD_DEFAULTS='
+PATH=/usr/bin:/bin:/usr/bin:/usr/local/bin
+SHELL=/bin/sh
+DSNTOAUTHADDR=0
+DYNAMICDELIVERIES=1
 DEFAULTDELIVERY=./Maildir
+MAILDROPDEFAULT=./Maildir
+ESMTP_CORK=1
+ESMTP_BLOCKBACKSCATTER=smtp/dsn
+UUXFLAGS="-j -g C"
 ESMTP_USE_STARTTLS=1
+COURIERTLS=/usr/bin/couriertls
 ESMTP_TLS_VERIFY_DOMAIN=0
+ESMTP_PREFER_IPV6_MX=1
 TLS_CERTFILE=""
 TLS_DHPARAMS=""
 TLS_TRUSTCERTS=/etc/ssl/certs

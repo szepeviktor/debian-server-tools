@@ -37,6 +37,10 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 - Use the browser
 - Delete the instance
 
+### Notify on account breach
+
+https://haveibeenpwned.com/
+
 ### UpCloud registration
 
 - Referral URL
