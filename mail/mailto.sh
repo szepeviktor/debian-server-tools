@@ -2,7 +2,7 @@
 #
 # Test ESMTP communication.
 #
-# VERSION       :0.3.7
+# VERSION       :0.3.8
 # DATE          :2016-01-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,34 +15,35 @@
 # Usage
 #     mailto.sh ADDR@ESS [MX]
 
-pwgen16() {
-    local PASSWORD=""
+Pwgen16()
+{
     local CHAR
-    local R
-    local P
+    local RAND
 
-    for LENGTH in $(seq 1 16); do
-        R="$RANDOM"
-        case $((R % 5)) in
+    for _ in {1..16}; do
+        RAND="$RANDOM"
+        case $((RAND % 5)) in
             1|3)
                 # Capitals 65-90 40%
-                CHAR="$((65 + R % 26))"
+                CHAR="$((65 + RAND % 26))"
             ;;
             2|4)
                 # Letters 97-122 40%
-                CHAR="$((97 + R % 26))"
+                CHAR="$((97 + RAND % 26))"
             ;;
             *)
                 # Digits 48-57 20%
-                CHAR="$((48 + R % 10))"
+                CHAR="$((48 + RAND % 10))"
             ;;
         esac
-        echo -n "$(printf "\x$(printf "%x" "$CHAR")")" #"
+        # shellcheck disable=SC2059
+        printf "\\x$(printf "%x" "$CHAR")"
     done
 }
 
-dnsquery() {
-    # dnsquery() ver 1.5
+Dnsquery()
+{
+    # Dnsquery() ver 1.5
     # error 1:  Empty host/IP
     # error 2:  Invalid answer
     # error 3:  Invalid query type
@@ -125,25 +126,26 @@ dnsquery() {
 # Email address
 RCPT="$1"
 
-[ -z "$RCPT" ] && exit 1
-[ "$RCPT" == "${RCPT%@*}" ] && exit 2
+test -z "$RCPT" && exit 1
+test "$RCPT" == "${RCPT%@*}" && exit 2
 
-MY_IP="$(ip addr show dev eth0|sed -ne '0,/^\s*inet \([0-9\.]\+\)\b.*$/{s//\1/p}')"
-ME="$(dnsquery PTR "$MY_IP")"
+OWN_IP="$(ip addr show scope global up | sed -n -e '0,/^\s*inet \([0-9.]\+\)\b.*$/{s//\1/p}')"
+ME="$(Dnsquery PTR "$OWN_IP")"
 ME="${ME%.}"
-[ -z "$ME" ] && exit 3
+test -z "$ME" && exit 3
 
 # Mail exchanger
 if [ -z "$2" ]; then
     DOMAIN="${RCPT#*@}"
-    echo -n "*"; LC_ALL=C host -W 2 -t MX "$DOMAIN" | sort -k 6 -n
-    MX_REC="$(dnsquery MX "$DOMAIN")"
-    [ -z "$MX_REC" ] && exit 4
+    printf '*'; LC_ALL=C host -W 2 -t MX "$DOMAIN" | sort -k 6 -n
+    MX_REC="$(Dnsquery MX "$DOMAIN")"
+    test -z "$MX_REC" && exit 4
 else
     MX_REC="$2"
 fi
 
-# From `man s_client`
+# From s_client(1)
+#
 #     the session will be renegotiated if the line begins with an R
 #
 #     if the line begins with a Q the connection will be closed down
@@ -154,18 +156,18 @@ mAIL FROM: <postmaster@${ME}>
 rCPT TO: <${RCPT}>
 dATA
 -------------------------------------------------------------------------------
-Date: `date -R`
-From: =?utf-8?b?$(echo -n "SZÉPE Viktor"|base64)?= <postmaster@${ME}>
+Date: $(date -R)
+From: =?utf-8?b?$(printf 'SZÉPE Viktor' | base64)?= <postmaster@${ME}>
 To: ${RCPT}
 Subject: mail t3st, Sorry! / proba uzenet, Elnezest!
-Message-ID: <$(date "+%Y%m%d%H%M%S").$(pwgen16)@${ME}>
+Message-ID: <$(date --utc "+%Y%m%d%H%M%S").$(Pwgen16)@${ME}>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8;
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Mail t3st. Sorry! ${MYIP}
-Proba uzenet. Elnezest! ${MYIP}
+Mail t3st. Sorry! ${OWN_IP}
+Proba uzenet. Elnezest! ${OWN_IP}
 .
 -------------------------------------------------------------------------------
 qUIT

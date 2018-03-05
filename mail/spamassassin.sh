@@ -11,6 +11,8 @@
 #     wget https://svn.apache.org/repos/asf/spamassassin/site/updates/MIRRORED.BY
 # 3. Download rules
 #     wget ${MIRROR_URL}/${SVN_REVISION}.tar.gz
+# 4. Current local version
+#     head -n 1 /var/lib/spamassassin/3.*/updates_spamassassin_org.cf
 
 # @TODO MISSING_MID monitoring cron job
 

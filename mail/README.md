@@ -145,7 +145,7 @@ Build Courier SRS
 
 See /package/couriersrs-jessie.sh
 
-### Courier catchall address
+### Courier catchall address (virtual domain)
 
 http://www.courier-mta.org/makehosteddomains.html
 
@@ -160,7 +160,7 @@ Add alias:
 Delivery instructions:
 
 ```bash
-echo "|/pipe/command" > /var/mail/domain/user/.courier-foo-default
+echo "|/pathto/pipe/command" > /var/mail/domain/user/.courier-foo-default
 ```
 
 ### Spamtrap
@@ -169,6 +169,14 @@ echo "|/pipe/command" > /var/mail/domain/user/.courier-foo-default
 # Reporting includes learning
 spamtrap@domain.net:                    |/usr/bin/spamc --reporttype=report --max-size=1048576
 problematic@address.es:                 spamtrap@domain.net
+```
+
+### Deliver e-mail through SSH
+
+Create an alias:
+
+```bash
+|/usr/bin/ssh -p 22 -i /home/user/.ssh/id_ecdsa user@example.com -- /usr/sbin/sendmail -f envelope-from@example.com
 ```
 
 ### NAIH nyilvántartási szám - "Hungarian National Authority for Data Protection and Freedom of Information" registry

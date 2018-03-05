@@ -205,7 +205,7 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.10.1
+# VERSION       :0.10.2
 
 IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
 
@@ -215,15 +215,16 @@ if fuser -s /var/lib/dpkg/lock; then
 fi
 
 # Check Monit
-if ! service monit status | grep -q -F 'monit is running'; then
-    echo "Monit is not responding" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname -f)" root
+if ! service monit status | grep -q -F 'monit is running' \
+    || ! /usr/bin/monit summary "$(hostname --fqdn)" > /dev/null; then
+    echo "Monit is not responding" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname --fqdn)" root
     service monit restart || service monit start
 fi
 
 ## Check nice level
 #MONIT_PID="$(cat /run/monit.pid)"
 #if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" -ne 0 ]; then
-#    echo "Monit's nice level changed" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname -f)" root
+#    echo "Monit's nice level changed" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname --fqdn)" root
 #    renice -n 0 -p "$MONIT_PID"
 #fi
 
