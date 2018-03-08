@@ -1,4 +1,4 @@
-# Continuous integration and Continuous delivery
+ # Continuous integration and Continuous delivery
 
 How to design and implement CI and CD.
 
@@ -24,7 +24,14 @@ How to design and implement CI and CD.
 
 ### CD
 
-- Constrains: successful tests, specific branch, tag in commit message `[deploy:live]`
+- Constrains:
+  * successful tests
+  * do not run on PR-s
+  * our repo
+  * specific branch
+  * tag in commit message `[deploy:live]`
+  * deploy head commit only
+  * optional manual start ([GitLab manual actions](https://gitlab.com/help/ci/yaml/README.md#manual-actions))
 - Do not run as root user
 - Keep deploy configuration in a file
 - Log every output to a file, log start and finish to syslog

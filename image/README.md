@@ -48,7 +48,8 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 [Super-Resolution From a Single Image](http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html)
 
 Imitation with ImageMagick:
-```
+
+```bash
 convert                       \
    small.png                  \
   -colorspace RGB             \
@@ -62,8 +63,9 @@ convert                       \
    better-quality-enlargement.png
 ```
 
-### Online editors
+### Editors
 
+- [Luminar](https://skylum.com/luminar) see also Creative Kit
 - [Face retouch](http://makeup.pho.to/)
 - [Editor.Pho.to](http://editor.pho.to/edit/)
 - [Pixlr Editor](https://apps.pixlr.com/editor/)

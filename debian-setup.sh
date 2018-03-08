@@ -43,7 +43,7 @@
 # Webserver
 #
 # - Apache 2.4 with HTTP/2 and event MPM
-# - PHP-FPM 7.0 or 7.1
+# - PHP-FPM 7.1 or 7.2
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]
 # - MariaDB 10 or Percona Server 5.7
 #

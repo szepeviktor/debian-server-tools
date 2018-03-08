@@ -1,6 +1,7 @@
 #
 # GitLab CI for a Laravel project.
 #
+# DOCS          :https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/Continuous-integration-Continuous-delivery.md
 # DOCS          :https://gitlab.com/help/ci/yaml/README.md
 # DOCS          :https://gitlab.com/help/ci/variables/README.md
 # SECRET        :SSH_KNOWN_HOSTS
@@ -8,9 +9,10 @@
 # SECRET        :COMPOSER_AUTH_JSON
 
 # https://gitlab.com/help/user/project/container_registry
-image: registry.gitlab.com/group/project:7.0
+image: registry.gitlab.com/group/project:7.2
 
 services:
+  #- mariadb:10.1
   - mysql:5.7
 
 variables:
@@ -36,8 +38,8 @@ test:
     - phpstan --version
     - whoami
     - pwd
-    - ls -lA
-    # Gitlab's public key
+    - ls -l -A
+    # GitLab's public key
     - mkdir --mode=0700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     # Private Gitlab repositories access (ECDSA)
@@ -98,3 +100,4 @@ test:
 # https://docs.gitlab.com/ee/ci/examples/code_climate.html
 
 # Control deploy from commit messages: [deploy:staging]
+#                by manual action: https://gitlab.com/help/ci/yaml/README.md#manual-actions

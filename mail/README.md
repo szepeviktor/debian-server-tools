@@ -58,6 +58,10 @@
 after account setup
 - Fix folder subscription, see /mail/courier-outlook-subscribe-bug.sh (Outlook 2007)
 
+### Outlook 2007 cipher suite
+
+TLS1.0 `ECDHE_RSA_AES_256_CBC_SHA1`
+
 ### MacOS Mail.app IMAP fixes
 
 Advanced/IMAP Path Prefix: "INBOX"
