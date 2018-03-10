@@ -17,7 +17,8 @@
 ### Transactional email providers
 
 - https://aws.amazon.com/ses/ by Amazon *free:0*
-- https://www.sparkpost.com/ on AWS *free:15 000* [retries](https://www.sparkpost.com/docs/faq/how-are-messages-retried/)
+- https://www.sparkpost.com/ on AWS *free:15 000*,
+  [retries](https://www.sparkpost.com/docs/faq/how-are-messages-retried/)
 - https://www.mandrill.com/ by MailChimp *free:0*
 - https://www.sendinblue.com/ has own AS *free:9000*
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)

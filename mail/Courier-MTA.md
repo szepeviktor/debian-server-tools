@@ -64,6 +64,7 @@ Many mail servers (with OpenSSL before version 1.0.1) support only `TLSv1`, even
 - SSL settings
 - DSN-s
 - DKIM ("z" DKIM filter)
+- DMARC ([dmarc_shield.py](http://linode.fmp.com/contrib/dmarc_shield.py))
 - Sender Rewriting Scheme (Courier SRS)
 
 ##### `esmtproutes`
