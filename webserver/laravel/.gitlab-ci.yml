@@ -39,9 +39,9 @@ test:
     - whoami
     - pwd
     - ls -l -A
-    # GitLab's public key
+    # GitLab's public key (output of `ssh-keyscan -p $CD_SSH_PORT $CD_SSH_HOST | base64 -w 0; echo`)
     - mkdir --mode=0700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - echo "$CD_SSH_KNOWN_HOSTS_B64" | base64 --decode >> ~/.ssh/known_hosts
     # Private Gitlab repositories access (ECDSA)
     - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_ecdsa
     - chmod 0600 ~/.ssh/id_ecdsa
@@ -52,7 +52,7 @@ test:
     # Composer
     - composer config cache-dir "${CI_PROJECT_DIR}/.composercache"
     - composer validate --ansi
-    # Includes artisan optimize - depends on 'app.debug'
+    # Includes `artisan package:discover` (depends on 'app.debug')
     - composer install --ansi --prefer-dist --no-suggest
     # On Deploy: - composer install --no-dev --prefer-dist --prefer-stable --classmap-authoritative --no-suggest
     #            - check .env: APP_ENV=production , APP_DEBUG=false

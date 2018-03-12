@@ -54,7 +54,7 @@
 
 ### Outlook 2013 IMAP fixes
 
-- Root: "Inbox"
+- Root: `Inbox`
 - To recognize standard folder names [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
 after account setup
 - Fix folder subscription, see /mail/courier-outlook-subscribe-bug.sh (Outlook 2007)
@@ -65,7 +65,7 @@ TLS1.0 `ECDHE_RSA_AES_256_CBC_SHA1`
 
 ### MacOS Mail.app IMAP fixes
 
-Advanced/IMAP Path Prefix: "INBOX"
+Advanced/IMAP Path Prefix: `INBOX`
 
 ### Open winmail.dat
 
@@ -98,7 +98,7 @@ https://toolbox.googleapps.com/apps/checkmx/
 - Enveloped-data (application/pkcs7-mime): `cat smime.p7m | base64 -d | openssl smime -verify -inform DER`
 
 
-## Settings
+## Configuration
 
 
 ### Malware (virus) scanning
