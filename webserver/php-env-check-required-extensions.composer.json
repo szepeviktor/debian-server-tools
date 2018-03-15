@@ -14,7 +14,8 @@
         "ext-pdo_mysql": "*",
         "ext-zend-opcache": "*",
         "ext-redis": "*",
-        "ext-igbinary": "*"
+        "ext-igbinary": "*",
+        "ext-zip": "*"
     },
     "suggest": {
         "php": "composer show --platform",
@@ -27,6 +28,7 @@
         "ext-pdo_mysql": "PDO MySQL Functions",
         "ext-zend-opcache": "OPcache, precompiled script bytecode stored in shared memory",
         "ext-redis": "A PHP extension for Redis",
-        "ext-igbinary": "Igbinary is a drop in replacement for the standard PHP serializer"
+        "ext-igbinary": "Igbinary is a drop in replacement for the standard PHP serializer",
+        "ext-zip": "Read or write ZIP compressed archives"
     }
 }

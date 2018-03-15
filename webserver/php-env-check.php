@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.2.5
+ * @version 0.3.0
  */
 
 namespace O1;
@@ -168,6 +168,11 @@ final class Check_Env {
 
         // System program execution
         //$this->assert_function( 'proc_open' );
+
+        // Database JSON data type support
+        // See https://dev.mysql.com/doc/refman/5.7/en/json.html
+        //$dotenv = parse_ini_file( __DIR__ . '/html/.env' );
+        //$this->assert_version( 'mysqld.json', '5.7.8', $this->mysql_innodb_version( $dotenv ) );
     }
 
     /**
@@ -244,5 +249,56 @@ final class Check_Env {
             $id = $function_name;
         }
         $this->assert( $id, true, function_exists( $function_name ) );
+    }
+
+    /**
+     * Assert for a PHP function.
+     *
+     * @param $name string              Thing that has a version
+     * @param $min_version string       Expected version
+     * @param $current_version string   Current version
+     * @param $operator string          Optional operator
+     * @param $id string                Optional assert ID
+     */
+    private function assert_version( $name, $min_version, $current_version, $operator = '<=', $id = '' ) {
+
+        // Automatic ID
+        if ( '' === $id ) {
+            $id = $name;
+        }
+        $this->assert( $id, true, version_compare( $min_version, $current_version, $operator ) );
+    }
+
+    /**
+     * Get InnoDB version.
+     *
+     * @param $config array Datababase credentials
+     */
+    private function mysql_innodb_version( $config ) {
+
+        if ( ! isset( $config['DB_HOST'] ) ) {
+            return '0';
+        }
+
+        $link = mysqli_connect(
+            $config['DB_HOST'],
+            $config['DB_USERNAME'],
+            $config['DB_PASSWORD'],
+            $config['DB_DATABASE'],
+            $config['DB_PORT']
+        );
+        if ( mysqli_connect_errno() ) {
+            return '0';
+        }
+
+        $result = $link->query( 'SELECT @@global.innodb_version;' );
+        if ( 1 !== $result->num_rows ) {
+            return '0';
+        }
+
+        $mysql_version = $result->fetch_row();
+        $link->close();
+
+        return reset( $mysql_version );
     }
 }
