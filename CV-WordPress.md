@@ -123,3 +123,12 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 - http://weblabor.hu/munka
 - http://jobs.wordpress.net/post-a-job/
 - https://kinsta.com/blog/hire-wordpress-developer/
+
+
+## Alkalmilag vállalt munkák
+
+- *Vírusos* honlap takarítása (WordPress, Drupal, Joomla) - 4 munkaóra
+- Egyszerű, reszponzív mobil nézet készítése (5 oldaltípushoz) - 4 munkaóra
+- Hírlevél technikai ellenőrzés és kiküldés - 2-4 munkaóra
+- Monitorozott email postafiók szolgáltatás - árazás megkezdett GB-onként/fő/hónap
+- WordPress sablon telepítés, lehetőségeinek ismertetése (kreatív munkát nem tartalmaz) - 4 munkaóra

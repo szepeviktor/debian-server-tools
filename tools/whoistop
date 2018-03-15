@@ -15,7 +15,7 @@ whois "$@" | sed -e '/^[A-Za-z]\+:/,/^$/!d; /^$/,$d'
 # Alternate solution
 #     sed '/range/ {command}'
 
-# Network based whois query
+# Web-based whois query
 #wget -qO- "http://lg.net.telekom.hu/whois?q=$1" \
 #    | sed -n -e 's|^\s*"output": "\(.*\)",\s*$|\1|; s|<br>|\n|gp' \
 #    | sed -e '/^[A-Za-z]\+:/,/^$/!d; /^$/,$d'

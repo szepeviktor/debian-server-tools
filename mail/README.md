@@ -101,6 +101,12 @@ https://toolbox.googleapps.com/apps/checkmx/
 ## Configuration
 
 
+### Standards
+
+- Original SMTP from August 1982 https://tools.ietf.org/html/rfc821
+- Current SMTP https://tools.ietf.org/html/rfc5321
+- ESMTP https://tools.ietf.org/html/rfc3848
+
 ### Malware (virus) scanning
 
 - ClamAV (CCTTS, Safe Browsing)
