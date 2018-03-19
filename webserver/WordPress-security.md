@@ -36,6 +36,7 @@
 - Disable file editing
 - Block on WordPress security events ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
 - Add SRI (Subresource Integrity) attributes to elements with foreign CDN content
+- Content Security Policy (CSP) HTTP header
 - Choose wisely if you decide on a [page builder](https://www.wpbeaverbuilder.com/?fla=2082)
 
 ### Authentication

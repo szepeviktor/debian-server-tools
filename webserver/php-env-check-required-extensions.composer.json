@@ -1,6 +1,6 @@
 {
     "name": "szepeviktor/required-extensions",
-    "description": "Compiled-in: Core,date,filter,hash,libxml,openssl,pcntl,pcre,Reflection,session,SPL,standardzlib",
+    "description": "Compiled-in: Core,date,filter,hash,libxml,openssl,pcntl,pcre,Reflection,session,SPL,standard,zlib",
     "type": "project",
     "license": "MIT",
     "require": {

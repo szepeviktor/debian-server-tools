@@ -176,7 +176,7 @@ final class Check_Env {
     }
 
     /**
-     * Generic assert.
+     * Generic assertion.
      *
      * @param $id string       Assert ID
      * @param $expected string Expected value
@@ -252,7 +252,7 @@ final class Check_Env {
     }
 
     /**
-     * Assert for a PHP function.
+     * Assert for a version.
      *
      * @param $name string              Thing that has a version
      * @param $min_version string       Expected version
