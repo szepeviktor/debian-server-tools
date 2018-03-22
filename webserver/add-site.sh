@@ -142,6 +142,10 @@ openssl dgst -sha384 -binary | openssl enc -base64 -A
 # CAA DNS record to pin certificate authorities
 # See https://sslmate.com/labs/caa/
 
+# Default image
+printf "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4gMUEQE5VHnaPwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAnSURBVCjPY0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" \
+  | base64 -d > checkered-16x16.png
+
 # In case of "www." set ServerAlias
 # Set WORDPRESS_ROOT_URL and WORDPRESS_UPLOADS_URL
 editor ${DOMAIN}.conf

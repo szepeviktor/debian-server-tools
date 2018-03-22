@@ -1,12 +1,14 @@
 #!/bin/bash
 
+. debian-setup-functions.inc.sh
+
 set -e -x
 
 PHP_TZ="Europe/Budapest"
 
 # PHP 7.2
 # @nonDebian
-apt-get install -y php7.2-fpm \
+Pkg_install_quiet php7.2-fpm \
     php7.2-curl php7.2-gd php7.2-intl php7.2-mbstring php7.2-mysql \
     php7.2-xml php7.2-sqlite3 # Not for WP
 
@@ -78,3 +80,6 @@ cp webserver/phpfpm-pools/* /etc/php/7.2/fpm/
 #     https://www.ioncube.com/loaders.php
 #     zend_extension = ioncube_loader_lin_7.0.so
 #     ic24.enable = Off
+
+# Siteprotection
+Dinstall monitoring/siteprotection.sh

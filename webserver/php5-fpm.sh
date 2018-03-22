@@ -1,9 +1,11 @@
 #!/bin/bash
 
+. debian-setup-functions.inc.sh
+
 set -e -x
 
 # PHP 5.6
-apt-get install -y php5-cli php5-curl php5-fpm php5-gd \
+Pkg_install_quiet php5-cli php5-curl php5-fpm php5-gd \
     php5-mcrypt php5-mysqlnd php5-readline php5-dev \
     php5-sqlite php5-apcu php-pear
 
@@ -93,3 +95,6 @@ ls -l /etc/php5/fpm/conf.d/20-suhosin.ini
 # https://www.ioncube.com/loaders.php
 #     zend_extension = ioncube_loader_lin_5.6.so
 #     ic24.enable = Off
+
+# Siteprotection
+Dinstall monitoring/siteprotection.sh

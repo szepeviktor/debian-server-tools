@@ -2,7 +2,7 @@
 #
 # Check OPcache status.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2017-12-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -67,10 +67,10 @@ set -e
 
 test -S "$CACHETOOL_SOCKET"
 test -d "$CACHETOOL_TEMP"
-hash cachetool
+test -x /usr/local/bin/cachetool
 
 # Cache output
-OPCACHE_OUTPUT="$(cachetool opcache:status --fcgi="$CACHETOOL_SOCKET" --tmp-dir="$CACHETOOL_TEMP")"
+OPCACHE_OUTPUT="$(/usr/local/bin/cachetool opcache:status --fcgi="$CACHETOOL_SOCKET" --tmp-dir="$CACHETOOL_TEMP")"
 test -n "$OPCACHE_OUTPUT"
 
 Opcache_free "$OPCACHE_MIN_MB"

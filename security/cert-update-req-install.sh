@@ -2,7 +2,7 @@
 #
 # Set up cert-update-req script and config file.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2018-01-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -25,3 +25,8 @@ sed -e "s/@@CN@@/${CN}/g" "${REPO}/security/cert-update-req-CN-openssl.conf" > "
 cp -v "${REPO}/security/cert-update-req-CN.sh" "./cert-update-req-${CN}.sh"
 
 echo "OK."
+
+echo
+echo "Set CN=\"www.${CN}\" in cert-update-req-${CN}.sh"
+echo "For www: Use last Subject Alternative Name as domain name"
+echo "Uncomment APACHE_PUB and APACHE_PRIV"

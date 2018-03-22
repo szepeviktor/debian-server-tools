@@ -2,7 +2,7 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.7
+# VERSION       :0.2.8
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -14,8 +14,9 @@
 # Intermediate certificates and root certificates
 #
 # RapidSSL
-#     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=INFO1548
+#     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&actp=CROSSLINK&id=INFO1548
 #     https://www.geocerts.com/api_spec.pdf
+#     https://products.geotrust.com/geocenter/reissuance/reissue.do
 # ComodoSSL, EssentialSSL, PositiveSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust
@@ -72,6 +73,8 @@ if [ ! -s "$PRIV" ]; then
     # Generate request
     if [ -f "../cert-update-req-${CN}-openssl.conf" ]; then
         cp "../cert-update-req-${CN}-openssl.conf" "${CN}-openssl.conf"
+    elif [ -f "../cert-update-req-${CN#www.}-openssl.conf" ]; then
+        cp "../cert-update-req-${CN#www.}-openssl.conf" "${CN}-openssl.conf"
     fi
     editor "${CN}-openssl.conf"
     test -s "${CN}-openssl.conf"

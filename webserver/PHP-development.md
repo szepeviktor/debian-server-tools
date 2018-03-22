@@ -119,7 +119,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - ORM
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
 - HTTP request handling and security (URL structure, WAF)
-- Session handling
+- Session handling (very long sessions, CSRF)
 - Input validation, sanitization
 - Escaping (SQL, HTML, JavaScript)
 - Internationalization (PHP, JavaScript)

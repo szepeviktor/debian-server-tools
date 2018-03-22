@@ -18,7 +18,7 @@ Not only a WordPress site!
 
 - A, CNAME (for [CDN](http://www.cdnplanet.com/cdns/))
 - MX
-- SPF, DKIM
+- SPF, DKIM, DMARC
 - Proper TTL values
 
 ### SSL certificate
@@ -31,12 +31,12 @@ Not only a WordPress site!
 - For receiving referrer information (up to April 2012)
 - Very cheap
 
-Providers: Let's Encrypt,
-[RapidSSL](https://cheapsslsecurity.com/sslbrands/rapidssl.html) (GeoTrust/Symantec),
-CloudFlare SSL,
-[SSL Certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
+Authorities: Let's Encrypt,
+[RapidSSL](https://cheapsslsecurity.com/sslbrands/rapidssl.html) (GeoTrust/DigiCert),
+CloudFlare SSL
+and other [SSL certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
 
-OCSP performance: http://uptime.netcraft.com/perf/reports/performance/OCSP
+[OCSP performance](http://uptime.netcraft.com/perf/reports/performance/OCSP)
 
 1. [Apache-SSL.md](./Apache-SSL.md)
 1. https://www.ssllabs.com/ssltest/ :snail:
@@ -95,8 +95,7 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 - Email `From:` name and address
 - Subject line
 - Easy identification for email notifications (filtering to mail folders)
-- SPF
-- DKIM
+- SPF, DKIM, DMARC
 
 Consider transactional email service through HTTP API. :snail:
 
@@ -113,22 +112,17 @@ Consider transactional email service through HTTP API. :snail:
 - _PHP extension: ionCube24 `ic24.enable = on` (PHP file modification time protection)_
 - File change notification
 - Subresource Integrity (SRI) `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`
-- Google Search Console ("This site may harm your computer" notification on SERP)
+- Google Search Console ("*This site may harm your computer*" notification on SERP)
 - Sucuri SiteCheck (includes Google Safe Browsing)
 - Virustotal (HTTP API)
-- Maximum security: convert website into static HTML +
+- **Maximum security**: convert website into static HTML +
   [doorbell](https://doorbell.io/) or [formspree](https://formspree.io/) or [FormKeep](https://formkeep.com/)
   `simply-static`, `static-html-output-plugin`
 
 ### Cron jobs
 
-Remove left-over WP-Cron events.
-
-`wp cron event list; wp cron schedule list`
-
-Use real cron job. :snail:
-
-`wp-cron-cli.sh`
+- Remove left-over WP-Cron events `wp cron event list; wp cron schedule list`
+- Use real cron jobs `wp-cron-cli.sh` :snail:
 
 ### WordPress Settings
 
@@ -158,7 +152,7 @@ Use real cron job. :snail:
 ### Signature as HTML comment
 
 ```html
-<!-- Infrastructure, source code management and support: Viktor Szépe <viktor@szepe.net> -->
+<!-- Infrastructure, source code management and consulting: Viktor Szépe <viktor@szepe.net> -->
 ```
 
 ### Webmaster tools
@@ -173,7 +167,7 @@ Use real cron job. :snail:
 
 ### Search & replace URL and installation path
 
-Replace constants in `wp-config.php`.
+Replace constants in `wp-config.php`
 
 `wp search-replace --precise --recurse-objects --all-tables-with-prefix ${OLD} ${NEW}`
 
@@ -187,7 +181,7 @@ Replace constants in `wp-config.php`.
 1. `EMAIL@ADDRESS.ES` (all addresses)
 1. `DOMAIN.TLD` (now without protocol)
 
-Check `home` and `siteurl`.
+Check `home` and `siteurl`
 
 ```bash
 wp option get home
@@ -292,7 +286,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/ :snail:
 - Content to share: https://paper.li/
-- A/B testing - Google Optimize, Optimonk
+- A/B testing: Google Optimize, Optimonk
 
 ### Code styling
 
@@ -348,8 +342,8 @@ http://google-public-dns.appspot.com/cache :snail:
 - www -> non-www redirection
 - Custom subdomain with same content
 - Development domains
-- Early access domain by the hosting company (`cpanel.server.com/~user`, `somename.hosting.com/`)
-- Access by IP address (`http://1.2.3.4/`)
+- Early access domain by the hosting company: `cpanel.server.com/~user`, `somename.hosting.com/`
+- Access by IP address: `http://1.2.3.4/`
 
 ### 404 page
 
