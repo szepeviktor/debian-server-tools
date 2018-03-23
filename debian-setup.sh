@@ -7,7 +7,7 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# CI            :shellcheck
+# CI            :shellcheck debian-setup.sh
 # CONFIG        :/root/server.yml
 
 # Choose providers
@@ -38,7 +38,6 @@
 # - Nice motd welcome screen
 # - Package managers: composer, pip, npm
 # - CLI tools: WP-CLI, Drush, CacheTool
-# - 155 MB memory usage, 2 GB disk usage
 #
 # Webserver
 #
@@ -46,6 +45,7 @@
 # - PHP-FPM 7.1 or 7.2
 # - Redis in-memory cache [maxmemory 512mb, maxmemory-policy allkeys-lru]
 # - MariaDB 10 or Percona Server 5.7
+# - 155 MB idle memory usage, 2 GB disk usage
 #
 # Execution Steps
 #

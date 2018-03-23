@@ -2,6 +2,8 @@
 
 *Welcome to the process of setting up your infrastructure and your application!*
 
+![Page HTML load time](/Page-html-load-time.png)
+
 Details about [infrastructure and source code management](https://git.io/vNryB)
 
 ### Choose infrastructure providers
