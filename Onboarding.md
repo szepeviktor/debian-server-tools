@@ -8,7 +8,7 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 
 ### Choose infrastructure providers
 
-- Domain registrar: **AWS, Gandi :eu:, noip, dyn, Rackforest/.hu :eu:**
+- Domain registrar: **AWS, Gandi :eu:, noip, dyn, Rackforest/.hu :eu:, Rackhost/.hu :eu:**
 - DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
 - Server provider: **UpCloud :eu:**
 - SSL certificate provider for HTTPS:
@@ -30,7 +30,9 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 
 - Deploy [Windows Server 2016 Standard instance](https://my.upcloud.com/server/create)
 - Finish installation on the console: set language
-- Log in as `Administrator` with [RDP](https://ci.freerdp.com/job/freerdp-nightly-windows/arch=win64,label=vs2013/)
+- Log in as `Administrator` with
+  [RDP on Windows](https://ci.freerdp.com/job/freerdp-nightly-windows/arch=win64,label=vs2013/)
+  or [RDP on Mac](https://itunes.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12)
 - Download [Basilisk browser](http://eu.basilisk-browser.org/release/basilisk-latest.win64.zip)
 - Create UpCloud shortcut on the Desktop: `basilisk.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
 - Create AWS shortcut: `"https://portal.aws.amazon.com/gp/aws/developer/registration/index.html"`

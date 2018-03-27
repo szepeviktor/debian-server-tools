@@ -53,13 +53,19 @@ location ~* ^(.+)\.\d\d+\.(js|css|png|jpg|jpeg|gif|ico)$ {
 zgrep -cH '^' /var/log/apache2/*access.log.2.gz|sort -t: -k2 -n|column -s: -t
 ```
 
-### Timing Details With cURL
+### Timing details with cURL
 
 ```bash
 curl -w "@curl-format.txt" -o /dev/null -s https://example.com
 ```
 
 [Source](https://blog.josephscott.org/2011/10/14/timing-details-with-curl/)
+
+### Start WordPress from CLI
+
+```bash
+REQUEST_METHOD=GET REQUEST_URI=/ HTTPS=on HTTP_HOST=$domain php index.php 2>&1 | pager
+```
 
 ### CDN log format
 

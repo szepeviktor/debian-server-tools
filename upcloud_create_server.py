@@ -20,9 +20,9 @@ user_viktor = login_user_block(
 new_server_config = Server(
     hostname='upcloud.keszul.tk',
     zone=ZONE.Frankfurt,
-    plan='2xCPU-2GB',
+    plan='2xCPU-4GB',
     storage_devices=[
-        Storage(os='Debian 8.0', size=50)
+        Storage(os='Debian 9.0', size=80)
     ],
     login_user=user_viktor,
     # Docker + pip

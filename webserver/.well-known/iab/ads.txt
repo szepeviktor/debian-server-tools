@@ -1,5 +1,5 @@
 # /ads.txt
 #
-# This websites's has no inventory to purchase from.
+# This websites has no inventory to purchase from.
 # Therefore there are no authorized sellers or resellers
 # listed in this /ads.txt file.
