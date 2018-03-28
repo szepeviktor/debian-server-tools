@@ -15,6 +15,7 @@
    depends on courier-mta_bin
    depends on courier-mta_init
    depends on courier-mta_cert
+   depends on courier-mta_cert_dh
    depends on courier-mta_mailq
    depends on courier-mta_sendmail_bin
 
@@ -43,6 +44,13 @@
    if failed permission 640 then unmonitor
    if failed uid "root" then unmonitor
    if failed gid "courier" then unmonitor
+
+ check file courier-mta_cert_dh with path /etc/courier/dhparams.pem
+   group mail
+   if failed checksum then unmonitor
+   if failed permission 600 then unmonitor
+   if failed uid "courier" then unmonitor
+   if failed gid "root" then unmonitor
 
  check program courier-mta_mailq with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
    group mail

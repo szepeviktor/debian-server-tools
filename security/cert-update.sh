@@ -2,8 +2,8 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.1
-# DATE          :2017-11-10
+# VERSION       :1.0.2
+# DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -126,8 +126,10 @@ Courier_mta() {
     echo "Installing Courier MTA certificate ..."
     # Private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
-    chown ${COURIER_USER}:root "$COURIER_COMBINED" || Die 22 "courier owner"
-    chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
+    # As in courier-mta/postinst
+    # NOTICE Synchronize with monit/services/courier-mta
+    chown root:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
+    chmod 0640 "$COURIER_COMBINED" || Die 23 "courier perms"
 
     # Reload monit
     if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
@@ -135,6 +137,8 @@ Courier_mta() {
     fi
 
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
+    # As in /usr/sbin/mkdhparams
+    # NOTICE Synchronize with monit/services/courier-mta
     chown ${COURIER_USER}:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
     chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 

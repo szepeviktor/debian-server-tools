@@ -13,10 +13,11 @@
    group mail
    include /etc/monit/templates/rootbin
 
- check file courier-imap-ssl_cert with path /etc/courier/imapd.pem
-   group mail
-   if failed checksum then unmonitor
-   if failed permission 640 then unmonitor
-   if failed uid "root" then unmonitor
-   if failed gid "courier" then unmonitor
+# /etc/courier/esmtpd.pem is used
+# check file courier-imap-ssl_cert with path /etc/courier/imapd.pem
+#   group mail
+#   if failed checksum then unmonitor
+#   if failed permission 640 then unmonitor
+#   if failed uid "root" then unmonitor
+#   if failed gid "courier" then unmonitor
 

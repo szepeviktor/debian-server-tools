@@ -5,7 +5,7 @@ Reply-To: user@example.com
 X-Mailer: newsletter.sh
 List-ID: ${ID}-$(date -R | md5sum | cut -d" " -f1)
 List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_@@CAMPAIGN@@_@@EMAIL40@@>
-	<http://example.com/hirlevel/?c=@@CAMPAIGN@@&e=@@EMAIL40@@&h=@@CRYPT@@>
+	<https://example.com/hirlevel/?c=@@CAMPAIGN@@&e=@@EMAIL40@@&h=@@CRYPT@@>
 X-Report-Abuse: Please report abuse here:
 	mailto:abuse@example.com
 X-Precedence: bulk
