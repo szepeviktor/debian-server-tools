@@ -294,6 +294,7 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 - setup http://www.tana.it/sw/zdkimfilter/
 - check
 - monitor
+- [DKIM in mailing lists](https://tools.ietf.org/html/rfc6377)
 
 ##### DKIM tests
 

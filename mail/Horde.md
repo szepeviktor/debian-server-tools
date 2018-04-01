@@ -82,6 +82,8 @@ cp -v config/conf.php.dist config/conf.php
 ```
 
 ```php
+// Horde conf.php
+
 // Assume SSL
 $conf['use_ssl'] = 1;
 $conf['server']['port'] = 443;
@@ -93,9 +95,27 @@ $conf['testdisable'] = false;
 $conf[urls][pretty] = true;
 // Add new From: addresses
 $conf[user][verify_from_addr] = true;
+
+// IMP conf.php
+
+// Mail composition
+$conf['compose']['use_vfs'] = false;
+// Linked attachments
+$conf['compose']['link_attachments_notify'] = true;
+$conf['compose']['link_attach_threshold'] = 5242880;
+$conf['compose']['link_attach_size_limit'] = 26214400;
+$conf['compose']['link_attach_size_hard'] = 26214400;
+$conf['compose']['link_attachments'] = true;
+// Attachments
+$conf['compose']['attach_size_limit'] = 4194304; // post_max_size = 4M and upload_max_filesize = 4M
+$conf['compose']['attach_count_limit'] = 20;
+// Others
+$conf['compose']['reply_limit'] = 200000;
+$conf['compose']['ac_threshold'] = 3;
+$conf['compose']['htmlsig_img_size'] = 30000;
 ```
 
-Add `hordeadmin` IMAP user.
+Add `hordeadmin` (IMAP) user.
 
 @TODO php-env-check.php from Horde's `/test.php`
 
