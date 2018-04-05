@@ -11,7 +11,7 @@
 
 ### VPS in Hungary
 
-- [**Rackforest**](https://rackforest.hu/vps/linux-vps/)
+- [Rackforest](https://rackforest.hu/vps/linux-vps/)
 - https://www.cloudvps.hu/ssd-vps by Magyar Hosting
 - [Neo Cloud VPS](https://www.cloud.hu/szerver/neo-cloud-vps/) by EZIT - real cloud
 - http://servira.com/ by Rendszerinformatika - real cloud
@@ -26,7 +26,7 @@
 - https://www.profitarhely.hu/webtarhely fast CPU
 - https://spaceweb.hu/ssd-felho-webtarhely Litespeed, SSD
 
-### VPS, cloud server
+### VPS and cloud server hosting
 
 - [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest servers
 - [Contabo](https://contabo.com/?show=vps) large memory
@@ -36,6 +36,28 @@
 - [OVH Public Cloud](https://www.ovh.com/fr/public-cloud/instances/tarifs/#cpu) CPU instances
 - [OVH Cloud VPS](https://www.ovh.ie/vps/vps-cloud.xml) VMware
 - [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage instances
+
+### Managed hosting
+
+- [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
+- https://closte.com/ WP hosting, on Google Cloud Platform
+- https://kinsta.com/ WP hosting, on Google Cloud Platform
+
+### PaaS
+
+- Heroku
+- Pagodabox (Nanobox)
+- Jelastic
+- OpenShift
+- CenturyLink (AppFog)
+
+### Dedicated server
+
+- https://www.worldstream.nl/more_info.php?id=14 €30
+
+### Server manager
+
+- [RunCloud](https://runcloud.io/)
 
 ### Shared hosting
 
@@ -62,27 +84,7 @@
 - http://www.hostinger.co.uk/ free, latest hardware
 - https://ifastnet.com/portal/sharedhosting.php free, 24 CPU cores
 
-### Managed hosting
-
-- [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
-- https://closte.com/ WP hosting, on Google Cloud Platform
-
-### Server manager
-
-- [RunCloud](https://runcloud.io/)
-
 ### CDN
 
 - [Keycdn](https://www.keycdn.com/?a=18666) 10×Europe, Made in Switzerland
 
-### Dedicated server
-
-https://www.worldstream.nl/more_info.php?id=14 €30
-
-### PaaS
-
-- Heroku
-- Pagodabox (Nanobox)
-- Jelastic
-- OpenShift
-- CenturyLink (AppFog)

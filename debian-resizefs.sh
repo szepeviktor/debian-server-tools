@@ -2,7 +2,13 @@
 #
 # Resize root filesystem during boot.
 #
-# Alternative: http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.shtml
+# VERSION       :1.0.1
+# DATE          :2018-04-01
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# ALTERNATIVE   :http://www.ivarch.com/blogs/oss/2007/01/resize-a-live-root-fs-a-howto.shtml
 
 # Check current filesystem type
 ROOT_FS_TYPE="$(sed -n -e 's|^/dev/\S\+ / \(ext4\) .*$|\1|p' /proc/mounts)"

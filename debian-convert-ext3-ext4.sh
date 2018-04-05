@@ -2,9 +2,15 @@
 #
 # Convert root filesystem to ext4 during boot.
 #
+# VERSION       :1.0.1
+# DATE          :2018-04-01
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
 
 # Check current filesystem type
-ROOT_FS_TYPE="$(sed -n -e 's|^/dev/[a-z]\+[1-9]\+ / \(ext3\) .*$|\1|p' /proc/mounts)"
+ROOT_FS_TYPE="$(sed -n -e 's|^/dev/\S\+ / \(ext3\) .*$|\1|p' /proc/mounts)"
 test "$ROOT_FS_TYPE" == ext3 || exit 100
 
 # Copy tune2fs to initrd

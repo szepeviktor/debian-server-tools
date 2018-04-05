@@ -9,7 +9,9 @@ add shodan 198.20.87.98
 add shodan 185.181.102.18
 # pirate.census.shodan.io.
 add shodan 71.6.146.185
-#     for S in census{1..9} census1{0..2} {atlantic,border,pacific,rim,ninja,pirate,turtle}.census atlantic.dns blog hello.data; do
+# einstein.census.shodan.io.
+add shodan 71.6.167.124
+#     for S in census{1..9} census1{0..2} {atlantic,border,pacific,rim,ninja,pirate,turtle,einstein}.census atlantic.dns blog hello.data; do
 #         host -t A "${S}.shodan.io"
 #     done | sed -e 's/^.* \(has address\|has IPv4 address\) //' | sortip | uniq | sed -e 's|^|add shodan |'
 add shodan 66.240.192.138

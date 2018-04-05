@@ -41,9 +41,9 @@
  check file courier-mta_cert with path /etc/courier/esmtpd.pem
    group mail
    if failed checksum then unmonitor
-   if failed permission 640 then unmonitor
-   if failed uid "root" then unmonitor
-   if failed gid "courier" then unmonitor
+   if failed permission 600 then unmonitor
+   if failed uid "courier" then unmonitor
+   if failed gid "root" then unmonitor
 
  check file courier-mta_cert_dh with path /etc/courier/dhparams.pem
    group mail
