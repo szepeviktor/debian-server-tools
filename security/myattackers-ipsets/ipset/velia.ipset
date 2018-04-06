@@ -1,0 +1,46 @@
+# AS29066 - velia.net Internetdienste GmbH / HEG / GoDaddy
+#: ipset -exist restore < ipset/velia.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set velia src -j REJECT
+create velia hash:net family inet hashsize 64 maxelem 64
+flush velia
+#add velia 5.44.100.0/23
+#add velia 5.44.104.0/22
+#add velia 37.61.208.0/20
+#add velia 78.138.96.0/21
+#add velia 78.138.104.0/22
+#add velia 78.138.118.0/24
+#add velia 78.138.126.0/23
+# On cleantalk.org
+add velia 85.195.64.0/18
+#add velia 87.119.195.0/24
+#add velia 87.119.220.0/22
+#add velia 92.42.104.0/21
+#add velia 103.66.180.0/22
+#add velia 134.119.176.0/20
+# On cleantalk.org
+add velia 134.119.192.0/19
+# On cleantalk.org
+add velia 146.0.224.0/19
+# Mass Sub Alloc
+add velia 151.106.0.0/19
+#add velia 151.106.48.0/20
+#add velia 162.211.120.0/21
+#add velia 162.254.200.0/21
+#add velia 185.19.216.0/22
+#add velia 185.94.19.0/24
+#add velia 185.99.98.0/23
+#add velia 185.126.66.0/23
+#add velia 185.164.57.0/24
+#add velia 185.198.240.0/24
+# On cleantalk.org
+add velia 185.202.0.0/22
+#add velia 185.244.80.0/23
+#add velia 192.155.96.0/20
+#add velia 192.155.104.0/21
+#add velia 193.151.88.0/24
+#add velia 193.151.89.0/24
+#add velia 193.151.90.0/24
+#add velia 193.151.91.0/24
+#add velia 193.200.150.0/24
+#add velia 195.69.240.0/22
+#add velia 195.182.58.0/24

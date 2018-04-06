@@ -5,6 +5,7 @@
 - https://www.cloudflare.com/
 - https://aws.amazon.com/route53/
 - https://cloud.google.com/dns/
+- https://constellix.com/pricing/dns/service-comparison/
 - https://www.forpsi.hu/
 - [list] https://www.keycdn.com/blog/best-free-dns-hosting-providers/
 - [list] http://www.solvedns.com/dns-comparison/

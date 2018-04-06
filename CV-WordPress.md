@@ -1,6 +1,6 @@
 [:hungary:](#hu)&nbsp;&nbsp;&nbsp;[:uk:](#en)
 
-[![Honlap műszaki háttere](/Honlap-műszaki-háttere.png)  
+[![Honlap műszaki háttere](/Application-infrastructure.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
 

@@ -7,10 +7,10 @@
 PREFIX_LIST="$1"
 
 Ip2dec() {
-    local IP="$1"
-    declare -i OCTET1 OCTET2 OCTET3 OCTET4
+    local IPV4="$1"
+    local -i OCTET1 OCTET2 OCTET3 OCTET4
 
-    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<< "$IP"
+    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<< "$IPV4"
     echo "$(( (OCTET1 << 24) + (OCTET2 << 16) + (OCTET3 << 8) + OCTET4 ))"
 }
 

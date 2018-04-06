@@ -2,13 +2,13 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.5.0
-# DATE          :2017-01-14
+# VERSION       :0.6.0
+# DATE          :2018-04-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install bind9-host dos2unix grepcidr geoip-database-contrib
+# DEPENDS       :apt-get install bind9-host dos2unix grepcidr geoip-database-contrib jq sipcalc
 # LOCATION      :/usr/local/sbin/leanmail.sh
 # CRON-HOURLY   :CACHE_UPDATE="1" /usr/local/sbin/leanmail.sh cron
 
@@ -169,7 +169,8 @@ COUNTRY_GEOIP="/usr/share/GeoIP/GeoIP.dat"
 AS_GEOIP="/usr/share/GeoIP/GeoIPASNum.dat"
 
 
-Reverse_ip() {
+Reverse_ip()
+{
     local STRING="$1"
     local REV
 
@@ -186,13 +187,24 @@ Reverse_ip() {
     echo "${REV%.}"
 }
 
-Log_match() {
+Ip2dec()
+{
+    local IPV4="$1"
+    local -i OCTET1 OCTET2 OCTET3 OCTET4
+
+    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<< "$IPV4"
+    echo "$(( (OCTET1 << 24) + (OCTET2 << 16) + (OCTET3 << 8) + OCTET4 ))"
+}
+
+Log_match()
+{
     local MATCH="$1"
 
     logger -t "fail2ban-leanmail" "Banned IP (${IP}) matches ${MATCH}"
 }
 
-Get_cache_file() {
+Get_cache_file()
+{
     local STRING="$1"
     local SHA
 
@@ -201,7 +213,8 @@ Get_cache_file() {
     echo "${CACHE_DIR}/${SHA}"
 }
 
-Update_cache() {
+Update_cache()
+{
     local URL="$1"
     local CACHE_FILE
     local CACHE_FILE_TEMP
@@ -223,7 +236,40 @@ Update_cache() {
     fi
 }
 
-Match_list() {
+Exclude_amazon()
+{
+    local URL="$1"
+    local IP="$2"
+    local IPDEC AMAZON_JSON RANGES
+    local RANGE START_END STARTDEC ENDDEC
+
+    IPDEC="$(Ip2dec "$IP")"
+    AMAZON_JSON="$(Get_cache_file "$URL")"
+
+    if [ "$CACHE_UPDATE" == 1 ]; then
+        Update_cache "$URL"
+    fi
+    if [ ! -r "$AMAZON_JSON" ]; then
+        return 10
+    fi
+
+    RANGES="$(jq -r ".prefixes[].ip_prefix" "$AMAZON_JSON")"
+
+    while read -r RANGE; do
+        START_END="$(sipcalc "$RANGE" | sed -n -e 's|^Network range\s\+- \([0-9.]\+\) - \([0-9.]\+\)$|\1:\2|p')"
+        STARTDEC="$(Ip2dec "${START_END%:*}")"
+        ENDDEC="$(Ip2dec "${START_END#*:}")"
+        # There is a match
+        if [ "$IPDEC" -ge "$STARTDEC" ] && [ "$IPDEC" -le "$ENDDEC" ]; then
+            return 0
+        fi
+    done <<< "$RANGES"
+
+    return 1
+}
+
+Match_list()
+{
     local LIST="$1"
     local IP="$2"
     local CACHE_FILE
@@ -233,7 +279,7 @@ Match_list() {
     if [ "$CACHE_UPDATE" == 1 ]; then
         Update_cache "$LIST"
     fi
-    if ! [ -r "$CACHE_FILE" ]; then
+    if [ ! -r "$CACHE_FILE" ]; then
         return 10
     fi
 
@@ -242,11 +288,12 @@ Match_list() {
         grep -q -F -x "$IP" "$CACHE_FILE"
     else
         # 24 bit match
-        grep -q -E -x "${IP%.*}\.[0-9]{1,3}" "$CACHE_FILE"
+        grep -q -E -x "${IP%.*}\\.[0-9]{1,3}" "$CACHE_FILE"
     fi
 }
 
-Match_commented_list() {
+Match_commented_list()
+{
     local LIST="$1"
     local IP="$2"
     local CACHE_FILE
@@ -256,14 +303,15 @@ Match_commented_list() {
     if [ "$CACHE_UPDATE" == 1 ]; then
         Update_cache "$LIST"
     fi
-    if ! [ -r "$CACHE_FILE" ]; then
+    if [ ! -r "$CACHE_FILE" ]; then
         return 10
     fi
 
     grepcidr -q -f "$CACHE_FILE" <<< "$IP"
 }
 
-Match_net_list() {
+Match_net_list()
+{
     local LIST="$1"
     local IP="$2"
     local CACHE_FILE
@@ -273,14 +321,15 @@ Match_net_list() {
     if [ "$CACHE_UPDATE" == 1 ]; then
         Update_cache "$LIST"
     fi
-    if ! [ -r "$CACHE_FILE" ]; then
+    if [ ! -r "$CACHE_FILE" ]; then
         return 10
     fi
 
     grepcidr -f "$CACHE_FILE" <<< "$IP" &> /dev/null
 }
 
-Match_dnsbl1() {
+Match_dnsbl1()
+{
     local DNSBL="$1"
     local IP="$2"
     local ANSWER
@@ -302,7 +351,8 @@ Match_dnsbl1() {
     [ "${ANSWER##*.}" -gt 0 ]
 }
 
-Match_dnsbl2() {
+Match_dnsbl2()
+{
     local DNSBL="$1"
     local IP="$2"
     local ANSWER
@@ -323,10 +373,11 @@ Match_dnsbl2() {
     # CSS: 127.0.0.3 - Spamhaus CSS Component
     # XBL: 127.0.0.4-7 - Exploits Block List
     # No PBL: 127.0.0.10-11 - The Policy Block List
-    grep -q -E -x "127\.0\.0\.[234567]" <<< "$ANSWER"
+    grep -q -E -x "127\\.0\\.0\\.[234567]" <<< "$ANSWER"
 }
 
-Match_dnsbl3() {
+Match_dnsbl3()
+{
     local DNSBL="$1"
     local IP="$2"
     local ANSWER
@@ -346,10 +397,11 @@ Match_dnsbl3() {
     # 127.0.0.1   Dangerous network
     # 127.0.0.2   Tor exit node
     # 127.0.0.128 Blocked network
-    grep -q -E -x "127\.0\.0\.(1|2|128)" <<< "$ANSWER"
+    grep -q -E -x "127\\.0\\.0\\.(1|2|128)" <<< "$ANSWER"
 }
 
-Match_dnsbl4() {
+Match_dnsbl4()
+{
     local DNSBL="$1"
     local IP="$2"
     local OWN_IP
@@ -372,7 +424,8 @@ Match_dnsbl4() {
     [ "$ANSWER" == "127.0.0.2" ]
 }
 
-Match_dnsbl6() {
+Match_dnsbl6()
+{
     local DNSBL="$1"
     local IP="$2"
     local ANSWER
@@ -393,7 +446,8 @@ Match_dnsbl6() {
     [ "$ANSWER" == "127.0.0.2" ]
 }
 
-Match_dnsbl7() {
+Match_dnsbl7()
+{
     local DNSBL="$1"
     local IP="$2"
     local ANSWER
@@ -413,10 +467,11 @@ Match_dnsbl7() {
     # 127.0.0.1 STABL
     # 127.0.0.2 CABL
     # 127.0.0.3 BABL - Bad Abuse Backlist
-    grep -q -E -x "127\.0\.0\.[123]" <<< "$ANSWER"
+    grep -q -E -x "127\\.0\\.0\\.[123]" <<< "$ANSWER"
 }
 
-Match_http_api1() {
+Match_http_api1()
+{
     local HTTPAPI="$1"
     local IP="$2"
     local URL
@@ -431,7 +486,8 @@ Match_http_api1() {
     return 10
 }
 
-Match_http_api2() {
+Match_http_api2()
+{
     local HTTPAPI="$1"
     local IP="$2"
     local AUTHKEY="$3"
@@ -457,14 +513,15 @@ Match_http_api2() {
     return 10
 }
 
-Match_http_api3() {
+Match_http_api3()
+{
     local HTTPAPI="$1"
     local IP="$2"
     local URL
 
     # shellcheck disable=SC2059
     printf -v URL "$HTTPAPI" "$IP"
-    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\+</attacks>"; then
+    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\\+</attacks>"; then
         # IP is positive
         return 0
     fi
@@ -472,7 +529,8 @@ Match_http_api3() {
     return 10
 }
 
-Match_http_api4() {
+Match_http_api4()
+{
     local HTTPAPI="$1"
     local IP="$2"
     local APIKEY="$3"
@@ -493,7 +551,8 @@ Match_http_api4() {
     return 10
 }
 
-Match_country() {
+Match_country()
+{
     local COUNTRY="$1"
     local IP="$2"
 
@@ -504,7 +563,8 @@ Match_country() {
     return 10
 }
 
-Match_multi_AS() {
+Match_multi_AS()
+{
     local IP="$1"
     shift
     local -a AUTONOMOUS_SYSTEMS=( "$@" )
@@ -522,7 +582,8 @@ Match_multi_AS() {
     return 10
 }
 
-Match_known() {
+Match_known()
+{
     local IP="$1"
 
     if [ -r "$KNOWN_IP" ] && grep -qFx "$IP" "$KNOWN_IP"; then
@@ -532,7 +593,14 @@ Match_known() {
     return 10
 }
 
-Match_any() {
+Match_any()
+{
+    # Excludes
+    if Exclude_amazon "https://ip-ranges.amazonaws.com/ip-ranges.json" "$IP"; then
+        Log_match "Amazon CloudFront ERROR"
+        return 2
+    fi
+
     # Local
     if Match_list "$LIST_BLDE" "$IP"; then
         Log_match "blde"
@@ -592,7 +660,11 @@ Match_any() {
     return 1
 }
 
-Match_all() {
+Match_all()
+{
+    if Exclude_amazon "https://ip-ranges.amazonaws.com/ip-ranges.json" "$IP"; then
+        echo "amazon-cloudfront"
+    fi
     if Match_known "$IP"; then
         echo "known-attacker"
     fi
@@ -654,22 +726,22 @@ else
         IFS='' read -r FIRST_LINE
     done
     # Find X-Fail2ban header
-    if grep -qx "X-Fail2ban: [0-9a-fA-F:.]\+,\S\+@\S\+" <<< "$FIRST_LINE"; then
+    if grep -qx "X-Fail2ban: [0-9a-fA-F:.]\\+,\\S\\+@\\S\\+" <<< "$FIRST_LINE"; then
         IP_SENDER="${FIRST_LINE#X-Fail2ban: }"
         IP="${IP_SENDER%%,*}"
         SENDER="${IP_SENDER##*,}"
     else
         # Missing X-Fail2ban header
-        sed -e "1s/^/${FIRST_LINE}\n/" | /usr/sbin/sendmail "$DEST"
+        sed -e "1s/^/${FIRST_LINE}\\n/" | /usr/sbin/sendmail "$DEST"
         exit
     fi
 fi
 
 # Check cache
-[ -d "$CACHE_DIR" ] || exit 1
+test -d "$CACHE_DIR" || exit 1
 
 # cat message.eml | LEANMAIL_DEBUG=1 leanmail.sh
-[ -z "$LEANMAIL_DEBUG" ] || CACHE_UPDATE="1" Match_all
+test -z "$LEANMAIL_DEBUG" || CACHE_UPDATE="1" Match_all
 
 # Check IP
 if Match_any; then
