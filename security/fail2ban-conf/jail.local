@@ -31,6 +31,9 @@ sender = @@SENDER@@
 #destemail = fail2ban-leanmail@example.com
 destemail = admin@szepe.net
 
+# Separate chain for Fail2ban
+chain = fail2ban
+
 # Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
              sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
@@ -157,7 +160,7 @@ bantime  = 604800
 # Not just TCP
 protocol = all
 # No email alert
-action   = iptables-allports[name=recidive]
+action   = iptables-allports[name=recidive, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
 #           cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
 #cfemail  = 
 #cfapikey = 

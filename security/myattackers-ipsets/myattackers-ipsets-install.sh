@@ -2,8 +2,8 @@
 #
 # Deny traffic from hostile networks.
 #
-# VERSION       :0.4.1
-# DATE          :2017-10-01
+# VERSION       :0.5.0
+# DATE          :2018-04-07
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -27,7 +27,7 @@ Install_ipsets() {
     ipset list -name
 
     iptables -w -A "$CHAIN" -j RETURN
-    iptables -w -I INPUT -j "$CHAIN"
+    iptables -w -A INPUT -j "$CHAIN"
 
     if [ -x /etc/init.d/ipset-persistent ]; then
         if [ "$(lsb_release -s -c)" == "wheezy" ]; then
@@ -47,7 +47,7 @@ Update_ipsets() {
     ipset list -name
 
     iptables -w -A "$CHAIN" -j RETURN
-    iptables -w -I INPUT -j "$CHAIN"
+    iptables -w -A INPUT -j "$CHAIN"
 
     if [ -x /etc/init.d/ipset-persistent ]; then
         /etc/init.d/ipset-persistent save

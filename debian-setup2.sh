@@ -84,13 +84,6 @@ Dinstall package/apt-add-repo.sh
 
 debian-setup/_resolv_conf
 
-# Block dangerous networks
-# @FIXME Depends on repo
-(
-    cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/
-    ./myattackers-ipsets-install.sh
-)
-
 # Micro Name Service Caching
 debian-setup/unscd
 
@@ -163,6 +156,17 @@ debian-setup/openssh-client
 
 debian-setup/mc
 
+# Firewall
+# http://inai.de/documents/Perfect_Ruleset.pdf
+# Enable loopback traffic
+iptables -A INPUT -i lo -j ACCEPT
+# Enable statefull rules
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+# Drop invalid state packets
+iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
+# IP range match (example)
+#iptables -A INPUT -m iprange --src-range 10.10.96.255-10.10.97.14 -j REJECT
+
 # myattackers
 Dinstall security/myattackers.sh
 # Initialize iptables chain
@@ -171,6 +175,13 @@ myattackers.sh -i
 iptables-save \
     | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' \
     > /etc/iptables/rules.v4
+
+# Deny traffic from known hostile networks
+# @FIXME Depends on repo
+(
+    cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/
+    ./myattackers-ipsets-install.sh
+)
 
 # After security/myattackers.sh
 debian-setup/fail2ban
@@ -237,6 +248,7 @@ service fail2ban restart
 Pkg_install_quiet debconf-utils rsync mariadb-client
 # @nonDebian
 Pkg_install_quiet percona-xtrabackup s3ql
+# TODO percona-xtrabackup-24 for mysql 5.7+
 # Disable Apache configuration from javascript-common
 if hash a2disconf 2> /dev/null; then
     a2disconf javascript-common

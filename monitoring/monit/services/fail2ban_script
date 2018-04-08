@@ -2,30 +2,36 @@
 #
 # Check Fail2ban iptables chains and myattackers ipset chain.
 #
-# VERSION       :0.2.1
+# VERSION       :0.3.0
 # LOCATION      :/usr/local/sbin/fail2ban-test.sh
+
+MYA_IPSET_CHAIN="myattackers-ipset"
 
 set -e
 
 FAIL2BAN_JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's|, | |g' -e 's|^.*Jail list:\s\+\(.*\)$|\1|p')"
-MYA_IPSET_CHAIN="myattackers-ipset"
 
 test -n "$FAIL2BAN_JAILS"
 
-# Check myattackers-ipset
+# Check also myattackers-ipset
 if /sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" &> /dev/null; then
-    /sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" | grep -q " (1 references)\$"
+    /sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" | grep -q ' (1 references)$'
 fi
 
+# Check Fail2ban-managed chain
+/sbin/iptables -n -w -L fail2ban | grep -q ' (1 references)$'
+
+# Check all jail chains
 for JAIL in ${FAIL2BAN_JAILS}; do
     # No iptables chain for these jails
-    [ "$JAIL" == "proftpd-notif" ] && continue
-    [[ "$JAIL" =~ apache-cf.* ]] && continue
+    if [ "$JAIL" == "proftpd-notif" ] || [[ "$JAIL" =~ apache-cf.* ]]; then
+        continue
+    fi
 
-    # Check chain and reference
+    # Check chain existence and reference
     CHAIN="f2b-${JAIL}"
-    /sbin/iptables -n -w -L "$CHAIN" | grep -q " (1 references)\$"
+    /sbin/iptables -n -w -L "$CHAIN" | grep -q ' (1 references)$'
 done
 
 # Ping Fail2ban server
-/usr/bin/fail2ban-client ping | grep -Fx "Server replied: pong"
+/usr/bin/fail2ban-client ping | grep -F -x 'Server replied: pong'
