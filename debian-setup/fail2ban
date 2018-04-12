@@ -41,3 +41,6 @@ sed -i -e "s|@@SSHPORT@@|$(Data get-value package.openssh-server.port "22")|" /e
 iptables -w -N fail2ban
 iptables -w -A fail2ban -j RETURN
 iptables -w -A INPUT -j fail2ban
+ip6tables -w -N fail2ban
+ip6tables -w -A fail2ban -j RETURN
+ip6tables -w -A INPUT -j fail2ban

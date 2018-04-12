@@ -156,34 +156,9 @@ debian-setup/openssh-client
 
 debian-setup/mc
 
-# Firewall
-# http://inai.de/documents/Perfect_Ruleset.pdf
-# Enable loopback traffic
-iptables -A INPUT -i lo -j ACCEPT
-# Enable statefull rules
-iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-# Drop invalid state packets
-iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
-# IP range match (example)
-#iptables -A INPUT -m iprange --src-range 10.10.96.255-10.10.97.14 -j REJECT
+debian-setup/iptables
 
-# myattackers
-Dinstall security/myattackers.sh
-# Initialize iptables chain
-myattackers.sh -i
-# Save iptables rules
-iptables-save \
-    | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' \
-    > /etc/iptables/rules.v4
-
-# Deny traffic from known hostile networks
-# @FIXME Depends on repo
-(
-    cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/
-    ./myattackers-ipsets-install.sh
-)
-
-# After security/myattackers.sh
+# After debian-setup/iptables
 debian-setup/fail2ban
 
 #debian-setup/_cert-szepenet

@@ -4,6 +4,7 @@
 - `https://hacked-emails.com/api?q=user@example.com`
 - https://haveibeenpwned.com/
 - `https://haveibeenpwned.com/api/v2/breachedaccount/user@example.com`
+- https://breachalarm.com/
 
 ### Incident (abuse) reporting
 

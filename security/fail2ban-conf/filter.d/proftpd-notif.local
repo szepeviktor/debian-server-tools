@@ -1,0 +1,7 @@
+# Fail2Ban filter for Proftpd FTP login notification
+
+[Definition]
+
+failregex = \(\S+\[<HOST>\]\)[: -]+ USER \S+: Login successful\.$
+
+# Author: Viktor Szépe

@@ -3,13 +3,13 @@
  * Check PHP environment.
  *
  * Usage through a webserver
- *     wget -q -O - "https://example.com/php-env-check.php"; echo
+ *     wget -qO- "https://example.com/php-env-check.php" | jq .
  * Usage on CLI
- *     php /path/to/php-env-check.php | jq .
+ *     php ./php-env-check.php | jq .
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.3.0
+ * @version 0.4.0
  */
 
 namespace O1;
@@ -172,7 +172,8 @@ final class Check_Env {
         // Database JSON data type support
         // See https://dev.mysql.com/doc/refman/5.7/en/json.html
         //$dotenv = parse_ini_file( __DIR__ . '/html/.env' );
-        //$this->assert_version( 'mysqld.json', '5.7.8', $this->mysql_innodb_version( $dotenv ) );
+        //$this->assert_version( 'mysqld.json', '5.7.8', $this->mysqli_innodb_version( $dotenv ) );
+        //$this->assert_version( 'mysqld.json', '5.7.8', $this->pdo_mysql_innodb_version( $dotenv ) );
     }
 
     /**
@@ -274,7 +275,7 @@ final class Check_Env {
      *
      * @param $config array Datababase credentials
      */
-    private function mysql_innodb_version( $config ) {
+    private function mysqli_innodb_version( $config ) {
 
         if ( ! isset( $config['DB_HOST'] ) ) {
             return '0';
@@ -300,5 +301,37 @@ final class Check_Env {
         $link->close();
 
         return reset( $mysql_version );
+    }
+
+    /**
+     * Get InnoDB version by PDO.
+     *
+     * @param $config array Datababase credentials
+     */
+    private function pdo_mysql_innodb_version( $config ) {
+
+        if ( ! isset( $config['DB_HOST'] ) ) {
+            return '0';
+        }
+
+        try {
+            $link = new \PDO( sprintf( 'mysql:host=%s;port=%s;dbname=%s',
+                $config['DB_HOST'],
+                $config['DB_PORT'],
+                $config['DB_DATABASE']
+            ),  $config['DB_USERNAME'], $config['DB_PASSWORD'] );
+        } catch ( \PDOException $exception ) {
+            return '0';
+        }
+
+        $result = $link->query('SELECT @@global.innodb_version;' );
+        if ( 1 !== $result->rowCount() ) {
+            return '0';
+        }
+
+        $mysql_version = $result->fetchColumn();
+        $link = null;
+
+        return $mysql_version;
     }
 }

@@ -2,12 +2,12 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.6
+# VERSION       :0.2.7
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
 #
-# Rebuild goaccess with #define MAX_IGNORE_IPS 1024 in src/settings.h
+# Rebuild goaccess with #define MAX_IGNORE_IPS 2048 in src/settings.h
 #
 #     ./goaccess.sh [GOACCESS-OPTIONS]
 
@@ -164,12 +164,12 @@ Goaccess() {
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
         --date-format="%d/%b/%Y" \
         --time-format="%T" \
+        --exclude-ip="$IP" \
         $(Exclude_custom) \
         $(Exclude_hetrixtools) \
         $(Exclude_pingdom) \
         $(Exclude_cloudflare) \
         $(Exclude_amazon_cloudfront) \
-        --exclude-ip="$IP" \
         "$@"
 }
 
@@ -180,15 +180,15 @@ fi
 
 Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@"
 
-# List log files by size
-#     ls -lSr /var/log/apache2/*access.log
-
-# Multiple log files (not real time)
-#cat /var/log/apache2/${U}-{ssl-,}access.log | Goaccess "$@"
+# HTML output from last 10 log files
+#( zcat /var/log/apache2/${U}-${HTTPS}access.log.{9..2}.gz
+#  cat /var/log/apache2/${U}-${HTTPS}access.log{.1,} ) | Goaccess "$@" > 10-days-stat.html
 
 # HTML output
-#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@" > "/home/${U}/website/html/stat.html"
+#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@" > stat.html
 
-# HTML output from multiple log files
-#( zcat /var/log/apache2/${U}-{ssl-,}access.log.{3,2}.gz
-#  cat /var/log/apache2/${U}-{ssl-,}access.log{1,} ) | Goaccess "$@" > "/home/${U}/website/html/stat.html"
+# List log files by size
+#ls -lSr /var/log/apache2/*access.log
+
+# Multiple log files (not real time)
+#cat /var/log/apache2/${U}-${HTTPS}access.log | Goaccess "$@"

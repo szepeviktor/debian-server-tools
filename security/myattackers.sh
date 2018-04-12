@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.5.12
+# VERSION       :0.6.0
 # DATE          :2018-02-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -79,7 +79,7 @@ Is_IP_range() {
 }
 
 Check_chain() {
-    iptables -n -w -L "$CHAIN" &> /dev/null
+    iptables -n -w -L "$CHAIN" 2> /dev/null | grep -q ' (1 references)$'
 }
 
 # Validate IP address or range
@@ -103,7 +103,7 @@ Init() {
 
     # Enable our chain at the top of INPUT
     if ! iptables -w -C INPUT -j "$CHAIN" &> /dev/null; then
-        iptables -w -I INPUT -j "$CHAIN" || return 3
+        iptables -w -A INPUT -j "$CHAIN" || return 3
     fi
 
     # All OK
@@ -118,8 +118,6 @@ Remove_chain() {
 
 Show() {
     iptables -v -n -w -L ${CHAIN}
-
-    exit 0
 }
 
 Bantime_translate() {
@@ -205,8 +203,6 @@ Unban_expired() {
                 logger -t "myattackers" "Unban expired ${SOURCE}"
             fi
         done
-
-    exit 0
 }
 
 # Zero out counters on rules expired at least one month ago (monthly cron job)
@@ -240,8 +236,6 @@ Reset_old_rule_counters() {
                 fi
             fi
         done
-
-    exit 0
 }
 
 # Script name specifies protocol
@@ -250,7 +244,7 @@ MODE="ban"
 case "$(basename "$0")" in
     myattackers.sh)
         # Cron hourly (when called without parameters)
-        [ $# == 0 ] && MODE="cron"
+        test "$#" -eq 0 && MODE="cron"
         ;;
     deny-http.sh)
         PROTOCOL="HTTP"
@@ -355,7 +349,7 @@ case "$MODE" in
 esac
 
 if ! Check_chain; then
-    Error_msg "Please set up ${CHAIN} chain.\nmyattackers.sh -i"
+    Error_msg "Please set up ${CHAIN} chain.\\nmyattackers.sh -i"
     exit 10
 fi
 
@@ -363,12 +357,15 @@ fi
 case "$MODE" in
     cron)
         Unban_expired
+        exit 0
         ;;
     show)
         Show
+        exit 0
         ;;
     reset)
         Reset_old_rule_counters
+        exit 0
         ;;
 esac
 
@@ -385,7 +382,7 @@ case "$MODE" in
             Ban "$ADDRESS"
         else
             # Skip empty and comment lines
-            grep -Ev "^\s*#|^\s*\$" "$LIST_FILE" \
+            grep -E -v '^\s*#|^\s*$' "$LIST_FILE" \
                 | while read -r LADDRESS; do
                     Check_address "$LADDRESS" && Ban "$LADDRESS"
                 done
@@ -395,7 +392,7 @@ case "$MODE" in
         if [ -z "$LIST_FILE" ]; then
             Unban "$ADDRESS"
         else
-            grep -Ev "^\s*#|^\s*\$" "$LIST_FILE" \
+            grep -E -v '^\s*#|^\s*$' "$LIST_FILE" \
                 | while read -r LADDRESS; do
                     Check_address "$LADDRESS" && Unban "$LADDRESS"
                 done
