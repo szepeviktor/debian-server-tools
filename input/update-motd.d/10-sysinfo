@@ -92,19 +92,19 @@ Do_display() {
 
         # Any more on left?
         if [ ${#DISPLAY_LEFT[*]} -ne "$LEFT_POS" ]; then
-            printf "%s  " "${DISPLAY_LEFT[$LEFT_POS]}"
+            printf '%s  ' "${DISPLAY_LEFT[$LEFT_POS]}"
             LEFT_POS+="1"
         else
-            printf "%-41s  "
+            printf '%-41s  ' ""
         fi
 
         # Any more on right?
         if [ ${#DISPLAY_RIGHT[*]} -ne "$RIGHT_POS" ]; then
-            printf "%s" "${DISPLAY_RIGHT[$RIGHT_POS]}"
+            printf '%s' "${DISPLAY_RIGHT[$RIGHT_POS]}"
             RIGHT_POS+="1"
         fi
 
-        printf "\n"
+        printf '\n'
     done
 }
 
@@ -165,6 +165,8 @@ Display_right "Users" "$LOGGED_IN" "$(Tl_limits "$LOGGED_IN" 10 2)"
 
 PUBLIC_IPV4="$(ip addr show | sed -n -e 's|^\s*inet \([0-9\.]\+\)\b.*$|\1|p' | grep -v -x -m 1 '127\.[0-9]\+\.[0-9]\+\.[0-9]\+')"
 Display_right "Public IPv4" "$PUBLIC_IPV4" "$(if [ -z "$PUBLIC_IPV4" ]; then echo " "; else echo "G"; fi)"
+PUBLIC_IPV6="$(ip addr show | sed -n -e 's|^\s*inet6 \([0-9a-f:]\+\)\b.*$|\1|p' | grep -v -x -E '::1|fe80::[0-9a-f:]+')"
+Display_right "Public IPv6" "$PUBLIC_IPV6" "$(if [ -z "$PUBLIC_IPV6" ]; then echo " "; else echo "G"; fi)"
 
 # shellcheck disable=SC2155
 declare -i PACKAGE_UPGRADES="$(apt-get -s -o Debug::NoLocking=true upgrade | grep -c "^Inst ")"

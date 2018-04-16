@@ -1,17 +1,93 @@
-# Office 365 Delisting Service
-#     host -t TXT spfb.protection.outlook.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|$|\tallow,BLOCK|'
+# Outlook.com SPF IP addresses
+#     ../spf-survey.sh outlook.com | sed -e 's|.*|#&\tallow,BLOCK|'
+# Prepend a colon to IPv6 addresses
+#157.56.232.0/21	allow,BLOCK
+#157.56.240.0/20	allow,BLOCK
+#207.46.198.0/25	allow,BLOCK
+#207.46.4.128/25	allow,BLOCK
+#157.56.24.0/25	allow,BLOCK
+#157.55.157.128/25	allow,BLOCK
+#157.55.61.0/24	allow,BLOCK
+#157.55.49.0/25	allow,BLOCK
+#65.55.174.0/25	allow,BLOCK
+#65.55.126.0/25	allow,BLOCK
+#65.55.113.64/26	allow,BLOCK
+#65.55.94.0/25	allow,BLOCK
+#65.55.78.128/25	allow,BLOCK
+#111.221.112.0/21	allow,BLOCK
+#207.46.58.128/25	allow,BLOCK
+#111.221.69.128/25	allow,BLOCK
+#111.221.66.0/25	allow,BLOCK
+#111.221.23.128/25	allow,BLOCK
+#70.37.151.128/25	allow,BLOCK
+#157.56.248.0/21	allow,BLOCK
+#213.199.177.0/26	allow,BLOCK
+#157.55.225.0/25	allow,BLOCK
+#157.55.11.0/25	allow,BLOCK
+#157.55.9.128/25	allow,BLOCK
+#207.46.100.0/24	allow,BLOCK
+#207.46.163.0/24	allow,BLOCK
+#65.55.169.0/24	allow,BLOCK
+#157.56.110.0/23	allow,BLOCK
+#157.55.234.0/24	allow,BLOCK
+#213.199.154.0/24	allow,BLOCK
+#213.199.180.128/26	allow,BLOCK
+#157.56.112.0/24	allow,BLOCK
+#207.46.51.64/26	allow,BLOCK
+#64.4.22.64/26	allow,BLOCK
+#40.92.0.0/14	allow,BLOCK
+#40.107.0.0/17	allow,BLOCK
+#40.107.128.0/17	allow,BLOCK
+#134.170.140.0/24	allow,BLOCK
+#:2a01:111:f400::/48	allow,BLOCK
 #23.103.128.0/19	allow,BLOCK
 #23.103.198.0/23	allow,BLOCK
 #65.55.88.0/24	allow,BLOCK
+# Office 365 Delisting Service
 104.47.0.0/17	allow,BLOCK
 #23.103.200.0/21	allow,BLOCK
 #23.103.208.0/21	allow,BLOCK
 #23.103.191.0/24	allow,BLOCK
 #216.32.180.0/23	allow,BLOCK
 #94.245.120.64/26	allow,BLOCK
+#:2001:489a:2202::/48	allow,BLOCK
+#157.55.0.192/26	allow,BLOCK
+#157.55.1.128/26	allow,BLOCK
+#157.55.2.0/25	allow,BLOCK
+#65.54.190.0/24	allow,BLOCK
+#65.54.51.64/26	allow,BLOCK
+#65.54.61.64/26	allow,BLOCK
+#65.55.111.0/24	allow,BLOCK
+#65.55.116.0/25	allow,BLOCK
+#65.55.34.0/24	allow,BLOCK
+#65.55.90.0/24	allow,BLOCK
+#65.54.241.0/24	allow,BLOCK
+#207.46.117.0/24	allow,BLOCK
+#207.68.169.173/30	allow,BLOCK
+#207.68.176.0/26	allow,BLOCK
+#207.46.132.128/27	allow,BLOCK
+#207.68.176.96/27	allow,BLOCK
+#65.55.238.129/26	allow,BLOCK
+#65.55.238.129/26	allow,BLOCK
+#207.46.116.128/29	allow,BLOCK
+#65.55.178.128/27	allow,BLOCK
+#213.199.161.128/27	allow,BLOCK
+#65.55.33.64/28	allow,BLOCK
+#65.54.121.120/29	allow,BLOCK
+#65.55.81.48/28	allow,BLOCK
+#65.55.234.192/26	allow,BLOCK
+#207.46.200.0/27	allow,BLOCK
+# Office 365 Delisting Service
+65.55.52.224/27	allow,BLOCK
+#94.245.112.10/31	allow,BLOCK
+#94.245.112.0/27	allow,BLOCK
+#111.221.26.0/27	allow,BLOCK
+#207.46.50.192/26	allow,BLOCK
+#207.46.50.224	allow,BLOCK
+
 
 # Outlook.com Outbound IP Space
-#     wget -qO- https://mail.live.com/mail/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | sed -e 's|^.*$|#&\tallow,BLOCK|'
+#     wget -qO- https://postmaster.live.com/pm/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | sed -e 's|.*|#&\tallow,BLOCK|'
 #65.54.190.0/26	allow,BLOCK
 #65.54.190.64/26	allow,BLOCK
 #65.54.190.128/26	allow,BLOCK

@@ -95,40 +95,40 @@ shortcircuit ALL_TRUSTED             on
 endif # Mail::SpamAssassin::Plugin::Shortcircuit
 
 # General
-report_contact          postmaster@szepe.net
+report_contact                          postmaster@szepe.net
 # worker
 # multi.uribl.com does not work with public/high traffic resolvers
-dns_server              81.2.236.171
-trusted_networks        81.2.236.171
+dns_server                              81.2.236.171
+trusted_networks                        81.2.236.171
 # Explicitly enable network checks
 #     man Mail::SpamAssassin::Plugin::Pyzor
-skip_rbl_checks         0
+skip_rbl_checks                         0
 
 # Pyzor
-use_razor2              0
-use_pyzor               1
-pyzor_timeout           20
+use_razor2                              0
+use_pyzor                               1
+pyzor_timeout                           20
 
 # Blacklists
-blacklist_from          *@mindenaneten.hu
-blacklist_from          *@mmofromhome.co.uk
-blacklist_from          *@setfreelife.com
+blacklist_from                          *@mindenaneten.hu
+blacklist_from                          *@mmofromhome.co.uk
+blacklist_from                          *@setfreelife.com
 # Spamtrap
-whitelist_to            spamtrap@szepe.net
+whitelist_to                            spamtrap@szepe.net
 # No Chinese locale (zh)
 # all = en ja ko ru th zh
-ok_locales              en ja ko ru th
+ok_locales                              en ja ko ru th
 
 # Whitelists
-#whitelist_from          user@example.com user2@example.com
-#whitelist_to            user@example.com
-#whitelist_from_rcvd     user@example.com mail.example.com
+#whitelist_from                          user@example.com user2@example.com
+#whitelist_to                            user@example.com
+#whitelist_from_rcvd                     user@example.com mail.example.com
 
 # Scores
-#score RDNS_NONE                         3.00
+##score RDNS_NONE                         3.00
 score RDNS_DYNAMIC                      2.00
 score DYN_RDNS_AND_INLINE_IMAGE         3.00
 score DNS_FROM_RFC_BOGUSMX              4.00
 score T_DKIM_INVALID                    1.00
 score SPF_HELO_FAIL                     2.00
-score FM_FAKE_HELO_HOTMAIL              2.00
+##score FM_FAKE_HELO_HOTMAIL              2.00 # 20_fake_helo_tests.cf

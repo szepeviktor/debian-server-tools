@@ -18,6 +18,10 @@ Use `conf.d` style configurations!
 
 `diff -wu installed.conf new.conf`
 
+### Zeit Now
+
+Realtime Global Deployments for Docker, Node.js, Static Websites https://zeit.co/now
+
 ### Hyper_
 
 Simple and secure container cloud https://hyper.sh/

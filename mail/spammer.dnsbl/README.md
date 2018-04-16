@@ -24,7 +24,7 @@ Copy `spammer.conf` to `/etc/unbound/unbound.conf.d/`.
 
 ### Spamassassin
 
-Copy `20_spammer.dnsbl.cf` to `/etc/spamassassin/`.
+Copy `20_spammer_dnsbl.cf` to `/etc/spamassassin/`.
 
 ## Pseudo script
 
@@ -46,8 +46,8 @@ cp -vf spammer.conf /etc/unbound/unbound.conf.d/
 service unbound restart
 
 # On the clients
-cp -vf 20_spammer.dnsbl.cf /etc/spamassassin/
+cp -vf 20_spammer_dnsbl.cf /etc/spamassassin/
 editor /etc/spamassassin/local.cf
 #     dns_server  IP-ADDRESS
-sudo -u daemon -- spamassassin --lint && service spamassassin restart
+sudo -u courier -- spamassassin --lint && service spamassassin restart
 ```

@@ -6,7 +6,7 @@
 # DEPENDS       :./web-sessions-geoiplookup.py
 
 ACCESS_LOG="/var/log/apache2/project-ssl-access.log"
-SERVER_IP="1.2.3.4"
+SERVER_IP="$IP"
 
 declare -i SESSION_MAX_LENGTH="600"
 
@@ -18,7 +18,7 @@ Exclude() {
     test "$IP" == "$SERVER_IP" && return 0
     test "$UA" == "Amazon CloudFront" && return 0
     test "$UA" == "Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)" && return 0
-    test "$UA" == "HetrixTools.COM Uptime Monitoring Bot. https://hetrixtools.com/uptime-monitoring-bot.html" && return 0
+    test "$UA" == "HetrixTools Uptime Monitoring Bot. https://hetrixtools.com/uptime-monitoring-bot.html" && return 0
 
     # Search engines
     [[ "$IP" =~ ^66\.249\.[6789] ]] && [ "$UA" != "${UA/ Googlebot\//}" ] && return 0

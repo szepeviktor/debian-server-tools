@@ -468,9 +468,9 @@ OK response: `IP Unlisted in the spam sender list None`
   [Office 365 Delisting Service](https://sender.office.com/Delist)
 - [AOL Postmaster](https://postmaster.aol.com/whitelist-request) `R`
   [IP reputation](https://postmaster.aol.com/ip-reputation)
+- [Mail.Ru Postmaster](https://postmaster.mail.ru/) `R`
 - [Yandex Postmaster](https://postoffice.yandex.com/) `R`
   [Feedback Loop](http://yandexfbl.senderscore.net/)
-- [mail.ru Postmaster](https://postmaster.mail.ru/)
 - https://poczta.onet.pl/pomoc/en,odblokuj.html
 - http://wiki.wordtothewise.com/ISP_Summary_Information (list)
 
