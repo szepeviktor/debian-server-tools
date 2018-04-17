@@ -166,6 +166,17 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Differences of **staging and development** environments:
   different domain name, robots.txt, email delivery, disable 3rd parties
 
+### Login and Sign up page features :door:
+
+- Logo and title
+- Language selector
+- News or marketing material
+- "Remember me" checkbox
+- "Forgot password" link
+- Link to Login/Sign up page
+- Privacy Policy and Terms of Service links
+- Support email and chat/open ticket
+
 ### Maintenance :wrench:
 
 Have me on board: viktor@szepe.net
