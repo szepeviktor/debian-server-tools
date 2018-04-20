@@ -3,18 +3,21 @@
 # Common functions for debian-setup
 #
 
-Error() {
+Error()
+{
     echo "ERROR: $(tput bold;tput setaf 7;tput setab 1)${*}$(tput sgr0)" 1>&2
 }
 
-Is_installed() {
+Is_installed()
+{
     local PKG="$1"
 
     test "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed"
 }
 export -f Is_installed
 
-Is_installed_regexp() {
+Is_installed_regexp()
+{
     local PKG="$1"
     local SEARCH="?and(?installed, ?name(${PKG}))"
 
@@ -22,13 +25,15 @@ Is_installed_regexp() {
 }
 export -f Is_installed_regexp
 
-Pkg_install_quiet() {
+Pkg_install_quiet()
+{
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y "$@"
 }
 export -f Pkg_install_quiet
 
 # Download architecture-independent packages
-Getpkg() {
+Getpkg()
+{
     local P="$1"
     local R="${2:-sid}"
     local PKG_PAGE="https://packages.debian.org/${R}/all/${P}/download"
@@ -47,7 +52,8 @@ Getpkg() {
 export -f Getpkg
 
 # Install a script from debian-server-tools
-Dinstall() {
+Dinstall()
+{
     (
         cd /usr/local/src/ || return 1
         if [ ! -d "debian-server-tools" ]; then
@@ -60,7 +66,8 @@ Dinstall() {
 }
 export -f Dinstall
 
-Data() {
+Data()
+{
     PYTHONIOENCODING="utf_8" shyaml "$@" < /root/server.yml
 }
 export -f Data

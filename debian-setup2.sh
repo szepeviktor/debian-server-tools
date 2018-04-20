@@ -193,8 +193,7 @@ if Is_installed "mod-pagespeed-stable"; then
 fi
 
 # PHP-FPM
-#webserver/php5-fpm.sh
-webserver/php7-fpm.sh
+webserver/php-fpm.sh
 
 # Package managers
 debian-setup/_package-python-pip
@@ -238,7 +237,7 @@ debian-setup/php-cachetool
 
 # Monit - monitoring
 # @FIXME Needs a production website for apache2 and php7.0-fpm
-# @FIXME Defaults config file editor
+# @FIXME Defaults file editor
 # @FIXME Depends on repo
 (
     cd /usr/local/src/debian-server-tools/monitoring/monit/

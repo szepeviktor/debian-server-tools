@@ -155,7 +155,7 @@ if Is_installed "gcc-4.9-base"; then
 fi
 # Remove ClamAV data
 rm -rf /var/lib/clamav /var/log/clamav
-# Remove left-over font
+# Remove left-over fonts
 rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
@@ -190,7 +190,7 @@ debian-setup/adduser
 # After adduser
 debian-setup/openssh-server
 
-# Optionally (WITHOUT_SYSTEMD) switch to SysVinit
+# Optionally switch to SysVinit
 debian-setup/systemd
 
 # Log in on a new terminal and log out here

@@ -22,14 +22,14 @@ sed -i -e 's|\brotate 14$|rotate 90|' /etc/logrotate.d/apache2
 
 # Run as "_web" user
 adduser --disabled-password --no-create-home --gecos "" --force-badname _web
-sed -i -e 's|^export APACHE_RUN_USER=www-data|export APACHE_RUN_USER=_web|' /etc/apache2/envvars
-sed -i -e 's|^export APACHE_RUN_GROUP=www-data|export APACHE_RUN_GROUP=_web|' /etc/apache2/envvars
+sed -e 's|^export APACHE_RUN_USER=www-data|export APACHE_RUN_USER=_web|' -i /etc/apache2/envvars
+sed -e 's|^export APACHE_RUN_GROUP=www-data|export APACHE_RUN_GROUP=_web|' -i /etc/apache2/envvars
 
 # Log 404-s also
-sed -i -e 's|^LogLevel warn|LogLevel info|' /etc/apache2/apache2.conf
+sed -e 's|^LogLevel warn|LogLevel info|' -i /etc/apache2/apache2.conf
 
 # Remove Location section
-sed -i -e '/<Location \/server-status>/,/<\/Location>/d' /etc/apache2/mods-available/status.conf
+sed -e '/<Location \/server-status>/,/<\/Location>/d' -i /etc/apache2/mods-available/status.conf
 # Modules
 a2enmod actions rewrite headers deflate expires proxy_fcgi http2
 yes | cp -f webserver/apache-conf-available/ssl-mozilla-intermediate.default /etc/apache2/mods-available/ssl.conf
@@ -50,7 +50,7 @@ a2dismod -f negotiation
 a2disconf localized-error-pages
 
 # robots.txt
-echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > /var/www/html/robots.txt
+printf 'User-agent: *\nDisallow: /\n# Please stop sending further requests.\n' > /var/www/html/robots.txt
 
 # Log search
 Dinstall monitoring/logsearch.sh

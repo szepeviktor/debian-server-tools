@@ -58,6 +58,8 @@ cruft:
     - /home
     - /root
     - /etc/php/7.0
+    - /etc/php/7.1
+    - /etc/php/7.2
     - /var/lib/php/modules
     - /usr/local/bin
     - /usr/local/sbin
