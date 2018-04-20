@@ -2,10 +2,11 @@
 
 # Trusted senders, e.g. forwarded addresses - allow,BLOCK
 
-# Art Medic - mail.dlmc.hu.
+# Art Medic - mail.dlmc.hu. hosting.serco.hu.
 62.77.208.234	allow,BLOCK
+185.43.205.52	allow,BLOCK
 
-# Mailing lists usually break DKIM
+# Mailing lists usually breaking DKIM
 # SourceForge - SPF:_spf.sourceforge.net
 172.16.0.0/12	allow,BLOCK
 216.105.38.0/26	allow,BLOCK

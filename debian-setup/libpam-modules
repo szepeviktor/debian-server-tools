@@ -6,7 +6,7 @@ set -e -x
 Pkg_install_quiet bc figlet
 
 # @FIXME Python 2 does not handle UTF-8 in YAML
-echo -e "*\n*** $(Data get-value system.trespass-warning) ***\n*\n" > /etc/motd.tail
+printf '*\n*** %s ***\n*\n\n' "$(Data get-value system.trespass-warning)" > /etc/motd.tail
 
 Data get-value system.host-color "7" > /etc/hostcolor
 

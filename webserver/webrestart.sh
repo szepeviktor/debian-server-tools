@@ -2,14 +2,14 @@
 #
 # Reload PHP-FPM and Apache dependently.
 #
-# VERSION       :0.6.4
+# VERSION       :0.6.5
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS5      :apt-get install php5-fpm apache2
-# DEPENDS       :apt-get install php7.0-fpm apache2
+# DEPENDS       :apt-get install php7.2-fpm apache2
 # LOCATION      :/usr/local/sbin/webrestart.sh
 # SYMLINK       :/usr/local/sbin/webreload.sh
 
@@ -27,6 +27,8 @@ elif hash php-fpm7.0 2> /dev/null; then
     php-fpm7.0 -t || Error "PHP-FPM 7.0 configuration test failed"
 elif hash php-fpm7.1 2> /dev/null; then
     php-fpm7.1 -t || Error "PHP-FPM 7.1 configuration test failed"
+elif hash php-fpm7.2 2> /dev/null; then
+    php-fpm7.2 -t || Error "PHP-FPM 7.2 configuration test failed"
 else
     Error "Unknown PHP version"
 fi
@@ -51,7 +53,7 @@ done <<< "$APACHE_CONFIGS"
 # Check non-SNI vhost
 if [ -f /etc/apache2/mods-enabled/ssl.load ]; then
     for VHOST in /etc/apache2/sites-enabled/001-*.conf; do
-        if ! [ -f "$VHOST" ]; then
+        if [ ! -f "$VHOST" ]; then
             echo "WARNING: Rename non-SNI vhost symlink to '001-site.conf'" 2>&1
         fi
     done
@@ -79,6 +81,8 @@ elif hash php-fpm7.0 2> /dev/null; then
     service php7.0-fpm reload || Error 'PHP-FPM 7.0 reload failed, ACT NOW!'
 elif hash php-fpm7.1 2> /dev/null; then
     service php7.1-fpm reload || Error 'PHP-FPM 7.1 reload failed, ACT NOW!'
+elif hash php-fpm7.2 2> /dev/null; then
+    service php7.2-fpm reload || Error 'PHP-FPM 7.2 reload failed, ACT NOW!'
 fi
 service apache2 reload || Error 'Apache reload failed, ACT NOW!'
 

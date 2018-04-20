@@ -3,7 +3,7 @@
 set -e -x
 
 # Detect HyperV
-if ! [ -c /dev/mem ]; then
+if [ ! -c /dev/mem ]; then
     exit 1
 fi
 # HyperV UUID

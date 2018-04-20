@@ -2,7 +2,7 @@
 #
 # Show colorized syslog without cron and imapd.
 #
-# VERSION       :0.3.0
+# VERSION       :0.3.1
 # DATE          :2016-07-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -35,7 +35,7 @@ else
 fi
 
 ${LOG_SOURCE} \
-    | grep -E --line-buffered --invert-match "(imapd|CRON)(\[[0-9]+\])?:" \
+    | grep -E --line-buffered --invert-match '(imapd|CRON)(\[[0-9]+\])?:' \
     | if [ -z "$LOG_OUTPUT" ]; then
         # ccze (or cat?) holds back some lines with "ccze | cat"
         ccze --mode ansi --plugin syslog

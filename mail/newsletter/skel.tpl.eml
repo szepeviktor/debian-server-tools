@@ -2,13 +2,14 @@ From: Name <user@example.com>
 Subject: $(echo "$SUBJECT" | conv2047.pl -e)
 To: @@EMAIL@@
 Reply-To: user@example.com
-X-Mailer: newsletter.sh
 List-ID: ${ID}-$(date -R | md5sum | cut -d" " -f1)
 List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_@@CAMPAIGN@@_@@EMAIL40@@>
 	<https://example.com/hirlevel/?c=@@CAMPAIGN@@&e=@@EMAIL40@@&h=@@CRYPT@@>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
 X-Report-Abuse: Please report abuse here:
 	mailto:abuse@example.com
 X-Precedence: bulk
+X-Mailer: newsletter.sh
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="_----------=_NLSH_112963458"
 

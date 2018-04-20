@@ -85,6 +85,8 @@ export IMAGE_ID="Debian"
 export IMAGE_CODENAME="stretch"
 #export IMAGE_CODENAME="buster"
 
+# "A real danger for the future of GNU/Linux"
+# https://skarnet.org/software/s6/systemd.html
 export WITHOUT_SYSTEMD="yes"
 
 export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils aptitude"

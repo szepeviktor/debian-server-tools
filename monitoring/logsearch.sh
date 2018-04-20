@@ -107,7 +107,7 @@ Realpath_all() {
     local LOG
 
     for LOG; do
-        if ! [ -f "$LOG" ]; then
+        if [ ! -f "$LOG" ]; then
             echo "$LOG"
             continue
         fi

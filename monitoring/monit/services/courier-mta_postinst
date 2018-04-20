@@ -1,6 +1,12 @@
 # Remove check when esmtpd-msa is disabled
-if ! [ -f /etc/courier/esmtpd-msa ] \
+if [ ! -f /etc/courier/esmtpd-msa ] \
     || ! grep -q "^ESMTPDSTART\s*=\s*[yY]" /etc/courier/esmtpd-msa; then
     echo "Removing check for esmtpd-msa" 1>&2
     sed -i -e '/^\s*check process courier-mta-msa /,/^$/d' /etc/monit/conf-available/courier-mta
+fi
+
+# Remove check when srs_secret is not present
+if [ ! -f /etc/srs_secret ]; then
+    echo "Removing check for srs_secret" 1>&2
+    sed -i -e '/^\s*check file courier-mta_srs /,/^$/d' /etc/monit/conf-available/courier-mta
 fi

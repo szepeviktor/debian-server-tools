@@ -75,7 +75,7 @@ See /repo/debian/pool/main/y/ytnef/
 
 MIME type: `application/ms-tnef`
 
-### Set up Google Apps mailing
+### Set up G Suite mailing
 
 https://toolbox.googleapps.com/apps/checkmx/
 
@@ -363,7 +363,7 @@ Deprecated.
 - Who (recipient name, email address, why) is subscribed
 - Unsubscribe link
 - [Forward to a friend](/mail/forward-to-a-friend.png)
-- [NAIH nyilvántartási szám](https://www.naih.hu/bejelentkezes.html)
+- GDPR, [NAIH nyilvántartási szám](https://www.naih.hu/bejelentkezes.html)
 
 #### Email headers
 
@@ -373,6 +373,8 @@ Deprecated.
 - `Precedence: bulk` (invisible)
 - `List-Unsubscribe: URL` (invisible)
 - `Return-Path: bounce@example.com` (invisible)
+- `List-Unsubscribe-Post: List-Unsubscribe=One-Click`
+  [RFC8058](https://tools.ietf.org/html/rfc8058) (invisible)
 - bounce `X-Autoreply: yes`
 - bounce `Auto-Submitted: auto-replied`
 
@@ -419,7 +421,6 @@ Deprecated.
 - https://tinyletter.com/
 - https://www.klaviyo.com/
 - https://mailchimp.com/
-- viktor@szepe.net (€6/1000 emails)
 
 ## Deliverability
 

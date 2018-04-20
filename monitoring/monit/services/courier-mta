@@ -75,3 +75,10 @@
  check file courierfilter_bin with path /usr/sbin/courierfilter
    group mail
    include /etc/monit/templates/rootbin
+
+ check file courier-mta_srs with path "/etc/srs_secret"
+   group mail
+   if failed checksum then unmonitor
+   if failed permission 0640 then unmonitor
+   if failed uid "root" then unmonitor
+   if failed gid "courier" then unmonitor

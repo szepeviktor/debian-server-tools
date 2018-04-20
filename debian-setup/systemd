@@ -21,7 +21,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
 
         set +x
         echo
-        echo "Are you sure you are able to log in? Port: $(netstat -n -a -t -p | grep -m 1 "/sshd\s*\$")"
+        echo "Are you sure you are able to log in? Port: $(netstat -n -a -t -p | grep -m 1 '/sshd\s*\$')"
         read -r -s -e -p "Hit Ctrl + D to reboot " || reboot
     fi
 elif Is_installed sysvinit-core; then

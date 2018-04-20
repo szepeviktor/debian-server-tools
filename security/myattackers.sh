@@ -282,7 +282,7 @@ while getopts ":idsp:t:l:uzh" OPT; do
             ;;
         l) # List file
             LIST_FILE="$OPTARG"
-            if ! [ -r "$LIST_FILE" ]; then
+            if [ ! -r "$LIST_FILE" ]; then
                 echo "List file read failure (${LIST_FILE})";
                 exit 4
             fi

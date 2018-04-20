@@ -9,7 +9,7 @@ test -n "${SSH_PORT}"
 test "${SSH_PORT}" == "${SSH_PORT/22/}"
 
 # Change port
-sed -i -e "s|^#*Port\s.*\$|#&\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
+sed -i -e "s|^#*Port\\s.*\$|#&\\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
 sshd -T | grep -qFx "port ${SSH_PORT}"
 
 # Disable root login
@@ -34,7 +34,7 @@ service ssh restart
 
 # Check sshd running and listening
 service ssh status
-netstat -n -a -t -p | grep ":${SSH_PORT}\s.*/sshd\s*\$"
+netstat -n -a -t -p | grep ":${SSH_PORT}\\s.*/sshd\\s*\$"
 
 # Check password authentication for the first sudoer
 if SSH_U="$(getent group "sudo")"; then
@@ -42,7 +42,7 @@ if SSH_U="$(getent group "sudo")"; then
     # Warning! CRLF line ends in the output
     SSH_ASKPASS=/bin/echo setsid -w -- \
         ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1 -p "$SSH_PORT" "${SSH_U}@localhost" 2>&1 \
-        | grep -q -F "Permission denied (publickey)."
+        | grep -q -F 'Permission denied (publickey).'
 fi
 
 # Empty root's known_hosts file

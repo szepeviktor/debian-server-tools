@@ -24,7 +24,7 @@ trap 'rm -f "$TEMP_IPV4"' EXIT HUP INT QUIT PIPE TERM
 wget -q --tries=3 --timeout=10 -O "$TEMP_IPV4" "$CLOUDFLARE_IPV4_URL"
 
 # Check list
-if ! [ -s "$TEMP_IPV4" ] || grep -vx "[0-9.]\+/[0-9]\+" "$TEMP_IPV4"; then
+if [ ! -s "$TEMP_IPV4" ] || grep -v -x '[0-9.]\+/[0-9]\+' "$TEMP_IPV4"; then
     echo "Failed to download CloudFlare IPv4 list" 2>&1
     exit 1
 fi

@@ -3,7 +3,7 @@
 set -e -x
 
 # Make cron log all failed jobs (exit status != 0)
-sed -i -e "s|^#\s*\(EXTRA_OPTS='-L 5'\)|\1|" /etc/default/cron
+sed -i -e "s|^#\\s*\\(EXTRA_OPTS='-L 5'\\)|\\1|" /etc/default/cron
 service cron restart
 
 # Alert for long-running cron jobs

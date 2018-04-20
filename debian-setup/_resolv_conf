@@ -9,7 +9,7 @@ Check_resolver() {
     local NS="$1"
 
     host -v -t A example.com "$NS" \
-        | grep -E -x "example\.com\.\s+[0-9]+\s+IN\s+A\s+${EXAMPLECOM_IP//./\\.}" 1>&2
+        | grep -E -x "example\\.com\\.\\s+[0-9]+\\s+IN\\s+A\\s+${EXAMPLECOM_IP//./\\.}" 1>&2
 }
 
 set -e -x
@@ -20,7 +20,7 @@ cp -f /etc/resolv.conf /root/resolv.conf.orig
 PRIMARY_METHOD="$(Data get-value networking.method)"
 if [ "$PRIMARY_METHOD" == dhcp ]; then
     test -d /etc/dhcp/dhclient-enter-hooks.d || mkdir -p /etc/dhcp/dhclient-enter-hooks.d
-    echo -e "make_resolv_conf() {\n    true\n}" > /etc/dhcp/dhclient-enter-hooks.d/keep-resolvconf
+    printf 'make_resolv_conf() {\n    true\n}\n' > /etc/dhcp/dhclient-enter-hooks.d/keep-resolvconf
     # @FIXME else keep resolv.conf
 fi
 

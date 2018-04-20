@@ -17,7 +17,7 @@ cp -f /etc/network/interfaces /root/interfaces.orig
     # Primary IPv4 interface
     PRIMARY_METHOD="$(Data get-value networking.method)"
     PRIMARY_NAME="$(Data get-value networking.name)"
-    INTERFACES+=( ${PRIMARY_NAME} )
+    INTERFACES+=( "$PRIMARY_NAME" )
     if [ "$PRIMARY_METHOD" == static ]; then
         echo "auto ${PRIMARY_NAME}"
         echo "iface ${PRIMARY_NAME} inet static"
@@ -35,7 +35,7 @@ cp -f /etc/network/interfaces /root/interfaces.orig
     if [ -n "$(Data get-value networking.inet6 "")" ]; then
         INET6_METHOD="$(Data get-value networking.inet6.method)"
         INET6_NAME="$(Data get-value networking.inet6.name)"
-        INTERFACES+=( ${INET6_NAME} )
+        INTERFACES+=( "$INET6_NAME" )
         if [ "$INET6_METHOD" == auto ]; then
             echo "iface ${INET6_NAME} inet6 auto"
         elif [ "$INET6_METHOD" == static ]; then

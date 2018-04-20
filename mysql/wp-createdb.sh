@@ -20,7 +20,7 @@ Get_wpconfig_var() {
     local DEFAULT="$2"
 
     # Support UNIX or Windows line endings
-    if ! [ -r "$WP_CONFIG" ] || ! grep -q "^define.*${VAR}.*;.\?$" "$WP_CONFIG"; then
+    if [ ! -r "$WP_CONFIG" ] || ! grep -q "^define.*${VAR}.*;.\\?\$" "$WP_CONFIG"; then
         if [ -z "$DEFAULT" ]; then
             read -r -e -p "${VAR}? " DB_VALUE
         else
@@ -33,7 +33,7 @@ Get_wpconfig_var() {
         echo "$DB_VALUE"
         return
     fi
-    grep "^define.*${VAR}.*;.\?$" "$WP_CONFIG" | cut -d"'" -f4
+    grep "^define.*${VAR}.*;.\\?\$" "$WP_CONFIG" | cut -d "'" -f 4
 }
 
 hash mysql 2> /dev/null || exit 1
@@ -60,7 +60,7 @@ echo "Charset:  ${DBCHARSET}"
 echo
 read -r -p "CREATE DATABASE? " -n 1
 
-if [ "$DBHOST" != "localhost" ]; then
+if [ "$DBHOST" != localhost ]; then
     echo "Connecting to ${DBHOST} ..." 1>&2
 fi
 
@@ -77,5 +77,5 @@ GRANT ALL PRIVILEGES ON \`${DBNAME}\`.*
 FLUSH PRIVILEGES;
 EOF
 
-echo -n "wp core config --dbname=\"$DBNAME\" --dbuser=\"$DBUSER\" --dbpass=\"$DBPASS\""
-echo " --dbhost=\"$DBHOST\" --dbprefix=\"prod_\" --dbcharset=\"$DBCHARSET\"  # --extra-php <<EOF"
+echo -n "wp core config --dbname='$DBNAME' --dbuser='$DBUSER' --dbpass='$DBPASS'"
+echo " --dbhost='$DBHOST' --dbprefix='prod_' --dbcharset='$DBCHARSET'  # --extra-php <<EOF"

@@ -3,15 +3,15 @@
 set -e -x
 
 # Detect Xen
-if ! [ -r /sys/hypervisor/type ] || [ "$(cat /sys/hypervisor/type)" != xen ]; then
+if [ ! -r /sys/hypervisor/type ] || [ "$(cat /sys/hypervisor/type)" != xen ]; then
     exit 1
 fi
 # Xen UUID
-if ! [ -e /sys/hypervisor/uuid ]; then
+if [ ! -e /sys/hypervisor/uuid ]; then
     exit 1
 fi
 cat /sys/hypervisor/uuid
-if ! [ -c /dev/mem ]; then
+if [ ! -c /dev/mem ]; then
     exit 1
 fi
 # Xen type: HVM/PV-HVM/PV

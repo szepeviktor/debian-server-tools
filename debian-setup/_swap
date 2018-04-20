@@ -11,8 +11,8 @@ set -e -x
 # fallocate works only on ext4
 
 # Check existing swap
-( ! grep -q "^${SWAP_FILE}\s" /proc/swaps )
-( ! grep -q "^${SWAP_FILE}\s" /etc/fstab )
+( ! grep -q "^${SWAP_FILE}\\s" /proc/swaps )
+( ! grep -q "^${SWAP_FILE}\\s" /etc/fstab )
 ( ! test -f "$SWAP_FILE" )
 
 # Create sparse file

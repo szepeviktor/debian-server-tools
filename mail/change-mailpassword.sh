@@ -23,7 +23,7 @@ Error() {
 
 set -e
 
-if ! [ "$(id --user)" == 0 ]; then
+if [ "$(id --user)" != 0 ]; then
     Error 100 "Only root is allowed to add mail accounts."
 fi
 
@@ -43,7 +43,7 @@ read -r -e -p "New password for ${USER_NAME}? " -i "$DEFAULT_PWD" PASS || Error 
 
 # MySQL authentication
 if which mysql &> /dev/null \
-    && grep -q "^authmodulelist=.*\bauthmysql\b" /etc/courier/authdaemonrc; then
+    && grep -q '^authmodulelist=.*\bauthmysql\b' /etc/courier/authdaemonrc; then
     mysql "$COURIER_AUTH_DBNAME" <<EOF || Error 2 "Failed to update password"
 -- USE ${COURIER_AUTH_DBNAME};
 UPDATE \`${COURIER_AUTH_DBTABLE}\` SET \`crypt\`=ENCRYPT('${PASS}') WHERE \`id\`='${USER_NAME}';
@@ -53,7 +53,7 @@ fi
 # Userdb authentication
 if which userdb userdbpw &> /dev/null \
     && [ -r /etc/courier/userdb ] \
-    && grep -q "^authmodulelist=.*\bauthuserdb\b" /etc/courier/authdaemonrc; then
+    && grep -q '^authmodulelist=.*\bauthuserdb\b' /etc/courier/authdaemonrc; then
     echo "$PASS" | userdbpw -md5 | userdb "$USER_NAME" set systempw || Error 3 "Failed to update password"
     makeuserdb || Error 4 "Failed to make userdb"
 fi

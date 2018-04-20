@@ -98,7 +98,7 @@ Monit_enable() {
 
     echo "---  ${SERVICE}  ---"
 
-    if ! [ -r "$SERVICE_TEMPLATE" ]; then
+    if [ ! -r "$SERVICE_TEMPLATE" ]; then
         echo "ERROR: Service template not found (${SERVICE_TEMPLATE})" 1>&2
         return 1
     fi
@@ -280,7 +280,7 @@ if Is_pkg_installed systemd; then
     echo "systemd AND Monit?" 1>&2
     exit 2
 fi
-if ! [ -f "$MONIT_DEFAULTS" ]; then
+if [ ! -f "$MONIT_DEFAULTS" ]; then
     echo "Missing defaults file" 1>&2
     exit 3
 fi

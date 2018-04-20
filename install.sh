@@ -51,7 +51,7 @@ Do_install() {
     local SCRIPT
     local PKG
 
-    if ! [ -f "$FILE" ]; then
+    if [ ! -f "$FILE" ]; then
         Die 1 "File does not exist (${FILE})"
     fi
 

@@ -3,7 +3,7 @@
 set -e -x
 
 # Detect VMware
-if ! [ -c /dev/mem ]; then
+if [ ! -c /dev/mem ]; then
     exit 1
 fi
 # VMware UUID

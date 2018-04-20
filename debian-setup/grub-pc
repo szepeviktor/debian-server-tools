@@ -4,7 +4,7 @@ set -e -x
 
 # @FIXME
 # # GRUB and PyGrub
-# if ! [ -f /boot/grub/grub.cfg ] || ! grep -q "^menuentry\s" /boot/grub/grub.cfg; then
+# if [ ! -f /boot/grub/grub.cfg ] || ! grep -q '^menuentry\s' /boot/grub/grub.cfg; then
 #     apt-get purge -qq grub-pc
 # fi
 
@@ -27,4 +27,4 @@ if [ "${FIRST_ROOT:0:5}" == "UUID=" ]; then
 fi
 # Mounted block device
 test -b "$DISK"
-grep -q "^${DISK}\s" /proc/mounts
+grep -q "^${DISK}\\s" /proc/mounts

@@ -41,7 +41,7 @@ Titled_pager "Kernel parameters" < /proc/cmdline
 
 # All defaults
 find /etc/default/* -type f | Titled_pager "All default files"
-head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep -A 1000 "^==> " | Titled_pager "All defaults"
+head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep -A 1000 '^==> ' | Titled_pager "All defaults"
 
 # Mount points
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
@@ -51,7 +51,7 @@ Titled_pager "Mount points" < /proc/mounts
 Titled_pager "Swap area" < /proc/swaps
 
 # relAtime option for filesystems
-grep "\S\+\s\+/\s.*relatime" /proc/mounts | Titled_pager "relatime Enabled"
+grep '\S\+\s\+/\s.*relatime' /proc/mounts | Titled_pager "relatime Enabled"
 
 # Kernel
 uname -a | Titled_pager "Kernel version"
@@ -59,7 +59,7 @@ uname -a | Titled_pager "Kernel version"
 apt-cache policy "linux-image-[3456789].*" | Titled_pager "Available Kernels"
 # More than 1 kernel?
 aptitude --disable-columns --display-format "%p" search '?and(?installed, ?name(^linux-image-))' \
-    | grep -vFx "linux-image-$(dpkg --print-architecture)" \
+    | grep -v -F -x "linux-image-$(dpkg --print-architecture)" \
     | Titled_pager "Installed Kernels"
 Titled_pager "Kernel Modules to Load" < /etc/modules
 find /lib/modules/ -maxdepth 1 | Titled_pager "Kernel module files"
@@ -80,7 +80,7 @@ fi
 ls -ltr /boot/ | Titled_pager "Boot Directory"
 
 # GRUB
-dpkg -l | grep "grub" | Titled_pager "Installed GRUB Versions"
+dpkg -l | grep 'grub' | Titled_pager "Installed GRUB Versions"
 
 # Miscellaneous configuration
 Titled_pager "Local Boot Script" < /etc/rc.local
@@ -94,7 +94,7 @@ netstat -antupW | Titled_pager "Open ports"
 Titled_pager "Resolver Configuration" < /etc/resolv.conf
 
 # Show modified debconf values
-debconf-show --listowners | xargs -n 1 debconf-show | grep "^\*" \
+debconf-show --listowners | xargs -n 1 debconf-show | grep '^\*' \
     | Titled_pager "Modified debconf Values"
 
 # Find broken symlinks
@@ -104,7 +104,7 @@ find / -type l -xtype l -not -path "/proc/*" -not -path "/run/*" | Titled_pager 
 BROKEN_HASH_PKGS=""
 for L in /var/lib/dpkg/info/*.list; do
     PKG="$(basename "$L" .list)"
-    if ! [ -r "/var/lib/dpkg/info/${PKG}.md5sums" ]; then
+    if [ ! -r "/var/lib/dpkg/info/${PKG}.md5sums" ]; then
         BROKEN_HASH_PKGS+="${PKG} "
     fi
 done
@@ -113,7 +113,7 @@ if [ -n "$BROKEN_HASH_PKGS" ]; then
 fi
 
 # Check user cron jobs
-grep -Ev '^\s*#|^\s*$' /etc/crontab /var/spool/cron/crontabs/* | Titled_pager "Cron jobs"
+grep -E -v '^\s*#|^\s*$' /etc/crontab /var/spool/cron/crontabs/* | Titled_pager "Cron jobs"
 
 # Customized files
 HOSTING_COMPANY="$(Data get-value hosting-company)"
@@ -136,5 +136,5 @@ clear
 echo "All Linux users"
 echo "---------------"
 tabs 20,+3,+8,+8,+20,+21,+8,+8,+8
-sort -t ":" -k 3 -g /etc/passwd | tr ":" '\t'
+sort -t ":" -k 3 -g /etc/passwd | tr ':' '\t'
 tabs -8
