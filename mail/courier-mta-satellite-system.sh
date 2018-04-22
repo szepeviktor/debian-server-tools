@@ -20,7 +20,7 @@ set -e -x
 
 #################### 'smarthost' configuration ####################
 
-SmarthostConfig() {
+Smarthost_config() {
     # Bounce handling
     host -t MX "$(hostname -f)"
     # Receive (bounce) mail for the satellite system (alias, acceptmailfor)
@@ -101,7 +101,7 @@ Dinstall mail/courier-dhparams.sh
 
 # SSL configuration, STARTTLS in client mode and smarthost certificate verification
 Courier_config courierd /etc/courier/courierd
-# Use only TLSv1.2 and Modern profile WHEN 'smarthost' is ready for it (from jessie on)
+# Use only TLSv1.2 and Modern profile WHEN smarthost is ready for it (from jessie on)
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/
 
 # Listen on localhost and disable authentication and disable identlookup,dnslookup

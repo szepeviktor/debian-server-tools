@@ -2,8 +2,8 @@
 #
 # Cancel messages in Courier mail queue.
 #
-# VERSION       :1.2.0
-# DATE          :2015-10-01
+# VERSION       :1.2.1
+# DATE          :2018-04-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -17,12 +17,12 @@
 
 # Remarks
 #
-# "root" user should have "ALL:ALL" sudo rights.
+# User executing this script should have "ALL:ALL" sudo rights.
 # editor /etc/sudoers
-#     root	ALL=(ALL:ALL) ALL
+#     user	ALL=(ALL:ALL) ALL
 
 # shellcheck disable=SC1091
-MAILGROUP="$(source /etc/courier/esmtpd; echo "$MAILGROUP")"
+MAILGROUP="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILGROUP")"
 
 mailq -sort -batch | head -n -1 \
     | cut -d ";" -f 2,4 \

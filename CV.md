@@ -49,11 +49,11 @@ Contact me: viktor@szepe.net
 
 
 
-# <a name="hu"></a>Infrastruktúra, forráskód kezelés és technológiai tanácsadás webes applikációkhoz
+# <a name="hu"></a>Infrastruktúra, forráskód kezelés és technológiai tanácsadás webes alkalmazásokhoz
 
 A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.  
 [Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
-**proaktív** üzemeltetésével foglalkozok, ami magában foglalja az applikáció vizsgálatát,
+**proaktív** üzemeltetésével foglalkozok, ami magában foglalja az alkalmazás vizsgálatát,
 a folyamatos integrációs teszteket (CI)
 és automatizált telepítést (deploy, CD).
 A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
@@ -67,14 +67,14 @@ Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és
 
 - Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
 - Modern operációs rendszer és szoftver installálása
-- Ellenőrzött környezet felállítása az applikációhoz
+- Ellenőrzött környezet felállítása az alkalmazáshoz
 - A fentiek és a harmadik felek állandó [monitorozása](/monitoring/README.md) (EN)
   funkcionális tesztekkel és integritás ellenőrzéssel
 - Napló kivonatok rendszeres elemzése
 - Intelligens és titkosított biztonsági mentés nagy adatsérülés-tűrésű szolgáltatóhoz
 
 * [Folyamatos integráció](/webserver/Continuous-integration-Continuous-delivery.md) (CI) megtervezés és kivitelezés
-* Applikáció telepítés (deploy, CD) automatizálás és ellenőrzés
+* Alkalmazás telepítés (CD) automatizálás és ellenőrzés
 * **Hibajegy nyitás** a fejlesztők felé
 * Monitorozó programok, **teljesítmény növelő és biztonsági** [eszközök fejlesztése](https://github.com/szepeviktor/)
 * [Email kézbesítés](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md) (EN)
@@ -82,7 +82,7 @@ Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és
 ### Előnyök
 
 - **Stabil üzem** - leállások megelőzése
-- Applikáció sérülékenységek kiküszöbölése
+- Alkalmazás sérülékenységek kiküszöbölése
 - Jobb felhasználói élmény (UX) az ügyfeleknek
 - Gyors oldal betöltés
 - Jobb helyezés a Google Keresőben

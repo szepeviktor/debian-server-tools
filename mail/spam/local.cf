@@ -125,6 +125,7 @@ ok_locales                              en ja ko ru th
 #whitelist_from_rcvd                     user@example.com mail.example.com
 
 # Scores
+# https://www.intra2net.com/en/support/antispam/index.php
 ##score RDNS_NONE                         3.00
 score RDNS_DYNAMIC                      2.00
 score DYN_RDNS_AND_INLINE_IMAGE         3.00

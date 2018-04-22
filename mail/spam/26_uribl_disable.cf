@@ -1,5 +1,6 @@
-# Disable uribl.com checks
+# Disable multi.uribl.com checks
 score URIBL_BLACK                       0
-score URIBL_RED                         0
 score URIBL_GREY                        0
+score URIBL_RED                         0
+# your DNS has been blocked and this rule should be triggered to notify you
 score URIBL_BLOCKED                     0

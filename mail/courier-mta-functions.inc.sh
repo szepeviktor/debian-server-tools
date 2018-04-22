@@ -14,9 +14,9 @@ Courier_pythonfilter_pyhton2()
 
     # Data directory
     # shellcheck disable=SC1091
-    MAILUSER="$(source /etc/courier/esmtpd; echo "$MAILUSER")"
+    MAILUSER="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILUSER")"
     # shellcheck disable=SC1091
-    MAILGROUP="$(source /etc/courier/esmtpd; echo "$MAILGROUP")"
+    MAILGROUP="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILGROUP")"
     install -v --owner="$MAILUSER" --group="$MAILGROUP" -d /var/lib/pythonfilter
 
     # Download custom modules
@@ -65,7 +65,7 @@ Z_dkim_filter()
 
     # Data directory
     # shellcheck disable=SC1091
-    MAILUSER="$(source /etc/courier/esmtpd; echo "$MAILUSER")"
+    MAILUSER="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILUSER")"
 ##    install -v --owner="$MAILUSER" --group=root -m 700 -d /etc/courier/filters/privs
     install -v --owner=root --group=root -m 700 -d /etc/courier/filters/privs
     mkdir -v /etc/courier/filters/keys

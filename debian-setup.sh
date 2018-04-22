@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.2
+# VERSION       :2.0.3
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -103,8 +103,7 @@ export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME
 # Hungarian Debian mirror
 #export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
-export SETUP_SHYAML_URL="https://github.com/szepeviktor/debian-server-tools/raw/master/tools/shyaml"
-#export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
+export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
 
 set -e -x
 
