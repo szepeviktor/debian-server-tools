@@ -6,19 +6,19 @@
 
 Details about [infrastructure and source code management](https://git.io/vNryB)
 
-### Choose infrastructure providers
+### Choose one infrastructure provider
 
-- Domain registrar: **AWS, Gandi :eu:, noip, dyn, Rackforest/.hu :eu:, Rackhost/.hu :eu:**
-- DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
-- Server provider: **UpCloud :eu:**
-- SSL certificate provider for HTTPS:
-  **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
-  [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:**
-- CDN provider: **AWS, KeyCDN :eu:**
-- Transactional email provider: **AWS, SparkPost, Mailjet :eu:**
-- Storage provider: **AWS, Backblaze B2, Selectel, Oktawave :eu:**
-- [ESP](https://twofactorauth.org/#email) for inbound messages:
-  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+1. Domain registrar: **AWS, Gandi :eu:, noip, dyn, Rackforest/.hu :eu:, Rackhost/.hu :eu:**
+1. DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
+1. Server provider: **UpCloud :eu:**
+1. SSL certificate provider for HTTPS:
+   **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
+   [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:**
+1. CDN provider: **AWS, KeyCDN :eu:**
+1. Transactional email provider: **AWS, SparkPost, Mailjet :eu:**
+1. Storage provider: **AWS, Backblaze B2, Selectel, Oktawave :eu:**
+1. [ESP](https://twofactorauth.org/#email) for inbound messages:
+   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
