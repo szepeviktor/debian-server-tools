@@ -98,7 +98,7 @@ wp-lib.sh --root="/home/${U}/website/html/static/cache/" mount 100
 
 # PHP pool
 #cd /etc/php5/fpm/pool.d/
-cd /etc/php/7.0/fpm/pool.d/
+cd /etc/php/7.2/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
 editor ${U}.conf
 

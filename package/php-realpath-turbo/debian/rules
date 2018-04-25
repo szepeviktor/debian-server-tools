@@ -31,7 +31,7 @@ BINARYTARGETS=binary-arch-v7
 BUILDTARGETS=build-v7 
 CLEANTARGETS=clean-v7 
 PHPAPIVER=$(shell /usr/bin/php-config --phpapi)
-PHPCONFD=$(shell echo "/etc/php/7.0/mods-available" | sed -e "s-/--")
+PHPCONFD=$(shell echo "/etc/php/7.2/mods-available" | sed -e "s-/--")
 
 %:
 	cp -r $(SOURCE_DIR)/* .

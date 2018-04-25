@@ -21,12 +21,18 @@ git fetch upstream
 
 # Check branch name
 git branch
-test "$(git rev-parse --abbrev-ref HEAD)" == master
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$BRANCH" != master ]; then
+    echo "Default branch is NOT master"
+fi
 
 # Merge upstream
-git merge upstream/master
+git merge "upstream/${BRANCH}"
 git status
 
 # Create new branch for the PR
 git branch "$PR_BRANCH"
 git checkout "$PR_BRANCH"
+
+# Instruction
+echo "cd $(basename -s ".git" "$FORK_URL")/"

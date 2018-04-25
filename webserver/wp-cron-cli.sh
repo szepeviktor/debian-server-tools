@@ -9,7 +9,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS5      :apt-get install php5-cli
-# DEPENDS       :apt-get install php7.0-cli
+# DEPENDS       :apt-get install php7.2-cli
 # LOCATION      :/usr/local/bin/wp-cron-cli.sh
 
 # Disable wp-cron in your wp-config.php

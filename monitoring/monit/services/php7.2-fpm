@@ -1,0 +1,26 @@
+ check process "php7.2-fpm-uds" with pidfile "/run/php/php7.2-fpm.pid"
+   group "php-fpm"
+   start program = "/usr/sbin/service php7.2-fpm start"
+   stop program = "/usr/sbin/service php7.2-fpm stop"
+   restart program = "/usr/sbin/service php7.2-fpm restart"
+   if failed unixsocket "/run/php/php7.2-fpm-@@PHP72_USER@@.sock" then restart
+   if failed host "@@PHP72_STATUS_SSL_SERVER_NAME@@" port 443 with protocol https and request "/statusphp"
+     with timeout 2 seconds for 4 times within 5 cycles then restart
+   if 3 restarts within 5 cycles then unmonitor
+   depends on "php7.2-fpm_bin"
+   depends on "php7.2-fpm_init"
+   depends on "php7.2-fpm_check"
+
+ check file "php7.2-fpm_bin" with path "/usr/sbin/php-fpm7.2"
+   group "php-fpm"
+   include "/etc/monit/templates/rootbin"
+
+ check file "php7.2-fpm_init" with path "/etc/init.d/php7.2-fpm"
+   group "php-fpm"
+   include "/etc/monit/templates/rootbin"
+
+ # Check OPcache
+ check program php7.2-fpm_check
+   with path "/usr/local/sbin/opcache-check.sh '@@PHP72_CACHETOOL_SOCKET@@' '@@PHP72_CACHETOOL_TEMP@@'" every 33 cycles
+   group "php-fpm"
+   if status != 0 then alert

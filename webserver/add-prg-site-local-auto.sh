@@ -135,13 +135,13 @@ chown -R ${U}:${U} /home/${U}/website
 # Create PHP pool
 (
     #cd /etc/php5/fpm/pool.d/
-    cd /etc/php/7.0/fpm/pool.d/
+    cd /etc/php/7.2/fpm/pool.d/
     sed -e "s/@@USER@@/${U}/g" < ../Prg-pool.conf > ${U}.conf
     # PHP Secure Configuration Checker allowed IP address
     #     env[PCC_ALLOW_IP] = 1.2.3.*
 )
 #sed -e "s|^;\\?opcache.restrict_api\\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" -i /etc/php5/fpm/php.ini
-sed -e "s|^;\\?opcache.restrict_api\\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" -i /etc/php/7.0/fpm/php.ini
+sed -e "s|^;\\?opcache.restrict_api\\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" -i /etc/php/7.2/fpm/php.ini
 
 # Create Apache site
 (

@@ -69,9 +69,9 @@ env[TMPDIR] = /home/horde/website/tmp
 - https://pecl.php.net/package/geoip
 - https://packages.debian.org/source/stable/php-horde-lz4
 - https://pecl.php.net/package/imagick
-- https://packages.debian.org/stretch/php7.0-tidy
+- https://packages.debian.org/stretch/php7.2-tidy
 
-`apt-get install -y php-geoip php-horde-lz4 php-imagick php7.0-tidy`
+`apt-get install -y php-geoip php-horde-lz4 php-imagick php7.2-tidy`
 
 Enable only for horde's FPM pool?
 
@@ -166,7 +166,7 @@ script --timing=../horde-pear.time ../horde-pear.script
 #./horde-pear -vvv upgrade --nobuild --alldeps -c horde
 ./horde-pear list-upgrades
 exit
-service php7.0-fpm reload
+service php7.2-fpm reload
 
 # Browse to: https://HORDE-URL/admin/config/
 # Upgrade database schema

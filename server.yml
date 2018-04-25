@@ -129,7 +129,7 @@ services:
     mariadb:
       type: daemon
       transport: [ tcp/3306, uds ]
-    php7.0-fpm:
+    php7.2-fpm:
       type: daemon
       transport: uds
     syslog-errors:

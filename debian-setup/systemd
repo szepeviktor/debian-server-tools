@@ -8,11 +8,12 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
     if Is_installed systemd; then
         Pkg_install_quiet sysvinit-core sysvinit-utils bootlogd
         cp /usr/share/sysvinit/inittab /etc/inittab
-        # Consider /sbin/agetty
+        # Change to agetty
         #sed -i -e 's|:/sbin/getty |:/sbin/agetty |' /etc/inittab
         # Disable terminals 2-6
-        sed -i -e '/^\([2-6]\):23:respawn:\/sbin\/getty 38400 tty\1$/d' /etc/inittab
-        echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd.pref
+        sed -e '/^\([2-6]\):23:respawn:\/sbin\/getty 38400 tty\1$/d' -i /etc/inittab
+        # Prevent systemd from coming back
+        printf 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1\n' > /etc/apt/preferences.d/systemd.pref
         # Schedule removal of systemd
         {
             echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin"
@@ -21,7 +22,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
 
         set +x
         echo
-        echo "Are you sure you are able to log in? Port: $(netstat -n -a -t -p | grep -m 1 '/sshd\s*\$')"
+        echo "Are you sure you are able to log in? Port: $(netstat -n -a -t -p | grep -m 1 '/sshd\s*$')"
         read -r -s -e -p "Hit Ctrl + D to reboot " || reboot
     fi
 elif Is_installed sysvinit-core; then

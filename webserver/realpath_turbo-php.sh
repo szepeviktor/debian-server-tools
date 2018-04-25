@@ -3,7 +3,7 @@
 # Use realpath cache despite open_basedir restriction.
 #
 # DEPENDS5      :apt-get install php5-dev
-# DEPENDS       :apt-get install php7.0-dev
+# DEPENDS       :apt-get install php7.2-dev
 
 set -e -x
 
@@ -22,7 +22,7 @@ wget -qO- https://github.com/Whissi/realpath_turbo/archive/master.tar.gz | tar -
 #echo -e "; priority=20\nextension=realpath_turbo.so" > /etc/php5/mods-available/realpath_turbo.ini
 #php5enmod realpath_turbo
 
-echo -e "; priority=20\nextension=realpath_turbo.so" > /etc/php/7.0/mods-available/realpath_turbo.ini
+echo -e "; priority=20\nextension=realpath_turbo.so" > /etc/php/7.2/mods-available/realpath_turbo.ini
 phpenmod realpath_turbo
 
 # Check extension

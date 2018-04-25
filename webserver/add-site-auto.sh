@@ -28,7 +28,7 @@ touch /home/${U}/website/wp-cli.yml
 chown -cR ${U}:${U} /home/${U}/
 
 # PHP pool
-cd /etc/php/7.0/fpm/pool.d/
+cd /etc/php/7.2/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
 
 # Apache vhost

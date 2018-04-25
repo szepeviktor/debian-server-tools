@@ -236,7 +236,7 @@ debian-setup/php-cachetool
 #debian-setup/php-drush
 
 # Monit - monitoring
-# @FIXME Needs a production website for apache2 and php7.0-fpm
+# @FIXME Needs a production website for apache2 and php-fpm
 # @FIXME Defaults file editor
 # @FIXME Depends on repo
 (
