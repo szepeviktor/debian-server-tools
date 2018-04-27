@@ -64,12 +64,12 @@ http://www.duckdns.org/
 ## Domain registrars
 
 - https://aws.amazon.com/route53/
-- https://uk.godaddy.com/
-- https://www.dynadot.com/
-- https://www.forpsi.hu/
-- https://www.cloudflare.com/registrar/
 - https://www.gandi.net/
+- https://www.dynadot.com/
+- https://www.rackhost.hu/ `.hu`
+- https://uk.godaddy.com/
 - http://www.freenom.com/en/freeandpaiddomains.html
+- https://www.cloudflare.com/registrar/ `$$$`
 
 # How to choose a domain registrar?
 

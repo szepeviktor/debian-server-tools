@@ -35,6 +35,7 @@ Do_spf()
                 Do_spf "${MECHANISM#include:}"
                 ;;
             "?all"|"~all"|"-all")
+                # "?" Neutral, "~" SoftFail, "-" Fail
                 continue
                 ;;
             *)

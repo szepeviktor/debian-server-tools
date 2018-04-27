@@ -280,13 +280,15 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 
 - https://www.unlocktheinbox.com/resources/identifieralignments/
 - http://www.openspf.org/Related_Solutions
+- http://www.openspf.org/FAQ/Common_mistakes#helo
 
 #### SPF (SMTP HELO, MAIL FROM:)
 
 - setup https://tools.sparkpost.com/spf/builder http://www.spfwizard.net/
 - check https://dmarcian.com/spf-survey/ http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
-- For non-email domains: `v=spf1 -all`
+- for sending servers: `v=spf1 a -all`
+- for non-email domains: `v=spf1 -all`
 
 #### DKIM (any header field and message body)
 

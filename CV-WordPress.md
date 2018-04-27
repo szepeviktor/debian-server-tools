@@ -110,11 +110,13 @@ Keressen meg: viktor@szepe.net
 Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot tervezzenek.
 
 - http://neeed.us/
+- http://www.pwstudio.hu/
 - https://www.upsolution.hu/
-- http://www.finetune.hu/
-- http://www.rblmarketing.hu/
-- http://maarsk.com/
-- http://www.surmanngyula.hu/
+
+* http://www.finetune.hu/
+* http://www.rblmarketing.hu/
+* http://maarsk.com/
+* http://www.surmanngyula.hu/
 
 
 ## WordPress fejlesztő keresés

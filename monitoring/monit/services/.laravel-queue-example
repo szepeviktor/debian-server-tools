@@ -1,0 +1,17 @@
+# https://laravel.com/docs/5.5/queues
+# 1. change process and file names from the second instance
+# 2. replace @@LARAVEL1_USER@@ with Laravel user name
+
+ check process laravel_queue1 with pidfile "/home/@@LARAVEL1_USER@@/website/queue1.pid"
+   group laravel
+   start program = "/sbin/start-stop-daemon --quiet --start --background --nicelevel 10 --exec /usr/bin/php --make-pidfile --pidfile /home/@@LARAVEL1_USER@@/website/queue1.pid --chuid @@LARAVEL1_USER@@ --user @@LARAVEL1_USER@@ -- /home/@@LARAVEL1_USER@@/website/html/artisan queue:work redis"
+   stop program = "/sbin/start-stop-daemon --quiet --stop --exec /usr/bin/php --remove-pidfile --pidfile /home/@@LARAVEL1_USER@@/website/queue1.pid --user @@LARAVEL1_USER@@"
+   if 3 restarts within 3 cycles then unmonitor
+   depends on laravel_queue1_artisan
+
+ check file laravel_queue1_artisan with path "/home/@@LARAVEL1_USER@@/website/html/artisan"
+   group laravel
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid "@@LARAVEL1_USER@@" then unmonitor
+   if failed gid "@@LARAVEL1_USER@@" then unmonitor

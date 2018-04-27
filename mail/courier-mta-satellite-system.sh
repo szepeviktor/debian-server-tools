@@ -28,6 +28,9 @@ Smarthost_config() {
     # Add the 'smarthost' to the SPF record of all sending domains
     host -t TXT "$SENDING_DOMAIN"
 
+    # Check SPF record of the 'smarthost'
+    host -t TXT "$(hostname -f)"
+
     # Allow receiving mail from the satellite system
     editor /etc/courier/smtpaccess/default
     #    %%IP%%<TAB>allow,RELAYCLIENT,AUTH_REQUIRED=0

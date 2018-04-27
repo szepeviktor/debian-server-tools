@@ -95,7 +95,7 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 - Email `From:` name and address
 - Subject line
 - Easy identification for email notifications (filtering to mail folders)
-- SPF, DKIM, DMARC
+- SPF for MAIL FROM:, SPF for HELO, DKIM, DMARC
 
 Consider transactional email service through HTTP API. :snail:
 
