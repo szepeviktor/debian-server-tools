@@ -2,7 +2,7 @@
 #
 # Check foreign DNS resource records.
 #
-# VERSION       :0.6.1
+# VERSION       :0.6.2
 # DATE          :2018-02-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -57,7 +57,7 @@ declare -a DNS_WATCH
 
 # Return all RR-s
 Dnsquery_multi() {
-    # dnsquery_multi() ver 0.2.0
+    # dnsquery_multi() ver 0.2.1
     # error 1:  Empty host/IP
     # error 2:  Invalid answer
     # error 3:  Invalid query type
@@ -69,8 +69,8 @@ Dnsquery_multi() {
 
         # Answer section (between two lines)
         #     First RR-s with matching type
-        sed '/^;; ANSWER SECTION:$/,/^$/{//!b};d' \
-            | sed -ne "/^\S\+\s\+[0-9]\+\sIN\s${TYPE}\s\(.\+\)\$/!q;s//\1/p"
+        sed -e '/^;; ANSWER SECTION:$/,/^$/{//!b};d' \
+            | sed -n -e "/^\\S\\+\\s\\+[0-9]\\+\\sIN\\s${TYPE}\\s\\(.\\+\\)\$/!q;s//\\1/p"
     }
 
     local TYPE="$1"
@@ -127,45 +127,46 @@ Dnsquery_multi() {
     # shellcheck disable=SC2086
     OUTPUT="$(LC_ALL=C host -v -4 -W 2 -s ${RECURSIVE} -t "$TYPE" "$HOST" ${NS} 2> /dev/null)"
 
+    # Not found
+    # shellcheck disable=SC2181
     if [ "$?" -ne 0 ] \
         || [ -z "$OUTPUT" ] \
         || [ "$OUTPUT" != "${OUTPUT/ ANSWER: 0/}" ]; then
-        # Not found
         return 4
     fi
 
     ANSWERS="$(echo "$OUTPUT" | Answer_only "$TYPE" | ${RR_SORT})"
 
+    # Not found but non-zero answers
     if [ -z "$ANSWERS" ]; then
-        # Not found but non-zero answers
         return 4
     fi
 
     case "$TYPE" in
         A)
-            if grep -qEv "$IP_REGEX" <<< "$ANSWERS"; then
-                # Invalid IP (at least one)
+            # Invalid IP (at least one)
+            if grep -q -E -v "$IP_REGEX" <<< "$ANSWERS"; then
                 return 2
             fi
             echo "$ANSWERS"
             ;;
         AAAA)
-            if grep -qEv "$IPV6_REGEX" <<< "$ANSWERS"; then
-                # Invalid IPv6 (at least one)
+            # Invalid IPv6 (at least one)
+            if grep -q -E -v "$IPV6_REGEX" <<< "$ANSWERS"; then
                 return 2
             fi
             echo "$ANSWERS"
             ;;
         MX)
-            if grep -qEv "$MX_REGEX" <<< "$ANSWERS"; then
-                # Invalid mail exchanger (at least one)
+            # Invalid mail exchanger (at least one)
+            if grep -q -E -v "$MX_REGEX" <<< "$ANSWERS"; then
                 return 2
             fi
             echo "$ANSWERS"
             ;;
         PTR|CNAME|NS)
-            if grep -qEv "$HOST_REGEX" <<< "$ANSWERS"; then
-                # Invalid hostname (at least one)
+            # Invalid hostname (at least one)
+            if grep -q -E -v "$HOST_REGEX" <<< "$ANSWERS"; then
                 return 2
             fi
             echo "$ANSWERS"
@@ -178,6 +179,7 @@ Dnsquery_multi() {
             return 3
             ;;
     esac
+    # OK
     return 0
 }
 
@@ -195,7 +197,7 @@ Log() {
 }
 
 Is_online() {
-    if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ", 0% packet loss,"; then
+    if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ', 0% packet loss,'; then
         Log "Server is OFFLINE."
         Alert "Network connection" "pocket loss on pinging ${ALWAYS_ONLINE}"
         exit 100
@@ -217,6 +219,7 @@ Generate_rr() {
     local RR
 
     RR="$(Dnsquery_multi "$TYPE" "$DNAME" "$NS" | sort -g | paste -s -d ";")"
+    # shellcheck disable=SC2181
     if [ "$?" -eq 0 ] && [ -n "$RR" ]; then
         echo "${TYPE}=${RR}"
     fi
@@ -261,8 +264,9 @@ if [ "$#" -eq 1 ]; then
     fi
 
     FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
+    # shellcheck disable=SC2181
     if [ "$?" -ne 0 ] || [ -z "$FIRST_NS" ]; then
-        MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
+        MAIN_DOMAIN="$(sed -e 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
         FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
     fi
 
@@ -279,7 +283,7 @@ fi
 
 
 # Generate configuration for a domain
-if [ "$1" == "-d" ] && [ "$#" -eq 2 ]; then
+if [ "$#" -eq 2 ] && [ "$1" == "-d" ]; then
     DNAME="$2"
 
     # PTR record
@@ -288,8 +292,9 @@ if [ "$1" == "-d" ] && [ "$#" -eq 2 ]; then
         DOMAIN_CONFIG="$(Generate_rr PTR "$DNAME" " ")"
     else
         FIRST_NS="$(Dnsquery_multi NS "$DNAME" | head -n 1)"
+        # shellcheck disable=SC2181
         if [ "$?" -ne 0 ] || [ -z "$FIRST_NS" ]; then
-            MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
+            MAIN_DOMAIN="$(sed -e 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
             FIRST_NS="$(Dnsquery_multi NS "$MAIN_DOMAIN" | head -n 1)"
         fi
 
@@ -315,7 +320,7 @@ if [ "$1" == "-d" ] && [ "$#" -eq 2 ]; then
     DOMAIN_CONFIG="${DOMAIN_CONFIG//;/\\;}"   # semi-colon
 
     # IPv6 addresses should use comma as a separator
-    printf "DNS_WATCH+=(\n  %s:%s\n)\n" "${DNAME//:/,}" "$(paste -s -d "," <<< "${DOMAIN_CONFIG}")" >> "$DNS_WATCH_RC"
+    printf 'DNS_WATCH+=(\n  %s:%s\n)\n' "${DNAME//:/,}" "$(paste -s -d "," <<< "${DOMAIN_CONFIG}")" >> "$DNS_WATCH_RC"
 
     # Make me remember www domain
     if [ "$DNAME" == "${DNAME#www}" ]; then
@@ -343,20 +348,23 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
     # IPv6 addresses should use comma as a separator
     DNAME="${DNAME//,/:}"
 
+    # a PTR record?
     if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
         # NS hack
         NSS=" "
     else
         NSS="$(Dnsquery_multi NS "$DNAME")"
+        # shellcheck disable=SC2181
         if [ "$?" -ne 0 ] || [ -z "$NSS" ]; then
-            MAIN_DOMAIN="$(sed 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
+            MAIN_DOMAIN="$(sed -e 's/^.*\.\([^.]\+\.[^.]\+\)$/\1/' <<< "$DNAME")"
             NSS="$(Dnsquery_multi NS "$MAIN_DOMAIN")"
         fi
-    fi
-    if [ "$?" -ne 0 ] || [ -z "$NSS" ]; then
-        Alert "${DNAME}/NS" \
-            "Failed to get NS RR-s of ${DNAME}"
-        continue
+        # shellcheck disable=SC2181
+        if [ "$?" -ne 0 ] || [ -z "$NSS" ]; then
+            Alert "${DNAME}/NS" \
+                "Failed to get NS RR-s of ${DNAME}"
+            continue
+        fi
     fi
 
     # Check RR-s
@@ -387,7 +395,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
             fi
 
             # Actual IP address of nameserver
-            NS_IP="$(getent ahostsv4 "$NS" | sed -ne '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
+            NS_IP="$(getent ahostsv4 "$NS" | sed -n -e '0,/^\(\S\+\)\s\+RAW\b\s*/s//\1/p')"
             if [ -z "$NS_IP" ]; then
                 Alert "${DNAME}/${RRTYPE}/${NS}" "Cannot resolve IP address of NS ${NS}"
                 continue

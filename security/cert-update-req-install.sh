@@ -2,7 +2,7 @@
 #
 # Set up cert-update-req script and config file.
 #
-# VERSION       :0.1.1
+# VERSION       :0.1.2
 # DATE          :2018-01-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,5 +28,6 @@ echo "OK."
 
 echo
 echo "Set CN=\"www.${CN}\" in cert-update-req-${CN}.sh"
-echo "For www: Use last Subject Alternative Name as domain name"
+echo "For www: Use first Subject Alternative Name as domain name"
+echo "For non-www: Use last Subject Alternative Name as domain name"
 echo "Uncomment APACHE_PUB and APACHE_PRIV"

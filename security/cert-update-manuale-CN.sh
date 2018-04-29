@@ -26,11 +26,10 @@
 # Chain:   ${CN}.chain.crt
 
 # Python user install
-manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
+alias manuale='/usr/local/sbin/u ../../.local/bin/manuale'
 
 Move_challenge_files() {
     local WELL_KNOWN_ACME_CHALLENGE="$1"
-    local SLEEP
 
     if [ ! -d "$WELL_KNOWN_ACME_CHALLENGE" ]; then
         echo "Missing .well-known/acme-challenge directory: '${WELL_KNOWN_ACME_CHALLENGE}'" 1>&2
@@ -38,12 +37,12 @@ Move_challenge_files() {
     fi
 
     # Wait for all challenge files
-    for SLEEP in ${CN} ${DOMAIN_NAMES}; do
+    for _ in ${CN} ${DOMAIN_NAMES}; do
         sleep 5
     done
     echo
 
-    find -type f -mmin -3 -regextype posix-egrep -regex '\./[0-9A-Za-z_-]{43}' -print0 \
+    find . -maxdepth 1 -type f -mmin -3 -regextype posix-egrep -regex '\./[0-9A-Za-z_-]{43}' -print0 \
         | xargs -r -0 -I % cp -v % "${WELL_KNOWN_ACME_CHALLENGE}/"
 
     # Wait for authorization
@@ -96,7 +95,13 @@ CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
 PRIV_DIR="/etc/ssl/private"
 PUB_DIR="/etc/ssl/localcerts"
 
-
+# Display certificate data
+printf 'CN        = '
+openssl x509 -in "$PUB" -noout -subject|sed -ne 's|^.*[/=]CN \?= \?\([^/]\+\).*$|\1|p'
+printf 'SAN-FIRST = '
+openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}'
+printf 'SAN-LAST  = '
+openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}'
 
 # Apache2: public + intermediate -------------------------
 # "include intermediate CA certificates, sorted from leaf to root"
@@ -117,7 +122,7 @@ APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
 APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #
 # Use ./apache.vhost for determining name of the virtual host config file
-test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 ./apache.vhost).conf"
+#test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 ./apache.vhost).conf"
 #
 # Uncomment to activate!
 #APACHE_PUB="${PUB_DIR}/${APACHE_DOMAIN}-public.pem"

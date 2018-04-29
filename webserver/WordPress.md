@@ -115,13 +115,8 @@ mkdir wp-content/mu-plugins/
 wget -qO- https://github.com/szepeviktor/debian-server-tools/raw/master/mysql/alter-table.sql \
  | mysql -N $(wp eval 'echo DB_NAME;') | mysql
 
-# mail
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/debian-server-tools/raw/master/webserver/wordpress/_core-mail.php
-#wp plugin install wp-mailfrom-ii smtp-uri --activate
-# define( 'SMTP_URI', 'smtp://FOR-THE-WEBSITE%40DOMAIN.TLD:PWD@localhost' );
-wp plugin install wp-mailfrom-ii --activate
-#wget -P wp-content/mu-plugins/ https://github.com/danielbachhuber/mandrill-wp-mail/raw/master/mandrill-wp-mail.php
-wp eval 'var_dump(wp_mail("admin@szepe.net","First outgoing",site_url()));'
+# themes
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/debian-server-tools/raw/master/webserver/wordpress/_core-themes.php
 
 # disable updates
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-disable-updates/disable-updates.php
@@ -138,6 +133,14 @@ wp plugin install classic-smilies --activate
 
 # multilanguage
 wp plugin install polylang --activate
+
+# mail
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/debian-server-tools/raw/master/webserver/wordpress/_core-mail.php
+#wp plugin install wp-mailfrom-ii smtp-uri --activate
+# define( 'SMTP_URI', 'smtp://FOR-THE-WEBSITE%40DOMAIN.TLD:PWD@localhost' );
+wp plugin install wp-mailfrom-ii --activate
+#wget -P wp-content/mu-plugins/ https://github.com/danielbachhuber/mandrill-wp-mail/raw/master/mandrill-wp-mail.php
+wp eval 'var_dump(wp_mail("admin@szepe.net","First outgoing",site_url()));'
 ```
 
 #### Security
