@@ -171,8 +171,10 @@ packaging:
         location: /usr/lib/ruby/vendor_ruby
 
 remarks: |
-    Some remarks.
-    Other remarks.
+    Missing default services
+    Things to do
+
+# Provider profile: cat ./debian-setup/providers/upcloud-defra1.yml
 
 teardown:
     - Notify users

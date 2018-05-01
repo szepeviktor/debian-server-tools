@@ -80,6 +80,11 @@ echo "courier-mta courier-mta/defaultdomain string" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
 apt-get install -o APT::Install-Recommends=false -y ca-certificates courier-mta
 
+# @FIXME courier-mta package's incorrect default @markus
+sed -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' -i /etc/courier/courierd
+sed -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' -i /etc/courier/esmtpd
+sed -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' -i /etc/courier/esmtpd-ssl
+
 # Install restart script
 Dinstall mail/courier-restart.sh
 
@@ -109,9 +114,6 @@ Courier_config courierd /etc/courier/courierd
 
 # Listen on localhost and disable authentication and disable identlookup,dnslookup
 Courier_config esmtpd /etc/courier/esmtpd
-
-# @FIXME courier-mta package's incorrect default @markus
-sed -i -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' /etc/courier/esmtpd-ssl
 
 # Don't listen on port SMTPS (465/tcp)
 sed -i -e 's|^ESMTPDSSLSTART=.*$|ESMTPDSSLSTART=NO|' /etc/courier/esmtpd-ssl

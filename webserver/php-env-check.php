@@ -14,31 +14,38 @@
 
 namespace O1;
 
-// Local access only
-if ( 'cli' !== php_sapi_name() && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR'] ) {
-    header( 'Status: 403 Forbidden' );
-    header( 'HTTP/1.1 403 Forbidden', true, 403 );
-    header( 'Connection: Close' );
-    exit;
+checkEnv();
+
+function checkEnv() {
+
+    // Local access only
+    if ( 'cli' !== php_sapi_name() && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR'] ) {
+        header( 'Status: 403 Forbidden' );
+        header( 'HTTP/1.1 403 Forbidden', true, 403 );
+        header( 'Connection: Close' );
+
+        exit;
+    }
+
+    // Remove cached version of this file
+    if ( function_exists( 'opcache_invalidate' ) ) {
+        @opcache_invalidate( __FILE__ );
+    }
+
+    // Check environment
+    $check  = new CheckEnv();
+    $status = empty( $check->errors );
+
+    // Display report and exit
+    print json_encode( $check->errors );
+
+    exit( $status ? 0 : 1 );
 }
-
-// Remove cached version of this file
-if ( function_exists( 'opcache_invalidate' ) ) {
-    @opcache_invalidate( __FILE__ );
-}
-
-// Check environment
-$check  = new Check_Env();
-$status = empty( $check->errors );
-
-// Display report and exit
-print json_encode( $check->errors );
-exit( $status ? 0 : 1 );
 
 /**
  * Check PHP configuration.
  */
-final class Check_Env {
+final class CheckEnv {
 
     /**
      * List of errors.
@@ -319,18 +326,18 @@ final class Check_Env {
                 $config['DB_HOST'],
                 $config['DB_PORT'],
                 $config['DB_DATABASE']
-            ),  $config['DB_USERNAME'], $config['DB_PASSWORD'] );
+            ), $config['DB_USERNAME'], $config['DB_PASSWORD'] );
         } catch ( \PDOException $exception ) {
             return '0';
         }
 
-        $result = $link->query('SELECT @@global.innodb_version;' );
+        $result = $link->query( 'SELECT @@global.innodb_version;' );
         if ( 1 !== $result->rowCount() ) {
             return '0';
         }
 
         $mysql_version = $result->fetchColumn();
-        $link = null;
+        $link          = null;
 
         return $mysql_version;
     }

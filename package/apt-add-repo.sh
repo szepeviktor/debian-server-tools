@@ -2,8 +2,8 @@
 #
 # Add the repositories that you install software from.
 #
-# VERSION       :0.2.1
-# DATE          :2016-03-21
+# VERSION       :0.3.0
+# DATE          :2018-05-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -16,7 +16,8 @@
 
 set -e
 
-Possible_locations() {
+Possible_locations()
+{
     cat <<-EOF
 		${D}/package/apt-sources/${REPO}.list
 		${D}/package/apt-sources/${REPO}
@@ -41,10 +42,10 @@ for REPO; do
     done < <(Possible_locations)
 
     # Not a .list file
-    [ "$LIST" == "${LIST%.list}" ] && exit 1
+    test "$LIST" != "${LIST%.list}"
 
     # Does not exist
-    [ -z "$LIST" ] && exit 2
+    test -n "$LIST"
 
     # Add the repo
     cp -v --backup "$LIST" /etc/apt/sources.list.d/
@@ -68,6 +69,11 @@ for REPO; do
                 exit 3
             fi
         done
+
+    # APT preference
+    grep -h -A 5 "^deb " "$LIST" \
+        | grep "^#P: " | cut -d " " -f 2- \
+        | /bin/bash
 done
 
 apt-get clean

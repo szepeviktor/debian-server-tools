@@ -3,6 +3,7 @@
 # Normalize Debian OS: stretch 9.x netinst (essential, required, important) and standard packages.
 #
 # VERSION       :2.0.0
+# DOCS          :https://aptitude.alioth.debian.org/doc/en/ch02s04s05.html
 # DEPENDS       :apt-get install aptitude
 
 # Generated lists

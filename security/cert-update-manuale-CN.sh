@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.7
+# VERSION       :0.1.8
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -26,7 +26,7 @@
 # Chain:   ${CN}.chain.crt
 
 # Python user install
-alias manuale='/usr/local/sbin/u ../../.local/bin/manuale'
+manuale() { /usr/local/sbin/u ../../.local/bin/manuale "$@"; }
 
 Move_challenge_files() {
     local WELL_KNOWN_ACME_CHALLENGE="$1"
@@ -82,7 +82,7 @@ INT="${CN}.intermediate.crt"
 manuale authorize "$CN" ${DOMAIN_NAMES}
 
 # Issue certificate
-# EC key: u openssl ecparam -out "param-${PRIV}" -name prime256v1 -genkey
+# EC key: /usr/local/sbin/u openssl ecparam -out "param-${PRIV}" -name prime256v1 -genkey
 #manuale issue --key-file "param-${PRIV}" "$CN" ${DOMAIN_NAMES}
 # shellcheck disable=SC2086
 manuale issue "$CN" ${DOMAIN_NAMES}

@@ -1,11 +1,8 @@
-# MySQL 5.7 from sid
+# MySQL 5.7 from Debian sid
 deb http://deb.debian.org/debian sid main
 #M: https://tracker.debian.org/pkg/mysql-5.7
+#P: printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/mysql-5.7.pref
 
 # Only needs libevent-core-2.1-6 from sid
-# /etc/apt/preferences.d/sid.pref
-#     Package: *
-#     Pin: release a=unstable
-#     Pin-Priority: 100
 # Installation
 #     apt-get install mysql-common/sid mysql-server-5.7/sid
