@@ -27,8 +27,6 @@ networking:
 #    private:
 #        method: dhcp
 #        name: eth1
-software:
-    php-fpm: "7.2"
 provider-package:
     # Provides VirtIO RNG
     - rng-tools

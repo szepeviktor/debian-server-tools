@@ -14,11 +14,11 @@ Laravel upgrade service: https://laravelshift.com/
 - Database seeding and/or import
 - Media import
 - [CD](/webserver/Continuous-integration-Continuous-delivery.md) testing
-- Cron jobs
 - Laravel queues
+- Cron jobs (sitemap, queue checks)
 - Outbound email: Laravel SwiftMailer or `mail()` and local queuing MTA
 - Log reporting (`laravel-report.sh`)
-- Git status check `git.sh`
+- Periodic git status check (`git.sh`)
 - Monitor front page with Monit
 - Register to webmaster tools
 - Think of other environments (development/staging/beta/demo)

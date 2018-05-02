@@ -4,12 +4,21 @@
 
 set -e -x
 
-PHP_TZ="UTC"
-PHP="$(Data get-value software.php-fpm "7.2")"
+if Data get-values-0 package.apt.extra | grep -z -F -x 'php5-fpm' \
+    || Data get-values-0 package.apt.extra | grep -z -F -x 'php5.6-fpm'; then
+    PHP="5.6"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.0-fpm'; then
+    PHP="7.0"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.1-fpm'; then
+    PHP="7.1"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.2-fpm'; then
+    PHP="7.2"
+fi
+
 PHP_FPM_DIR="/etc/php/${PHP}/fpm"
 PHP_FPM_INI="${PHP_FPM_DIR}/php.ini"
+PHP_TZ="UTC"
 
-# PHP 7.x
 # @nonDebian
 Pkg_install_quiet php${PHP}-fpm \
     php${PHP}-curl php${PHP}-gd php${PHP}-intl php${PHP}-mbstring php${PHP}-mysql \
@@ -18,7 +27,7 @@ Pkg_install_quiet php${PHP}-fpm \
 # Shim directrory for PHP 5.6
 if dpkg --compare-versions "$PHP" lt 7.0 && [ ! -d /etc/php ]; then
     mkdir /etc/php
-    test -e "/etc/php/${PHP}" || ln -s ../php5 "/etc/php/${PHP}"
+    ln -s ../php5 "/etc/php/${PHP}"
 fi
 
 # FPM configuration
@@ -51,7 +60,7 @@ printf '\n[apc]\napc.enabled = 1\napc.shm_size = 64M\n' >> "$PHP_FPM_INI"
 
 # TODO Measure: realpath_cache_size = 16k
 #               realpath_cache_ttl = 120
-#       https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
+# https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
 
 # Display PHP directives
 grep -E -v '^\s*(#|;|$)' "$PHP_FPM_INI" | pager

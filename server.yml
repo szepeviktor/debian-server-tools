@@ -24,6 +24,7 @@ package:
             #- mysql-5.7
             #- oracle-mysql-server
         extra:
+            - php7.2-fpm
             - grepcidr
             #- nodejs
             #- percona-server-server-5.7
