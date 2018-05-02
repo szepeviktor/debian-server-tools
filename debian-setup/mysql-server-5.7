@@ -2,9 +2,8 @@
 
 set -e -x
 
-Pkg_install_quiet mariadb-server mariadb-client
 # @nonDebian
-Pkg_install_quiet percona-xtrabackup
+Pkg_install_quiet mysql-server-5.7 mysql-client-5.7 percona-xtrabackup-24
 
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf

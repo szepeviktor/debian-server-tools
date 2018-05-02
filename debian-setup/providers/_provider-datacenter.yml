@@ -48,7 +48,7 @@ networking:
 software:
     ovhrc: "Instance data in /etc/ovhrc"
     serclient-deb: "Aruba ExtraControl"
-    php-fpm: "7.2"
+    php-fpm: 7.2
 documentation:
     - http://help.ovh.com/InstallOvhKey
     - http://help.ovh.com/RealTimeMonitoring

@@ -2,7 +2,7 @@
 #
 # Continue Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.2
+# VERSION       :2.1.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -40,7 +40,7 @@ Pkg_install_quiet \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
     net-tools whois ntpdate ipset netcat-openbsd lftp s-nail \
     gcc libc6-dev make strace \
-    needrestart unscd mtr-tiny cruft bash-completion htop mmdb-bin
+    unscd mtr-tiny cruft bash-completion htop mmdb-bin
 
 # Provide mail command
 debian-setup/s-nail
@@ -49,7 +49,7 @@ debian-setup/s-nail
 # List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian
 Pkg_install_quiet \
-    -t stretch-backports geoipupdate git goaccess
+    -t stretch-backports needrestart geoipupdate git goaccess
 # Also in debian-setup/fail2ban
 
 # From testing
@@ -148,6 +148,12 @@ if [ -n "$(Data get-value software.aruba-arping "")" ]; then
     Dinstall monitoring/aruba-arping.sh
 fi
 
+# Extra packages
+if [ -n "$(Data get-value package.apt.extra "")" ]; then
+    # shellcheck disable=SC2046
+    Pkg_install_quiet $(Data get-values package.apt.extra)
+fi
+
 debian-setup/cron
 
 debian-setup/debsums
@@ -199,7 +205,7 @@ webserver/php-fpm.sh
 debian-setup/_package-python-pip
 # Needs PHP-CLI
 debian-setup/_package-php-composer
-# Node.js (from provider packages)
+# Node.js (from package.apt.extra)
 # @nonDebian
 if Is_installed "nodejs"; then
     debian-setup/nodejs
@@ -209,8 +215,21 @@ fi
 Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
 webserver/redis-php.sh
-# MariaDB
-debian-setup/mariadb-server
+if Data get-values-0 package.apt.sources | grep -z -F -x 'mysql-5.7'; then
+    # MySQL 5.7 from Debian sid
+    debian-setup/mariadb-server
+elif Data get-values-0 package.apt.sources | grep -q -z -F -x 'percona' \
+    && [ -n "$(Data get-value package.apt.extra "")" ] \
+    && Data get-values-0 package.apt.extra | grep -z -F -x 'percona-server-server-5.7'; then
+    # Percona Server 5.7
+    debian-setup/percona-server-server-5.7
+elif Data get-values-0 package.apt.sources | grep -z -F -x 'oracle-mysql-server'; then
+    # Oracle MySQL 5.7
+    debian-setup/mysql-community-server
+else
+    # MariaDB
+    debian-setup/mariadb-server
+fi
 
 # Add the development website, needs composer
 webserver/add-prg-site-auto.sh
@@ -220,9 +239,9 @@ service fail2ban restart
 
 # Backup
 Pkg_install_quiet debconf-utils rsync mariadb-client
+# percona-xtrabackup is installed in debian-setup/mariadb,mysql
 # @nonDebian
-Pkg_install_quiet percona-xtrabackup s3ql
-# TODO percona-xtrabackup-24 for mysql 5.7+
+Pkg_install_quiet s3ql
 # Disable Apache configuration from javascript-common
 if hash a2disconf 2> /dev/null; then
     a2disconf javascript-common

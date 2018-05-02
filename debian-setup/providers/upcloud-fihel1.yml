@@ -29,7 +29,7 @@ networking:
         method: dhcp
         name: eth1
 software:
-    php-fpm: "7.2"
+    php-fpm: 7.2
 provider-package:
     # Soft restart needs
     - acpid
