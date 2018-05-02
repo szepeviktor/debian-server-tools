@@ -30,11 +30,6 @@ ssh "cat > /root/debian-setup-starter2.sh; chmod +x /root/debian-setup-starter2.
 export LC_ALL=C.UTF-8
 cd /root/debian-server-tools-master/
 
-# MySQL 5.7
-#printf 'Package: *\nPin: release a=unstable\nPin-Priority: 100\n' > /etc/apt/preferences.d/sid.pref
-#sed -e 's|Pkg_install_quiet mariadb-server mariadb-client|apt-get install -qq mysql-common/sid mysql-server-5.7/sid|' -i ./debian-setup/mariadb-server
-#sed -e 's|Pkg_install_quiet percona-xtrabackup|&-24|' -i ./debian-setup/mariadb-server
-
 # @FIXME
 export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
 ##script --timing=../debian-setup2.time ../debian-setup2.script
@@ -51,6 +46,7 @@ cd debian-server-tools-master/
 
 # Skip missing DNS records
 #sed -e 's|set -e -x|set +e -x|' -i ./debian-setup/hostname
+#echo "true" >> ./debian-setup/hostname
 
 lsblk -f
 tune2fs -L "debian-root" /dev/vda1

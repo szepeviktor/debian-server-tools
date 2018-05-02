@@ -1,8 +1,38 @@
 # Running a Laravel application
 
-Laravel upgrade: https://laravelshift.com/
+Laravel upgrade service: https://laravelshift.com/
 
-### Caches
+### Application setup in production
+
+- Document everything in `hosting.yml`
+- Git repository and SSH key
+- Default Apache virtualhost + PHP FPM pool + SSL certificate
+- Apache config
+- PHP extensions and directives (declared also in `php-env-check.php`)
+- Local "locales", see [Locale-gettext.md](./Locale-gettext.md)
+- `.env` variables
+- Database seeding and/or import
+- Media import
+- [CD](/webserver/Continuous-integration-Continuous-delivery.md) testing
+- Cron jobs
+- Laravel queues
+- Outbound email: Laravel SwiftMailer or `mail()` and local queuing MTA
+- Log reporting (`laravel-report.sh`)
+- Git status check `git.sh`
+- Monitor front page with Monit
+- Register to webmaster tools
+- Think of other environments (development/staging/beta/demo)
+
+### In-app security
+
+- WordPress Fail2ban WAF patched
+- HTTP method not in routes
+- HTTP 404
+- CSRF token mismatch
+- Failed login attempts
+- Non-empty hidden field in forms
+
+### Laravel caches
 
 Use [Redis PECL extension](https://laravel.com/docs/5.6/redis#phpredis) instead of Predis.
 
