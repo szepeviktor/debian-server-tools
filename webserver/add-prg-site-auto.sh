@@ -17,6 +17,8 @@
 
 set -e
 
+test -n "$PHP"
+
 # Check HTTP/auth credentials
 HTTP_USER="$(Data get-value package.apache2.prg-http-user "")"
 test -n "$HTTP_USER"
@@ -63,34 +65,31 @@ PRG_ROOT="/home/${U}/website/html"
 
 # Favicon and robots.txt
 wget -nv -nc -P ${PRG_ROOT} "https://www.debian.org/favicon.ico"
-echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > ${PRG_ROOT}/robots.txt
+printf 'User-agent: *\nDisallow: /\n# Please stop sending further requests.\n' > ${PRG_ROOT}/robots.txt
 
 # Default image
-cp webserver/default-image-38FC48.jpg ${PRG_ROOT}/
+cp webserver/default-image-38FC48.jpg "${PRG_ROOT}/"
 
 # OPcache control panel
 # kabel / ocp.php
-cp webserver/ocp.php ${PRG_ROOT}/
+cp webserver/ocp.php "${PRG_ROOT}/"
 
-# APC/APCu ontrol panel
-# apc.php from APC trunk for PHP 5.4-
-#     php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
-#         && wget -nv -O${PRG_ROOT}/apc.php "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
-# apc.php from APCu master for PHP 5.5+
+# APCu ontrol panel
+# apc.php from APCu master
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -nv -O ${PRG_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/master/apc.php"
 echo "<?php define('ADMIN_USERNAME', '${HTTP_USER}');
-      define('ADMIN_PASSWORD', '${HTTP_PASSWORD}');" > ${PRG_ROOT}/apc.conf.php
-chmod 0640 ${PRG_ROOT}/apc.conf.php
+      define('ADMIN_PASSWORD', '${HTTP_PASSWORD}');" > "${PRG_ROOT}/apc.conf.php"
+chmod 0640 "${PRG_ROOT}/apc.conf.php"
 
 # PHP info
-wget -nv -O ${PRG_ROOT}/pif.php \
+wget -nv -O "${PRG_ROOT}/pif.php" \
     https://github.com/szepeviktor/wordpress-plugin-construction/raw/master/shared-hosting-aid/php-vars.php
 
 # PHPMyAdmin
-cp package/phpmyadmin-get.sh ${PRG_ROOT}/
+cp package/phpmyadmin-get.sh "${PRG_ROOT}/"
 (
-    cd ${PRG_ROOT}/
+    cd "${PRG_ROOT}/"
     ./phpmyadmin-get.sh
     rm -f phpMyAdmin-*-english.tar.xz
     cd phpMyAdmin-*-english/
@@ -98,27 +97,27 @@ cp package/phpmyadmin-get.sh ${PRG_ROOT}/
     ln -sf ../config.inc.php .
     # http://docs.phpmyadmin.net/en/latest/config.html#basic-settings
     # shellcheck disable=SC2016
-    sed -i -e 's/^.*\$cfg\[.blowfish_secret.\].*$/\/\/ cfg-blowfish_secret/' ../config.inc.php
-    sed -i -e "s|cfg-blowfish_secret|cfg-blowfish_secret\n\
-\$cfg['blowfish_secret'] = '$(apg -n 1 -m 33)';\n\
-\$cfg['MemoryLimit'] = '384M';\n\
-\$cfg['DefaultLang'] = 'en';\n\
-\$cfg['PmaNoRelation_DisableWarning'] = true;\n\
-\$cfg['SuhosinDisableWarning'] = true;\n\
-// \$cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin >';\n\
-// \$cfg['CaptchaLoginPrivateKey'] = '<Secret key>';\n|" ../config.inc.php
+    sed -e 's|^.*\$cfg\[.blowfish_secret.\].*$|// cfg-blowfish_secret|' -i ../config.inc.php
+    sed -e "s|cfg-blowfish_secret|cfg-blowfish_secret\\n\
+\$cfg['blowfish_secret'] = '$(apg -n 1 -m 33)';\\n\
+\$cfg['MemoryLimit'] = '384M';\\n\
+\$cfg['DefaultLang'] = 'en';\\n\
+\$cfg['PmaNoRelation_DisableWarning'] = true;\\n\
+\$cfg['SuhosinDisableWarning'] = true;\\n\
+// \$cfg['CaptchaLoginPublicKey'] = '<Site key from https://www.google.com/recaptcha/admin >';\\n\
+// \$cfg['CaptchaLoginPrivateKey'] = '<Secret key>';\\n|" -i ../config.inc.php
 )
 
 # PHP Secure Configuration Checker
 (
-    cd ${PRG_ROOT}/
+    cd "${PRG_ROOT}/"
     git clone https://github.com/sektioneins/pcc.git
 )
 
 # Redis control panel
-if echo "ping" | nc -C -q 3 localhost 6379 | grep -F "+PONG"; then
+if echo "ping" | nc -C -q 3 localhost 6379 | grep -F '+PONG'; then
     (
-        cd ${PRG_ROOT}/
+        cd "${PRG_ROOT}/"
         composer create-project --no-interaction --no-dev --stability=dev erik-dubbelboer/php-redis-admin radmin
         cd radmin/
         cp includes/config.sample.inc.php includes/config.inc.php
@@ -126,9 +125,9 @@ if echo "ping" | nc -C -q 3 localhost 6379 | grep -F "+PONG"; then
 fi
 
 # Memcached control panel
-if echo stats | nc -q 3 localhost 11211 | grep -F "bytes"; then
+if echo "stats" | nc -q 3 localhost 11211 | grep -F 'bytes'; then
     (
-        cd /home/${U}/website/
+        cd "/home/${U}/website/"
         mkdir phpMemAdmin
         cd phpMemAdmin/
         echo '{ "require": { "clickalicious/phpmemadmin": "~0.3" }, "scripts": { "post-install-cmd":
@@ -143,18 +142,16 @@ if echo stats | nc -q 3 localhost 11211 | grep -F "bytes"; then
 fi
 
 # Set owner
-chown -R ${U}:${U} /home/${U}/website
+chown -R ${U}:${U} "/home/${U}/website"
 
 # Create PHP pool
 (
-    #cd /etc/php5/fpm/pool.d/
-    cd /etc/php/7.2/fpm/pool.d/
+    cd "/etc/php/${PHP}/fpm/pool.d/"
     sed -e "s/@@USER@@/${U}/g" < ../Prg-pool.conf > ${U}.conf
     # PHP Secure Configuration Checker allowed IP address
     #     env[PCC_ALLOW_IP] = 1.2.3.*
 )
-#sed -i "s|^;\?opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" /etc/php5/fpm/php.ini
-sed -i "s|^;\?opcache.restrict_api\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" /etc/php/7.2/fpm/php.ini
+sed -e "s|^;\\?opcache\\.restrict_api\\s*=.*\$|opcache.restrict_api = /home/${U}/website/|" -i "/etc/php/${PHP}/fpm/php.ini"
 
 # Create Apache site
 (

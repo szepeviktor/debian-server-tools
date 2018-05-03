@@ -2,19 +2,18 @@
 
 . debian-setup-functions.inc.sh
 
+Php_pager()
+{
+    if [ "$DISABLE_PHP_PAGER" == True ]; then
+        cat
+    else
+        pager
+    fi
+}
+
 set -e -x
 
-if Data get-values-0 package.apt.extra | grep -z -F -x 'php5-fpm' \
-    || Data get-values-0 package.apt.extra | grep -z -F -x 'php5.6-fpm'; then
-    PHP="5.6"
-elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.0-fpm'; then
-    PHP="7.0"
-elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.1-fpm'; then
-    PHP="7.1"
-elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.2-fpm'; then
-    PHP="7.2"
-fi
-
+test -n "$PHP"
 PHP_FPM_DIR="/etc/php/${PHP}/fpm"
 PHP_FPM_INI="${PHP_FPM_DIR}/php.ini"
 PHP_TZ="UTC"
@@ -63,7 +62,8 @@ printf '\n[apc]\napc.enabled = 1\napc.shm_size = 64M\n' >> "$PHP_FPM_INI"
 # https://www.scalingphpbook.com/best-zend-opcache-settings-tuning-config/
 
 # Display PHP directives
-grep -E -v '^\s*(#|;|$)' "$PHP_FPM_INI" | pager
+DISABLE_PHP_PAGER="$(Data get-value auto-check-system "False")"
+grep -E -v '^\s*(#|;|$)' "$PHP_FPM_INI" | Php_pager
 # Disable "www" pool
 mv "${PHP_FPM_DIR}/pool.d/www.conf" "${PHP_FPM_DIR}/pool.d/www.conf.default"
 # Add skeletons

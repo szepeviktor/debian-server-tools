@@ -199,6 +199,17 @@ if Is_installed "mod-pagespeed-stable"; then
 fi
 
 # PHP-FPM
+if Data get-values-0 package.apt.extra | grep -z -F -x 'php5-fpm' \
+    || Data get-values-0 package.apt.extra | grep -z -F -x 'php5.6-fpm'; then
+    PHP="5.6"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.0-fpm'; then
+    PHP="7.0"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.1-fpm'; then
+    PHP="7.1"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.2-fpm'; then
+    PHP="7.2"
+fi
+export PHP
 webserver/php-fpm.sh
 
 # Package managers

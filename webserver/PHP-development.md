@@ -163,8 +163,30 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
 - Match production/staging/development/local environments (Docker, php-env-check)
-- Differences of **staging and development** environments:
-  different domain name, robots.txt, email delivery, disable 3rd parties
+
+### Differences of production and non-production environments
+
+- Environment examples: development, staging, beta, demo
+- Different domain name (SLD)
+- Disallowing robots.txt
+- Different Apache configuration
+- Different PHP extensions and directives (`opcache.validate_timestamps`)
+- Alternative email delivery
+- Modified application configuration (environment name, debug logging)
+- Change crypto salts, regenerate password hashes
+- Disable/use another CDN
+- Disable/switch to sandbox mode in 3rd party integrations (analytics, chat, performance monitoring, payment gateway)
+- Disable automatic updates
+- Stop cron jobs
+- Visually distinguish non-production sites
+
+### Visually signals of a non-production environments
+
+- Change favicon to an animated GIF image
+- Tag page title `<title>[STAGING] $page_title</title>`
+- Add a flashy line `#MainMavigation { border-top: 3px dashed magenta; }`
+- Surround the company logo `#BrandLogo { outline: 3px dotted magenta; }`
+- Change background color of WordPress admin bar
 
 ### Login and Sign up page features :door:
 

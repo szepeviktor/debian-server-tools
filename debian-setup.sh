@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.3
+# VERSION       :2.0.4
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -89,9 +89,9 @@ export IMAGE_CODENAME="stretch"
 # https://skarnet.org/software/s6/systemd.html
 export WITHOUT_SYSTEMD="yes"
 
-export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils aptitude"
+export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils aptitude net-tools"
 #:ubuntu test "$(dpkg-vendor --query vendor)" == Ubuntu
-#export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils"
+#export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils net-tools"
 
 # APT sources must be hardcoded as shyaml is unavailable before OS image normalization
 export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources"
@@ -116,7 +116,7 @@ source debian-setup-functions.inc.sh
 
 # Necessary packages
 IS_FUNCTIONAL="yes"
-test -n "$(which dpkg-query)"
+hash dpkg-query
 for PKG in ${SETUP_PACKAGES}; do
     if ! Is_installed "$PKG"; then
         IS_FUNCTIONAL="no"
@@ -128,6 +128,10 @@ if [ "$IS_FUNCTIONAL" != "yes" ]; then
     # shellcheck disable=SC2086
     apt-get install -y ${SETUP_PACKAGES} || true
 fi
+
+IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+export IP
+
 # These packages should be auto-installed
 apt-mark auto lsb-release ca-certificates
 
@@ -171,9 +175,6 @@ done
 eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " -f 2-)"
 # Get package lists
 apt-get update -qq
-
-IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
-export IP
 
 # Virtualization environment
 debian-setup/virt-what

@@ -10,11 +10,11 @@
 
 ### Website
 
-WP-CLI config: [wp-cli.yml](http://wp-cli.org/config/) possibly above document root.
+WP-CLI config: [wp-cli.yml](http://wp-cli.org/config/) possibly above document root
 
 ```yaml
 path: /home/user/website/html/wp
-url: http://SITENAME.COM
+url: https://www.example.com
 debug: true
 skip-plugins:
     # Version randomizer
@@ -32,20 +32,12 @@ wp db import wp-database.sql
 #zcat wp-database.sql.gz | wp db import -
 ```
 
-Create /robots.txt and /favicon.ico
+Create `/robots.txt` and `/favicon.ico`
 
 ```bash
 cd $DOCUMENT_ROOT/
 wget https://my.brand.site/favicon.ico
 echo -e "User-agent: *\nDisallow: /\n# Please stop sending further requests." > robots.txt
-```
-
-*FTP* Upload /robots.txt and your developer /favicon.ico
-
-```
-User-agent: *
-Disallow: /
-# Please stop sending further requests.
 ```
 
 ### wp-config.php constants
@@ -72,25 +64,11 @@ DEV_DOMAIN="${DEV_URL#*//}"
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "${ORIG_URL%%/*}" "${DEV_URL%%/*}"
 ```
 
-*FTP* Force site URL (see /webserver/wp-config-dev.php) or download Search-Replace-DB
-
-1. https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
-1. https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
-
-*FTP* Upload index.php as srdb.php (delete both files after replace).
-
-1. `http://DOMAIN.TLD` → `https://DEV.SITE.COM` (no trailing slash)
-1. `//DOMAIN.TLD` → `//DEV.SITE.COM` (no trailing slash)
-1. `/home/PATH/TO/SITE` → `C:/wamp/php/wordpress` (no trailing slash)
-1. `EMAIL@ADDRESS.ES` → `DEVELOPMENT@ADDRE.SS` (all addresses)
-1. `DOMAIN.TLD` → `DEV.SITE.COM` (now without protocol)
-
 Change salts.
 
 - If you have apg installed: `wordpress-plugin-construction/wp-safe-salt.sh >> wp-config.php`
 - Using PHP's OpenSSL support: `php wordpress-plugin-construction/wp-safe-salt.php >> wp-config.php`
 - From Automattic: `wget -qO- https://api.wordpress.org/secret-key/1.1/salt/ >> wp-config.php`
-- *FTP* Get salts from Automattic: https://api.wordpress.org/secret-key/1.1/salt/
 
 Constants for [debugging](https://codex.wordpress.org/Debugging_in_WordPress):
 
@@ -133,12 +111,12 @@ Disable CDN rewriting.
 Set admin email:
 
 - `wp option set admin_email DEVELOPMENT@ADDRE.SS`
-- `http://DEV.SITE.COM/wp-admin/options-general.php`
+- `https://DEV.SITE.COM/wp-admin/options-general.php`
 
 Enable developer's user as administrator:
 
 - `wp user set-role DEVELOPER administrator`
-- `http://DEV.SITE.COM/wp-admin/users.php`
+- `https://DEV.SITE.COM/wp-admin/users.php`
 
 Development tools:
 

@@ -2,6 +2,8 @@
 
 set -e -x
 
+test -n "$PHP"
+
 # Redis, in-memory cache
 # @TODO move to stretch-backports
 apt-get install -y redis-server
@@ -15,23 +17,24 @@ EOF
 # PHP 5 extension from PECL
 if [ "$(dpkg-query --showformat="\${Status}" --show php5-cli 2> /dev/null)" == "install ok installed" ]; then
     pecl install redis
-    echo -e "; priority=20\nextension=redis.so" > /etc/php5/mods-available/redis.ini
+    printf '; priority=20\nextension=redis.so\n' > /etc/php5/mods-available/redis.ini
     php5enmod redis
 fi
 
-if [ "$(dpkg-query --showformat="\${Status}" --show php7.2-cli 2> /dev/null)" == "install ok installed" ]; then
+#if [ "$(php -r 'echo PHP_MAJOR_VERSION;')" == 7 ]; then
+if [ "$(dpkg-query --showformat="\${Status}" --show php${PHP}-cli 2> /dev/null)" == "install ok installed" ]; then
     # Is php-redis available?
     if [ -n "$(aptitude --disable-columns --display-format "%p" search "?exact-name(php-redis)")" ]; then #"
         # PHP 7 extension
         apt-get install -y php-redis
     else
         # PHP 7 extension from source
-        apt-get install -y php7.2-dev re2c
+        apt-get install -y re2c php-dev
         git clone https://github.com/phpredis/phpredis.git
         (
             cd phpredis/
-            git checkout php7
-            phpize7.2
+            git checkout master
+            phpize
             # igbinary disables inc() and dec()
             #./configure --enable-redis-igbinary
             ./configure
@@ -39,11 +42,11 @@ if [ "$(dpkg-query --showformat="\${Status}" --show php7.2-cli 2> /dev/null)" ==
             make install
         )
         chmod -x /usr/lib/php/20170718/redis.so
-        echo -e "; priority=20\nextension=redis.so" > /etc/php/7.2/mods-available/redis.ini
-        phpenmod -v 7.2 -s ALL redis
+        printf '; priority=20\nextension=redis.so\n' > /etc/php/${PHP}/mods-available/redis.ini
+        phpenmod -v "$PHP" -s ALL redis
 
         # Run test
-        php tests/TestRedis.php --class Redis
+        php phpredis/tests/TestRedis.php --class Redis
     fi
 fi
 
