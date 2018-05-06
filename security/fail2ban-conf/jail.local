@@ -8,7 +8,6 @@
 #          localhost   own IP
 #                                    proxy         Googlebot      PayPal IPN    Amazon CloudFront
 ignoreip = 127.0.0.0/8 @@IP@@ 88.151.99.143 66.249.64.0/20 173.0.80.0/22 35.158.136.0/24 54.240.128.0/18 205.251.192.0/18 216.137.32.0/19
-# WARNING! multiline error gh-1432
 
 # @FIXME gh-1587
 logencoding = utf-8
