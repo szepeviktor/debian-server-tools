@@ -48,7 +48,7 @@ https://haveibeenpwned.com/
 ### UpCloud registration
 
 - Referral URL
-- Enable 2FA
+- **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
@@ -60,7 +60,7 @@ https://haveibeenpwned.com/
 - https://aws.amazon.com/
 - Account type: Professional
 - Support Plan: Basic
-- Enable 2FA
+- **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - Route53 / Domain + DNS
 - CloudFront / CDN
 - SES / Domain + SMTP credentials +

@@ -1,5 +1,5 @@
 # https://laravel.com/docs/5.5/queues
-# 1. change process and file names from the second instance
+# 1. change process and file names from the second instance on
 # 2. replace @@LARAVEL1_USER@@ with Laravel user name
 
  check process laravel_queue1 with pidfile "/home/@@LARAVEL1_USER@@/website/queue1.pid"

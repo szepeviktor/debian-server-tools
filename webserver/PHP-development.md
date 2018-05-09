@@ -81,7 +81,7 @@ Use Docker **containers** for testing.
 - Warn on `TODO` and `FIXME`: "Move it into issues!" (phpcs)
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
-- Critical vulnerabilities in dependencies ([Gemnasium](https://gemnasium.com/), dependencies.io)
+- Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
 - Metrics (phpmetrics)
 - Build assets (webpack)
 
@@ -89,7 +89,7 @@ Use Docker **containers** for testing.
 
 - PHPUnit
 - Measure code coverage
-- Codeception, Behat
+- Codeception, Behat, [KantuX](https://a9t9.com/kantu/compare)
 - Packaging
 - Test deploy
 
@@ -198,6 +198,24 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Link to Login/Sign up page
 - Privacy Policy and Terms of Service links
 - Support email and chat/open ticket
+
+### Authentication :key:
+
+- Analyze HTTP headers
+- Browser check with JavaScript
+- Suspicious email address (company domain, blocked domain, disposable, non-existent, missing MX)
+- Blocked usernames
+- Force strong passwords
+- Provide 2FA (TOTP, SMS, email), encourage users to use KeePass
+- Use [Argon2 hashing] `password_hash($pwd, PASSWORD_ARGON2I)`
+- Wipe the plaintext password from memory
+- Lock sessions to user angent strings
+- Lock sessions to IP addresses or allow change of IP address within the same AS or timezone
+- Prevent multiple sessions
+- Login notification
+- New device notification
+- If you choose an [identity provider](https://www2.nopassword.com/contextual-adaptive-authentication/)
+  search the web for its brand plus "breach" "exploit" "security"
 
 ### Maintenance :wrench:
 

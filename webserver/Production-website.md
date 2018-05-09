@@ -448,7 +448,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
 - Text selection: color+background-color, disable selection, display share options on select (see Feedly)
 - Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:
-- Emojis (entering, storing, displaying)
+- Emojis and UNICODE (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
