@@ -2,7 +2,7 @@
 #
 # Simple system backup.
 #
-# VERSION       :0.2.8
+# VERSION       :0.3.0
 # DATE          :2016-08-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -65,7 +65,7 @@ Echo "/etc + debconf"
 nice tar --exclude=/etc/.git \
     --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
 debconf-get-selections > "${CURRENT_DAY}/debconf.selections"
-dpkg --get-selections > "${CURRENT_DAY}/packages.selections"
+dpkg-query --show > "${CURRENT_DAY}/packages.selections"
 
 Echo "/usr/local"
 nice tar --exclude=/usr/local/src \

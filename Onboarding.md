@@ -49,6 +49,7 @@ https://haveibeenpwned.com/
 
 - Referral URL
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
+- Use a virtual bank card
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
@@ -59,6 +60,7 @@ https://haveibeenpwned.com/
 
 - https://aws.amazon.com/
 - Account type: Professional
+- Use a virtual bank card
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - Route53 / Domain + DNS

@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.2.2
+# VERSION       :2.3.0
 # DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -259,7 +259,7 @@ Backup_files() { # Error 7x
     tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
     # Save debconf data
     debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
-    dpkg --get-selections > "${WEEKLY_ETC}/packages.selections"
+    dpkg-query --show > "${WEEKLY_ETC}/packages.selections"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_ETC"
 

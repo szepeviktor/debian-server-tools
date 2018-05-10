@@ -96,7 +96,7 @@ Use Docker **containers** for testing.
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
 [on Debian](https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu)
 
-### Tips for developing your application
+### Tips for developing your application :bulb:
 
 [PSR-1: Basic Coding Standard](http://www.php-fig.org/psr/psr-1/)
 
@@ -164,7 +164,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Register to webmaster tools (Google, Bing, Yandex)
 - Match production/staging/development/local environments (Docker, php-env-check)
 
-### Differences of production and non-production environments
+### Differences of production and non-production environments :gear:
 
 - Environment examples: development, staging, beta, demo
 - Different domain name (SLD)
@@ -180,12 +180,12 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Stop cron jobs
 - Visually distinguish non-production sites
 
-### Visually signals of a non-production environments
+#### Visual signals of a non-production environments
 
 - Change favicon to an animated GIF image
 - Tag page title `<title>[STAGING] $page_title</title>`
 - Add a flashy line `#MainMavigation { border-top: 3px dashed magenta; }`
-- Surround the company logo `#BrandLogo { outline: 3px dotted magenta; }`
+- Surround/invert the company logo `#BrandLogo { outline: 3px dotted magenta; }`
 - Change background color of WordPress admin bar
 
 ### Login and Sign up page features :door:
@@ -207,7 +207,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Blocked usernames
 - Force strong passwords
 - Provide 2FA (TOTP, SMS, email), encourage users to use KeePass
-- Use [Argon2 hashing] `password_hash($pwd, PASSWORD_ARGON2I)`
+- Use [Argon2 hashing](https://wiki.php.net/rfc/argon2_password_hash) `password_hash($pwd, PASSWORD_ARGON2I)`
 - Wipe the plaintext password from memory
 - Lock sessions to user angent strings
 - Lock sessions to IP addresses or allow change of IP address within the same AS or timezone

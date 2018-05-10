@@ -24,9 +24,9 @@ echo "/etc/modprobe.d/
 ls /etc/ssh/ssh_host_*_key* >> etc-blacklist.txt
 
 debconf-get-selections > debconf.selections
-dpkg --get-selections > packages.selection
+dpkg-query --show > packages.selections
 tar --exclude-from=etc-blacklist.txt \
-    -vczf server.tar.gz debconf.selections packages.selection etc-blacklist.txt /etc/*
+    -vczf server.tar.gz debconf.selections packages.selections etc-blacklist.txt /etc/*
 ## Data dirs
 # /home
 # /root
@@ -70,8 +70,8 @@ cd clone/
 tar -vxf server.tar.gz
 
 # Compare kernels
-clear; dpkg -l | grep -E "^\S+\s+linux-image"
-grep "^linux-image" packages.selection
+clear; dpkg -l | grep -E '^\S+\s+linux-image'
+grep '^linux-image' packages.selections
 
 # Remove systemd??
 apt-get update -qq
@@ -139,14 +139,16 @@ dpkg-reconfigure -f noninteractive tzdata && service rsyslog restart
 #dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Package blacklist
-grep -E "^(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)" packages.selection
-dpkg -l | grep -E "^\S+\s+(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)"
+grep -E '^(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)' packages.selections
+dpkg -l | grep -E '^\S+\s+(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)'
 
 # Install packages
-dpkg --clear-selections; dpkg --dry-run --set-selections < packages.selection
+dpkg --clear-selections
+sed -e 's|\t\S\+$|\t\t\t\t\t\tinstall|' packages.selections | dpkg --dry-run --set-selections
 # Match these with the currently installed packages
-editor packages.selection
-dpkg --clear-selections; dpkg --set-selections < packages.selection
+editor packages.selections
+dpkg --clear-selections
+sed -e 's|\t\S\+$|\t\t\t\t\t\tinstall|' packages.selections | dpkg --set-selections
 # Manual install
 apt-get dselect-upgrade
 apt-get install -f
@@ -154,15 +156,15 @@ apt-get install -f
 # Check package intergrity and SSH
 debsums -c
 systemctl status
-dpkg -l | grep "openssh-server" || echo 'no SSH !!!'
-netstat -anp | grep "ssh" || echo 'no SSH !!!'
+dpkg -l | grep -F 'openssh-server' || echo 'ERROR: no SSH'
+netstat -a -n -p | grep -F 'ssh' || echo 'ERROR: no SSH'
 # LOG IN NOW WITHOUT LOGGING OUT
 
 
 ## Restore data dirs and special-handling directories
 
 cd /usr/local/src/
-rm -rf debian-server-tools
+rm -r -f debian-server-tools
 git clone https://github.com/szepeviktor/debian-server-tools.git
 
 chown -R virtual:virtual /var/mail/*
