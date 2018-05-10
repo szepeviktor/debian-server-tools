@@ -112,6 +112,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 - http://neeed.us/
 - http://www.pwstudio.hu/
 - https://www.upsolution.hu/
+- https://www.budaffect.com/ - webáruház
 
 * http://www.finetune.hu/
 * http://www.rblmarketing.hu/
@@ -132,5 +133,5 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 - *Vírusos* honlap takarítása (WordPress, Drupal, Joomla) - 4 munkaóra
 - Egyszerű, reszponzív mobil nézet készítése (5 oldaltípushoz) - 4 munkaóra
 - Hírlevél technikai ellenőrzés és kiküldés - 2-4 munkaóra
-- Monitorozott email postafiók szolgáltatás - árazás megkezdett GB-onként/fő/hónap
+- Monitorozott email postafiók szolgáltatás - 1 munkaóra megkezdett GB-onként/fő/6 hónap
 - WordPress sablon telepítés, lehetőségeinek ismertetése (kreatív munkát nem tartalmaz) - 4 munkaóra

@@ -83,8 +83,6 @@ test:
     #- composer info --installed barryvdh/laravel-ide-helper
     ##- sed -e 's|//$|//\n$this->app->register(\\Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider::class);|' -i app/Providers/AppServiceProvider.php
     #- php artisan ide-helper:generate
-    ## Fix duplicate Redis class (rejected in laravel-ide-helper)
-    #- sed -e 's|class Redis |class Redis__ |' -e 's|exit(|// exit(|' -i _ide_helper.php
     # Static analysis
     - phpstan analyse --ansi --no-progress --configuration=phpstan.neon --level=7 -- app/
     # Unit tests
@@ -100,4 +98,4 @@ test:
 # https://docs.gitlab.com/ee/ci/examples/code_climate.html
 
 # Control deploy from commit messages: [deploy:staging]
-#                by manual action: https://gitlab.com/help/ci/yaml/README.md#manual-actions
+# Control deploy by manual action: https://gitlab.com/help/ci/yaml/README.md#user-content-whenmanual

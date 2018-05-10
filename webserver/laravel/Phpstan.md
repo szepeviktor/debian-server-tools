@@ -10,7 +10,7 @@
 ```bash
 composer create-project --prefer-dist "laravel/laravel:^5.6"
 cd laravel/
-vendor/bin/phpstan analyze -a ./_ide_helper_models.php -l 7 app/
+vendor/bin/phpstan analyze -l 7 app/
 
 composer require --dev phpstan/phpstan:dev-master
 composer require --dev barryvdh/laravel-ide-helper:dev-master

@@ -54,6 +54,6 @@ How to design and implement CI and CD.
 - Populate caches
 - Run at least 1 basic functional or unit test (e.g. log in or display dashboard)
 - Check HTML output
-- Special sudo configuration for reloading php-fpm
+- Special sudo configuration for reloading PHP-FPM
 - **Alert on failure**
 - Send email, Slack or Trello notification
