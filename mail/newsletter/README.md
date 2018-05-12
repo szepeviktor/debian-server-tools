@@ -42,10 +42,6 @@ Teszt-címek: our-addresses@example.com, https://mail-tester.com
 
 Kiküldési idő: 09:00 - 11:00
 
-### Automatikus válasz
+### Automatikus válasz megelőzése
 
 `X-Auto-Response-Suppress: All` https://msdn.microsoft.com/en-us/library/ee219609(v=exchg.80).aspx
-
-`Auto-Submitted: auto-replied` https://tools.ietf.org/html/rfc3834#section-3.1.7
-
-Több: https://serverfault.com/a/462914

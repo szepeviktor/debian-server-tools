@@ -126,10 +126,10 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating
-- Authentication (2FA, password security, lock session to IP address)
+- Authentication (Web Authentication API, client certificate, 2FA, password security, lock session to IP address)
 - User roles and capabilities
 - Email addresses, composing and sending
-  (plain text version, NeverBounce, mailcheck.js, form hidden field, obfuscate email addresses)
+  (obfuscate email addresses, form hidden field, mailcheck.js, plain text version, NeverBounce)
 - Document generation (CSV, PDF, Excel, image)
 - Image management (Cloudinary)
 - Maintenance mode switch and placeholder page (HTTP/503)

@@ -111,11 +111,11 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 
 - http://neeed.us/
 - http://www.pwstudio.hu/
-- https://www.upsolution.hu/
 - https://www.budaffect.com/ - webáruház
+- https://www.upsolution.hu/
 
-* http://www.finetune.hu/
-* http://www.rblmarketing.hu/
+* https://www.finetune.hu/
+* https://www.rblmarketing.hu/
 * http://maarsk.com/
 * http://www.surmanngyula.hu/
 

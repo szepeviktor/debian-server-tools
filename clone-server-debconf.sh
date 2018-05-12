@@ -142,6 +142,10 @@ dpkg-reconfigure -f noninteractive tzdata && service rsyslog restart
 grep -E '^(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)' packages.selections
 dpkg -l | grep -E '^\S+\s+(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)'
 
+# List non-Debian packages
+aptitude search -F '%p' '?narrow(?installed, ?not(?archive(^stable$)))' > non-Debian.packages
+# View non-Debian packages in nice columns
+aptitude search -F $'%O\t%p\t%v' '?narrow(?installed, ?not(?archive(^stable$)))'|sort|column -s $'\t' -t
 # Install packages
 dpkg --clear-selections
 sed -e 's|\t\S\+$|\t\t\t\t\t\tinstall|' packages.selections | dpkg --dry-run --set-selections

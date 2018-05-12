@@ -1,5 +1,6 @@
 # Mail servers
 
+
 ### E-mail server factors
 
 - Transport encryption (TLS on SMTP in&out and IMAP)
@@ -377,8 +378,7 @@ Deprecated.
 - `Return-Path: bounce@example.com` (invisible)
 - `List-Unsubscribe-Post: List-Unsubscribe=One-Click`
   [RFC8058](https://tools.ietf.org/html/rfc8058) (invisible)
-- bounce `X-Autoreply: yes`
-- bounce `Auto-Submitted: auto-replied`
+- Prevent automatic responses `X-Auto-Response-Suppress: All`
 
 #### Others
 
@@ -423,6 +423,18 @@ Deprecated.
 - https://tinyletter.com/
 - https://www.klaviyo.com/
 - https://mailchimp.com/
+
+### Detect automatic responses
+
+- `Auto-Submitted: auto-replied` https://tools.ietf.org/html/rfc3834#section-3.1.7
+- `X-Autoreply: yes`
+- `Precedence: bulk`
+- `X-Cron-Env:`
+- `Return-Path: <>`
+- `From: .*(noreply|no-reply|donotreply|mailer[-_]daemon@|)`
+- https://github.com/jpmckinney/multi_mail/wiki/Detecting-autoresponders
+- https://serverfault.com/a/462914
+
 
 ## Deliverability
 

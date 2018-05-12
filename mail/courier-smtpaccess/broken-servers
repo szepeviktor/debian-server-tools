@@ -8,9 +8,6 @@
 
 # Broken SMTP servers and special cases - allow,BLOCK,BOFHCHECKDNS=0,BOFHCHECKHELO=0
 
-# StartCom (no PTR)
-104.192.110.50	allow,BLOCK,BOFHCHECKDNS=0,BOFHCHECKHELO=0
-
 # kisgep.hu - mail.phantasy.hu. (spammy transactional emails)
 94.199.181.186	allow,BLOCK
 

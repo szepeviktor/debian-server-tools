@@ -95,7 +95,7 @@ Courier_config esmtproutes /etc/courier/esmtproutes
 chown courier:root /etc/courier/esmtpauthclient
 
 # Credentials for smarthosts
-echo "#SMART-HOST,587 USER-NAME PASSWORD" > /etc/courier/esmtpauthclient
+echo "#smtp.sparkpostmail.com,587 SMTP_Injection SPARKPOST-API-KEY" >> /etc/courier/esmtpauthclient
 
 # Unused certificate file
 install -o courier -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
