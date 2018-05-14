@@ -28,12 +28,14 @@ ssh "cat > /root/server.yml" < ${SERVER_CONFIGURATION}
 # Save script for Session #2
 ssh "cat > /root/debian-setup-starter2.sh; chmod +x /root/debian-setup-starter2.sh" <<"EOT"
 export LC_ALL=C.UTF-8
+SELF="$(realpath "$BASH_SOURCE")"
 cd /root/debian-server-tools-master/
 
 # @FIXME
 export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
 ##script --timing=../debian-setup2.time ../debian-setup2.script
 ./debian-setup2.sh
+rm -v "$SELF"
 EOT
 
 # Execute Session #1

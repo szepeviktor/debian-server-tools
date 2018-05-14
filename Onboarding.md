@@ -95,3 +95,5 @@ https://haveibeenpwned.com/
 - Write deploy script
 - Notifications (email, chat, SMS)
 - **Development (who has access, where to develop, how to deploy)**
+
++1 Bulk email, newsletter sending

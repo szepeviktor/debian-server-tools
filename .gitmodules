@@ -1,6 +1,3 @@
-[submodule "backup/hubic"]
-	path = backup/hubic
-	url = https://github.com/puzzle1536/hubic-wrapper-to-swift.git
 [submodule "mysql/mysqltuner"]
 	path = mysql/mysqltuner
 	url = https://github.com/major/MySQLTuner-perl.git

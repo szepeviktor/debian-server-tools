@@ -17,44 +17,12 @@
 
 # Usage
 #
-# Create S3QL configuration file
-#     mkdir /root/.s3ql; editor /root/.s3ql/authinfo2; chmod 0600 /root/.s3ql/authinfo2
-#     cat /root/.s3ql/authinfo2
-#
-# Example S3QL configuration for S3
-#     [aws]
-#     storage-url: s3://S3_REGION/S3_BUCKET/PREFIX_
-#     backend-login: IAM_ACCESS_KEY_ID
-#     backend-password: IAM_SECRET_ACCESS_KEY
-#     fs-passphrase: $(apg -m32 -n1)
-#
-# Create configuration file
-#     mkdir /root/.config/system-backup; editor /root/.config/system-backup/configuration
-#
-# Example configuration
-#     #STORAGE_URL="local:///media/backup-server.sshfs"
-#     #STORAGE_URL="swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_"
-#     STORAGE_URL="s3://S3_REGION/S3_BUCKET/PREFIX_"
-#     TARGET="/media/server-backup.s3ql"
-#     #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
-#     MOUNT_OPTIONS="--compress zlib-5"
-#     AUTHFILE="/root/.s3ql/authinfo2"
-#     #DB_EXCLUDE="excluded-db1|excluded-db2"
-#     HCHK_URL="https://hchk.io/aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
-#
-# Add an [xtrabackup] section to /root/.my.cnf if UDS-based authentication is not available
-#     editor /root/.my.cnf
-#
-# Format storage
-#     /usr/bin/mkfs.s3ql "$STORAGE_URL"
+# Run ./system-backup-install.sh
 #
 # Save encryption master key
 #
-# Create target directory
-#     mkdir "$TARGET"
-#
-# Excluded path example in /home
-#     /user/website/session/
+# Exclud paths in /home by adding lines like "/user/website/session/"
+#     editor /root/.config/system-backup/exclude.list
 #
 # Mount storage manually
 #     system-backup.sh -m

@@ -2,8 +2,8 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.8.3
-# DATE          :2017-01-04
+# VERSION       :0.8.4
+# DATE          :2018-05-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -27,7 +27,7 @@
 # @TODO
 # - Integrate cert-expiry as "openssl"
 # - Document putty port-forward 2812+N (Monit web interface)
-# - Add "/etc/init.d/SERVICE status" checks
+# - Add "service SERVICE status" checks
 # - Check permissions: grep -i -l -m 1 '^\s*check\s' services/* | xargs ls -l
 # - Add PID change checks
 
@@ -188,8 +188,8 @@ Monit_apt_config() {
     echo "---  apt.conf  ---"
 
     cat > /etc/apt/apt.conf.d/05monit <<"EOF"
-DPkg::Pre-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit stop" };
-DPkg::Post-Invoke { "[ -x /usr/bin/monit ] && /etc/init.d/monit start" };
+DPkg::Pre-Invoke { "test -x /usr/bin/monit && service monit stop" };
+DPkg::Post-Invoke { "test -x /usr/bin/monit && service monit start" };
 EOF
 }
 

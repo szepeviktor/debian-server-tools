@@ -29,7 +29,7 @@
 94.199.178.86	allow,BLOCK
 94.199.180.120	allow,BLOCK
 94.199.178.222	allow,BLOCK
-# Maxer - mail5.maxer.hu. mail.maxer.eu. mail.maxer.hu.×3 smtp.maxer.hu.
+# Maxer - mail5.maxer.hu. mail.maxer.eu. mail.maxer.hu.×3 smtp.maxer.hu.×2
 79.172.241.254	allow,BLOCK
 87.229.69.25	allow,BLOCK
 178.238.210.90	allow,BLOCK
@@ -37,6 +37,7 @@
 178.238.210.92	allow,BLOCK
 178.238.210.100	allow,BLOCK
 178.238.210.232	allow,BLOCK
+87.229.69.106	allow,BLOCK
 # Webonic (Gyümölcs tárhely) - szirmay.lanten.hu. gyimothy.lanten.hu.
 212.52.167.89	allow,BLOCK
 212.52.167.244	allow,BLOCK
