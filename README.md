@@ -36,7 +36,7 @@ Select Expert install.
 ### Script development
 
 - Check shell scripts: http://www.shellcheck.net/
-- Code styling: https://google.github.io/styleguide/shell.xml
+- Code styling: https://github.com/git/git/blob/master/Documentation/CodingGuidelines
 - Bashism: https://wiki.ubuntu.com/DashAsBinSh `checkbashisms -f bash-script.sh`
 
 ### Install your own SSH key

@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: munin-mysql
+Upstream-Contact: Kjell-Magne Øierud
+Source: https://github.com/kjellm/munin-mysql
+
+Files: *
+License: GPL-2
+ /usr/share/common-licenses/GPL-2

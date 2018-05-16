@@ -1,0 +1,5 @@
+munin-plugin-mysql (0.3.1-1) stable; urgency=medium
+
+  * First Debian release.
+
+ -- Viktor Szépe <viktor@szepe.net>  Wed, 16 May 2018 08:36:25 +0000

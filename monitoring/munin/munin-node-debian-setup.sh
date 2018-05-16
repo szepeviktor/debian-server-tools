@@ -4,6 +4,28 @@
 #
 
 # @REWRITE: install&configure plugins per debian pkg, 
+# apt-get install munin-plugin-mysql
+#
+# +plugins https://packages.debian.org/source/experimental/munin  v2.999.x
+#     https://anonscm.debian.org/git/collab-maint/munin.git
+# test for each plugin bundle:
+always: munin-plugins-core
+nc -v -z -u localhost 53 munin-plugins-dns
+always: munin-plugins-extra
+munin-plugins-http
+munin-plugins-irc
+munin-plugins-jenkins
+munin-plugins-ldap
+munin-plugins-mail
+hash mysql munin-plugins-mysql
+munin-plugins-network
+munin-plugins-pgsql
+munin-plugins-snmp
+munin-plugins-time
+# +plugins https://github.com/munin-monitoring/contrib
+# +plugins: local one from debian-server-tools
+# Prefer /usr/local/share/ plugins! Disable same plugin from Debian /usr/share/
+
 
 MUNIN_MASTER_IP="1.2.3.4"
 
@@ -385,7 +407,7 @@ munin_decix
 munin_apache
 munin_phpfpm
 #https://github.com/munin-monitoring/contrib/tree/master/plugins/php
-# munin_phpapc
+# munin_phpapc https://github.com/vivid-planet/munin-php-apc
 # munin_phpopcache
 
 # Shell plugin functions
@@ -444,3 +466,10 @@ echo "Disable apt_all cron job:  editor /etc/cron.d/munin-node"
 #     munin-run --servicedir /usr/local/share/munin/plugins --debug $PLUGIN_NAME
 
 # git --git-dir=/root/src/munstrap.git --work-tree=/etc/munin/munstrap "$@"
+
+# wget -O munin-plugin-mysql_0.3.1.orig.tar.gz https://github.com/kjellm/munin-mysql/archive/master.tar.gz
+# tar -xf munin-plugin-mysql_0.3.1.orig.tar.gz
+# mv munin-mysql-master munin-plugin-mysql
+# cd munin-plugin-mysql/
+# patch -p 1 < <(wget -qO- https://github.com/szepeviktor/munin-mysql/commit/4f0580a9d23a7b5754355a3216fcb32b17d69606.patch)
+# dpkg-buildpackage -uc -us

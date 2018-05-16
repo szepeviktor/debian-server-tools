@@ -15,7 +15,7 @@
 - HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/), [Cryptosense](https://discovery.cryptosense.com/))
 - File changes ([tripwire-fake.sh](/monitoring/tripwire-fake.sh))
 - Application log ([laravel-report.sh](/monitoring/laravel-report.sh))
-- Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/))
+- Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/), [Unmask Parasites](https://www.unmaskparasites.com/))
 - PageSpeed ([PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/), [webpagetest.org](https://www.webpagetest.org/))
 - Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
 - Traffic ([goaccess.sh](/webserver/goaccess.sh), [HEAP](https://heapanalytics.com/), [Google Analytics](https://analytics.google.com/analytics/web/))

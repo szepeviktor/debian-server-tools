@@ -1,0 +1,22 @@
+Source: munin-plugin-mysql
+Maintainer: Viktor Szépe <viktor@szepe.net>
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 9)
+Build-Depends-Indep: libpath-class-perl,
+                     libtest-output-perl,
+                     libtest-regression-perl,
+                     libtest-exception-perl
+Standards-Version: 3.9.8
+Vcs-Browser: https://github.com/kjellm/munin-mysql
+Vcs-Git: https://github.com/kjellm/munin-mysql.git
+Homepage: http://oierud.net/bliki/ImprovedMuninGraphsForMySQL.html
+
+Package: munin-plugin-mysql
+Architecture: all
+Depends: ${misc:Depends},
+         libmodule-pluggable-perl,
+         libdbd-mysql-perl,
+         munin-node
+Description: Improved MySQL Graphs for Munin
+ Munin plugin for showing graphs of MySQL resource usage.

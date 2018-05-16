@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE = 1
+
+export DEB_BUILD_HARDENING = 1
+
+BIN_PACKAGE_NAME = munin-plugin-mysql
+INSTALL_ROOT = debian/$(BIN_PACKAGE_NAME)
+PERL_VENDOR_LIB=$(INSTALL_ROOT)$(shell perl '-V:installvendorlib' | cut -d"'" -f2)
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	mkdir -p $(INSTALL_ROOT)/etc/munin/plugin-conf.d
+	mkdir -p $(INSTALL_ROOT)/etc/munin/plugins
+	mkdir -p $(PERL_VENDOR_LIB)
+	dh_auto_install -- CONFIG_DIR=$(INSTALL_ROOT)/etc/munin PLUGIN_DIR=$(INSTALL_ROOT)/usr/share/munin/plugins MUNIN_NODE=true PERL_SITELIB_DIR=$(PERL_VENDOR_LIB)
+	chmod -x $(INSTALL_ROOT)/etc/munin/plugin-conf.d/mysql.conf
+	rm $(INSTALL_ROOT)/etc/munin/plugins/mysql
