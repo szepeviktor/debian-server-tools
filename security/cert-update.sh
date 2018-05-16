@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.2
+# VERSION       :1.0.3
 # DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -108,9 +108,11 @@ Apache2() {
         # Test HTTPS
         echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
+        echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" \
+            -connect "${SERVER_NAME}:443" 2> /dev/null | openssl x509 -noout -dates
     else
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
-        echo "echo -n | openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
+        echo "echo -n|openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
     fi
 }
 
@@ -154,6 +156,9 @@ Courier_mta() {
         echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
             -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp
         echo "SMTP STARTTLS result=$?"
+        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp 2> /dev/null \
+            | openssl x509 -noout -dates
     else
         echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
         echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
@@ -218,8 +223,7 @@ Nginx() {
 
         # Test HTTPS
         SERVER_NAME="$(sed -ne '/^\s*server_name\s\+\(\S\+\);.*$/{s//\1/p;q;}' "$NGINX_VHOST_CONFIG")"
-        echo -n | openssl s_client -CAfile "$CABUNDLE" \
-            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
+        echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
     else
         echo "Edit Nginx ssl_certificate and ssl_certificate_key and ssl_dhparam" 1>&2

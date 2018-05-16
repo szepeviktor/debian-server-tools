@@ -82,6 +82,7 @@ Use Docker **containers** for testing.
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
+- Security scanner (Netsparker)
 - Metrics (phpmetrics)
 - Build assets (webpack)
 
@@ -210,13 +211,23 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Provide 2FA (TOTP, SMS, email), encourage users to use KeePass
 - Use [Argon2 hashing](https://wiki.php.net/rfc/argon2_password_hash) `password_hash($pwd, PASSWORD_ARGON2I)`
 - Wipe the plaintext password from memory
-- Lock sessions to user angent strings
-- Lock sessions to IP addresses or allow change of IP address within the same AS or timezone
-- Prevent multiple sessions
-- Login notification
-- New device notification
+- Login security: lock sessions to, and allow login from
+    - 1 IP address (IPv4, IPv6)
+    - In an IP range (e.g. a /24 network)
+    - Within 1 AS (autonomous system) thus inside an ISP
+    - Within multiple AS-es (mobile roaming)
+    - Within a country
+    - Within a region/timezone (multiple countries)
+    - Within a continent
+    - Same user agent strings
+    - Same device (user agent strings) with upgrades (device, OS, browser)
+    - Allow/deny multiple (how many?) sessions
+    - Session timeout
+    - Authorize IP address procedure
+    - Login notification
+    - New device notification
 - If you choose an [identity provider](https://www2.nopassword.com/contextual-adaptive-authentication/)
-  search the web for its brand plus "breach" "exploit" "security"
+  search the web for its name plus "breach" "exploit" "security"
 
 ### Maintenance :wrench:
 

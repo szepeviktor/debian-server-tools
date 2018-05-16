@@ -115,11 +115,11 @@ echo "- - -" > /sys/class/scsi_host/host0/scan
 
 ### Flush Google public DNS cache
 
-http://google-public-dns.appspot.com/cache
+https://google-public-dns.appspot.com/cache
 
 ### Free CDN for GitHub
 
-http://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
+https://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
 ### UNICODE owl domain name
 

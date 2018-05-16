@@ -171,3 +171,6 @@ editor /etc/courier/smtpaccess/default
 # Well-known and autodiscover
 
 test -f /etc/courier/shared/index || touch /etc/courier/shared/index
+
+# Announce sizelimit (Nextcloud, WeTransfer, box.com)
+# Announce maxrcpts
