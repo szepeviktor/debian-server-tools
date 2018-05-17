@@ -409,7 +409,7 @@ editor ../wp-cli.yml
 wp cache flush
 ```
 
-Web-base search&replace tool:
+Web-based search & replace tool:
 
 ```bash
 wget -O srdb.php https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php

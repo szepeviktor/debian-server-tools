@@ -74,12 +74,14 @@ test:
   script:
     # Syntax check
     - parallel-lint --blame --exclude vendor/ .
-    # Blade check - require: melihovv/laravel-compile-views
-    - composer info --installed melihovv/laravel-compile-views
-    #- sed -e 's|//$|//\n$this->app->register(\\Melihovv\\LaravelCompileViews\\ServiceProvider::class);|' -i app/Providers/AppServiceProvider.php
-    - php artisan view:compile
+    # Blade check
+    # Before Laravel v5.6.13 requires: melihovv/laravel-compile-views
+    #- composer info --installed melihovv/laravel-compile-views
+    ##- sed -e 's|//$|//\n$this->app->register(\\Melihovv\\LaravelCompileViews\\ServiceProvider::class);|' -i app/Providers/AppServiceProvider.php
+    #- php artisan view:compile
+    - php artisan view:cache
     - parallel-lint storage/framework/views
-    ## Facade support - require: barryvdh/laravel-ide-helper
+    ## Facade support - requires: barryvdh/laravel-ide-helper
     #- composer info --installed barryvdh/laravel-ide-helper
     ##- sed -e 's|//$|//\n$this->app->register(\\Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider::class);|' -i app/Providers/AppServiceProvider.php
     #- php artisan ide-helper:generate

@@ -301,6 +301,7 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 
 ##### DKIM tests
 
+- http://www.appmaildev.com/en/dkim/
 - check-auth@verifier.port25.com
 - autorespond+dkim@dk.elandsys.com
 - test@dkimtest.jason.long.name
@@ -308,7 +309,6 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 - dkim-test@altn.com
 - dktest@blackops.org
 - http://dkimvalidator.com/
-- http://www.appmaildev.com/en/dkim/
 - http://9vx.org/~dho/dkim_validate.php
 - https://protodave.com/tools/dkim-key-checker/ (DNS only)
 
