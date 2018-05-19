@@ -11,7 +11,6 @@
 ####  2   - Neighbour
 ####  255 - Excluded
 
-#### http://magyarspammer.com/blog/
 #### http://spamlap.hu/archive_month/index.html
 #### http://dnsbl.aspnet.hu/About.aspx
 
@@ -440,3 +439,32 @@ $TTL 60
 
 # setfreelife.com
 94.130.106.1        DE_s.setfreelife.com @HETZNER/AS24940
+
+# AS41011 CH-NET S.R.L. www.ch-center.com
+185.123.220         RO_*.tritondreamhost.com. @CH-NET
+
+# theconversionpros.com - mail{01..20}.tcprosmail.com @DIGITALOCEAN
+104.131.23.58       theconversionpros @DO
+104.131.49.71       theconversionpros @DO
+104.236.105.249     theconversionpros @DO
+159.203.139.220     theconversionpros @DO
+50.56.174.4         theconversionpros @DO
+50.56.172.35        theconversionpros @DO
+50.56.174.47        theconversionpros @DO
+50.56.174.193       theconversionpros @DO
+174.138.66.60       theconversionpros @DO
+174.138.66.63       theconversionpros @DO
+174.138.48.116      theconversionpros @DO
+45.55.224.191       theconversionpros @DO
+159.65.39.222       theconversionpros @DO
+159.65.160.91       theconversionpros @DO
+159.65.160.201      theconversionpros @DO
+159.65.168.43       theconversionpros @DO
+159.65.168.104      theconversionpros @DO
+159.65.168.215      theconversionpros @DO
+159.65.172.177      theconversionpros @DO
+159.65.162.54       theconversionpros @DO
+
+# *.szjlzdh.com @RADORE
+185.81.154.0/24     :2:Neighbour of szjlzdh.com
+185.81.154.196-222  TR_szjlzdh.com @RADORE

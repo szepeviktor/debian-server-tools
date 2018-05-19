@@ -183,6 +183,7 @@ Diagnostic-Code: %s
 
         $event         = $this->event->msys->message_event;
         $mail          = new PHPMailer();
+        $mail->CharSet = 'utf-8';
         $mail->XMailer = 'SparkPost Bounce Notification ' . self::VERSION;
         $diag_code     = $mail->encodeHeader( implode( "\r\n", array(
             'smtp; ' . $event->raw_reason,

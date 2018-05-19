@@ -132,10 +132,9 @@ wget -O- https://bootstrap.pypa.io/get-pip.py | python3
 
 https://wiki.debian.org/Python#Deviations_from_upstream
 
-- Debian Python packages `/usr/lib/python3/dist-packages`
-- pip (with system Python) packages `/usr/local/lib/python3.4/dist-packages`
-- From-source-Python built packages `/usr/lib/python3.4/site-packages`
-- ??? `/usr/local/lib/python3.4/site-packages`
+- Python packages installed from Debian packages `/usr/lib/python3/dist-packages` - a Debian-specific convention
+- Python packages installed by pip `/usr/local/lib/python3.4/dist-packages`
+- Python packages installed by "from-source Python builds" `/usr/local/lib/python3.4/site-packages`
 
 ```
 # find /usr -type d -name dist-packages -o -name site-packages
