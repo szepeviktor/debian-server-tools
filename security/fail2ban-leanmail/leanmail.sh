@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2018-04-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -373,7 +373,7 @@ Match_dnsbl2()
     # CSS: 127.0.0.3 - Spamhaus CSS Component
     # XBL: 127.0.0.4-7 - Exploits Block List
     # No PBL: 127.0.0.10-11 - The Policy Block List
-    grep -q -E -x "127\\.0\\.0\\.[234567]" <<< "$ANSWER"
+    grep -q -E -x '127\.0\.0\.[234567]' <<< "$ANSWER"
 }
 
 Match_dnsbl3()
@@ -397,7 +397,7 @@ Match_dnsbl3()
     # 127.0.0.1   Dangerous network
     # 127.0.0.2   Tor exit node
     # 127.0.0.128 Blocked network
-    grep -q -E -x "127\\.0\\.0\\.(1|2|128)" <<< "$ANSWER"
+    grep -q -E -x '127\.0\.0\.(1|2|128)' <<< "$ANSWER"
 }
 
 Match_dnsbl4()
@@ -467,7 +467,7 @@ Match_dnsbl7()
     # 127.0.0.1 STABL
     # 127.0.0.2 CABL
     # 127.0.0.3 BABL - Bad Abuse Backlist
-    grep -q -E -x "127\\.0\\.0\\.[123]" <<< "$ANSWER"
+    grep -q -E -x '127\.0\.0\.[123]' <<< "$ANSWER"
 }
 
 Match_http_api1()
@@ -478,7 +478,7 @@ Match_http_api1()
 
     # shellcheck disable=SC2059
     printf -v URL "$HTTPAPI" "$IP"
-    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<appears>yes</appears>"; then
+    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q -F '<appears>yes</appears>'; then
         # IP is positive
         return 0
     fi
@@ -505,7 +505,7 @@ Match_http_api2()
         "$AUTHKEY" "$IP"
 
     if wget -q -T "$TIMEOUT" -t 1 -O- --post-data="$POST" "$HTTPAPI" 2> /dev/null \
-        | grep -q '"allow" : 0'; then
+        | grep -q -F '"allow" : 0'; then
         # IP is positive
         return 0
     fi
@@ -521,7 +521,7 @@ Match_http_api3()
 
     # shellcheck disable=SC2059
     printf -v URL "$HTTPAPI" "$IP"
-    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q "<attacks>[0-9]\\+</attacks>"; then
+    if wget -q -T "$TIMEOUT" -t 1 -O- "$URL" 2> /dev/null | grep -q '<attacks>[0-9]\+</attacks>'; then
         # IP is positive
         return 0
     fi
@@ -586,7 +586,7 @@ Match_known()
 {
     local IP="$1"
 
-    if [ -r "$KNOWN_IP" ] && grep -qFx "$IP" "$KNOWN_IP"; then
+    if [ -r "$KNOWN_IP" ] && grep -q -F -x "$IP" "$KNOWN_IP"; then
         return 0
     fi
 
@@ -726,7 +726,7 @@ else
         IFS='' read -r FIRST_LINE
     done
     # Find X-Fail2ban header
-    if grep -qx "X-Fail2ban: [0-9a-fA-F:.]\\+,\\S\\+@\\S\\+" <<< "$FIRST_LINE"; then
+    if grep -q -x 'X-Fail2ban: [0-9a-fA-F:.]\+,\S\+@\S\+' <<< "$FIRST_LINE"; then
         IP_SENDER="${FIRST_LINE#X-Fail2ban: }"
         IP="${IP_SENDER%%,*}"
         SENDER="${IP_SENDER##*,}"

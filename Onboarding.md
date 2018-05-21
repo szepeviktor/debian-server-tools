@@ -48,6 +48,7 @@ https://haveibeenpwned.com/
 ### UpCloud registration
 
 - Referral URL
+- [KeePass](https://keepass.info/) is an open source password manager
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - Use a virtual bank card
 - My Account / Billing / MANUAL
@@ -59,6 +60,7 @@ https://haveibeenpwned.com/
 ### Amazon Web Services registration
 
 - https://aws.amazon.com/
+- [KeePass](https://keepass.info/) is an open source password manager
 - Account type: Professional
 - Use a virtual bank card
 - Support Plan: Basic

@@ -121,6 +121,10 @@ https://google-public-dns.appspot.com/cache
 
 https://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
+### ROA validation, RPKI status
+
+`whois -h whois.bgpmon.net 84.2.228.0`
+
 ### UNICODE owl domain name
 
 [﴾͡๏̯͡๏﴿.tk](http://xn--wta3hb403ica11187ama.tk/)

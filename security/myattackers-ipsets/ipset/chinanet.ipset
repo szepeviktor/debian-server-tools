@@ -3,6 +3,8 @@
 #: iptables -w -I myattackers-ipset -m set --match-set chinanet src -j REJECT
 create chinanet hash:net family inet hashsize 64 maxelem 32
 flush chinanet
+# HANGZHOU-HOLIDAY-HOTEL
+add chinanet 60.191.0.240/29
 # ZHEJIANG-GANGKEDA-LTD
 add chinanet 60.191.29.16/29
 # HZ-HITECH

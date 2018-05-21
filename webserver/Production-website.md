@@ -116,7 +116,10 @@ Consider transactional email service through HTTP API. :snail:
 - Sucuri SiteCheck (includes Google Safe Browsing)
 - Virustotal (HTTP API)
 - **Maximum security**: convert website into static HTML +
-  [doorbell](https://doorbell.io/) or [formspree](https://formspree.io/) or [FormKeep](https://formkeep.com/)
+  [Cognito Forms](https://www.cognitoforms.com/)
+  or [doorbell](https://doorbell.io/)
+  or [formspree](https://formspree.io/)
+  or [FormKeep](https://formkeep.com/)
   `simply-static`, `static-html-output-plugin`
 
 ### Cron jobs
