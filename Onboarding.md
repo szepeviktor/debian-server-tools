@@ -17,8 +17,6 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 1. CDN provider: **AWS, KeyCDN :eu:**
 1. Transactional email provider: **AWS, SparkPost, Mailjet :eu:**
 1. Storage provider: **AWS, Backblaze B2, Selectel, Oktawave :eu:**
-1. [ESP](https://twofactorauth.org/#email) for inbound messages:
-   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
@@ -82,7 +80,6 @@ https://haveibeenpwned.com/
 - PTR/IPv4, PTR/IPv6 records
 - DNS records (check, clean up, monitor)
 - Incoming ESP and bounce notification
-- My email address: `webmaster@COMPANY.TLD`
 - Whitelisted IP-s (office)
 
 ### Application setup
@@ -98,4 +95,13 @@ https://haveibeenpwned.com/
 - Notifications (email, chat, SMS)
 - **Development (who has access, where to develop, how to deploy)**
 
-+1 Bulk email, newsletter sending
+### Email delivery
+
+- [ESP](https://twofactorauth.org/#email) for One-to-One emails including inbound messages
+  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+- Transactional emails, see above
+- Notification emails (alerts, log excerpts)
+- Bulk email (newletter)
+- Bounce messages for **all types**
+- Sender fraud protection and content integrity for **all types**: SPF, DKIM, DMARC
+- My email address: `webmaster@`
