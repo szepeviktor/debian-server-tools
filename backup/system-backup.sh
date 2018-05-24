@@ -277,7 +277,7 @@ Mount() { # Error 2x
     test -z "$(find "$TARGET" -mindepth 1 -maxdepth 1)" || Error 20 "Target directory is not empty"
 
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
-    /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test $? == 128
+    /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test "$?" == 128
 
     nice /usr/bin/mount.s3ql ${S3QL_OPT} ${MOUNT_OPTIONS} \
         "$STORAGE_URL" "$TARGET" || Error 21 "Cannot mount storage"

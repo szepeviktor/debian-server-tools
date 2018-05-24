@@ -281,6 +281,7 @@ http://google-public-dns.appspot.com/cache :snail:
 ### Marketing
 
 - [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos), [Intro video](http://technomatic.hu/)
+- [Google Street View virtual tour](https://www.brand360.hu/szolgaltatasok/google-street-view-belso-nezet-tura/)
 - External URL-s should open in new window :snail:
 - [Contact widget](https://pepper.swat.io/)
 - Newsletter subscribe

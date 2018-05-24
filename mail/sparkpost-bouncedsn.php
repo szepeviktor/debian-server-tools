@@ -18,7 +18,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 class BounceDsn {
 
-    const VERSION = '0.1.0';
+    const VERSION = '0.1.2';
 
     /**
      * One event
@@ -48,7 +48,7 @@ class BounceDsn {
         22  => array( 'Mailbox Full', 'The message bounced due to the remote mailbox being over quota.', 'Soft' ),
         23  => array( 'Too Large', 'The message bounced because it was too large for the recipient.', 'Soft' ),
         24  => array( 'Timeout', 'The message timed out.', 'Soft' ),
-        25  => array( 'Admin Failure', 'The message was failed by SparkPost’s configured policies.', 'Admin' ),
+        25  => array( 'Admin Failure', "The message was failed by SparkPost's configured policies.", 'Admin' ),
         26  => array( 'Smart Send Suppression', 'The message was suppressed by Smart Send policy.', 'Admin' ),
         30  => array( 'Generic Bounce: No RCPT', 'No recipient could be determined for the message.', 'Hard' ),
         40  => array( 'Generic Bounce', 'The message failed for unspecified reasons.', 'Soft' ),
@@ -185,15 +185,26 @@ Diagnostic-Code: %s
         $mail          = new PHPMailer();
         $mail->CharSet = 'utf-8';
         $mail->XMailer = 'SparkPost Bounce Notification ' . self::VERSION;
-        $diag_code     = $mail->encodeHeader( implode( "\r\n", array(
+        $diag_elements = array(
             'smtp; ' . $event->raw_reason,
+            'type=' . $event->type,
             'customer=' . $event->customer_id,
-            'retries=' . $event->num_retries,
-            'from=' . $event->friendly_from,
-            'subject=' . $event->subject,
-            'size=' . $event->msg_size,
-        ) ), 'quoted-printable' );
-        $status        = '5.0.0';
+        );
+        // Optional details
+        if ( property_exists( $event, 'num_retries' ) ) {
+            $diag_elements[] = 'retries=' . $event->num_retries;
+        }
+        if ( property_exists( $event, 'friendly_from' ) ) {
+            $diag_elements[] = 'from=' . $event->friendly_from;
+        }
+        if ( property_exists( $event, 'subject' ) ) {
+            $diag_elements[] = 'subject=' . $event->subject;
+        }
+        if ( property_exists( $event, 'msg_size' ) ) {
+            $diag_elements[] = 'size=' . $event->msg_size;
+        }
+        $diag_code = $mail->encodeHeader( implode( "\r\n", $diag_elements ), 'quoted-printable' );
+        $status    = '5.0.0';
         // Extract specific status from 'raw_reason'
         $status_match = array();
         if ( 1 === preg_match( '/^5\d\d (5\.\d\.\d) /', $event->raw_reason, $status_match ) ) {

@@ -22,6 +22,8 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 
 [Google Cloud Platform Premium Support for $150/mo](https://cloud.google.com/support/?options=premium-support#options)
 
+[AWS Europe invoicing](https://aws.amazon.com/legal/aws-emea/)
+
 [AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#services_used)
 
 ### Secure browser in an ephemeral cloud instance

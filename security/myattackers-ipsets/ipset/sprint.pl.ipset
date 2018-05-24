@@ -3,23 +3,39 @@
 #: iptables -w -I myattackers-ipset -m set --match-set sprint.pl src -j REJECT
 create sprint.pl hash:net family inet hashsize 64 maxelem 32
 flush sprint.pl
-# FUFO STUDIO AGATA GRABOWSKA
-add sprint.pl 155.133.38.0/24
-add sprint.pl 155.133.64.0/24
-add sprint.pl 155.133.82.0/24
-# TRAFFIC DEAL
-add sprint.pl 156.67.106.0/24
-# Other Prefixes
-#add sprint.pl 46.29.16.0/21       -
-#add sprint.pl 91.229.212.0/24     SMT S.A.
-#add sprint.pl 91.234.217.0/24     Firma Uslugowo-Handlowa JEE.PL Kastelik Krzysztof
-#add sprint.pl 185.38.248.0/22     "SPRINT" S.A.
-#add sprint.pl 188.68.224.0/20     -
-#add sprint.pl 188.68.240.0/20     "SPRINT" S.A.
-#add sprint.pl 191.96.35.0/24      Edettohost Sp. z o. o.
-#add sprint.pl 193.42.147.0/24     -
+
+##46.29.16.0/21  "SPRINT" S.A.
 # "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
+add sprint.pl 77.87.77.0/24
+add sprint.pl 77.87.79.0/24
+##91.229.212.0/24     SMT S.A.
+##91.234.217.0/24     Firma Uslugowo-Handlowa JEE.PL Kastelik Krzysztof
+##181.215.195.0/24    Dmzhost Limited
+##185.38.248.0/22     "SPRINT" S.A.
+# WORLD HOSTING FARM LIMITED
+add sprint.pl 185.234.216.0/24
+add sprint.pl 185.234.217.0/24
+add sprint.pl 185.234.218.0/24
+add sprint.pl 185.234.219.0/24
+##185.235.245.0/24    ProxyBase LTD
+##185.255.40.0/24     AttHost Sp. z o.o.
+##185.255.41.0/24     AttHost Sp. z o.o.
+##188.68.224.0/20     "SPRINT" S.A.
+##188.68.240.0/20     "SPRINT" S.A.
+##193.42.147.0/24     Data Quest
+##193.169.252.0/24    AstroVM.net
+##193.169.255.0/24    AstroVM.net
+# "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
+add sprint.pl 195.22.125.0/24
 add sprint.pl 195.22.126.0/23
+
+# !Owner changed! FUFO STUDIO AGATA GRABOWSKA
+#add sprint.pl 155.133.38.0/24
+#add sprint.pl 155.133.64.0/24
+#add sprint.pl 155.133.82.0/24
+
+# !Owner changed! TRAFFIC DEAL
+#add sprint.pl 156.67.106.0/24
 
 # !Not Announced! AS201451 - DELORIAN
 # https://stat.ripe.net/193.189.116.0%2F23
@@ -37,9 +53,10 @@ add sprint.pl 195.22.126.0/23
 add sprint.pl 185.119.120.0/22
 # Jacek Zysko trading as Firma Handlowo - Uslugowa "ZFIX"
 add sprint.pl 185.125.4.0/24
-# Nobert Mucha trading as NFLY
-add sprint.pl 185.130.44.0/22
 # Piotr Malinowski trading as "MK-NET"
 add sprint.pl 185.131.240.0/23
+
+# !Not Announced! Nobert Mucha trading as NFLY
+#add sprint.pl 185.130.44.0/22
 
 # Also in -> dangerous.dnsbl.zone
