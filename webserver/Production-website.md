@@ -312,6 +312,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 #### Typical theme and plugin errors
 
+- [**Mobile views**](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html) (responsive design)
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
@@ -337,7 +338,6 @@ http://google-public-dns.appspot.com/cache :snail:
 - JavaScript code parsable - by dummy crawlers - as HTML (`<a>` `<iframe>` `<script>`)
 - Page loading overlay, display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
 - Unnecessary Firefox caret
-- [Mobile views](https://webmasters.googleblog.com/2016/11/mobile-first-indexing.html) (responsive design)
 - Confusion in colors: normal text color, link and call2action color, accent color
 - Email header and content check https://www.mail-tester.com/
 
@@ -427,6 +427,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Legal (EN)
 
+- [On privacy](https://www.oath.com/en-gb/my-data/#startingwithdata)
 - Privacy Policy :snail:
 - [Cookie Consent Kit](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_4) + opt out,
   [cookie notice template](http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
@@ -445,6 +446,20 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
 - [EU általános adatvédelmi rendelet](https://eur-lex.europa.eu/legal-content/HU/TXT/HTML/?uri=CELEX:32016R0679)
   (GDPR, 2018. május 25-től érvényes)
+    - HTML és PDF formátumban (PDF title)
+    - A tájékoztató címében a honlap domain-ja
+    - Fogalom értelmezés
+    - Adatkezelő adatai, elérhetősége
+    - Adatvédelmi felelős adatai
+    - Adatfeldolgozók listája és tevékenységük és az adatok: látogató mérés, közösségi doboz, tárhely szolgáltató
+    - Cookie-k kezelése
+    - Offline adatok: ügyfélkapcsolat (email, telefon), könyvelés, kamera rendszer, papíron tárolt adatok
+    - Az érintettek jogai, adatvédelmi incidens
+    - Jogorvoslat, bíróság
+    - Bírósági jogérvényesítés
+    - Kártérítés és sérelemdíj
+    - Törvényekre, paragrafusokra való hivatkozás
+    - Kelt és érvényesség kezdete
 
 ### Compatiblitity
 
