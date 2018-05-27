@@ -205,9 +205,20 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Analyze HTTP headers
 - Browser check with JavaScript
-- Suspicious email address (company domain, blocked domain, disposable, non-existent, missing MX)
+- Suspicious email address:
+    - company domain
+    - blocked domain
+    - disposable address
+    - non-existent domain
+    - missing MX
+    - unresolvable MX
 - Blocked usernames
-- Force strong passwords
+- Force strong passwords:
+    - not previously used
+    - partly matching name, username or other user details
+    - length
+    - complexity
+    - xkcd password strength
 - Provide 2FA (TOTP, SMS, email), encourage users to use KeePass
 - Use [Argon2 hashing](https://wiki.php.net/rfc/argon2_password_hash) `password_hash($pwd, PASSWORD_ARGON2I)`
 - Wipe the plaintext password from memory

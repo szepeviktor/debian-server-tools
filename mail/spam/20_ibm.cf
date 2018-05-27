@@ -1,0 +1,20 @@
+#
+# SpamAssassin config file: IBM DNS Blacklist
+#
+# DOCS          :http://filterdb.iss.net/dnsblinfo/
+# LOCATION      :/etc/spamassassin/20_ibm.cf
+
+require_version 3.004000
+
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+header   __RCVD_IN_IBM eval:check_rbl('ibm-lastexternal', 'dnsbl.cobion.com.')
+describe __RCVD_IN_IBM IBM DNS Blacklist
+tflags   __RCVD_IN_IBM net
+
+header   RCVD_IN_IBM eval:check_rbl_sub('ibm-lastexternal', '127.0.0.1')
+describe RCVD_IN_IBM IBM DNS Blacklist Spam sending activity
+tflags   RCVD_IN_IBM net
+score    RCVD_IN_IBM 2.0
+
+endif
