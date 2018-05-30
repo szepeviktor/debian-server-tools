@@ -440,26 +440,27 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Jogi dolgok (HU)
 
-- Adatkezelési tájékoztató (cookie nyilatkozat, üzemeltető neve) :snail:
-- Impresszum (csak űrlaphoz kell)
-- [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
-- Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
-- [EU általános adatvédelmi rendelet](https://eur-lex.europa.eu/legal-content/HU/TXT/HTML/?uri=CELEX:32016R0679)
-  (GDPR, 2018. május 25-től érvényes)
+- Adatkezelési tájékoztató
+  [EU általános adatvédelmi rendelet](https://eur-lex.europa.eu/legal-content/HU/TXT/HTML/?uri=CELEX:32016R0679)
+  (GDPR, 2018. május 25-től érvényes) :snail:
     - HTML és PDF formátumban (PDF title)
     - A tájékoztató címében a honlap domain-ja
     - Fogalom értelmezés
     - Adatkezelő adatai, elérhetősége
     - Adatvédelmi felelős adatai
     - Adatfeldolgozók listája és tevékenységük és az adatok: látogató mérés, közösségi doboz, tárhely szolgáltató
-    - Cookie-k kezelése
+    - **Cookie-k kezelése**
     - Offline adatok: ügyfélkapcsolat (email, telefon), könyvelés, kamera rendszer, papíron tárolt adatok
     - Az érintettek jogai, adatvédelmi incidens
     - Jogorvoslat, bíróság
     - Bírósági jogérvényesítés
     - Kártérítés és sérelemdíj
-    - Törvényekre, paragrafusokra való hivatkozás
+    - Törvényekre § való hivatkozás
     - Kelt és érvényesség kezdete
+    - [Felkészülés az Adatvédelmi Rendelet alkalmazására 12 lépésben](https://www.naih.hu/felkeszueles-az-adatvedelmi-rendelet-alkalmazasara.html)
+- Impresszum (csak űrlaphoz kell)
+- [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
+- Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
 
 ### Compatiblitity
 

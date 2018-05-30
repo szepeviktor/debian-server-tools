@@ -24,7 +24,7 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 
 [AWS Europe invoicing](https://aws.amazon.com/legal/aws-emea/)
 
-[AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#services_used)
+[AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#general)
 
 ### Secure browser in an ephemeral cloud instance
 
@@ -101,6 +101,7 @@ https://haveibeenpwned.com/
 
 - [ESP](https://twofactorauth.org/#email) for One-to-One emails including inbound messages
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+- File sharing, [large file sending](https://wetransfer.com/)
 - Transactional emails, see above
 - Notification emails (alerts, log excerpts)
 - Bulk email (newletter)

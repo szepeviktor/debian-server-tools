@@ -18,7 +18,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 class BounceDsn {
 
-    const VERSION = '0.1.2';
+    const VERSION = '0.1.3';
 
     /**
      * One event
@@ -203,7 +203,7 @@ Diagnostic-Code: %s
         if ( property_exists( $event, 'msg_size' ) ) {
             $diag_elements[] = 'size=' . $event->msg_size;
         }
-        $diag_code = $mail->encodeHeader( implode( "\r\n", $diag_elements ), 'quoted-printable' );
+        $diag_code = $mail->encodeHeader( implode( '  ', $diag_elements ), 'quoted-printable' );
         $status    = '5.0.0';
         // Extract specific status from 'raw_reason'
         $status_match = array();

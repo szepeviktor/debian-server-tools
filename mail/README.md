@@ -238,7 +238,7 @@ ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost
 ```imap
 D0 CAPABILITY
 D1 AUTHENTICATE PLAIN
-$(echo -en "\0USERNAME\0PASSWORD" | base64)
+$(printf '\0%s\0%s' USERNAME PASSWORD | base64)
 D2 LOGOUT
 ```
 
@@ -289,7 +289,7 @@ See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
 - check https://dmarcian.com/spf-survey/ http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
 - for sending servers: `v=spf1 a -all`
-- for non-email domains: `v=spf1 -all`
+- for non-email or empty domains: `v=spf1 -all`
 
 #### DKIM (any header field and message body)
 
@@ -513,6 +513,7 @@ OK response: `IP Unlisted in the spam sender list None`
 - http://psky.me/
 - http://blacklist.lashback.com/
 - https://rbl.foobar.hu/
+- http://filterdb.iss.net/dnsblinfo/
 
 #### Certification Services/IP Reputation
 

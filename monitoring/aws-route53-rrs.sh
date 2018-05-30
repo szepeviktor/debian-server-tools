@@ -4,10 +4,11 @@
 #
 # VERSION       :0.1.2
 # DOCS          :http://jmespath.org/examples.html
-# DEPENDS       :pip install awscli
+# DEPENDS       :pip3 install awscli
 # LOCATION      :/usr/local/bin/aws-route53-rrs.sh
 
 # Usage
+#     aws route53 list-hosted-zones | jq ".HostedZones[] | .Name + \" \" + .Id"
 #     Add HOSTED_ZONE_ID=HOSTED-ZONE-ID to your ~/.profile
 #     aws configure
 #     aws-route53-edit-rrs.sh . TXT
