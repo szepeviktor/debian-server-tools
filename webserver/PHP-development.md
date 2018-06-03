@@ -194,12 +194,13 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Logo and title
 - Language selector
-- News or marketing material
+- News or marketing message
 - "Remember me" checkbox
 - "Forgot password" link
 - Link to Login/Sign up page
 - Privacy Policy and Terms of Service links
 - Support email and chat/open ticket
+- Marketing message on ["logged out" pages](https://sendgrid.com/logged-out/)
 
 ### Authentication :key:
 

@@ -1,0 +1,88 @@
+# Stetchoid, intuityconsultants.net, intuityconsulting.com, intuityconsulting.net type: SMTP,HTTP
+# https://otx.alienvault.com/pulse/59646c87b126746267e5cf22
+#: ipset destroy stretchoid
+#: ipset -exist restore < ipset/stretchoid.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set stretchoid src -j REJECT
+create stretchoid hash:net family inet hashsize 64 maxelem 128
+flush stretchoid
+#     sed -ne 's|^# \([0-9.]\+\.\)0/24$|\1|p' stretchoid.ipset | while read -r I; do echo "# ${I}0/24"
+#         for L in {0..255}; do host -t PTR "$I$L" | grep -qF 'stretchoid.com.' && echo "$I$L"; done; done
+# 104.236.132.0/24
+add stretchoid 104.236.132.182
+add stretchoid 104.236.132.240
+# 104.236.134.0/24
+add stretchoid 104.236.134.43
+add stretchoid 104.236.134.184
+# 104.236.144.0/24
+add stretchoid 104.236.144.86
+add stretchoid 104.236.144.157
+# 104.236.151.0/24
+add stretchoid 104.236.151.195
+# 104.236.164.0/24
+add stretchoid 104.236.164.135
+# 107.170.226.0/24
+add stretchoid 107.170.226.5
+add stretchoid 107.170.226.8
+add stretchoid 107.170.226.9
+add stretchoid 107.170.226.16
+add stretchoid 107.170.226.44
+add stretchoid 107.170.226.85
+add stretchoid 107.170.226.88
+add stretchoid 107.170.226.91
+add stretchoid 107.170.226.104
+add stretchoid 107.170.226.138
+add stretchoid 107.170.226.143
+add stretchoid 107.170.226.151
+add stretchoid 107.170.226.158
+add stretchoid 107.170.226.164
+add stretchoid 107.170.226.173
+add stretchoid 107.170.226.201
+add stretchoid 107.170.226.214
+# 107.170.227.0/24
+add stretchoid 107.170.227.37
+add stretchoid 107.170.227.53
+add stretchoid 107.170.227.62
+add stretchoid 107.170.227.133
+add stretchoid 107.170.227.134
+add stretchoid 107.170.227.136
+add stretchoid 107.170.227.141
+add stretchoid 107.170.227.148
+add stretchoid 107.170.227.193
+add stretchoid 107.170.227.216
+# 107.170.228.0/24
+add stretchoid 107.170.228.16
+add stretchoid 107.170.228.32
+add stretchoid 107.170.228.37
+add stretchoid 107.170.228.51
+add stretchoid 107.170.228.59
+add stretchoid 107.170.228.70
+add stretchoid 107.170.228.78
+add stretchoid 107.170.228.101
+add stretchoid 107.170.228.111
+add stretchoid 107.170.228.128
+add stretchoid 107.170.228.130
+add stretchoid 107.170.228.136
+add stretchoid 107.170.228.155
+add stretchoid 107.170.228.156
+add stretchoid 107.170.228.161
+add stretchoid 107.170.228.177
+add stretchoid 107.170.228.178
+add stretchoid 107.170.228.186
+add stretchoid 107.170.228.195
+add stretchoid 107.170.228.217
+add stretchoid 107.170.228.219
+add stretchoid 107.170.228.236
+add stretchoid 107.170.228.237
+add stretchoid 107.170.228.240
+add stretchoid 107.170.228.245
+add stretchoid 107.170.228.247
+add stretchoid 107.170.228.248
+# 107.170.254.0/24
+add stretchoid 107.170.254.21
+add stretchoid 107.170.254.93
+add stretchoid 107.170.254.94
+add stretchoid 107.170.254.144
+# 162.243.133.0/24
+add stretchoid 162.243.133.121
+add stretchoid 162.243.133.162
+add stretchoid 162.243.133.214

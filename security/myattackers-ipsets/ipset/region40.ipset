@@ -129,3 +129,8 @@ add region40 178.159.100.0/24
 add region40 178.159.107.0/24
 add region40 193.93.193.0/24
 add region40 193.93.194.0/24
+
+
+# AS62000 - Netrix
+# Digital Energy Technologies
+add region40 191.101.23.0/24

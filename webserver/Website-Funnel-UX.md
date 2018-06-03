@@ -32,7 +32,7 @@ Sok információ: szétszórt figyelem ↔ Kevés információ: fókusz
 
 ### Technológia
 
-1. [Tervezés/prototyping](https://www.invisionapp.com/)
+1. [Tervezés](https://www.figma.com/)/[prototyping](https://www.invisionapp.com/)
 1. Nézetek különböző készülékeken, böngészőkben
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
    alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes info (author bio)
