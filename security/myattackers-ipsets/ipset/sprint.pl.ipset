@@ -10,7 +10,8 @@ add sprint.pl 77.87.77.0/24
 add sprint.pl 77.87.79.0/24
 ##91.229.212.0/24     SMT S.A.
 ##91.234.217.0/24     Firma Uslugowo-Handlowa JEE.PL Kastelik Krzysztof
-##181.215.195.0/24    Dmzhost Limited
+# Dmzhost Limited
+add sprint.pl 181.215.195.0/24
 ##185.38.248.0/22     "SPRINT" S.A.
 # WORLD HOSTING FARM LIMITED
 add sprint.pl 185.234.216.0/24

@@ -101,8 +101,8 @@ Consider transactional email service through HTTP API. :snail:
 
 - Mailgun API: https://wordpress.org/plugins/mailgun/
 - Amazon SES: https://github.com/humanmade/aws-ses-wp-mail
-- Mandrill API for WordPress: https://github.com/danielbachhuber/mandrill-wp-mail
-- SparkPost API WordPress plugin: https://wordpress.org/plugins/sparkpost/
+- Mandrill API: https://github.com/danielbachhuber/mandrill-wp-mail
+- SparkPost API: https://wordpress.org/plugins/sparkpost/
 
 ### Security
 
@@ -387,7 +387,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - https://report-uri.io/home/tools CSP, HKPK, SRI etc.
 - https://www.webpagetest.org/
 - https://speedcurve.com/
-- https://insites.com/
+- [Silktide Insites](https://insites.com/)
 - Does the website have a public API? (WP REST API, WooCommerce API)
 - Test (REST) API with
   [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
@@ -464,7 +464,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Compatiblitity
 
-- [\<head> cheatsheet](http://gethead.info/)
+- [\<head> cheatsheet](https://gethead.info/)
 - Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
 - Text selection: color+background-color, disable selection, display share options on select (see Feedly)
 - Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:

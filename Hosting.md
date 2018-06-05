@@ -39,9 +39,9 @@
 
 ### Managed hosting
 
-- [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
+- [Kinsta](https://kinsta.com/plans/?kaid=YGCOPZBOGRNQ) WP hosting, on Google Cloud Platform
 - https://closte.com/ WP hosting, on Google Cloud Platform
-- https://kinsta.com/ WP hosting, on Google Cloud Platform
+- [Seravo](https://seravo.com/) premium WP hosting, on UpCloud
 
 ### PaaS
 
