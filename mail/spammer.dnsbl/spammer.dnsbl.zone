@@ -441,7 +441,11 @@ $TTL 60
 94.130.106.1        DE_s.setfreelife.com @HETZNER/AS24940
 
 # AS41011 CH-NET S.R.L. www.ch-center.com
-185.123.220         RO_*.tritondreamhost.com. @CH-NET
+# SBL402608
+185.123.220.0/24    RO_*.tritondreamhost.com. @CH-NET
+185.123.221.0/24    RO_snowshoe @CH-NET
+185.123.222.0/24    RO_snowshoe @CH-NET
+185.123.223.0/24    RO_*.fulyaekinci.com. @CH-NET
 
 # theconversionpros.com - mail{01..20}.tcprosmail.com @DIGITALOCEAN
 104.131.23.58       theconversionpros @DO

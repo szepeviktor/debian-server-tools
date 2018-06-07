@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.6.1
+# VERSION       :0.6.2
 # DATE          :2018-04-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -722,7 +722,11 @@ if [ "$DEST" == cron ]; then
 else
     # Strip Received: headers
     FIRST_LINE=""
-    while [ -z "$FIRST_LINE" ] || [ "${FIRST_LINE#Received: }" != "$FIRST_LINE" ] || [ "${FIRST_LINE:0:1}" == " " ]; do
+    while [ -z "$FIRST_LINE" ] \
+        || [ "${FIRST_LINE#Received: }" != "$FIRST_LINE" ] \
+        || [ "${FIRST_LINE#DKIM-Signature: }" != "$FIRST_LINE" ] \
+        || [ "${FIRST_LINE#Authentication-Results: }" != "$FIRST_LINE" ] \
+        || [ "${FIRST_LINE:0:1}" == " " ] || [ "${FIRST_LINE:0:1}" == "	" ]; do
         IFS='' read -r FIRST_LINE
     done
     # Find X-Fail2ban header
@@ -732,7 +736,7 @@ else
         SENDER="${IP_SENDER##*,}"
     else
         # Missing X-Fail2ban header
-        sed -e "1s/^/${FIRST_LINE}\\n/" | /usr/sbin/sendmail "$DEST"
+        sed -e "1s|^|${FIRST_LINE//|/\\|}\\n|" | /usr/sbin/sendmail "$DEST"
         exit
     fi
 fi

@@ -82,9 +82,8 @@ Use Docker **containers** for testing.
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
-- Security scanner (Netsparker)
-- Metrics (phpmetrics)
 - Build assets (webpack)
+- Metrics (phpmetrics)
 
 ### CI with tests :mag_right:
 
@@ -96,6 +95,11 @@ Use Docker **containers** for testing.
 
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
 [on Debian](https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu)
+
+### Testing tools :pick:
+
+- Performance (Tideways)
+- Security scanner (Netsparker)
 
 ### Tips for developing your application :bulb:
 

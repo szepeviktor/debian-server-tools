@@ -2,14 +2,14 @@
 
 ## The stack
 
-- alias interface
-- rbldns
+- alias network interface `eth0:1`
+- rbldnsd
 - unbound
 - spamassassin
 
 ### Alias interface
 
-unbound needs an IP address different from localhost.
+Unbound needs an IP address different from localhost.
 Append the content of `interfaces` to `/etc/network/interfaces`.
 
 ### rbldns

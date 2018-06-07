@@ -108,15 +108,18 @@ https://toolbox.googleapps.com/apps/checkmx/
 - Current SMTP https://tools.ietf.org/html/rfc5321
 - ESMTP https://tools.ietf.org/html/rfc3848
 
-### Malware (virus) scanning
+### Malware, virus, phishing scanning
 
+- [IKARUS mail.security](https://www.ikarussecurity.com/solutions/all-solutions/network-protection/ikarus-cloudsecurity/ikarus-mailsecurity/)
 - ClamAV (CCTTS, Safe Browsing)
 - clamav-unofficial-sigs (paid: SecuriteInfo, MalwarePatrol, free: Sanesecurity)
 - `clamav.py` pythonfilter through pyClamd for Courier MTA
 
 clamav-unofficial-sigs needs 1 GB of memory.
 
-See "Best clamd.conf" in [SecuriteInfo](https://www.securiteinfo.com/services/anti-spam-anti-virus/improve-detection-rate-of-zero-day-malwares-for-clamav.shtml) FAQ.
+See "Best clamd.conf" in
+[SecuriteInfo](https://www.securiteinfo.com/services/anti-spam-anti-virus/improve-detection-rate-of-zero-day-malwares-for-clamav.shtml)
+FAQ.
 
 ### Block executables
 
@@ -245,12 +248,13 @@ D2 LOGOUT
 ### Spamassassin test and email authentication
 
 ```bash
-sudo -u daemon -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D < msg.eml
+sudo -u courier -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D < msg.eml
 
 # For specific tests issue
 #     man spamassassin-run
-sudo -u daemon -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D dkim < msg-signed.eml
+sudo -u courier -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D dkim < msg-signed.eml
 
+# Needs opendkim package
 opendkim -vvv -t msg-signed.eml
 ```
 
@@ -435,6 +439,10 @@ Deprecated.
 - https://github.com/jpmckinney/multi_mail/wiki/Detecting-autoresponders
 - https://serverfault.com/a/462914
 
+### About spam
+
+85% of emails are spam https://www.talosintelligence.com/reputation_center/email_rep
+
 
 ## Deliverability
 
@@ -499,6 +507,7 @@ OK response: `IP Unlisted in the spam sender list None`
 
 - [Report abuse from Gmail](https://support.google.com/mail/contact/abuse)
 - [Report abuse from Outlook.com](mailto:abuse@outlook.com) See SenderScore
+- [Report abuse or spam on Yahoo](https://help.yahoo.com/kb/SLN26401.html)
 - [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` (list)
 
 #### Whitelists

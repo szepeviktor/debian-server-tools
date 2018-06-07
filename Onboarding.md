@@ -108,3 +108,12 @@ https://haveibeenpwned.com/
 - Bounce messages for **all types**
 - Sender fraud protection and content integrity for **all types**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
+
+### Cyber security
+
+- Spam filtering
+- Protection against malware and phishing attacks
+- Against mobile malware
+- Ransomware mitigation
+- Data breach prevention
+- Incident response plan

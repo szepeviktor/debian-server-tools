@@ -104,8 +104,10 @@ EOF
         ln -s -v "../privs/${DKIM_SELECTOR}.private" "../keys/${DKIM_DOMAIN}"
     )
 
+    # @FIXME Need to be the very first filter
+    ln -s zdkimfilter /usr/lib/courier/filters/000-zdkimfilter
     # Activation
-    /usr/sbin/filterctl start zdkimfilter
+    /usr/sbin/filterctl start 000-zdkimfilter
     # Verify activation
-    readlink /etc/courier/filters/active/zdkimfilter
+    readlink /etc/courier/filters/active/000-zdkimfilter
 }
