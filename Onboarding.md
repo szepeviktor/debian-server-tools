@@ -101,10 +101,10 @@ https://haveibeenpwned.com/
 
 - [ESP](https://twofactorauth.org/#email) for One-to-One emails including inbound messages
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
-- File sharing, [large file sending](https://wetransfer.com/)
+- File sharing, [large file sending](https://wetransfer.com/), [Send](https://send.firefox.com/)
 - Transactional emails, see above
 - Notification emails (alerts, log excerpts)
-- Bulk email (newletter)
+- Bulk email (newsletter)
 - Bounce messages for **all types**
 - Sender fraud protection and content integrity for **all types**: SPF, DKIM, DMARC
 - My email address: `webmaster@`

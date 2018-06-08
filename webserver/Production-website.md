@@ -312,7 +312,8 @@ http://google-public-dns.appspot.com/cache :snail:
 
 #### Typical theme and plugin errors
 
-- [**Mobile views**](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html) (responsive design)
+- [**Mobile views**](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
+  (responsive design), [Mobile-friendliness](https://search.google.com/test/mobile-friendly)
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
@@ -471,6 +472,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Emojis and UNICODE (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
+- Phone numbers (clickable, monitored)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)
   and [Twitter](https://dev.twitter.com/cards/markup) :snail:

@@ -248,11 +248,11 @@ D2 LOGOUT
 ### Spamassassin test and email authentication
 
 ```bash
-sudo -u courier -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D < msg.eml
+sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamassassin/user_prefs -D < msg.eml
 
 # For specific tests issue
 #     man spamassassin-run
-sudo -u courier -- spamassassin --test-mode --prefspath=/var/mail/.spamassassin/user_prefs -D dkim < msg-signed.eml
+sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamassassin/user_prefs -D dkim < msg-signed.eml
 
 # Needs opendkim package
 opendkim -vvv -t msg-signed.eml
