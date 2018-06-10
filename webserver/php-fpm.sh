@@ -20,7 +20,7 @@ PHP_FPM_INI="${PHP_FPM_DIR}/php.ini"
 PHP_TZ="UTC"
 
 # @nonDebian
-Pkg_install_quiet php${PHP}-fpm \
+Pkg_install_quiet php${PHP}-fpm libpcre3 \
     php${PHP}-curl php${PHP}-gd php${PHP}-intl php${PHP}-mbstring php${PHP}-mysql \
     php${PHP}-xml php${PHP}-sqlite3 # Not for WP
 

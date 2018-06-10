@@ -26,7 +26,7 @@ for R in {a..z}; do
         INTEGRITY_NEAREST_DEFAULT="${R}.root-servers.net."
     fi
 done
-echo
+echo ":${INTEGRITY_NEAREST_DEFAULT}"
 INTEGRITY_HOP_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP1 -h "$INTEGRITY_NEAREST_DEFAULT")"
 INTEGRITY_HOP2_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP2 -h "$INTEGRITY_NEAREST_DEFAULT")"
 INTEGRITY_REVERSE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PTR1)"

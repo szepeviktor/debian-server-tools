@@ -192,7 +192,8 @@ teardown:
     - Revoke SSL certificates
     - Remove from healthchecks.io and remote monitoring
     - Remove DNS records
-    - Remove PTR record
+    - Remove/reset PTR record
+    - Delete server
     - Cancel domain registration
 
 # YAML editor: http://yaml-online-parser.appspot.com/

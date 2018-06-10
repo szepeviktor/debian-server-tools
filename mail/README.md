@@ -276,10 +276,14 @@ Local alternative:
 
 ```bash
 addcr | TLS_PRIORITY="$TLS_PRIORITY_STRING" TLS_VERIFYPEER=PEER TLS_TRUSTCERTS=/etc/ssl/certs \
-couriertls -host=example.com -port=25 -protocol=smtp -verify=example.com
+  couriertls -host=example.com -port=25 -protocol=smtp -verify=example.com
 ```
 
-See also https://ssl-tools.net/ and https://discovery.cryptosense.com/
+See also
+
+- https://ssl-tools.net/
+- https://discovery.cryptosense.com/
+- https://www.tbs-internet.com/php/HTML/testssl.php
 
 ### E-mail authentication
 
