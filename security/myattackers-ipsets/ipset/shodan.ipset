@@ -16,18 +16,29 @@ add shodan 71.6.167.124
 #         host -t A "${S}.shodan.io"
 #     done | sed -e 's/^.* \(has address\|has IPv4 address\) //' | sortip | uniq | sed -e 's|^|add shodan |'
 add shodan 66.240.192.138
+add shodan 66.240.205.34
 add shodan 66.240.236.119
 add shodan 71.6.135.131
+add shodan 71.6.146.130
 add shodan 71.6.158.166
 add shodan 71.6.165.200
 add shodan 71.6.167.142
+add shodan 80.82.77.139
+add shodan 80.82.77.33
 add shodan 82.221.105.6
 add shodan 82.221.105.7
-add shodan 85.25.43.94
 add shodan 85.25.103.50
+add shodan 85.25.43.94
+add shodan 89.248.167.131
+add shodan 89.248.172.16
 add shodan 93.120.27.62
+add shodan 93.174.95.106
+add shodan 94.102.49.190
+add shodan 94.102.49.193
 add shodan 104.131.0.69
 add shodan 104.236.198.48
+add shodan 104.25.89.97
+add shodan 104.25.90.97
 add shodan 188.138.9.50
 add shodan 198.20.69.74
 add shodan 198.20.69.98
