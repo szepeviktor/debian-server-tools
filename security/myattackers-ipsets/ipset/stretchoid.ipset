@@ -140,3 +140,5 @@ add stretchoid 107.170.254.144
 add stretchoid 162.243.133.121
 add stretchoid 162.243.133.162
 add stretchoid 162.243.133.214
+# 192.241.194.0/24
+add stretchoid 192.241.194.56
