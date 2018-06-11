@@ -3,10 +3,12 @@
 #: ipset destroy stretchoid
 #: ipset -exist restore < ipset/stretchoid.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set stretchoid src -j REJECT
-create stretchoid hash:net family inet hashsize 64 maxelem 128
+create stretchoid hash:net family inet hashsize 64 maxelem 256
 flush stretchoid
 #     sed -ne 's|^# \([0-9.]\+\.\)0/24$|\1|p' stretchoid.ipset | while read -r I; do echo "# ${I}0/24"
 #      for L in {0..255}; do host -t PTR "$I$L" | grep -qF 'stretchoid.com.' && echo "add stretchoid $I$L"; done; done
+# 104.131.141.0/24
+add stretchoid 104.131.141.237
 # 104.236.132.0/24
 add stretchoid 104.236.132.182
 add stretchoid 104.236.132.240
@@ -131,6 +133,43 @@ add stretchoid 107.170.230.222
 add stretchoid 107.170.230.226
 add stretchoid 107.170.230.236
 add stretchoid 107.170.230.250
+# 107.170.231.0/24
+add stretchoid 107.170.231.4
+add stretchoid 107.170.231.9
+add stretchoid 107.170.231.24
+add stretchoid 107.170.231.31
+add stretchoid 107.170.231.34
+add stretchoid 107.170.231.45
+add stretchoid 107.170.231.57
+add stretchoid 107.170.231.128
+add stretchoid 107.170.231.162
+add stretchoid 107.170.231.183
+add stretchoid 107.170.231.208
+add stretchoid 107.170.231.228
+add stretchoid 107.170.231.234
+add stretchoid 107.170.231.244
+add stretchoid 107.170.231.248
+# 107.170.232.0/24
+add stretchoid 107.170.232.18
+add stretchoid 107.170.232.21
+add stretchoid 107.170.232.24
+add stretchoid 107.170.232.25
+add stretchoid 107.170.232.29
+add stretchoid 107.170.232.31
+# 107.170.250.0/24
+add stretchoid 107.170.250.127
+add stretchoid 107.170.250.207
+add stretchoid 107.170.250.210
+add stretchoid 107.170.250.223
+# 107.170.251.0/24
+add stretchoid 107.170.251.110
+add stretchoid 107.170.251.113
+# 107.170.252.0/24
+add stretchoid 107.170.252.29
+add stretchoid 107.170.252.98
+add stretchoid 107.170.252.201
+# 107.170.253.0/24
+add stretchoid 107.170.253.114
 # 107.170.254.0/24
 add stretchoid 107.170.254.21
 add stretchoid 107.170.254.93
@@ -140,3 +179,20 @@ add stretchoid 107.170.254.144
 add stretchoid 162.243.133.121
 add stretchoid 162.243.133.162
 add stretchoid 162.243.133.214
+# 192.241.194.0/24
+add stretchoid 192.241.194.56
+# 192.241.232.0/24
+add stretchoid 192.241.232.150
+# 192.241.233.0/24
+add stretchoid 192.241.233.61
+# 192.241.234.0/24
+add stretchoid 192.241.234.202
+add stretchoid 192.241.234.205
+# 192.241.235.0/24
+add stretchoid 192.241.235.38
+# 192.241.236.0/24
+add stretchoid 192.241.236.137
+add stretchoid 192.241.236.147
+add stretchoid 192.241.236.225
+# 192.241.237.0/24
+add stretchoid 192.241.237.113
