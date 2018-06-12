@@ -5,7 +5,7 @@
 openssl asn1parse -genconf private-key.asn1 -noout -out private-key.der
 openssl rsa -inform DER -in private-key.der -outform PEM -out private-key.key
 echo -n '{"key": "' > account.json
-paste -s -d '|' private-key.key | sed -e 's/|/\\n/g' >> account.json
+paste -s -d '|' private-key.key | sed -e 's/|/\\n/g' | tr -d '\n' >> account.json
 echo '", "uri": "https://acme-v01.api.letsencrypt.org/acme/reg/9999999"}' >> account.json # From regr.json
 """
 

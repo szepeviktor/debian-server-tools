@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e -x
+
+# @TODO move to v4.0 in stretch-backports
+
+# @TODO Prevent shutdown during background saving
+cat > /etc/sysctl.d/redis-overcommit.conf <<"EOF"
+# https://redis.io/topics/faq#background-saving-fails-with-a-fork-error-under-linux-even-if-i-have-a-lot-of-free-ram
+#vm.overcommit_memory = 1
+EOF
+
+# Redis - in-memory data structure store
+Pkg_install_quiet redis-server
+
+# allkeys-lru, 512 MB memory usage
+sed -e 's|^#\s*maxmemory-policy .*$|maxmemory-policy allkeys-lru|' -i /etc/redis/redis.conf
+sed -e 's|^#\s*maxmemory .*$|maxmemory 512mb|' -i /etc/redis/redis.conf
+
+# Check server
+echo "FLUSHALL" | nc -C -q 3 localhost 6379

@@ -96,6 +96,11 @@ u wp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-r
 #     tmpfs  /home/${U}/website/html/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u "$U"),gid=$(id -g "$U"),mode=0755  0 0
 wp-lib.sh --root="/home/${U}/website/html/static/cache/" mount 100
 
+# * Default image
+printf "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJ
+TUUH4gMUEQE5VHnaPwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAnSURBVCjP
+Y0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" | base64 -d > checkered-16x16.png
+
 # PHP pool
 #cd /etc/php5/fpm/pool.d/
 cd /etc/php/7.2/fpm/pool.d/
@@ -141,10 +146,6 @@ openssl dgst -sha384 -binary | openssl enc -base64 -A
 
 # CAA DNS record to pin certificate authorities
 # See https://sslmate.com/labs/caa/
-
-# Default image
-printf "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH4gMUEQE5VHnaPwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAnSURBVCjPY0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" \
-  | base64 -d > checkered-16x16.png
 
 # In case of "www." set ServerAlias
 # Set WORDPRESS_ROOT_URL and WORDPRESS_UPLOADS_URL

@@ -16,7 +16,7 @@
 # scx
 # omi
 # # Don't remove if mount --types nfs4; then
-# #apt-get install -qq nfs-common rpcbind
+# #apt-get install nfs-common rpcbind
 #
 # Cloud-init
 # ----------

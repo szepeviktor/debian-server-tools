@@ -79,7 +79,7 @@ Use Docker **containers** for testing.
 - Parallel syntax check (php-parallel-lint)
 - PSR-2-based coding style (phpcs)
 - Warn on `TODO` and `FIXME`: "Move it into issues!" (phpcs)
-- [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, psalm, phan, Ripstech)
+- [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
 - Build assets (webpack)
@@ -99,7 +99,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 ### Testing tools :pick:
 
 - Performance (Tideways)
-- Security scanner (Netsparker)
+- Security scanner (Netsparker, Ripstech)
 
 ### Tips for developing your application :bulb:
 

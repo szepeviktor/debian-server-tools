@@ -2,7 +2,7 @@
 #
 # Continue Debian stretch setup on a virtual server.
 #
-# VERSION       :2.1.0
+# VERSION       :2.1.1
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -225,7 +225,8 @@ fi
 # Webserver reload
 Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
-webserver/redis-php.sh
+debian-setup/redis-server
+webserver/php-redis.sh
 if Data get-values-0 package.apt.sources | grep -z -F -x 'mysql-5.7'; then
     # MySQL 5.7 from Debian sid
     debian-setup/mariadb-server
