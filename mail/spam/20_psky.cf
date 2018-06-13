@@ -4,8 +4,6 @@
 # DOCS          :https://psky.me/
 # LOCATION      :/etc/spamassassin/20_psky.cf
 
-require_version 3.004000
-
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
 header   __RCVD_IN_PSKY eval:check_rbl('psky-lastexternal', 'bad.psky.me.')

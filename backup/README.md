@@ -83,12 +83,12 @@ Add to `/usr/lib/s3ql/s3ql/fsck.py` in `main()` after `if param['seq_no'] > seq_
 
 ### S3QL on BackBlaze B2
 
-```
+```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [blackbaze]
-storage-url: b2://B2_BUCKET/B2_PREFIX_
-backend-login: B2_ACCOUNT_ID
-backend-password: B2_APPLICATION_KEY
+storage-url: b2://${B2_BUCKET}/${B2_PREFIX}_
+backend-login: ${B2_ACCOUNT_ID}
+backend-password: ${B2_APPLICATION_KEY}
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -117,9 +117,9 @@ chmod -v 0600 ~/.s3ql/authinfo2
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [oktawave]
-storage-url: swift://ocs-pl.oktawave.com/OCS_CONTAINER
-backend-login: OCS_ACCOUNT:OCS_USER
-backend-password: OCS_PASSWORD
+storage-url: swift://ocs-pl.oktawave.com/${OCS_CONTAINER}
+backend-login: ${OCS_ACCOUNT}:${OCS_USER}
+backend-password: ${OCS_PASSWORD}
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -130,9 +130,9 @@ chmod -v 0600 ~/.s3ql/authinfo2
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [s3]
-storage-url: s3://S3_REGION/S3_BUCKET/S3_PREFIX_
-backend-login: IAM_ACCESS_KEY_ID
-backend-password: IAM_SECRET_ACCESS_KEY
+storage-url: s3://${S3_REGION}/${S3_BUCKET}/${S3_PREFIX}_
+backend-login: ${IAM_ACCESS_KEY_ID}
+backend-password: ${IAM_SECRET_ACCESS_KEY}
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -162,9 +162,9 @@ Source: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [selectel]
-storage-url: swift://auth.selcdn.ru/OS_CONTAINER
-backend-login: OS_USERNAME
-backend-password: OS_PASSWORD
+storage-url: swift://auth.selcdn.ru/${OS_CONTAINER}
+backend-login: ${OS_USERNAME}
+backend-password: ${OS_PASSWORD}
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -177,9 +177,9 @@ http://www.rath.org/s3ql-docs/backends.html
 ```bash
 cat > ~/.s3ql/authinfo2 <<EOF
 [s3]
-storage-url: s3c://S3_HOST/S3_BUCKET/S3_PREFIX_
-backend-login: ACCESS_KEY_ID
-backend-password: SECRET_ACCESS_KEY
+storage-url: s3c://${S3_HOST}/${S3_BUCKET}/${S3_PREFIX}_
+backend-login: ${ACCESS_KEY_ID}
+backend-password: ${SECRET_ACCESS_KEY}
 fs-passphrase: $(apg -m32 -n1)
 EOF
 chmod -v 0600 ~/.s3ql/authinfo2
@@ -193,7 +193,7 @@ openstack --os-cloud system-backup complete > /etc/bash_completion.d/openstack
 mkdir -p ~/.config/openstack
 cat > ~/.config/openstack/clouds.yaml <<EOF
 clouds:
-  CLOUD-NAME:
+  ${CLOUD_NAME}:
     auth:
       auth_url: ${OS_AUTH_URL}
       project_name: ${OS_TENANT_NAME}
@@ -201,8 +201,8 @@ clouds:
       password: ${OS_PASSWORD}
     region_name: ${OS_REGION_NAME}
 EOF
-openstack --os-cloud CLOUD-NAME container list
-openstack --os-cloud CLOUD-NAME object list CONTAINER-NAME
+openstack --os-cloud ${CLOUD_NAME} container list
+openstack --os-cloud ${CLOUD_NAME} object list ${CONTAINER_NAME}
 ```
 
 ### Tested object storage providers

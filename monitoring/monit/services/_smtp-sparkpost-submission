@@ -1,0 +1,4 @@
+ check host "sparkpost-submission" with address "smtp.sparkpostmail.com"
+   group "mail"
+   if failed host "smtp.sparkpostmail.com" port 587 with protocol smtps
+     with timeout 10 seconds then alert

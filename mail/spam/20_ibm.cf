@@ -4,8 +4,6 @@
 # DOCS          :http://filterdb.iss.net/dnsblinfo/
 # LOCATION      :/etc/spamassassin/20_ibm.cf
 
-require_version 3.004000
-
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
 header   __RCVD_IN_IBM eval:check_rbl('ibm-lastexternal', 'dnsbl.cobion.com.')

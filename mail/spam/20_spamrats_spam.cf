@@ -1,0 +1,15 @@
+#
+# SpamAssassin config file: Spam Rats! - Really Annoying Trouble Spots
+#
+# DOCS          :http://www.spamrats.com/about.php
+# STATS         :https://www.intra2net.com/en/support/antispam/blacklist.php_dnsbl=rcvd_in_spamrats_spam.html
+# LOCATION      :/etc/spamassassin/20_spamrats_spam.cf
+
+ifplugin Mail::SpamAssassin::Plugin::DNSEval
+
+header   RCVD_IN_SPAMRATS_SPAM eval:check_rbl('spamratsspam-lastexternal', 'spam.spamrats.com')
+describe RCVD_IN_SPAMRATS_SPAM RATS-Spam
+tflags   RCVD_IN_SPAMRATS_SPAM net
+score    RCVD_IN_SPAMRATS_SPAM 2.0
+
+endif

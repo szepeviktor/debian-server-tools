@@ -5,8 +5,6 @@
 # SOURCE        :https://lists.gt.net/spamassassin/users/206210
 # LOCATION      :/etc/spamassassin/10_rare_tld.cf
 
-require_version 3.004000
-
 # From: header
 header   FROM_RARE_TLD From:addr =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date)$/i
 describe FROM_RARE_TLD From address in rarely non-spam TLD

@@ -1,4 +1,8 @@
-# Disable multi.uribl.com checks
+#
+# SpamAssassin config file: Disable multi.uribl.com checks
+#
+# LOCATION      :/etc/spamassassin/26_uribl_disable.cf
+
 score URIBL_BLACK                       0
 score URIBL_GREY                        0
 score URIBL_RED                         0

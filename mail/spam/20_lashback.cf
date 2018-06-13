@@ -4,11 +4,9 @@
 # DOCS          :http://blacklist.lashback.com/
 # LOCATION      :/etc/spamassassin/20_lashback.cf
 
-require_version 3.004000
-
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
-header   RCVD_IN_LASHBACK eval:check_rbl('LASHBACK', 'ubl.unsubscore.com')
+header   RCVD_IN_LASHBACK eval:check_rbl('lashback-lastexternal', 'ubl.unsubscore.com')
 describe RCVD_IN_LASHBACK LashBack Unsubscribe Blacklist
 tflags   RCVD_IN_LASHBACK net
 score    RCVD_IN_LASHBACK 2.0

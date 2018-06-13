@@ -38,8 +38,8 @@ sed -e 's|^OPTIONS=.*$|OPTIONS="--create-prefs --max-children 5 --helper-home-di
 sed -e 's|^# \(loadplugin Mail::SpamAssassin::Plugin::Shortcircuit\)$|\1|' -i /etc/spamassassin/v320.pre
 
 # 65_debian.cf
-# Enable RCVD_IN_BRBL_LASTEXT bb.barracudacentral.org
-sed -e 's|^score RCVD_IN_BRBL_LASTEXT 0$|##&|' -i /etc/spamassassin/65_debian.cf
+# Use bb.barracudacentral.org
+Dinstall mail/spam/66_barracudacentral.cf
 
 # local.cf
 Dinstall mail/spam/local.cf
@@ -48,7 +48,9 @@ Dinstall mail/spam/local.cf
 Dinstall mail/spam/10_rare_tld.cf
 Dinstall mail/spam/20_lashback.cf
 Dinstall mail/spam/20_psky.cf
-#Dinstall mail/spam/21_KAM.cf
+Dinstall mail/spam/20_ibm.cf
+#Dinstall mail/spam/20_junkemailfilter.cf
+Dinstall mail/spam/20_spamrats_spam.cf
 
 # spammer.dnsbl
 Dinstall mail/spammer.dnsbl/20_spammer.dnsbl.cf

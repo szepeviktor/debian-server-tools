@@ -101,7 +101,8 @@ https://haveibeenpwned.com/
 
 - [ESP](https://twofactorauth.org/#email) for One-to-One emails including inbound messages
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
-- File sharing, [large file sending](https://wetransfer.com/), [Send](https://send.firefox.com/)
+- File sharing, large file sending [WeTransfer](https://wetransfer.com/),
+  [Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/)
 - Transactional emails, see above
 - Notification emails (alerts, log excerpts)
 - Bulk email (newsletter)
