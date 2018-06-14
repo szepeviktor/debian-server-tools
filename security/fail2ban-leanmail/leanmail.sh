@@ -2,7 +2,7 @@
 #
 # Don't send Fail2ban notification emails of IP-s with records.
 #
-# VERSION       :0.6.2
+# VERSION       :0.6.3
 # DATE          :2018-04-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -200,7 +200,9 @@ Log_match()
 {
     local MATCH="$1"
 
-    logger -t "fail2ban-leanmail" "Banned IP (${IP}) matches ${MATCH}"
+    if [ "$DEST" != cron ]; then
+        logger -t "fail2ban-leanmail" "Banned IP (${IP}) matches ${MATCH}"
+    fi
 }
 
 Get_cache_file()
@@ -717,7 +719,7 @@ if [ "$DEST" == cron ]; then
     # Keep last 100 known IP-s
     if [ -r "$KNOWN_IP" ]; then
         # shellcheck disable=SC2016
-        sed -i -e ':a;$q;N;101,$D;ba' "$KNOWN_IP"
+        sed -e ':a;$q;N;101,$D;ba' -i "$KNOWN_IP"
     fi
 else
     # Strip Received: headers

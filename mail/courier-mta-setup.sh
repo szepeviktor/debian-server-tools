@@ -172,8 +172,9 @@ editor /etc/courier/smtpaccess/default
 
 test -f /etc/courier/shared/index || touch /etc/courier/shared/index
 
-# Announce sizelimit (Nextcloud, WeTransfer, send.firefox.com, box.com)
+# Announce sizelimit (Nextcloud, pCloud, WeTransfer, send.firefox.com, box.com)
 # Announce maxrcpts
 
+# opt BOFHSPFTRUSTME=1
 # opt BOFHSPFHELO=keywords
 # opt BOFHSPFMAILFROM=keywords

@@ -9,6 +9,8 @@ List-Unsubscribe-Post: List-Unsubscribe=One-Click
 X-Report-Abuse: Please report abuse here:
 	mailto:abuse@example.com
 X-Precedence: bulk
+X-Auto-Response-Suppress: OOF, AutoReply
+Auto-Submitted: auto-generated
 X-Mailer: newsletter.sh
 MIME-Version: 1.0
 Content-Type: multipart/alternative; boundary="_----------=_NLSH_112963458"

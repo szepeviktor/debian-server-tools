@@ -456,6 +456,8 @@ Deprecated.
 - [List of blacklists](http://www.intra2net.com/en/support/antispam/index.php)
 - [Whitelists in SpamAssassin](https://wiki.apache.org/spamassassin/DnsBlocklists#Whitelists)
 - [Sender Support and Delivery and Filtering Details](https://wordtothewise.com/isp-information/)
+- [Impressionwise RBL Advisories](https://www.impressionwise.com/kb/threats/rbl-advisories.html)
+- [Impressionwise URI Advisories](https://www.impressionwise.com/kb/threats/uribl-advisories.html)
 
 
 #### Check RBL-s
