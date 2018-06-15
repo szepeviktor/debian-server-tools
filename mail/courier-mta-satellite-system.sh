@@ -111,6 +111,8 @@ Dinstall mail/courier-dhparams.sh
 Courier_config courierd /etc/courier/courierd
 # Use only TLSv1.2 and Modern profile WHEN smarthost is ready for it (from jessie on)
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/
+# Additional courierd config
+Courier_config bofh /etc/courier/bofh
 
 # Listen on localhost and disable authentication and disable identlookup,dnslookup
 Courier_config esmtpd /etc/courier/esmtpd

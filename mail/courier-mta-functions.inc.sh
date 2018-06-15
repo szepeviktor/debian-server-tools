@@ -66,8 +66,9 @@ Z_dkim_filter()
     # Data directory
     # shellcheck disable=SC1091
     MAILUSER="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILUSER")"
-##    install -v --owner="$MAILUSER" --group=root -m 700 -d /etc/courier/filters/privs
-    install -v --owner=root --group=root -m 700 -d /etc/courier/filters/privs
+    # @FIXME Who should be the owner?
+    install    -v --owner=root        --group=root -m 700 -d /etc/courier/filters/privs
+    ## install -v --owner="$MAILUSER" --group=root -m 700 -d /etc/courier/filters/privs
     mkdir -v /etc/courier/filters/keys
 
     # Configuration file
@@ -101,10 +102,11 @@ EOF
         # Enable key, use domain names
         chown -c "root:${MAILUSER}" "${DKIM_SELECTOR}.private"
         chmod -c 0640 "${DKIM_SELECTOR}.private"
+        # Key name = selector, Symlink name = domain name
         ln -s -v "../privs/${DKIM_SELECTOR}.private" "../keys/${DKIM_DOMAIN}"
     )
 
-    # @FIXME Need to be the very first filter
+    # @FIXME Needs to be the very first filter
     ln -s zdkimfilter /usr/lib/courier/filters/000-zdkimfilter
     # Activation
     /usr/sbin/filterctl start 000-zdkimfilter

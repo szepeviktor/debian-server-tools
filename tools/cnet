@@ -22,6 +22,8 @@ for LAST_OCTET in {0..255}; do
     CURRENT_IP="${OCTETS%.*}.${LAST_OCTET}"
 
     host -t PTR "$CURRENT_IP"
+    # ANSWER="$(dig +nocmd +nocomments +noidentify +noquestion +noauthority +nostats -x "$CURRENT_IP")"
+    # echo "${ANSWER:-PTR record is not available for ${CURRENT_IP}}"
 
     if [ "$CURRENT_IP" == "$OCTETS" ]; then
         printf '**********************************************************************\n\n'

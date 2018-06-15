@@ -13,6 +13,7 @@
 
 #### http://spamlap.hu/archive_month/index.html
 #### http://dnsbl.aspnet.hu/About.aspx
+#### https://www.spamhaus.org/news/article/646/announcing-the-spamhaus-css
 
 $NS 3600 worker.szepe.net
 # One minute TTL
@@ -470,6 +471,31 @@ $TTL 60
 159.65.172.177      theconversionpros @DO
 159.65.162.54       theconversionpros @DO
 
-# *.szjlzdh.com @RADORE
-185.81.154.0/24     :2:Neighbour of szjlzdh.com
-185.81.154.196-222  TR_szjlzdh.com @RADORE
+# Aykut Eskitoglu trading as OnlineNet @RADORE
+185.81.154.0/24     :2:Neighbour of OnlineNet
+185.81.154.196-222  TR_OnlineNet @RADORE
+# Ibrahim Tufek @RADORE
+193.164.7.0/24      :2:TR_netbudur.com @RADORE
+
+# mastermediagroup.hu/WORKCENTER @Azonnal@MEDIACENTER
+92.43.204.5         HU_mastermediagroup.hu @Azonnal@MEDIACENTER
+
+# Riot Games - 1.outbound*.email.accounts.riotgames.com. @YESMAIL
+97.107.26.77-80     US_riotgames.com @YESMAIL
+
+# AS35828 TERATRADE-NET @EZIT
+# snowshoe
+95.140.39.0/24      HU_Teratrade @EZIT
+95.140.39.249       :2:HU_Teratrade exception rdns2.designineu.com.
+185.207.8.0/23      HU_Teratrade @EZIT
+185.207.10.0/23     HU_Teratrade @EZIT
+# NOVUM IMPORT "Content Delivery Network, Boundary line team"
+# https://securitytrails.com/list/ip/87.229.108.136
+# web: 87.229.108.136
+# web: 87.229.108.214
+# web: 87.229.108.215
+
+# Was AS21840 SAGO, AS395374 SynergyISP
+# snowshoe
+66.118.187.12       US_secret.bbcif.com @SAGO
+66.118.187.34-62    US_SynergyISP,SAGO

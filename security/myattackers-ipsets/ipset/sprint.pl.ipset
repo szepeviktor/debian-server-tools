@@ -1,7 +1,7 @@
 # AS197226 - SPRINT-SDC, was "ering.pl"
 #: ipset -exist restore < ipset/sprint.pl.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set sprint.pl src -j REJECT
-create sprint.pl hash:net family inet hashsize 64 maxelem 32
+create sprint.pl hash:net family inet hashsize 64 maxelem 64
 flush sprint.pl
 
 ##46.29.16.0/21  "SPRINT" S.A.

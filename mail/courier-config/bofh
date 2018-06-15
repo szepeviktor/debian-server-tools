@@ -1,0 +1,6 @@
+# Disable all SPF checks for any connecting client that has relaying privileges
+opt BOFHSPFTRUSTME=1
+
+# SPF checks
+##opt BOFHSPFHELO=pass,none,neutral,unknown
+##opt BOFHSPFMAILFROM=pass,none,neutral,unknown

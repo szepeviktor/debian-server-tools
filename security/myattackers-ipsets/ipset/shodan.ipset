@@ -1,7 +1,7 @@
 # Shodan.io, type: all protocols
 #: ipset -exist restore < ipset/shodan.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set shodan src -j REJECT
-create shodan hash:net family inet hashsize 64 maxelem 32
+create shodan hash:net family inet hashsize 64 maxelem 128
 flush shodan
 # border.census.shodan.io.
 add shodan 198.20.87.98
