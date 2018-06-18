@@ -45,6 +45,7 @@ Dinstall mail/spam/66_barracudacentral.cf
 Dinstall mail/spam/local.cf
 
 # mail/spam/*.cf
+Dinstall mail/spam/10_freemail_undisclosed.cf
 Dinstall mail/spam/10_rare_tld.cf
 Dinstall mail/spam/20_lashback.cf
 Dinstall mail/spam/20_psky.cf

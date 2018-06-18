@@ -1,0 +1,8 @@
+#
+# SpamAssassin config file: From freemail to undisclosed recipients
+#
+# LOCATION      :/etc/spamassassin/10_freemail_undisclosed.cf
+
+meta     FREEMAIL_TO_UNDISCLOSED FREEMAIL_FROM && __TO_UNDISCLOSED
+describe FREEMAIL_TO_UNDISCLOSED From freemail to undisclosed recipients
+score    FREEMAIL_TO_UNDISCLOSED 3.0

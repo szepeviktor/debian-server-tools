@@ -12,6 +12,7 @@
 216.105.38.0/26	allow,BLOCK
 # Debian Security List - bendel.debian.org.
 82.195.75.100	allow,BLOCK
+:2001:41b8:0202:0deb:0216:36ff:fe40:4002	allow,BLOCK
 # Horde - lists.horde.org.
 188.227.186.61	allow,BLOCK
 
@@ -81,7 +82,6 @@
 84.2.42.64	allow,BLOCK
 84.2.42.65	allow,BLOCK
 84.2.227.160	allow,BLOCK
-:2001:41b8:0202:0deb:0216:36ff:fe40:4002	allow,BLOCK
 # UPC - *.mx.upcmail.net.
 62.179.121	allow,BLOCK
 # Pingdom - mailer1.pingdom.com. mailer2.pingdom.com.
