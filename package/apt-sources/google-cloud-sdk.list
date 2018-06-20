@@ -1,0 +1,5 @@
+# Google Cloud SDK
+deb http://packages.cloud.google.com/apt cloud-sdk-stretch main
+#K: wget -qO- https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+#M: https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
+#F: BA07F4FB:54A647F9048D5688D7DA2ABE6A030B21BA07F4FB

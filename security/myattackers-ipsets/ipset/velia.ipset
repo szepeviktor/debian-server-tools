@@ -23,7 +23,7 @@ add velia 134.119.192.0/19
 add velia 146.0.224.0/19
 # Mass Sub Alloc
 add velia 151.106.0.0/19
-#add velia 151.106.48.0/20
+add velia 151.106.48.0/20
 #add velia 162.211.120.0/21
 #add velia 162.254.200.0/21
 #add velia 185.19.216.0/22
