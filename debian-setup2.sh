@@ -2,7 +2,7 @@
 #
 # Continue Debian stretch setup on a virtual server.
 #
-# VERSION       :2.1.1
+# VERSION       :2.1.2
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -17,6 +17,11 @@
 declare -i CPU_COUNT
 
 set -e -x
+
+if [ ! -t 0 ]; then
+    echo "Some commands still need a terminal." 1>&2
+    exit 2
+fi
 
 # shellcheck disable=SC1091
 . debian-setup-functions.inc.sh

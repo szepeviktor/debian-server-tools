@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.4
+# VERSION       :2.0.5
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -109,6 +109,11 @@ set -e -x
 
 # Am I root?
 test "$(id -u)" == 0
+
+if [ ! -t 0 ]; then
+    echo "Some commands still need a terminal." 1>&2
+    exit 2
+fi
 
 # Common functions
 # shellcheck disable=SC1091

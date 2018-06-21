@@ -87,7 +87,7 @@ if tail -n 1 /logfile | grep -q "completed OK!$";then
 # Import TZ data
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql mysql
 # Ubuntu mysql_tzinfo_to_sql /usr/share/zoneinfo | sed "s/'Local time zone must be set--see zic manual page'/'UNSET'/g" | mysql mysql
-editor /etc/mysql/my.cnf
+editor /etc/mysql/conf.d/timezone.cnf
 #     [mysqld]
 #     default-time-zone = Europe/Budapest
 service mysql restart
