@@ -1,4 +1,4 @@
 # Docker
 deb https://apt.dockerproject.org/repo debian-jessie main
-#K: apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 2C52609D
+#K: apt-key adv --keyserver sks.labs.nic.cz --recv-keys 2C52609D
 #M: https://docs.docker.com/engine/installation/debian/

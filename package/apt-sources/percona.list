@@ -1,6 +1,6 @@
 # Percona
 #deb http://repo.percona.com/apt/ jessie main
 deb http://repo.percona.com/apt/ stretch main
-#K: apt-key adv --keyserver keys.gnupg.net --recv-keys 9334A25F8507EFA5
+#K: apt-key adv --keyserver sks.labs.nic.cz --recv-keys 9334A25F8507EFA5
 #M: https://www.percona.com/doc/percona-xtrabackup/LATEST/installation/apt_repo.html
 #M: https://www.percona.com/doc/percona-server/LATEST/installation/apt_repo.html

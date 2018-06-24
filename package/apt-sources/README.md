@@ -30,6 +30,12 @@ apt-key adv --fingerprint $KEY_ID | sed -ne 's|^pub\s\+\S\+/\(\S\+\) .*$|\1|p'
 apt-key adv --fingerprint --with-colons $KEY_ID | sed -ne 's|^fpr:::::::::\([0-9A-F]\+\):$|\1|p'
 ```
 
+### OpenPGP keyservers
+
+https://sks-keyservers.net/status/
+
+Suggested server: `sks.labs.nic.cz`
+
 ### Proposed updates
 
 ```

@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.3.0
+# VERSION       :2.4.0
 # DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -142,8 +142,8 @@ Check_db_schemas() { # Error 5x
 
         SCHEMA="${TARGET}/db/db-${DB}.schema.sql"
         # Check schema
-        mysqldump --no-data --skip-comments "$DB" \
-            | sed 's/ AUTO_INCREMENT=[0-9]\+\b//' \
+        mysqldump --skip-comments --no-data --events --routines "$DB" \
+            | sed -e 's| AUTO_INCREMENT=[0-9]\+\b||' \
             > "$TEMP_SCHEMA" || Error 51 "Schema dump failure"
 
         if [ -r "$SCHEMA" ]; then
@@ -236,7 +236,7 @@ Backup_files() { # Error 7x
         mkdir "${TARGET}/homes" || Error 72 "Failed to create 'homes' directory in target"
     fi
     WEEKLY_HOME="$(Rotate_weekly homes)"
-    #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F "open("
+    #strace $(pgrep rsync|sed -e 's|^|-p |g') 2>&1|grep -F 'open('
     if [ -z "$WEEKLY_HOME" ] || [ ! -d "$WEEKLY_HOME" ]; then
         Error 73 "Failed to create weekly directory for 'home'"
     fi

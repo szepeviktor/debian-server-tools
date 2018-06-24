@@ -1,6 +1,6 @@
 # MySQL
 deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7
-#K: apt-key adv --keyserver pgp.mit.edu --recv-keys 8C718D3B5072E1F5
+#K: apt-key adv --keyserver sks.labs.nic.cz --recv-keys 8C718D3B5072E1F5
 #M: https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/
 #P: printf 'Package: mysql-common\nPin: release o=MySQL\nPin-Priority: 1000\n' > /etc/apt/preferences.d/oracle-mysql-server.pref
 # Pin mysql-common package above MariaDB 10.1
