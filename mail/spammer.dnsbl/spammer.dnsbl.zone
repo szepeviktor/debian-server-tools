@@ -443,6 +443,7 @@ $TTL 60
 
 # AS41011 CH-NET S.R.L. www.ch-center.com
 # SBL402608
+# NOVUM IMPORT "Content Delivery Network, Boundary line team"
 185.123.220.0/24    RO_snowshoe @CH-NET
 185.123.221.0/24    RO_snowshoe @CH-NET
 185.123.222.0/24    RO_snowshoe @CH-NET
@@ -492,9 +493,7 @@ $TTL 60
 185.207.10.0/23     HU_Teratrade @EZIT
 # NOVUM IMPORT "Content Delivery Network, Boundary line team"
 # https://securitytrails.com/list/ip/87.229.108.136
-# web: 87.229.108.136
-# web: 87.229.108.214
-# web: 87.229.108.215
+# web: 87.229.108.136 87.229.108.214 87.229.108.215
 
 # Was AS21840 SAGO, AS395374 SynergyISP
 # snowshoe

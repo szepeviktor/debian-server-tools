@@ -2,7 +2,7 @@
 #
 # Start debian-setup.sh remotely.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 #
 # - Domain registrar
 # - DNS provider
@@ -68,3 +68,7 @@ EOT
 
 # Start Session #1
 ssh -t -- /root/debian-setup-starter1.sh
+
+# Instructions for Session #2
+echo "Log in as the first user on the specified SSH port and issue: sudo su -"
+echo "Then as root issue: ./debian-setup-starter2.sh"
