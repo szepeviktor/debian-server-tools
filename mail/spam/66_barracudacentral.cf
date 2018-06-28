@@ -2,6 +2,6 @@
 # SpamAssassin config file: Use bb.barracudacentral.org
 #
 # DOCS          :http://barracudacentral.org/account/register
-# LOCATION      :/etc/spamassassin/20_junkemailfilter.cf
+# LOCATION      :/etc/spamassassin/66_barracudacentral.cf
 
 score RCVD_IN_BRBL_LASTEXT 0 1.644 0 1.449 # 50_scores.cf

@@ -35,6 +35,7 @@ TARGET="/media/server-backup.s3ql"
 MOUNT_OPTIONS="--compress zlib-5"
 AUTHFILE="/root/.s3ql/authinfo2"
 #DB_EXCLUDE="excluded-db1|excluded-db2"
+#SKIP_DB_SCHEMA_DIFF="YES"
 HCHK_URL="https://hchk.io/aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 EOF
 

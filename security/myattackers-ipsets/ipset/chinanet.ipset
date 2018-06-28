@@ -13,4 +13,6 @@ add chinanet 60.191.48.200/29
 add chinanet 60.191.49.184/29
 # JINFANDA-CHEMICAL-LTD
 add chinanet 122.224.153.104/29
+# HANGZHOU-XINLEI-NETBAR
+add chinanet 218.75.37.16/29
 # Also in -> dangerous.dnsbl.zone

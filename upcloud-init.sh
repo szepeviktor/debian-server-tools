@@ -45,15 +45,16 @@ echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty
 wget -nv -O /etc/apt/sources.list \
     "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/${DEBIAN_CODENAME}-for-upcloud.list"
 
+# Update Debian
 apt-get clean -q
 apt-get update -q
 # Prevent kernel update
 #apt-mark hold linux-image-amd64 "linux-image-[0-9].*-amd64"
-apt-get dist-upgrade -q -y
+apt-get dist-upgrade -qq
 
 # docker
 apt-get install -qq dirmngr apt-transport-https
-apt-key adv --keyserver "hkp://p80.pool.sks-keyservers.net:80" --recv-keys 2C52609D
+apt-key adv --keyserver sks.labs.nic.cz --recv-keys 2C52609D
 echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
     > /etc/apt/sources.list.d/docker.list
 apt-get update -q

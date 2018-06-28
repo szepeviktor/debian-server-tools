@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.4.0
+# VERSION       :2.5.0
 # DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -147,7 +147,7 @@ Check_db_schemas() { # Error 5x
             > "$TEMP_SCHEMA" || Error 51 "Schema dump failure"
 
         if [ -r "$SCHEMA" ]; then
-            if ! diff "$SCHEMA" "$TEMP_SCHEMA" 1>&2; then
+            if [ "$SKIP_DB_SCHEMA_DIFF" != YES ] && ! diff "$SCHEMA" "$TEMP_SCHEMA" 1>&2; then
                 echo "Database schema CHANGED for ${DB}" 1>&2
             fi
             rm -f "$TEMP_SCHEMA"
