@@ -12,3 +12,6 @@ set alert @@ALERT_ADDRESS@@ with reminder on 2 cycles
 # Web interface
 set httpd unixsocket /run/monit.sock
   allow mon:it
+
+# Verify certificates
+set ssl options { verify: enable }

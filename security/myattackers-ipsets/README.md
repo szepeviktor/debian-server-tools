@@ -31,3 +31,13 @@ grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
     | xargs -L 1 echo Require not ip
 echo "</RequireAll>"
 ```
+
+### Usage in Mikrotik routers
+
+```bash
+grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
+    | xargs -I % echo "/ip firewall address-list add list=myattackers-ipset address=%" \
+    > mikrotik-myattackers-ipset.rsc
+```
+
+Usage on router: `/import file=mikrotik-myattackers-ipset.rsc`

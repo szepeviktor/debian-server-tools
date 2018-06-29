@@ -1,12 +1,16 @@
-# @TODO grep "<Location .*/server-status" /etc/apache2/sites-enabled/*
+# @TODO grep '<Location .*/server-status' /etc/apache2/sites-enabled/*
 
-wget -q -T 10 -S -O /dev/null "http://${APACHE_SERVER_NAME}/server-status"
-
-# Remove SSL check when mod_ssl is not enabled
-if [ -f /etc/apache2/mods-enabled/ssl.load ]; then
-    wget -q -T 10 -S -O /dev/null "https://${APACHE_SSL_SERVER_NAME}/server-status"
+if [ -n "$APACHE_SERVER_NAME" ]; then
+    wget -q -T 3 -S -O /dev/null "http://${APACHE_SERVER_NAME}/server-status"
 else
-    echo "Removing check for https" 1>&2
-    sed -i -e '/^\s*if failed host \S\+ port 443 with protocol https /d' /etc/monit/conf-available/apache2
+    echo "Removing check for http" 1>&2
+    sed -e '/^\s*if failed host \S\+ port 80 with protocol apache-status .*$/,+1d' -i /etc/monit/conf-available/apache2
 fi
 
+# Remove SSL check when mod_ssl is not enabled
+if [ -h /etc/apache2/mods-enabled/ssl.load ]; then
+    wget -q -T 3 -S -O /dev/null "https://${APACHE_SSL_SERVER_NAME}/server-status"
+else
+    echo "Removing check for https" 1>&2
+    sed -e '/^\s*if failed host \S\+ port 443 using ssl with protocol apache-status .*$/,+1d' -i /etc/monit/conf-available/apache2
+fi

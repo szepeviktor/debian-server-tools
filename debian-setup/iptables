@@ -2,7 +2,7 @@
 
 set -e -x
 
-# FIXME order of rules: ESTABLISHED connection + fail2Banned
+# @FIXME Order of rules: ESTABLISHED connection + fail2banned
 #
 #     -A INPUT -i lo -j ACCEPT
 #     ??? -A INPUT -j fail2ban  <-- Move it up here
@@ -19,8 +19,8 @@ set -e -x
 iptables -A INPUT -i lo -j ACCEPT
 ip6tables -A INPUT -i lo -j ACCEPT
 # Enable statefull rules
-iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables  -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+ip6tables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 # Drop invalid state packets
 iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
 ip6tables -A INPUT -m conntrack --ctstate INVALID -j DROP
@@ -33,7 +33,7 @@ Dinstall security/myattackers.sh
 myattackers.sh -i
 
 # Deny traffic from known hostile networks
-# FIXME Depends on repo
+# @FIXME Depends on repo
 (
     cd /usr/local/src/debian-server-tools/security/myattackers-ipsets/
     ./myattackers-ipsets-install.sh

@@ -173,6 +173,9 @@ final class CheckEnv {
         $this->assert_extension( 'session' );
         $this->assert_directive( 'session.gc_maxlifetime', '1440' );
 
+        // Argon2 hashing
+        //$this->assert_extension( 'sodium' );
+
         // System program execution
         //$this->assert_function( 'proc_open' );
 
