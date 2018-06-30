@@ -39,7 +39,7 @@ action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(por
 action = %(action_mgl)s
 
 # Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
-action_cf1_mwl = cloudflare[cfuser="%(cf1email)s", cftoken="%(cf1apikey)s"]
+action_cf1_mgl = cloudflare[cfuser="%(cf1email)s", cftoken="%(cf1apikey)s"]
                  sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 
 # sendmail-geoip-lines = 2×geoip + host + grep log + sendmail
@@ -62,6 +62,8 @@ logpath  = /var/log/apache2/access.log
 maxretry = 3
 # 24h
 bantime  = 86400
+# Ban only
+action   = %(action_)s
 protocol = all
 banaction = %(banaction_allports)s
 

@@ -4,6 +4,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set stretchoid src -j REJECT
 create stretchoid hash:net family inet hashsize 64 maxelem 512
 flush stretchoid
+# Update script
 #     sed -ne 's|^# \([0-9.]\+\.\)0/24$|\1|p' stretchoid.ipset | while read -r I; do echo "# ${I}0/24"
 #      for L in {0..255}; do host -t PTR "$I$L" | grep -qF 'stretchoid.com.' && echo "add stretchoid $I$L"; done; done
 # 104.131.141.0/24

@@ -2,8 +2,8 @@
 #
 # Config file and loader for cert-update.sh.
 #
-# VERSION       :0.2.8
-# DATE          :2016-09-23
+# VERSION       :0.2.9
+# DATE          :2018-06-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -144,6 +144,7 @@ test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(he
 # Uncomment to activate!
 #COURIER_COMBINED="/etc/courier/esmtpd.pem"
 #COURIER_DHPARAMS="/etc/courier/dhparams.pem"
+#COURIER_IMAP_COMBINED="/etc/courier/imapd.pem"
 
 
 

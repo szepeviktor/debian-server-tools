@@ -1,8 +1,10 @@
-MariaDB upgrade error message: *Installation of system tables failed!*
+### MariaDB upgrade error message: *Installation of system tables failed!*
 
 ```bash
-mcedit /var/lib/dpkg/info/mariadb-server-10.0.postinst:224
+mcedit +210 /var/lib/dpkg/info/mariadb-server-10.0.postinst
 ```
+
+Comment out `#echo "$password_column_fix_query"`
 
 ### UNIX_SOCKET Authentication Plugin
 

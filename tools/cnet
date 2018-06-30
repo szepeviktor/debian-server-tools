@@ -2,7 +2,7 @@
 #
 # Retrieve PTR records for a /24 (Class C) subnetwork.
 #
-# VERSION       :1.1.0
+# VERSION       :1.2.0
 # DATE          :2018-05-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -12,18 +12,27 @@
 # LOCATION      :/usr/local/bin/cnet
 
 OCTETS="$1"
+NS="$2"
 
 if [ -z "$OCTETS" ]; then
-    echo "Usage: $0 1.2.3.4" 1>&2
+    echo "Usage: ${BASH_SOURCE[0]} IPv4" 1>&2
     exit 1
 fi
 
 for LAST_OCTET in {0..255}; do
     CURRENT_IP="${OCTETS%.*}.${LAST_OCTET}"
 
-    host -t PTR "$CURRENT_IP"
-    # ANSWER="$(dig +noall +answer -x "$CURRENT_IP")"
-    # echo "${ANSWER:-PTR record is not available for ${CURRENT_IP}}"
+    if hash dig 2>/dev/null; then
+        if [ -n "$NS" ]; then
+            ANSWER="$(dig +noall +answer "@${NS}" -x "$CURRENT_IP" )"
+        else
+            ANSWER="$(dig +noall +answer -x "$CURRENT_IP" )"
+        fi
+        echo "${ANSWER:-PTR record is not available for ${CURRENT_IP}}"
+    else
+        # shellcheck disable=SC2086
+        host -t PTR "$CURRENT_IP" ${NS}
+    fi
 
     if [ "$CURRENT_IP" == "$OCTETS" ]; then
         printf '**********************************************************************\n\n'

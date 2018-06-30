@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.8
+# VERSION       :0.1.9
 # DATE          :2016-09-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -136,6 +136,7 @@ APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 # Uncomment to activate!
 #COURIER_COMBINED="/etc/courier/esmtpd.pem"
 #COURIER_DHPARAMS="/etc/courier/dhparams.pem"
+#COURIER_IMAP_COMBINED="/etc/courier/imapd.pem"
 
 
 

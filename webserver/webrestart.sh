@@ -2,23 +2,24 @@
 #
 # Reload PHP-FPM and Apache dependently.
 #
-# VERSION       :0.6.5
+# VERSION       :0.6.6
 # DATE          :2016-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS5      :apt-get install php5-fpm apache2
 # DEPENDS       :apt-get install php7.2-fpm apache2
 # LOCATION      :/usr/local/sbin/webrestart.sh
 # SYMLINK       :/usr/local/sbin/webreload.sh
-
-APACHE_USER="_web"
 
 Error() {
     echo "ERROR: $1" 1>&2
     exit 1
 }
+
+# APACHE_RUN_USER is defined here
+# shellcheck disable=SC1091
+source /etc/apache2/envvars
 
 # PHP-PFM config test
 if hash php5-fpm 2> /dev/null; then
@@ -45,7 +46,8 @@ while read -r CONFIG_FILE; do
         SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
         if [ -n "$SITE_USER" ]; then
             # Is Apache in this user's group?
-            groups "$APACHE_USER" | grep -qw "$SITE_USER" || Error "Apache is not in ${SITE_USER} group"
+            groups "$APACHE_RUN_USER" | cut -d ":" -f 2- | tr '\n' ' ' \
+                | grep -q -F " ${SITE_USER} " || Error "Apache is not in ${SITE_USER} group"
         fi
     fi
 done <<< "$APACHE_CONFIGS"

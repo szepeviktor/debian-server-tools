@@ -519,6 +519,7 @@ OK response: `IP Unlisted in the spam sender list None`
 #### Whitelists
 
 - https://www.dnswl.org/selfservice/ `R`
+- https://www.abuse.net/addnew.phtml `R` lookup: `whois -h whois.abuse.net. example.com`
 - ??? [EmailReg.org by Barracuda](http://www.emailreg.org/index.cgi?p=usage)
 - ??? [Whitelisted.org by UCEPROTECT](http://www.whitelisted.org/)
 

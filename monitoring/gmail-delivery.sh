@@ -15,7 +15,7 @@
 # PERMISSION    :0750
 # CRON.D        :02 *	* * *	nobody	/usr/local/sbin/gmail-delivery.sh
 
-# EDIT
+# EDIT these
 PROVIDER="SparkPost"
 FROM_FULL="nobody <nobody@>"
 GMAIL_ACCOUNT="@gmail.com"

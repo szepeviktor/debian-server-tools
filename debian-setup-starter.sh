@@ -33,7 +33,7 @@ ssh "cat > /root/server.yml" < ${SERVER_CONFIGURATION}
 # Save script for Session #1
 ssh "cat > /root/debian-setup-starter1.sh; chmod +x /root/debian-setup-starter1.sh" <<"EOT"
 export LC_ALL=C.UTF-8
-SELF="$(realpath "$BASH_SOURCE")"
+SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/
 
 wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
@@ -55,7 +55,7 @@ EOT
 # Save script for Session #2
 ssh "cat > /root/debian-setup-starter2.sh; chmod +x /root/debian-setup-starter2.sh" <<"EOT"
 export LC_ALL=C.UTF-8
-SELF="$(realpath "$BASH_SOURCE")"
+SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/debian-server-tools-master/
 
 # @FIXME

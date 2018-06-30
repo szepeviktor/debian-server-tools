@@ -8,6 +8,7 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
+# ERRORCODES    :grep -o 'Die [0-9].*$' cert-update.sh|sort -k2 -n|cut -d' ' -f1-2|uniq -d
 # DEPENDS       :apt-get install openssl ca-certificates
 # LOCATION      :/usr/local/sbin/cert-update.sh
 
@@ -99,9 +100,9 @@ Apache2() {
     SERVER_NAME="${SERVER_NAME/\$\{SITE_DOMAIN\}/${SITE_DOMAIN}}"
     test -z "$SERVER_NAME" && Die 46 "apache ServerName"
     if sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
-        | grep -q -x "\s*SSLCertificateFile\s\+${APACHE_PUB}" \
+        | grep -q -x "\\s*SSLCertificateFile\\s\\+${APACHE_PUB}" \
         && sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
-        | grep -q -x "\s*SSLCertificateKeyFile\s\+${APACHE_PRIV}"; then
+        | grep -q -x "\\s*SSLCertificateKeyFile\\s\\+${APACHE_PRIV}"; then
 
         apache2ctl configtest && service apache2 restart
 
@@ -128,10 +129,15 @@ Courier_mta() {
     echo "Installing Courier MTA certificate ..."
     # Private + public + intermediate
     cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
+
     # As in courier-mta/postinst
     # NOTICE Synchronize with monit/services/courier-mta
     chown root:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
     chmod 0640 "$COURIER_COMBINED" || Die 23 "courier perms"
+    # IMAP certificate
+    if [ -n "$COURIER_IMAP_COMBINED" ]; then
+        cp "$COURIER_COMBINED" "$COURIER_IMAP_COMBINED" || Die 27 "courier IMAP cert copy"
+    fi
 
     # Reload monit
     if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then

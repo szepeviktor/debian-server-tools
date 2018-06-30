@@ -1,0 +1,28 @@
+# AS19148 - Nobis Technology Group, Now: LEASEWEB-USA-PHX-11
+#     Found a referral to rwhois.nobistech.net:4321.
+#     License Expired
+#: ipset -exist restore < ipset/nobis.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set nobis src -j REJECT
+create nobis hash:net family inet hashsize 64 maxelem 64
+flush nobis
+#add nobis 23.81.16.0/21
+#add nobis 23.81.48.0/20
+#add nobis 23.81.80.0/22
+#add nobis 23.81.88.0/21
+#add nobis 23.81.120.0/21
+#add nobis 23.81.128.0/21
+#add nobis 23.81.144.0/21
+#add nobis 23.81.172.0/22
+#add nobis 23.81.192.0/21
+add nobis 23.81.224.0/19
+#add nobis 23.82.60.0/22
+#add nobis 23.83.128.0/21
+#add nobis 23.83.144.0/21
+#add nobis 23.83.184.0/22
+#add nobis 173.208.123.0/24
+
+# AS15003 - NOBIS-TECH
+# Digital Energy Technologies
+#add nobis 191.96.100.0/24
+#add nobis 191.96.107.0/24
+#add nobis 191.101.178.0/24
