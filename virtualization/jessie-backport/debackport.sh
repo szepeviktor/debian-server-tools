@@ -141,7 +141,9 @@ fi
 # Double check
 dpkg-checkbuilddeps
 
-# Hook: changes (e.g. dch --edit, edit files, debcommit --message $TEXT --all)
+# Hook: changes
+# Example: dch --edit; debcommit --message $TEXT --all
+# Example: sed -e 's/A/B/' -i $FILE; EDITOR=/bin/true dpkg-source --commit . "patchname"
 ORIG_HASH="$(md5sum debian/changelog)"
 if ! Execute_hook changes || echo "$ORIG_HASH" | md5sum --status -c - ; then
     # If 'changes' hook fails/is missing or does nothing to changelog

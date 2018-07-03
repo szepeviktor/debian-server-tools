@@ -72,15 +72,14 @@ wget -qO- KEY-URL | gpg -v --with-fingerprint
 ### Import signing keys
 
 ```
-apt-key adv --keyserver pgp.mit.edu --recv-keys KEY
-apt-key adv --keyserver keys.gnupg.net --recv-keys KEY
+apt-key adv --keyserver sks.labs.nic.cz --recv-keys KEY
 wget -qO- KEY-URL | apt-key add -
 ```
 
 ##### Import all signing keys for Debian contributed packages
 
 ```bash
-grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " -f 2- | /bin/bash
+grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d" " -f2-|/bin/bash
 ```
 
 ### Check APT configuration
@@ -112,13 +111,22 @@ chkconfig --list
 ### Display files sizes in a package
 
 ```bash
-dpkg -L PACKAGE|while read -r F;do [ -d "$F" ]||du -sk "$F";done|sort -n
+dpkg -L PACKAGE|while read -r F;do test -d "$F"||du -sk "$F";done|sort -n
 ```
 
 ### Display list of packages in order of package size
 
 ```bash
 dpkg-query -f '${Installed-size}\t${Package}\n' --show|sort -k 1 -n
+```
+
+### Extract and rebuild packages
+
+```bash
+dpkg-deb -x PACKAGE-1.deb PACKAGE-NAME
+dpkg-deb -e PACKAGE-1.deb PACKAGE-NAME/DEBIAN
+editor PACKAGE-NAME/DEBIAN/control
+dpkg-deb -b PACKAGE-NAME PACKAGE-2.deb
 ```
 
 ### Install pip (Python package manager)
@@ -205,7 +213,7 @@ gcc --version | grep "clang"
 ### List binary files
 
 ```bash
-find -type f -executable -exec file --mime "{}" ";" | grep -F "charset=binary"
+find -type f -executable -exec file --mime "{}" ";" | grep -F 'charset=binary'
 ```
 
 ### Courier sources in Debian

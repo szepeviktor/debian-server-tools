@@ -2,8 +2,8 @@
 #
 # Generate Diffie-Hellman parameters for Courier MTA.
 #
-# VERSION       :0.4.0
-# DATE          :2016-04-21
+# VERSION       :0.5.0
+# DATE          :2018-07-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -20,6 +20,11 @@ if [ ! -r /etc/courier/dhparams.pem ] \
     || ! openssl dhparam -in /etc/courier/dhparams.pem -check -noout &> /dev/null; then
     echo "Failed to generate DH params" 1>&2
     exit 1
+fi
+
+# Reload monit
+if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
+    service monit reload
 fi
 
 exit 0
