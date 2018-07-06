@@ -72,7 +72,7 @@ wget -qO- KEY-URL | gpg -v --with-fingerprint
 ### Import signing keys
 
 ```
-apt-key adv --keyserver sks.labs.nic.cz --recv-keys KEY
+apt-key adv --keyserver keys2.kfwebs.net --recv-keys KEY
 wget -qO- KEY-URL | apt-key add -
 ```
 

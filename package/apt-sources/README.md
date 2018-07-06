@@ -34,7 +34,7 @@ apt-key adv --fingerprint --with-colons $KEY_ID | sed -ne 's|^fpr:::::::::\([0-9
 
 https://sks-keyservers.net/status/
 
-Suggested server: `sks.labs.nic.cz`
+Suggested server: `keys2.kfwebs.net`
 
 ### Proposed updates
 

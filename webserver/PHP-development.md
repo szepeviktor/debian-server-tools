@@ -57,7 +57,7 @@ Commit checklist:
 code, tests, changelog, commit message, issue link, watch CI (`PULL_REQUEST_TEMPLATE.md`)
 
 [Release checklist](https://make.wordpress.org/cli/handbook/release-checklist/):
-tag, build, deploy, announce (Wiki)
+tag, build, deploy, announce (blog, email, Wiki)
 
 ### Hotfix flow :boom:
 
@@ -165,7 +165,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Move per-directory webserver configuration to vhost configuration
 - Redirect removed routes, substitute missing images (URL-s)
 - Use queuing MTA for fast email delivery (SMTP is slow), bounce handling
-- Include Fail2ban triggers at least for: 404-s, failed login attempts, hidden form fields (WAF)
+- Include firewall/Fail2ban triggers at least for: 404-s, failed login attempts, hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)
 - Match production/staging/development/local environments (Docker, php-env-check)
