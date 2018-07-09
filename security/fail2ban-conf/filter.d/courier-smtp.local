@@ -17,7 +17,7 @@ failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?
                 ^%(__prefix_line)serror,relay=<HOST>,msg="502 ESMTP command error",cmd: (?:HOST: \S+|GET \S+ \S+|\.)$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
             ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: 554 Mail rejected - (?:reverse DNS lookup failure|spam detected).*$
-            ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>,to=<\S+>: 513 Relaying denied\.$
+            ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>,to=<\S+>: (513 Relaying|511 Access) denied\.$
             ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: (417 SPF error|517 SPF fail) .*$
 
 # @TODO ,msg="535 Authentication required.",cmd:( \S+)?( .*)?$

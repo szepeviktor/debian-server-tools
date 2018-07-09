@@ -1,7 +1,7 @@
 # AS29066 - velia.net Internetdienste GmbH / HEG / GoDaddy
 #: ipset -exist restore < ipset/velia.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set velia src -j REJECT
-create velia hash:net family inet hashsize 64 maxelem 64
+create velia hash:net family inet hashsize 64 maxelem 128
 flush velia
 #add velia 5.44.100.0/23
 #add velia 5.44.104.0/22
@@ -36,7 +36,16 @@ add velia 151.106.48.0/20
 add velia 185.202.0.0/22
 #add velia 185.244.80.0/23
 #add velia 192.155.96.0/20
-#add velia 192.155.104.0/21
+# Snowshoe spammer 192.155.104.0/21
+add velia 192.155.104.0/24
+add velia 192.155.104.0/24
+add velia 192.155.105.0/24
+add velia 192.155.106.0/24
+add velia 192.155.107.0/24
+add velia 192.155.108.0/24
+add velia 192.155.109.0/24
+# Not Snowshoe spammers 192.155.110.0
+add velia 192.155.111.0/24
 #add velia 193.151.88.0/24
 #add velia 193.151.89.0/24
 #add velia 193.151.90.0/24

@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.5.0
+# VERSION       :2.5.1
 # DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -342,9 +342,10 @@ Umount
 logger -t "system-backup" "Finished. ${*}"
 
 if [ -n "$HCHK_URL" ]; then
-    wget -q -t 3 -O- "${HCHK_URL}" | grep -q -F -x "OK" || Error 101 "hchk.io non-OK response"
+    wget -q -t 3 -O- "${HCHK_URL}" | grep -q -F -x "OK" || Error 101 "healthchecks.io non-OK response"
 elif [ -n "$HCHK_UUID" ]; then
-    wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -q -F -x "OK" || Error 101 "hchk.io non-OK response"
+    # Also "https://hchk.io/${HCHK_UUID}"
+    wget -q -t 3 -O- "https://hc-ping.com/${HCHK_UUID}" | grep -q -F -x "OK" || Error 101 "healthchecks.io non-OK response"
 fi
 
 exit 0

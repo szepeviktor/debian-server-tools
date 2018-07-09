@@ -83,6 +83,8 @@ header_canon_relaxed = Y
 add_auth_pass = Y
 # On some errors, e.g. out of memory, return SMTP code 432 to have the sender retry
 tempfail_on_error = Y
+# Disable new feature for RELAYCLIENT
+let_relayclient_alone = Y
 # Debug header "z="
 #add_ztags = Y
 EOF

@@ -36,7 +36,7 @@ MOUNT_OPTIONS="--compress zlib-5"
 AUTHFILE="/root/.s3ql/authinfo2"
 #DB_EXCLUDE="excluded-db1|excluded-db2"
 #SKIP_DB_SCHEMA_DIFF="YES"
-HCHK_URL="https://hchk.io/aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
+HCHK_URL="https://hc-ping.com/aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 EOF
 
 editor /root/.config/system-backup/configuration
