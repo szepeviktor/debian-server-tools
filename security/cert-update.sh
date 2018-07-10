@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.3
+# VERSION       :1.0.4
 # DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -18,20 +18,23 @@
 
 # @TODO Add apache SSLOpenSSLConfCmd for OpenSSL 1.0.2+
 
-Die() {
+Die()
+{
     local RET="$1"
     shift
     echo -e "$*" 1>&2
     exit "$RET"
 }
 
-Readkey() {
+Readkey()
+{
     read -r -p "[cert-update.sh] Press any key ..." -n 1 -s
     echo
 }
 
-Check_requirements() {
-    if [ "$(id --user)" != 0 ]; then
+Check_requirements()
+{
+    if [[ $EUID -ne 0 ]]; then
         Die 1 "You need to be root."
     fi
     if [ "$(stat --format=%a .)" != 700 ]; then
@@ -65,14 +68,16 @@ Check_requirements() {
     fi
 }
 
-Protect_certs() {
+Protect_certs()
+{
     # Are certificates readable?
     ## New non-root issuance
     ##chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
     chmod 0600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
 }
 
-Apache2() {
+Apache2()
+{
     test -z "$APACHE_PUB" && return 1
     test -z "$APACHE_PRIV" && return 1
     test -r "$APACHE_VHOST_CONFIG" || return 1
@@ -117,7 +122,8 @@ Apache2() {
     fi
 }
 
-Courier_mta() {
+Courier_mta()
+{
     #COURIER_USER="daemon"
     COURIER_USER="courier"
 
@@ -205,7 +211,8 @@ Courier_mta() {
     echo "$(tput setaf 1)WARNING: Update msmtprc:tls_fingerprint on SMTP clients.$(tput sgr0)"
 }
 
-Nginx() {
+Nginx()
+{
     [ -z "$NGINX_PUB" ] && return 1
     [ -z "$NGINX_DHPARAM" ] && return 1
     [ -z "$NGINX_PRIV" ] && return 1
@@ -236,7 +243,8 @@ Nginx() {
     fi
 }
 
-Proftpd() {
+Proftpd()
+{
     [ -z "$PROFTPD_PUB" ] && return 1
     [ -z "$PROFTPD_PRIV" ] && return 1
     [ -z "$PROFTPD_INT" ] && return 1
@@ -266,7 +274,8 @@ Proftpd() {
     fi
 }
 
-Dovecot() {
+Dovecot()
+{
     [ -z "$DOVECOT_PUB" ] && return 1
     [ -z "$DOVECOT_PRIV" ] && return 1
 
@@ -302,7 +311,8 @@ Dovecot() {
     fi
 }
 
-Webmin() {
+Webmin()
+{
     [ -z "$WEBMIN_COMBINED" ] && return 1
 # @FIXME Could be a separate public key: "certfile="
     [ -z "$WEBMIN_INT" ] && return 1

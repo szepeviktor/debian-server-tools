@@ -2,8 +2,8 @@
 #
 # Backport a Debian package to stable.
 #
-# VERSION       :0.1
-# DATE          :2014-08-01
+# VERSION       :0.1.1
+# DATE          :2018-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,9 +14,9 @@
 
 
 PKG="$1"
-SUITE="jessie"
+SUITE="stretch"
 # ${upstream_version}[-${debian_revision}]~bpo${debian_release}+${build_int}
-BPOREV="~bpo8+"
+BPOREV="~bpo9+"
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
 
 # Comment out SHORTBUILD to run debian/rules before building
@@ -26,27 +26,37 @@ ALLOW_UNAUTH="--allow-unauthenticated"
 # Add special backport instructions to changelog
 #SPECIAL_BACKPORT="yes"
 
-die() {
+die()
+{
     local RET="$1"
     shift
 
-    echo -e "$(tput sgr0; tput bold; tput setaf 7; tput setab 1)${@}$(tput sgr0)" >&2
+    echo -e "$(tput sgr0; tput bold; tput setaf 7; tput setab 1)${*}$(tput sgr0)" >&2
     exit "$RET"
 }
 
-msg() {
-    echo "$(tput sgr0; tput dim; tput setaf 0; tput setab 3)${@}$(tput sgr0)"
+msg()
+{
+    echo "$(tput sgr0; tput dim; tput setaf 0; tput setab 3)${*}$(tput sgr0)"
 }
 
-ok_msg() {
-    echo "$(tput sgr0; tput bold; tput setaf 2; tput setab 0)${@}$(tput sgr0)"
+ok_msg()
+{
+    echo "$(tput sgr0; tput bold; tput setaf 2; tput setab 0)${*}$(tput sgr0)"
 }
 
-get_key() {
-    [ -s "$TEMP" ] || die 3 "no dget output"
+get_key()
+{
+    local ID
 
-    local ID="$(grep -o "ID [A-F0-9]*" "$TEMP" | cut -d' ' -f2)"
-    [ -z "$ID" ] && die 4 "no ID in dget output"
+    if [ ! -s "$TEMP" ]; then
+        die 3 "no dget output"
+    fi
+
+    ID="$(grep -o 'ID [A-F0-9]*' "$TEMP" | cut -d " " -f 2)"
+    if [ -z "$ID" ]; then
+        die 4 "no ID in dget output"
+    fi
 
     gpg --keyserver "pgp.mit.edu" --recv-keys "$ID"
     gpg --export "$ID" | apt-key add - || die 5 "gpg key import error"
@@ -65,50 +75,74 @@ dch_msg() {
 }
 
 # Build packages as a user (tests won't fail)
-[ "$(id --user)" = 0 ] && die 1 "not recommended to run debackport with root privileges!"
+if [[ $EUID -ne 0 ]]; then
+    die 1 "not recommended to run debackport with root privileges!"
+fi
 
-TEMP="$(tempfile)"
-[ -z "$SHORTBUILD" ] || SHORTBUILD="yes"
+TEMP="$(mktemp)"
+if [ -n "$SHORTBUILD" ]; then
+    SHORTBUILD="yes"
+fi
 
 # Check for necessary packages
 which make rmadison dget lintian &> /dev/null \
-    || die 99 "apt-get -y install build-essential devscripts lintian dpkg-sig reprepro"
+    || die 99 "apt-get install -y build-essential devscripts lintian dpkg-sig reprepro"
 
 # Get current Debian release
 CURRENTSUITE="$(lsb_release -s --codename)"
-[ -z "$CURRENTSUITE" ] && die 9 "cannot detect current suite"
+if [ -z "$CURRENTSUITE" ]; then
+    die 9 "cannot detect current suite"
+fi
 
 # Get package name from parent dir's name
 msg "check pkg"
-[ -z "$PKG" ] && PKG="$(basename "$PWD")"
+if [ -z "$PKG" ]; then
+    PKG="$(basename "$PWD")"
+fi
 
-[ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
+if [ "$(uname -m)" == x86_64 ]; then
+    ARCH="amd64"
+else
+    ARCH="i386"
+fi
 
 AVAILABLE="$(rmadison --architecture="$ARCH" --suite="$SUITE" "$PKG")"
 
-[ -z "$AVAILABLE" ] && AVAILABLE="$(rmadison --suite="$SUITE" "$PKG")"
+if [ -z "$AVAILABLE" ]; then
+    AVAILABLE="$(rmadison --suite="$SUITE" "$PKG")"
+fi
 
-[ -z "$AVAILABLE" ] && die 1 "not found in ${SUITE}"
+if [ -z "$AVAILABLE" ]; then
+    die 1 "not found in ${SUITE}"
+fi
 ok_msg "Source package: $AVAILABLE"
 
 msg "Download sources"
-DSCURL="$(wget -qO- "https://packages.debian.org/${SUITE}/${PKG}" | grep -o 'http.*\.dsc">\[' | cut -d'"' -f1)"
-[ -z "$DSCURL" ] && die 2 "no .dsc"
+DSCURL="$(wget -qO- "https://packages.debian.org/${SUITE}/${PKG}" | grep -o 'http.*\.dsc">\[' | cut -d '"' -f1)"
+if [ -z "$DSCURL" ]; then
+    die 2 "no .dsc"
+fi
 
-dget ${ALLOW_UNAUTH} -x "$DSCURL" 2> "$TEMP" || get_key
+if ! dget ${ALLOW_UNAUTH} -x "$DSCURL" 2> "$TEMP"; then
+    get_key
+fi
 # Manual unpack:  dpkg-source -x *.dsc
 
 msg "Find and Install missing build dependencies"
-SOURCES="$(grep -m1 "^Source: " *.dsc | cut -d' ' -f2)"
+SOURCES="$(grep -m 1 '^Source: ' ./*.dsc | cut -d " " -f 2)"
 
 if [ -z "$SOURCES" ] || [ "$(wc -l <<< "$SOURCES")" -gt 1 ]; then
-    ls -1 -d */
-    read -p "Please enter source package name: " SOURCES
+    ls -1 -d ./*/
+    read -r -p "Please enter source package name: " SOURCES
 fi
-DIR="$(find -maxdepth 1 -type d -iname "${SOURCES}-*" | head -n 1)"
-[ -d "$DIR" ] || die 8 "no source dir: '$DIR'"
+DIR="$(find . -maxdepth 1 -type d -iname "${SOURCES}-*" | head -n 1)"
+if [ ! -d "$DIR" ]; then
+    die 8 "no source dir: '$DIR'"
+fi
 
-pushd "$DIR" || die 9 "cannot change to '$DIR'"
+if ! pushd "$DIR"; then
+    die 9 "cannot change to '$DIR'"
+fi
 
 if ! dpkg-checkbuilddeps; then
     msg "Please install missing build dependencies!"
@@ -116,7 +150,9 @@ if ! dpkg-checkbuilddeps; then
 fi
 
 msg "Indicate backport revision number in the changelog"
-dch_msg || die 20 "writing to changelog failed"
+if ! dch_msg; then
+    die 20 "writing to changelog failed"
+fi
 
 if [ -z "$SHORTBUILD" ]; then
     msg "Test if we can successfully build the package"
@@ -133,23 +169,25 @@ if [ -z "$SHORTBUILD" ]; then
     dpkg-checkbuilddeps || die 11 "still dependencies not fullfilled"
     dch_msg
 else
-    msg 'Doing shortbuild!'
+    msg "Doing shortbuild!"
 fi
 
 msg "Build binary packages properly, without GPG signing them"
-dpkg-buildpackage -b -us -uc || die 12 "build failed"
+if ! dpkg-buildpackage -b -us -uc; then
+    die 12 "build failed"
+fi
 
 popd
 
 ok_msg "Packages are ready."
 
-ls *.deb | while read P; do
-    ls --color=always -1 "$P"
-    lintian --info --display-info --display-experimental --pedantic --show-overrides "$P"
-done
+while IFS="" read -r -d $'\0' PKG; do
+    ls --color=always -1 "$PKG"
+    lintian --info --display-info --display-experimental --pedantic --show-overrides "$PKG"
+done < <(find . -name "*.deb" -print0)
 
 echo
-# My GPG key
+# Packaging GPG key
 echo "dpkg-sig -k 451A4FBA --sign builder *.deb"
 echo "cd /var/www/mirror/server/debian"
 echo "reprepro remove ${CURRENTSUITE} ${PKG}"

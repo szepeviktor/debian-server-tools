@@ -2,7 +2,7 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.6.1
+# VERSION       :0.6.2
 # DATE          :2016-05-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -19,19 +19,26 @@ COURIER_AUTH_DBTABLE="courier_horde"
 #COURIER_AUTH_DBTABLE="users"
 # 1 GB
 COURIER_ACCOUNT_QUOTA="$((1024**3))"
+MAILROOT="/var/mail"
+CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 
-Error() {
+Error()
+{
     echo "ERROR: $*" 1>&2
     exit "$1"
 }
 
 ACCOUNT="$1"
-MAILROOT="/var/mail"
-CA_CERTIFICATES="/etc/ssl/certs/ca-certificates.crt"
 
-test "$(id --user)" == 0 || Error 1 "Only root is allowed to add mail accounts."
-test -z "$ACCOUNT" && Error 1 "No account given."
-test -d "$MAILROOT" || Error 1 "Mail root (${MAILROOT}) does not exist."
+if [[ $EUID -ne 0 ]]; then
+    Error 1 "Only root is allowed to add mail accounts."
+fi
+if [ -z "$ACCOUNT" ]; then
+    Error 1 "No account given."
+fi
+if [ ! -d "$MAILROOT" ]; then
+    Error 1 "Mail root (${MAILROOT}) does not exist."
+fi
 
 # Get inputs
 for V in EMAIL PASS DESC HOMEDIR; do
@@ -58,7 +65,7 @@ for V in EMAIL PASS DESC HOMEDIR; do
     read -r -e -p "${V}? " -i "$DEFAULT" "$V"
 done
 
-# Check `virtual` user (1999:1999)
+# Check "virtual" user (1999:1999)
 if ! getent passwd "$VIRTUAL_UID" &> /dev/null; then
     echo "Creating virtual user ..."
     addgroup --gid "$VIRTUAL_UID" virtual

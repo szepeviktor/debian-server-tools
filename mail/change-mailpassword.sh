@@ -2,8 +2,8 @@
 #
 # Change password of a Courier account.
 #
-# VERSION       :0.1.1
-# DATE          :2015-08-10
+# VERSION       :0.1.2
+# DATE          :2018-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,14 +16,15 @@ COURIER_AUTH_DBNAME="horde4"
 COURIER_AUTH_DBTABLE="courier_horde"
 WORDLIST_HU="/usr/local/share/password2remember/password2remember_hu.txt"
 
-Error() {
+Error()
+{
     echo "ERROR: $*"
     exit "$1"
 }
 
 set -e
 
-if [ "$(id --user)" != 0 ]; then
+if [[ $EUID -ne 0 ]]; then
     Error 100 "Only root is allowed to add mail accounts."
 fi
 

@@ -2,7 +2,7 @@
 #
 # Install cron jobs from the script header.
 #
-# VERSION       :0.2.3
+# VERSION       :0.2.4
 # DATE          :2016-02-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,7 +15,8 @@
 # Cron.d syntax: "# CRON.D  :09,39 *	* * *	root	/usr/local/bin/example.sh"
 # See: crontab(5)
 
-Error() {
+Error()
+{
     local RET="$1"
 
     shift
@@ -24,7 +25,8 @@ Error() {
     exit "$RET"
 }
 
-Valid_cron_interval() {
+Valid_cron_interval()
+{
     local QUESTION="$1"
 
     for VALID in cron.daily cron.hourly cron.monthly cron.weekly; do
@@ -38,14 +40,21 @@ Valid_cron_interval() {
 
 SCRIPT="$1"
 
-[ "$(id --user)" -ne 0 ] && Error 1 "Only root is allowed to install cron jobs."
+if [[ $EUID -ne 0 ]]; then
+    Error 1 "Only root is allowed to install cron jobs."
+fi
 
-[ -f "$SCRIPT" ] || Error 2 "Please specify an existing script."
+if [ ! -f "$SCRIPT" ]; then
+    Error 2 "Please specify an existing script."
+fi
 
-# @TODO Rewrite: loop through valid crons and `head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE"`
-CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i "^# CRON")"
+# @TODO Rewrite: loop through valid crons
+# and $(head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE")
+CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i '^# CRON')"
 
-[ -z "$CRON_JOBS" ] && Error 3 "No cron job in script."
+if [ -z "$CRON_JOBS" ]; then
+    Error 3 "No cron job in script."
+fi
 
 declare -i JOB_ID="0"
 declare -i JOB_ID_D="0"

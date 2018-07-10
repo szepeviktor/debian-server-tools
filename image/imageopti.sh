@@ -2,7 +2,7 @@
 #
 # Optimize images in the current directory.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2018-01-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -16,7 +16,8 @@
 # For PNG images: lossless recompression, strip metadata
 # For SVG images: all svgo plugins - https://github.com/svg/svgo
 
-Optimize_jpeg() {
+Optimize_jpeg()
+{
     local INPUT="$1"
     local OUTPUT="$2"
 
@@ -32,7 +33,8 @@ Optimize_jpeg() {
     return 0
 }
 
-Optimize_png() {
+Optimize_png()
+{
     local INPUT="$1"
     local OUTPUT="$2"
 
@@ -48,7 +50,8 @@ Optimize_png() {
     return 0
 }
 
-Optimize_svg() {
+Optimize_svg()
+{
     local INPUT="$1"
     local OUTPUT="$2"
 
@@ -63,7 +66,8 @@ Optimize_svg() {
     return 0
 }
 
-Optimize_image() {
+Optimize_image()
+{
     local IMAGE="$1"
     local TMPIMG
     local -i STATUS_CODE="0"
@@ -113,13 +117,13 @@ declare -i FAILURES="0"
 
 set -e
 
-if [ "$(id --user)" -eq 0 ]; then
+if [[ $EUID -eq 0 ]]; then
     "Don't run this script as root." 1>&2
     exit 100
 fi
 
-while read -r -d $'\0' IMAGE; do
+while IFS="" read -r -d $'\0' IMAGE; do
     Optimize_image "$IMAGE" || FAILURES+="1"
-done < <(find -type f -print0)
+done < <(find . -type f -print0)
 
 echo "OK. Total failures: ${FAILURES}"

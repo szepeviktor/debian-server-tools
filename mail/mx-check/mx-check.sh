@@ -2,8 +2,8 @@
 #
 # Clean up an email list.
 #
-# VERSION       :0.4.3
-# DATE          :2016-01-28
+# VERSION       :0.4.4
+# DATE          :2018-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -32,23 +32,27 @@ IP_OK_LIST="${ORIG_LIST}.2-ip-ok.txt"
 SMTP_FAIL_LIST="${ORIG_LIST}.2-FAILED-smtp.txt"
 SMTP_DOUBLE_FAIL_LIST="${ORIG_LIST}.3-DBLFAILED-smtp.txt"
 
-Die() {
+Die()
+{
     local RET="$1"
     shift
     echo -e "$*" 1>&2
     exit "$RET"
 }
 
-Progress() {
+Progress()
+{
     echo -n "." 1>&2
 }
 
-Progress_failed() {
+Progress_failed()
+{
     echo -n "X" 1>&2
 }
 
 # Clean up list
-Email_cleanup() {
+Email_cleanup()
+{
     local LIST="$1"
 
     # Trim whitespaces
@@ -60,19 +64,21 @@ Email_cleanup() {
 
     # Failed non-empty lines
     sed -e 's|^[[:blank:]]*||' -e 's|[[:blank:]]*$||' "$LIST" \
-        | grep -v "^\s*\$" \
-        | LC_ALL=C grep -vx "$EMAIL_REGEXP" 1>&2
+        | grep -v '^\s*$' \
+        | LC_ALL=C grep -v -x "$EMAIL_REGEXP" 1>&2
 }
 
 # Converts address-per-line files to unique domain list.
-Addr2dom() {
+Addr2dom()
+{
     local LIST="$1"
 
     cut -d "@" -f 2 "$LIST" \
         | sort | uniq
 }
 
-Smtp_probe() {
+Smtp_probe()
+{
     local MX="$1"
     local -i SMTP_TIMEOUT="$2"
     local -i SMTP_PID
@@ -103,7 +109,8 @@ Smtp_probe() {
 }
 
 # Ping and SMTP-probe MX-s
-Mx_test() {
+Mx_test()
+{
     local DOMAIN="$1"
     local -i SMTP_TIMEOUT="${2:-5}"
     local RESULT="NO.mx"
@@ -143,7 +150,7 @@ Mx_test() {
         fi
 
         # Check disposable email MX-s
-        if grep -q -x "${MX//./\\.}\|${MX_IP//./\\.}" disposable-mx.list; then
+        if grep -q -x "${MX//./\\.}\\|${MX_IP//./\\.}" disposable-mx.list; then
             RESULT="FAIL.disposable"
             break
         fi
@@ -176,7 +183,8 @@ Mx_test() {
 }
 
 # Conduct the test and append result to logs
-Conduct_mx_test() {
+Conduct_mx_test()
+{
     local D="$1"
 
     if RESULT="$(Mx_test "$D")"; then
@@ -189,7 +197,8 @@ Conduct_mx_test() {
 }
 
 # Delete message without MX record from Courier mail queue
-Cancel_mailq() {
+Cancel_mailq()
+{
     local FAILED="$1"
     local D
     local MAILQ
@@ -258,10 +267,10 @@ if [ -s "$SMTP_FAIL_LIST" ]; then
         fi
     done < "$SMTP_FAIL_LIST"
 
-    [ "$(id --user)" == 0 ] && Cancel_mailq "$SMTP_FAIL_LIST"
+    [[ $EUID -eq 0 ]] && Cancel_mailq "$SMTP_FAIL_LIST"
 fi
 
 # New line
 echo
 
-# @TODO remember bad failed IP-s? , merge ok/failed results then separate
+# @TODO Remember bad failed IP-s? , Merge ok/failed results then separate

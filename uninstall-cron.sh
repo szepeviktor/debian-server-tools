@@ -2,14 +2,15 @@
 #
 # Uninstall cron jobs from the script header.
 #
-# VERSION       :0.1.0
-# DATE          :2015-
+# VERSION       :0.1.1
+# DATE          :2018-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 
-Die() {
+Die()
+{
     local RET="$1"
 
     shift
@@ -18,7 +19,8 @@ Die() {
     exit "$RET"
 }
 
-Valid_cron_interval() {
+Valid_cron_interval()
+{
     local QUESTION="$1"
 
     for VALID in cron.daily cron.hourly cron.monthly cron.weekly; do
@@ -32,7 +34,7 @@ Valid_cron_interval() {
 
 SCRIPT="$1"
 
-if [ "$(id --user)" -ne 0 ]; then
+if [[ $EUID -ne 0 ]]; then
     Die 1 "Only root is allowed to install cron jobs."
 fi
 
@@ -40,10 +42,13 @@ if [ ! -f "$SCRIPT" ]; then
     Die 2 "Please specify an existing script."
 fi
 
-#TODO rewrite: loop through valid crons and `head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE"`
-CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i "^# CRON")"
+# @TODO rewrite: loop through valid crons
+# and $(head -n 30 "$SCRIPT"|grep -i "^# ${CRON}")"|cut -d':' -f2 >> "$CRON_FILE")
+CRON_JOBS="$(head -n 30 "$SCRIPT" | grep -i '^# CRON')"
 
-test -z "$CRON_JOBS" && Die 3 "No cron job in script."
+if [ -z "$CRON_JOBS" ]; then
+    Die 3 "No cron job in script."
+fi
 
 declare -i JOB_ID="0"
 

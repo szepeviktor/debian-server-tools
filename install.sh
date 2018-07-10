@@ -9,7 +9,8 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 
-Die() {
+Die()
+{
     local -i RET="$1"
 
     shift
@@ -23,14 +24,15 @@ Die() {
 #   FILE
 #   META
 #####################################################
-Get_meta() {
+Get_meta()
+{
     # Defaults to self
     local FILE="${1:-$0}"
     # Defaults to "VERSION"
     local META="${2:-VERSION}"
     local VALUE
 
-    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ":" -f 2-)"
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -43,7 +45,8 @@ Get_meta() {
 # Arguments:
 #   FILE
 #####################################################
-Do_install() {
+Do_install()
+{
     local FILE="$1"
     local OWNER
     local PERMS
@@ -132,7 +135,8 @@ Do_install() {
 # Arguments:
 #   DIR
 #####################################################
-Do_dir() {
+Do_dir()
+{
     local DIR="$1"
     local FILE
 
@@ -148,7 +152,7 @@ Do_dir() {
 INSTALL_PATH="$1"
 
 # Check user
-if [ "$(id --user)" -ne 0 ]; then
+if [[ $EUID -ne 0 ]]; then
     Die 1 "Only root is allowed to install"
 fi
 

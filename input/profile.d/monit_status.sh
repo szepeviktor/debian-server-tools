@@ -6,7 +6,7 @@
 # OWNER         :root:root
 # PERMISSION    :0644
 
-if [ "$(id -u)" = 0 ] && [ -x /usr/bin/monit ]; then
+if [[ $EUID -eq 0 ]] && [ -x /usr/bin/monit ]; then
     IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
     # Convert to tabular output
     if /usr/bin/monit -B summary \

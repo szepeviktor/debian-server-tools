@@ -123,7 +123,7 @@ esac
 
 # putty Connection / Data / Terminal-type string: putty-256color
 # ls -1 /usr/share/mc/skins/|sed "s/\.ini$//g"
-if [ "$(id -u)" == 0 ]; then
+if [[ $EUID -eq 0 ]]; then
     if [ "${TERM/256/}" == "$TERM" ]; then
         export MC_SKIN="modarcon16root-defbg-thin"
     else
@@ -140,7 +140,8 @@ fi
 # Colorized man pages with less
 #     update-alternatives --set pager /usr/bin/less
 #     man termcap # String Capabilities
-man() {
+man()
+{
     #
     #     so   Start standout mode (search)
     #     se   End standout mode
@@ -159,7 +160,8 @@ man() {
 }
 
 # Take a look at the plugin changelog
-wp_changelog() {
+wp_changelog()
+{
     local PLUGIN="$1"
 
     wget -qO- "http://api.wordpress.org/plugins/info/1.0/${PLUGIN}" \

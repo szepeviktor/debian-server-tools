@@ -2,7 +2,7 @@
 #
 # Uninstall a tool from debian-server-tools.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2018-01-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -25,7 +25,7 @@ Get_meta() {
     local META="${2:-VERSION}"
     local VALUE
 
-    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ':' -f 2-)"
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -54,14 +54,14 @@ Do_uninstall() {
     rm -v "$SCRIPT" || Die 11 "Uninstallation failure (${SCRIPT})"
 
     # Create symlink
-    head -n 30 "$FILE" | grep "^# SYMLINK\s*:" | cut -d':' -f 2- \
+    head -n 30 "$FILE" | grep '^# SYMLINK\s*:' | cut -d ":" -f 2- \
         | while read -r SYMLINK; do
             echo -n "Removing symlink "
             rm -v "$SYMLINK" || Die 12 "Symbolic link creation failure (${SYMLINK})"
         done
 
     # Cron jobs
-    if head -n 30 "$FILE" | grep -qi "^# CRON"; then
+    if head -n 30 "$FILE" | grep -q -i '^# CRON'; then
         "$(dirname "$0")/uninstall-cron.sh" "$FILE" || Die 13 "Cron uninstallation failure (${SCRIPT})"
     fi
 }
@@ -69,7 +69,7 @@ Do_uninstall() {
 UNINSTALL_PATH="$1"
 
 # Check user
-if [ "$(id --user)" -ne 0 ]; then
+if [[ $EUID -ne 0 ]]; then
     Die 1 "Only root is allowed to uninstall"
 fi
 
