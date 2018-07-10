@@ -2,8 +2,8 @@
 #
 # Deny traffic from hostile networks.
 #
-# VERSION       :0.5.0
-# DATE          :2018-04-07
+# VERSION       :0.6.0
+# DATE          :2018-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -23,6 +23,7 @@ Install_ipsets() {
 
     iptables -w -N "$CHAIN"
 
+    ipset destroy
     Add_ipsets
     ipset list -name
 
@@ -43,6 +44,7 @@ Update_ipsets() {
     iptables -w -D INPUT -j "$CHAIN"
     iptables -w -F "$CHAIN"
 
+    ipset destroy
     Add_ipsets
     ipset list -name
 

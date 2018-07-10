@@ -8,7 +8,7 @@ List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_@@CAMPAIGN@@_@@E
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
 X-Report-Abuse: Please report abuse here:
 	mailto:abuse@example.com
-X-Precedence: bulk
+Precedence: bulk
 X-Auto-Response-Suppress: OOF, AutoReply
 Auto-Submitted: auto-generated
 X-Mailer: newsletter.sh

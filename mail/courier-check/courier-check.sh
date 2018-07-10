@@ -2,14 +2,13 @@
 #
 # Check Courier MTA configuration.
 #
-# VERSION       :0.2.0
-# DATE          :2017-08-10
+# VERSION       :0.2.1
+# DATE          :2018-07-09
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DOCS          :url
-# CONFIG        :courier-check-*
+# CONFIG        :./courier-check-*
 
 COURIER_USER="courier"
 
@@ -46,11 +45,13 @@ Check_config() {
 
         VALUE="$(eval echo -n "${LINE#*=}")"
         if [ "${!VAR}" != "$VALUE" ]; then
-            echo "[ERROR] Unexpected value of ${VAR}: '${!VAR}' <> '${VALUE}'" 1>&2
+            echo "[$(tput setaf 1)ERROR$(tput sgr0)] Unexpected value of ${VAR}: '${!VAR}' <> '${VALUE}'" 1>&2
+            # Warn only
+            #return
             exit 11
         fi
 
-        echo "${VAR} = '${VALUE}' ✓"
+        echo "${VAR} = '${VALUE}' $(tput setaf 2)✓$(tput sgr0)"
     done <<< "$EXPECTED"
 }
 

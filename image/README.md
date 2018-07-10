@@ -70,10 +70,9 @@ convert                       \
 - [Editor.Pho.to](http://editor.pho.to/edit/)
 - [Pixlr Editor](https://apps.pixlr.com/editor/)
 
-
 ### Invalidate objects on Amazon CloudFront
 
 ```bash
 alias encodeURIComponent='perl -pe '\''s/([^a-zA-Z0-9_.!~*()'\''\'\'''\''-])/sprintf("%%%02X",ord($1))/ge'\'
-cat $URL_LIST|while read URL;do echo -n "$URL"|encodeURIComponent;echo;done|sed 's/%2F/\//g'
+cat $URL_LIST|while read -r URL;do echo -n "$URL"|encodeURIComponent;echo;done|sed -e 's|%2F|/|g'
 ```
