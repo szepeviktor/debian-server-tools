@@ -118,6 +118,12 @@ systemd-detect-virt -c; systemd-detect-virt -v
 dmidecode -s system-product-name
 ```
 
+### SMS sending
+
+- https://www.textlocal.com/
+- https://www.messagebird.com/
+- https://www.twilio.com/
+
 ### Hurrican electric routers
 
 ```bash

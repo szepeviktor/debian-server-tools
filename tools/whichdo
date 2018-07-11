@@ -2,7 +2,7 @@
 #
 # Execute a command on the output of `which FILE`.
 #
-# VERSION       :0.2
+# VERSION       :0.2.1
 # DATE          :2015-05-22
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -24,10 +24,10 @@ if [ $# -lt 2 ]; then
     # Resolve symbolic link
     if [ -L "$WHICH_FILE" ]; then
         echo -n "-> "
-        "$0" "$(readlink "$WHICH_FILE")"
+        exec "$0" "$(readlink "$WHICH_FILE")"
     fi
     exit
 fi
 
 shift
-"$@" "$WHICH_FILE"
+exec "$@" "$WHICH_FILE"

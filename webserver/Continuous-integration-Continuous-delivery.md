@@ -51,9 +51,9 @@ How to design and implement CI and CD.
 - Build code
 - Run database migrations
 - Turn off maintenance mode
-- Populate caches
+- Populate caches (application, OPcache)
 - Run at least 1 basic functional or unit test (e.g. log in or display dashboard)
 - Check HTML output
-- Special sudo configuration for reloading PHP-FPM
+- Special sudo configuration for reloading PHP-FPM or Cachetool
 - **Alert on failure**
 - Send email, Slack or Trello notification

@@ -9,8 +9,8 @@ ONE_PATH="$1"
 
 [ "${ONE_PATH:0:1}" == "/" ] || ONE_PATH="$(pwd)/${ONE_PATH}"
 
-while [ "$ONE_PATH" != / ]; do
-    ls -ld "$ONE_PATH"
+while [ "$ONE_PATH" != "/" ]; do
+    ls -l -d "$ONE_PATH"
 
     ONE_PATH="$(dirname "$ONE_PATH")"
 done

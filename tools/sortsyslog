@@ -10,4 +10,4 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/sortsyslog
 
-exec sort -k 1M -k 2n -k3
+exec sort -k 1M -k 2n -k 3
