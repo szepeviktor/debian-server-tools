@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.8.4
+# VERSION       :0.8.5
 # DATE          :2018-05-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -205,7 +205,7 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.10.2
+# VERSION       :0.10.3
 
 IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
 
@@ -231,7 +231,7 @@ fi
 # Try remonitor failed services
 /usr/bin/monit -B summary | tail -n +3 \
     | sed -e 's|Remote Host\s*$|RemoteHost |' \
-    | grep -v -E "\sSystem\s*\$|\s(${IGNORED_STATUSES})\s*\S+\s*\$" \
+    | grep -v -E "\\sSystem\\s*\$|\\s(${IGNORED_STATUSES})\\s*\\S+\\s*\$" \
     | sed -n -e 's|^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*$|\1|p' \
     | xargs -r -L 1 /usr/bin/monit monitor
 

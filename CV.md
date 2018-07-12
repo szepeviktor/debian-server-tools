@@ -59,7 +59,7 @@ a folyamatos integrációs teszteket (CI)
 A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
 A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
-hogy a hibák **ne váratlanul** jönnek elő.
+hogy a hibák **ne váratlanul** jöjjenek elő.
 
 Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
 

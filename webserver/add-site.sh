@@ -140,7 +140,7 @@ openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
   | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
 
 # * SRI (Subresource Integrity) for foreign CDN content
-#     <link href="URL" integrity="sha384-SHA384-HASH" crossorigin="anonymous">
+#     <link rel="stylesheet" href="URL" integrity="sha384-HASHBASE64" crossorigin="anonymous">
 # See https://www.srihash.org/
 openssl dgst -sha384 -binary | openssl enc -base64 -A
 
