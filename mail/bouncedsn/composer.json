@@ -1,0 +1,18 @@
+{
+    "name": "szepeviktor/bounce-dsn",
+    "description": "Create and send bounce DSN",
+    "version": "0.1.0",
+    "license": "MIT",
+    "require": {
+        "phpmailer/phpmailer": "^6.0",
+        "analog/analog": "^1.0.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bouncedsn\\": "src/"
+        }
+    },
+    "config": {
+        "classmap-authoritative": true
+    }
+}

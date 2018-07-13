@@ -1,8 +1,8 @@
 <?php
 
-namespace Sparkpost;
+namespace Bouncedsn\Provider;
 
-use PHPMailer\PHPMailer\PHPMailer;
+// {"notificationType":"Bounce","bounce":{"bounceType":"Permanent","bounceSubType":"General","bouncedRecipients":[{"emailAddress":"pattintos@szepe.net","action":"failed","status":"5.3.0","diagnosticCode":"smtp; 550 User <pattintos> unknown"}],"timestamp":"2018-05-31T15:57:46.175Z","feedbackId":"01020163b6eb54fd-0348bcbf-6fae-4b5a-a203-951f0aea91f7-000000","remoteMtaIp":"173.212.197.142","reportingMTA":"dsn; a7-25.smtp-out.eu-west-1.amazonses.com"},"mail":{"timestamp":"2018-05-31T15:57:37.000Z","source":"info@ionstore.hu","sourceArn":"arn:aws:ses:eu-west-1:601384639002:identity/ionstore.hu","sourceIp":"185.187.73.56","sendingAccountId":"601384639002","messageId":"01020163b6eb3173-f8f24d1b-d15d-4ba0-9c79-37a61a102b43-000000","destination":["pattintos@szepe.net"],"headersTruncated":false,"headers":[{"name":"Received","value":"from www.ionstore.hu (s26.unas.hu [185.187.73.56]) by email-smtp.amazonaws.com with SMTP (SimpleEmailService-2762311919) id kMytk8xrtAyRiwCVbr1g for pattintos@szepe.net; Thu, 31 May 2018 15:57:36 +0000 (UTC)"},{"name":"Date","value":"Thu, 31 May 2018 17:57:36 +0200"},{"name":"To","value":"viktor pattint <pattintos@szepe.net>"},{"name":"From","value":"ionstore <info@ionstore.hu>"},{"name":"Reply-To","value":"ionstore <info@ionstore.hu>"},{"name":"Subject","value":"ionstore - Hírlevél feliratkozás"},{"name":"Message-ID","value":"<3feb56de056787425f653225eec09c76@www.ionstore.hu>"},{"name":"X-Priority","value":"3"},{"name":"X-Mailer","value":"UnasMAIL"},{"name":"MIME-Version","value":"1.0"},{"name":"Content-Type","value":"multipart/alternative; boundary=\"b1_3feb56de056787425f653225eec09c76\""},{"name":"Content-Transfer-Encoding","value":"8bit"}],"commonHeaders":{"from":["ionstore <info@ionstore.hu>"],"replyTo":["ionstore <info@ionstore.hu>"],"date":"Thu, 31 May 2018 17:57:36 +0200","to":["viktor pattint <pattintos@szepe.net>"],"messageId":"<3feb56de056787425f653225eec09c76@www.ionstore.hu>","subject":"ionstore - Hírlevél feliratkozás"}}}
 
 /**
  * Log events and send bounce DSN.
@@ -16,7 +16,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  * @link https://www.iana.org/assignments/dsn-types/dsn-types.xhtml
  * @link https://www.sparkpost.com/docs/tech-resources/webhook-event-reference/
  */
-class BounceDsn {
+class Amazonses {
 
     const VERSION = '0.1.3';
 

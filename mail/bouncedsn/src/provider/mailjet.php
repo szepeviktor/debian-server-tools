@@ -1,22 +1,15 @@
 <?php
 
-namespace Mailjet;
+namespace Bouncedsn\Provider;
 
 /**
- * Log event and send bounce DSN
- *
- * Make sure mail.add_x_header is turned off.
- * Dependency: composer require phpmailer/phpmailer
- * Usage: new \Mailjet\BounceDsn( file_get_contents( 'php://input' ), 'postmaster@example.com', 'sender@example.com' );
- * Custom logfile: define( 'MJ_LOG_FILE', '/path/to/mailjet.log' );
+ * Log events and send bounce DSN.
  *
  * @link https://tools.ietf.org/html/rfc3464#section-2.2
  * @link https://www.iana.org/assignments/dsn-types/dsn-types.xhtml
  * @link https://www.mailjet.com/docs/event_tracking
  */
-class BounceDsn {
-
-    const VERSION = '0.1.2';
+class Mailjet {
 
     private $event;
 
@@ -118,7 +111,8 @@ Diagnostic-Code: smtp; %s/%s
     private function send_mail( $from, $to ) {
 
         $mail          = new \PHPMailer();
-        $mail->XMailer = 'Mailjet Bounce Notification ' . self::VERSION;
+        $mail->CharSet = 'utf-8';
+        $mail->XMailer = 'BounceDSN ' . self::VERSION;
 
         $mail->setFrom( $from, 'Mailjet Bounce Notification' );
         $mail->addAddress( $to );
