@@ -160,7 +160,6 @@ Diagnostic-Code: %s
     private function construct_mail( $mail ) {
 
         $event         = $this->event->msys->message_event;
-
         $diag_elements = array(
             'smtp; ' . $event->raw_reason,
             'type=' . $event->type,
