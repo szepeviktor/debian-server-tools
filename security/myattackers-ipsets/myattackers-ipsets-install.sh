@@ -2,7 +2,7 @@
 #
 # Deny traffic from hostile networks.
 #
-# VERSION       :0.6.0
+# VERSION       :0.7.0
 # DATE          :2018-07-10
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -66,6 +66,6 @@ else
     Install_ipsets
 fi
 
-cat << "EOF"
-iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v4
-EOF
+# Save iptables chains and rules except Fail2ban rules
+/sbin/iptables-save | grep -E -v '(:|\s)f2b-' > /etc/iptables/rules.v4
+/sbin/ip6tables-save | grep -E -v '(:|\s)f2b-' > /etc/iptables/rules.v6

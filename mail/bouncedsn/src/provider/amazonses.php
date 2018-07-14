@@ -62,8 +62,16 @@ Diagnostic-Code: %s
 
         if ( ! is_object( $this->event ) ) {
             Analog::error( 'Amazon SES Payload is incorrect: ' . serialize( $bounce_json ) );
-
             $this->processing = false;
+
+            return;
+        }
+
+        // Handle subscription
+        if ( property_exists( $this->event, 'SubscribeURL' ) ) {
+            Analog::info( 'Amazon SES Subscribe URL: ' . $this->event->SubscribeURL );
+            $this->processing = false;
+
             return;
         }
 

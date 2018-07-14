@@ -1,5 +1,4 @@
 # Fail2Ban filter to block relay attempts through a Courier SMTP server
-# Added failregex: unsupported AUTH type, three variants of HTTP on SMTP, mail rejected.
 
 [Definition]
 
@@ -10,7 +9,7 @@
 #               Hang up during HTTP on SMTP
 #           Mail rejected by courier-pythonfilter-custom/spamassassin3.py
 #           Open relay test
-#           SPF
+#           SPF problems
 failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?$
             ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication failed\.",cmd:( AUTH \S+)?( [0-9a-zA-Z\+/=]+)?( \S+)?$
                 ^%(__prefix_line)serror,relay=<HOST>,msg="535 Authentication rejected",cmd: AUTH( \S+)?$
@@ -18,7 +17,7 @@ failregex = ^%(__prefix_line)serror,relay=<HOST>,.*: 550 User (<.*> )?unknown\.?
                 ^%(__prefix_line)serror,relay=<HOST>,msg="writev: Broken pipe",cmd: HOST: \S+$
             ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: 554 Mail rejected - (?:reverse DNS lookup failure|spam detected).*$
             ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>,to=<\S+>: (513 Relaying|511 Access) denied\.$
-            ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: (417 SPF error|517 SPF fail) .*$
+            ^%(__prefix_line)serror,relay=<HOST>,from=<\S+>: (417 SPF error|517 SPF fail|517 SPF softfail) .*$
 
 # @TODO ,msg="535 Authentication required.",cmd:( \S+)?( .*)?$
 

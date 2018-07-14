@@ -176,5 +176,6 @@ test -f /etc/courier/shared/index || touch /etc/courier/shared/index
 # Announce maxrcpts
 
 # opt BOFHSPFTRUSTME=1
-# opt BOFHSPFHELO=keywords
-# opt BOFHSPFMAILFROM=keywords
+# "softfail" is failure
+# opt BOFHSPFHELO=pass,none,neutral,unknown
+# opt BOFHSPFMAILFROM=pass,none,neutral,unknown

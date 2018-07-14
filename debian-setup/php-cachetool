@@ -12,8 +12,8 @@ chmod +x /usr/local/bin/cachetool
 # Usage
 # cachetool --tmp-dir=/home/prg999/website/tmp --fcgi=/run/php/php7.2-fpm-prg999.sock opcache:status
 #
-# Config: /root/.cachetool.yml
+# Config: ~/.cachetool.yml
 #
 #     adapter: fastcgi
-#     fastcgi: "/run/php/php7.2-fpm-prg000.sock"
-#     temp_dir: "/home/prg000/website/tmp"
+#     fastcgi: "/run/php/php7.2-fpm-prg999.sock"
+#     temp_dir: "/home/prg999/website/tmp"
