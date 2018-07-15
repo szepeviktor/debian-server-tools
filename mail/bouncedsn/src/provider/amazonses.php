@@ -23,6 +23,11 @@ class Amazonses {
      */
     private $event;
 
+    /**
+     * A notification
+     */
+    private $message;
+
     private $message_tpl = 'This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
@@ -93,26 +98,33 @@ Diagnostic-Code: %s
     private function process_event() {
 
         // Not a Bounce Notification
-        if ( ! property_exists( $this->event, 'notificationType' )
-            || 'Bounce' !== $this->event->notificationType
-            || ! property_exists( $this->event, 'bounce' )
+        if ( 'Notification' !== $this->event->Type ) {
+            return false;
+        }
+        $this->message = json_decode( $this->event->Message );
+        if ( ! is_object( $this->message ) ) {
+            return false;
+        }
+        if ( ! property_exists( $this->message, 'notificationType' )
+            || 'Bounce' !== $this->message->notificationType
+            || ! property_exists( $this->message, 'bounce' )
         ) {
             return false;
         }
 
         // Bounce message to be logged
         $bounce_msg = '';
-        if ( in_array( $this->event->bounce->bounceType, array( 'Permanent', 'Transient' ) ) ) {
+        if ( in_array( $this->message->bounce->bounceType, array( 'Permanent', 'Transient' ) ) ) {
             $bounce_msg = sprintf( '%s bounce: %s',
-                $this->event->bounce->bounceType,
-                $this->event->bounce->bounceSubType
+                $this->message->bounce->bounceType,
+                $this->message->bounce->bounceSubType
             );
         }
 
         // Generate log entry
         $output = array(
-            '@' . $this->event->bounce->timestamp,
-            $this->event->bounce->bouncedRecipients[0]->emailAddress,
+            '@' . $this->message->bounce->timestamp,
+            $this->message->bounce->bouncedRecipients[0]->emailAddress,
             'bounce',
             $bounce_msg,
         );
@@ -123,13 +135,13 @@ Diagnostic-Code: %s
     private function construct_mail( $mail ) {
 
         $diag_elements = array(
-            $this->event->bounce->bouncedRecipients[0]->diagnosticCode,
-            'action=' . $this->event->bounce->bouncedRecipients[0]->action,
-            'account=' . $this->event->mail->sendingAccountId,
-            'subject=' . $this->event->mail->commonHeaders->subject,
+            $this->message->bounce->bouncedRecipients[0]->diagnosticCode,
+            'action=' . $this->message->bounce->bouncedRecipients[0]->action,
+            'account=' . $this->message->mail->sendingAccountId,
+            'subject=' . $this->message->mail->commonHeaders->subject,
         );
         $diag_code = $mail->encodeHeader( implode( '  ', $diag_elements ), 'quoted-printable' );
-        $status    = $this->event->bounce->bouncedRecipients[0]->status;
+        $status    = $this->message->bounce->bouncedRecipients[0]->status;
 
         $mail->Subject = 'Delivery Status Notification (Failure)';
 
@@ -137,20 +149,20 @@ Diagnostic-Code: %s
         $mail->ContentType = 'multipart/report; report-type=delivery-status; boundary="=_amazonses_bounce_0"';
         $mail->Body        = sprintf( $this->message_tpl,
             // The text/plain part for humans
-            $this->ascii( date( 'r', strtotime( $this->event->mail->timestamp ) ) ),
-            $this->ascii( $this->event->bounce->bouncedRecipients[0]->emailAddress ),
-            $this->ascii( $this->event->bounce->bounceSubType ),
-            $this->ascii( $this->event->bounce->bounceType ),
+            $this->ascii( date( 'r', strtotime( $this->message->mail->timestamp ) ) ),
+            $this->ascii( $this->message->bounce->bouncedRecipients[0]->emailAddress ),
+            $this->ascii( $this->message->bounce->bounceSubType ),
+            $this->ascii( $this->message->bounce->bounceType ),
             // The message/delivery-status part
             // Per-Message DSN Fields
-            $this->ascii( $this->event->mail->messageId ),
-            $this->ascii( $this->event->bounce->reportingMTA ),
+            $this->ascii( $this->message->mail->messageId ),
+            $this->ascii( $this->message->bounce->reportingMTA ),
             $this->ascii( gethostname() ),
-            $this->ascii( date( 'r', strtotime( $this->event->mail->timestamp ) ) ),
+            $this->ascii( date( 'r', strtotime( $this->message->mail->timestamp ) ) ),
             // Per-Recipient DSN fields
-            $this->ascii( $this->event->bounce->bouncedRecipients[0]->emailAddress ),
-            $this->ascii( $this->event->bounce->bouncedRecipients[0]->emailAddress ),
-            $this->ascii( $this->event->mail->sourceIp ),
+            $this->ascii( $this->message->bounce->bouncedRecipients[0]->emailAddress ),
+            $this->ascii( $this->message->bounce->bouncedRecipients[0]->emailAddress ),
+            $this->ascii( $this->message->mail->sourceIp ),
             $status,
             $diag_code
         );

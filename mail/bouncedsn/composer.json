@@ -1,7 +1,7 @@
 {
     "name": "szepeviktor/bounce-dsn",
     "description": "Create and send bounce DSN",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": "MIT",
     "require": {
         "phpmailer/phpmailer": "^6.0",
