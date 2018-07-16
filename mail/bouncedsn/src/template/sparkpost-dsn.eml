@@ -16,17 +16,19 @@ with recipient {{ recipient|e }}
 Content-Type: message/delivery-status
 Content-Transfer-Encoding: 7bit
 
-Original-Envelope-Id: {{ transmission_id|e }}
-X-Original-Message-Id: {{ message_id|e }}
 Reporting-MTA: dns; {{ sending_ip|e }}
-DSN-Gateway: dns; {{ hostname|e }}
 Received-From-MTA: dns; smtp.sparkpostmail.com
+DSN-Gateway: dns; {{ hostname|e }}
+Original-Envelope-ID: {{ transmission_id|e }}
 Arrival-Date: {{ timestamp_arrival|e }}
+X-Original-Message-ID: {{ message_id|e }}
 
+{% if ip_address is defined %}
+Remote-MTA: dns; {{ ip_address|e }}
+{% endif %}
 Original-Recipient: rfc822; {{ recipient|e }}
 Final-Recipient: rfc822; {{ recipient|e }}
 Action: failed
-Remote-MTA: dns; {{ ip_address|e }}
 Status: {{ status|e }}
 Diagnostic-Code: {{ diag_code|e }}
 

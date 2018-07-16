@@ -2,6 +2,7 @@
 
 namespace Bouncedsn;
 
+use Dotenv\Dotenv;
 use Analog\Analog;
 use Analog\Handler\File;
 use Analog\Handler\Stderr;
@@ -11,12 +12,14 @@ final class Bouncedsn {
 
     /**
      * Create, log and send Bounce Delivery Status Notification.
-     *
-     * @param string $providerName Email provider name.
-     * @param string $to           Recipient address.
-     * @param string $from         Optional sender address.
      */
-    public function __construct( $providerName, $to, $from = null ) {
+    public function __construct() {
+
+        $dotenv = new Dotenv( __DIR__ . '/..' );
+        $dotenv->load();
+        $providerName = getenv('BOUNCEDSN_PROVIDER');
+        $to = getenv('BOUNCEDSN_TO');
+        $from = getenv('BOUNCEDSN_FROM');
 
         // Logging
         $this->logSetup();
@@ -39,11 +42,15 @@ final class Bouncedsn {
         $mail          = new PHPMailer();
         $mail->CharSet = 'utf-8';
         $mail->XMailer = 'BounceDSN v' . $this->getVersion();
-        $mail->setFrom( $from, ucfirst( $providerName ) . ' Bounce Notification' );
+        $mail->setFrom( $from, ucfirst( $providerName ) . ' Notification' );
         $mail->addAddress( $to );
 
+        $input = 'php://input';
+        if ( 'cli' === php_sapi_name() ) {
+            $input = 'php://stdin';
+        }
         // Instantiate provider class
-        $provider = new $providerClass( file_get_contents( 'php://input' ), $mail );
+        $provider = new $providerClass( file_get_contents( $input ), $mail );
         if ( true !== $provider->processing ) {
             return;
         }
@@ -59,7 +66,7 @@ final class Bouncedsn {
     private function logSetup() {
 
         // Log to a file
-        if ( $logPath = getenv( 'BOUNCE_DSN_LOG' ) ) {
+        if ( $logPath = getenv( 'BOUNCEDSN_LOG' ) ) {
             Analog::handler( File::init( $logPath ) );
             Analog::$date_format = '@U';
             Analog::$format = '%2$s|%3$d|%4$s' . "\n";

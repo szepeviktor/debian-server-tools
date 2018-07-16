@@ -128,30 +128,29 @@ class Sparkpost {
 
     private function construct_mail( $mail ) {
 
-        $event             = $this->event->msys->message_event;
+        $event = $this->event->msys->message_event;
         // Bounce notification or spam complaint
         $event->raw_reason = property_exists( $event, 'raw_reason' ) ? $event->raw_reason : $event->report_by;
-        $event->ip_address = property_exists( $event, 'ip_address' ) ? $event->ip_address : 'localhost';
         // Decode with for example https://dogmamix.com/MimeHeadersDecoder/
-        $diag_elements     = array(
+        $diagElements = array(
             'smtp; ' . $event->raw_reason,
             'type=' . $event->type,
             'customer=' . $event->customer_id,
         );
         // Optional details
         if ( property_exists( $event, 'num_retries' ) ) {
-            $diag_elements[] = 'retries=' . $event->num_retries;
+            $diagElements[] = 'retries=' . $event->num_retries;
         }
         if ( property_exists( $event, 'friendly_from' ) ) {
-            $diag_elements[] = 'from=' . $event->friendly_from;
+            $diagElements[] = 'from=' . $event->friendly_from;
         }
         if ( property_exists( $event, 'subject' ) ) {
-            $diag_elements[] = 'subject=' . $event->subject;
+            $diagElements[] = 'subject=' . $event->subject;
         }
         if ( property_exists( $event, 'msg_size' ) ) {
-            $diag_elements[] = 'size=' . $event->msg_size;
+            $diagElements[] = 'size=' . $event->msg_size;
         }
-        $diag_code = $mail->encodeHeader( implode( '  ', $diag_elements ), 'quoted-printable' );
+        $diag_code = $mail->encodeHeader( implode( '  ', $diagElements ), 'quoted-printable' );
         $status    = '5.0.0';
         // Extract specific status from 'raw_reason'
         $status_match = array();
@@ -159,15 +158,15 @@ class Sparkpost {
             $status = $status_match[1];
         }
 
-        $twig_loader = new FilesystemLoader( __DIR__ . '/../template' );
-        $twig = new Environment( $twig_loader );
+        $twigLoader = new FilesystemLoader( __DIR__ . '/../template' );
+        $twig       = new Environment( $twigLoader );
         // Have HTML escaping use ascii()
         $twig->getExtension( 'Twig_Extension_Core' )->setEscaper( 'html', array( $this, 'ascii' ) );
 
         $mail->Subject = 'Delivery Status Notification (Failure)';
         // WARNING This is a PHPMailer hack
         $mail->ContentType = 'multipart/report; report-type=delivery-status; boundary="=_sparkpost_bounce_0"';
-        $mail->Body        = $twig->render( 'sparkpost-dsn.eml', array(
+        $templateVars      = array(
             // The text/plain part for humans
             'timestamp_original' => date( 'r', strtotime( $event->injection_time ) ),
             'recipient'          => $event->raw_rcpt_to,
@@ -175,17 +174,20 @@ class Sparkpost {
             'class_type'         => ( 'Soft' === $this->classification_code[2] ) ? 'temporary' : 'permanent',
             // The message/delivery-status part
             // Per-Message DSN Fields
-            'transmission_id'   => $event->transmission_id,
-            'message_id'        => $event->message_id,
-            'sending_ip'        => $event->sending_ip,
-            'hostname'          => gethostname(),
-            'timestamp_arrival' => date( 'r', $event->timestamp ),
+            'transmission_id'    => $event->transmission_id,
+            'message_id'         => $event->message_id,
+            'sending_ip'         => $event->sending_ip,
+            'hostname'           => gethostname(),
+            'timestamp_arrival'  => date( 'r', $event->timestamp ),
             // Per-Recipient DSN Fields
-            'recipient'  => $event->raw_rcpt_to,
-            'ip_address' => $event->ip_address,
-            'status'     => $status,
-            'diag_code'  => $diag_code,
-        ) );
+            'recipient'          => $event->raw_rcpt_to,
+            'status'             => $status,
+            'diag_code'          => $diag_code,
+        );
+        if ( property_exists( $event, 'ip_address' ) ) {
+            $templateVars[] = $event->ip_address;
+        }
+        $mail->Body = $twig->render( 'sparkpost-dsn.eml', $templateVars );
     }
 
     public function ascii( $string ) {
