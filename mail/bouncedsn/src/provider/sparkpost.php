@@ -3,6 +3,8 @@
 namespace Bouncedsn\Provider;
 
 use Analog\Analog;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 /**
  * Process SparkPost events.
@@ -62,41 +64,6 @@ class Sparkpost {
         100 => array( 'Challenge-Response', 'The message is a challenge-response probe.', 'Soft' ),
     );
 
-    private $message_tpl = 'This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
-
---=_sparkpost_bounce_0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-
-This is a delivery status notification from SparkPost.
-
-The original message was received on %s
-with recipient %s
-
-%s It is a %s failure.
-
---=_sparkpost_bounce_0
-Content-Type: message/delivery-status
-Content-Transfer-Encoding: 7bit
-
-Original-Envelope-Id: %s
-X-Original-Message-Id: %s
-Reporting-MTA: dns; %s
-DSN-Gateway: dns; %s
-Received-From-MTA: dns; smtp.sparkpostmail.com
-Arrival-Date: %s
-
-Original-Recipient: rfc822; %s
-Final-Recipient: rfc822; %s
-Action: failed
-Remote-MTA: dns; %s
-Status: %s
-Diagnostic-Code: %s
-
---=_sparkpost_bounce_0--
-';
-
     public function __construct( $bounce_json, $mail ) {
 
         $events = json_decode( trim( $bounce_json ) );
@@ -140,7 +107,9 @@ Diagnostic-Code: %s
         $bounce_msg = '';
         if ( in_array( $this->event->msys->message_event->type, $this->event_types ) ) {
             // Classify
-            if ( array_key_exists( $this->event->msys->message_event->bounce_class, $this->classification_codes ) ) {
+            if ( property_exists( $this->event->msys->message_event, 'bounce_class' )
+                && array_key_exists( $this->event->msys->message_event->bounce_class, $this->classification_codes )
+            ) {
                 $this->classification_code = $this->classification_codes[ $this->event->msys->message_event->bounce_class ];
             }
             $bounce_msg = sprintf( '%s bounce: %s', $this->classification_code[2], $this->classification_code[0] );
@@ -159,8 +128,12 @@ Diagnostic-Code: %s
 
     private function construct_mail( $mail ) {
 
-        $event         = $this->event->msys->message_event;
-        $diag_elements = array(
+        $event             = $this->event->msys->message_event;
+        // Bounce notification or spam complaint
+        $event->raw_reason = property_exists( $event, 'raw_reason' ) ? $event->raw_reason : $event->report_by;
+        $event->ip_address = property_exists( $event, 'ip_address' ) ? $event->ip_address : 'localhost';
+        // Decode with for example https://dogmamix.com/MimeHeadersDecoder/
+        $diag_elements     = array(
             'smtp; ' . $event->raw_reason,
             'type=' . $event->type,
             'customer=' . $event->customer_id,
@@ -186,33 +159,36 @@ Diagnostic-Code: %s
             $status = $status_match[1];
         }
 
-        $mail->Subject = 'Delivery Status Notification (Failure)';
+        $twig_loader = new FilesystemLoader( __DIR__ . '/../template' );
+        $twig = new Environment( $twig_loader );
+        // Have HTML escaping use ascii()
+        $twig->getExtension( 'Twig_Extension_Core' )->setEscaper( 'html', array( $this, 'ascii' ) );
 
+        $mail->Subject = 'Delivery Status Notification (Failure)';
         // WARNING This is a PHPMailer hack
         $mail->ContentType = 'multipart/report; report-type=delivery-status; boundary="=_sparkpost_bounce_0"';
-        $mail->Body        = sprintf( $this->message_tpl,
+        $mail->Body        = $twig->render( 'sparkpost-dsn.eml', array(
             // The text/plain part for humans
-            $this->ascii( date( 'r', strtotime( $event->injection_time ) ) ),
-            $this->ascii( $event->raw_rcpt_to ),
-            $this->ascii( $this->classification_code[1] ),
-            ( 'Soft' === $this->classification_code[2] ) ? 'temporary' : 'permanent',
+            'timestamp_original' => date( 'r', strtotime( $event->injection_time ) ),
+            'recipient'          => $event->raw_rcpt_to,
+            'class_desc'         => $this->classification_code[1],
+            'class_type'         => ( 'Soft' === $this->classification_code[2] ) ? 'temporary' : 'permanent',
             // The message/delivery-status part
             // Per-Message DSN Fields
-            $this->ascii( $event->transmission_id ),
-            $this->ascii( $event->message_id ),
-            $this->ascii( $event->sending_ip ),
-            $this->ascii( gethostname() ),
-            $this->ascii( date( 'r', $event->timestamp ) ),
-            // Per-Recipient DSN fields
-            $this->ascii( $event->raw_rcpt_to ),
-            $this->ascii( $event->raw_rcpt_to ),
-            $this->ascii( $event->ip_address ),
-            $status,
-            $diag_code
-        );
+            'transmission_id'   => $event->transmission_id,
+            'message_id'        => $event->message_id,
+            'sending_ip'        => $event->sending_ip,
+            'hostname'          => gethostname(),
+            'timestamp_arrival' => date( 'r', $event->timestamp ),
+            // Per-Recipient DSN Fields
+            'recipient'  => $event->raw_rcpt_to,
+            'ip_address' => $event->ip_address,
+            'status'     => $status,
+            'diag_code'  => $diag_code,
+        ) );
     }
 
-    private function ascii( $string ) {
+    public function ascii( $string ) {
 
         return mb_convert_encoding( $string, 'ASCII' );
     }

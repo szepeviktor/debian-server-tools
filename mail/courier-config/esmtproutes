@@ -5,3 +5,4 @@ szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #: smtp.sparkpostmail.com,587 /SECURITY=REQUIRED
 #: smtp-relay.gmail.com,587 /SECURITY=REQUIRED
 #: smtp.gmail.com,587 /SECURITY=REQUIRED
+#: smtp.gmail.com,465 /SECURITY=SMTPS

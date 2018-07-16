@@ -77,12 +77,12 @@ final class Bouncedsn {
      */
     private function getVersion() {
 
-        $composerConfig = __DIR__ . '/../composer.json';
-        if ( ! file_exists( $composerConfig ) ) {
+        $composerFile = __DIR__ . '/../composer.json';
+        if ( ! file_exists( $composerFile ) ) {
 
             return 'n/a';
         }
-        $composerConfig = json_decode( file_get_contents( __DIR__ . '/../composer.json' ) );
+        $composerConfig = json_decode( file_get_contents( $composerFile ) );
         if ( false === $composerConfig || ! property_exists(  $composerConfig, 'version' ) ) {
 
             return 'unknown';

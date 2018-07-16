@@ -1,0 +1,33 @@
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
+
+--=_sparkpost_bounce_0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+This is a delivery status notification from SparkPost.
+
+The original message was received on {{ timestamp_original|e }}
+with recipient {{ recipient|e }}
+
+{{ class_desc|e }} It is a {{ class_type|e }} failure.
+
+--=_sparkpost_bounce_0
+Content-Type: message/delivery-status
+Content-Transfer-Encoding: 7bit
+
+Original-Envelope-Id: {{ transmission_id|e }}
+X-Original-Message-Id: {{ message_id|e }}
+Reporting-MTA: dns; {{ sending_ip|e }}
+DSN-Gateway: dns; {{ hostname|e }}
+Received-From-MTA: dns; smtp.sparkpostmail.com
+Arrival-Date: {{ timestamp_arrival|e }}
+
+Original-Recipient: rfc822; {{ recipient|e }}
+Final-Recipient: rfc822; {{ recipient|e }}
+Action: failed
+Remote-MTA: dns; {{ ip_address|e }}
+Status: {{ status|e }}
+Diagnostic-Code: {{ diag_code|e }}
+
+--=_sparkpost_bounce_0--
