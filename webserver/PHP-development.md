@@ -142,7 +142,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - [Keep A Changelog](https://github.com/phly/keep-a-changelog)
 - Analytics, visitor tracking (HEAP, Hotjar, Smartlook, Clicktale)
 - Performance (application monitoring, New Relic)
-- Error tracking (PHP, JavaScript)
+- [Error tracking](https://github.com/getsentry/sentry): JavaScript, PHP, queue, cron
 
 ### Application environment
 
@@ -153,7 +153,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
   **PHP version** and extensions also in composer.json:require
 - Have an update policy for PHP, framework, packages
 - Set environment variables (PHP-FPM pool, `.env`)
-- Publish Dockerfile of CI (GitLab Container Registry)
+- Publish Dockerfile of CI (GitLab Container Registry, Docker Hub)
 - Build and deploy script (file permissions)
 - Cron jobs and queues (check periodically, email sending and time consuming tasks)
 - Generate sitemaps
@@ -246,6 +246,30 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - If you choose an [identity provider](https://www2.nopassword.com/contextual-adaptive-authentication/)
   search the web for its name plus "breach" "exploit" "security"
 - [Authentication as a Service](https://auth0.com/rules/thisdata-alert-anomalies)
+
+### User support, user feedback
+
+List: https://www.g2crowd.com/categories/help-desk
+
+Multilingual support.
+
+#### Login problems
+
+- Password reminder
+- Ask for a new password
+- Get help (see _Logged in_ section)
+- Suggest a password manager (avoid saving passwords to browser)
+- Short video about [password](https://www.youtube.com/watch?v=XchWBCZSOt0) and cybersecurity
+
+#### Logged in
+
+- [Open ticket](https://www.ladesk.com/)
+- Start online chat
+- Search knowledge base (help articles)
+- [Take a screenshot](https://doorbell.io/)
+- Send attachments
+- General feedback, bug reporting
+- [Record](https://logrocket.com/) [session](https://www.sessionstack.com/)
 
 ### Maintenance :wrench:
 
