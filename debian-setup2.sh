@@ -20,7 +20,7 @@ set -e -x
 
 if [ ! -t 0 ]; then
     echo "Some commands still need a terminal." 1>&2
-    exit 2
+    exit 10
 fi
 
 # shellcheck disable=SC1091

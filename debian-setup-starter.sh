@@ -2,7 +2,7 @@
 #
 # Start debian-setup.sh remotely.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 #
 # - Domain registrar
 # - DNS provider
@@ -26,8 +26,8 @@ ssh()
 }
 
 # Copy configuration file
-test -r ${SERVER_CONFIGURATION} || exit 100
-ssh "cat > /root/server.yml" < ${SERVER_CONFIGURATION}
+test -r "$SERVER_CONFIGURATION" || exit 10
+ssh "cat > /root/server.yml" < "$SERVER_CONFIGURATION" || exit 11
 
 
 # Save script for Session #1
@@ -67,7 +67,7 @@ EOT
 
 
 # Start Session #1
-ssh -t -- /root/debian-setup-starter1.sh
+ssh -t -- /root/debian-setup-starter1.sh || exit 12
 
 # Instructions for Session #2
 echo "Log in as the first user on the specified SSH port and issue: sudo su -"

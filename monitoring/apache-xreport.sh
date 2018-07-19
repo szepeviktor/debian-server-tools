@@ -58,7 +58,7 @@ Maybe_sendmail() {
 
 if [ -z "$APACHE_CONFIGS" ]; then
     echo "Apace log files could not be found." 1>&2
-    exit 1
+    exit 10
 fi
 
 # APACHE_LOG_DIR is defined here

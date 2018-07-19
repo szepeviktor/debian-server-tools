@@ -2,8 +2,8 @@
 #
 # Prevent increasing swap usage by turning swap off and on.
 #
-# VERSION       :0.5.3
-# DATE          :2016-03-10
+# VERSION       :0.5.4
+# DATE          :2018-07-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -37,7 +37,7 @@ fi
 if [ "$SWAP_USED" -ge "$SWAP_MAX" ]; then
     logger -t "$SELF" "Swap usage is over maximum! (${SWAP_USED} kB)"
     echo "Swap usage is over maximum! (${SWAP_USED} kB)" 1>&2
-    exit 1
+    exit 10
 fi
 
 MEM_FREE="$(/usr/bin/free -k | sed -n -e 's/^Mem:\(\s\+[0-9]\+\b\)\{2\}\s\+\([0-9]\+\)\b.*$/\2/p')"
@@ -48,7 +48,7 @@ TOTAL_FREE="$((MEM_FREE + CACHES))"
 if [ "$TOTAL_FREE" -le "$SWAP_USED" ]; then
     logger -t "$SELF" "Not enough free memory! (${TOTAL_FREE} kB)"
     echo "Not enough free memory! (${TOTAL_FREE} kB)" 1>&2
-    exit 2
+    exit 11
 fi
 
 logger -t "$SELF" "Disabling swap"

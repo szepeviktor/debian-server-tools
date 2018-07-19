@@ -127,7 +127,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Session handling (very long sessions, CSRF)
 - Input validation, sanitization
 - Escaping (SQL, HTML, JavaScript)
-- Internationalization (PHP, JavaScript)
+- Internationalization (PHP, JavaScript, input formats and units)
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating
@@ -269,7 +269,7 @@ Multilingual support.
 - [Take a screenshot](https://doorbell.io/)
 - Send attachments
 - General feedback, bug reporting
-- [Record](https://logrocket.com/) [session](https://www.sessionstack.com/)
+- [Record](https://logrocket.com/) [sessions](https://www.sessionstack.com/)
 
 ### Maintenance :wrench:
 

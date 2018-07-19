@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.4
+# VERSION       :1.0.5
 # DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -35,36 +35,36 @@ Readkey()
 Check_requirements()
 {
     if [[ $EUID -ne 0 ]]; then
-        Die 1 "You need to be root."
+        Die 124 "You need to be root."
     fi
     if [ "$(stat --format=%a .)" != 700 ]; then
-        Die 2 "This directory needs to be private (0700)."
+        Die 10 "This directory needs to be private (0700)."
     fi
     if [ ! -f "$INT" ] || [ ! -f "$PRIV" ] || [ ! -f "$PUB" ] || [ ! -f "$CABUNDLE" ]; then
-        Die 3 "Missing cert or CA bundle."
+        Die 11 "Missing cert or CA bundle."
     fi
     if [ ! -d "$PRIV_DIR" ] || [ ! -d "$PUB_DIR" ]; then
-        Die 4 "Missing cert directory."
+        Die 12 "Missing cert directory."
     fi
     # ssl-cert packages sets it to 0710 and root:ssl-cert as owner and group.
     if [ "$(stat --format=%a "$PRIV_DIR")" != 700 ] \
         || [ "$(stat --format=%u "$PRIV_DIR")" != 0 ]; then
-        Die 5 "Private cert directory needs to be private (0700) and owned by root."
+        Die 13 "Private cert directory needs to be private (0700) and owned by root."
     fi
     if [ ! -f /usr/local/sbin/cert-expiry.sh ] || [ ! -f /etc/cron.weekly/cert-expiry1 ]; then
-        Die 6 "./install.sh monitoring/cert-expiry.sh"
+        Die 14 "./install.sh monitoring/cert-expiry.sh"
     fi
 
     # Check moduli of certificates
     PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl sha256)"
     PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl sha256)"
     if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
-        Die 7 "Mismatching certs."
+        Die 15 "Mismatching certs."
     fi
 
     # Verify public cert is signed by the intermediate cert if intermediate is present
     if [ -s "$INT" ] && ! openssl verify -purpose sslserver -CAfile "$INT" "$PUB" | grep -qFx "${PUB}: OK"; then
-        Die 8 "Mismatching intermediate cert."
+        Die 16 "Mismatching intermediate cert."
     fi
 }
 
@@ -72,15 +72,15 @@ Protect_certs()
 {
     # Are certificates readable?
     ## New non-root issuance
-    ##chown root:root "$INT" "$PRIV" "$PUB" || Die 10 "certs owner"
-    chmod 0600 "$INT" "$PRIV" "$PUB" || Die 11 "certs perms"
+    ##chown root:root "$INT" "$PRIV" "$PUB" || Die 18 "certs owner"
+    chmod 0600 "$INT" "$PRIV" "$PUB" || Die 19 "certs perms"
 }
 
 Apache2()
 {
-    test -z "$APACHE_PUB" && return 1
-    test -z "$APACHE_PRIV" && return 1
-    test -r "$APACHE_VHOST_CONFIG" || return 1
+    test -z "$APACHE_PUB" && return 125
+    test -z "$APACHE_PRIV" && return 125
+    test -r "$APACHE_VHOST_CONFIG" || return 125
 
     test -d "$(dirname "$APACHE_PUB")" || Die 40 "apache ssl dir"
 
@@ -127,8 +127,8 @@ Courier_mta()
     #COURIER_USER="daemon"
     COURIER_USER="courier"
 
-    test -z "$COURIER_COMBINED" && return 1
-    test -z "$COURIER_DHPARAMS" && return 1
+    test -z "$COURIER_COMBINED" && return 125
+    test -z "$COURIER_DHPARAMS" && return 125
 
     test -d "$(dirname "$COURIER_COMBINED")" || Die 20 "courier ssl dir"
 
@@ -213,10 +213,10 @@ Courier_mta()
 
 Nginx()
 {
-    [ -z "$NGINX_PUB" ] && return 1
-    [ -z "$NGINX_DHPARAM" ] && return 1
-    [ -z "$NGINX_PRIV" ] && return 1
-    [ -z "$NGINX_VHOST_CONFIG" ] && return 1
+    [ -z "$NGINX_PUB" ] && return 125
+    [ -z "$NGINX_DHPARAM" ] && return 125
+    [ -z "$NGINX_PRIV" ] && return 125
+    [ -z "$NGINX_VHOST_CONFIG" ] && return 125
 
     [ -d "$(dirname "$NGINX_PUB")" ] || Die 70 "nginx ssl dir"
 
@@ -245,9 +245,9 @@ Nginx()
 
 Proftpd()
 {
-    [ -z "$PROFTPD_PUB" ] && return 1
-    [ -z "$PROFTPD_PRIV" ] && return 1
-    [ -z "$PROFTPD_INT" ] && return 1
+    [ -z "$PROFTPD_PUB" ] && return 125
+    [ -z "$PROFTPD_PRIV" ] && return 125
+    [ -z "$PROFTPD_INT" ] && return 125
 
     [ -d "$(dirname "$APACHE_PUB")" ] || Die 30 "proftpd ssl dir"
 
@@ -276,8 +276,8 @@ Proftpd()
 
 Dovecot()
 {
-    [ -z "$DOVECOT_PUB" ] && return 1
-    [ -z "$DOVECOT_PRIV" ] && return 1
+    [ -z "$DOVECOT_PUB" ] && return 125
+    [ -z "$DOVECOT_PRIV" ] && return 125
 
     [ -d "$(dirname "$DOVECOT_PUB")" ] || Die 50 "dovecot ssl dir"
 
@@ -313,9 +313,9 @@ Dovecot()
 
 Webmin()
 {
-    [ -z "$WEBMIN_COMBINED" ] && return 1
+    [ -z "$WEBMIN_COMBINED" ] && return 125
 # @FIXME Could be a separate public key: "certfile="
-    [ -z "$WEBMIN_INT" ] && return 1
+    [ -z "$WEBMIN_INT" ] && return 125
 
     [ -d "$(dirname "$WEBMIN_COMBINED")" ] || Die 60 "webmin ssl dir"
 

@@ -14,9 +14,9 @@
 
 namespace O1;
 
-checkEnv();
+check_env();
 
-function checkEnv() {
+function check_env() {
 
     // Local access only
     if ( 'cli' !== php_sapi_name() && $_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR'] ) {
@@ -54,13 +54,11 @@ final class CheckEnv {
 
     /**
      * Run the checks.
-     *
-     * @param void
      */
     public function __construct() {
 
         // Engine version
-        $this->assert( 'php', 70020, PHP_VERSION_ID );
+        $this->assert( 'php', 70030, PHP_VERSION_ID );
 
         // Extensions for WordPress on PHP 7.0
         // http://wordpress.stackexchange.com/a/42212
@@ -189,9 +187,9 @@ final class CheckEnv {
     /**
      * Generic assertion.
      *
-     * @param $id string       Assert ID
-     * @param $expected string Expected value
-     * @param $result string   Current value
+     * @param string $id       Assert ID
+     * @param mixed  $expected Expected value
+     * @param mixed  $result   Current value
      */
     private function assert( $id, $expected, $result ) {
 
@@ -203,8 +201,8 @@ final class CheckEnv {
     /**
      * Assert for a PHP extension.
      *
-     * @param $extension_name string Extension name
-     * @param $id string             Optional assert ID
+     * @param string $extension_name Extension name
+     * @param string $id             Optional assert ID
      */
     private function assert_extension( $extension_name, $id = '' ) {
 
@@ -218,8 +216,8 @@ final class CheckEnv {
     /**
      * Negative assert for a PHP extension.
      *
-     * @param $extension_name string Extension name
-     * @param $id string             Optional assert ID
+     * @param string $extension_name Extension name
+     * @param string $id             Optional assert ID
      */
     private function assert_disabled_extension( $extension_name, $id = '' ) {
 
@@ -233,9 +231,9 @@ final class CheckEnv {
     /**
      * Assert for a PHP directive.
      *
-     * @param $directive_name string Directive name
-     * @param $expected string       Expected value
-     * @param $id string             Optional assert ID
+     * @param string $directive_name Directive name
+     * @param mixed  $expected       Expected value
+     * @param string $id             Optional assert ID
      */
     private function assert_directive( $directive_name, $expected, $id = '' ) {
 
@@ -249,9 +247,8 @@ final class CheckEnv {
     /**
      * Assert for a PHP function.
      *
-     * @param $function_name string  Function name
-     * @param $expected string       Expected value
-     * @param $id string             Optional assert ID
+     * @param string $function_name Function name
+     * @param string $id            Optional assert ID
      */
     private function assert_function( $function_name, $id = '' ) {
 
@@ -265,11 +262,11 @@ final class CheckEnv {
     /**
      * Assert for a version.
      *
-     * @param $name string              Thing that has a version
-     * @param $min_version string       Expected version
-     * @param $current_version string   Current version
-     * @param $operator string          Optional operator
-     * @param $id string                Optional assert ID
+     * @param string $name            Thing that has a version
+     * @param string $min_version     Expected version
+     * @param string $current_version Current version
+     * @param string $operator        Optional operator
+     * @param string $id              Optional assert ID
      */
     private function assert_version( $name, $min_version, $current_version, $operator = '<=', $id = '' ) {
 
@@ -283,7 +280,7 @@ final class CheckEnv {
     /**
      * Get InnoDB version.
      *
-     * @param $config array Datababase credentials
+     * @param array $config Datababase credentials
      */
     private function mysqli_innodb_version( $config ) {
 
@@ -316,7 +313,7 @@ final class CheckEnv {
     /**
      * Get InnoDB version by PDO.
      *
-     * @param $config array Datababase credentials
+     * @param array $config Datababase credentials
      */
     private function pdo_mysql_innodb_version( $config ) {
 
