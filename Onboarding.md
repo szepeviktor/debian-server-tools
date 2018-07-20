@@ -113,8 +113,8 @@ https://haveibeenpwned.com/
 ### Cyber security
 
 - Spam filtering
-- Protection against malware and phishing attacks
+- Protection against malware and phishing attacks (**credential stealing**)
 - Against mobile malware
 - Ransomware mitigation
-- Data breach prevention
-- Incident response plan
+- Data breach prevention (in the application)
+- Incident response plan (outage, security incident)

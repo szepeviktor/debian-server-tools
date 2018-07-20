@@ -13,7 +13,8 @@
 # LOCATION      :/usr/local/sbin/syslog-errors-infrequent.sh
 # CRON.D        :17 */3	* * *	root	/usr/local/sbin/syslog-errors-infrequent.sh
 
-Exceptions() {
+Exceptions()
+{
     grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$' \
     | grep -E -v 'courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$' \
     #| grep -E -v 'rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$' \
