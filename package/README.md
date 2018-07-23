@@ -49,7 +49,7 @@ https://wiki.debian.org/BuildingFormalBackports
 
 https://www.debian.org/doc/packaging-manuals/debconf_specification.html#AEN106
 
-### APT repository concepts
+### APT repository concept
 
 Find actual values in `debian/dists/stable/Release`
 
@@ -127,6 +127,12 @@ dpkg-deb -x PACKAGE-1.deb PACKAGE-NAME
 dpkg-deb -e PACKAGE-1.deb PACKAGE-NAME/DEBIAN
 editor PACKAGE-NAME/DEBIAN/control
 dpkg-deb -b PACKAGE-NAME PACKAGE-2.deb
+```
+
+### Update package MD5 sums
+
+```bash
+debsums --generate=keep PACKAGE-NAME
 ```
 
 ### Install pip (Python package manager)

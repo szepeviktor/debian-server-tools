@@ -2,8 +2,8 @@
 #
 # Add a virtual mail account to Courier.
 #
-# VERSION       :0.6.2
-# DATE          :2016-05-10
+# VERSION       :0.6.3
+# DATE          :2018-07-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -119,7 +119,8 @@ if ! sudo -u virtual -- maildirmake -f "Junk" "$NEW_MAILDIR"; then
 fi
 echo "WARNING - Quota counts symlinked folders" 1>&2
 ln -s ".Junk" "${NEW_MAILDIR}/.Spam"
-ln -s ".Junk" "${NEW_MAILDIR}/.Junk E-mail"
+ln -s ".Junk" "${NEW_MAILDIR}/.Junk E-mail" # Outlook
+ln -s ".Junk" "${NEW_MAILDIR}/.Unwanted" # Samsung Galaxy
 #HU: ln -s ".Junk" "${NEW_MAILDIR}/.Lev&AOk-lszem&AOk-t"
 echo "Junk OK."
 
@@ -127,7 +128,7 @@ if ! sudo -u virtual -- maildirmake -f "Sent" "$NEW_MAILDIR"; then
     Error 22 "Cannot create Sent folder"
 fi
 echo "Quota counts symlinked directories"
-ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items"
+ln -s ".Sent" "${NEW_MAILDIR}/.Sent Items" # Outlook
 ln -s ".Sent" "${NEW_MAILDIR}/.Sent Messages"
 #HU: ln -s ".Sent" "${NEW_MAILDIR}/.Elk&APw-ld&APY-tt elemek"
 echo "Sent OK."
@@ -136,7 +137,7 @@ if ! sudo -u virtual -- maildirmake -f "Trash" "$NEW_MAILDIR"; then
     Error 23 "Cannot create Trash folder"
 fi
 echo "Quota counts symlinked directories"
-ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items"
+ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items" # Outlook
 ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
 #HU: ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
 echo "Trash OK."
@@ -182,6 +183,9 @@ fi
 
 # Removal instruction
 echo "Remove home command:  rm -r -f '${HOMEDIR}'"
+
+# Raise quote instruction (5 GB)
+echo "Raise quote: sudo -u virtual -- maildirmake -q \$((5 * 1024**3))S '${NEW_MAILDIR}'"
 
 # SMTP authentication test
 {

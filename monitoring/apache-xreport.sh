@@ -2,8 +2,8 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.2.1
-# DATE          :2017-12-11
+# VERSION       :1.3.0
+# DATE          :2018-07-21
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -24,28 +24,31 @@ MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 "
-APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
+APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 
-Xclude_filter() {
+Xclude_filter()
+{
     # AH00128: File does not exist
     # #AH00162: server seems busy, (you may need "to increase StartServers, or Min/MaxSpareServers)
     # AH02032: Hostname %s provided via SNI and hostname %s provided via HTTP are different
     # WordPress Fail2ban
     # Apache access control
     # Apache restart messages at 6 AM
-    grep -Ev "\sAH00128:|\sAH02032:\
-|\swpf2b_|\sbad_request_|\sno_wp_here_|\s404_not_found|\s403_forbidden|\snetpromo_|\sFile does not exist:\
-|\sclient denied by server configuration:" \
+    grep -Ev "\\sAH00128:|\\sAH02032:\
+|\\swpf2b_|\\sbad_request_|\\sno_wp_here_|\\s404_not_found|\\s403_forbidden|\\snetpromo_|\\sFile does not exist:\
+|\\sclient denied by server configuration:" \
     | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094):.*' \
 
 }
 
-Color_html() {
+Color_html()
+{
     ccze --html --options "cssfile=${CCZE_CSS_URL}" -c "cssbody=${CCZE_BODY_BG}" \
         | perl -MMIME::QuotedPrint -p -e '$_=MIME::QuotedPrint::encode_qp($_);'
 }
 
-Maybe_sendmail() {
+Maybe_sendmail()
+{
     local STRIPPED_BYTE
 
     read -r -n 1 STRIPPED_BYTE \
@@ -69,8 +72,8 @@ source /etc/apache2/envvars
 shopt -s nullglob
 
 while read -r CONFIG_FILE; do
-    ERROR_LOG="$(sed -n '/^\s*ErrorLog\s\+\(\S\+\)\s*.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
-    SITE_USER="$(sed -n '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
+    ERROR_LOG="$(sed -n -e '/^\s*ErrorLog\s\+\(\S\+\)\s*.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
+    SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
 
     # Substitute variables
     ERROR_LOG="$(echo "$ERROR_LOG" | sed \
