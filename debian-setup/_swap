@@ -4,7 +4,7 @@
 #
 
 SWAP_FILE="${1:-/swap0}"
-SWAP_SIZE="${2:-768}"
+SWAP_SIZE="${2:-2047}"
 
 set -e -x
 

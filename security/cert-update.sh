@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.5
+# VERSION       :1.0.6
 # DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -109,7 +109,7 @@ Apache2()
         && sed -e "s|\${SITE_DOMAIN}|${SITE_DOMAIN}|g" "$APACHE_VHOST_CONFIG" \
         | grep -q -x "\\s*SSLCertificateKeyFile\\s\\+${APACHE_PRIV}"; then
 
-        apache2ctl configtest && service apache2 restart
+        apache2ctl configtest && service apache2 reload
 
         # Test HTTPS
         echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"

@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.3.3
-# DATE          :2017-03-05
+# VERSION       :1.3.4
+# DATE          :2018-07-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)

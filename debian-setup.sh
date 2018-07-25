@@ -108,11 +108,11 @@ export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
 set -e -x
 
 # Am I root?
-test "$(id -u)" == 0
+[[ $EUID -eq 0 ]]
 
 if [ ! -t 0 ]; then
     echo "Some commands still need a terminal." 1>&2
-    exit 2
+    exit 10
 fi
 
 # Common functions
