@@ -86,7 +86,7 @@ shopt -s nullglob
 
 while read -r CONFIG_FILE; do
     # Skip if marked
-    if grep -q -F '#APACHE-XREPORT-SKIP#' "$CONFIG_FILE"; then
+    if grep -q -F '#APACHE-4XXREPORT-SKIP#' "$CONFIG_FILE"; then
         continue
     fi
 
