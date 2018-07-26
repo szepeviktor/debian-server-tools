@@ -118,3 +118,22 @@ https://haveibeenpwned.com/
 - Ransomware mitigation
 - Data breach prevention (in the application)
 - Incident response plan (outage, security incident)
+
+### Onboarding for developers
+
+- We run Debian GNU/Linux on an UpCloud cloud instance
+- MariaDB or Percona Server + Apache with HTTP/2 and event MPM + PHP-FPM 7.2 + Redis
+  ([full feature list](/debian-setup.sh#L23))
+- There are no passwords for Linux users, only SSH keys
+- The server is accessable through SSH: **terminal, MySQL tunnel, file upload, code deploy** etc.
+- TCP ports for web and SSH are heavily protected (maxretry=2) [with Fail2ban](/security/fail2ban-conf)
+- PHP OPcache's [file timestamp validation](/webserver/phpfpm-pools/Skeleton-pool.conf#L30) is off,
+  thus files are read only at startup, we to use [cachetool](https://github.com/gordalina/cachetool)
+  to reset OPcache after any code change
+- There are *standard* directories for [sessions, upload, tmp](/webserver/phpfpm-pools/Skeleton-pool.conf#L33-L35)
+- `.htaccess` files are disables, Apache rules should be in vhost configuration (it is faster)
+- File versioning is not in query strings but turned into file names like `filename.002.ext` in URL-s,
+  [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L151-L152) reverts them
+- How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
+- [Running a Laravel application](/webserver/laravel)
+- Interesting read on [web applications](/webserver/PHP-development.md)

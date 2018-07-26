@@ -15,7 +15,7 @@ How to design and implement CI and CD.
 - Lint source code
 - Lint template files
 - Check coding style
-- Do static analysis
+- **Do static analysis**
 - Run tests
 - Custom checks and warnings
 - Measure code coverage

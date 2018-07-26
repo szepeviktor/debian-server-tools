@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.4.0
+ * @version 0.5.0
  */
 
 namespace O1;
@@ -177,6 +177,11 @@ final class CheckEnv {
         // System program execution
         //$this->assert_function( 'proc_open' );
 
+        // Directories
+        $this->assert_directory( ini_get( 'upload_tmp_dir' ), 'dir.upload_tmp_dir' );
+        $this->assert_directory( ini_get( 'sys_temp_dir' ), 'dir.sys_temp_dir' );
+        $this->assert_directory( ini_get( 'session.save_path' ), 'dir.session_save_path' );
+
         // Database JSON data type support
         // See https://dev.mysql.com/doc/refman/5.7/en/json.html
         //$dotenv = parse_ini_file( __DIR__ . '/html/.env' );
@@ -278,9 +283,27 @@ final class CheckEnv {
     }
 
     /**
+     * Assert for a directory.
+     *
+     * @param string|bool $directory Directory path
+     * @param string $id             Assert ID
+     */
+    private function assert_directory( $directory, $id ) {
+
+        if ( ! is_string( $directory ) || ! file_exists( $directory ) ) {
+            $this->errors[ $id ] = '!file_exists';
+
+            return;
+        }
+
+        $this->assert( $id, true, is_writable( $directory ) );
+    }
+
+    /**
      * Get InnoDB version.
      *
      * @param array $config Datababase credentials
+     * @return string
      */
     private function mysqli_innodb_version( $config ) {
 
@@ -295,17 +318,21 @@ final class CheckEnv {
             $config['DB_DATABASE'],
             $config['DB_PORT']
         );
-        if ( mysqli_connect_errno() ) {
+        if ( false === $link || mysqli_connect_errno() ) {
             return '0';
         }
 
         $result = $link->query( 'SELECT @@global.innodb_version;' );
-        if ( 1 !== $result->num_rows ) {
+        if ( is_bool( $result ) || 1 !== $result->num_rows ) {
             return '0';
         }
 
         $mysql_version = $result->fetch_row();
         $link->close();
+
+        if ( null === $mysql_version ) {
+            return '0';
+        }
 
         return reset( $mysql_version );
     }
@@ -314,6 +341,7 @@ final class CheckEnv {
      * Get InnoDB version by PDO.
      *
      * @param array $config Datababase credentials
+     * @return string
      */
     private function pdo_mysql_innodb_version( $config ) {
 
@@ -332,12 +360,16 @@ final class CheckEnv {
         }
 
         $result = $link->query( 'SELECT @@global.innodb_version;' );
-        if ( 1 !== $result->rowCount() ) {
+        if ( false === $result || 1 !== $result->rowCount() ) {
             return '0';
         }
 
         $mysql_version = $result->fetchColumn();
         $link          = null;
+
+        if ( false === $mysql_version ) {
+            return '0';
+        }
 
         return $mysql_version;
     }

@@ -33,6 +33,19 @@ Laravel upgrade service: https://laravelshift.com/
 - Failed login attempts
 - Non-empty hidden field in forms
 
+#### Security Exceptions
+
+```php
+protected $securityExceptions = [
+        \Illuminate\Session\TokenMismatchException::class,
+        \Illuminate\Validation\ValidationException::class,
+        \Illuminate\Auth\Access\AuthorizationException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+];
+```
+
 ### Laravel caches
 
 Use [Redis PECL extension](https://laravel.com/docs/5.6/redis#phpredis) instead of Predis.
