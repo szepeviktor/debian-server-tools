@@ -3,12 +3,13 @@
 # Create a new instance at UpCloud.
 #
 # pip3 install --user upcloud-api
-# chmod 600 upcloud_create_server.py
+# chmod 0600 ./upcloud_create_server.py
 
 import upcloud_api
 from upcloud_api import Server, Storage, ZONE, login_user_block
 
-# EDIT
+
+# EDIT here
 manager = upcloud_api.CloudManager('USERNAME', 'PASSWORD')
 
 user_viktor = login_user_block(

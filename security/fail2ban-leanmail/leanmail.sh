@@ -152,7 +152,7 @@ declare -a AS_HOSTING=(
 CLASSC_MATCH="1"
 
 # DNS resolver
-#NS1="208.67.220.123" # OpenDNS
+#NS1="1.1.1.1" # Cloudflare DNS
 NS1="81.2.236.171" # worker
 
 # Timeout in seconds

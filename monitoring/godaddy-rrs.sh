@@ -82,7 +82,7 @@ if [ ! -r "$API_KEY_FILE" ] \
     || [ ! -r "$API_SECRET_FILE" ] \
     || [ ! -r "$GODADDY_DOMAIN_FILE" ]; then
     echo "Unconfigured ~/.godaddy/{api-key,api-secret,domain}" 1>&2
-    exit 100
+    exit 125
 fi
 
 API_KEY="$(head -n 1 "$API_KEY_FILE")"
@@ -96,7 +96,7 @@ if [ -z "$API_KEY" ] \
     || [ -z "$API_SECRET" ] \
     || [ -z "$GODADDY_DOMAIN" ]; then
     echo "Missing configuration data ~/.godaddy/{api-key,api-secret,domain}" 1>&2
-    exit 101
+    exit 125
 fi
 
 NAME="$1"

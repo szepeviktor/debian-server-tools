@@ -3,7 +3,7 @@
 #
 # VERSION       :0.1.0
 # BUILD         :docker build -t szepeviktor/stretch-build .
-# RUN           :docker run --rm -it -v /opt/results:/opt/results szepeviktor/stretch-build
+# RUN           :docker run --rm -i -t -v /opt/results:/opt/results szepeviktor/stretch-build
 
 FROM debian:stretch
 
@@ -20,7 +20,7 @@ RUN apt-get --purge -y autoremove \
     && find /var/lib/apt/lists -type f -delete
 
 RUN adduser --disabled-password --gecos "" debian
-RUN echo 'debian  ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+RUN printf 'debian\tALL=(ALL:ALL) NOPASSWD: ALL\n' >> /etc/sudoers
 
 USER debian
 WORKDIR /home/debian

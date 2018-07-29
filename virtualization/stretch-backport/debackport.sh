@@ -3,7 +3,7 @@
 # Backport a Debian package.
 #
 # DOCKER        :szepeviktor/stretch-backport
-# VERSION       :0.2.4
+# VERSION       :0.2.5
 # REFS          :http://backports.debian.org/Contribute/#index6h3
 # DOCS          :https://wiki.debian.org/SimpleBackportCreation
 
@@ -40,20 +40,20 @@ ARCHIVE_URL="http://debian-archive.trafficmanager.net/debian"
 
 ALLOW_UNAUTH="--allow-unauthenticated"
 
-set -e
-
-Error() {
+Error()
+{
     local RET="$1"
 
     shift
-    echo "ERROR: $*" 1>&2
+    echo "ERROR: ${*}" 1>&2
     exit "$RET"
 }
 
-Execute_hook() {
-    local HOOK="debackport-$1"
+Execute_hook()
+{
+    local HOOK="debackport-${1}"
 
-    if ! [ -r "/opt/results/${HOOK}" ]; then
+    if [ ! -r "/opt/results/${HOOK}" ]; then
         return 0
     fi
 
@@ -61,17 +61,21 @@ Execute_hook() {
     if source "/opt/results/${HOOK}"; then
         return 0
     else
-        echo "HOOK ${HOOK} error: $?" 1>&2
+        echo "HOOK ${HOOK} error: ${?}" 1>&2
         return 1
     fi
 }
+
+set -e
 
 if [ -z "$PACKAGE" ]; then
     Error 1 'Usage:  docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="openssl/testing" szepeviktor/stretch-backport'
 fi
 
 # Only for amd64
-[ "$(uname -m)" == "x86_64" ] || Error 2 "Tested only on amd64"
+if [ "$(uname -m)" != x86_64 ]; then
+    Error 2 "Tested only on amd64"
+fi
 
 CURRENT_RELEASE="$(lsb_release -s --codename)"
 
@@ -105,13 +109,18 @@ elif [ "${PACKAGE//[^\/]/}" == "/" ]; then
     # From source "package name/release codename"
     RELEASE="${PACKAGE#*/}"
     {
+        echo "deb ${ARCHIVE_URL} ${RELEASE} main"
         echo "deb-src ${ARCHIVE_URL} ${RELEASE} main"
         # Release updates if available
-        wget -q --spider "${ARCHIVE_URL}/dists/${RELEASE}-updates/" \
-            && echo "deb-src ${ARCHIVE_URL} ${RELEASE}-updates main"
+        if wget -q --spider "${ARCHIVE_URL}/dists/${RELEASE}-updates/"; then
+            echo "deb ${ARCHIVE_URL} ${RELEASE}-updates main"
+            echo "deb-src ${ARCHIVE_URL} ${RELEASE}-updates main"
+        fi
         # Security updates if available
-        wget -q --spider "http://security.debian.org/dists/${RELEASE}/updates/" \
-            && echo "deb-src http://security.debian.org/ ${RELEASE}/updates main"
+        if wget -q --spider "http://security.debian.org/dists/${RELEASE}/updates/"; then
+            echo "deb http://security.debian.org/ ${RELEASE}/updates main"
+            echo "deb-src http://security.debian.org/ ${RELEASE}/updates main"
+        fi
     } | sudo tee -a /etc/apt/sources.list
     sudo apt-get update -qq
     apt-get source "$PACKAGE"
