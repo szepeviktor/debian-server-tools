@@ -2,7 +2,7 @@
 #
 # Alert on long-running cron jobs.
 #
-# VERSION       :0.3.0
+# VERSION       :0.4.0
 # DATE          :2017-11-14
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -33,7 +33,7 @@ ps -o etimes= -p "$CRON_CHILD_PID" \
         fi
 
         # Alert on long-running jobs
-        CRON_CHILD_INFO="${CRON_CHILD_PID}:$(ps -o cmd= --ppid "$CRON_CHILD_PID")"
+        CRON_CHILD_INFO="$(ps -o euser= --ppid "$CRON_CHILD_PID"):${CRON_CHILD_PID}:$(ps -o cmd= --ppid "$CRON_CHILD_PID")"
         echo "Cron job (${CRON_CHILD_INFO}) is running for more than ${CRON_MAX_AGE} minutes." 1>&2
     done
 

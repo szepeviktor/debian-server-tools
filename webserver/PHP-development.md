@@ -27,11 +27,13 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 Bits and bytes.
 
 - Execute bit off
-- UTF-8 encoding without BOM
-- LF lineends
 - Consistent indentation
-- **Strip trailing spaces**
+- LF lineends
+- UTF-8 encoding without BOM
+- **Trim trailing whitespaces**
+- Insert final newlines
 
+[EditorConfig](/.editorconfig),
 [PSR2 ruleset](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR2/ruleset.xml)
 
 ### Use others' work :exclamation:
@@ -131,7 +133,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating
-- Authentication (Web Authentication API, client certificate, 2FA, password security, lock session to IP address)
+- Authentication (Web Authentication API, client certificate, 2FA,
+  [password security](/security/Password-security.md), lock session to IP address)
 - User roles and capabilities
 - Email addresses, composing and sending
   (obfuscate email addresses, form hidden field, mailcheck.js, plain text version, NeverBounce)
@@ -219,9 +222,9 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
     - missing MX
     - unresolvable MX
 - Blocked usernames
-- Force strong passwords:
+- Force [strong passwords](/security/Password-security.md):
     - not previously used
-    - partly matching name, username or other user details
+    - similarity to name, username or other user details
     - length
     - complexity
     - xkcd password strength
@@ -259,7 +262,7 @@ Multilingual support.
 - Ask for a new password
 - Get help (see _Logged in_ section)
 - Suggest a password manager (avoid saving passwords to browser)
-- Short video about [password](https://www.youtube.com/watch?v=XchWBCZSOt0) and cybersecurity
+- Short [video about password](https://www.youtube.com/watch?v=XchWBCZSOt0) and cybersecurity
 
 #### Logged in
 

@@ -16,4 +16,4 @@ manager = CloudManager('USERNAME', 'PASSWORD')
 manager.authenticate()
 
 populated_server = manager.get_server_by_ip(sys.argv[1])
-ret = populated_server.stop_and_destroy()
+populated_server.stop_and_destroy()

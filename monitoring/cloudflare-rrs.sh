@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Create, list and update Cloudflare DNS resource record sets.
+# Create, read, update and delete Cloudflare DNS resource record sets.
 #
 # VERSION       :0.1.0
 # DOCS          :https://api.cloudflare.com/
@@ -12,9 +12,10 @@
 #     cloudflare-rrs.sh . TXT
 #     cloudflare-rrs.sh non-existent-to-create.example.com. AAAA
 #     cloudflare-rrs.sh example.com. A
-#     cloudflare-rrs.sh example.com. IN TXT
+#     cloudflare-rrs.sh _acme-challenge.example.com. IN TXT
 # List all zones
 #     cloudflare-rrs.sh . .
+# Delete a record by setting its value to ""
 
 ZONE_ID="$HOSTED_ZONE_ID"
 # @TODO X-Auth-User-Service-Key

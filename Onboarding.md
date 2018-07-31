@@ -129,8 +129,8 @@ https://haveibeenpwned.com/
 - The server is accessible through SSH: **terminal, MySQL tunnel, file upload, code deploy** etc.
 - TCP ports for web and SSH are heavily protected (maxretry=3) [with Fail2ban](/security/fail2ban-conf)
 - PHP OPcache's [file timestamp validation](/webserver/phpfpm-pools/Skeleton-pool.conf#L30) is off,
-  thus PHP files are read once at first access, we to use [cachetool](https://github.com/gordalina/cachetool)
-  to reset OPcache after any code change
+  thus PHP files are read once at first access, we use [cachetool](https://github.com/gordalina/cachetool)
+  to reset OPcache after a code change
 - There are *standard* directories for [sessions, upload and tmp](/webserver/phpfpm-pools/Skeleton-pool.conf#L33-L35)
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
 - File versioning is not in query strings but turned into file names like `filename.002.ext` in URL-s,

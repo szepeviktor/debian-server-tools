@@ -15,6 +15,9 @@
 :2001:41b8:0202:0deb:0216:36ff:fe40:4002	allow,BLOCK
 # Horde - lists.horde.org.
 188.227.186.61	allow,BLOCK
+# GNU - lists.gnu.org.
+208.118.235.17	allow,BLOCK
+:2001:4830:0134:0003:0000:0000:0000:0011	allow,BLOCK
 
 # Hosting (HU)
 # ISZT - aramis.iszt.hu.
