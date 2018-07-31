@@ -41,8 +41,22 @@
 
 ### Marketing tools
 
-- https://www.drip.com/features
-- https://www.campaignmonitor.com/
+- https://www.drip.com/features *$0*
+- Act-On Software *$900*
+- Adobe Campaign *$$$*
+- Campaign Monitor *$29*
+- Cheetah Digital *$$$*
+- Constant Contact *$20*
+- Oracle Eloqua *$2000*
+- Emma by Campaign Monitor *$89*
+- HubSpot *$46*
+- IBM Watson Campaign Automation *$$$*
+- MailChimp *$0*
+- Marketo *$895*
+- Oracle Responsys *$1200*
+- Salesforce / Pardot *$1250*
+- Salesforce / ExactTarget *$400*
+- SendGrid *$10*
 
 ### Webmail
 

@@ -311,7 +311,7 @@ Author: Viktor Szépe
 */
 ```
 
-See /website/wordpress/ directory for its content.
+See [/webserver/wordpress/](/webserver/wordpress/) directory for its content.
 
 ### On deploy and Staging->Production migration
 

@@ -113,6 +113,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 - http://www.pwstudio.hu/
 - https://www.budaffect.com/ - webáruház
 - https://www.upsolution.hu/
+- https://splendex.io/
 
 * https://www.finetune.hu/
 * https://www.rblmarketing.hu/

@@ -8,6 +8,9 @@
 # LOCATION      :/usr/local/bin/cloudflare-rrs.sh
 
 # Usage
+# Get your Global API Key https://dash.cloudflare.com/profile
+#     mkdir ~/.cloudflare
+#     touch ~/.cloudflare/auth-{email,key}; chmod 0600 ~/.cloudflare/auth-{email,key}
 # Add HOSTED_ZONE_ID=ZONE-ID to your ~/.profile
 #     cloudflare-rrs.sh . TXT
 #     cloudflare-rrs.sh non-existent-to-create.example.com. AAAA
@@ -19,8 +22,8 @@
 
 ZONE_ID="$HOSTED_ZONE_ID"
 # @TODO X-Auth-User-Service-Key
-AUTH_EMAIL_FILE="{HOME}/.cloudflare/auth-email"
-AUTH_KEY_FILE="{HOME}/.cloudflare/auth-key"
+AUTH_EMAIL_FILE="${HOME}/.cloudflare/auth-email"
+AUTH_KEY_FILE="${HOME}/.cloudflare/auth-key"
 
 Cloudflare_api()
 {
@@ -40,7 +43,7 @@ Get_record_identifiers()
     local JQ_FILTER
 
     printf -v JQ_FILTER '.result[] | select(.type == "%s" and .name == "%s") | .id' "$TYPE" "$NAME"
-    Cloudflare_api GET "zones/${ZONE_ID}/dns_records" \
+    Cloudflare_api GET "zones/${ZONE_ID}/dns_records?per_page=100" \
         | jq -r "$JQ_FILTER"
 }
 
@@ -104,7 +107,7 @@ fi
 # List names and values of RRs
 if [ "$NAME" == . ]; then
     printf -v JQ_LIST '[ .result[] | select(.type == "%s") | {"\(.name)": "\(.content)"} ]' "$TYPE"
-    Cloudflare_api GET "zones/${ZONE_ID}/dns_records" | jq -r "$JQ_LIST"
+    Cloudflare_api GET "zones/${ZONE_ID}/dns_records?per_page=100" | jq -r "$JQ_LIST"
     exit 0
 fi
 
@@ -149,7 +152,7 @@ else
     printf -v JQ_UPDATE '.result | {name: .name, type: .type, content: .content, ttl: .ttl, proxied: .proxied%s}' "$MX_PRIO"
 
     while read -r RECORD_ID; do
-        Cloudflare_api GET "zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
+        Cloudflare_api GET "zones/${ZONE_ID}/dns_records/${RECORD_ID}?per_page=100" \
             | jq "$JQ_UPDATE" \
             > "$TEMP_JSON"
         # Edit RRs
