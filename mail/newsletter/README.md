@@ -41,7 +41,3 @@ Jogi: NAIH azonosító
 Teszt-címek: our-addresses@example.com, https://mail-tester.com
 
 Kiküldési idő: 09:00 - 11:00
-
-### Automatikus válasz megelőzése
-
-`X-Auto-Response-Suppress: All` https://msdn.microsoft.com/en-us/library/ee219609(v=exchg.80).aspx

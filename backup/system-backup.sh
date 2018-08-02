@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.5.1
+# VERSION       :2.5.2
 # DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -102,7 +102,7 @@ Check_paths() { # Error 1x
 
 List_dbs() {
     echo "SHOW DATABASES;" | mysql --skip-column-names \
-        | grep -E -v "information_schema|mysql|performance_schema"
+        | grep -E -x -v 'information_schema|mysql|performance_schema|sys'
 }
 
 Backup_system_dbs() { # Error 4x

@@ -400,7 +400,7 @@ Deprecated.
 - `Return-Path: bounce@example.com` (invisible)
 - `List-Unsubscribe-Post: List-Unsubscribe=One-Click`
   [RFC8058](https://tools.ietf.org/html/rfc8058) (invisible)
-- Prevent automatic responses `X-Auto-Response-Suppress: All`
+- `X-Auto-Response-Suppress: OOF, AutoReply` (invisible)
 
 #### Others
 
@@ -456,6 +456,12 @@ Deprecated.
 - `From: .*(noreply|no-reply|donotreply|mailer[-_]daemon@|)`
 - https://github.com/jpmckinney/multi_mail/wiki/Detecting-autoresponders
 - https://serverfault.com/a/462914
+
+### Prevent automatic response
+
+- All in *Detect automatic responses* section
+- `Auto-Submitted: auto-generated`
+- `X-Auto-Response-Suppress: OOF, AutoReply` https://msdn.microsoft.com/en-us/library/ee219609(v=exchg.80).aspx
 
 ### About spam
 
