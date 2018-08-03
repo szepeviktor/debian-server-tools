@@ -48,7 +48,8 @@ protected $securityExceptions = [
 
 ### Laravel caches
 
-Use [Redis PECL extension](https://laravel.com/docs/5.6/redis#phpredis) instead of Predis.
+Use [Redis PECL extension](https://laravel.com/docs/5.6/redis#phpredis) instead of Predis,
+and the [key hash tag](https://laravel.com/docs/5.6/queues#driver-prerequisites).
 
 - Compiled classes `/bootstrap/cache/compiled.php`
   [removed in 5.4](https://github.com/laravel/framework/commit/09964cc8c04674ec710af02794f774308a5c92ca#diff-427cac03b212e5fd24785d55149d3aea)
