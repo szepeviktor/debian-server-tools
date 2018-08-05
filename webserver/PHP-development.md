@@ -135,6 +135,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Templating
 - Authentication (Web Authentication API, client certificate, 2FA,
   [password security](/security/Password-security.md), lock session to IP address)
+- Ability of matching an event (uncaught exception) to a user ID or session
 - User roles and capabilities
 - Email addresses, composing and sending
   (obfuscate email addresses, form hidden field, mailcheck.js, plain text version, NeverBounce)
@@ -246,6 +247,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
     - Authorize IP address procedure
     - Login notification
     - New device notification
+    - Login logging or last successful login logging
 - If you choose an [identity provider](https://www2.nopassword.com/contextual-adaptive-authentication/)
   search the web for its name plus "breach" "exploit" "security"
 - [Authentication as a Service](https://auth0.com/rules/thisdata-alert-anomalies)

@@ -465,6 +465,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Compatiblitity
 
+- **Google Translate**, Facebook app (running in an IFRAME), Google Search "Cached" :snail:
 - [\<head> cheatsheet](https://gethead.info/)
 - Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
 - Text selection: color+background-color, disable selection, display share options on select (see Feedly)
@@ -476,7 +477,6 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)
   and [Twitter](https://dev.twitter.com/cards/markup) :snail:
-- Google translate, Facebook app (loading in IFRAME)
 - [Printer](http://www.printfriendly.com/), [Gutenberg framework](https://github.com/BafS/Gutenberg)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)

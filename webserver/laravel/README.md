@@ -29,7 +29,7 @@ Laravel upgrade service: https://laravelshift.com/
 - WordPress Fail2ban WAF patched
 - HTTP method not in routes
 - HTTP 404
-- CSRF token mismatch
+- CSRF token mismatch (Google Translate, Facebook app, Google Search "Cached")
 - Failed login attempts
 - Non-empty hidden field in forms
 
@@ -63,3 +63,7 @@ and the [key hash tag](https://laravel.com/docs/5.6/queues#driver-prerequisites)
 See `/vendor/laravel/framework/src/Illuminate/Foundation/Application.php`
 
 Caching depends on `APP_ENV` variable.
+
+### Static Analysis
+
+[Larastan](https://github.com/nunomaduro/larastan) a PHPStan wrapper for Laravel.
