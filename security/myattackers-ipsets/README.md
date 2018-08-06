@@ -15,6 +15,8 @@ See also Access Watch database: https://access.watch/database
 
 Run `myattackers-ipsets-install.sh`
 
+Update ipset files with embedded update script: `sed -n -e 's/^#\$ //p' example.ipset | bash`
+
 ### Usage on systems without ipset
 
 ```bash
@@ -32,7 +34,7 @@ grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
 echo "</RequireAll>"
 ```
 
-### Usage in Mikrotik routers
+### Usage on Mikrotik routers
 
 ```bash
 grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
