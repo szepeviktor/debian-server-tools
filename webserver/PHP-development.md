@@ -12,6 +12,7 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 - Other's interest in integration with your project (API)
 - Move fast with development, don't use a tool if it slows down development
 - Keep developer morale high
+- Have a fixed time frame for under-the-hood development
 - Think about the far future when making decisions today
 
 ### High level overview
@@ -32,6 +33,7 @@ Bits and bytes.
 - UTF-8 encoding without BOM
 - **Trim trailing whitespaces**
 - Insert final newlines
+- Non-ASCII characters (emoji, accented letter, signs) `LC_ALL=C grep -P '[\x80-\xFF]'`
 
 [EditorConfig](/.editorconfig),
 [PSR2 ruleset](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR2/ruleset.xml)

@@ -21,8 +21,16 @@ PHP_TZ="UTC"
 
 # @nonDebian
 Pkg_install_quiet php${PHP}-fpm libpcre3 \
-    php${PHP}-curl php${PHP}-gd php${PHP}-intl php${PHP}-mbstring php${PHP}-mysql \
-    php${PHP}-xml php${PHP}-sqlite3 # Not for WP
+    php${PHP}-curl php${PHP}-gd php${PHP}-intl php${PHP}-mysql \
+    php${PHP}-sqlite3 # Not for WP
+
+# Not available in PHP5
+if [ -n "$(dpkg-query --showformat="\${Status}" --show "php${PHP}-mbstring" 2>/dev/null)" ]; then
+    Pkg_install_quiet php${PHP}-mbstring
+fi
+if [ -n "$(dpkg-query --showformat="\${Status}" --show "php${PHP}-xml" 2>/dev/null)" ]; then
+    Pkg_install_quiet php${PHP}-xml
+fi
 
 # Shim directrory for PHP 5.6
 if dpkg --compare-versions "$PHP" lt 7.0 && [ ! -d /etc/php ]; then

@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.6
+# VERSION       :1.0.7
 # DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -177,35 +177,37 @@ Courier_mta()
     fi
 
     # Check config files for submission (MSA)
-    if grep -q -x "ESMTPDSTART=YES" /etc/courier/esmtpd-msa \
-        && grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
-        && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
+    if grep -q -x "ESMTPDSTART=YES" /etc/courier/esmtpd-msa; then
+        if grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
+            && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
 
-        service courier-mta restart
+            service courier-msa restart
 
-        # Test SMTP-MSA STARTTLS
-        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
-            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:587" -starttls smtp
-        echo "SMTPS-MSA result=$?"
-    else
-        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:587 -starttls smtp" 1>&2
+            # Test SMTP-MSA STARTTLS
+            echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+                -servername "$SERVER_NAME" -connect "${SERVER_NAME}:587" -starttls smtp
+            echo "SMTPS-MSA result=$?"
+        else
+            echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd-msa" 1>&2
+            echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:587 -starttls smtp" 1>&2
+        fi
     fi
 
     # Check config file for IMAPS
-    if [ -f /etc/courier/imapd-ssl ] \
-        && grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/imapd-ssl \
-        && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/imapd-ssl; then
+    if [ -f /etc/courier/imapd-ssl ]; then
+        if grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/imapd-ssl \
+            && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/imapd-ssl; then
 
-        service courier-imap-ssl restart
+            service courier-imap-ssl restart
 
-        # Test IMAPS
-        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
-            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:993"
-        echo "IMAPS result=$?"
-    else
-        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config imapd-ssl" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:993" 1>&2
+            # Test IMAPS
+            echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+                -servername "$SERVER_NAME" -connect "${SERVER_NAME}:993"
+            echo "IMAPS result=$?"
+        else
+            echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config imapd-ssl" 1>&2
+            echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:993" 1>&2
+        fi
     fi
 
     echo "$(tput setaf 1)WARNING: Update msmtprc:tls_fingerprint on SMTP clients.$(tput sgr0)"
