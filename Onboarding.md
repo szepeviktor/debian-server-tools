@@ -95,7 +95,8 @@ https://haveibeenpwned.com/
 - Set up CI
 - Write deploy script
 - Notifications (email, chat, SMS)
-- **Development (development in production?, who has access, where to develop, how to deploy)**
+- **Development: development in production?, who has access, where to develop, how to deploy**
+- Editorial duties: **who has time and competence**
 
 ### Email delivery
 

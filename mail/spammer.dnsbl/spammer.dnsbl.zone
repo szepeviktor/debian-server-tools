@@ -115,8 +115,8 @@ $TTL 60
 83.143.178.104      BG_brandsvirals.net. @IXTLAN-SYSTEMS/AS200002
 
 # ROAD MARKETING SRL
-86.106.89           RO_only-mta-s @ROAD-MARKETING-SRL/AS48336
-37.156.226          RO_nagyonhasznos.eu-valamihasznosat.eu. @ROAD-MARKETING-SRL/AS59854
+86.106.89.0/24     RO_only-mta-s @ROAD-MARKETING-SRL/AS48336
+37.156.226.0/24     RO_nagyonhasznos.eu-valamihasznosat.eu. @ROAD-MARKETING-SRL/AS59854
 
 # m*.cutersfood.com
 199.217.114.69-73   HU_m*.cutersfood.com @HSI-6/AS30083
@@ -130,11 +130,11 @@ $TTL 60
 107.182.17.198-208  US_*.getlatestnews.biz. @BFL-22/AS46664
 
 # *.globalplaza.hu
-188.227.227         :2:Neighbour of HU_*.globalplaza.hu
+188.227.227.0/24    :2:Neighbour of HU_*.globalplaza.hu
 188.227.227.181-186 HU_*.globalplaza.hu. @DOCLERWEB/AS47381
 
 # euve77344.serverprofi24.net @PlusServer AG
-62.75.142           :2:Neighbour of HU_euve77344.serverprofi24.net.
+62.75.142.0/24      :2:Neighbour of HU_euve77344.serverprofi24.net.
 62.75.142.67        HU_euve77344.serverprofi24.net. @BSB-SERVICE-1/AS8972
 
 # *news.info spammer block DC: SERVERDROID
@@ -149,18 +149,18 @@ $TTL 60
 # VPSOPENVZ SRL-D / Oancea-F-Cristian-Marius-PFA, TENNET TELECOM SRL mail.*news.info. mail.*news.xyz.
 89.33.192.0/22      RO_m.*news.info.,fmx.*news.xyz.,fmx.*news.pro. @VPSOPENVZ/AS61412
 93.119.104.0/22     RO_mail.katinanews.info. @VPSOPENVZ/AS61412
-188.240.221         RO_m.tunatebiz.info. @VPSOPENVZ/AS61412
+188.240.221.0/24    RO_m.tunatebiz.info. @VPSOPENVZ/AS61412
 
 # spammer: 93.158.206.23 DC: Serverius
 93.158.204.0/22     :2: Neighbour of intensdesign.com. @Serverius/AS50673
 
 # HUMANICWEB @High Speed Web/Genesis 2 Networks
 # *.offersserve.xyz *.sendmasspress.xyz *.sendmasscampaign.xyz *.sendbulkcampaign.xyz
-216.189.122         :2:Neighbour of HUMANICWEB *.send*.xyz.
+216.189.122.0/24    :2:Neighbour of HUMANICWEB *.send*.xyz.
 216.189.122.193     US_ptp193.sendbulkcampaign.xyz. @HIGHSPEEDWEB-2/AS8175
 
 # GLOBAL-FRAG-SERVERS
-23.247.114          :2:Neighbour of GLOBAL-FRAG-SERVERS shop*.360jiank.com.
+23.247.114.0/24     :2:Neighbour of GLOBAL-FRAG-SERVERS shop*.360jiank.com.
 23.247.114.60       US_shop60.360jiank.com. @GLOBAL-FRAG-SERVERS/AS46573
 
 # Forex Binary Trader binarytrader.trade forexoptions.trade fxbinary.club fxbinaryrevenue.com
@@ -173,7 +173,7 @@ $TTL 60
 185.140.108.0/22    HU_EAN-NUM-LOG/AS48131/AS48662
 
 # El Valor Kft. @SZERVERPLEX
-#79.172.210          :2:Neighbour of El Valor, Famillio
+#79.172.210.0/24     :2:Neighbour of El Valor, Famillio
 79.172.210.208-215  HU_*.smartlead.hu @SZERVERPLEX/AS61998
 # Famillio Kft.
 79.172.210.223      HU_relay-gmail.famedia.hu @SZERVERPLEX/AS61998
@@ -189,15 +189,15 @@ $TTL 60
 195.70.59.161       HU_cegorszag.hu @IW-1212TELEKOM-NET/AS8358
 
 # *.newstoinbox-mail.eu
-5.56.23             :2:Neighbour of *.newstoinbox-mail.eu
+5.56.23.0/24        :2:Neighbour of *.newstoinbox-mail.eu
 5.56.23.88          magyar DE_*.newstoinbox-mail.eu @CORE-BACKBONE/AS33891
 
 # *.mindenaneten.hu
-156.67.106          HU_mindenaneten @TRAFFIC DEAL/AS197226
+156.67.106.0/24     HU_mindenaneten @TRAFFIC DEAL/AS197226
 
 # Blue-Cloud Hosting services
-77.241.194          LT_info*.tk/.cf @Blue-Cloud/AS15440
-77.241.198          LT_info*.tk/.cf @Blue-Cloud/AS15440
+77.241.194.0/24     LT_info*.tk/.cf @Blue-Cloud/AS15440
+77.241.198.0/24     LT_info*.tk/.cf @Blue-Cloud/AS15440
 
 # Quasi Networks LTD. SC-QUASI{1..80}
 #80.82.64.0/22       SC_QUASI* @QUASINETWORKS/AS29073
@@ -215,7 +215,7 @@ $TTL 60
 66.37.19.128/27     HU_sikerweboldal @Omnis/AS19237
 
 # simpletrendz.com @Shock Hosting
-144.208.126         :2:Neighbour of simpletrendz
+144.208.126.0/24    :2:Neighbour of simpletrendz
 144.208.126.156/30  ID_simpletrendz @Shock Hosting/AS395092
 
 # Francis de Lasalle trading as Heymman Servers
@@ -480,6 +480,9 @@ $TTL 60
 193.164.7.0/24      :2:TR_netbudur.com @RADORE
 
 # mastermediagroup.hu/WORKCENTER @Azonnal@MEDIACENTER
+92.43.203.0/24      :2:Neighbour of mastermediagroup.hu
+92.43.203.177       HU_mastermediagroup.hu @Azonnal@MEDIACENTER
+92.43.204.0/24      :2:Neighbour of mastermediagroup.hu
 92.43.204.5         HU_mastermediagroup.hu @Azonnal@MEDIACENTER
 
 # Riot Games - 1.outbound*.email.accounts.riotgames.com. @YESMAIL
@@ -499,3 +502,26 @@ $TTL 60
 # snowshoe
 66.118.187.12       US_secret.bbcif.com @SAGO
 66.118.187.34-62    US_SynergyISP,SAGO
+
+# AS8972 Nikulin Aleksey Mikhaylovich
+62.138.18.0/24      :2:Neighbour of N.A.Mikhaylovich
+62.138.18.170       UA_N.A.Mikhaylovich @HEG
+62.138.18.186       UA_N.A.Mikhaylovich @HEG
+62.138.18.196       UA_N.A.Mikhaylovich @HEG
+62.138.18.201       UA_N.A.Mikhaylovich @HEG
+85.25.79.0/24       :2:Neighbour of N.A.Mikhaylovich
+85.25.79.61         UA_N.A.Mikhaylovich @HEG
+188.138.70.0/24     :2:Neighbour of N.A.Mikhaylovich
+188.138.70.181      UA_N.A.Mikhaylovich @HEG
+217.172.170.0/24    :2:Neighbour of N.A.Mikhaylovich
+217.172.170.96      UA_N.A.Mikhaylovich @HEG
+# AS24961 Nikulin Aleksey Mikhaylovich
+217.79.181.0/24     :2:Neighbour of N.A.Mikhaylovich
+217.79.181.114      UA_N.A.Mikhaylovich @MYLOC
+
+# AS36114 Versaweb snowshoe spammer
+76.164.192.0/19     :2:Neighbour of Versaweb
+76.164.192.0/24     US_Versaweb
+76.164.193.0/24     US_Versaweb
+76.164.205.0/24     US_Versaweb
+76.164.224.0/21     :2:Neighbour of Versaweb

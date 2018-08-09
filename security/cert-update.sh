@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.0.7
+# VERSION       :1.1.0
 # DATE          :2018-03-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -124,13 +124,13 @@ Apache2()
 
 Courier_mta()
 {
-    #COURIER_USER="daemon"
-    COURIER_USER="courier"
-
     test -z "$COURIER_COMBINED" && return 125
     test -z "$COURIER_DHPARAMS" && return 125
 
     test -d "$(dirname "$COURIER_COMBINED")" || Die 20 "courier ssl dir"
+
+    # shellcheck disable=SC1091
+    COURIER_USER="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILUSER")"
 
     echo "Installing Courier MTA certificate ..."
     # Private + public + intermediate
