@@ -7,7 +7,7 @@ How to design and implement CI and CD.
 - Run in a premade container or install packages
 - Display environment information
 - Set access credentials
-- Cache OS and language library packages
+- Cache OS and programming language library packages
 - Check package management configuration
 - Check outdated packages and known security vulnerabilities
 - Build code
@@ -24,12 +24,12 @@ How to design and implement CI and CD.
 
 ### CD
 
-- Constrains:
+- Possible constrains:
   * successful tests
   * do not run on PR-s
   * our repo
   * specific branch
-  * tag in commit message `[deploy:live]`
+  * tag in commit message `[deploy:prod]`
   * deploy head commit only
   * optional manual start ([GitLab manual actions](https://gitlab.com/help/ci/yaml/README.md#manual-actions))
 - Do not run as root user

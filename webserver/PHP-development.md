@@ -43,8 +43,8 @@ Bits and bytes.
 - Consider [PSR-s](http://www.php-fig.org/psr/)
 - Frameworks/CMS-s
 - Packages/Libraries
-- SaaS
-- Development tools (Vagrant)
+- SaaS (Loco)
+- Development tools (Vagrant, Laragon)
 - Testing tools ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
 - Build and [deployment](/webserver/Continuous-integration-Continuous-delivery.md) tools
 - Application monitoring (performance, errors)
@@ -87,7 +87,7 @@ Use Docker **containers** for testing.
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
 - Build assets (webpack)
-- Metrics (phpmetrics)
+- Metrics (phpmetrics, phploc)
 
 ### CI with tests :mag_right:
 
@@ -104,6 +104,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Performance (Tideways)
 - Security scanner (Netsparker, Ripstech)
+- [Laravel Analyzer](https://laravelshift.com/)
 
 ### Tips for developing your application :bulb:
 
@@ -130,7 +131,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - HTTP request handling and security (URL structure, WAF)
 - Session handling (very long sessions, CSRF)
 - Input validation, sanitization
-- Escaping (SQL, HTML, JavaScript)
+- Escaping (database, HTML, JavaScript)
 - Internationalization (PHP, JavaScript, input formats and units)
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks

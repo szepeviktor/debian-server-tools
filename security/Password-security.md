@@ -12,7 +12,8 @@
 - May not contain characters: ?
 - Consecutive identical characters (aaa), alphabetical series (abc), number series (123), keyboard series (asd)
 - Similarity to username, previous password, email address, name
-- Don't allow TOP 1000 passwords
+- Don't allow TOP 1000 passwords,
+  [TOP 100 (HU)](https://blog.crysys.hu/2013/11/hungarian-passwords-in-the-adobe-leaked-password-list/)
 
 ### Similarity
 

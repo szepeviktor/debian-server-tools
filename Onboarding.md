@@ -123,7 +123,7 @@ https://haveibeenpwned.com/
 ### Onboarding for developers
 
 - We run Debian GNU/Linux on an UpCloud cloud instance
-- MariaDB or Percona Server + Apache with HTTP/2 and event MPM + PHP-FPM 7.2 + Redis
+- MariaDB or Percona Server + Apache with HTTP/2 and event MPM + PHP-FPM 7 + Redis
   ([full feature list](/debian-setup.sh#L23))
 - Every web application (or website) runs as a separate Linux user
 - There are no passwords for Linux users, only SSH keys
