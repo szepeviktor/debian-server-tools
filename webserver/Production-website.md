@@ -367,9 +367,11 @@ http://google-public-dns.appspot.com/cache :snail:
 
 ### Resource optimization
 
-- Image format `convert PNG --quality 100 JPG`
-- Image name `mv DSC-0005.JPG prefix-descriptive-name.jpg`
-- Image optimization `jpeg-recompress JPG OPTI_JPG` :snail:
+- File names with [special UNICODE characters](https://www.compart.com/en/unicode/block/U+0300)
+  `LC_ALL=C grep -P '[\x80-\xFF]' | grep -i '[/áéíóöőúüű]'` :snail:
+- Image format `convert PNG --quality 100 JPEG`
+- Image name `mv DSC-0005.jpeg prefix-descriptive-name.jpg`
+- Image optimization `jpeg-recompress JPEG OPTI_JPEG` :snail:
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css > large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, [image gallery](https://www.freepik.com/))

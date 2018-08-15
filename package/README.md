@@ -142,6 +142,14 @@ wget -O- https://bootstrap.pypa.io/get-pip.py | python2
 wget -O- https://bootstrap.pypa.io/get-pip.py | python3
 ```
 
+### Creating Python virtual environments
+
+```bash
+apt-get install python3-venv
+python3 -m venv env-dir
+cd env-dir; source bin/activate
+```
+
 ### Python package locations
 
 https://wiki.debian.org/Python#Deviations_from_upstream

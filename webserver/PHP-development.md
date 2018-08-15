@@ -83,6 +83,7 @@ Use Docker **containers** for testing.
 - Parallel syntax check (php-parallel-lint)
 - PSR-2-based coding style (phpcs)
 - Warn on `TODO` and `FIXME`: "Move it into issues!" (phpcs)
+- PHP Compatibility check (phpcompatibility/php-compatibility)
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, larastan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
@@ -149,7 +150,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - [Keep A Changelog](https://github.com/phly/keep-a-changelog)
 - Analytics, visitor tracking (HEAP, Hotjar, Smartlook, Clicktale)
 - Performance (application monitoring, New Relic)
-- [Error tracking](https://github.com/getsentry/sentry): JavaScript, PHP, queue, cron
+- [Error tracking](https://github.com/getsentry/sentry): JavaScript, PHP, queue, cron (no overlapping)
 
 ### Application environment
 

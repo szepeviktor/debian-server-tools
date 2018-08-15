@@ -11,10 +11,10 @@
 #     aws route53 list-hosted-zones | jq ".HostedZones[] | .Name + \" \" + .Id"
 #     Add HOSTED_ZONE_ID=HOSTED-ZONE-ID to your ~/.profile
 #     aws configure
-#     aws-route53-edit-rrs.sh . TXT
-#     aws-route53-edit-rrs.sh non-existent-to-create.example.com. AAAA
-#     aws-route53-edit-rrs.sh example.com. A
-#     aws-route53-edit-rrs.sh example.com. IN TXT
+#     aws-route53-rrs.sh . TXT
+#     aws-route53-rrs.sh non-existent-to-create.example.com. AAAA
+#     aws-route53-rrs.sh example.com. A
+#     aws-route53-rrs.sh example.com. IN TXT
 
 HOSTED_ZONE="$HOSTED_ZONE_ID"
 

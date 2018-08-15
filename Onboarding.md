@@ -15,7 +15,7 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
    [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:**
 1. CDN provider: **AWS, KeyCDN :eu:**
-1. Transactional email provider: **AWS, SparkPost, Mailjet :eu:**
+1. Transactional email provider: **AWS, SparkPost, SparkPost EU :eu:**
 1. Storage provider: **AWS, Backblaze B2, Selectel, Oktawave :eu:**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
@@ -100,16 +100,23 @@ https://haveibeenpwned.com/
 
 ### Email delivery
 
-- [ESP](https://twofactorauth.org/#email) for One-to-One emails including inbound messages
+- [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
 - File sharing, large file sending [WeTransfer](https://wetransfer.com/),
   [Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/)
-- Transactional emails, see above
-- Notification emails (alerts, log excerpts)
-- Bulk email (newsletter)
-- Bounce messages for **all types**
-- Sender fraud protection and content integrity for **all types**: SPF, DKIM, DMARC
+- *Transactional* emails and notification emails (alerts, log excerpts) see above
+- *Bulk* email (newsletter)
+- Bounce messages for **all three**
+- Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
+
+### Backup
+
+- Data on servers is automatically backed up daily with 7 days rotation
+- External resources (S3 bucket)
+- Email accounts (local, IMAP)
+- Issues (Trello, GitLab)
+- Code repositories (GitLab, GitHub)
 
 ### Cyber security
 
