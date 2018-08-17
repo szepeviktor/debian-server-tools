@@ -40,7 +40,7 @@ makealiases
 )
 
 # Document root
-PRG_ROOT="/home/${U}/website/html"
+PRG_ROOT="/home/${U}/website/code"
 
 # Favicon and robots.txt
 wget -nv -nc -P ${PRG_ROOT} "https://www.debian.org/favicon.ico"

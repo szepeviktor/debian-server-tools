@@ -77,7 +77,7 @@ INT="${CN}.intermediate.crt"
 # Authorize or check authorization
 #     .well-known/acme-challenge
 # shellcheck disable=SC2086
-#Move_challenge_files "/home/USER/website/html/.well-known/acme-challenge" &
+#Move_challenge_files "/home/USER/website/code/.well-known/acme-challenge" &
 #manuale authorize --method http "$CN" ${DOMAIN_NAMES}
 manuale authorize "$CN" ${DOMAIN_NAMES}
 

@@ -18,7 +18,7 @@
 #
 # Adding cron job
 #
-#     59 *	* * *	USER	/usr/local/bin/laravel-report.sh /home/USER/website/html/storage/logs/
+#     59 *	* * *	USER	/usr/local/bin/laravel-report.sh /home/USER/website/code/storage/logs/
 #
 # Last minute tries to make sure there is a new log file at 00:59.
 

@@ -23,7 +23,7 @@ chmod +x /home/horde/website/horde-pear
 # @FIXME PHP7 needs "--force"
 /home/horde/website/horde-pear channel-discover pear.horde.org
 /home/horde/website/horde-pear install horde/horde_role
-# ENTER /home/horde/website/html
+# ENTER /home/horde/website/code
 /home/horde/website/horde-pear run-scripts horde/Horde_Role
 # Don't build C extensions -> install apt packages
 /home/horde/website/horde-pear install --nobuild --force horde/horde

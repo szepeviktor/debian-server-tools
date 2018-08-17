@@ -2,8 +2,8 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.10.0
-# DATE          :2015-07-08
+# VERSION       :0.11.0
+# DATE          :2018-08-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -26,7 +26,7 @@
 #
 # Create cron job
 #
-#     01,31 *	* * *	webuser	/usr/local/bin/wp-cron-cli.sh /home/webuser/website/html
+#     01,31 *	* * *	webuser	/usr/local/bin/wp-cron-cli.sh /home/webuser/website/code
 
 WPCRON_LOCATION="$1"
 
@@ -54,10 +54,10 @@ Get_meta() {
     echo "$VALUE"
 }
 
-# Look for usual document root: /home/user/website/html
+# Look for usual document root: /home/user/website/code
 if [ -z "$WPCRON_LOCATION" ] \
-    && [ -f "${HOME}/website/html/wp-cron.php" ]; then
-    WPCRON_DIR="${HOME}/website/html"
+    && [ -f "${HOME}/website/code/wp-cron.php" ]; then
+    WPCRON_DIR="${HOME}/website/code"
 # Directly specified
 elif [ "$(basename "$WPCRON_LOCATION")" == "wp-cron.php" ] \
     && [ -f "$WPCRON_LOCATION" ]; then

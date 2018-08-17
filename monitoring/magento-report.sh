@@ -13,12 +13,12 @@
 
 # It is a cron job at every hour 59 minutes.
 #
-#     59 *	* * *	USER	/usr/local/bin/magento-report.sh /home/USER/website/html/var/log/
+#     59 *	* * *	USER	/usr/local/bin/magento-report.sh /home/USER/website/code/var/log/
 #
 # Last minute tries to make sure there is a new log file after midnight at 00:59.
 
 # Logrotate config
-# /home/mage/website/html/var/log/*.log {
+# /home/USER/website/code/var/log/*.log {
 #     su mage mage
 #     weekly
 #     rotate 15
@@ -28,7 +28,7 @@
 #     nocompress
 #     sharedscripts
 #     postrotate
-#         rm /home/mage/website/html/var/log/*.log.offset
+#         rm /home/USER/website/code/var/log/*.log.offset
 #     endscript
 # }
 

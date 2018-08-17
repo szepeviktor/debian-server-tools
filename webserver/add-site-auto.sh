@@ -19,8 +19,8 @@ adduser _web ${U}
 
 # Website directories
 mkdir -v --mode=0750 /home/${U}/website
-mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup}
-chmod 0555 /home/${U}/website/html
+mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup}
+chmod 0555 /home/${U}/website/code
 # Create empty wp-cli.yml
 touch /home/${U}/website/wp-cli.yml
 

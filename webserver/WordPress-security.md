@@ -1,4 +1,4 @@
-# Block WordPress attack vectors
+# Blocking WordPress attack vectors
 
 ### Compromise from hosting provider
 

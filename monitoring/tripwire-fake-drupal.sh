@@ -7,7 +7,7 @@
 
 declare -r CURRENT_CORE_HASH="00000000000000000000000000000000"
 
-declare -r DOCUMENT_ROOT="${HOME}/website/html/"
+declare -r DOCUMENT_ROOT="${HOME}/website/code/"
 
 Tripwire_fake() {
     # Display checksum of Drupal in hash/drupal

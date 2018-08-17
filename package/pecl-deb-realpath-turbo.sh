@@ -49,7 +49,7 @@ extension=realpath_turbo.so
 realpath_turbo.disable_dangerous_functions = 1
 
 ; Set realpath_turbo.open_basedir to whatever you want to set open_basedir to
-;realpath_turbo.open_basedir = "/home/user/website/html"
+;realpath_turbo.open_basedir = "/home/user/website/code"
 
 ; Disable PHP's open_basedir directive so that the realpath cache won't be
 ; disabled.

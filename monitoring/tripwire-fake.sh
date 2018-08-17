@@ -5,7 +5,7 @@
 
 # It is an hourly cron job.
 
-declare -r DOCUMENT_ROOT="${HOME}/website/html/"
+declare -r DOCUMENT_ROOT="${HOME}/website/code/"
 
 Tripwire_fake() {
     # Core

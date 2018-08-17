@@ -13,8 +13,8 @@
 WP-CLI config: [wp-cli.yml](http://wp-cli.org/config/) possibly above document root
 
 ```yaml
-path: /home/user/website/html/wp
-url: https://www.example.com
+path: /home/user/website/code/wp
+url: https://www.example.com/
 debug: true
 skip-plugins:
     # Version randomizer

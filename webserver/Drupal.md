@@ -90,5 +90,5 @@ Enable inclusion per content type.
 ### Cron
 
 - http://cgit.drupalcode.org/drush/plain/docs/cron.html
-- /usr/local/bin/drush --quiet --root=/home/webuser/website/html core-cron
-- /usr/bin/wget -qO- "http://www.example.com/cron.php?cron_key=AAAAAAAAAAAAAAAAAA1111111111111111111111111"
+- /usr/local/bin/drush --quiet --root=/home/webuser/website/code core-cron
+- /usr/bin/wget -qO- "https://www.example.com/cron.php?cron_key=AAAAAAAAAAAAAAAAAA1111111111111111111111111"

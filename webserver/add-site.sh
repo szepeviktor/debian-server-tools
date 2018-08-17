@@ -36,15 +36,15 @@ echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
 mkdir -v --mode=0750 /home/${U}/website
-#mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup,fastcgicache}
-mkdir -v /home/${U}/website/{session,tmp,html,pagespeed,backup}
-chmod 0555 /home/${U}/website/html
+#mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup,fastcgicache}
+mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup}
+chmod 0555 /home/${U}/website/code
 
 # Add hosting.yml
 cp -v /usr/local/src/debian-server-tools/webserver/hosting.yml /home/${U}/website/
 
 # Install WordPress
-cd /home/${U}/website/html/
+cd /home/${U}/website/code/
 
 # Migrate files NOW!
 #
@@ -93,8 +93,8 @@ u wp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-r
 
 # * Mount wp-content/cache on tmpfs
 #     editor /etc/fstab
-#     tmpfs  /home/${U}/website/html/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u "$U"),gid=$(id -g "$U"),mode=0755  0 0
-wp-lib.sh --root="/home/${U}/website/html/static/cache/" mount 100
+#     tmpfs  /home/${U}/website/code/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u "$U"),gid=$(id -g "$U"),mode=0755  0 0
+wp-lib.sh --root="/home/${U}/website/code/static/cache/" mount 100
 
 # * Default image
 printf "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJ

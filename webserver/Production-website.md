@@ -218,8 +218,8 @@ Flush page cache.
 
 ```bash
 wp w3-total-cache flush
-ls -l /home/${U}/website/html/static/cache/
-ls -l /home/${U}/website/pagespeed/; touch /home/${U}/website/pagespeed/cache.flush
+ls -l /home/USER/website/code/static/cache/
+ls -l /home/USER/website/pagespeed/; touch /home/USER/website/pagespeed/cache.flush
 ```
 
 Check spam and trash comments.
@@ -368,7 +368,7 @@ http://google-public-dns.appspot.com/cache :snail:
 ### Resource optimization
 
 - File names with [special UNICODE characters](https://www.compart.com/en/unicode/block/U+0300)
-  `LC_ALL=C grep -P '[\x80-\xFF]' | grep -i '[/áéíóöőúüű]'` :snail:
+  `LC_ALL=C grep -P '[\x80-\xFF]'` :snail:
 - Image format `convert PNG --quality 100 JPEG`
 - Image name `mv DSC-0005.jpeg prefix-descriptive-name.jpg`
 - Image optimization `jpeg-recompress JPEG OPTI_JPEG` :snail:

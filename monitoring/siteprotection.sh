@@ -16,8 +16,8 @@
 #   Exclude Laravel view cache
 find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" -or -iname ".env" ")" \
     "(" -cmin -61 -or -mmin -61 ")" -printf '%p @%TH:%TM:%TS\n' \
-    | grep -v -x '/home/[[:alnum:]]\+/website/html/wp-content/cache/\S\+\.php @[0-9:.]\+' \
-    | grep -v -x '/home/[[:alnum:]]\+/website/html/wp-content/focus-object-cache/[a-z_-]\+/\S\+\.php @[0-9:.]\+' \
-    | grep -v -x '/home/[[:alnum:]]\+/website/html/storage/framework/views/[0-9a-z]\{40\}\.php @[0-9:.]\+' \
+    | grep -v -x '/home/[[:alnum:]]\+/website/code/wp-content/cache/\S\+\.php @[0-9:.]\+' \
+    | grep -v -x '/home/[[:alnum:]]\+/website/code/wp-content/focus-object-cache/[a-z_-]\+/\S\+\.php @[0-9:.]\+' \
+    | grep -v -x '/home/[[:alnum:]]\+/website/code/storage/framework/views/[0-9a-z]\{40\}\.php @[0-9:.]\+' \
 
 exit 0
