@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last 3 hours. Simple logcheck.
 #
-# VERSION       :0.8.17
+# VERSION       :0.8.18
 # DATE          :2016-04-20
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -23,6 +23,7 @@ Exceptions()
     #| grep -E -v '(courieresmtpd|courierfilter).*(: 554 Mail rejected|: 535 Authentication failed|>: 451\b)' \
     #| grep -E -v 'courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX$|,msg="535 Authentication rejected",cmd:)' \
     #| grep -E -v 'courieresmtpd: error,relay=.*,msg="(502 ESMTP command error|writev: Connection reset by peer)",cmd:' \
+    #| grep -E -v 'courierfilter: zdkimfilter.+verified: spf=pass, dkim=pass \(id=\S+, stat=0\) dmarc:quarantine=fail rep=0$' \
     #| grep -E -v '@(citromail\.hu|vipmail\.hu)>,status: deferred$' \
     #| grep -E -v 'spamd\[[0-9]+\]: spamd:|error@' \
     #| grep -E -v 'mysqld: .* Unsafe statement written to the binary log .* Statement:' \
