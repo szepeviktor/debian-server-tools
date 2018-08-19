@@ -2,7 +2,7 @@
 #
 # Extract arguments from an SPF record recursively.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2018-04-16
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -28,7 +28,7 @@ Do_spf()
                 echo "${MECHANISM#ip4:}"
                 ;;
             "ip6:"*)
-                echo "${MECHANISM#ip6:}"
+                echo ":${MECHANISM#ip6:}"
                 ;;
             "include:"*)
                 # Recurse into include

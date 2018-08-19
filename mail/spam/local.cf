@@ -120,6 +120,8 @@ whitelist_to                            spamtrap@szepe.net
 ok_locales                              en ja ko ru th
 
 # Whitelists
+# Microsoft Smart Network Data Services (broken SMTP HELO)
+whitelist_from                          snds-authorization@outlook.com
 #whitelist_from                          user@example.com user2@example.com
 #whitelist_to                            user@example.com
 #whitelist_from_rcvd                     user@example.com mail.example.com

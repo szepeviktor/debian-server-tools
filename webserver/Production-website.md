@@ -407,6 +407,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 - `blog_public` and robots.txt :snail:
 - XML sitemaps linked from robots.txt :snail:
+- Excluded pages: `noindex, nofollow` :snail:
 - Page title (blue in SERP) :snail:
 - Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page)) :snail:
 - Page meta description (grey in SERP) :snail:

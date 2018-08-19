@@ -1,6 +1,6 @@
 # Outlook.com SPF IP addresses
-#     ../spf-survey.sh outlook.com | sed -e 's|.*|#&\tallow,BLOCK|'
-# Prepend a colon to IPv6 addresses
+#$ ../spf-survey.sh outlook.com | sed -e 's|.*|#&\tallow,BLOCK|'
+# Includes Office 365 Delisting Service
 #157.56.232.0/21	allow,BLOCK
 #157.56.240.0/20	allow,BLOCK
 #207.46.198.0/25	allow,BLOCK
@@ -32,6 +32,7 @@
 #157.55.234.0/24	allow,BLOCK
 #213.199.154.0/24	allow,BLOCK
 #213.199.180.128/26	allow,BLOCK
+#52.100.0.0/14	allow,BLOCK
 #157.56.112.0/24	allow,BLOCK
 #207.46.51.64/26	allow,BLOCK
 #64.4.22.64/26	allow,BLOCK
@@ -43,8 +44,7 @@
 #23.103.128.0/19	allow,BLOCK
 #23.103.198.0/23	allow,BLOCK
 #65.55.88.0/24	allow,BLOCK
-# Office 365 Delisting Service
-104.47.0.0/17	allow,BLOCK
+#104.47.0.0/17	allow,BLOCK
 #23.103.200.0/21	allow,BLOCK
 #23.103.208.0/21	allow,BLOCK
 #23.103.191.0/24	allow,BLOCK
@@ -77,37 +77,13 @@
 #65.55.81.48/28	allow,BLOCK
 #65.55.234.192/26	allow,BLOCK
 #207.46.200.0/27	allow,BLOCK
-# Office 365 Delisting Service
-65.55.52.224/27	allow,BLOCK
+#65.55.52.224/27	allow,BLOCK
 #94.245.112.10/31	allow,BLOCK
 #94.245.112.0/27	allow,BLOCK
 #111.221.26.0/27	allow,BLOCK
 #207.46.50.192/26	allow,BLOCK
 #207.46.50.224	allow,BLOCK
 
-
 # Outlook.com Outbound IP Space
-#     wget -qO- https://postmaster.live.com/pm/ipspace.aspx | sed -n -e 's|.*<li>\([0-9/.]\+\)</li>.*|\1|p' | sed -e 's|.*|#&\tallow,BLOCK|'
-#65.54.190.0/26	allow,BLOCK
-#65.54.190.64/26	allow,BLOCK
-#65.54.190.128/26	allow,BLOCK
-#65.54.190.192/26	allow,BLOCK
-#65.55.116.0/26	allow,BLOCK
-#65.55.111.64/26	allow,BLOCK
-#65.55.116.64/26	allow,BLOCK
-#65.55.111.128/26	allow,BLOCK
-#65.55.34.0/26	allow,BLOCK
-#65.55.34.64/26	allow,BLOCK
-#65.55.34.128/26	allow,BLOCK
-#65.55.34.192/26	allow,BLOCK
-#65.55.90.0/26	allow,BLOCK
-#65.55.90.64/26	allow,BLOCK
-#65.55.90.128/26	allow,BLOCK
-#65.55.90.192/26	allow,BLOCK
-#65.54.51.64/26	allow,BLOCK
-#65.54.61.64/26	allow,BLOCK
-#207.46.66.0/28	allow,BLOCK
-#157.55.0.192/26	allow,BLOCK
-#157.55.1.128/26	allow,BLOCK
-#157.55.2.0/26	allow,BLOCK
-#157.55.2.64/26	allow,BLOCK
+#$ wget -qO- https://postmaster.live.com/pm/ipspace.aspx|sed -n -e 's#.*<li>\([0-9/.]\+\)</li>.*#\1#p'|sed -e 's|.*|#&\tallow,BLOCK|'
+40.92.0.0/14	allow,BLOCK
