@@ -1,4 +1,4 @@
-# AS19148 - Nobis Technology Group, Now: LEASEWEB-USA-PHX-11
+# AS19148 - Nobis Technology Group / Ubiquity, Now: LEASEWEB-USA-PHX-11
 #     Found a referral to rwhois.nobistech.net:4321.
 #     License Expired
 #: ipset -exist restore < ipset/nobis.ipset
@@ -31,3 +31,6 @@ add nobis 23.81.224.0/19
 # AS396190 - LEASEWEB-USA-SEA-10
 #add nobis 23.106.192.0/19
 #add nobis 23.108.128.0/19
+
+# AS396362 - LEASEWEB-USA-NYC-11
+add nobis 142.234.200.0/22

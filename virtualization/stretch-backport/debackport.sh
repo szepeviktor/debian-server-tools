@@ -131,7 +131,7 @@ else
     # From a custom source
     # Should change to source directory and set CHANGELOG_MSG
     Execute_hook source
-    if ! [ -d "debian" ] || [ -z "$CHANGELOG_MSG" ]; then
+    if [ ! -d "debian" ] || [ -z "$CHANGELOG_MSG" ]; then
         Error 3 "Custom source not available"
     fi
 fi

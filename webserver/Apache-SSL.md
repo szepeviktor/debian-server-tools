@@ -23,7 +23,7 @@ https://wiki.mozilla.org/Security/Server_Side_TLS
 
 https://istlsfastyet.com/
 
-[Current master in Debian](https://anonscm.debian.org/cgit/pkg-apache/apache2.git/tree/debian/config-dir/mods-available/ssl.conf)
+[Current master in Debian](https://salsa.debian.org/apache-team/apache2/blob/master/debian/config-dir/mods-available/ssl.conf)
 
 See [/webserver/apache-conf-available/ssl-mozilla-intermediate.default](/webserver/apache-conf-available/ssl-mozilla-intermediate.default)
 

@@ -230,12 +230,6 @@ gcc --version | grep "clang"
 find -type f -executable -exec file --mime "{}" ";" | grep -F 'charset=binary'
 ```
 
-### Courier sources in Debian
-
-- https://anonscm.debian.org/git/collab-maint/courier.git/
-- https://anonscm.debian.org/git/collab-maint/courier-authlib.git/
-- https://anonscm.debian.org/git/collab-maint/courier-unicode.git/
-
 ### Writing a man page
 
 http://asciidoc.org/

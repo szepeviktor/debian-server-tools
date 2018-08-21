@@ -3,7 +3,7 @@
 set -e -x
 
 # Latest
-#     wget -qO- "https://anonscm.debian.org/cgit/collab-maint/sudo.git/plain/debian/sudoers"
+#     wget -qO- "https://salsa.debian.org/debian/sudo/raw/master/debian/sudoers"
 
 # Restore sudoers from v1.8.10p3-1+deb8u3
 cat > /etc/sudoers <<"EOF"
