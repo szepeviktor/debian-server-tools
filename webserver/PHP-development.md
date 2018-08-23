@@ -58,7 +58,8 @@ Bits and bytes.
 - → Wait for release → tag and deploy to production server :ship:
 
 Commit checklist:
-code, tests, changelog, commit message, issue link, watch CI (`PULL_REQUEST_TEMPLATE.md`)
+code, tests, changelog, [commit message](https://conventionalcommits.org/),
+issue link, watch CI (`PULL_REQUEST_TEMPLATE.md`)
 
 [Release checklist](https://make.wordpress.org/cli/handbook/release-checklist/):
 tag, build, deploy, announce (blog, email, Wiki)

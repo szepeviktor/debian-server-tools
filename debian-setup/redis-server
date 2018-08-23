@@ -10,6 +10,13 @@ cat > /etc/sysctl.d/redis-overcommit.conf <<"EOF"
 #vm.overcommit_memory = 1
 EOF
 
+# @TODO Allow high backlog
+cat > /etc/sysctl.d/redis-tcp-listen-backlog.conf <<"EOF"
+# https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+##net.ipv4.tcp_max_syn_backlog = 512
+#net.core.somaxconn = 512
+EOF
+
 # Redis - in-memory data structure store
 Pkg_install_quiet redis-server
 

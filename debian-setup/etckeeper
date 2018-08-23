@@ -5,5 +5,5 @@ set -e -x
 Pkg_install_quiet etckeeper
 
 cd /etc/
-git config --global user.name "root"
-git config --global user.email "admin@szepe.net"
+git config user.name "root"
+git config user.email "root@$(hostname --fqdn)"

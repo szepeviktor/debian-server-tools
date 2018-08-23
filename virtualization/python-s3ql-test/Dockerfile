@@ -1,29 +1,40 @@
+#
 # szepeviktor/python-s3ql-test
 #
-# szepeviktor/python:3.5.2-stretch is from https://github.com/docker-library/python/raw/master/3.5/Dockerfile
-# Change to stretch and Add gpg dirmngr
-#
-# Build: docker build -t szepeviktor/python-s3ql-test:stretch-0.1.1 python-s3ql-test/
-#
-# Run: docker run --tty --rm --cap-add SYS_ADMIN --device /dev/fuse szepeviktor/python-s3ql-test:stretch-0.1.1
+# BUILD         :docker build -t szepeviktor/python-s3ql-test:stretch-0.2.0 .
+# RUN           :docker run --tty --rm --cap-add SYS_ADMIN --device /dev/fuse szepeviktor/python-s3ql-test:stretch-0.2.0
 
-FROM szepeviktor/python:3.5.2-stretch
+FROM szepeviktor/python:3.5.6-stretch
 
 # Dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    fuse psmisc pkg-config libattr1-dev libfuse-dev libsqlite3-dev libjs-sphinxdoc mercurial \
-    texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra texlive-fonts-recommended \
-    && rm -rf /var/lib/apt/lists/*
-RUN pip install -U cython==0.24.1 sphinx pycrypto defusedxml requests \
-    "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0" "pytest >= 2.7" pytest-catchlog
+RUN set -e -x \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        fuse psmisc pkg-config libattr1-dev libfuse-dev libsqlite3-dev libjs-sphinxdoc mercurial \
+        texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra texlive-fonts-recommended
+
+RUN set -e -x \
+    && apt-get --purge -y autoremove \
+    && apt-get clean \
+    && find /var/lib/apt/lists -type f -delete
+
 # apsw must be the same version as libsqlite3
-# dpkg-query --show --showformat="\${Version}" libsqlite3-dev | sed -e 's|-.*$|-r1|'
-# "apsw == 3.15.2-r1" in stretch
 # https://packages.debian.org/stretch/libsqlite3-dev
-RUN pip install -U "https://github.com/rogerbinns/apsw/releases/download/3.15.2-r1/apsw-3.15.2-r1.zip"
+#     dpkg-query --show --showformat='${Version}' libsqlite3-dev | sed -e 's#-.*$#-r1#'
+# apsw==3.16.2-r1 in stretch
+RUN set -e -x \
+    && pip install -U "https://github.com/rogerbinns/apsw/releases/download/3.16.2-r1/apsw-3.16.2-r1.zip"
+
+# http://www.rath.org/s3ql-docs/installation.html#dependencies
+# https://github.com/s3ql/s3ql/blob/master/setup.py#L132
+RUN set -e -x \
+    && pip install -U \
+        "cython >= 0.24.1" "sphinx >= 1.2b1" "pytest >= 2.7" \
+        pycrypto requests defusedxml "dugong >= 3.4, < 4.0" "llfuse >= 1.0, < 2.0" 
 
 # Tests
-CMD hg clone https://bitbucket.org/nikratio/s3ql \
+CMD set -e -x \
+    && git clone https://github.com/s3ql/s3ql.git \
     && cd s3ql/ \
     && python setup.py build_cython \
     && python setup.py build_ext --inplace \
