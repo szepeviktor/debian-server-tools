@@ -535,17 +535,7 @@ Uptime ([pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetri
 
 [List of all errors in Apache httpd](https://wiki.apache.org/httpd/ListOfErrors)
 
-@TODO Report JavaScript errors
-
-- https://bugsnag.com/
-- Piwik
-- Google Analytics
-- Report to `/js-error.php`
-- http://jserrlog.appspot.com/
-- https://github.com/mperdeck/jsnlog.js
-- https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions
-- https://github.com/errbit/errbit
-- https://github.com/airbrake/airbrake-js
+Report JavaScript, PHP (and other) errors with [Sentry](https://docs.sentry.io/server/installation/)
 
 
 ## Backup

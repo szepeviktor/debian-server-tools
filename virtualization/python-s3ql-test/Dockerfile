@@ -30,7 +30,7 @@ RUN set -e -x \
 RUN set -e -x \
     && pip install -U \
         "cython >= 0.24.1" "sphinx >= 1.2b1" "pytest >= 2.7" \
-        pycrypto requests defusedxml "dugong >= 3.4, < 4.0" "llfuse >= 1.0, < 2.0" 
+        pycrypto requests defusedxml "dugong >= 3.4, < 4.0" "llfuse >= 1.0, < 2.0"
 
 # Tests
 CMD set -e -x \

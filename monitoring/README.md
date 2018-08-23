@@ -19,12 +19,18 @@
 - PageSpeed ([PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/), [webpagetest.org](https://www.webpagetest.org/))
 - Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
 - Traffic ([goaccess.sh](/webserver/goaccess.sh), [HEAP](https://heapanalytics.com/), [Google Analytics](https://analytics.google.com/analytics/web/))
-- Report JavaScript errors @TODO
+- Report JavaScript, PHP (and other) errors [Sentry](https://docs.sentry.io/server/installation/),
+  client [for browsers](https://github.com/getsentry/sentry-javascript/tree/master/packages/raven-js)
+  and [for Laravel](https://github.com/getsentry/sentry-laravel)
 - Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/),
   [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/),
   [Oh Dear!](https://ohdearapp.com/))
 - Dependencies: listed in [hosting.yaml](/webserver/hosting.yml)
 - Dependencies: OCSP response ([ocsp-check.sh](/monitoring/ocsp-check.sh))
+
+Alternatives for error reporting: [Bugsnag](https://bugsnag.com/), Piwik, Google Analytics, http://jserrlog.appspot.com/ ,
+https://github.com/mperdeck/jsnlog.js , https://developers.google.com/analytics/devguides/collection/analyticsjs/exceptions ,
+https://github.com/errbit/errbit , https://github.com/airbrake/airbrake-js
 
 ### Per host monitoring
 
