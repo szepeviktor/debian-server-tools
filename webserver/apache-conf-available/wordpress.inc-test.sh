@@ -1,12 +1,15 @@
 #!/bin/bash
+#
+# Test wordpress.inc.conf.
+#
 
-BASE_URL="http://subtwo.wp"
+BASE_URL="http://wpinc.test"
 
 while read -r URL; do
     #URL="${URL/wp-content/static}"
     HEADERS="$(wget -q -S -O /dev/null 2>&1 "${BASE_URL}${URL#+}")"
 
-    echo -n "${URL} - "
+    printf '%s - ' "$URL"
 
     if [ "${URL:0:1}" == "+" ]; then
         if grep -Eqx "  HTTP/(1\.0|1\.1|2\.0) 200 OK" <<< "$HEADERS"; then

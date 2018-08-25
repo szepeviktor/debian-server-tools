@@ -100,7 +100,7 @@ if [ "$NAME" == . ] && [ "$TYPE" == . ]; then
 fi
 
 # Get name. and TYPE
-if [ $# -ne 2 ] || [ "${NAME:(-1)}" != . ] || [ -n "${TYPE//[A-Z]/}" ]; then
+if [ "$#" != 2 ] || [ "${NAME:(-1)}" != . ] || [ -n "${TYPE//[A-Z]/}" ]; then
     Usage
 fi
 
@@ -131,7 +131,7 @@ trap 'rm -f "$TEMP_JSON"' EXIT HUP INT QUIT PIPE TERM
 RECORD_IDS="$(Get_record_identifiers)"
 MX_PRIO=""
 
-# Check response
+# Operate based on record ID-s
 if [ -z "$RECORD_IDS" ]; then
     # New RRs
     if [ "$TYPE" == MX ]; then
@@ -170,5 +170,4 @@ fi
 
 # Check response
 grep -q -F '"success":true,' <<< "$RESPONSE"
-
 echo "OK."

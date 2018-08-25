@@ -545,6 +545,9 @@ Report JavaScript, PHP (and other) errors with [Sentry](https://docs.sentry.io/s
 1. Files
 1. Settings (connected 3rd party services)
 1. Authentication data
+1. External resources (S3 bucket)
+1. Issues (Trello, GitLab)
+1. Code repositories (GitLab, GitHub)
 
 
 ## Uninstallation

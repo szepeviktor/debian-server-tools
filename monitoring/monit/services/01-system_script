@@ -2,8 +2,8 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.12
-# DATE          :2016-05-18
+# VERSION       :1.0.13
+# DATE          :2018-08-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -28,16 +28,15 @@
 # - Resolvers
 # - Filesystem root
 
-set -e
-
-Disk_partitions() {
+Disk_partitions()
+{
     local VDISK
 
     # OpenVZ: no disk devices, empty string (but not on CloudLinux)
     # OpenVZ states in /proc/self/status
     #     envID == 0 -> openvzhn https://openvz.org/Hardware_Node
     #     envID present but > 0 -> openvzve https://openvz.org/Container
-    if [ -f /proc/vz/vzquota ] && ! [ -f /proc/lve/list ]; then
+    if [ -f /proc/vz/vzquota ] && [ ! -f /proc/lve/list ]; then
         echo ""
         return 0
     fi
@@ -55,6 +54,8 @@ Disk_partitions() {
 
     return 1
 }
+
+set -e
 
 while getopts ":c:h:r:" OPT; do
     case "$OPT" in
@@ -76,38 +77,39 @@ while getopts ":c:h:r:" OPT; do
     esac
 done
 
-shift $((OPTIND - 1))
+shift "$((OPTIND - 1))"
 
 # Stray option
 test -z "$*" || exit 7
 
 case "$CHECK" in
     CPU)
-        RESULT="$(grep -c "^processor\b" /proc/cpuinfo)"
+        RESULT="$(grep -c '^processor\b' /proc/cpuinfo)"
         ;;
     RAM)
-        RAM_KB="$(sed -n -e 's;^MemTotal:\s\+\(\S\+\).*$;\1;p' /proc/meminfo)"
+        RAM_KB="$(sed -n -e 's#^MemTotal:\s\+\(\S\+\).*$#\1#p' /proc/meminfo)"
         RESULT="$((RAM_KB / 1024))"
         ;;
     PCI)
+        test -d /sys/bus/pci || exit 10
         RESULT="$(lspci -n | md5sum | cut -d " " -f 1)"
         ;;
     USB)
-        [ -d /sys/bus/usb ] || exit 10
+        test -d /sys/bus/usb || exit 10
         RESULT="$(lsusb | cut -d " " -f 1-6 | md5sum | cut -d " " -f 1)"
         ;;
     DISK)
         RESULT="$(Disk_partitions)" || exit 10
         ;;
     SWAP)
-        RESULT="$(sed -e '1d;s;^\(\S\+\s\+\)\{2\}\(\S\+\).*$;\2;' /proc/swaps | sort | paste -s -d ":")"
+        RESULT="$(sed -e '1d;s#^\(\S\+\s\+\)\{2\}\(\S\+\).*$#\2#' /proc/swaps | sort | paste -s -d ":")"
         ;;
     CLOCKSOURCE)
         RESULT="$(cat /sys/devices/system/clocksource/clocksource0/current_clocksource)"
         ;;
     ENTROPY)
         # Visualize available entropy
-        # while :;do ENTR=$(cat /proc/sys/kernel/random/entropy_avail);printf -v BAR "%*s" $((ENTR/25));echo ${BAR// /_} $ENTR;sleep 10;done
+        # while :;do ENTR=$(cat /proc/sys/kernel/random/entropy_avail);printf -v BAR '%*s' $((ENTR/25));echo ${BAR// /_} $ENTR;sleep 10;done
         declare -i ENTROPY
         ENTROPY="$(cat /proc/sys/kernel/random/entropy_avail)"
         if [ "$ENTROPY" -ge 1000 ]; then
@@ -117,22 +119,22 @@ case "$CHECK" in
         fi
         ;;
     VCONSOLE)
-        [ -c /dev/hvc0 ] || exit 10
+        test -c /dev/hvc0 || exit 10
         RESULT="/dev/hvc0"
         ;;
     GATEWAY)
-        # @FIXME "default dev venet0  scope link" if grep "^default dev [[:alnum:]]\+ "; then grep \1
-        RESULT="$(ip route | grep "^default via " | cut -d " " -f 3)"
+        # @FIXME "default dev venet0  scope link" if grep '^default dev [[:alnum:]]\+ '; then grep \1
+        RESULT="$(ip route | grep '^default via ' | cut -d " " -f 3)"
         ;;
     IP1)
-        RESULT="$(ip addr show | sed -n -e 's;^\s*inet \([0-9\.]\+\)\b.*$;\1;p' | grep -v -x -m 1 "127\.[0-9]\+\.[0-9]\+\.[0-9]\+")"
+        RESULT="$(ip addr show | sed -n -e 's#^\s*inet \([0-9\.]\+\)\b.*$#\1#p' | grep -v -x -m 1 '127\.[0-9]\+\.[0-9]\+\.[0-9]\+')"
         ;;
     DNS1)
-        RESULT="$(sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s//\1/p' /etc/resolv.conf)"
+        RESULT="$(sed -n -e '0,/^nameserver \([0-9.]\+\)\s*$/s##\1#p' /etc/resolv.conf)"
         ;;
     HOP1)
-        [ -z "$NEAREST" ] && exit 8
-        RESULT="$(traceroute -n -4 -w 2 -m 1 "$NEAREST" | sed -n -e '$s;^ 1  \([0-9.]\+\) .*$;\1;p')"
+        test -z "$NEAREST" && exit 8
+        RESULT="$(traceroute -n -4 -w 2 -m 1 "$NEAREST" | sed -n -e '$s#^ 1  \([0-9.]\+\) .*$#\1#p')"
         # Brace expansion for load-balanced routers
         if [ -n "$EXPECTED" ]; then
             for ROUTER in $(eval echo "$EXPECTED"); do
@@ -144,24 +146,24 @@ case "$CHECK" in
         fi
         ;;
     HOP2)
-        [ -z "$NEAREST" ] && exit 8
-        RESULT="$(traceroute -n -4 -w 2 -f 2 -m 2 "$NEAREST" | sed -n -e '$s;^ 2  \([0-9.]\+\) .*$;\1;p')"
+        test -z "$NEAREST" && exit 8
+        RESULT="$(traceroute -n -4 -w 2 -f 2 -m 2 "$NEAREST" | sed -n -e '$s#^ 2  \([0-9.]\+\) .*$#\1#p')"
         ;;
     PTR1)
         IP="$("$0" -c IP1)"
-        RESULT="$(host -W 2 -t PTR "$IP" | sed -n -e '0,/^[0-9.]\+\.in-addr\.arpa domain name pointer \(.\+\)$/s//\1/p')"
+        RESULT="$(host -W 2 -t PTR "$IP" | sed -n -e '0,/^[0-9.]\+\.in-addr\.arpa domain name pointer \(.\+\)$/s##\1#p')"
         ;;
     MX1)
         MX1="$(host -W 2 -t MX "$(hostname -f)")" #"
-        [ "$MX1" == "${MX1/ mail is handled by /}" ] && exit 10
-        RESULT="$(echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s//\1/p')"
+        test "$MX1" == "${MX1/ mail is handled by /}" && exit 10
+        RESULT="$(echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s##\1#p')"
         ;;
     RES)
         # Visualize longer resolver response times
         # MSEC_DELAY=2 msec host -t PTR 8.8.8.8 $RESOLVER|grep -v --line-buffered '^   [6-9]------'|ts
         # Responding resolver count
         declare -i RESULT
-        RESOLVERS="$(sed -n -e 's;^nameserver\s\+\(\S\+\)\s*$;\1;p' /etc/resolv.conf)"
+        RESOLVERS="$(sed -n -e 's#^nameserver\s\+\(\S\+\)\s*$#\1#p' /etc/resolv.conf)"
         while read -r RESOLVER; do
             # Same timeout as "options timeout:2" in resolv.conf
             if host -W 2 -t PTR 8.8.8.8 "$RESOLVER" &> /dev/null; then
@@ -173,7 +175,7 @@ case "$CHECK" in
         done <<< "$RESOLVERS"
         ;;
     ROOT)
-        RESULT="$(find / -mindepth 1 -maxdepth 1 -printf "%P\n" | sort | paste -s -d ":")"
+        RESULT="$(find / -mindepth 1 -maxdepth 1 -printf '%P\n' | sort | paste -s -d ":")"
         ;;
     *)
         # Missing check
@@ -189,8 +191,8 @@ if [ -n "${EXPECTED+empty}" ]; then
     if [ "$EXPECTED" == "empty" ]; then
         EXPECTED=""
     fi
-    [ "$EXPECTED" == "$RESULT" ]
+    test "$EXPECTED" == "$RESULT"
 fi
 
-# Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' ./01-system_script|xargs -I% bash -- ./01-system_script -c % -h 8.8.8.8
-# Test: sed -ne 's;^\s*\([A-Z0-9]\+\)).*;\1;p' server-integrity.sh|xargs -I% server-integrity.sh -c % -h 8.8.8.8
+# Test: sed -ne 's#^\s*\([A-Z0-9]\+\)).*#\1#p' ./01-system_script|xargs -I% bash -- ./01-system_script -c % -h 8.8.8.8
+# Test: sed -ne 's#^\s*\([A-Z0-9]\+\)).*#\1#p' server-integrity.sh|xargs -I% server-integrity.sh -c % -h 8.8.8.8
