@@ -12,7 +12,7 @@ set -e -x
 
 #apt-get install -y openssl apache2 apache2-utils
 # Install-Recommends=false prevents installing: ssl-cert
-Pkg_install_quiet -o APT::Install-Recommends=false apache2
+Pkg_install_quiet --no-install-recommends apache2
 # Path to certificates
 mkdir /etc/ssl/localcerts
 

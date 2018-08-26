@@ -2,8 +2,8 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.1.9
-# DATE          :2016-09-23
+# VERSION       :0.1.10
+# DATE          :2018-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -99,9 +99,9 @@ PUB_DIR="/etc/ssl/localcerts"
 printf 'CN        = '
 openssl x509 -in "$PUB" -noout -subject|sed -ne 's|^.*[/=]CN \?= \?\([^/]\+\).*$|\1|p'
 printf 'SAN-FIRST = '
-openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}'
+openssl x509 -in "$PUB" -noout -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}'
 printf 'SAN-LAST  = '
-openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}'
+openssl x509 -in "$PUB" -noout -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}'
 
 # Apache2: public + intermediate -------------------------
 # "include intermediate CA certificates, sorted from leaf to root"
@@ -110,10 +110,10 @@ openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;
 APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's|^.*[/=]CN \?= \?\([^/]\+\).*$|\1|p')"
 #
 # Use last Subject Alternative Name as domain name
-#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
 #
 # Use first Subject Alternative Name as domain name
-#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}')"
+#APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}')"
 #
 # Replace wildcard prefix in domain name
 APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"

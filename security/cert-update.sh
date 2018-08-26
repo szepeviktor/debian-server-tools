@@ -2,8 +2,8 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.1.0
-# DATE          :2018-03-29
+# VERSION       :1.2.0
+# DATE          :2018-08-26
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -138,8 +138,8 @@ Courier_mta()
 
     # As in courier-mta/postinst
     # NOTICE Synchronize with monit/services/courier-mta
-    chown root:${COURIER_USER} "$COURIER_COMBINED" || Die 22 "courier owner"
-    chmod 0640 "$COURIER_COMBINED" || Die 23 "courier perms"
+    chown "${COURIER_USER}:root" "$COURIER_COMBINED" || Die 22 "courier owner"
+    chmod 0600 "$COURIER_COMBINED" || Die 23 "courier perms"
     # IMAP certificate
     if [ -n "$COURIER_IMAP_COMBINED" ]; then
         cp "$COURIER_COMBINED" "$COURIER_IMAP_COMBINED" || Die 27 "courier IMAP cert copy"
@@ -153,7 +153,7 @@ Courier_mta()
     nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
     # As in /usr/sbin/mkdhparams
     # NOTICE Synchronize with monit/services/courier-mta
-    chown ${COURIER_USER}:root "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
+    chown "${COURIER_USER}:root" "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
     chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"

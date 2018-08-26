@@ -13,14 +13,10 @@
 #     MTA --> transactional provider
 #     MTA --> transactional provider
 
-set -e -x
-
-# shellcheck disable=SC1091
-. debian-setup-functions.inc.sh
-
 #################### 'smarthost' configuration ####################
 
-Smarthost_config() {
+Smarthost_config()
+{
     # Bounce handling
     host -t MX "$(hostname -f)"
     # Receive (bounce) mail for the satellite system (alias, acceptmailfor)
@@ -47,7 +43,8 @@ Smarthost_config() {
 ################## END 'smarthost' configuration ##################
 
 
-Courier_config() {
+Courier_config()
+{
     local NEW="$1"
     local CURRENT="$2"
     local ORIGINAL
@@ -60,8 +57,13 @@ Courier_config() {
     fi
 
     # Keep permissions
-    cat "mail/courier-config/${NEW}" > "$CURRENT"
+    cat "mail/courier-config/${NEW}" >"$CURRENT"
 }
+
+set -e -x
+
+# shellcheck disable=SC1091
+source debian-setup-functions.inc.sh
 
 # Check for other MTA-s
 if [ -n "$(aptitude search --disable-columns '?and(?installed, ?provides(mail-transport-agent))')" ]; then
@@ -78,7 +80,7 @@ echo "courier-base courier-base/maildir string Maildir" | debconf-set-selections
 echo "courier-mta courier-mta/dsnfrom string mailer-daemon@$(hostname -f)" | debconf-set-selections -v
 echo "courier-mta courier-mta/defaultdomain string" | debconf-set-selections -v
 # Install-Recommends=false prevents installing: tk8.6 tcl8.6 xterm x11-utils
-apt-get install -o APT::Install-Recommends=false -y ca-certificates courier-mta
+Pkg_install_quiet --no-install-recommends ca-certificates courier-mta
 
 # @FIXME courier-mta package's incorrect default @markus
 sed -e 's|^TLS_TRUSTCERTS=.*$|TLS_TRUSTCERTS=/etc/ssl/certs|' -i /etc/courier/courierd
@@ -95,7 +97,7 @@ Courier_config esmtproutes /etc/courier/esmtproutes
 chown courier:root /etc/courier/esmtpauthclient
 
 # Credentials for smarthosts
-echo "#smtp.sparkpostmail.com,587 SMTP_Injection SPARKPOST-API-KEY" >> /etc/courier/esmtpauthclient
+echo "#smtp.sparkpostmail.com,587 SMTP_Injection SPARKPOST-API-KEY" >>/etc/courier/esmtpauthclient
 
 # Unused certificate file
 install -o courier -g root -m 0600 /dev/null /etc/courier/esmtpd.pem
@@ -118,46 +120,49 @@ Courier_config bofh /etc/courier/bofh
 Courier_config esmtpd /etc/courier/esmtpd
 
 # Don't listen on port SMTPS (465/tcp)
-sed -i -e 's|^ESMTPDSSLSTART=.*$|ESMTPDSSLSTART=NO|' /etc/courier/esmtpd-ssl
+sed -e 's#^ESMTPDSSLSTART=.*$#ESMTPDSSLSTART=NO#' -i /etc/courier/esmtpd-ssl
 service courier-mta-ssl stop
 
 # Test GnuTLS prority strings
 (
     TLS_PRIORITY="NORMAL:-CTYPE-OPENPGP"
+    # shellcheck disable=SC1091
     source /etc/courier/courierd
-    gnutls-cli --priority="$TLS_PRIORITY" --list > /dev/null
+    gnutls-cli --priority="$TLS_PRIORITY" --list >/dev/null
 )
 (
     TLS_PRIORITY="NORMAL:-CTYPE-OPENPGP"
+    # shellcheck disable=SC1091
     source /etc/courier/esmtpd
-    gnutls-cli --priority="$TLS_PRIORITY" --list > /dev/null
+    gnutls-cli --priority="$TLS_PRIORITY" --list >/dev/null
 )
 (
     TLS_PRIORITY="NORMAL:-CTYPE-OPENPGP"
+    # shellcheck disable=SC1091
     source /etc/courier/esmtpd-ssl
-    gnutls-cli --priority="$TLS_PRIORITY" --list > /dev/null
+    gnutls-cli --priority="$TLS_PRIORITY" --list >/dev/null
 )
 
 # SMTP access for localhost
 Courier_config smtpaccess--default /etc/courier/smtpaccess/default
 
 # Remove own hostname from locals
-echo "localhost" > /etc/courier/locals
+echo "localhost" >/etc/courier/locals
 
 # Set hostname
-hostname -f > /etc/courier/me
-hostname -f > /etc/courier/defaultdomain
+hostname -f >/etc/courier/me
+hostname -f >/etc/courier/defaultdomain
 # /etc/courier/dsnfrom is set from debconf
 
 # Allow long log reports
-echo "$((25 * 1024**2))" > /etc/courier/sizelimit
+echo "$((25 * 1024**2))" >/etc/courier/sizelimit
 
 # Aliases
-sed -i -e 's|^postmaster:.*$|postmaster: postmaster@szepe.net\nnobody: postmaster|' /etc/courier/aliases/system
+sed -e 's#^postmaster:.*$#postmaster: postmaster@szepe.net\nnobody: postmaster#' -i /etc/courier/aliases/system
 
 courier-restart.sh
 
 # Test
 echo "This is a t3st mail." | s-nail -s "[$(hostname -f)] The 1st outgoing mail" postmaster@szepe.net
 
-echo "Outbound SMTP (port 25) may be blocked."
+echo "[NOTICE] Outbound SMTP (port 25) may be blocked."
