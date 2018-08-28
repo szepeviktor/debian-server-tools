@@ -9,6 +9,7 @@ networking:
     gateway: 
     resolver:
         - 88.151.96.15
+        # With DNSSEC
         - 88.151.96.16
     inet6:
         method: static
@@ -18,4 +19,5 @@ networking:
         gateway: 
         resolver:
             - 2a01:270::15
+            # With DNSSEC
             - 2a01:270::16

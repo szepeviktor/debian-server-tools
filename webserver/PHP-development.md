@@ -44,7 +44,8 @@ Bits and bytes.
 - Frameworks/CMS-s
 - Packages/Libraries
 - SaaS (Loco)
-- Development tools (Vagrant, Laragon)
+- Development tools ([Vagrant](https://app.vagrantup.com/laravel/boxes/homestead),
+  [Laragon](https://laragon.org/))
 - Testing tools ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
 - Build and [deployment](/webserver/Continuous-integration-Continuous-delivery.md) tools
 - Application monitoring (performance, errors)
