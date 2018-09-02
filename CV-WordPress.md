@@ -123,10 +123,10 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 
 ## WordPress fejlesztő keresés
 
-- http://wphu.org/wordpress-fejlesztes
-- http://weblabor.hu/munka
-- http://jobs.wordpress.net/post-a-job/
+- https://iamgergo.com/about/
 - https://kinsta.com/blog/hire-wordpress-developer/
+- https://jobs.wordpress.net/post-a-job/
+- https://wphu.org/wordpress-fejlesztes/
 
 
 ## Alkalmilag vállalt munkák

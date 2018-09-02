@@ -1,17 +1,31 @@
-# Markdown syntax file
-
+# Markdown syntax highlight config for MC (MidnigntCommander)
+# (not full, but usable)
+#
+# https://gist.github.com/rb2/1f6b23ea5ea848c75a8c
+#
 # Authors:
-#	Ruslan Brest, http://rb.labtodo.com, r-b@mail.ru, 2013
-#	https://gist.github.com/rb2/1f6b23ea5ea848c75a8c/raw/e4c608a7072b80610c2bec9a90312512be1e59a9/markdown.syntax
-#	~/.local/share/mc/mcedit/markdown.syntax
+#   Ruslan Brest, http://rb.labtodo.com, 2013
+#
+# Usage:
+#
+# $ mc --version
+# GNU Midnight Commander 4.8.15
+#
+# 1. copy to `~/.local/share/mc/syntax/markdown.syntax`
+# 2. Add these 2 lines to `~/.config/mc/mcedit/Syntax`:
+#
+#     file ..\*\\.(md|markdown|txt|text)$ Markdown
+#     include markdown.syntax
+
 
 context default
 ## Links
 ##    keyword [*](http*)		brightcyan/17
-    keyword [*]		brightcyan
+    keyword [*]		cyan
     keyword <*>		yellow
     keyword (http*)		brightmagenta
     keyword (ftp*)		brightmagenta
+    keyword (//*)		brightmagenta
 
 ## **Bold** or __Bold__
     keyword \*\**\*\*	yellow
@@ -22,20 +36,17 @@ context default
 
 
 ## Horisontal ruler
-	keyword linestart ---- white
+    keyword linestart -+ white
 
 ## List
     keyword linestart \* brightgreen
-    keyword linestart \t\* brightgreen
-    keyword linestart \t\t\* brightgreen
     keyword linestart - brightgreen
-    keyword linestart \t- brightgreen
-    keyword linestart \t\t- brightgreen
 
 #	keyword \{0123456789\}    white
 
 ## Headings
-context linestart #+ \n white
+#context linestart #+ \n lightgray brightred bold
+context linestart #+ \n black yellow bold
     spellcheck
 
 ## (not Markdown) TODO
@@ -43,6 +54,7 @@ context linestart TODO: \n brightred
 
 
 ## Code, tt, pre
+context ``` ``` brightred
 context ` ` brightred
 
 context linestart From:\s \n\n cyan
@@ -63,6 +75,10 @@ context linestart Date:\s \n\n cyan
     keyword linestart Subject: brightred/Orange
     keyword linestart +: brown
 
+context linestart Title:\s \n\n cyan
+    keyword linestart Author: brightgreen
+    keyword linestart +: brown
+
 context " " green
-	spellcheck
+    spellcheck
 
