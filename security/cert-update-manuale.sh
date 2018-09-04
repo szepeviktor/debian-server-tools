@@ -2,7 +2,7 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2018-09-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -37,6 +37,8 @@ Dump_configuration()
     local CONFIG_FILE="$1"
 
     cat > "$CONFIG_FILE" <<"EOF"
+# Configuration for cert-update-manuale.sh
+
 #source /home/USER/manuale-env/bin/activate
 #MANUALE_PATH=/home/USER/manuale-env/bin/manuale
 
@@ -46,16 +48,16 @@ AUTHORIZATION=DNS
 #AUTHORIZATION=HTTP
 #CHALLENGE_PATH="/home/USER/website/code/.well-known/acme-challenge"
 
-COMMON_NAME=example.com
+COMMON_NAME="example.com"
 # Additional domain names into SAN extension (Subject Alternative Name)
-DOMAIN_NAMES=www.example.com app.example.com
+DOMAIN_NAMES="www.example.com app.example.com"
 
 APACHE_ENABLED=YES
 APACHE_DOMAIN=COMMON-NAME
 #APACHE_DOMAIN=SAN-FIRST
 #APACHE_DOMAIN=SAN-LAST
 #APACHE_DOMAIN="www.example.com"
-APACHE_VHOST_CONFIG=domain
+APACHE_VHOST_CONFIG=DOMAIN
 #APACHE_VHOST_CONFIG="/etc/apache2/sites-available/custom-example.com.conf"
 
 #COURIER_ENABLED=YES
@@ -65,7 +67,7 @@ NGINX_DOMAIN=COMMON-NAME
 #NGINX_DOMAIN=SAN-FIRST
 #NGINX_DOMAIN=SAN-LAST
 #NGINX_DOMAIN="www.example.com"
-NGINX_VHOST_CONFIG=domain
+NGINX_VHOST_CONFIG=DOMAIN
 #NGINX_VHOST_CONFIG="/etc/apache2/sites-available/custom-example.com.conf"
 
 #DOVECOT_ENABLED=YES
@@ -234,12 +236,13 @@ if [ "$APACHE_ENABLED" == YES ]; then
     # Replace wildcard prefix in domain name
     APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
 
-    if [ "$APACHE_VHOST_CONFIG" == domain ]; then
-        APACHE_VHOST_CONFIG="$APACHE_DOMAIN"
+    # Use domain name in host config file name
+    if [ "$APACHE_VHOST_CONFIG" == DOMAIN ]; then
+        APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
     fi
 
     # Custom host config file name
-    if [ ! -r "/etc/apache2/sites-available/${APACHE_VHOST_CONFIG%.conf}.conf" ]; then
+    if [ ! -r "${APACHE_VHOST_CONFIG%.conf}.conf" ]; then
         echo "Apache host config file not found (${APACHE_VHOST_CONFIG})" 1>&2
         exit 11
     fi
