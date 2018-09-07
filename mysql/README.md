@@ -10,7 +10,7 @@ Comment out `#echo "$password_column_fix_query"`
 
 ```sql
 INSTALL PLUGIN unix_socket SONAME 'auth_socket';
-CREATE USER username IDENTIFIED VIA unix_socket;
+CREATE USER username IDENTIFIED WITH unix_socket;
 ```
 
 ### Drop all tables

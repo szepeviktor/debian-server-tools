@@ -2,7 +2,7 @@
 #
 # Create database and database user with sokcet authentication.
 #
-# VERSION       :0.1.0
+# VERSION       :0.2.0
 # DATE          :2018-07-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -26,10 +26,12 @@ Get_var() {
     echo "$DB_VALUE"
 }
 
-hash mysql 2> /dev/null || exit 10
+set -e
+
+hash mysql 2> /dev/null
 
 # Check database access
-mysql --execute="EXIT" || exit 11
+mysql --execute="EXIT"
 
 DBNAME="$(Get_var "DB_NAME")"
 DBUSER="$(Get_var "DB_USER")"
@@ -38,7 +40,10 @@ DBCHARSET="$(Get_var "DB_CHARSET" "utf8")"
 # "DB_COLLATE"
 
 # Exit on non-UTF8 charset
-[[ "$DBCHARSET" =~ [Uu][Tt][Ff]8 ]] || exit 12
+if [[ ! "$DBCHARSET" =~ [Uu][Tt][Ff]8 ]]; then
+    echo "DB_CHARSET is not 'UTF8'" 1>&2
+    exit 10
+fi
 
 echo "Database: ${DBNAME}"
 echo "User:     ${DBUSER}"
@@ -49,10 +54,10 @@ echo
 read -r -p "CREATE DATABASE? " -n 1
 
 if [ "$DBHOST" != localhost ]; then
-    echo "Connecting to ${DBHOST} ..." 1>&2
+    echo "Connecting to ${DBHOST} ..."
 fi
 
-mysql --default-character-set=utf8 --host="$DBHOST" <<EOF || echo "Couldn't setup up database (MySQL error: $?)" 1>&2
+mysql --default-character-set=utf8 --host="$DBHOST" <<EOF || echo "Couldn't setup up database (MySQL error: ${?})" 1>&2
 CREATE DATABASE IF NOT EXISTS \`${DBNAME}\`
     CHARACTER SET 'utf8'
     COLLATE 'utf8_general_ci';

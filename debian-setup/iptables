@@ -19,11 +19,12 @@ set -e -x
 iptables -A INPUT -i lo -j ACCEPT
 ip6tables -A INPUT -i lo -j ACCEPT
 # Enable statefull rules
-iptables  -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 ip6tables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 # Drop invalid state packets
 iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
 ip6tables -A INPUT -m conntrack --ctstate INVALID -j DROP
+
 # IP range match (example)
 #iptables -A INPUT -m iprange --src-range 10.10.96.255-10.10.97.14 -j REJECT
 
@@ -40,7 +41,7 @@ myattackers.sh -i
 )
 
 # Save IPv4 iptables rules
-iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v4
+iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's/ \[[0-9]*:[0-9]*\]$/ [0:0]/' > /etc/iptables/rules.v4
 
 # Save IPv6 iptables rules
-ip6tables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v6
+ip6tables-save | grep -E -v '(:|\s)f2b-' | sed -e 's/ \[[0-9]*:[0-9]*\]$/ [0:0]/' > /etc/iptables/rules.v6

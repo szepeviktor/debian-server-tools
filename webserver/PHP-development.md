@@ -44,6 +44,7 @@ Bits and bytes.
 - Frameworks/CMS-s
 - Packages/Libraries
 - SaaS (Loco)
+- Unified email, calendar, contacts API (Nylas)
 - Development tools ([Vagrant](https://app.vagrantup.com/laravel/boxes/homestead),
   [Laragon](https://laragon.org/))
 - Testing tools ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
