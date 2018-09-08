@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.2.0
+# VERSION       :1.2.1
 # DATE          :2018-08-26
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -159,25 +159,27 @@ Courier_mta()
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 
     # Check config files for SMTP STARTTLS and outgoing SMTP
-    if grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
-        && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
+    if ! grep -q -F -x 'ADDRESS=127.0.0.1' /etc/courier/esmtpd; then
+        if grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
+            && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
 
-        service courier-mta restart
+            service courier-mta restart
 
-        # Test SMTP STARTTLS
-        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
-            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp
-        echo "SMTP STARTTLS result=$?"
-        echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
-            -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp 2> /dev/null \
-            | openssl x509 -noout -dates
-    else
-        echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
-        echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+            # Test SMTP STARTTLS
+            echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+                -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp
+            echo "SMTP STARTTLS result=$?"
+            echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
+                -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp 2> /dev/null \
+                | openssl x509 -noout -dates
+        else
+            echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
+            echo "echo QUIT|openssl s_client -CAfile ${CABUNDLE} -crlf -servername ${SERVER_NAME} -connect ${SERVER_NAME}:25 -starttls smtp" 1>&2
+        fi
     fi
 
     # Check config files for submission (MSA)
-    if grep -q -x "ESMTPDSTART=YES" /etc/courier/esmtpd-msa; then
+    if grep -q -F -x 'ESMTPDSTART=YES' /etc/courier/esmtpd-msa; then
         if grep -q -x "TLS_CERTFILE=${COURIER_COMBINED}" /etc/courier/esmtpd \
             && grep -q -x "TLS_DHPARAMS=${COURIER_DHPARAMS}" /etc/courier/esmtpd; then
 
@@ -210,7 +212,7 @@ Courier_mta()
         fi
     fi
 
-    echo "$(tput setaf 1)WARNING: Update msmtprc:tls_fingerprint on SMTP clients.$(tput sgr0)"
+    echo "$(tput setaf 3;tput bold)WARNING: Update msmtprc:tls_fingerprint on SMTP clients.$(tput sgr0)"
 }
 
 Nginx()

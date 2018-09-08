@@ -23,7 +23,7 @@
 # Last minute tries to make sure there is a new log file at 00:59.
 
 declare -r MONOLOG_LEVELS="NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY"
-declare -r -i EXTRA_LINES="3"
+declare -r -i EXTRA_LINES="5"
 
 # Environment name
 LARAVEL_ENV="production"
@@ -53,7 +53,7 @@ test -f "$LARAVEL_LOG" || exit 0
 /usr/sbin/logtail2 "$LARAVEL_LOG" \
     | dd iflag=fullblock bs=1M count=5 2> /dev/null \
     | grep -E -A "$EXTRA_LINES" "^\\[[0-9]{4}-.+ ${LARAVEL_ENV}\\.(${MONOLOG_LEVELS}):" \
-    || if [ $? != 1 ]; then
+    || if [ "$?" != 1 ]; then
         # This is a real error, 1 is "not found"
         exit 102
     fi
