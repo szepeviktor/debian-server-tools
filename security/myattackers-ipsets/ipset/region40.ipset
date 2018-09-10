@@ -1,4 +1,4 @@
-# AS200557 - REGION40 / depo40.ru / Trusov / QualityNetwork / Digital Energy Technologies / Host1Plus
+# AS200557 - REGION40 / depo40.ru / Trusov / QualityNetwork
 #: ipset -exist restore < ipset/region40.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set region40 src -j REJECT
 create region40 hash:net family inet hashsize 64 maxelem 256
@@ -129,8 +129,3 @@ add region40 178.159.100.0/24
 add region40 178.159.107.0/24
 add region40 193.93.193.0/24
 add region40 193.93.194.0/24
-
-
-# AS62000 - Netrix
-# Digital Energy Technologies
-add region40 191.101.23.0/24

@@ -9,9 +9,22 @@ npm config -g set prefix "/usr/local"
 npm config -g set unicode true
 
 # Disable Apache configuration from javascript-common
-if hash a2disconf 2> /dev/null; then
+if hash a2disconf 2>/dev/null; then
     a2disconf javascript-common
 fi
 
 # Update NPM
 npm install -g npm@latest
+
+# Backports nodejs
+# @nonDebian
+#apt-get install -t stretch-backports nodejs
+
+# NPM from source
+#cd /usr/local/src/
+#wget "$(wget -qO- "https://registry.npmjs.org/npm/latest" | jq -r '.dist.tarball')"
+#mkdir npm; tar --directory=npm -xzf npm-*.tgz
+#rm npm-*.tgz
+#cd npm/package/
+#./configure --prefix="/usr/local" --unicode=true
+#make install

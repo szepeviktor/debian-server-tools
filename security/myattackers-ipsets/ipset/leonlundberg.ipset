@@ -1,12 +1,11 @@
-# AS44050 - LeonLundberg @PIN
+# AS44050 - LeonLundberg -> became PIN/Petersburg Internet Network
 #: ipset -exist restore < ipset/leonlundberg.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set leonlundberg src -j REJECT
-create leonlundberg hash:net family inet hashsize 64 maxelem 32
-flush leonlundberg
-add leonlundberg 188.143.232.0/24
+#create leonlundberg hash:net family inet hashsize 64 maxelem 32
+#flush leonlundberg
+#add leonlundberg 188.143.232.0/24
 #add leonlundberg 188.143.233.0/24 # Izydor Symanski
 # ToussaintDesaulniers-net
 # https://www.spamhaus.org/sbl/query/SBL313683
-add leonlundberg 188.143.234.0/24
+#add leonlundberg 188.143.234.0/24
 #add leonlundberg 188.143.235.0/24 # Anastasio Gallo
-# Also in -> dangerous.dnsbl.zone

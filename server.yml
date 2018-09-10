@@ -2,15 +2,15 @@
 # Server datasheet
 
 system:
-    fqdn: #host.example.com
+    fqdn: ##host.example.com
     os: "Debian “stretch”"
-    install-date: #YYYY-MM-DD
+    install-date: ##YYYY-MM-DD
     # tput sgr0;for C in {1..7};do tput setaf $C;echo -n "■${C}■  ";tput sgr0;done;echo
     host-color: 7
     trespass-warning: "Ez a szerver A/AZ-CÉG használatában áll. Másoknak a belépés tilos."
     #trespass-warning: "This server is used by COMPANY. Unauthorized entry is prohibited."
-    storage-provider: #"Amazon S3"
-    mail-provider: #"SparkPost"
+    storage-provider: ##"Amazon S3"
+    mail-provider: ##"SparkPost"
 
 # Package settings
 package:
@@ -36,13 +36,13 @@ package:
             name: viktor
             ssh-key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa"
     openssh-server:
-        port: #222 (preferably under 1024)
+        port: ##222 (preferably under 1024)
     fail2ban:
-        sender: #admin@example.com
+        sender: ##admin@example.com
     apache2:
-        prg-http-user: #user
-        prg-http-pwd: #secret
-        prg-ssl-cn: #prg.1.2.3.4.xip.io
+        prg-http-user: ##user
+        prg-http-pwd: ##secret
+        prg-ssl-cn: ##prg.1.2.3.4.xip.io
         mod_ratelimit: disabled
 
 # Mail server reputation
@@ -76,13 +76,13 @@ cruft:
     - /usr/local/lib/python3.4
     - /var/lib/mysql
     - /var/log
-# cruft $(shyaml get-values cruft < /root/server.yml | xargs -n 1 echo " --ignore ") > cruft.log
+# cruft $(shyaml get-values cruft < /root/server.yml | xargs -n 1 echo " --ignore ") >cruft.log
 
 # Clients using this server
 clients:
 
   #"Client Name":
-  #  type: user account|empty domain|email account|cron job|SeoPanel|Piwik|OWA|website|mailman|mirror
+  #  type: user account|empty domain|email account|cron job|Piwik|OWA|website|mailman|mirror
   #  services:
   #      - service 1
   #      - service 2
@@ -150,9 +150,6 @@ services:
     apache2:
       type: daemon
       transport: [ tcp/80, tcp/443 ]
-    can-send-email:
-      type: vhost
-      description: PHP script
 
 # Package management
 packaging:

@@ -23,10 +23,6 @@ add nobis 23.81.224.0/19
 
 # AS15003 - NOBIS-TECH
 #add nobis 23.80.0.0/16
-# Digital Energy Technologies
-#add nobis 191.96.100.0/24
-#add nobis 191.96.107.0/24
-#add nobis 191.101.178.0/24
 
 # AS396190 - LEASEWEB-USA-SEA-10
 #add nobis 23.106.192.0/19

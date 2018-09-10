@@ -1,0 +1,21 @@
+# AS61317 - Digital Energy Technologies / Host1Plus / ServerEquity / AS37692 NetStack / AS37692 DET Africa / AS61440 DET Chile
+#: ipset -exist restore < ipset/digitalenergy.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set digitalenergy src -j REJECT
+create digitalenergy hash:net family inet hashsize 64 maxelem 64
+flush digitalenergy
+# AS61440 - DET Chile
+add digitalenergy 154.16.53.0/24
+
+# AS15003 - NOBIS-TECH / clone AS? AS395954
+add digitalenergy 191.96.100.0/24
+add digitalenergy 191.96.107.0/24
+add digitalenergy 191.101.178.0/24
+
+# AS62000 - Netrix
+add digitalenergy 191.101.23.0/24
+
+# AS200557 - REGION40
+add digitalenergy 179.61.200.0/23
+add digitalenergy 181.214.37.0/24
+add digitalenergy 191.101.24.0/24
+add digitalenergy 191.101.54.0/23

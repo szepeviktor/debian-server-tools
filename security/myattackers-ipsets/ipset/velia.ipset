@@ -20,7 +20,14 @@ add velia 85.195.64.0/18
 # On cleantalk.org
 add velia 134.119.192.0/19
 # On cleantalk.org
-add velia 146.0.224.0/19
+# 146.0.224.0/19
+#add velia 146.0.224.0/24 - mail servers
+#add velia 146.0.225.0/24 - mail servers
+#add velia 146.0.226.0/24 - mail servers
+add velia 146.0.227.0/24
+add velia 146.0.228.0/22
+add velia 146.0.232.0/21
+add velia 146.0.240.0/20
 # Mass Sub Alloc
 add velia 151.106.0.0/19
 add velia 151.106.48.0/20

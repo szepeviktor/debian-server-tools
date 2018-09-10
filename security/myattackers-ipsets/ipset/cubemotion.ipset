@@ -1,7 +1,8 @@
-# AS20150 - CUBEMOTION-LLC, type: SMTP
+# AS20150 - CUBEMOTION-LLC, type: SMTP / ServerCrate / anyNode
 #: ipset -exist restore < ipset/cubemotion.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set cubemotion src -j REJECT
 create cubemotion hash:net family inet hashsize 64 maxelem 32
 flush cubemotion
+# Webhosting Holdings
 add cubemotion 104.36.84.0/24
 # Also in -> dangerous.dnsbl.zone

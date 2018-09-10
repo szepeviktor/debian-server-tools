@@ -1,7 +1,8 @@
-# AS701 - Kintiskton LLC, type: SMTP
+# AS701 - Kintiskton, type: SMTP
 #: ipset -exist restore < ipset/kintiskton.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set kintiskton src -j REJECT
 create kintiskton hash:net family inet hashsize 64 maxelem 32
 flush kintiskton
 add kintiskton 65.208.151.112/29
+add kintiskton 65.211.195.16/29
 # Also in -> dangerous.dnsbl.zone

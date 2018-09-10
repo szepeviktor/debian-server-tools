@@ -60,4 +60,8 @@ add sprint.pl 185.131.240.0/23
 # !Not Announced! Nobert Mucha trading as NFLY
 #add sprint.pl 185.130.44.0/22
 
+# AS198540 - ELAN Andrzej Niechcial
+# https://www.spamhaus.org/sbl/query/SBL176147
+add sprint.pl 91.236.74.0/23
+
 # Also in -> dangerous.dnsbl.zone
