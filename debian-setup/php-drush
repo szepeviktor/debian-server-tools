@@ -9,6 +9,10 @@ cd /opt/drush/
 composer require "drush/drush:7.*"
 ln -s /opt/drush/vendor/bin/drush /usr/local/bin/drush
 
+# For PHP 5.6
+printf '#!/bin/bash\nDRUSH_PHP=/usr/bin/php5.6 exec /opt/drush/vendor/bin/drush "$@"' >/usr/local/bin/drush5.6
+chmod +x /usr/local/bin/drush5.6
+
 # Set up Drupal site
 #     sudo -u SITE-USER -i
 #     cd website/

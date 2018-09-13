@@ -36,7 +36,7 @@ Dump_configuration()
 {
     local CONFIG_FILE="$1"
 
-    cat > "$CONFIG_FILE" <<"EOF"
+    cat >"$CONFIG_FILE" <<"EOF"
 # Configuration for cert-update-manuale.sh
 
 #source /home/USER/manuale-env/bin/activate

@@ -1,30 +1,38 @@
 #!/bin/bash
 
-# NPM global config: /usr/etc/npmrc
-
 set -e -x
 
-# Make sure packages are not installed under /usr/lib/node_modules
-npm config -g set prefix "/usr/local"
-npm config -g set unicode true
+if hash npm 2>/dev/null; then
+    # nodejs from nodesource
+    # NPM global config: /usr/etc/npmrc
 
-# Disable Apache configuration from javascript-common
-if hash a2disconf 2>/dev/null; then
-    a2disconf javascript-common
+    # Make sure packages are not installed under /usr/lib/node_modules
+    npm config -g set prefix "/usr/local"
+    npm config -g set unicode true
+
+    # Disable Apache configuration from javascript-common
+    if hash a2disconf 2>/dev/null; then
+        a2disconf javascript-common
+    fi
+
+    # Update NPM
+    npm install -g npm@latest
+else
+    # Debian packaged nodejs
+    # NPM global config: /usr/local/lib/node_modules/npm/npmrc
+
+    # NPM from source
+    (
+        cd /usr/local/src/
+        mkdir npm
+        wget "$(wget -qO- "https://registry.npmjs.org/npm/latest" | jq -r '.dist.tarball')"
+        tar --directory=npm -xzf npm-*.tgz
+        rm npm-*.tgz
+        cd npm/package/
+
+        # Installation
+        # Make sure packages are not installed under /usr/lib/node_modules
+        ./configure --prefix="/usr/local" --unicode=true
+        make install
+    )
 fi
-
-# Update NPM
-npm install -g npm@latest
-
-# Backports nodejs
-# @nonDebian
-#apt-get install -t stretch-backports nodejs
-
-# NPM from source
-#cd /usr/local/src/
-#wget "$(wget -qO- "https://registry.npmjs.org/npm/latest" | jq -r '.dist.tarball')"
-#mkdir npm; tar --directory=npm -xzf npm-*.tgz
-#rm npm-*.tgz
-#cd npm/package/
-#./configure --prefix="/usr/local" --unicode=true
-#make install

@@ -21,6 +21,8 @@ adduser _web ${U}
 mkdir -v --mode=0750 /home/${U}/website
 mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup}
 chmod 0555 /home/${U}/website/code
+# Add hosting.yml
+cp -v /usr/local/src/debian-server-tools/webserver/hosting.yml /home/${U}/website/
 # Create empty wp-cli.yml
 touch /home/${U}/website/wp-cli.yml
 
@@ -29,12 +31,12 @@ chown -cR ${U}:${U} /home/${U}/
 
 # PHP pool
 cd /etc/php/7.2/fpm/pool.d/
-sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
+sed "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >${U}.conf
 
 # Apache vhost
 cd /etc/apache2/sites-available/
 # Non-SSL
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
+sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >${DOMAIN}.conf
 
 # Enable site
 a2ensite ${DOMAIN}

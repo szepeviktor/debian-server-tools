@@ -24,8 +24,8 @@ adduser _web ${U}
 #     USER@HOSTNAME:       VIRTUAL-USERGROUP@HOSTNAME
 #     wordpress@HOSTNAME:  VIRTUAL-USERGROUP@HOSTNAME
 # Set forwarding address on the smarthost
-#     echo "RECIPIENT@DOMAIN.COM" > .courier-VIRTUAL-USERGROUP
-echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >> /etc/courier/aliases/system-user
+#     echo "RECIPIENT@DOMAIN.COM" >.courier-VIRTUAL-USERGROUP
+echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >>/etc/courier/aliases/system-user
 makealiases
 
 # * Install SSH key
@@ -60,6 +60,7 @@ find -type f -exec chmod --changes 0644 "{}" ";"
 find -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"
 find -name wp-config.php -exec chmod -v 0400 "{}" ";"
 #find -name settings.php -exec chmod -v 0400 "{}" ";"
+#find -name .env -exec chmod -v 0400 "{}" ";"
 find -name .htaccess -exec chmod -v 0640 "{}" ";"
 
 # Set owner
@@ -99,19 +100,19 @@ wp-lib.sh --root="/home/${U}/website/code/static/cache/" mount 100
 # * Default image
 printf "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJ
 TUUH4gMUEQE5VHnaPwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAnSURBVCjP
-Y0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" | base64 -d > checkered-16x16.png
+Y0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" | base64 -d >checkered-16x16.png
 
 # PHP pool
 #cd /etc/php5/fpm/pool.d/
 cd /etc/php/7.2/fpm/pool.d/
-sed "s/@@USER@@/${U}/g" < ../Skeleton-pool.conf > ${U}.conf
+sed "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >${U}.conf
 editor ${U}.conf
 
 # SSL certificate
 # See /security/LetsEncrypt.md
 read -e -p "Common Name: " -i "$DOMAIN" CN
 editor /etc/ssl/localcerts/${CN}-public.pem
-nice openssl dhparam 2048 >> /etc/ssl/localcerts/${CN}-public.pem
+nice openssl dhparam 2048 >>/etc/ssl/localcerts/${CN}-public.pem
 editor /etc/ssl/private/${CN}-private.key
 
 # Apache vhost
@@ -121,16 +122,16 @@ cd /etc/apache2/sites-available/
 # SSL
 # "001-${DOMAIN}.conf" non-SNI site
 # See /webserver/Apache-SSL.md
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >${DOMAIN}.conf
 # OCSP server monitoring
 ( cd /usr/local/src/debian-server-tools/; ./install.sh monitoring/ocsp-check.sh
   editor /usr/local/bin/ocsp--${DOMAIN}
   chmod +x /usr/local/bin/ocsp--${DOMAIN}
-  echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" > /etc/cron.d/ocsp-${DOMAIN//./-} )
+  echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" >/etc/cron.d/ocsp-${DOMAIN//./-} )
 # Certificate's common name differs from domain name
-#sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site-ssl.conf > ${DOMAIN}.conf
+#sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >${DOMAIN}.conf
 # * Non-SSL
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" < Skeleton-site.conf > ${DOMAIN}.conf
+sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site.conf >${DOMAIN}.conf
 
 # * HPKP (HTTP Public Key Pinning) including backup public key
 #     Headers: Public-Key-Pins-Report-Only Public-Key-Pins
@@ -171,7 +172,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 #     https://maximivanov.github.io/php-error-reporting-calculator/
 #     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
 # Cron log
-#     cron-job-command | ts "\%d \%b \%Y \%T \%z" >> /path/to/cron.log
+#     cron-job-command | ts "\%d \%b \%Y \%T \%z" >>/path/to/cron.log
 cd /etc/cron.d/
 # See /webserver/wp-cron-cli.sh
 # See /webserver/preload-cache.sh

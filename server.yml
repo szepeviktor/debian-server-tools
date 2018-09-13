@@ -19,6 +19,7 @@ package:
         sources:
             - sury-php
             - szepeviktor
+            #- nodejs/stretch-backports
             #- nodejs
             - percona
             #- mysql-5.7

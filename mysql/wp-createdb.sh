@@ -2,7 +2,7 @@
 #
 # Create database and database user from wp-config.php
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2018-09-05
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -19,7 +19,7 @@ Get_wpconfig_var() {
     local DEFAULT="$2"
 
     # Support UNIX or Windows line endings
-    if [ ! -r "$WP_CONFIG" ] || ! grep -q "^define.*\\{${VAR}\\b.*;.\\?\$" "$WP_CONFIG"; then
+    if [ ! -r "$WP_CONFIG" ] || ! grep -q "^define.*\\b${VAR}\\b.*;.\\?\$" "$WP_CONFIG"; then
         if [ -z "$DEFAULT" ]; then
             read -r -e -p "${VAR}? " DB_VALUE
         else
