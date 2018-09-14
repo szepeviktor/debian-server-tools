@@ -35,7 +35,7 @@ sed "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >${U}.conf
 
 # Apache vhost
 cd /etc/apache2/sites-available/
-# Non-SSL
+# SSL
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >${DOMAIN}.conf
 
 # Enable site

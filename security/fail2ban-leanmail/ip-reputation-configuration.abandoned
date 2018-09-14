@@ -1,0 +1,76 @@
+# Shutdown in May 2017
+# https://www.openbl.org/lists.html
+# "https://www.openbl.org/lists/base.txt"
+
+# https://legacy.webiron.com/rbl.html
+Match_webiron()
+{
+    local IP="$1"
+    local ANSWER
+
+    printf -v HOSTNAME "%s.all.rbl.webiron.net" "$(Reverse_ip "$IP")"
+
+    ANSWER="$(host -W "$TIMEOUT" -t A "$HOSTNAME" "$NS1" 2> /dev/null | tail -n 1)"
+    ANSWER="${ANSWER#* has address }"
+    ANSWER="${ANSWER#* has IPv4 address }"
+
+    if ! grep -q -E -x '([0-9]{1,3}\.){3}[0-9]{1,3}' <<< "$ANSWER"; then
+        # NXDOMAIN, network error or invalid IP
+        return 10
+    fi
+
+    # 127.0.0.1 STABL
+    # 127.0.0.2 CABL
+    # 127.0.0.3 BABL - Bad Abuse Backlist
+    grep -q -E -x '127\.0\.0\.[123]' <<< "$ANSWER"
+}
+
+# https://cleantalk.org/wiki/doku.php?id=spam_check
+Match_cleantalk()
+{
+    local IP="$1"
+    local AUTHKEY="$2"
+    local URL
+    local POST
+
+    # "https://moderate.cleantalk.org/api2.0"
+    printf -v URL "https://api.cleantalk.org/?method_name=spam_check&auth_key=%s" "$IP"
+
+    #curl -s "${HTTPAPI}" -d "data=${IP}"
+    # == '{"data":{"'"$IP"'":{"appears":1}}}'
+
+    printf -v POST '{"method_name":"check_newuser","auth_key":"%s","sender_email":"","sender_ip":"%s","js_on":1,"submit_time":15}' \
+        "$AUTHKEY" "$IP"
+
+    if wget -q -T "$TIMEOUT" -t 1 -O- --post-data="$POST" "$HTTPAPI" 2> /dev/null \
+        | grep -q -F '"allow" : 0'; then
+        # IP is positive
+        return 0
+    fi
+
+    return 10
+}
+
+# http://cinsscore.com/#list
+# "http://cinsscore.com/list/ci-badguys.txt"
+
+# https://www.talosintelligence.com/reputation
+# "https://www.talosintelligence.com/documents/ip-blacklist"
+
+# "https://ipsec.pl/files/ipsec/blacklist-ip.txt"
+# http://www.emergingthreats.net/open-source/etopen-ruleset
+# "http://doc.emergingthreats.net/pub/Main/RussianBusinessNetwork/RussianBusinessNetworkIPs.txt"
+
+# https://www.threatstop.com/index.php?page=instructions&policy_id=1299&pg=iptables
+# ftp://ftp.threatstop.com/pub/ts-iptables.tar.gz
+# "https://DOMAIN/ts/threatstop-basic.txt"
+
+# http://www.spamhaus.org/drop/
+# "http://www.spamhaus.org/drop/drop.txt"
+# "http://www.spamhaus.org/drop/edrop.txt"
+
+# Its main purpose is to block SSH bruteforce attacks via firewall.
+# http://danger.rulez.sk/index.php/bruteforceblocker/
+# "http://danger.rulez.sk/projects/bruteforceblocker/blist.php"
+# "https://feodotracker.abuse.ch/blocklist/?download=ipblocklist"
+# "https://zeustracker.abuse.ch/blocklist.php?download=badips"

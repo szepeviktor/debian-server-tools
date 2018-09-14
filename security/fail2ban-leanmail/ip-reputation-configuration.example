@@ -1,0 +1,64 @@
+# Global variables #
+
+# Full IP match or first three octets only (Class C)
+# Value: 0 or 1
+#CLASSC_MATCH="0"
+
+# DNS resolver
+#NS1="1.1.1.1"
+
+# Timeout in seconds
+#TIMEOUT="3"
+
+# List cache path
+#CACHE_DIR="${HOME}/.cache/ip-reputation"
+
+# Last 100 unmatched attackers
+#KNOWN_IP="${CACHE_DIR}/known.list"
+
+# GeoIP database
+#GEOIP_COUNTRY="/usr/share/GeoIP/GeoIP.dat"
+#GEOIP_AS="/usr/share/GeoIP/GeoIPASNum.dat"
+
+# Service providers #
+
+# https://access.watch/api/key
+ACCESSWATCH_APIKEY="*****"
+
+# https://www.projecthoneypot.org/httpbl_api.php
+HTTPBL_ACCESSKEY="*****"
+
+# Hosting providers
+# Servers only, no humans
+declare -a AS_HOSTING=(
+    AS14618  # Amazon.com, Inc.
+    AS16509  # Amazon.com, Inc.
+    AS16276  # OVH SAS
+    AS18978  # Enzu Inc.
+    AS12876  # ONLINE S.A.S.
+    AS5577   # root SA
+    AS36352  # ColoCrossing
+    AS29073  # Ecatel LTD
+    AS24940  # Hetzner Online GmbH
+    AS8972   # PlusServer AG
+    AS46606  # Unified Layer
+    AS45055  # NForce Entertainment B.V.
+    AS26496  # GoDaddy.com, LLC
+    AS56322  # ServerAstra Kft.
+    AS28573  # CLARO S.A. (ISP)
+    AS9299   # Philippine Long Distance Telephone Company (ISP)
+    AS200557 # Region40
+)
+
+# Labs #
+
+# Open Threat Intelligence API by eSentire http://docs.cymon.io/
+# wget -q -O- "http://api.abuseipdb.com/check/?ip=${IP}&cids=12,4,11,10,3,5,15,7,6,14,9,17,16,13&uid=${ABUSEIPDB_UID}&skey=${ABUSEIPDB_SKEY}&o=xml" \
+#     | grep -q '<report cid="[0-9]\+" total="[0-9]\+" />'
+# https://zeltser.com/malicious-ip-blocklists/
+# http://www.umbradata.com/solutions
+# # https://www.dshield.org/xml.html
+# # https://www.dshield.org/hpbinfo.html
+# # https://isc.sans.edu/diary/Reminder%3A+Proper+use+of+DShield+data/4483
+# https://www.dshield.org/ipsascii.html?limit=5000
+# https://www.cyveillance.com/home/security-solutions/data/
