@@ -51,7 +51,7 @@ Reverse_ip()
     local IPV4="$1"
     local OCTET1 OCTET2 OCTET3 OCTET4
 
-    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<< "$IPV4"
+    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<<"$IPV4"
 
     echo "${OCTET4}.${OCTET3}.${OCTET2}.${OCTET1}"
 }
@@ -61,14 +61,14 @@ Ip2dec()
     local IPV4="$1"
     local -i OCTET1 OCTET2 OCTET3 OCTET4
 
-    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<< "$IPV4"
+    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<<"$IPV4"
     echo "$(( (OCTET1 << 24) + (OCTET2 << 16) + (OCTET3 << 8) + OCTET4 ))"
 }
 
 Log_match() {
     local MATCH="$1"
 
-    logger -t "ip-reputation" "IP with low reputation '${IP}' matches ${MATCH}"
+    logger -t "ip-reputation" "IP '${IP}' with low reputation matches ${MATCH}"
 }
 
 Get_cache_file()
@@ -82,7 +82,7 @@ Get_cache_file()
     CACHE_FILE="${CACHE_DIR}/${SHA}"
 
     if [ ! -s "$CACHE_FILE" ]; then
-        install --mode=0660 /dev/null "$CACHE_FILE"
+        install --mode=0640 /dev/null "$CACHE_FILE"
         # Lock for singleton execution
         # shellcheck disable=SC2094
         {
@@ -97,7 +97,7 @@ Get_cache_file()
             if [ "$?" == 0 ] && [ -s "$CACHE_FILE_TEMP" ]; then
                 dos2unix --quiet "$CACHE_FILE_TEMP" 2>/dev/null
                 mv -f "$CACHE_FILE_TEMP" "$CACHE_FILE"
-                chmod 0660 "$CACHE_FILE"
+                chmod 0640 "$CACHE_FILE"
             else
                 # Remove empty cache item
                 rm -f "$CACHE_FILE_TEMP"
@@ -220,7 +220,7 @@ Match_commented_list()
         return 10
     fi
 
-    grepcidr -q -f "$CACHE_FILE" <<< "$IP"
+    grepcidr -q -f "$CACHE_FILE" <<<"$IP"
 }
 
 Match_cidr_list()
@@ -369,12 +369,12 @@ Match_stopforumspam()
     printf -v URL "https://api.stopforumspam.org/api?json&ip=%s" "$IP"
 
     ANSWER="$(wget -q -T "$TIMEOUT" -t 1 -O - "$URL" 2>/dev/null)"
-    if [ "$(jq -r '.success' <<< "$ANSWER")" != 1 ]; then
+    if [ "$(jq -r '.success' <<<"$ANSWER")" != 1 ]; then
         return 10
     fi
 
     # IP is positive
-    test "$(jq -r '.ip.appears' <<< "$ANSWER")" != 1
+    test "$(jq -r '.ip.appears' <<<"$ANSWER")" != 1
 }
 
 Match_dshield()
@@ -573,19 +573,30 @@ IP="$1"
 # Check IP address
 test -n "$IP" || exit 100
 
-# Cache flush in cron job
+# Regenerate cache in cron job
 if [ "$IP" == cron ]; then
     find "$CACHE_DIR" -type f -regextype posix-egrep -regex '^[0-9a-f]{64}$' -delete
     # Keep last 100 known IP-s
     if [ -s "$KNOWN_IP" ]; then
         # shellcheck disable=SC2016
         sed -e ':a;$q;N;101,$D;ba' -i "$KNOWN_IP"
+        chmod 0640 "$KNOWN_IP"
     fi
     # Populate cache
     IP="127.0.0.2"
-    Match ALL
-    exit 0
+    Match ALL >/dev/null
+    # Report failure to crond
+    exit
 fi
 
 # Default mode is ANY
+set +e
 Match "${2:-ANY}"
+EXIT_STATUS="$?"
+
+# If not found add to "known" list
+if [ "$EXIT_STATUS" != 0 ]; then
+    echo "$IP" >>"$KNOWN_IP"
+fi
+
+exit "$EXIT_STATUS"

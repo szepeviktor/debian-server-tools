@@ -2,6 +2,7 @@
 #
 # Update ThreatSTOP Basic blocklist.
 #
+
 # Usage
 # Add device IP at https://www.threatstop.com/
 

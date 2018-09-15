@@ -14,20 +14,22 @@
 # Usage and remarks
 #
 # Make sure your MTA runs as "courier" user
-#     ps -A -o user,cmd | grep couriertls
+#     (source /etc/courier/esmtpd >/dev/null; echo "$MAILUSER")
 # Pipe destination address into leanmail.sh in MTA config
 #     f2bleanmail: |/usr/local/sbin/leanmail.sh admin@example.com
 # Set destination for Fail2ban address in jail.local
 #     destemail = f2bleanmail
-# Create known list with read/write permission for MTA
-#     install -o courier -g root -m 0640 /dev/null $CACHE/known.list
+# Create configuration file read permission for MTA
+#     install -o courier -g courier -m 0400 /dev/null /var/lib/courier/.config/ip-reputation/configuration
+# Create cache directory read/write permission for MTA
+#     sudo -u courier -- mkdir -p /var/lib/courier/.cache/ip-reputation
 # Prepend X-Fail2ban header to your action in sendmail-*.local
 #     actionban = printf %%b "X-Fail2ban: <ip>,<sender>
 # Restart fail2ban
 #     fail2ban-client reload
 #
 # Testing
-#     echo "X-Fail2ban: 1.2.3.4,admin@szepe.net" | time sudo -u courier -- bash -x leanmail.sh
+#     cd /tmp; echo "X-Fail2ban: 127.0.0.2,admin@szepe.net" | time sudo -u courier -- bash -x leanmail.sh
 #
 # Serving a website over HTTPS reduces number of attacks!
 
@@ -59,13 +61,10 @@ IP_SENDER="${FIRST_LINE#X-Fail2ban: }"
 IP="${IP_SENDER%%,*}"
 
 # Check IP reputation
-if /usr/local/bin/ip-reputation.sh "$IP"; then
+# @FIXME courier-mta sets HOME to "/etc/courier/aliases"
+if HOME="/var/lib/courier" /usr/local/bin/ip-reputation.sh "$IP"; then
     exit 99
 fi
-
-# If not found
-# Add to "known" list
-echo "$IP" >>"$KNOWN_IP"
 
 # Report IP
 #sed -e '/\(bad_request_post_user_agent_empty\|no_wp_here_\)/{s//\1/;h};${x;/./{x;q0};x;q1}'

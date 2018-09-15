@@ -24,5 +24,6 @@ add_action( 'after_switch_theme', function ( $oldtheme_name, $old_theme ) {
         add_action( 'admin_notices', function () {
             printf( '<div class="notice-error"><p>%s</p></div>', esc_html( $error_message ) );
         } );
+        break;
     }
 }, 10, 2 );

@@ -9,5 +9,5 @@
 #   check Botscout API
 sed -n -e 's|.*leanmail: .* (\(.*\)) .*|\1|p' /var/log/syslog \
     | grep -vFw -f - /var/log/fail2ban.log \
-    | grep -o "\b[0-9.]\{7,15\}\b" | sort -nu \
+    | grep -o '\b[0-9.]\{7,15\}\b' | sort -n -u \
     | xargs -I % wget -q -O- "http://botscout.com/test/?ip=%"
