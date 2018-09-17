@@ -2,7 +2,7 @@
 #
 # Display DNS record and whois record of an IP address.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2016-06-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -12,7 +12,7 @@
 # LOCATION      :/usr/local/bin/hostinfo
 
 HOST="$1"
-[ -z "$HOST" ] && exit 1
+test -z "$HOST" && exit 1
 
 host "$HOST"
 whoistop "$HOST"

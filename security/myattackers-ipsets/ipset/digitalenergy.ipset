@@ -3,6 +3,8 @@
 #: iptables -w -I myattackers-ipset -m set --match-set digitalenergy src -j REJECT
 create digitalenergy hash:net family inet hashsize 64 maxelem 64
 flush digitalenergy
+add digitalenergy 179.61.128.0/20
+
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24
 
@@ -15,7 +17,8 @@ add digitalenergy 191.101.178.0/24
 add digitalenergy 191.101.23.0/24
 
 # AS200557 - REGION40
-add digitalenergy 179.61.200.0/23
-add digitalenergy 181.214.37.0/24
-add digitalenergy 191.101.24.0/24
-add digitalenergy 191.101.54.0/23
+# Listed in region40.ipset
+##add digitalenergy 179.61.200.0/23
+##add digitalenergy 181.214.37.0/24
+##add digitalenergy 191.101.24.0/24
+##add digitalenergy 191.101.54.0/23

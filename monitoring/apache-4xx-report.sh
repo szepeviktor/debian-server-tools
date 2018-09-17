@@ -33,6 +33,7 @@ Filter_client_server_error()
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$' \
         | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx).* "Amazon CloudFront"' \
+        #| grep -v -E '"GET /.* (SemrushBot/2~bl|DotBot/1\.1|Mail\.RU_Bot/Img/2\.0|Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview|AhrefsBot/5\.2|YandexBot/3\.0|MJ12bot/v1\.4\.8|bingbot/2\.0)' \
 
 }
 
@@ -81,7 +82,7 @@ fi
 # shellcheck disable=SC1091
 source /etc/apache2/envvars
 
-# For non-existent previous log file
+# For non-existent previous log files
 shopt -s nullglob
 
 while read -r CONFIG_FILE; do
@@ -93,7 +94,7 @@ while read -r CONFIG_FILE; do
     ACCESS_LOG="$(sed -n -e '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     # Substitute variables
-    ACCESS_LOG="$(sed -e "s/\${APACHE_LOG_DIR}/${APACHE_LOG_DIR}/g" -e "s/\${SITE_USER}/${SITE_USER}/g" <<< "$ACCESS_LOG")"
+    ACCESS_LOG="$(sed -e "s/\${APACHE_LOG_DIR}/${APACHE_LOG_DIR}/g" -e "s/\${SITE_USER}/${SITE_USER}/g" <<<"$ACCESS_LOG")"
 
     # Prevent double log processing
     if In_array "$ACCESS_LOG" "${PROCESSED_LOGS[@]}"; then
@@ -105,8 +106,8 @@ while read -r CONFIG_FILE; do
     nice /usr/local/bin/dategrep --format apache --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
-        | sed "s/^/$(basename "$ACCESS_LOG" .log): /"
+        | sed -e "s/^/$(basename "$ACCESS_LOG" .log): /"
 
-done <<< "$APACHE_CONFIGS" | Maybe_sendmail
+done <<<"$APACHE_CONFIGS" | Maybe_sendmail
 
 exit 0

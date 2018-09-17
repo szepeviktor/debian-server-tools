@@ -2,7 +2,7 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2018-09-09
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -78,7 +78,7 @@ Get_cache_file()
     local CACHE_FILE
     local CACHE_FILE_TEMP
 
-    SHA="$(printf '%s' "$URL" | shasum -a 256 | cut -d " " -f 1)"
+    SHA="$(echo -n "$URL" | shasum -a 256 | cut -d " " -f 1)"
     CACHE_FILE="${CACHE_DIR}/${SHA}"
 
     if [ ! -s "$CACHE_FILE" ]; then
@@ -434,6 +434,17 @@ Match()
 
     # Cacheables ordered by hit rate
 
+    if Match_known "$IP"; then
+        if [ "$MODE" == ANY ]; then
+            Log_match "known-attacker"
+            return 0
+        fi
+        echo "known-attacker"
+    elif [ "$MODE" == ANY ]; then
+        # Always add to "known" list when not found
+        echo "$IP" >>"$KNOWN_IP"
+    fi
+
     # https://www.blocklist.de/en/export.html
     if Match_list "$IP" "https://lists.blocklist.de/lists/all.txt"; then
         if [ "$MODE" == ANY ]; then
@@ -460,14 +471,6 @@ Match()
             return 0
         fi
         echo "greensnow"
-    fi
-
-    if Match_known "$IP"; then
-        if [ "$MODE" == ANY ]; then
-            Log_match "known-attacker"
-            return 0
-        fi
-        echo "known-attacker"
     fi
 
     if Match_country "$IP" A1; then
@@ -575,7 +578,7 @@ test -n "$IP" || exit 100
 
 # Regenerate cache in cron job
 if [ "$IP" == cron ]; then
-    find "$CACHE_DIR" -type f -regextype posix-egrep -regex '^[0-9a-f]{64}$' -delete
+    find "$CACHE_DIR" -type f -regextype posix-egrep -regex '.+/[0-9a-f]{64}' -delete
     # Keep last 100 known IP-s
     if [ -s "$KNOWN_IP" ]; then
         # shellcheck disable=SC2016
@@ -590,13 +593,4 @@ if [ "$IP" == cron ]; then
 fi
 
 # Default mode is ANY
-set +e
 Match "${2:-ANY}"
-EXIT_STATUS="$?"
-
-# If not found add to "known" list
-if [ "$EXIT_STATUS" != 0 ]; then
-    echo "$IP" >>"$KNOWN_IP"
-fi
-
-exit "$EXIT_STATUS"

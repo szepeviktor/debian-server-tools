@@ -21,14 +21,16 @@ add nobis 23.81.224.0/19
 #add nobis 23.83.184.0/22
 #add nobis 173.208.123.0/24
 
-# AS15003 - NOBIS-TECH
+# AS15003 - NOBIS-TECH / clone AS? AS395954
 #add nobis 23.80.0.0/16
 add nobis 23.81.224.0/19
 add nobis 23.83.80.0/20
 add nobis 23.105.160.0/19
 add nobis 23.106.224.0/19
 add nobis 23.108.64.0/19
+add nobis 64.120.52.0/22
 add nobis 173.234.48.0/22
+add nobis 173.234.144.0/21
 
 # AS396190 - LEASEWEB-USA-SEA-10
 #add nobis 23.106.192.0/19
