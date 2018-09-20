@@ -7,6 +7,8 @@ add digitalenergy 179.61.128.0/20
 
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24
+add digitalenergy 154.16.214.0/24
+add digitalenergy 181.215.128.0/19
 
 # AS15003 - NOBIS-TECH / clone AS? AS395954
 add digitalenergy 191.96.100.0/24
@@ -22,3 +24,14 @@ add digitalenergy 191.101.23.0/24
 ##add digitalenergy 181.214.37.0/24
 ##add digitalenergy 191.101.24.0/24
 ##add digitalenergy 191.101.54.0/23
+
+# AS40676 - Psychz
+#add digitalenergy 181.41.215.0/24
+#add digitalenergy 191.96.25.0/24
+#add digitalenergy 191.96.131.0/24
+#add digitalenergy 191.96.157.0/24
+#add digitalenergy 191.96.166.0/24
+#add digitalenergy 191.101.44.0/24
+#add digitalenergy 191.101.45.0/24
+#add digitalenergy 191.101.46.0/24
+#add digitalenergy 191.101.47.0/24

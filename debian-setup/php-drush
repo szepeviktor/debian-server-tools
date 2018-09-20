@@ -2,27 +2,19 @@
 
 set -e -x
 
-mkdir /opt/drush
-cd /opt/drush/
+# Installation from Composer
+# mkdir /opt/drush
+# cd /opt/drush/
+# # https://github.com/drush-ops/drush/releases
+# composer require "drush/drush:8.*"
+# ln -s /opt/drush/vendor/bin/drush /usr/local/bin/drush
 
-# https://github.com/drush-ops/drush/releases
-composer require "drush/drush:7.*"
-ln -s /opt/drush/vendor/bin/drush /usr/local/bin/drush
+# Latest v8.x PHAR
+wget -qO- "https://api.github.com/repos/drush-ops/drush/releases" \
+    | jq -r 'first(.[] | select(.name|test("^8\\."))).assets | first(.[] | select (.name  == "drush.phar")).browser_download_url' \
+    | wget -O /usr/local/bin/drush -i -
+chmod +x /usr/local/bin/drush
 
-# For PHP 5.6
-printf '#!/bin/bash\nDRUSH_PHP=/usr/bin/php5.6 exec /opt/drush/vendor/bin/drush "$@"' >/usr/local/bin/drush5.6
+# For Drupal 6
+printf '#!/bin/bash\nDRUSH_PHP=/usr/bin/php5.6 exec /usr/local/bin/drush "$@"' >/usr/local/bin/drush5.6
 chmod +x /usr/local/bin/drush5.6
-
-# Set up Drupal site
-#     sudo -u SITE-USER -i
-#     cd website/
-#     drush dl drupal --drupal-project-rename=html
-#     cd html/
-#     drush site-install standard \
-#         --db-url='mysql://DB-USER:DB-PASS@localhost/DB-NAME' \
-#         --site-name=SITE-NAME --account-name=USER-NAME --account-pass=USER-PASS
-#     drush --root=DOCUMENT-ROOT vset --yes file_private_path "PRIVATE-PATH"
-#     drush --root=DOCUMENT-ROOT vset --yes file_temporary_path "UPLOAD-DIRECTORY"
-#     drush --root=DOCUMENT-ROOT vset --yes cron_safe_threshold 0
-
-# See /webserver/preload-cache.sh
