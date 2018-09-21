@@ -60,6 +60,22 @@ add stretchoid 104.131.155.65
 # 104.131.156.0/24
 add stretchoid 104.131.156.96
 add stretchoid 104.131.156.165
+# 104.236.188.0/24
+add stretchoid 104.236.188.23
+add stretchoid 104.236.188.96
+add stretchoid 104.236.188.120
+add stretchoid 104.236.188.225
+add stretchoid 104.236.188.247
+# 107.170.196.0/24
+add stretchoid 107.170.196.20
+add stretchoid 107.170.196.25
+add stretchoid 107.170.196.72
+add stretchoid 107.170.196.89
+add stretchoid 107.170.196.100
+add stretchoid 107.170.196.137
+add stretchoid 107.170.196.145
+add stretchoid 107.170.196.149
+add stretchoid 107.170.196.202
 # 107.170.197.0/24
 add stretchoid 107.170.197.4
 add stretchoid 107.170.197.46
@@ -232,6 +248,16 @@ add stretchoid 107.170.234.22
 add stretchoid 107.170.234.75
 add stretchoid 107.170.234.89
 add stretchoid 107.170.234.219
+# 107.170.235.0/24
+add stretchoid 107.170.235.72
+add stretchoid 107.170.235.210
+# 107.170.236.0/24
+add stretchoid 107.170.236.83
+add stretchoid 107.170.236.100
+add stretchoid 107.170.236.175
+add stretchoid 107.170.236.177
+add stretchoid 107.170.236.202
+add stretchoid 107.170.236.249
 # 107.170.237.0/24
 add stretchoid 107.170.237.11
 add stretchoid 107.170.237.18
