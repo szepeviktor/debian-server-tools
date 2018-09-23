@@ -1,5 +1,5 @@
 # AS48272 - FOP Tokarchuk Oleksandr Stepanovich, parent: FREGAT-AS
-#: ipset -exist restore < ipset/tokarchuk-o-s.ipset
+#: ipset -exist restore <ipset/tokarchuk-o-s.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set tokarchuk-o-s src -j REJECT
 create tokarchuk-o-s hash:net family inet hashsize 64 maxelem 32
 flush tokarchuk-o-s

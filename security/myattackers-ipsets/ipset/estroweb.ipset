@@ -1,5 +1,5 @@
 # Estro Web Services, India, DC: in NL, alias: CLOUD STAR (Iceland), Estoxy
-#: ipset -exist restore < ipset/estroweb.ipset
+#: ipset -exist restore <ipset/estroweb.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set estroweb src -j REJECT
 create estroweb hash:net family inet hashsize 64 maxelem 32
 flush estroweb

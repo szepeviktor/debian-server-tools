@@ -1,5 +1,5 @@
 # AS33387 - Datashack / Wholesale Internet / Nocix
-#: ipset -exist restore < ipset/datashack.ipset
+#: ipset -exist restore <ipset/datashack.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set datashack src -j REJECT
 create datashack hash:net family inet hashsize 64 maxelem 64
 flush datashack
@@ -15,7 +15,7 @@ add datashack 192.187.96.0/19
 add datashack 198.204.224.0/19
 add datashack 199.168.96.0/21
 
-# AS32097
+# AS32097 - WII-KC
 add datashack 69.30.192.0/18
 add datashack 69.197.128.0/18
 add datashack 173.208.128.0/17

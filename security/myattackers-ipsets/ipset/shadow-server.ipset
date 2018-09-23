@@ -1,5 +1,5 @@
 # AS6939 - The Shadow Server Foundation
-#: ipset -exist restore < ipset/shadow-server.ipset
+#: ipset -exist restore <ipset/shadow-server.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set shadow-server src -j REJECT
 create shadow-server hash:net family inet hashsize 64 maxelem 32
 flush shadow-server

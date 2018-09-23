@@ -1,5 +1,5 @@
 # AS29073 - Ecatel LTD / Quasi Networks / Novogara, type: SSH,HTTP
-#: ipset -exist restore < ipset/ecatel.ipset
+#: ipset -exist restore <ipset/ecatel.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set ecatel src -j REJECT
 create ecatel hash:net family inet hashsize 64 maxelem 64
 flush ecatel
@@ -14,7 +14,8 @@ add ecatel 80.82.67.0/24
 add ecatel 80.82.68.0/24
 add ecatel 80.82.69.0/24
 add ecatel 80.82.70.0/24
-# 71-75: https://bgp.he.net/AS56611
+# 71,72,75 in AS56611 - REBACOM
+# 73,74 unrouteable
 add ecatel 80.82.76.0/24
 add ecatel 80.82.77.0/24
 add ecatel 80.82.78.0/24
@@ -38,3 +39,17 @@ add ecatel 213.184.113.0/24
 add ecatel 213.184.115.0/24
 add ecatel 213.184.117.0/24
 add ecatel 213.184.124.0/24
+
+# AS204655 - NOVOGARA
+add ecatel 185.216.140.0/23
+
+# AS64484 - ASDMZHOST / JUPITER 25
+add ecatel 191.96.249.0/24
+add ecatel 191.101.161.0/24
+
+# AS62355 - NetworkDedicated
+#add ecatel 185.39.8.0/22
+
+# AS48352 - overflow-net / IP Starcev Eugenii Borisovich
+#add ecatel 46.161.9.0/24
+#add ecatel 146.185.222.0/24

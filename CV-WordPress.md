@@ -107,7 +107,8 @@ Keressen meg: viktor@szepe.net
 
 ## Honlap tervezés
 
-Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot tervezzenek.
+Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot,
+[webáruházat](https://www.ocado.com/) tervezzenek.
 
 - http://neeed.us/
 - http://www.pwstudio.hu/

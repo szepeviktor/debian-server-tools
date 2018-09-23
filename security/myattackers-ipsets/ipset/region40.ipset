@@ -1,5 +1,5 @@
 # AS200557 - REGION40 / depo40.ru / Trusov / QualityNetwork
-#: ipset -exist restore < ipset/region40.ipset
+#: ipset -exist restore <ipset/region40.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set region40 src -j REJECT
 create region40 hash:net family inet hashsize 64 maxelem 256
 flush region40

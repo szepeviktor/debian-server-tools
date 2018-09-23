@@ -1,5 +1,5 @@
 # AS29278 - Deninet KFT, type: HTTP,HDB2 bot,SMTP broken pipe,HTTP commands in SMTP
-#: ipset -exist restore < ipset/spidernet.ipset
+#: ipset -exist restore <ipset/spidernet.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set spidernet src -j REJECT
 create spidernet hash:net family inet hashsize 64 maxelem 32
 flush spidernet

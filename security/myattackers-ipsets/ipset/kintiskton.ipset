@@ -1,5 +1,5 @@
 # AS701 - Kintiskton, type: SMTP
-#: ipset -exist restore < ipset/kintiskton.ipset
+#: ipset -exist restore <ipset/kintiskton.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set kintiskton src -j REJECT
 create kintiskton hash:net family inet hashsize 64 maxelem 32
 flush kintiskton
