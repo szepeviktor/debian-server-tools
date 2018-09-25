@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2018-02-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -28,7 +28,7 @@ SSH_PORT="22"
 
 # Help
 Usage() {
-    cat << EOF
+    cat <<EOF
 Usage: myattackers.sh [OPTION]... <ADDRESS>
        myattackers.sh [OPTION]... -l <FILE>
 Ban malicious hosts manually.
@@ -51,7 +51,8 @@ EOF
 }
 
 # Output an error message
-Error_msg() {
+Error_msg()
+{
     if [ -t 0 ]; then
         echo -e "$(tput setaf 7;tput bold)${*}$(tput sgr0)" 1>&2
     else
@@ -60,7 +61,8 @@ Error_msg() {
 }
 
 # Detect an IPv4 address
-Is_IP() {
+Is_IP()
+{
     local TOBEIP="$1"
     #             0-9, 10-99, 100-199,  200-249,    250-255
     local OCTET="([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
@@ -69,7 +71,8 @@ Is_IP() {
 }
 
 # Detect an IPv4 address range
-Is_IP_range() {
+Is_IP_range()
+{
     local TOBEIPRANGE="$1"
     local MASKBITS="${TOBEIPRANGE##*/}"
     local OCTET="([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
@@ -78,18 +81,21 @@ Is_IP_range() {
         && [ "$MASKBITS" -gt 0 ] && [ "$MASKBITS" -le 30 ]
 }
 
-Check_chain() {
-    iptables -n -w -L "$CHAIN" 2> /dev/null | grep -q ' (1 references)$'
+Check_chain()
+{
+    iptables -n -w -L "$CHAIN" 2>/dev/null | grep -q ' (1 references)$'
 }
 
 # Validate IP address or range
-Check_address() {
+Check_address()
+{
     local ADDRESS="$1"
 
     Is_IP "$ADDRESS" || Is_IP_range "$ADDRESS"
 }
 
-Init() {
+Init()
+{
     if ! Check_chain; then
         iptables -w -N "$CHAIN" || return 1
         # Zero out counters
@@ -97,12 +103,12 @@ Init() {
     fi
 
     # Final return rule
-    if ! iptables -w -C "$CHAIN" -j RETURN &> /dev/null; then
+    if ! iptables -w -C "$CHAIN" -j RETURN &>/dev/null; then
         iptables -w -A "$CHAIN" -j RETURN || return 2
     fi
 
     # Enable our chain at the top of INPUT
-    if ! iptables -w -C INPUT -j "$CHAIN" &> /dev/null; then
+    if ! iptables -w -C INPUT -j "$CHAIN" &>/dev/null; then
         iptables -w -A INPUT -j "$CHAIN" || return 3
     fi
 
@@ -110,17 +116,22 @@ Init() {
     return 0
 }
 
-Remove_chain() {
+Remove_chain()
+{
     echo "iptables -w -D INPUT -j ${CHAIN}"
     echo "iptables -w -F ${CHAIN}"
     echo "iptables -w -X ${CHAIN}"
 }
 
-Show() {
-    iptables -v -n -w -L ${CHAIN}
+Show()
+{
+    # Show only rules sorted by source IP
+    iptables -v -n -w -L ${CHAIN} \
+        | grep -F -w "REJECT" | sort -t "." -k 1.48,1n -k 2,2n -k 3,3n -k 4,4n
 }
 
-Bantime_translate() {
+Bantime_translate()
+{
     local BANTIME="$1"
     local -i NOW
 
@@ -145,12 +156,13 @@ Bantime_translate() {
     esac
 }
 
-Ban() {
+Ban()
+{
     local ADDRESS="$1"
 
     # Don't populate duplicates
     # shellcheck disable=SC2086
-    if ! iptables -w -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &> /dev/null; then
+    if ! iptables -w -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &>/dev/null; then
         # Insert at the top
         # shellcheck disable=SC2086
         iptables -w -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
@@ -158,26 +170,29 @@ Ban() {
     fi
 }
 
-Unban() {
+Unban()
+{
     local ADDRESS="$1"
 
     # Delete rule by searching for source address
     iptables -n -v -w --line-numbers -L "$CHAIN" \
-        | sed -n -e "s;^\([0-9]\+\)\s\+[0-9]\+\s\+[0-9]\+[KMG]\?\s\+REJECT\s.*\s${ADDRESS//./\\.}\s\+0\.0\.0\.0/0\b.*\$;\1;p" \
+        | sed -n -e "s#^\\([0-9]\\+\\)\\s\\+[0-9]\\+\\s\\+[0-9]\\+[KMG]\\?\\s\\+REJECT\\s.*\\s${ADDRESS//./\\.}\\s\\+0\\.0\\.0\\.0/0\\b.*\$#\\1#p" \
         | sort -r -n \
         | xargs -r -L 1 iptables -w -D "$CHAIN"
     logger -t "myattackers" "Unban ${ADDRESS}"
 }
 
-Get_rule_data() {
+Get_rule_data()
+{
     # Output format: LINE-NUMBER <TAB> PACKETS <TAB> IP-ADDRESS <TAB> EXPIRATION-DATE
     iptables -n -v -w --line-numbers -L "$CHAIN" \
-        | sed -n -e "s;^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+[KMG]\?\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$;\1\t\2\t\3\t\4;p" \
+        | sed -n -e 's#^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+[KMG]\?\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$#\1\t\2\t\3\t\4#p' \
         | sort -r -n
 }
 
 # Unban expired addresses with zero traffic (hourly cron job)
-Unban_expired() {
+Unban_expired()
+{
     local -i NOW
     local -i MONTH_AGO
     local NUMBER
@@ -206,7 +221,8 @@ Unban_expired() {
 }
 
 # Zero out counters on rules expired at least one month ago (monthly cron job)
-Reset_old_rule_counters() {
+Reset_old_rule_counters()
+{
     local -i MONTH_AGO
     local NUMBER
     local -i PACKETS
@@ -244,7 +260,7 @@ MODE="ban"
 case "$(basename "$0")" in
     myattackers.sh)
         # Cron hourly (when called without parameters)
-        test "$#" -eq 0 && MODE="cron"
+        test "$#" == 0 && MODE="cron"
         ;;
     deny-http.sh)
         PROTOCOL="HTTP"
