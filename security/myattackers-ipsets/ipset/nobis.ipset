@@ -32,6 +32,7 @@ add nobis 173.234.48.0/22
 add nobis 173.234.144.0/21
 
 # AS396190 - LEASEWEB-USA-SEA-10
+add nobis 23.19.248.0/22
 #add nobis 23.106.192.0/19
 #add nobis 23.108.128.0/19
 

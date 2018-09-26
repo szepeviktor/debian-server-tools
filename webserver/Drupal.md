@@ -1,107 +1,137 @@
 # Drupal installation
 
-https://drushcommands.com/
+Drupal version 7.x
 
-## Prerequisites
+https://www.aegirproject.org/
 
-- drush, see: /debian-setup.sh
-- Create `sites/default/drushrc.php` (see below)
-- Configuration: https://github.com/drush-ops/drush/blob/master/examples/example.drushrc.php
-- PHP-FPM pool: `php_admin_value[allow_url_fopen] = On`
-- first run: `drush status`
+### Drush 8
+
+- [/debian-setup/php-drush](/debian-setup/php-drush)
+- Create `sites/default/drushrc.php` , see code below
+- [Configuration](https://github.com/drush-ops/drush/blob/8.x/examples/example.drushrc.php)
+- First run: `drush status # --fields=drupal-version`
 
 ```php
-<?php
-$options['uri'] = "https://DOMAIN.TLD/";
+<?php /** sites/default/drushrc.php */
+$options['uri'] = 'https://DOMAIN.TLD/';
 // FIXME set temp directory, see includes/filesystem.inc:drush_find_tmp();
 ```
 
-## Modules
+https://drushcommands.com/
 
-### Browse modules
+### PHP configuration
 
-`drush pmi --format=yaml`
+PHP-FPM configuration
 
-### Enable module
+```ini
+; Drupal
+php_admin_value[allow_url_fopen] = On
+; Is it ineffective as mbstring.encoding_traslation is disabled
+php_admin_value[mbstring.http_input] = pass
+php_admin_value[mbstring.http_output] = pass
+```
 
-`drush en <MODULE-NAME> -y`
+### Drupal installation
 
-### Caches
+```bash
+cd website/
+drush dl drupal --drupal-project-rename=code # --default-major=6
+cd code/
+drush site-install standard \
+    --db-url='mysql://DB-USER:DB-PASS@localhost/DB-NAME' \
+    --site-name=SITE-NAME --site-mail=user@example.com \
+    --account-name=USER-NAME --account-pass=USER-PASS
 
-#### APC cache backend.
+# All options: /admin/config
 
-`drush en apc -y`
+# /admin/config/media/file-system
+drush vset --yes file_private_path "PRIVATE-PATH"
+drush vset --yes file_temporary_path "UPLOAD-TMP-DIRECTORY"
+# Disable cron - /admin/config/system/cron
+drush vset --yes cron_safe_threshold 0
+# /admin/config/system/site-information
+drush vset --yes site_mail webmaster@example.com
+drush vset --yes site_403 /forbidden
+drush vset --yes site_404 /not-found
+# /admin/config/content/webform
+drush vset --yes webform_default_from_address info@example.com
+drush vset --yes webform_default_from_name "From Name"
+drush vset --yes webform_default_subject "Subject"
+# /admin/config/development/performance
+drush vset --yes cache 1
+drush vset --yes block_cache 1
+# /admin/config/media/image-toolkit
+drush vset --yes image_jpeg_quality 90
+# /admin/config/regional/settings
+drush vset --yes site_default_country HU
+drush vset --yes date_first_day 1
+drush vset --yes date_default_timezone Europe/Budapest
 
-`settings.php`:
+#D6 drush vset --yes file_directory_temp "UPLOAD-TMP-DIRECTORY"
+#D6 drush vset --yes cron_safe_threshold 0
+
+# /admin/people/create
+drush user-create viktor --mail=viktor@szepe.net --password="12345"
+drush user-add-role administrator viktor
+
+#D6 drush user-add-role admin viktor
+```
+
+Composer-based: https://github.com/drupal-composer/drupal-project
+
+Preload page cache: [/webserver/preload-cache.sh](/webserver/preload-cache.sh)
+
+### Modules
+
+Disable development modules: `drush dis -y devel`
+
+Disable syslog logging: `drush dis -y syslog`
+
+Browse modules: `drush pmi --format=yaml`
+
+Enable module: `drush en -y MODULE`
+
+Report 403 and 404: https://github.com/szepeviktor/wordpress-fail2ban/tree/master/non-wp-projects/drupal-fail2ban
+
+APC cache backend: `drush en -y apc`
+
+Add this to `settings.php`
 
 ```php
 $conf['cache_backends'][] = 'sites/all/modules/apc/drupal_apc_cache.inc';
 $conf['cache_default_class'] = 'DrupalAPCCache';
-//$conf['apc_show_debug'] = TRUE;  // Uncomment to enable debug mode
+//$conf['apc_show_debug'] = TRUE; // Uncomment to enable debug mode
 ```
 
-#### Object cache
+Object cache: `drush en -y entitycache`
 
-`drush en entitycache -y`
+Only for Drupal 7 (not for 6, built into 8).
 
-Entity caching is supported in Drupal 8.
+Automatic translation updates: `drush en -y l10n_update`
 
-#### Preload page cache
+`/admin/config/regional/translate/update`
 
-See: /webserver/preload-cache.sh
+CDN: `drush en -y cdn`
 
-### Fail2ban
-
-https://github.com/szepeviktor/wordpress-fail2ban
-
-### Mollom
-
-```ini
-suhosin.get.max_array_index_length = 128
-suhosin.post.max_array_index_length = 128
-suhosin.request.max_array_index_length = 128
-```
-
-### Automatic translation updates
-
-`drush en l10n_update -y`
-
-admin/config/regional/translate/update
-
-### Sitemap
+Sitemap: `drush en -y xmlsitemap`
 
 Enable inclusion per content type.
 
-`drush en xmlsitemap -y`
-
-## CDN
-
-`drush en cdn -y`
-
-## Drupal menus
-
-- All options: admin/config
-- admin/config/media/file-system
-- JPEG qulite: 90% admin/config/media/image-toolkit
-- admin/config/development/performance
-- admin/config/regional
-- Backup settings.php && database
-
-### General website tasks
-
-- logging/tmp/upload/session + gc
-- mail from
-- root files
+Mail sending: `drush en -y smtp`
 
 ### Cron
 
-- http://cgit.drupalcode.org/drush/plain/docs/cron.html
-- /usr/local/bin/drush --quiet --root=/home/webuser/website/code core-cron
-- /usr/bin/wget -qO- "https://www.example.com/cron.php?cron_key=AAAAAAAAAAAAAAAAAA1111111111111111111111111"
+http://cgit.drupalcode.org/drush/plain/docs/cron.html
+
+```bash
+#D6 DRUSH_PHP=/usr/bin/php5.6
+/usr/local/bin/drush --root=/home/USER/website/code cron --quiet
+/usr/bin/wget -q -O- "https://www.example.com/cron.php?cron_key=AAAAA11111111111"
+```
 
 ### Drupal 6 Redis cache
 
-Use drush with PHP 5.6: `DRUSH_PHP=/usr/bin/php5.6 exec /opt/drush/vendor/bin/drush "$@"`
+Use drush with PHP 5.6: `DRUSH_PHP=/usr/bin/php5.6 exec /usr/local/bin/drush "$@"`
 
 1. Download [Cache Backport (D7 to D6) module](https://www.drupal.org/project/cache_backport/releases)
    `drush5.6 pm-download cache_backport-6.x-1.0-rc4`
@@ -111,7 +141,7 @@ Use drush with PHP 5.6: `DRUSH_PHP=/usr/bin/php5.6 exec /opt/drush/vendor/bin/dr
 1. For documentation see `sites/all/modules/contrib/cache_backport/INSTALL.txt`
    and `sites/all/modules/contrib/redis_d7/README.txt`
 1. Flush cache: `drush5.6 cache-clear all`
-1. Configure to use phpredis (PECL) - not Predis - in `sites/default/settings.php` (see code below)
+1. Configure to use phpredis (PECL) - not Predis - in `sites/default/settings.php` see code below
 1. Enable cache: `drush5.6 pm-enable cache_backport -y`
 1. Flush cache: `drush5.6 cache-clear all`
 1. Check Redis keys: `echo 'INFO keyspace' | redis-cli`
@@ -127,20 +157,3 @@ $conf['redis_client_interface'] = 'PhpRedis';
 $conf['redis_client_base'] = 2; // db2=examplesite
 $conf['cache_prefix'] = 'prefix_';
 ```
-
-## Set up Drupal
-
-```bash
-cd website/
-drush dl drupal --drupal-project-rename=code
-cd code/
-drush site-install standard \
-    --db-url='mysql://DB-USER:DB-PASS@localhost/DB-NAME' \
-    --site-name=SITE-NAME --account-name=USER-NAME --account-pass=USER-PASS
-
-drush --root=DOCUMENT-ROOT vset --yes file_private_path "PRIVATE-PATH"
-drush --root=DOCUMENT-ROOT vset --yes file_temporary_path "UPLOAD-DIRECTORY"
-drush --root=DOCUMENT-ROOT vset --yes cron_safe_threshold 0
-```
-
-See /webserver/preload-cache.sh

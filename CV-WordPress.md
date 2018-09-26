@@ -110,8 +110,8 @@ Keressen meg: viktor@szepe.net
 Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot,
 [webáruházat](https://www.ocado.com/) tervezzenek.
 
-- http://neeed.us/
-- http://www.pwstudio.hu/
+- https://neeed.us/
+- https://www.pwstudio.hu/
 - https://www.budaffect.com/ - webáruház
 - https://www.upsolution.hu/
 - https://splendex.io/

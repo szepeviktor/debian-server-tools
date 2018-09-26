@@ -2,8 +2,8 @@
 #
 # Install a tool from debian-server-tools.
 #
-# VERSION       :0.4.5
-# DATE          :2015-05-29
+# VERSION       :0.5.0
+# DATE          :2018-07-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -33,6 +33,28 @@ Get_meta()
     local VALUE
 
     VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\\s*:" | cut -d ":" -f 2-)"
+
+    if [ -z "$VALUE" ]; then
+        VALUE="(unknown)"
+    fi
+    echo "$VALUE"
+}
+
+#####################################################
+# Parses out all meta values from a script
+# Arguments:
+#   FILE
+#   META
+#####################################################
+Get_meta_all()
+{
+    # Defaults to self
+    local FILE="${1:-$0}"
+    # Defaults to "VERSION"
+    local META="${2:-VERSION}"
+    local VALUE
+
+    VALUE="$(head -n 30 "$FILE" | grep "^# ${META}\\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -102,29 +124,29 @@ Do_install()
     fi
 
     # Display dependencies
-    Get_meta "$FILE" DEPENDS
+    Get_meta_all "$FILE" DEPENDS
     # Check APT dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
+    Get_meta_all "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" != "install ok installed" ]; then
                 echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
             fi
         done
     # Check PyPA dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's/^pip install \(.\+\)$/\1 /p' \
+    Get_meta_all "$FILE" DEPENDS | sed -n -e 's/^pip install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if ! pip show "$PKG" | grep -q -x 'Version: \S\+'; then
                 echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
             fi
         done
-    Get_meta "$FILE" DEPENDS | sed -n -e 's/^pip3 install \(.\+\)$/\1 /p' \
+    Get_meta_all "$FILE" DEPENDS | sed -n -e 's/^pip3 install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if ! pip3 show "$PKG" | grep -q -x 'Version: \S\+'; then
                 echo "MISSING DEPENDECY: pip3 install ${PKG}" 1>&2
             fi
         done
     # Check file dependencies
-    Get_meta "$FILE" DEPENDS | sed -n -e 's|^\(/.\+\)$|\1|p' \
+    Get_meta_all "$FILE" DEPENDS | sed -n -e 's|^\(/.\+\)$|\1|p' \
         | while read -r PKG; do
             test -x "$PKG" || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
         done
