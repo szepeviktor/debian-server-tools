@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.2.1
+# VERSION       :1.3.0
 # DATE          :2018-08-26
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -55,9 +55,14 @@ Check_requirements()
         Die 14 "./install.sh monitoring/cert-expiry.sh"
     fi
 
-    # Check moduli of certificates
-    PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl sha256)"
-    PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl sha256)"
+    # Check certificates
+    if openssl x509 -in "$PUB" -noout -text | grep -q -x '\s*Public Key Algorithm:\s\+id-ecPublicKey'; then
+        PRIV_MOD="$(openssl pkey -pubout -in "$PRIV" | openssl sha256)"
+        PUB_MOD="$(openssl x509 -noout -pubkey -in "$PUB" | openssl sha256)"
+    else
+        PRIV_MOD="$(openssl rsa -noout -modulus -in "$PRIV" | openssl sha256)"
+        PUB_MOD="$(openssl x509 -noout -modulus -in "$PUB" | openssl sha256)"
+    fi
     if [ "$PUB_MOD" != "$PRIV_MOD" ]; then
         Die 15 "Mismatching certs."
     fi
@@ -87,9 +92,11 @@ Apache2()
     echo "Installing Apache certificate ..."
     {
         cat "$PUB" "$INT"
-        #nice openssl dhparam 4096
-        nice openssl dhparam 2048
-    } > "$APACHE_PUB" || Die 41 "apache cert creation"
+        if ! openssl x509 -in "$PUB" -noout -text | grep -q -x '\s*Public Key Algorithm:\s\+id-ecPublicKey'; then
+            #nice openssl dhparam 4096
+            nice openssl dhparam 2048
+        fi
+    } >"$APACHE_PUB" || Die 41 "apache cert creation"
     cp "$PRIV" "$APACHE_PRIV" || Die 42 "apache private"
     chown root:root "$APACHE_PUB" "$APACHE_PRIV" || Die 43 "apache owner"
     chmod 0640 "$APACHE_PUB" "$APACHE_PRIV" || Die 44 "apache perms"
@@ -115,7 +122,7 @@ Apache2()
         echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" -connect "${SERVER_NAME}:443"
         echo "HTTPS result=$?"
         echo -n | openssl s_client -CAfile "$CABUNDLE" -servername "$SERVER_NAME" \
-            -connect "${SERVER_NAME}:443" 2> /dev/null | openssl x509 -noout -dates
+            -connect "${SERVER_NAME}:443" 2>/dev/null | openssl x509 -noout -dates
     else
         echo "Edit Apache SSLCertificateFile, SSLCertificateKeyFile" 1>&2
         echo "echo -n|openssl s_client -CAfile ${CABUNDLE} -servername ${SERVER_NAME} -connect ${SERVER_NAME}:443" 1>&2
@@ -130,11 +137,11 @@ Courier_mta()
     test -d "$(dirname "$COURIER_COMBINED")" || Die 20 "courier ssl dir"
 
     # shellcheck disable=SC1091
-    COURIER_USER="$(source /etc/courier/esmtpd > /dev/null; echo "$MAILUSER")"
+    COURIER_USER="$(source /etc/courier/esmtpd >/dev/null; echo "$MAILUSER")"
 
     echo "Installing Courier MTA certificate ..."
     # Private + public + intermediate
-    cat "$PRIV" "$PUB" "$INT" > "$COURIER_COMBINED" || Die 21 "courier cert creation"
+    cat "$PRIV" "$PUB" "$INT" >"$COURIER_COMBINED" || Die 21 "courier cert creation"
 
     # As in courier-mta/postinst
     # NOTICE Synchronize with monit/services/courier-mta
@@ -146,11 +153,11 @@ Courier_mta()
     fi
 
     # Reload monit
-    if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
+    if [ "$(dpkg-query --showformat='${Status}' --show monit 2>/dev/null)" == "install ok installed" ]; then
         service monit reload
     fi
 
-    nice openssl dhparam 2048 > "$COURIER_DHPARAMS" || Die 24 "courier DH params"
+    nice openssl dhparam 2048 >"$COURIER_DHPARAMS" || Die 24 "courier DH params"
     # As in /usr/sbin/mkdhparams
     # NOTICE Synchronize with monit/services/courier-mta
     chown "${COURIER_USER}:root" "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
@@ -170,7 +177,7 @@ Courier_mta()
                 -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp
             echo "SMTP STARTTLS result=$?"
             echo QUIT | openssl s_client -CAfile "$CABUNDLE" -crlf \
-                -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp 2> /dev/null \
+                -servername "$SERVER_NAME" -connect "${SERVER_NAME}:25" -starttls smtp 2>/dev/null \
                 | openssl x509 -noout -dates
         else
             echo "Add 'TLS_CERTFILE=${COURIER_COMBINED}' to courier config: esmtpd" 1>&2
@@ -225,8 +232,8 @@ Nginx()
     [ -d "$(dirname "$NGINX_PUB")" ] || Die 70 "nginx ssl dir"
 
     echo "Installing Nginx certificate ..."
-    cat "$PUB" "$INT" > "$NGINX_PUB" || Die 71 "nginx cert creation"
-    nice openssl dhparam 2048 > "$NGINX_DHPARAM" || Die 72 "nginx private"
+    cat "$PUB" "$INT" >"$NGINX_PUB" || Die 71 "nginx cert creation"
+    nice openssl dhparam 2048 >"$NGINX_DHPARAM" || Die 72 "nginx private"
     cp "$PRIV" "$NGINX_PRIV" || Die 73 "nginx private"
     chown root:root "$NGINX_PUB" "$NGINX_PRIV" || Die 74 "nginx owner"
     chmod 0640 "$NGINX_PUB" "$NGINX_PRIV" || Die 75 "nginx perms"
@@ -287,8 +294,8 @@ Dovecot()
 
     echo "Installing Dovecot certificate ..."
     # Dovecot: public + intermediate
-    cat "$PUB" "$INT" > "$DOVECOT_PUB" || Die 51 "dovecot cert creation"
-    cat "$PRIV" > "$DOVECOT_PRIV" || Die 52 "dovecot private cert creation"
+    cat "$PUB" "$INT" >"$DOVECOT_PUB" || Die 51 "dovecot cert creation"
+    cat "$PRIV" >"$DOVECOT_PRIV" || Die 52 "dovecot private cert creation"
     chown root:root "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 53 "dovecot owner"
     chmod 0600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 54 "dovecot perms"
 
@@ -325,7 +332,7 @@ Webmin()
 
     echo "Installing Webmin certificate ..."
     # Webmin: private + public
-    cat "$PRIV" "$PUB" > "$WEBMIN_COMBINED" || Die 61 "webmin public"
+    cat "$PRIV" "$PUB" >"$WEBMIN_COMBINED" || Die 61 "webmin public"
     cp "$INT" "$WEBMIN_INT" || Die 62 "webmin intermediate"
     chown root:root "$WEBMIN_COMBINED" "$WEBMIN_INT" || Die 63 "webmin owner"
     chmod 0600 "$WEBMIN_COMBINED" "$WEBMIN_INT" || Die 64 "webmin perms"

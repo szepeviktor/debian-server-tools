@@ -42,35 +42,39 @@ drush site-install standard \
     --site-name=SITE-NAME --site-mail=user@example.com \
     --account-name=USER-NAME --account-pass=USER-PASS
 
-# All options: /admin/config
+# All options: /admin/config  /admin/by-module
 
 # /admin/config/media/file-system
-drush vset --yes file_private_path "PRIVATE-PATH"
-drush vset --yes file_temporary_path "UPLOAD-TMP-DIRECTORY"
+drush vset file_private_path "PRIVATE-PATH"
+drush vset file_temporary_path "UPLOAD-TMP-DIRECTORY"
 # Disable cron - /admin/config/system/cron
-drush vset --yes cron_safe_threshold 0
+drush vset cron_safe_threshold 0
 # /admin/config/system/site-information
-drush vset --yes site_mail webmaster@example.com
-drush vset --yes site_403 /forbidden
-drush vset --yes site_404 /not-found
-# /admin/config/content/webform
-drush vset --yes webform_default_from_address info@example.com
-drush vset --yes webform_default_from_name "From Name"
-drush vset --yes webform_default_subject "Subject"
+drush vset site_mail webmaster@example.com
+drush vset site_403 /forbidden
+drush vset site_404 /not-found
+# /admin/config/content/webform  /admin/build/contact
+drush vset webform_default_from_address info@example.com
+drush vset webform_default_from_name "From Name"
+drush vset webform_default_subject "Subject"
 # /admin/config/development/performance
-drush vset --yes cache 1
-drush vset --yes block_cache 1
+drush vset cache 1
+drush vset block_cache 1
 # /admin/config/media/image-toolkit
-drush vset --yes image_jpeg_quality 90
+drush vset image_jpeg_quality 90
 # /admin/config/regional/settings
-drush vset --yes site_default_country HU
-drush vset --yes date_first_day 1
-drush vset --yes date_default_timezone Europe/Budapest
+drush vset site_default_country HU
+drush vset date_first_day 1
+drush vset date_default_timezone Europe/Budapest
 
-#D6 drush vset --yes file_directory_temp "UPLOAD-TMP-DIRECTORY"
-#D6 drush vset --yes cron_safe_threshold 0
+#D6 drush vset file_directory_temp "UPLOAD-TMP-DIRECTORY"
+#D6 drush vset cron_safe_threshold 0
+#D6 drush vset date_default_timezone 3600 # 7200
+#D6 drush vset date_default_timezone_name Europe/Budapest
 
 # /admin/people/create
+drush user-information --format=list --fields=name 1
+drush user-block 1
 drush user-create viktor --mail=viktor@szepe.net --password="12345"
 drush user-add-role administrator viktor
 
@@ -92,6 +96,7 @@ Browse modules: `drush pmi --format=yaml`
 Enable module: `drush en -y MODULE`
 
 Report 403 and 404: https://github.com/szepeviktor/wordpress-fail2ban/tree/master/non-wp-projects/drupal-fail2ban
+and [`Bad_Request`](https://github.com/szepeviktor/wordpress-fail2ban/tree/master/block-bad-requests)
 
 APC cache backend: `drush en -y apc`
 
@@ -113,9 +118,11 @@ Automatic translation updates: `drush en -y l10n_update`
 
 CDN: `drush en -y cdn`
 
-Sitemap: `drush en -y xmlsitemap`
+Sitemap: `drush en -y xmlsitemap xmlsitemap_node`
 
-Enable inclusion per content type.
+Enable inclusion per content type, add to `robots.txt`
+
+`/admin/content/types`
 
 Mail sending: `drush en -y smtp`
 
@@ -128,6 +135,30 @@ http://cgit.drupalcode.org/drush/plain/docs/cron.html
 /usr/local/bin/drush --root=/home/USER/website/code cron --quiet
 /usr/bin/wget -q -O- "https://www.example.com/cron.php?cron_key=AAAAA11111111111"
 ```
+
+### Drupal Redis cache
+
+1. Download: `drush dl -y redis`
+1. Flush cache: `drush cache-clear all`
+1. Configure to use phpredis (PECL) - not Predis - in `sites/default/settings.php` see code below
+1. Install: `drush en -y redis`
+1. Flush cache: `drush cache-clear all`
+1. Check Redis keys: `echo 'INFO keyspace' | redis-cli`
+
+```php
+/**
+ * Cache settings:
+ */
+$conf['redis_client_interface'] = 'PhpRedis';
+$conf['redis_client_base']      = 2; // db2:examplesite
+$conf['cache_prefix']           = 'prefix_'; // Cache key prefix
+$conf['lock_inc']               = 'sites/all/modules/redis/redis.lock.inc';
+$conf['path_inc']               = 'sites/all/modules/redis/redis.path.inc';
+$conf['cache_backends'][]       = 'sites/all/modules/redis/redis.autoload.inc';
+$conf['cache_default_class']    = 'Redis_Cache';
+```
+
+`/admin/config/development/performance/redis`
 
 ### Drupal 6 Redis cache
 
@@ -154,6 +185,6 @@ $conf['cache_inc'] = 'sites/all/modules/contrib/cache_backport/cache.inc';
 $conf['cache_backends'][] = 'sites/all/modules/contrib/redis_d7/redis.autoload.inc';
 $conf['cache_default_class'] = 'Redis_Cache';
 $conf['redis_client_interface'] = 'PhpRedis';
-$conf['redis_client_base'] = 2; // db2=examplesite
+$conf['redis_client_base'] = 2; // db2:examplesite
 $conf['cache_prefix'] = 'prefix_';
 ```

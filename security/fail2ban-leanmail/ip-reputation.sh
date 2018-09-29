@@ -2,13 +2,13 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :0.1.1
+# VERSION       :0.2.0
 # DATE          :2018-09-09
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install dnsutils dos2unix grepcidr geoip-database-contrib jq sipcalc
+# DEPENDS       :apt-get install dnsutils dos2unix grepcidr geoip-database-contrib jq
 # CONFIG        :~/.config/ip-reputation/configuration
 # LOCATION      :/usr/local/bin/ip-reputation.sh
 # CRON-HOURLY   :/usr/local/bin/ip-reputation.sh cron
@@ -54,15 +54,6 @@ Reverse_ip()
     IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<<"$IPV4"
 
     echo "${OCTET4}.${OCTET3}.${OCTET2}.${OCTET1}"
-}
-
-Ip2dec()
-{
-    local IPV4="$1"
-    local -i OCTET1 OCTET2 OCTET3 OCTET4
-
-    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<<"$IPV4"
-    echo "$(( (OCTET1 << 24) + (OCTET2 << 16) + (OCTET3 << 8) + OCTET4 ))"
 }
 
 Log_match() {
@@ -111,31 +102,17 @@ Get_cache_file()
 Is_aws()
 {
     local IP="$1"
+    # https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html
     local -r URL="https://ip-ranges.amazonaws.com/ip-ranges.json"
-    local IPDEC AMAZON_JSON RANGES
-    local RANGE START_END STARTDEC ENDDEC
+    local AMAZON_JSON
 
-    IPDEC="$(Ip2dec "$IP")"
     AMAZON_JSON="$(Get_cache_file "$URL")"
 
     if [ ! -s "$AMAZON_JSON" ]; then
         return 10
     fi
 
-    RANGES="$(jq -r '.prefixes[].ip_prefix' "$AMAZON_JSON")"
-
-    while read -r RANGE; do
-        START_END="$(sipcalc "$RANGE" | sed -n -e 's/^Network range\s\+- \([0-9.]\+\) - \([0-9.]\+\)$/\1:\2/p')"
-        STARTDEC="$(Ip2dec "${START_END%:*}")"
-        ENDDEC="$(Ip2dec "${START_END#*:}")"
-        if [ "$IPDEC" -ge "$STARTDEC" ] && [ "$IPDEC" -le "$ENDDEC" ]; then
-            # There is a match
-            return 0
-        fi
-    done <<<"$RANGES"
-
-    # No match
-    return 1
+    grepcidr -x -f <(jq -r '.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix' "$AMAZON_JSON") <<<"$IP" >/dev/null
 }
 
 Match_list()
@@ -220,7 +197,7 @@ Match_commented_list()
         return 10
     fi
 
-    grepcidr -q -f "$CACHE_FILE" <<<"$IP"
+    grepcidr -x -f "$CACHE_FILE" <<<"$IP" >/dev/null
 }
 
 Match_cidr_list()
@@ -235,7 +212,7 @@ Match_cidr_list()
         return 10
     fi
 
-    grepcidr -f "$CACHE_FILE" <<<"$IP" &>/dev/null
+    grepcidr -x -f "$CACHE_FILE" <<<"$IP" >/dev/null
 }
 
 # Service-specific functions #

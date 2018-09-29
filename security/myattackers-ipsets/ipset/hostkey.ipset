@@ -15,7 +15,7 @@ add hostkey 146.0.72.0/21
 add hostkey 185.130.224.0/22
 add hostkey 185.143.223.0/24
 #add hostkey 185.156.177.0/24
-#add hostkey 185.222.209.0/24
+add hostkey 185.222.209.0/24
 add hostkey 193.109.68.0/23
 add hostkey 195.162.68.0/23
 # Also in -> dangerous.dnsbl.zone

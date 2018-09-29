@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.7
+# VERSION       :0.2.8
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -81,7 +81,7 @@ Get_cache_file() {
     # Does not exist -> download
     if [ ! -f "$CACHE_FILE" ] || [ ! -f "$TIMESTAMP_FILE" ]; then
         wget -t 1 -q -O "$CACHE_FILE" "$URL"
-        date "+%s" > "$TIMESTAMP_FILE"
+        date "+%s" >"$TIMESTAMP_FILE"
     fi
 
     echo "$CACHE_FILE"
@@ -108,7 +108,7 @@ Exclude_cloudflare() {
 
     IPLIST="$(Get_cache_file "https://www.cloudflare.com/ips-v4")"
 
-    < "$IPLIST" xargs -n 1 sipcalc | sed -n -e 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
+    <"$IPLIST" xargs -n 1 sipcalc | sed -n -e 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
         | Make_excludes
 }
 
@@ -121,7 +121,7 @@ Exclude_pingdom() {
 
     IPLIST="$(Get_cache_file "https://my.pingdom.com/probes/ipv4")"
 
-    < "$IPLIST" Make_excludes
+    <"$IPLIST" Make_excludes
 }
 
 Exclude_amazon_cloudfront() {
@@ -133,8 +133,8 @@ Exclude_amazon_cloudfront() {
 
     IPLIST="$(Get_cache_file "https://ip-ranges.amazonaws.com/ip-ranges.json")"
 
-    < "$IPLIST" jq -r ".prefixes[].ip_prefix" \
-        | xargs -n 1 sipcalc | sed -n -e 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
+    <"$IPLIST" jq -r '.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix' \
+        | xargs -n 1 sipcalc | sed -n -e 's/^Network range\s\+- \(.\+\) - \(.\+\)$/\1-\2/p' \
         | Make_excludes
 }
 
@@ -147,7 +147,7 @@ Exclude_hetrixtools() {
 
     IPLIST="$(Get_cache_file "https://hetrixtools.com/resources/uptime-monitor-ips.txt")"
 
-    < "$IPLIST" sed -n -e 's|^\S\+\s\([0-9.]\+\)$|\1|p' \
+    <"$IPLIST" sed -n -e 's|^\S\+\s\([0-9.]\+\)$|\1|p' \
         | Make_excludes
 }
 
@@ -182,10 +182,10 @@ Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@"
 
 # HTML output from last 10 log files
 #( zcat /var/log/apache2/${U}-${HTTPS}access.log.{9..2}.gz
-#  cat /var/log/apache2/${U}-${HTTPS}access.log{.1,} ) | Goaccess "$@" > 10-days-stat.html
+#  cat /var/log/apache2/${U}-${HTTPS}access.log{.1,} ) | Goaccess "$@" >10-days-stat.html
 
 # HTML output
-#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@" > stat.html
+#Goaccess -f "/var/log/apache2/${U}-${HTTPS}access.log" "$@" >stat.html
 
 # List log files by size
 #ls -lSr /var/log/apache2/*access.log

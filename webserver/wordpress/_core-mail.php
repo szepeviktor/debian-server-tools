@@ -16,5 +16,6 @@ add_action( 'wp_mail_failed', function ( $error ) {
         $error->get_error_message()
     );
     error_log( $message );
+    openlog( 'php-fpm', LOG_PID, LOG_LOCAL0 );
     syslog( LOG_ALERT, $message );
 } );

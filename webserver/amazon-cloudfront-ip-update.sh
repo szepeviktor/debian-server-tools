@@ -2,8 +2,8 @@
 #
 # Update Amazon CloudFront IP ranges for mod_remoteip.
 #
-# VERSION       :0.1.0
-# DATE          :2018-05-23
+# VERSION       :0.2.0
+# DATE          :2018-09-29
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -22,7 +22,7 @@ TEMP_IP="$(mktemp)"
 trap 'rm -f "$TEMP_IP"' EXIT HUP INT QUIT PIPE TERM
 
 wget -q --tries=3 --timeout=10 -O- "$AMAZON_IP_URL" \
-    | jq -r ".prefixes[].ip_prefix,.ipv6_prefixes[].ipv6_prefix" > "$TEMP_IP"
+    | >"$TEMP_IP" jq -r '(.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix),(.ipv6_prefixes[] | select(.service == "CLOUDFRONT").ipv6_prefix)'
 
 # Check list
 if [ ! -s "$TEMP_IP" ] || grep -v -x '[0-9a-f:.]\+/[0-9]\+' "$TEMP_IP"; then
@@ -37,7 +37,7 @@ if ! diff -q "$APACHE_CONF_IP" "$TEMP_IP"; then
     mv -f "$TEMP_IP" "$APACHE_CONF_IP"
     APACHE_SYNTAX_OK="$(/usr/sbin/apache2ctl configtest 2>&1)"
     if [ "$APACHE_SYNTAX_OK" == "Syntax OK" ]; then
-        service apache2 reload > /dev/null
+        service apache2 reload >/dev/null
     else
         echo "ERROR: Amazon CloudFront IP change caused Apache syntax error: ${APACHE_SYNTAX_OK}" 1>&2
         exit 2
