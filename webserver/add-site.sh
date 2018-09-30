@@ -193,7 +193,7 @@ editor /etc/courier/esmtpauthclient
 # See /monitoring/tripwire-fake.sh
 
 # Goaccess
-# See /webserver/goaccess.sh
+# See /monitoring/goaccess.sh
 
 # Document in hosting.yml
 # See /webserver/hosting.yml

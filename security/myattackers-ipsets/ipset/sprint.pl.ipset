@@ -63,5 +63,3 @@ add sprint.pl 185.131.240.0/23
 # AS198540 - ELAN Andrzej Niechcial
 # https://www.spamhaus.org/sbl/query/SBL176147
 add sprint.pl 91.236.74.0/23
-
-# Also in -> dangerous.dnsbl.zone

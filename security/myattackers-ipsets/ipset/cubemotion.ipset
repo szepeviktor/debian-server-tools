@@ -5,4 +5,3 @@ create cubemotion hash:net family inet hashsize 64 maxelem 32
 flush cubemotion
 # Webhosting Holdings
 add cubemotion 104.36.84.0/24
-# Also in -> dangerous.dnsbl.zone

@@ -4,4 +4,3 @@
 #create oneandone-slund hash:net family inet hashsize 64 maxelem 32
 #flush oneandone-slund
 #add oneandone-slund 82.165.0.0/20
-## Also in -> dangerous.dnsbl.zone

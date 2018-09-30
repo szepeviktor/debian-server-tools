@@ -18,7 +18,7 @@
 - Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/), [Unmask Parasites](https://www.unmaskparasites.com/))
 - PageSpeed ([PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/), [webpagetest.org](https://www.webpagetest.org/))
 - Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
-- Traffic ([goaccess.sh](/webserver/goaccess.sh), [HEAP](https://heapanalytics.com/), [Google Analytics](https://analytics.google.com/analytics/web/))
+- Traffic ([goaccess.sh](/monitoring/goaccess.sh), [HEAP](https://heapanalytics.com/), [Google Analytics](https://analytics.google.com/analytics/web/))
 - Report JavaScript, PHP (and other) errors [Sentry](https://docs.sentry.io/server/installation/),
   client [for browsers](https://github.com/getsentry/sentry-javascript/tree/master/packages/raven-js)
   and [for Laravel](https://github.com/getsentry/sentry-laravel)

@@ -18,7 +18,7 @@ read -r ASLINE
 {
     cat <<EOF
 # ${ASLINE### }
-#: ipset -exist restore < ipset/${NAME}.ipset
+#: ipset -exist restore <ipset/${NAME}.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set ${NAME} src -j REJECT
 create ${NAME} hash:net family inet hashsize 64 maxelem 32
 flush ${NAME}
@@ -28,6 +28,4 @@ EOF
     while read -r IPRANGE; do
         echo "add ${NAME} ${IPRANGE%% *}"
     done
-
-    echo "# Also in -> dangerous.dnsbl.zone"
-} > "${NAME}.ipset"
+} >"${NAME}.ipset"

@@ -5,4 +5,3 @@ create kintiskton hash:net family inet hashsize 64 maxelem 32
 flush kintiskton
 add kintiskton 65.208.151.112/29
 add kintiskton 65.211.195.16/29
-# Also in -> dangerous.dnsbl.zone

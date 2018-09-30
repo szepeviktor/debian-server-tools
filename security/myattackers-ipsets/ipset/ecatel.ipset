@@ -29,7 +29,6 @@ add ecatel 89.248.174.0/24
 add ecatel 93.174.88.0/21
 add ecatel 94.102.48.0/20
 add ecatel 145.249.104.0/22
-add ecatel 185.216.140.0/23
 add ecatel 188.72.103.0/24
 add ecatel 188.72.106.0/24
 add ecatel 188.72.117.0/24

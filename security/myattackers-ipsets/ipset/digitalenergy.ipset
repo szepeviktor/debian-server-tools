@@ -9,8 +9,10 @@ add digitalenergy 179.61.128.0/20
 add digitalenergy 154.16.53.0/24
 add digitalenergy 154.16.214.0/24
 add digitalenergy 181.215.128.0/19
+# also in AS32181 - GigeNET
+add digitalenergy 181.215.39.0/24
 
-# AS15003 - NOBIS-TECH / clone AS? AS395954
+# AS15003 - NOBIS-TECH / also in AS395954
 add digitalenergy 191.96.100.0/24
 add digitalenergy 191.96.107.0/24
 add digitalenergy 191.101.178.0/24

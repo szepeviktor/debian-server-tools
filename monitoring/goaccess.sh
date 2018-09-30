@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.2.8
+# VERSION       :0.3.0
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -152,7 +152,7 @@ Exclude_hetrixtools() {
 }
 
 Goaccess() {
-    local GEOIP_DB="/var/lib/geoip-database-contrib/GeoLiteCity.dat"
+    local GEOIP_DB="/var/lib/GeoIP/GeoLite2-City.mmdb"
 
     # shellcheck disable=SC2046
     goaccess \
@@ -160,7 +160,7 @@ Goaccess() {
         --agent-list \
         --http-method=yes \
         --all-static-files \
-        --geoip-city-data="$GEOIP_DB" \
+        --geoip-database="$GEOIP_DB" \
         --log-format='%h %^[%d:%t %^] "%r" %s %b "%R" "%u"' \
         --date-format="%d/%b/%Y" \
         --time-format="%T" \

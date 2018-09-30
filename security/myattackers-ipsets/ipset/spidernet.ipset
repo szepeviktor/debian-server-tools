@@ -4,4 +4,3 @@
 create spidernet hash:net family inet hashsize 64 maxelem 32
 flush spidernet
 add spidernet 217.113.54.0/24
-# Also in -> dangerous.dnsbl.zone
