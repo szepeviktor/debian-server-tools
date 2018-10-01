@@ -9,6 +9,8 @@
 
 Source: https://www.hackerfactor.com/blog/index.php?/archives/775-Scans-and-Attacks.html
 
+Bot Directory by Distil Networks: https://www.distilnetworks.com/bot-directory/
+
 See also Access Watch database: https://access.watch/database
 
 ### Usage

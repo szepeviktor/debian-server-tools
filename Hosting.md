@@ -35,7 +35,6 @@
 - [Linode](https://www.linode.com/?r=66de78b7ac99f79ec3a8e89a60c6c825dd107df1)
 - [OVH Public Cloud](https://www.ovh.com/fr/public-cloud/instances/tarifs/#cpu) CPU instances
 - [OVH Cloud VPS](https://www.ovh.ie/vps/vps-cloud.xml) VMware
-- [HostHatch](https://portal.hosthatch.com/aff.php?aff=250) KVM, storage instances
 
 ### Managed hosting
 

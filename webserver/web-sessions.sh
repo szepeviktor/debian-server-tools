@@ -5,12 +5,23 @@
 # DEPENDS       :pip3 install geoip2
 # DEPENDS       :./web-sessions-geoiplookup.py
 
+# Alternative for user angets only
+#
+# watch -d -n 10 'grep "$(date +%d/%b/%Y:%H:)" /var/log/apache2/*.log | cut -d \" -f 6| sed \
+#   -e "s/^Mozilla\\/5\\.0 (Windows [^)]\\+)/W/" \
+#   -e "s/^Mozilla\\/5\\.0 (Linux; Android [^)]\\+)/A/" \
+#   -e "s/^Mozilla\\/5\\.0 (Macintosh; Intel Mac/M/" \
+#   -e "s/^Mozilla\\/5\\.0 (iPhone; CPU iPhone/iP/" \
+#   -e "s/^Mozilla\\/5\\.0 (compatible;/~/" \
+# | sort | uniq -c | sort -n | grep -v "^\\s*[0-9]\\s"'
+
 ACCESS_LOG="/var/log/apache2/project-ssl-access.log"
 SERVER_IP="$IP"
 
 declare -i SESSION_MAX_LENGTH="600"
 
-Exclude() {
+Exclude()
+{
     local IP="$1"
     local UA="$2"
     local REQUEST="$3"
@@ -49,7 +60,8 @@ Exclude() {
     return 1
 }
 
-Display_sessions() {
+Display_sessions()
+{
     local ID
     local GEO
     local REQUEST
@@ -71,7 +83,8 @@ Display_sessions() {
     done
 }
 
-Session_gc() {
+Session_gc()
+{
     local -i NOW
     local -i EXPIRATION
     local -i INDEX
@@ -84,7 +97,7 @@ Session_gc() {
         ID="${SESSIONS[$INDEX]}"
         if [ "${SESSION_DATA[${ID}_TIME]}" -lt "$EXPIRATION" ]; then
             # Destroy session
-            unset SESSIONS[$INDEX]
+            unset SESSIONS["$INDEX"]
             unset SESSION_DATA["${ID}_IP"]
             unset SESSION_DATA["${ID}_UA"]
             unset SESSION_DATA["${ID}_REQUEST"]
@@ -94,7 +107,8 @@ Session_gc() {
     done
 }
 
-Session_exists() {
+Session_exists()
+{
     local QUERY="$1"
     local ID
 
@@ -107,23 +121,23 @@ Session_exists() {
     return 1
 }
 
-Waiting() {
-    local I
-
+Waiting()
+{
     # Proper exit
     trap "exit" SIGHUP
 
     while true; do
         # shellcheck disable=SC2034
-        for I in {1..3}; do
+        for _ in {1..3}; do
             sleep 0.5; echo -n "."
         done
         # Delete line
-        sleep 0.5; echo -e -n "\r   \r"
+        sleep 0.5; echo -e -n '\r   \r'
     done
 }
 
-Is_static() {
+Is_static()
+{
     local REQUEST="$1"
     local URL
 
@@ -147,7 +161,7 @@ Is_static() {
 }
 
 # shellcheck disable=SC2155
-declare -r TAB="$(echo -e -n "\t")"
+declare -r TAB="$(echo -e -n '\t')"
 declare -a SESSIONS
 declare -A SESSION_DATA
 COLOR_BRIGHT="$(tput bold)"
@@ -157,29 +171,30 @@ COLOR_INVERT="$(tput setaf 0; tput setab 7)"
 COLOR_RESET="$(tput sgr0)"
 
 Waiting &
+
 while read -r LOG_LINE; do
     printf -v NOW "%(%s)T" -1
 
     # Parse access log line
     IP="${LOG_LINE%% *}"
-    UA="$(cut -d '"' -f 6 <<< "$LOG_LINE")"
-    REQUEST="$(cut -d '"' -f 2 <<< "$LOG_LINE")"
+    UA="$(cut -d '"' -f 6 <<<"$LOG_LINE")"
+    REQUEST="$(cut -d '"' -f 2 <<<"$LOG_LINE")"
 
     if Exclude "$IP" "$UA" "$REQUEST"; then
         continue
     fi
 
-    STATUS="$(cut -d '"' -f 3 <<< "$LOG_LINE")"
+    STATUS="$(cut -d '"' -f 3 <<<"$LOG_LINE")"
     STATUS="${STATUS:1:3}"
-    APACHE_TIME="$(sed -n -e 's|^.* \[\([0-9]\+\)/\(\S\+\)/\([0-9]\+\):\([0-9]\+\):\([0-9]\+\):\([0-9]\+\) .*$|\1 \2 \3 \4:\5:\6|p' <<< "$LOG_LINE")"
-    TIME="$(date --date "$APACHE_TIME" "+%s" 2> /dev/null)"
+    APACHE_TIME="$(sed -n -e 's|^.* \[\([0-9]\+\)/\(\S\+\)/\([0-9]\+\):\([0-9]\+\):\([0-9]\+\):\([0-9]\+\) .*$|\1 \2 \3 \4:\5:\6|p' <<<"$LOG_LINE")"
+    TIME="$(date --date "$APACHE_TIME" "+%s" 2>/dev/null)"
     # If time parsing fails
     if [ -z "$TIME" ]; then
         TIME="$NOW"
     fi
 
     # Set session data
-    ID="$(md5sum <<< "${IP}|${UA}")"
+    ID="$(md5sum <<<"${IP}|${UA}")"
     ID="${ID%% *}"
     SESSION_DATA["${ID}_TIME"]="$TIME"
     # Default status

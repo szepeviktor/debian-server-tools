@@ -53,15 +53,18 @@ cd /home/${U}/website/code/
 # * HTML-ize WordPress
 #     https://gist.github.com/szepeviktor/4535c5f20572b77f1f52
 
+# Find non-standard permissions, line ends
+#grep -r -I -l $'\r'; grep -r -I -m 1 $'\r' | sed -e 's/\r/■/g'
+find -type f -not -perm 644; find -type d -not -perm 755
 # Repair permissions, line ends
 #find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
-find -type f -not -perm 644; find -type d -not -perm 755
 find -type f -exec chmod --changes 0644 "{}" ";"
 find -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"
-find -name wp-config.php -exec chmod -v 0400 "{}" ";"
-#find -name settings.php -exec chmod -v 0400 "{}" ";"
-#find -name .env -exec chmod -v 0400 "{}" ";"
-find -name .htaccess -exec chmod -v 0640 "{}" ";"
+# Sensitive files
+find -name wp-config.php -exec chmod --verbose 0400 "{}" ";"
+#find -path "*/sites/*/settings.php" -exec chmod --verbose 0400 "{}" ";"
+#find -name .env -exec chmod --verbose 0400 "{}" ";"
+find -name .htaccess -exec chmod --verbose 0640 "{}" ";"
 
 # Set owner
 chown -cR ${U}:${U} /home/${U}/

@@ -60,6 +60,8 @@ drush vset webform_default_subject "Subject"
 # /admin/config/development/performance
 drush vset cache 1
 drush vset block_cache 1
+# /admin/settings/jquery_update
+drush vset jquery_update_compression_type min
 # /admin/config/media/image-toolkit
 drush vset image_jpeg_quality 90
 # /admin/config/regional/settings
@@ -125,6 +127,15 @@ Enable inclusion per content type, add to `robots.txt`
 `/admin/content/types`
 
 Mail sending: `drush en -y smtp`
+
+### Check libraries
+
+Integrity and versions.
+
+- `plugins/`
+- `sites/all/libraries/`
+- `sites/all/modules/contrib/jquery_update/replace/`
+- `sites/all/modules/contrib/jquery_ui/jquery.ui/`
 
 ### Cron
 
