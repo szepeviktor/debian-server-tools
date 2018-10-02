@@ -34,4 +34,4 @@ Tripwire_fake() {
 set -e
 
 cd "$DOCUMENT_ROOT"
-Tripwire_fake | sed -e "1s|^.|[${LOGNAME}] Website has changed.\n&|" 1>&2
+Tripwire_fake | sed -e "1s|^.|[${LOGNAME}] Website has changed.\\n&|" 1>&2

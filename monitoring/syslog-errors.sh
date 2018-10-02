@@ -45,12 +45,12 @@ Failures()
 # Search recent log entries
 /usr/sbin/logtail2 /var/log/syslog \
     | grep -F -v "$0" \
-    | dd iflag=fullblock bs=1M count=5 2> /dev/null \
+    | dd iflag=fullblock bs=1M count=5 2>/dev/null \
     | Failures \
     | Exceptions
 
 # Process boot log
-if [ -s /var/log/boot ] && [ "$(wc -l < /var/log/boot)" -gt 1 ]; then
+if [ -s /var/log/boot ] && [ "$(wc -l </var/log/boot)" -gt 1 ]; then
     # Skip "(Nothing has been logged yet.)"
     /usr/sbin/logtail2 /var/log/boot \
         | sed -e '1!b;/^(Nothing .*$/d' \
