@@ -35,6 +35,7 @@ add nobis 173.234.144.0/21
 add nobis 23.19.248.0/22
 #add nobis 23.106.192.0/19
 #add nobis 23.108.128.0/19
+add nobis 23.108.224.0/19
 
 # AS396362 - LEASEWEB-USA-NYC-11
 add nobis 142.234.200.0/22

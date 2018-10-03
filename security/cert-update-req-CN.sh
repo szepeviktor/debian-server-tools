@@ -17,7 +17,7 @@
 #     https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&actp=CROSSLINK&id=INFO1548
 #     https://www.geocerts.com/api_spec.pdf
 #     https://products.geotrust.com/geocenter/reissuance/reissue.do
-# ComodoSSL, EssentialSSL, PositiveSSL
+# PositiveSSL, ComodoSSL, EssentialSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust
 #     https://www.geotrust.com/resources/root-certificates/

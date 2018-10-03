@@ -8,16 +8,15 @@ test -d /opt/results || mkdir /opt/results
 
 # source hook
 cat >/opt/results/debackport-source <<"EOF"
-git clone -b debian-experimental "https://salsa.debian.org/debian/munin.git" munin
+#git clone -b debian-experimental "https://salsa.debian.org/debian/munin.git" munin
+git clone -b debian-experimental "https://salsa.debian.org/sumpfralle-guest/munin.git" munin
 cd munin/
-# Remove "debin/" from version
+# Remove "debian/" from version
 sed -e 's%git describe --long %&| sed -e "s#^debian/##"%' -i getversion
 # Debug
 #sed -e 's/make -C doc html man/#&/' -i debian/rules
 #sed -e 's/# export DH_VERBOSE=1/export DH_VERBOSE=1/' -i debian/rules
 #sed -e '1s|#!/bin/sh|#!/bin/bash -x|' -i getversion
-# Fix include path
-sed -e 's#script/munin-run#./&#' -i t/munin-run.t
 # quilt
 PKG_VERSION="$(dpkg-parsechangelog --show-field Version)"
 tar -cJf ../munin_${PKG_VERSION%-*}.orig.tar.xz .
@@ -41,7 +40,7 @@ sudo rm libhttp-server-simple-cgi-prefork-perl_*_all.deb
 sudo apt-get install -y -f
 # Alien::RRDtool and inc::latest
 sudo apt-get install -y pkg-config graphviz libxml2-dev libpango1.0-dev libcairo2-dev \
-    libfile-sharedir-perl libtest-requires-perl
+    libfile-sharedir-perl libtest-requires-perl libmodule-build-perl
 sudo PERL_MM_USE_DEFAULT=1 cpan -i inc::latest
 sudo PERL_MM_USE_DEFAULT=1 cpan -i Alien::RRDtool
 EOF
