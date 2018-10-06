@@ -2,13 +2,13 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.0.13
+# VERSION       :1.1.0
 # DATE          :2018-08-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install usbutils bind9-host
+# DEPENDS       :apt-get install usbutils bind9-host dnsutils
 # LOCATION      :/usr/local/sbin/server-integrity.sh
 
 # Checks
@@ -53,6 +53,56 @@ Disk_partitions()
     done
 
     return 1
+}
+
+Check_resolver()
+{
+    local RESOLVER="$1"
+    local NAME="$2"
+    local TYPE="$3"
+    local TIMEOUT="$4"
+    local OUTPUT
+    local STATUS
+    local SED_EXP
+    local VALUE
+
+    # 1×2 seconds timeout
+    if OUTPUT="$(dig @"$RESOLVER" "$NAME" "$TYPE" IN +tries=1 +time="$TIMEOUT" +recurse 2>&1)"; then
+        # https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6
+        STATUS="$(sed -n -e 's/^;; ->>HEADER<<- opcode: \S\+, status: \([A-Z]\+\), id: .\+$/\1/p' <<<"$OUTPUT")"
+        if [ -z "$STATUS" ]; then
+            STATUS="UNKNOWN"
+        fi
+    elif [ "$?" == 9 ]; then
+        # Timeout is identical to connection error as UDP is used
+        if Check_resolver "$RESOLVER" "$NAME" "$TYPE" 8 >/dev/null; then
+            STATUS="TIMEOUT"
+        else
+            STATUS="CONNERR"
+        fi
+    else
+        STATUS="ERROR${?}"
+    fi
+
+    # Not OK response
+    if [ "$STATUS" != NOERROR ]; then
+        echo "$STATUS"
+        return 1
+    fi
+
+    # First record's value
+    # Only \t and \1 should be escaped
+    printf -v SED_EXP '/^;; ANSWER SECTION:$/{n;s/^\S\+\\t\+[0-9]\+\\t\+IN\\t\+%s\\t\+\(\S\+\)$/\\1/p;q}' "$TYPE"
+    VALUE="$(sed -n -e "$SED_EXP" <<<"$OUTPUT")"
+
+    # Missing answer
+    if [ -z "$VALUE" ]; then
+        echo "NOANSWER"
+        return 2
+    fi
+
+    # OK
+    echo "$VALUE"
 }
 
 set -e
@@ -166,20 +216,21 @@ case "$CHECK" in
         RESOLVERS="$(sed -n -e 's#^nameserver\s\+\(\S\+\)\s*$#\1#p' /etc/resolv.conf)"
         while read -r RESOLVER; do
             # Same timeout as "options timeout:2" in resolv.conf
-            if host -W 2 -t PTR 8.8.8.8 "$RESOLVER" &> /dev/null; then
+            if HOST_NAME="$(Check_resolver "$RESOLVER" 1.1.1.1.in-addr.arpa. PTR 2)" \
+                && [ "$HOST_NAME" == one.one.one.one. ]; then
                 RESULT+="1"
             else
                 # Show failing resolver
-                echo -n "R:${RESOLVER} "
+                printf 'R;%s;%s; ' "$RESOLVER" "$HOST_NAME"
             fi
-        done <<< "$RESOLVERS"
+        done <<<"$RESOLVERS"
         ;;
     ROOT)
         RESULT="$(find / -mindepth 1 -maxdepth 1 -printf '%P\n' | sort | paste -s -d ":")"
         ;;
     *)
         # Missing check
-        exit 9
+        exit 11
         ;;
 esac
 
@@ -188,7 +239,7 @@ echo "$RESULT"
 # We need to check the result
 if [ -n "${EXPECTED+empty}" ]; then
     # Expected value is set and empty
-    if [ "$EXPECTED" == "empty" ]; then
+    if [ "$EXPECTED" == empty ]; then
         EXPECTED=""
     fi
     test "$EXPECTED" == "$RESULT"

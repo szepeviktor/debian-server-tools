@@ -21,7 +21,7 @@
 Piramis elv (mindent egyszerre megmutatni hiba)
 főoldal → tematikus aloldal → cikk/lexikon
 
-Sok információ: szétszórt figyelem ↔ Kevés információ: fókusz
+Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
    - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
    - CTA (call-to-action) gombok
@@ -41,5 +41,5 @@ Sok információ: szétszórt figyelem ↔ Kevés információ: fókusz
 
 - [Google Cégem](https://support.google.com/business/answer/7091)
 - [Google Tudáspanel](https://support.google.com/business/answer/6331288)
-- Google Térkép
-- Google+
+- [Google Térkép](https://support.google.com/business/answer/6056435)
+- [Google+](https://support.google.com/business/answer/7685471)

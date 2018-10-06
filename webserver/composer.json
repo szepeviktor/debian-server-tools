@@ -2,9 +2,6 @@
   "name": "szepeviktor/wordpress",
   "description": "Install WordPress by using composer packages.",
   "license": "MIT",
-  "config": {
-    "vendor-dir": "../vendor"
-  },
   "repositories": [
     {
       "type": "composer",
@@ -13,28 +10,32 @@
   ],
   "require": {
     "php": ">=7.0",
-    "johnpbloch/wordpress": "^4.9.8",
-    "timber/timber": "^1.7.1",
-    "wpackagist-plugin/advanced-custom-fields": "^4.4.12",
-    "wpackagist-plugin/posts-to-posts": "^1.6.5"
+    "johnpbloch/wordpress": "^4.9",
+    "timber/timber": "^1.8",
+    "wpackagist-plugin/advanced-custom-fields": "^4.4",
+    "wpackagist-plugin/posts-to-posts": "^1.6"
   },
   "extra": {
-    "wordpress-install-dir": "wp",
+    "wordpress-install-dir": "wordpress/core",
     "installer-paths" : {
-      "wp-content/plugins/{$name}/": [
+      "wordpress/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "wordpress/wp-content/plugins/{$name}/": [
         "type:wordpress-plugin"
       ],
-      "wp-content/themes/{$name}/": [
+      "wordpress/wp-content/themes/{$name}/": [
         "type:wordpress-theme"
       ]
     }
   },
   "scripts": {
       "post-create-project-cmd": [
-        "cp wp/wp-content/index.php wp-content/",
-        "cp -a wp/wp-content/themes wp-content/",
-        "cp wp/wp-content/themes/index.php wp-content/themes/",
-        "cp wp/wp-content/plugins/index.php wp-content/plugins/"
+        "mkdir -p wordpress/wp-content/themes wordpress/wp-content/plugins wordpress/wp-content/mu-plugins",
+        "cp wordpress/core/wp-content/index.php wordpress/wp-content/",
+        "cp -a wordpress/core/wp-content/themes wordpress/wp-content/",
+        "cp wordpress/core/wp-content/themes/index.php wordpress/wp-content/themes/",
+        "cp wordpress/core/wp-content/plugins/index.php wordpress/wp-content/plugins/"
       ]
   }
 }

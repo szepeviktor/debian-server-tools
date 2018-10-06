@@ -3,7 +3,8 @@
 # Manual system checks.
 #
 
-Titled_pager() {
+Titled_pager()
+{
     local TITLE="$1"
 
     # @TODO Compare content with Debian's default.
@@ -29,26 +30,28 @@ lspci | Titled_pager "PCI Device List"
 
 # Disk configuration
 if [ -f /proc/mdstat ]; then
-    Titled_pager "MD Arrays" < /proc/mdstat
+    Titled_pager "MD Arrays" </proc/mdstat
 fi
-Titled_pager "Disk Partitions" < /proc/partitions
+Titled_pager "Disk Partitions" </proc/partitions
 if Is_installed lvm2; then
-    { pvdisplay && vgdisplay && lvdisplay; } | Titled_pager "LVM Configuration"
+    {
+        pvdisplay && vgdisplay && lvdisplay
+    } | Titled_pager "LVM Configuration"
 fi
 
 # Kernel parameters
-Titled_pager "Kernel parameters" < /proc/cmdline
+Titled_pager "Kernel parameters" </proc/cmdline
 
 # All defaults
-find /etc/default/* -type f | Titled_pager "All default files"
-head -n 1000 /etc/default/* | grep -vE '^\s*#|^\s*$' | grep -A 1000 '^==> ' | Titled_pager "All defaults"
+find /etc/default/ -type f | Titled_pager "All default files"
+head -n 1000 /etc/default/* | grep -v -E '^\s*#|^\s*$' | grep -A 1000 '^==> ' | Titled_pager "All defaults"
 
 # Mount points
 # <file system> <mount point>             <type>          <options>                               <dump> <pass>
-Titled_pager "Filesystems" < /etc/fstab
-Titled_pager "Mount points" < /proc/mounts
+Titled_pager "Filesystems" </etc/fstab
+Titled_pager "Mount points" </proc/mounts
 
-Titled_pager "Swap area" < /proc/swaps
+Titled_pager "Swap area" </proc/swaps
 
 # relAtime option for filesystems
 grep '\S\+\s\+/\s.*relatime' /proc/mounts | Titled_pager "relatime Enabled"
@@ -56,12 +59,12 @@ grep '\S\+\s\+/\s.*relatime' /proc/mounts | Titled_pager "relatime Enabled"
 # Kernel
 uname -a | Titled_pager "Kernel version"
 # List available kernel versions
-apt-cache policy "linux-image-[3456789].*" | Titled_pager "Available Kernels"
+apt-cache policy "linux-image-[456789].*" | Titled_pager "Available Kernels"
 # More than 1 kernel?
 aptitude --disable-columns --display-format "%p" search '?and(?installed, ?name(^linux-image-))' \
     | grep -v -F -x "linux-image-$(dpkg --print-architecture)" \
     | Titled_pager "Installed Kernels"
-Titled_pager "Kernel Modules to Load" < /etc/modules
+Titled_pager "Kernel Modules to Load" </etc/modules
 find /lib/modules/ -maxdepth 1 | Titled_pager "Kernel module files"
 {
     if [ -f /proc/modules ]; then
@@ -70,9 +73,9 @@ find /lib/modules/ -maxdepth 1 | Titled_pager "Kernel module files"
         echo "WARNING: monolithic kernel"
     fi
 } | Titled_pager "Loaded modules"
-Titled_pager "Kernel Parameters" < /etc/sysctl.conf
-if [ "$(find /etc/sysctl.d/ -mindepth 1)" != "/etc/sysctl.d/README.sysctl" ]; then
-    find /etc/sysctl.d/ -type f -not -name "README.sysctl" | Titled_pager "Kernel Parameters in conf.d/"
+Titled_pager "Kernel Parameters" </etc/sysctl.conf
+if [ "$(find /etc/sysctl.d/ -mindepth 1)" != /etc/sysctl.d/README.sysctl ]; then
+    find /etc/sysctl.d/ -type f -not -name README.sysctl | Titled_pager "Kernel Parameters in conf.d/"
 fi
 
 # Boot
@@ -83,15 +86,19 @@ ls -ltr /boot/ | Titled_pager "Boot Directory"
 dpkg -l | grep 'grub' | Titled_pager "Installed GRUB Versions"
 
 # Miscellaneous configuration
-Titled_pager "Local Boot Script" < /etc/rc.local
-Titled_pager "System-wide .profile file" < /etc/profile
+Titled_pager "Local Boot Script" </etc/rc.local
+Titled_pager "System-wide .profile file" </etc/profile
 find /etc/profile.d/ -type f | Titled_pager "System-wide .profile in conf.d/"
 
 # Networking
-Titled_pager "Interface Configuration" < /etc/network/interfaces
-{ ifconfig -a; route -n -4; route -n -6; } | Titled_pager "Network configurations"
+Titled_pager "Interface Configuration" </etc/network/interfaces
+{
+    ifconfig -a
+    route -n -4
+    route -n -6
+} | Titled_pager "Network configurations"
 netstat -antupW | Titled_pager "Open ports"
-Titled_pager "Resolver Configuration" < /etc/resolv.conf
+Titled_pager "Resolver Configuration" </etc/resolv.conf
 
 # Show modified debconf values
 debconf-show --listowners | xargs -n 1 debconf-show | grep '^\*' \
@@ -120,15 +127,15 @@ HOSTING_COMPANY="$(Data get-value hosting-company)"
 test -n "$HOSTING_COMPANY"
 {
     find / -iname "*${HOSTING_COMPANY}*"
-    grep -i -r "$HOSTING_COMPANY" /etc/
-    dpkg -l | grep -i "$HOSTING_COMPANY"
+    grep -F -i -r "$HOSTING_COMPANY" /etc/
+    dpkg -l | grep -F -i "$HOSTING_COMPANY"
 } | Titled_pager "Hosting company customizations (${HOSTING_COMPANY})"
 
 # Inspect users
 #     https://www.debian.org/doc/debian-policy/ch-opersys.html#s9.2
 #     https://www.debian.org/doc/manuals/securing-debian-howto/ch12.en.html#s-faq-os-users
 # w3m /usr/share/doc/base-passwd/users-and-groups.html
-Titled_pager "All passwords" < /etc/shadow
+Titled_pager "All passwords" </etc/shadow
 # Update passwd: update-passwd -v --dry-run
 
 # This is visible only without pager

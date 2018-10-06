@@ -2,7 +2,7 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.3.5
+# VERSION       :1.3.6
 # DATE          :2018-07-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -94,7 +94,7 @@ while read -r CONFIG_FILE; do
     ACCESS_LOG="$(sed -n -e '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
     # Substitute variables
-    ACCESS_LOG="$(sed -e "s/\${APACHE_LOG_DIR}/${APACHE_LOG_DIR}/g" -e "s/\${SITE_USER}/${SITE_USER}/g" <<<"$ACCESS_LOG")"
+    ACCESS_LOG="$(sed -e "s#\${APACHE_LOG_DIR}#${APACHE_LOG_DIR}#g" -e "s#\${SITE_USER}#${SITE_USER}#g" <<<"$ACCESS_LOG")"
 
     # Prevent double log processing
     if In_array "$ACCESS_LOG" "${PROCESSED_LOGS[@]}"; then
@@ -106,7 +106,7 @@ while read -r CONFIG_FILE; do
     nice /usr/local/bin/dategrep --format apache --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
-        | sed -e "s/^/$(basename "$ACCESS_LOG" .log): /"
+        | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 
 done <<<"$APACHE_CONFIGS" | Maybe_sendmail
 

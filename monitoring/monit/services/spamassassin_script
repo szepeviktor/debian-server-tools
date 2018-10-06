@@ -2,11 +2,11 @@
 #
 # Perform a keep-alive check of spamd.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DEPENDS       :apt-get install netcat-openbsd
 # LOCATION      :/usr/local/sbin/spamassassin-test.sh
 
 set -e
 
 # Almost the same as spamc -K
-echo -e -n "PING SPAMC/1.5\r\n\r\n" | nc -q 10 127.0.0.1 783
+printf 'PING SPAMC/1.5\r\n\r\n' | nc -q 10 127.0.0.1 783

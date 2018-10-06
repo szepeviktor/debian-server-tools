@@ -13,6 +13,8 @@ Bot Directory by Distil Networks: https://www.distilnetworks.com/bot-directory/
 
 See also Access Watch database: https://access.watch/database
 
+BotoPedia by Incapsula http://www.botopedia.org/
+
 ### Usage
 
 Run `myattackers-ipsets-install.sh`

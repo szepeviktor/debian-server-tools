@@ -170,7 +170,7 @@ wp plugin install wp-user-activity --activate
 # simple audit
 wp plugin install simple-history --activate
 # Sucuri
-wp plugin install custom-sucuri sucuri-scanner --activate
+#wp plugin install custom-sucuri sucuri-scanner --activate
 
 # prevent spam
 
@@ -178,8 +178,8 @@ wp plugin install custom-sucuri sucuri-scanner --activate
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # CF7 Robot Trap
 wget -P wp-content/plugins/contact-form-7-robot-trap/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot-trap.php
-# obfuscate-email
-#wp plugin install obfuscate-email --activate
+# Email Address Encoder
+wp plugin install email-address-encoder --activate
 ```
 
 #### Forcing
@@ -230,19 +230,13 @@ wp transient delete-all
 wget -P wp-content/ https://github.com/humanmade/wordpress-pecl-memcached-object-cache/raw/master/object-cache.php
 wp transient delete-all
 
-# Memcache (no "d") @Automattic
-#wget -P wp-content/ https://github.com/Automattic/wp-memcached/raw/master/object-cache.php
-#wp transient delete-all
-
-# APCu
-# WARNING! APCu is not available from CLI by default during WP-Cron/WP-CLI
-#wget -P wp-content/ https://github.com/l3rady/WordPress-APCu-Object-Cache/raw/master/object-cache.php
-#wp transient delete-all
-# Not-so-good plugin: wp plugin install apcu
-
-# FOCUS Cache - FILE-based object cache
+# File-based @emrikol from Automattic
 #wp plugin install focus-object-cache
 wget -P wp-content/ ${WPSZV}/focus-cache/object-cache.php
+wp transient delete-all
+
+# FileSystem, Sqlite, APC/u, Memcached, Redis @inpsyde
+# See https://github.com/inpsyde/WP-Stash (inpsyde/wp-stash:dev-master) and https://www.stashphp.com/Drivers.html
 
 # Tiny cache
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/tiny-cache/raw/master/tiny-translation-cache.php
@@ -268,12 +262,9 @@ wp plugin install resource-versioning --activate
 # Tiny CDN
 wp plugin install tiny-cdn --activate
 
-# CDN, Page Cache, Minify
-#wp plugin install https://github.com/szepeviktor/w3-total-cache-fixed/releases/download/0.9.5.4.3/w3-total-cache-fixed-for-v0.9.5.x-users.zip --activate
-
 # minit
-wp plugin install https://github.com/kasparsd/minit/archive/master.zip
-wp plugin install https://github.com/markoheijnen/Minit-Pro/archive/master.zip
+#wp plugin install https://github.com/kasparsd/minit/archive/master.zip
+#wp plugin install https://github.com/markoheijnen/Minit-Pro/archive/master.zip
 
 # safe redirect manager
 wp plugin install safe-redirect-manager --activate
@@ -281,7 +272,7 @@ wp plugin install safe-redirect-manager --activate
 # WP-FFPC
 # backends: APCu, Memcached with ngx_http_memcached_module
 # https://github.com/petermolnar/wp-ffpc
-wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --activate
+#wp plugin install https://github.com/petermolnar/wp-ffpc/archive/master.zip --activate
 
 ## Autoptimize - CONFLICTS with resource-versioning
 ##     define( 'AUTOPTIMIZE_WP_CONTENT_NAME', '/static' );
@@ -312,6 +303,26 @@ Author: Viktor Szépe
 ```
 
 See [/webserver/wordpress/](/webserver/wordpress/) directory for its content.
+
+### Plugin authors with enterprise mindset
+
+- [Daniel Bachhuber](https://profiles.wordpress.org/danielbachhuber/#content-plugins)
+  [GitHub](https://github.com/danielbachhuber?tab=repositories&type=source)
+- [John Blackbourn](https://profiles.wordpress.org/johnbillion#content-plugins)
+  [GitHub](https://github.com/johnbillion?tab=repositories&type=source)
+- [Ben Huson](https://profiles.wordpress.org/husobj/#content-plugins)
+- [10up](https://profiles.wordpress.org/10up#content-plugins)
+  [GitHub](https://github.com/10up?utf8=%E2%9C%93&q=&type=source)
+- [Inpsyde](https://profiles.wordpress.org/inpsyde#content-plugins)
+  [GitHub](https://github.com/inpsyde?utf8=%E2%9C%93&q=&type=source)
+- https://profiles.wordpress.org/norcross#content-plugins
+- https://profiles.wordpress.org/xwp#content-plugins
+- https://profiles.wordpress.org/fjarrett#content-plugins
+- https://profiles.wordpress.org/westonruter#content-plugins
+- https://profiles.wordpress.org/sc0ttkclark#content-plugins
+- https://profiles.wordpress.org/voceplatforms#content-plugins
+- https://profiles.wordpress.org/interconnectit#content-plugins
+- https://profiles.wordpress.org/tollmanz#content-plugins
 
 ### On deploy and Staging->Production migration
 
@@ -350,14 +361,21 @@ wp search-replace --precise --recurse-objects --all-tables-with-prefix ...
 
 And manually replace constants in `wp-config.php`
 
+Web-based search & replace tool:
+
+```bash
+wget -O srdb.php https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
+wget https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
+```
+
 ### Moving a site to a subdirectory
 
 ```bash
-SUBDIR="site"
+SUBDIR="project"
 URL="$(wp option get home)"
 
 # Change 'siteurl'
-wp option set siteurl ${URL}/${SUBDIR}
+wp option set siteurl "${URL}/${SUBDIR}"
 
 # Change URL in database
 wp search-replace --precise --recurse-objects --all-tables-with-prefix "/wp-includes/" "/${SUBDIR}/wp-includes/"
@@ -370,7 +388,7 @@ wp search-replace --precise --recurse-objects --all-tables-with-prefix "/wp-incl
 editor wp-config.php
 
 # Move core to subdir
-xargs -I % mv -v ./% ./${SUBDIR}/ <<EOF
+xargs -I % mv -v ./% ./${SUBDIR}/ <<"EOF"
 wp-admin
 wp-includes
 licenc.txt
@@ -394,26 +412,19 @@ EOF
 cp -v ./index.php ./${SUBDIR}/
 
 # Modify /index.php
-sed -e "s|'/wp-blog-header\.php'|'/${SUBDIR}/wp-blog-header.php'|" -i ./index.php
+sed -e "s|'/wp-blog-header\\.php'|'/${SUBDIR}/wp-blog-header.php'|" -i ./index.php
 
-# Move files from parent dir
+# Move files from parent directory
 mv -v ../wp-config.php ./
 mv -v ../wp-fail2ban-bad-request-instant.inc.php ./
 
-# Edit 'path:' in wp-cli.yml
+# Edit "path:" in wp-cli.yml
 editor ../wp-cli.yml
 
 # Fix Apache VirtualHost configuration
 
 # Flush cache
 wp cache flush
-```
-
-Web-based search & replace tool:
-
-```bash
-wget -O srdb.php https://github.com/interconnectit/Search-Replace-DB/raw/master/index.php
-wget https://github.com/interconnectit/Search-Replace-DB/raw/master/srdb.class.php
 ```
 
 ### Signature

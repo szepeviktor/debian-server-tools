@@ -161,7 +161,7 @@ Is_static()
 }
 
 # shellcheck disable=SC2155
-declare -r TAB="$(echo -e -n '\t')"
+declare -r TAB="$(printf '\t')"
 declare -a SESSIONS
 declare -A SESSION_DATA
 COLOR_BRIGHT="$(tput bold)"

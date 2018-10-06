@@ -2,29 +2,29 @@
 #
 # Check Fail2ban iptables chains and myattackers ipset chain.
 #
-# VERSION       :0.3.0
+# VERSION       :0.3.1
 # LOCATION      :/usr/local/sbin/fail2ban-test.sh
 
 MYA_IPSET_CHAIN="myattackers-ipset"
 
 set -e
 
-FAIL2BAN_JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's|, | |g' -e 's|^.*Jail list:\s\+\(.*\)$|\1|p')"
+JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's/, / /g' -e 's/^.*Jail list:\s\+\(.*\)$/\1/p')"
 
-test -n "$FAIL2BAN_JAILS"
+test -n "$JAILS"
 
 # Check also myattackers-ipset
-if /sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" &> /dev/null; then
-    /sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" | grep -q ' (1 references)$'
+if CHAIN_LIST="$(/sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" &>/dev/null)"; then
+    grep -q ' (1 references)$' <<<"$CHAIN_LIST"
 fi
 
 # Check Fail2ban-managed chain
 /sbin/iptables -n -w -L fail2ban | grep -q ' (1 references)$'
 
 # Check all jail chains
-for JAIL in ${FAIL2BAN_JAILS}; do
+for JAIL in ${JAILS}; do
     # No iptables chain for these jails
-    if [ "$JAIL" == "proftpd-notif" ] || [[ "$JAIL" =~ apache-cf.* ]]; then
+    if [ "$JAIL" == proftpd-notif ] || [[ "$JAIL" =~ ^apache-cf.* ]]; then
         continue
     fi
 
