@@ -98,6 +98,7 @@ wp theme delete twentyfourteen
 Purchased themes can be updated using a child theme.
 
 ```bash
+wp theme install page-builder-framework --activate
 wp plugin install child-theme-configurator --activate
 ```
 
@@ -178,8 +179,12 @@ wp plugin install simple-history --activate
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-nofollow-robot-trap/nofollow-robot-trap.php
 # CF7 Robot Trap
 wget -P wp-content/plugins/contact-form-7-robot-trap/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot-trap.php
+# Comment form robot trap
+wget -P wp-content/plugins/comment-form-robot-trap/ ${WPSZV}/comment-form-robot-trap/comment-form-robot-trap.php
 # Email Address Encoder
 wp plugin install email-address-encoder --activate
+# Stop Spammers
+#wp plugin install stop-spammer-registrations-plugin --activate
 ```
 
 #### Forcing

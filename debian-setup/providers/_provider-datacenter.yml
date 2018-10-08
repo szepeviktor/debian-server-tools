@@ -15,10 +15,11 @@ networking:
     netmask: 255.255.255.0
     gateway: #1.2.3.254
     resolver:
+        # See /tools/dnsall.sh
+        - $local.NS1
         # DNS Advantage by Neustar
         # rdns1.ultradns.net. + no NXDomain redirect
         - 156.154.70.5
-        - $local.NS1
         # rdns2.ultradns.net. + no NXDomain redirect
         #- 156.154.71.5
         # Cloudflare DNS
@@ -36,7 +37,6 @@ networking:
         #- 2001:1608:10:25::9249:d69b
         # MAXNS=3
         #- $local.NS2
-        # https://gist.github.com/roge-/e7d926a3b3551a0f3769
     inet6:
         #method: auto
         method: static

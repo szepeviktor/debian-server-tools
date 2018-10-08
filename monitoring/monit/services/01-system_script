@@ -74,11 +74,12 @@ Check_resolver()
             STATUS="UNKNOWN"
         fi
     elif [ "$?" == 9 ]; then
+        STATUS="CONNERR"
         # Timeout is identical to connection error as UDP is used
-        if Check_resolver "$RESOLVER" "$NAME" "$TYPE" 8 >/dev/null; then
+        # Check once again with long timeout
+        if [ "$TIMEOUT" != 8 ] && Check_resolver "$RESOLVER" "$NAME" "$TYPE" 8 >/dev/null; then
+            # OK response with long timeout
             STATUS="TIMEOUT"
-        else
-            STATUS="CONNERR"
         fi
     else
         STATUS="ERROR${?}"
