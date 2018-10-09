@@ -46,7 +46,7 @@ Write_lock_test() {
 
 Run_write_lock_test() {
     echo "DELETE FROM instant;" | sqlite3 dnsbl.sqlite
-    echo "INSERT INTO instant VALUES ( $(php -r 'echo ip2long("1.2.3.4");'), 0, $(date "+%s") );" \
+    echo "INSERT INTO instant VALUES ( $(php7.2 -r 'echo ip2long("1.2.3.4");'), 0, $(date "+%s") );" \
         | sqlite3 dnsbl.sqlite
     seq 1 100 | parallel -j 100 ./write-lock.sh
     echo "SELECT * FROM instant;" | sqlite3 dnsbl.sqlite

@@ -44,7 +44,7 @@ chmod +x /home/horde/website/horde-pear
 /home/horde/website/horde-pear install nrk/Predis
 
 # Create database tables
-PHP_PEAR_SYSCONF_DIR="/home/horde/website" php -d "include_path=.:/home/horde/website/pear/php" \
+PHP_PEAR_SYSCONF_DIR="/home/horde/website" /usr/bin/php7.2 -d "include_path=.:/home/horde/website/pear/php" \
     /home/horde/website/pear/horde-db-migrate
 ```
 

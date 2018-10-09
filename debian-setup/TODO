@@ -38,3 +38,6 @@
 # - debian:privatel5
 #
 # ? entropy source (rng)
+#
+# initrd.img.old,vmlinuz.old symlinks
+# dpkg-query --showformat="\${Package}\\n" --show "linux-image-4.*.*-*-amd64" | wc -l

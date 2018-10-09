@@ -173,7 +173,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 # Mute cron errors
 #     # php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
 #     https://maximivanov.github.io/php-error-reporting-calculator/
-#     /usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
+#     /usr/bin/php7.2 -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
 # Cron log
 #     cron-job-command | ts "\%d \%b \%Y \%T \%z" >>/path/to/cron.log
 cd /etc/cron.d/

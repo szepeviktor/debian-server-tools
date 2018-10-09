@@ -312,22 +312,31 @@ See [/webserver/wordpress/](/webserver/wordpress/) directory for its content.
 ### Plugin authors with enterprise mindset
 
 - [Daniel Bachhuber](https://profiles.wordpress.org/danielbachhuber/#content-plugins)
-  [GitHub](https://github.com/danielbachhuber?tab=repositories&type=source)
+  &bull; [GitHub](https://github.com/danielbachhuber?tab=repositories&type=source)
 - [John Blackbourn](https://profiles.wordpress.org/johnbillion#content-plugins)
-  [GitHub](https://github.com/johnbillion?tab=repositories&type=source)
+  &bull; [GitHub](https://github.com/johnbillion?tab=repositories&type=source)
 - [Ben Huson](https://profiles.wordpress.org/husobj/#content-plugins)
+  &bull; [GitHub](https://github.com/benhuson?utf8=✓&tab=repositories&q=&type=source)
 - [10up](https://profiles.wordpress.org/10up#content-plugins)
-  [GitHub](https://github.com/10up?utf8=%E2%9C%93&q=&type=source)
+  &bull; [GitHub](https://github.com/10up?utf8=%E2%9C%93&q=&type=source)
 - [Inpsyde](https://profiles.wordpress.org/inpsyde#content-plugins)
-  [GitHub](https://github.com/inpsyde?utf8=%E2%9C%93&q=&type=source)
-- https://profiles.wordpress.org/norcross#content-plugins
-- https://profiles.wordpress.org/xwp#content-plugins
-- https://profiles.wordpress.org/fjarrett#content-plugins
-- https://profiles.wordpress.org/westonruter#content-plugins
-- https://profiles.wordpress.org/sc0ttkclark#content-plugins
-- https://profiles.wordpress.org/voceplatforms#content-plugins
-- https://profiles.wordpress.org/interconnectit#content-plugins
-- https://profiles.wordpress.org/tollmanz#content-plugins
+  &bull; [GitHub](https://github.com/inpsyde?utf8=%E2%9C%93&q=&type=source)
+- [Andrew Norcross](https://profiles.wordpress.org/norcross#content-plugins)
+  &bull; [GitHub](https://github.com/norcross?utf8=%E2%9C%93&tab=repositories&q=&type=source)
+- [XWP](https://profiles.wordpress.org/xwp#content-plugins)
+  &bull; [GitHub](https://github.com/xwp?utf8=✓&q=&type=source&)
+- [Frankie Jarrett](https://profiles.wordpress.org/fjarrett#content-plugins)
+  &bull; [GitHub](https://github.com/fjarrett?utf8=%E2%9C%93&tab=repositories&q=&type=source)
+- [Weston Ruter](https://profiles.wordpress.org/westonruter#content-plugins)
+  &bull; [GitHub](https://github.com/westonruter?utf8=✓&tab=repositories&q=&type=source)
+- [Scott Kingsley Clark](https://profiles.wordpress.org/sc0ttkclark#content-plugins)
+  &bull; [GitHub](https://github.com/sc0ttkclark?utf8=✓&tab=repositories&q=&type=source)
+- [Voce Platforms](https://profiles.wordpress.org/voceplatforms#content-plugins)
+  &bull; [GitHub](https://github.com/voceconnect?utf8=✓&q=&type=source)
+- [interconnect/it](https://profiles.wordpress.org/interconnectit#content-plugins)
+  &bull; [GitHub](https://github.com/interconnectit?utf8=✓&q=&type=source)
+- [Zack Tollman](https://profiles.wordpress.org/tollmanz#content-plugins)
+  &bull; [GitHub](https://github.com/tollmanz?utf8=✓&tab=repositories&q=&type=source)
 
 ### On deploy and Staging->Production migration
 

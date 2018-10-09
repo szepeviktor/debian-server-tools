@@ -61,8 +61,8 @@ define( 'WP_CONTENT_URL', 'https://DOMAIN.TLD/wp-content' );
 //     wp option set home
 //     wp option set siteurl
 
-//define( 'WP_MEMORY_LIMIT', '96M' );
-//define( 'WP_MAX_MEMORY_LIMIT', '384M' );
+define( 'WP_MEMORY_LIMIT', '40M' );
+define( 'WP_MAX_MEMORY_LIMIT', '256M' );
 define( 'DISALLOW_FILE_EDIT', true );
 define( 'WP_USE_EXT_MYSQL', false );
 define( 'WP_POST_REVISIONS', 20 );

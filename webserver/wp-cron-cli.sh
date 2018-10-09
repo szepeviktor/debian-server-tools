@@ -2,7 +2,7 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.11.0
+# VERSION       :0.11.1
 # DATE          :2018-08-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -91,7 +91,7 @@ cd "$WPCRON_DIR" || Die 2 "Cannot change to directory (${WPCRON_DIR})"
 test -r wp-cron.php || Die 3 "File not found (${WPCRON_DIR}/wp-cron.php)"
 
 # Alternative:  wp cron event run --due-now
-nice /usr/bin/php -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
+nice /usr/bin/php7.2 -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
     || Die 4 "PHP exit status $? in ${WPCRON_DIR}/wp-cron.php"
 
 exit 0

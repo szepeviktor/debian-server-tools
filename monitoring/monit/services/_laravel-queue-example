@@ -4,9 +4,9 @@
 
  check process laravel_queue1 with pidfile "/home/@@LARAVEL1_USER@@/website/queue1.pid"
    group laravel
-   start program = "/sbin/start-stop-daemon --quiet --start --background --nicelevel 10 --make-pidfile --pidfile /home/@@LARAVEL1_USER@@/website/queue1.pid --user @@LARAVEL1_USER@@ --exec /usr/bin/php -- /home/@@LARAVEL1_USER@@/website/code/artisan queue:work --timeout=120 --memory=256 --tries=3"
+   start program = "/sbin/start-stop-daemon --quiet --start --background --nicelevel 10 --make-pidfile --pidfile /home/@@LARAVEL1_USER@@/website/queue1.pid --user @@LARAVEL1_USER@@ --exec /usr/bin/php7.2 -- /home/@@LARAVEL1_USER@@/website/code/artisan queue:work --timeout=120 --memory=256 --tries=3"
      as uid "@@LARAVEL1_USER@@" and gid "@@LARAVEL1_USER@@"
-   stop program = "/sbin/start-stop-daemon --quiet --stop --exec /usr/bin/php --remove-pidfile --pidfile /home/@@LARAVEL1_USER@@/website/queue1.pid --user @@LARAVEL1_USER@@"
+   stop program = "/sbin/start-stop-daemon --quiet --stop --exec /usr/bin/php7.2 --remove-pidfile --pidfile /home/@@LARAVEL1_USER@@/website/queue1.pid --user @@LARAVEL1_USER@@"
      as uid "@@LARAVEL1_USER@@" and gid "@@LARAVEL1_USER@@"
    if 3 restarts within 3 cycles then unmonitor
    depends on laravel_queue1_artisan

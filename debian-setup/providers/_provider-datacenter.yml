@@ -58,6 +58,9 @@ documentation:
     - http://help.ovh.com/InstallOvhKey
     - http://help.ovh.com/RealTimeMonitoring
 ntp-server: ntp.provider.net
+cloud-init:
+    # /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+    datasource_list: [ NoCloud, AltCloud, ConfigDrive, Ec2, MAAS, OVF, GCE, None ]
 provider-package:
     # Soft restart needs
     - acpid

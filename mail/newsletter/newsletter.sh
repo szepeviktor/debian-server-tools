@@ -2,7 +2,7 @@
 #
 # Send newsletter.
 #
-# VERSION       :0.3.1
+# VERSION       :0.3.2
 # DEPENDS       :apt-get install mpack qprint dos2unix uuid-runtime php7.2-bcmath zdkimfilter at
 # DEPENDS-SUDO  :user	ALL=(ALL) NOPASSWD: /usr/bin/dkimsign --filter
 # DOCS          :https://ga-dev-tools.appspot.com/campaign-url-builder/
@@ -51,11 +51,11 @@ declare -i COUNT="0"
 
 # Encode parts
 sed -i -e 's|\s\s\+| |g' -e 's|^\s||' part1
-qprint -e part1 | sed 's|\t|=09|g' > part1.qp
+qprint -e part1 | sed 's|\t|=09|g' >part1.qp
 dos2unix -q part1.qp
 
 sed -i -e 's|\s\s\+| |g' -e 's|^\s||' part2
-qprint -e part2 | sed 's|\t|=09|g' > part2.qp
+qprint -e part2 | sed 's|\t|=09|g' >part2.qp
 dos2unix -q part2.qp
 
 # qprint may brake placeholders onto two lines
@@ -69,9 +69,9 @@ fi
 while read -r ADDRESS; do
     echo -n "$((++COUNT)). ${ADDRESS}"
     UUID="$(uuidgen)"
-    CRYPT="$(php php/hash.php "$ADDRESS")"
+    CRYPT="$(/usr/bin/php7.2 php/hash.php "$ADDRESS")"
 
-    echo "${ADDRESS}	${UUID}	@$(date "+%s")" >> send.log
+    printf '%s\t%s\t@%s\n' "$ADDRESS" "$UUID" "$(date "+%s")" >>send.log
 
     # Send
     # shellcheck disable=SC2002
@@ -88,10 +88,10 @@ while read -r ADDRESS; do
     RET="$?"
 
     if [ "$RET" != 0 ]; then
-        echo -ne " ... ${RET}\\x07 ------------------"
+        printf ' ... %s\x07 ------------------' "$RET"
     fi
     echo
 
     # Wait 0 or 1 second
     sleep "$((RANDOM % 2))"
-done < "$LIST"
+done <"$LIST"
