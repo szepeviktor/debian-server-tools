@@ -27,7 +27,7 @@ cp -v /usr/local/src/debian-server-tools/webserver/hosting.yml /home/${U}/websit
 touch /home/${U}/website/wp-cli.yml
 
 # Set owner
-chown -cR ${U}:${U} /home/${U}/
+chown -c -R ${U}:${U} /home/${U}/
 
 # PHP pool
 cd /etc/php/7.2/fpm/pool.d/
@@ -41,3 +41,17 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-sit
 # Enable site
 a2ensite ${DOMAIN}
 apache-resolve-hostnames.sh
+
+cat <<"EOF"
+Steps to follow for a complete website
+--------------------------------------
+- Install and set up CLI script for DNS
+- Create DNS records
+- Install manuale
+- Issue and install SSL certificate
+- Create database and user
+- Import database
+- Deploy code base
+- Add root files
+- Set up mail sending
+EOF

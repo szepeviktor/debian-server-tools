@@ -10,16 +10,16 @@ H="$(Data get-value system.fqdn)"
 test -n "$IP"
 
 # Search for the old host name
-grep -i -r "$(hostname)" /etc/ > /root/hostname-in-etc.log
+grep -i -r "$(hostname)" /etc/ >/root/hostname-in-etc.log
 
 # Set host name
 hostname "$H"
-echo "$H" > /etc/hostname
-echo "$H" > /etc/mailname
+echo "$H" >/etc/hostname
+echo "$H" >/etc/mailname
 
 # See `man hosts`
 cp -f /etc/hosts /root/hosts.orig
-cat > /etc/hosts <<EOF
+cat >/etc/hosts <<EOF
 127.0.0.1 localhost
 127.0.1.1 localhost
 ::1     ip6-localhost ip6-loopback

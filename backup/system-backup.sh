@@ -45,7 +45,7 @@ Onexit() {
     set +e
 
     if [ "$RET" -ne 0 ]; then
-        #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null; then
+        #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &>/dev/null; then
         if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
             /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET"
             /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET"
@@ -110,14 +110,14 @@ Backup_system_dbs() { # Error 4x
         mkdir "${TARGET}/db-system" || Error 40 "Failed to create 'db-system' directory in target"
     fi
 
-    mysqldump --skip-lock-tables mysql > "${TARGET}/db-system/mysql-mysql.sql" \
+    mysqldump --skip-lock-tables mysql >"${TARGET}/db-system/mysql-mysql.sql" \
         || Error 41 "MySQL system databases backup failed"
     # https://dev.mysql.com/doc/refman/5.7/en/performance-schema-variable-table-migration.html
     if dpkg --compare-versions "$(echo 'SELECT @@global.innodb_version;' | mysql -N)" lt 5.7.6; then
-        mysqldump --skip-lock-tables information_schema > "${TARGET}/db-system/mysql-information_schema.sql" \
+        mysqldump --skip-lock-tables information_schema >"${TARGET}/db-system/mysql-information_schema.sql" \
             || Error 42 "MySQL system databases backup failed"
     fi
-    mysqldump --skip-lock-tables performance_schema > "${TARGET}/db-system/mysql-performance_schema.sql" \
+    mysqldump --skip-lock-tables performance_schema >"${TARGET}/db-system/mysql-performance_schema.sql" \
         || Error 43 "MySQL system databases backup failed"
 }
 
@@ -144,7 +144,7 @@ Check_db_schemas() { # Error 5x
         # Check schema
         mysqldump --skip-comments --no-data --events --routines "$DB" \
             | sed -e 's| AUTO_INCREMENT=[0-9]\+\b||' \
-            > "$TEMP_SCHEMA" || Error 51 "Schema dump failure"
+            >"$TEMP_SCHEMA" || Error 51 "Schema dump failure"
 
         if [ -r "$SCHEMA" ]; then
             if [ "$SKIP_DB_SCHEMA_DIFF" != YES ] && ! diff "$SCHEMA" "$TEMP_SCHEMA" 1>&2; then
@@ -155,7 +155,7 @@ Check_db_schemas() { # Error 5x
             mv "$TEMP_SCHEMA" "$SCHEMA" || Error 52 "New schema saving failed for '${DB}'"
             echo "New schema created for ${DB}"
         fi
-    done <<< "$DBS"
+    done <<<"$DBS"
 }
 
 Get_base_db_backup_dir() {
@@ -171,7 +171,7 @@ Get_base_db_backup_dir() {
             echo "$BASE"
             return 0
         fi
-    done <<< "$BACKUP_DIRS"
+    done <<<"$BACKUP_DIRS"
     return 1
 }
 
@@ -195,14 +195,14 @@ Backup_innodb() { # Error 6x
         fi
         innobackupex --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
             "${TARGET}/innodb" \
-            2>> "${TARGET}/innodb/backupex.log" || Error 61 "Incremental InnoDB backup failed"
+            2>>"${TARGET}/innodb/backupex.log" || Error 61 "Incremental InnoDB backup failed"
     else
         # Create base backup
         echo "Creating base InnoDB backup"
         mkdir "${TARGET}/innodb"
         innobackupex --throttle=100 \
             "${TARGET}/innodb" \
-            2>> "${TARGET}/innodb/backupex.log" || Error 62 "Base InnoDB backup failed"
+            2>>"${TARGET}/innodb/backupex.log" || Error 62 "Base InnoDB backup failed"
     fi
     # Check OK message
     tail -n 1 "${TARGET}/innodb/backupex.log" | grep -q -F ' completed OK!' \
@@ -226,8 +226,8 @@ Backup_files() { # Error 7x
     fi
     tar --exclude=.git -cPf "${WEEKLY_ETC}/etc-backup.tar" /etc/
     # Save debconf data
-    debconf-get-selections > "${WEEKLY_ETC}/debconf.selections"
-    dpkg-query --show > "${WEEKLY_ETC}/packages.selections"
+    debconf-get-selections >"${WEEKLY_ETC}/debconf.selections"
+    dpkg-query --show >"${WEEKLY_ETC}/packages.selections"
     # Make directory tree immutable
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_ETC"
 
@@ -236,7 +236,7 @@ Backup_files() { # Error 7x
         mkdir "${TARGET}/homes" || Error 72 "Failed to create 'homes' directory in target"
     fi
     WEEKLY_HOME="$(Rotate_weekly homes)"
-    #strace $(pgrep rsync|sed -e 's|^|-p |g') 2>&1|grep -F 'open('
+    #strace $(pgrep rsync|sed 's/^/-p /g') 2>&1|grep -F 'open('
     if [ -z "$WEEKLY_HOME" ] || [ ! -d "$WEEKLY_HOME" ]; then
         Error 73 "Failed to create weekly directory for 'home'"
     fi
@@ -282,7 +282,7 @@ Mount() { # Error 2x
     nice /usr/bin/mount.s3ql ${S3QL_OPT} ${MOUNT_OPTIONS} \
         "$STORAGE_URL" "$TARGET" || Error 21 "Cannot mount storage"
 
-    /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &> /dev/null || Error 22 "Cannot stat storage"
+    /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &>/dev/null || Error 22 "Cannot stat storage"
 }
 
 Umount() { # Error 3x

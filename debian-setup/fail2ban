@@ -10,14 +10,14 @@ Pkg_install_quiet python3-pyinotify geoipupdate mmdb-bin
 # Update GeoIP2 databases
 geoipupdate -v
 
-# TODO Migrate to v0.10 https://github.com/fail2ban/fail2ban/issues/1946
-#Getpkg fail2ban sid
+# Migration: https://github.com/fail2ban/fail2ban/issues/1946
+Getpkg fail2ban buster
 # Get latest of 0.9 versions
-(
-    cd /root/dist-mod/ || return 1
-    wget -nv -O "fail2ban.deb" "http://snapshot.debian.org/archive/debian/20180129T044656Z/pool/main/f/fail2ban/fail2ban_0.9.7-2_all.deb"
-    dpkg -i "fail2ban.deb"
-)
+#(
+#    cd /root/dist-mod/ || return 1
+#    wget -nv -O fail2ban.deb "http://snapshot.debian.org/archive/debian/20180129T044656Z/pool/main/f/fail2ban/fail2ban_0.9.7-2_all.deb"
+#    dpkg -i fail2ban.deb
+#)
 # Apache may not be installed yet
 service fail2ban stop
 
@@ -32,10 +32,10 @@ for ACTION in cloudflare.local sendmail-geoip-lines.local; do
     cp -f security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
 done
 
-sed -i -e "s|@@IP@@|${IP}|" /etc/fail2ban/jail.local
-sed -i -e "s|@@SENDER@@|$(Data get-value package.fail2ban.sender "root")|" /etc/fail2ban/jail.local
-# Variable already checked in debian-setup/openssh-server
-sed -i -e "s|@@SSHPORT@@|$(Data get-value package.openssh-server.port "22")|" /etc/fail2ban/jail.local
+sed -e "s/@@IP@@/${IP}/" -i /etc/fail2ban/jail.local
+sed -e "s/@@SENDER@@/$(Data get-value package.fail2ban.sender "root")/" -i /etc/fail2ban/jail.local
+# Port already checked in debian-setup/openssh-server
+sed -e "s/@@SSHPORT@@/$(Data get-value package.openssh-server.port "22")/" -i /etc/fail2ban/jail.local
 
 # Add and activate Fail2ban-managed iptables chain
 iptables -w -N fail2ban

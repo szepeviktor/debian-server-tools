@@ -63,6 +63,7 @@ https://haveibeenpwned.com/
 - [KeePass](https://keepass.info/) is an open source password manager
 - Account type: Professional
 - Use a virtual bank card
+- Verification phone call: dial numbers
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - Route53 / Domain + DNS
@@ -141,8 +142,9 @@ https://haveibeenpwned.com/
   to reset OPcache after a code change
 - There are *standard* directories for [sessions, upload and tmp](/webserver/phpfpm-pools/Skeleton-pool.conf#L33-L35)
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
-- File versioning is not in query strings but turned into file names like `filename.002.ext` in URL-s,
+- File versioning is not in query string but turned into file names like `filename.002.ext` in URL-s,
   [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L151-L152) reverts them
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
 - [Running a Laravel application](/webserver/laravel)
+- [Installing WordPress](/webserver/WordPress.md)
 - Interesting read on [web applications](/webserver/PHP-development.md)

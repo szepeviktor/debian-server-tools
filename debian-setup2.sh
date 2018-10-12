@@ -123,7 +123,7 @@ if [ "$VIRT" == "kvm" ] && ! Is_installed systemd; then
 fi
 # Monitor clock without monit
 #     Dinstall monitoring/monit/services/ntpdate_script
-#     echo -e '#!/bin/bash\n/usr/local/bin/ntp-alert.sh' > /etc/cron.daily/ntp-alert1
+#     echo -e '#!/bin/bash\n/usr/local/bin/ntp-alert.sh' >/etc/cron.daily/ntp-alert1
 #     chmod +x /etc/cron.daily/ntp-alert1
 
 # Entropy
@@ -260,7 +260,7 @@ Pkg_install_quiet debconf-utils rsync mariadb-client
 # @nonDebian
 Pkg_install_quiet s3ql
 # Disable Apache configuration from javascript-common
-if hash a2disconf 2> /dev/null; then
+if hash a2disconf 2>/dev/null; then
     a2disconf javascript-common
 fi
 
@@ -294,17 +294,16 @@ apt-get autoremove --purge -y
 apt-get clean
 
 # Throttle automatic package downloads
-echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' > /etc/apt/apt.conf.d/76throttle-download
+echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' >/etc/apt/apt.conf.d/76throttle-download
 
 # etckeeper at last
 debian-setup/etckeeper
 
-# Manual inspection of emails
-find /var/mail/ -type f -exec grep -H '^' "{}" ";"
+# Remove old configuration files
+find /etc/ -type f -iname "*old" -or -iname "*dist" -print -delete
 
-# Manual inspection of old configuration files
-echo "@TODO - Old configs"
-find /etc/ -type f -iname "*old" -or -iname "*dist" | paste -s -d " "
+# List of emails
+find /var/mail/ -type f
 
 # Clear Bash history
 history -c
@@ -313,8 +312,6 @@ set +x
 
 # @TODO Automate these
 cat <<"EOT"
-# TODO - iptables-save
-iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's| \[[0-9]*:[0-9]*\]$| [0:0]|' > /etc/iptables/rules.v4
 # TODO - hosts
 editor /etc/hosts
 # TODO - users
@@ -324,7 +321,7 @@ adduser USER
 # TODO - monit/apache+php
 monitoring/monit/monit-debian-setup.sh
 # TODO - Monitoring
-https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md
+open https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md
 
 EOT
 

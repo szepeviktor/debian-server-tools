@@ -74,7 +74,7 @@ EOF
 wp core install --title="WP" --admin_user="viktor" --admin_email="viktor@szepe.net" --admin_password="12345"
 
 wp option set home "$WPHOMEURL"
-wp option set blog_public "0"
+wp option set blog_public 0
 wp option set admin_email "webmaster@example.com"
 ```
 
@@ -187,14 +187,14 @@ wp plugin install email-address-encoder --activate
 #wp plugin install stop-spammer-registrations-plugin --activate
 ```
 
-#### Forcing
+#### Restrictions
 
 ```bash
 # mu-lock-session-ip
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-lock-session-ip/lock-session-ip.php
 
 # prevent-concurrent-logins
-wp plugin install prevent-concurrent-logins --activate
+#wp plugin install prevent-concurrent-logins --activate
 
 # mu-disallow-weak-passwords
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-disallow-weak-passwords/disallow-weak-passwords.php
@@ -218,7 +218,7 @@ define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 $redis_server = array(
     'host'     => '127.0.0.1',
     'port'     => 6379,
-    'auth'     => '12345',
+    'auth'     => 'secret',
     'database' => 0,
 );
 ```

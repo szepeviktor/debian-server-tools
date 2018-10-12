@@ -13,7 +13,7 @@ mkdir /root/.s3ql
 )
 
 # Create S3QL configuration file
-cat > /root/.s3ql/authinfo2 <<EOF
+cat >/root/.s3ql/authinfo2 <<EOF
 [aws]
 #storage-url: local:///media/backup-server.sshfs
 #storage-url: swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_
@@ -28,7 +28,7 @@ chmod 0600 /root/.s3ql/authinfo2
 
 # Create script configuration file
 mkdir -p /root/.config/system-backup
-cat > /root/.config/system-backup/configuration <<EOF
+cat >/root/.config/system-backup/configuration <<EOF
 STORAGE_URL="$(sed -n -e 's|^storage-url:\s*\(\S\+\)$|\1|p' /root/.s3ql/authinfo2)"
 TARGET="/media/server-backup.s3ql"
 #MOUNT_OPTIONS="--threads 4 --compress zlib-5"
@@ -43,7 +43,7 @@ editor /root/.config/system-backup/configuration
 
 # Add an [xtrabackup] section to /root/.my.cnf
 if ! echo 'SELECT VERSION();' | mysql -N; then
-    cat >> /root/.my.cnf <<"EOF"
+    cat >>/root/.my.cnf <<"EOF"
 
 [xtrabackup]
 user=root

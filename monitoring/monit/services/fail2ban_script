@@ -2,7 +2,7 @@
 #
 # Check Fail2ban iptables chains and myattackers ipset chain.
 #
-# VERSION       :0.3.1
+# VERSION       :0.3.2
 # LOCATION      :/usr/local/sbin/fail2ban-test.sh
 
 MYA_IPSET_CHAIN="myattackers-ipset"
@@ -14,7 +14,7 @@ JAILS="$(/usr/bin/fail2ban-client status | sed -n -e 's/, / /g' -e 's/^.*Jail li
 test -n "$JAILS"
 
 # Check also myattackers-ipset
-if CHAIN_LIST="$(/sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" &>/dev/null)"; then
+if CHAIN_LIST="$(/sbin/iptables -n -w -L "$MYA_IPSET_CHAIN" 2>/dev/null)"; then
     grep -q ' (1 references)$' <<<"$CHAIN_LIST"
 fi
 

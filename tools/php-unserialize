@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Unserialize standard input.
+ *
+ * @link https://top-frog.com/2009/08/28/quickly-unserialize-data-in-textmate/
+ */
+var_dump( unserialize( file_get_contents( 'php://stdin' ) ) );

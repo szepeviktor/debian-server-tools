@@ -35,15 +35,19 @@ chain = fail2ban
 
 # Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-             sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+             sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 action = %(action_mgl)s
 
 # Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
 action_cf1_mgl = cloudflare[cfuser="%(cf1email)s", cftoken="%(cf1apikey)s"]
-                 sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
+                 sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 
 # sendmail-geoip-lines = 2×geoip + host + grep log + sendmail
 timeout = 7
+
+# Apache error logs in user homes
+apache_user_error_log = /home/*/website/log/*error.log
+# @TODO Remove %(logpath)s and change `grep '<ip>' <logpath>` to <matches>
 
 #
 # JAILS
@@ -70,6 +74,7 @@ banaction = %(banaction_allports)s
 [apache-combined]
 enabled  = true
 logpath  = %(apache_error_log)s
+#           %(apache_user_error_log)s
 maxretry = 6
 # 24h
 bantime  = 86400
@@ -78,6 +83,7 @@ port     = http,https
 [apache-instant]
 enabled  = true
 logpath  = %(apache_error_log)s
+#           %(apache_user_error_log)s
 maxretry = 1
 # 24h
 bantime  = 86400
@@ -148,7 +154,7 @@ findtime = 10
 maxretry = 1
 bantime  = 1
 port     = ftp,ftp-data,ftps,ftps-data
-action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s]
+action   = %(mta)s-info[name=%(__name__)s, dest="%(destemail)s", logpath="%(logpath)s"]
 
 [recidive]
 enabled  = true

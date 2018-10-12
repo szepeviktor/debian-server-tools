@@ -27,11 +27,11 @@ ssh()
 
 # Copy configuration file
 test -r "$SERVER_CONFIGURATION" || exit 10
-ssh -- bash -c "cat > /root/server.yml" < "$SERVER_CONFIGURATION" || exit 11
+ssh -- bash -c "cat >/root/server.yml" <"$SERVER_CONFIGURATION" || exit 11
 
 
 # Save script for Session #1
-ssh -- bash -c "cat > /root/debian-setup-starter1.sh; chmod +x /root/debian-setup-starter1.sh" <<"EOT"
+ssh -- bash -c "cat >/root/debian-setup-starter1.sh; chmod +x /root/debian-setup-starter1.sh" <<"EOT"
 export LC_ALL=C.UTF-8
 SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/
@@ -41,7 +41,7 @@ cd debian-server-tools-master/
 
 # Skip missing DNS records
 #sed -e 's|set -e -x|set +e -x|' -i ./debian-setup/hostname
-#echo "true" >> ./debian-setup/hostname
+#echo "true" >>./debian-setup/hostname
 
 lsblk -f
 tune2fs -L "debian-root" /dev/vda1
@@ -53,7 +53,7 @@ EOT
 
 
 # Save script for Session #2
-ssh -- bash -c "cat > /root/debian-setup-starter2.sh; chmod +x /root/debian-setup-starter2.sh" <<"EOT"
+ssh -- bash -c "cat >/root/debian-setup-starter2.sh; chmod +x /root/debian-setup-starter2.sh" <<"EOT"
 export LC_ALL=C.UTF-8
 SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/debian-server-tools-master/
