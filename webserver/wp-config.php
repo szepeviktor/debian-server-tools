@@ -85,13 +85,13 @@ define( 'WP_POST_REVISIONS', 20 );
 define( 'WP_CACHE', true );
  */
 
-// CLI cron job: debian-server-tools:/webserver/wp-cron-cli.sh
-// HTTP cron job: wordpress-plugin-construction:/shared-hosting-aid/wp-cron-http.sh
+// CLI cron job: /webserver/wp-cron-cli.sh
 // Simple CLI cron job: /usr/bin/php7.2 ABSPATH/wp-cron.php # stdout and stderr to cron email.
 define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );
 
-/** Multisite.
+/**
+ * Multisite.
  *
 define( 'WP_ALLOW_MULTISITE', true );
 define( 'MULTISITE', true );

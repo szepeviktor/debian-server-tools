@@ -24,6 +24,7 @@ http://projectnaptha.com/
 - [Face retouch](http://makeup.pho.to/)
 - [Editor.Pho.to](http://editor.pho.to/edit/)
 - [Pixlr Editor](https://apps.pixlr.com/editor/)
+- [Avatar Generator](https://face.co/)
 
 ### Image dimensions
 

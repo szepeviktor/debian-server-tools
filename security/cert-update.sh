@@ -2,7 +2,7 @@
 #
 # Set up certificate for use.
 #
-# VERSION       :1.3.0
+# VERSION       :1.3.1
 # DATE          :2018-08-26
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -152,16 +152,16 @@ Courier_mta()
         cp "$COURIER_COMBINED" "$COURIER_IMAP_COMBINED" || Die 27 "courier IMAP cert copy"
     fi
 
-    # Reload monit
-    if [ "$(dpkg-query --showformat='${Status}' --show monit 2>/dev/null)" == "install ok installed" ]; then
-        service monit reload
-    fi
-
     nice openssl dhparam 2048 >"$COURIER_DHPARAMS" || Die 24 "courier DH params"
     # As in /usr/sbin/mkdhparams
     # NOTICE Synchronize with monit/services/courier-mta
     chown "${COURIER_USER}:root" "$COURIER_DHPARAMS" || Die 25 "courier DH params owner"
     chmod 0600 "$COURIER_DHPARAMS" || Die 26 "courier DH params perms"
+
+    # Reload monit
+    if [ "$(dpkg-query --showformat='${Status}' --show monit 2>/dev/null)" == "install ok installed" ]; then
+        service monit reload
+    fi
 
     SERVER_NAME="$(head -n 1 /etc/courier/me)"
 

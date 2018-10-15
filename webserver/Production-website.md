@@ -283,6 +283,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos), [Intro video](http://technomatic.hu/)
 - [Google Street View virtual tour](https://www.brand360.hu/szolgaltatasok/google-street-view-belso-nezet-tura/)
 - External URL-s should open in new window :snail:
+- Abandoned cart :snail:
 - [Contact widget](https://pepper.swat.io/)
 - Newsletter subscribe
 - Offer free download
@@ -476,6 +477,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Emojis and UNICODE (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
+- GoogleImageProxy (Gmail, Google Images)
 - Phone numbers (clickable, monitored)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)

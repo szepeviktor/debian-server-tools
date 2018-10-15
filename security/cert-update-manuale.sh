@@ -2,13 +2,14 @@
 #
 # Issue or renew certificate by manuale and cert-update.sh
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.3
 # DATE          :2018-09-02
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # CI            :shellcheck cert-update-manuale.sh
+# DEPENDS       :apt-get install jq
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 # LOCATION      :/usr/local/sbin/cert-update-manuale.sh
 
@@ -37,6 +38,7 @@ Dump_configuration()
     local CONFIG_FILE="$1"
 
     cat >"$CONFIG_FILE" <<"EOF"
+#!/usr/local/sbin/cert-update-manuale.sh
 # Configuration for cert-update-manuale.sh
 
 #source /home/USER/manuale-env/bin/activate
@@ -76,6 +78,8 @@ NGINX_VHOST_CONFIG=DOMAIN
 
 #WEBMIN_ENABLED=YES
 EOF
+
+    chmod +x "$CONFIG_FILE"
 }
 
 Manuale()
@@ -156,10 +160,10 @@ source "$CONFIGURATION"
 
 # Check account file
 if [ ! -r ./account.json ]; then
-    echo "Please run manuale register EMAIL" 1>&2
+    echo "Please run:  manuale register EMAIL" 1>&2
     exit 125
 fi
-Manuale info; echo
+Manuale info | jq '.'
 
 # Check domain names
 if [ -z "${COMMON_NAME+x}" ] || [ -z "$COMMON_NAME" ] || [ -z "${DOMAIN_NAMES+x}" ]; then
@@ -206,7 +210,6 @@ openssl verify -purpose sslserver -CAfile "$INT" "$PUB"
 printf 'CN        = '; openssl x509 -in "$PUB" -noout -subject|sed -ne 's|^.*[/=]CN \?= \?\([^/]\+\).*$|\1|p'
 printf 'SAN-FIRST = '; openssl x509 -in "$PUB" -noout -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}'
 printf 'SAN-LAST  = '; openssl x509 -in "$PUB" -noout -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}'
-
 
 # Start certificate installations
 

@@ -1,5 +1,5 @@
 # Modern webserver
 #deb http://szepeviktor.github.io/debian/ jessie main
-deb http://szepeviktor.github.io/debian/ stretch main
+deb [arch=amd64] http://szepeviktor.github.io/debian/ stretch main
 #K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys 451A4FBA
 #M: https://github.com/szepeviktor/szepeviktor.github.io

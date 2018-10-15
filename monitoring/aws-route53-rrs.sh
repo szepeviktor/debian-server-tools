@@ -7,7 +7,12 @@
 # DEPENDS       :pip3 install awscli
 # LOCATION      :/usr/local/bin/aws-route53-rrs.sh
 
-# Usage
+# awscli installation
+#     mkdir /opt/awscli; cd /opt/awscli/
+#     HOME=/opt/awscli pip3 install --user awscli
+#     printf '#!/bin/bash\nPYTHONPATH="%s" exec /opt/awscli/.local/bin/aws "$@"\n' \
+#         /opt/awscli/.local/lib/python3.?/site-packages >/usr/local/bin/aws
+#     chmod +x /usr/local/bin/aws
 # Configure
 #     aws configure
 # List all zones
@@ -102,7 +107,7 @@ trap 'rm -f "$TEMP_JSON"' EXIT HUP INT QUIT PIPE TERM
 # Get RRs
 Route53_list_rrs \
     --query "ResourceRecordSets[?Name == '${NAME}'] | [?Type == '${TYPE}'] | [0]" \
-    > "$TEMP_JSON"
+    >"$TEMP_JSON"
 MX_PRIO=""
 
 # Operate based on RRs
@@ -113,38 +118,38 @@ if [ "$(cat "$TEMP_JSON")" == null ]; then
     fi
     printf '{\n "Name": "%s",\n "Type": "%s",\n "ResourceRecords": [\n  { "Value": "%s" }\n ],\n "TTL": 86400\n}\n' \
         "$NAME" "$TYPE" "$MX_PRIO" \
-        > "$TEMP_JSON"
+        >"$TEMP_JSON"
     editor "$TEMP_JSON"
     Validate_request
     # Build the request
     # @FIXME The same file is input and output at the same time
     printf '{ "Changes": [ { "Action": "UPSERT", "ResourceRecordSet": %s } ] }' \
         "$(cat "$TEMP_JSON")" \
-        > "$TEMP_JSON"
+        >"$TEMP_JSON"
     # Create RRs
     RESPONSE="$(Route53_change_rrs "$TEMP_JSON")"
 else
     # Change RRs
     editor "$TEMP_JSON"
     Validate_request
-    if jq '.ResourceRecords[0].Value' < "$TEMP_JSON" | grep -q 'DELETE!'; then
+    if jq '.ResourceRecords[0].Value' <"$TEMP_JSON" | grep -q 'DELETE!'; then
         # Build the request
         printf '{ "Changes": [ { "Action": "DELETE", "ResourceRecordSet": %s } ] }' \
             "$(sed -e '/"Value":/s#DELETE!##' "$TEMP_JSON")" \
-            > "$TEMP_JSON"
+            >"$TEMP_JSON"
         # Delete RRs
         RESPONSE="$(Route53_change_rrs "$TEMP_JSON")"
     else
         # Build the request
         printf '{ "Changes": [ { "Action": "UPSERT", "ResourceRecordSet": %s } ] }' \
             "$(cat "$TEMP_JSON")" \
-            > "$TEMP_JSON"
+            >"$TEMP_JSON"
         # Update RRs
         RESPONSE="$(Route53_change_rrs "$TEMP_JSON")"
     fi
 fi
 
 # Check response
-grep -q '"ChangeInfo": {' <<< "$RESPONSE"
-grep -q '"Status": "PENDING"' <<< "$RESPONSE"
+grep -q '"ChangeInfo": {' <<<"$RESPONSE"
+grep -q '"Status": "PENDING"' <<<"$RESPONSE"
 echo "OK."

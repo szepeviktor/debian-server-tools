@@ -21,7 +21,7 @@
 
  # Available entropy at first
  check program kernel_entropy
-    with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'" every 33 cycles
+    with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'"
    group integrity
    if status != 0 then alert
 

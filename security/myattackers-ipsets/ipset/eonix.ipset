@@ -1,0 +1,25 @@
+# AS62904 - Eonix / ServerHub
+#: ipset -exist restore <ipset/eonix.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set eonix src -j REJECT
+create eonix hash:net family inet hashsize 64 maxelem 32
+flush eonix
+
+# AS49532 - ServerHub
+#add eonix 23.231.80.0/22
+add eonix 50.2.36.0/22
+#add eonix 50.3.68.0/22
+#add eonix 50.3.72.0/22
+#add eonix 50.3.76.0/22
+#add eonix 50.3.80.0/22
+#add eonix 50.3.84.0/22
+add eonix 50.3.196.0/22
+#add eonix 104.140.100.0/22
+#add eonix 104.206.188.0/22
+#add eonix 104.206.240.0/22
+#add eonix 104.206.248.0/22
+add eonix 107.158.216.0/22
+add eonix 107.158.220.0/22
+add eonix 173.44.164.0/22
+#add eonix 173.44.196.0/22
+add eonix 173.44.224.0/22
+#add eonix 185.137.136.0/22

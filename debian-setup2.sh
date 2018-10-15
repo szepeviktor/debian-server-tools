@@ -112,13 +112,13 @@ fi
 # Time synchronization
 debian-setup/util-linux
 # @TODO
-# if grep "kvm-clock" /sys/devices/system/clocksource/clocksource0/current_clocksource \
-#     || dmesg | grep -w "kvm-clock"; then
+# if grep -F 'kvm-clock' /sys/devices/system/clocksource/clocksource0/current_clocksource \
+#     || dmesg | grep -F -w 'kvm-clock'; then
 #     # Display clock sources
 #     cat /sys/devices/system/clocksource/clocksource0/available_clocksource
 #     echo "https://s19n.net/articles/2011/kvm_clock.html"
 # fi
-if [ "$VIRT" == "kvm" ] && ! Is_installed systemd; then
+if [ "$VIRT" == kvm ] && ! Is_installed systemd; then
     debian-setup/chrony
 fi
 # Monitor clock without monit
@@ -129,7 +129,7 @@ fi
 # Entropy
 if Is_installed "rng-tools"; then
     # VirtIO RNG on KVM
-    [ -c /dev/hwrng ]
+    test -c /dev/hwrng
     cat /sys/devices/virtual/misc/hw_random/rng_{available,current}
 else
     # Software based entropy source

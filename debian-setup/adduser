@@ -15,7 +15,7 @@ if [ -z "$(getent passwd "$U")" ]; then
     # Add SSH key
     SSH_DIR="${HOME_DIR}/.ssh"
     mkdir --mode 0700 "$SSH_DIR"
-    echo "$SSH_KEY" > "${SSH_DIR}/authorized_keys"
+    echo "$SSH_KEY" >"${SSH_DIR}/authorized_keys"
     chown -R "${U}:${U}" "$SSH_DIR"
     # Display fingerprint
     ssh-keygen -l -v -f "${SSH_DIR}/authorized_keys"
@@ -27,10 +27,10 @@ if [ -z "$(getent passwd "$U")" ]; then
     #passwd -e "$U"
 
     # wget
-    echo -e "content_disposition = on" > "${HOME_DIR}/.wgetrc"
+    echo -e "content_disposition = on" >"${HOME_DIR}/.wgetrc"
 
     # sensible-utils
-    echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > "${HOME_DIR}/.selected_editor"
+    echo 'SELECTED_EDITOR="/usr/bin/mcedit"' >"${HOME_DIR}/.selected_editor"
 
     # @TODO /etc/skel/.profile
 fi
@@ -41,7 +41,7 @@ echo "root:*" | chpasswd -c NONE
 # Check passwords for other users
 PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '^[^:]+:(\*|\!|\!\*)$')"
 # Only the first user may have a password
-test "$(wc -l <<< "$PASSWORD_USERS")" == 1
+test "$(wc -l <<<"$PASSWORD_USERS")" == 1
 # It is the first user
 test "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS"
 
@@ -53,15 +53,15 @@ test "${PASSWORD_USERS#${U}:}" != "$PASSWORD_USERS"
 mkdir /root/dist-mod
 
 # wget
-echo -e "content_disposition = on" >> /root/.wgetrc
+echo -e "content_disposition = on" >>/root/.wgetrc
 
 # sensible-utils
-echo 'SELECTED_EDITOR="/usr/bin/mcedit"' > /root/.selected_editor
+echo 'SELECTED_EDITOR="/usr/bin/mcedit"' >/root/.selected_editor
 
 # @FIXME Which to choose? /root/.bashrc or /etc/skel/.bashrc
 
 # User settings for non-login shells
-cat > /root/.bashrc <<"EOF"
+cat >/root/.bashrc <<"EOF"
 
 #export LANG=en_US.UTF-8
 #export LC_ALL=en_US.UTF-8
@@ -101,7 +101,7 @@ LESS="-S"
 EOF
 
 # User settings for login shells
-cat > /root/.profile <<"EOF"
+cat >/root/.profile <<"EOF"
 # ~/.profile: executed by Bourne-compatible login shells.
 
 if [ "$BASH" ]; then
@@ -112,7 +112,7 @@ fi
 
 mesg n
 
-# Set the title on putty terminals also
+# Set the title on PuTTY terminals also
 case "$TERM" in
     putty*)
         PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
@@ -121,8 +121,8 @@ case "$TERM" in
         ;;
 esac
 
-# putty Connection / Data / Terminal-type string: putty-256color
-# ls -1 /usr/share/mc/skins/|sed "s/\.ini$//g"
+# PuTTY Connection / Data / Terminal-type string: putty-256color
+# ls -1 /usr/share/mc/skins/|sed -e 's/\.ini$//g'
 if [[ $EUID -eq 0 ]]; then
     if [ "${TERM/256/}" == "$TERM" ]; then
         export MC_SKIN="modarcon16root-defbg-thin"
@@ -184,4 +184,4 @@ mkdir -p "$ROOT_MC_SYNTAX_CONFIG"
     wget -nv -O- https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/Syntax
     #cat /usr/share/mc/syntax/Syntax
     wget -nv -O- https://github.com/MidnightCommander/mc/raw/master/misc/syntax/Syntax.in
-} > "${ROOT_MC_SYNTAX_CONFIG}/Syntax"
+} >"${ROOT_MC_SYNTAX_CONFIG}/Syntax"

@@ -89,7 +89,7 @@ Use Docker **containers** for testing.
 - PHP Compatibility check (phpcompatibility/php-compatibility)
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, larastan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
-- Critical vulnerabilities in dependencies (security-checker, roave/security-advisories, dependencies.io)
+- Critical vulnerabilities in dependencies (sensiolabs/security-checker, roave/security-advisories, dependencies.io)
 - Build assets (webpack)
 - Metrics (phpmetrics, phploc)
 
