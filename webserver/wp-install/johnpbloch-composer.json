@@ -1,0 +1,45 @@
+{
+  "name": "szepeviktor/wordpress",
+  "description": "Install WordPress by using Composer packages.",
+  "license": "MIT",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "johnpbloch/wordpress": "^4.9",
+    "lkwdwrd/wp-muplugin-loader": "^1.0.0",
+    "timber/timber": "^1.8",
+    "wpackagist-plugin/wp-redis": "^0.7.0",
+    "wpackagist-plugin/posts-to-posts": "^1.6"
+  },
+  "extra": {
+    "wordpress-install-dir": "public/core",
+    "installer-paths" : {
+      "public/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "public/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "public/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    }
+  },
+  "scripts": {
+    "post-create-project-cmd": [
+      "mkdir -p public/wp-content/themes public/wp-content/plugins public/wp-content/mu-plugins",
+      "cp public/core/wp-content/index.php public/wp-content/",
+      "cp -a public/core/wp-content/themes public/wp-content/",
+      "cp public/core/wp-content/themes/index.php public/wp-content/themes/",
+      "cp public/core/wp-content/plugins/index.php public/wp-content/plugins/"
+    ],
+    "post-autoload-dump": [
+      "rm -rf public/core/wp-content"
+    ]
+  }
+}

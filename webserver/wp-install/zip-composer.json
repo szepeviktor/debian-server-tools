@@ -1,0 +1,40 @@
+{
+  "name": "szepeviktor/wordpress",
+  "description": "Install WordPress by using core ZIP and Composer packages.",
+  "type": "project",
+  "license": "proprietary",
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "wordpress/wordpress",
+        "type": "laravel-library",
+        "version": "4.9.8",
+        "dist": {
+          "url": "https://wordpress.org/wordpress-4.9.8-no-content.zip",
+          "type": "zip"
+        },
+        "require": {
+          "composer/installers": "^1.6"
+        }
+      }
+    },
+    {
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "wordpress/wordpress": "^4.9.8",
+    "bower-asset/bootstrap": "^4.0",
+    "npm-asset/jquery": "^3.3"
+  },
+  "extra": {
+    "installer-paths": {
+      "public/core/": [
+        "wordpress/wordpress"
+      ]
+    }
+  }
+}

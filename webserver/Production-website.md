@@ -45,7 +45,7 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 ### WordPress core, theme from git
 
 1. Set up database connection in `wp-config.php`
-1. Define constants, generate salts based on [wp-config.php skeleton](./wp-config.php)
+1. Define constants, generate salts based on [wp-config.php skeleton](./wp-install/wp-config.php)
 1. Edit `../wp-cli.yml`
 1. **Use child theme** for purchased themes
 1. Keep custom themes in git `git clone --recursive ssh://user@server:port/path/to/git`

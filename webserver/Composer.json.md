@@ -1,32 +1,21 @@
-### Composer versions and constraints
+# Composer versions and constraints
+
+### Tilde Version Range
+
+Last (minor) version number may increase: "~4.4" means ">=4.4 <5.0.0"  
+"~4.4.1" means ">=4.4.1 <4.5"
 
 ```json
-{
-  "name": "szepeviktor/wordpress",
-  "description": "Install WordPress by using composer packages.",
-  "license": "MIT",
+  "wpackagist-plugin/advanced-custom-fields": "~4.4",
+```
 
-  "require": {
-    # Exact Version Constraint
-    "php": "=7.0.26",
+### Caret Version Range
 
-    # Version Range
-    "johnpbloch/wordpress": ">= 4.8 < 4.8.5",
+Major version may not change, allow non-breaking updates: "^1.6.1" means ">=1.6.1 <2.0.0"  
+For pre-1.0 versions: "^0.3" means ">=0.3.0 <0.4.0"
 
-    # Wildcard Version Range
-    "timber/timber": "1.3.*",
-
-    # Tilde Version Range
-    # Last version number may increase: "~4.4" == ">=4.4 <5.0.0"
-    # "~4.4.1" == ">=4.4.1 <4.5"
-    "wpackagist-plugin/advanced-custom-fields": "~4.4",
-
-    # Caret Version Range
-    # Major version may not change, allow non-breaking updates: "^1.6.1" == ">=1.6.1 <2.0.0"
-    # For pre-1.0 versions: "^0.3" == ">=0.3.0 <0.4.0"
-    "wpackagist-plugin/posts-to-posts": "^1.6.1"
-  }
-}
+```json
+  "wpackagist-plugin/posts-to-posts": "^1.6.1"
 ```
 
 Experiment on http://jubianchi.github.io/semver-check/

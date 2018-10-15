@@ -85,7 +85,7 @@ define( 'WP_POST_REVISIONS', 20 );
 define( 'WP_CACHE', true );
  */
 
-// CLI cron job: /webserver/wp-cron-cli.sh
+// CLI cron job: /webserver/wp-install/wp-cron-cli.sh
 // Simple CLI cron job: /usr/bin/php7.2 ABSPATH/wp-cron.php # stdout and stderr to cron email.
 define( 'DISABLE_WP_CRON', true );
 define( 'AUTOMATIC_UPDATER_DISABLED', true );

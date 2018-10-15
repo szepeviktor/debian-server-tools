@@ -26,7 +26,7 @@
 #
 # Create cron job
 #
-#     01,31 *	* * *	webuser	/usr/local/bin/wp-cron-cli.sh /home/webuser/website/code
+#     01,31 *  * * *  webuser	/usr/local/bin/wp-cron-cli.sh /home/webuser/website/code
 
 WPCRON_LOCATION="$1"
 

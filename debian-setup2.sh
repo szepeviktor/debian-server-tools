@@ -267,7 +267,7 @@ fi
 # CLI tools
 debian-setup/php-wpcli
 # WordPress cron
-Dinstall webserver/wp-cron-cli.sh
+Dinstall webserver/wp-install/wp-cron-cli.sh
 debian-setup/php-cachetool
 #debian-setup/php-drush
 

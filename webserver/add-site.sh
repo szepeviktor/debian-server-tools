@@ -178,7 +178,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 #     cron-job-command | ts "\%d \%b \%Y \%T \%z" >>/path/to/cron.log
 cd /etc/cron.d/
 # /usr/local/bin/wp --quiet --path=/home/USER/website/code/project cron event run --due-now
-# See /webserver/wp-cron-cli.sh
+# See /webserver/wp-install/wp-cron-cli.sh
 # See /webserver/preload-cache.sh
 
 # * Contact form notification email
