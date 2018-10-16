@@ -73,3 +73,7 @@ Caching depends on `APP_ENV` variable.
 1. `echo 'App::isDownForMaintenance();exit;' | ./artisan tinker`
 1. `ls storage/framework/down`
 1. `./artisan isdown` - using `Commands/IsDownForMaintenance.php`
+
+### Check route methods
+
+`./artisan route:check` - using `Commands/RouteCheckCommand.php`
