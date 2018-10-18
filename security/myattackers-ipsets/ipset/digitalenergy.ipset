@@ -41,3 +41,10 @@ add digitalenergy 191.101.23.0/24
 # AS133398 - TELE-AS / Tele Asia
 #add digitalenergy 154.16.148.0/24
 #add digitalenergy 154.16.221.0/24
+
+# AS49453 - GLOBALLAYER
+#add digitalenergy 181.214.49.0/24
+#add digitalenergy 181.215.45.0/24
+#add digitalenergy 181.215.233.0/24
+#add digitalenergy 191.96.168.0/24
+#add digitalenergy 191.96.172.0/24

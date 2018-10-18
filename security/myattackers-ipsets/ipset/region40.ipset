@@ -42,7 +42,6 @@ add region40 46.161.60.0/24
 add region40 46.161.61.0/24
 add region40 46.161.62.0/24
 add region40 46.161.63.0/24
-add region40 46.243.173.0/24
 add region40 79.110.17.0/24
 add region40 79.110.18.0/24
 add region40 79.110.19.0/24
@@ -124,8 +123,20 @@ add region40 146.185.207.0/24
 
 
 # AS49453 - GLOBALLAYER
+# IE Trusov Ilya Igorevych
+add region40 46.243.173.0/24
 # QualityNetwork
 add region40 178.159.100.0/24
 add region40 178.159.107.0/24
 add region40 193.93.193.0/24
 add region40 193.93.194.0/24
+
+# AS57172 - GLOBALLAYER
+# QualityNetwork
+#add region40 46.148.115.0/24
+#add region40 46.148.124.0/24
+#add region40 95.85.68.0/24
+#add region40 95.85.69.0/24
+#add region40 95.85.70.0/24
+#add region40 95.85.71.0/24
+#add region40 185.13.33.0/24

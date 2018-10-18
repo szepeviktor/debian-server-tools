@@ -17,6 +17,7 @@ How to design and implement CI and CD.
 - Check coding style
 - **Do static analysis**
 - Run tests
+- Check route methods
 - Custom checks and warnings
 - Measure code coverage
 - Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)

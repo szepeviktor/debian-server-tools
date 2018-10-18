@@ -57,7 +57,7 @@ class RouteCheckCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         if (count($this->routes) == 0) {
             $this->error("Your application doesn't have any routes.");
@@ -68,20 +68,30 @@ class RouteCheckCommand extends Command
         $notFound = array();
         foreach ($routes as $route) {
             $actionParts = explode('@', $route['action']);
-            if (count($actionParts) !== 2) {
-                $notFound[] = [$route['middleware'], $route['action']];
-                continue;
-            }
-
-            $className = $actionParts[0];
-            if (!class_exists($className)) {
-                $notFound[] = [$route['middleware'], $className];
-                continue;
-            }
-
-            if (!is_callable(array($className, $actionParts[1]))) {
-                $notFound[] = [$route['middleware'], $className . '::' . $actionParts[1]];
-                continue;
+            switch (count($actionParts)) {
+                case 1:
+                    // Single method class
+                    $className = $actionParts[0];
+                    if (!class_exists($className) || !is_callable(new $className)) {
+                        $notFound[] = [$route['middleware'], $className . '::__invoke'];
+                        continue;
+                    }
+                    break;
+                case 2:
+                    // Class@method
+                    $className = $actionParts[0];
+                    if (!class_exists($className)) {
+                        $notFound[] = [$route['middleware'], $className];
+                        continue;
+                    }
+                    if (!is_callable(array($className, $actionParts[1]))) {
+                        $notFound[] = [$route['middleware'], $className . '::' . $actionParts[1]];
+                        continue;
+                    }
+                    break;
+                default:
+                    $notFound[] = [$route['middleware'], $route['action']];
+                    continue;
             }
         }
 
