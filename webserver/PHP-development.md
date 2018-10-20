@@ -91,7 +91,7 @@ Use Docker **containers** for testing.
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (sensiolabs/security-checker, roave/security-advisories, dependencies.io)
 - Build assets (webpack)
-- Metrics (phpmetrics, phploc)
+- Metrics (phpmetrics, phploc, laravel-stats)
 
 ### CI with tests :mag_right:
 

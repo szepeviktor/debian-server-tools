@@ -14,6 +14,10 @@ https://github.com/avleen/bashttpd
 - Apache mod_proxy in shm
 - http://www.symkat.com/sympull-cdn https://github.com/symkat/SymPullCDN
 
+### Apache performance settings
+
+https://httpd.apache.org/docs/2.4/misc/perf-tuning.html#runtime
+
 ### Measure latency/timing in Apache + PHP-FPM
 
 1. ICMP Ping: `ping -c 10 server.example.com`

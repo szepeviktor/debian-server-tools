@@ -60,6 +60,31 @@ Essentially keep every operation in memory!
 - Cut on JavaScripts
 - Continuous monitoring (monit, Pingdom, HetrixTools)
 
+### Infrastructure layers
+
+- Choose a datacenter (location, power, cooling, security)
+- Choose carriers (network)
+- Set up an AS (Autonomous system)
+- Set up redundant networking
+- Set up SAN (Storage area network)
+- Set up servers (power supply, fans, CPU, memory, chipsets)
+- Install virtualization software
+- Install network services (DNS resolvers, NTP, OS mirror)
+- Monitor all of above (e.g. disk health, voltages, fan speeds, temperatures)
+- Keep away spammer and hacker neighbors
+
+* OS (Operating system: time, IRQ, entropy)
+* Firewall (known hostile networks, individual attackers)
+* MTA (Mail transfer agent)
+* System backup
+* Server software (webserver, database, in-memory cache, language interpreter)
+* Monitoring (filesystem, clock, networking, processes, files)
+
+- Application (code, static files)
+- Package managers
+- CLI (Command line) tools
+- Third parties (DNS, CDN, SSL OCSP, external monitoring, trackers, video platform, map, ESP)
+
 
 
 # <a name="hu"></a>WordPress üzemeltetés cloud szerveren és műszaki támogatás
