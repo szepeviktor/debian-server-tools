@@ -189,7 +189,7 @@ Add alias:
 Delivery instructions:
 
 ```bash
-echo "|/pathto/pipe/command" > /var/mail/domain/user/.courier-foo-default
+echo "|/pathto/pipe/command" >/var/mail/domain/user/.courier-foo-default
 ```
 
 ### Spamtrap
@@ -222,16 +222,18 @@ http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
 
 ### Courier kitchen sink (drop incoming messages)
 
-See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS
+See the description of `/etc/courier/aliasdir` in `man dot-courier` DELIVERY INSTRUCTIONS section.
 
 ```bash
-echo > /etc/courier/aliasdir/.courier-kitchensink
+echo >/etc/courier/aliasdir/.courier-kitchensink
+echo "kitchensink" >/etc/courier/aliasdir/.courier-kitchensink-default
 ```
 
 Add alias:
 
 ```
-ANY.ADDRESS@ANY.DOMAIN.TLD:  kitchensink@localhost
+ANY.ADDRESS@ANY.DOMAIN.TLD:             kitchensink
+@example.com:                           kitchensink
 ```
 
 ### Courier MTA log analyzer
@@ -262,11 +264,11 @@ D2 LOGOUT
 ### Spamassassin test and email authentication
 
 ```bash
-sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamassassin/user_prefs -D < msg.eml
+sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamassassin/user_prefs -D <msg.eml
 
 # For specific tests issue
 #     man spamassassin-run
-sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamassassin/user_prefs -D dkim < msg-signed.eml
+sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamassassin/user_prefs -D dkim <msg-signed.eml
 
 # Needs opendkim package
 opendkim -vvv -t msg-signed.eml

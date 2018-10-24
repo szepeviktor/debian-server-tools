@@ -12,7 +12,8 @@
         "version": "4.9.8",
         "dist": {
           "url": "https://wordpress.org/wordpress-4.9.8-no-content.zip",
-          "type": "zip"
+          "type": "zip",
+          "shasum": "bb46bffbd95d3b1d3d48da59860d91befbb55ea2"
         },
         "require": {
           "composer/installers": "^1.6"
@@ -36,5 +37,16 @@
         "wordpress/wordpress"
       ]
     }
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "classmap-authoritative": true
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "echo wp language core install hu_HU --activate"
+    ]
   }
 }

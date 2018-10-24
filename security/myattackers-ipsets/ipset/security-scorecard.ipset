@@ -10,3 +10,7 @@ add security-scorecard 208.100.26.240/29
 add security-scorecard 208.100.26.248/30
 add security-scorecard 208.100.26.252/31
 add security-scorecard 208.100.26.254/32
+
+
+# University of Bamberg https://privacyscore.org/faq/
+add security-scorecard 141.13.99.180

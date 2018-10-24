@@ -365,6 +365,7 @@ http://google-public-dns.appspot.com/cache :snail:
   - Google's fixurl.js
 - [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
 - Redirect with delay `<meta http-equiv="refresh" content="8; URL=/">`
+- Additional error pages (500, 503)
 
 ### Resource optimization
 
@@ -460,7 +461,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
     - Jogorvoslat, bíróság
     - Bírósági jogérvényesítés
     - Kártérítés és sérelemdíj
-    - Törvényekre § való hivatkozás
+    - Törvényekre &sect; való hivatkozás
     - Kelt és érvényesség kezdete
     - [Felkészülés az Adatvédelmi Rendelet alkalmazására 12 lépésben](https://www.naih.hu/felkeszueles-az-adatvedelmi-rendelet-alkalmazasara.html)
 - Impresszum (csak űrlaphoz kell)
