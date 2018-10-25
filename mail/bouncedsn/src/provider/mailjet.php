@@ -2,6 +2,8 @@
 
 namespace Bouncedsn\Provider;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 /**
  * Log events and send bounce DSN.
  *
@@ -53,7 +55,7 @@ Diagnostic-Code: smtp; %s/%s
         if ( empty( $bounce_json ) || ! filter_var( $to, FILTER_VALIDATE_EMAIL ) ) {
             error_log( 'Mailjet Event processing failed' );
 
-            return false;
+            return;
         }
 
         if ( empty( $from ) ) {
@@ -66,7 +68,7 @@ Diagnostic-Code: smtp; %s/%s
         if ( false === $log_entry ) {
             error_log( 'Mailjet Event decoding failed: ' . serialize( $bounce_json ) );
 
-            return false;
+            return;
         }
 
         if ( defined( 'MJ_LOG_FILE' ) && is_string( MJ_LOG_FILE ) ) {
@@ -110,9 +112,9 @@ Diagnostic-Code: smtp; %s/%s
 
     private function send_mail( $from, $to ) {
 
-        $mail          = new \PHPMailer();
+        $mail          = new PHPMailer();
         $mail->CharSet = 'utf-8';
-        $mail->XMailer = 'BounceDSN ' . self::VERSION;
+        $mail->XMailer = 'BounceDSN ' . 'TODO:old';
 
         $mail->setFrom( $from, 'Mailjet Bounce Notification' );
         $mail->addAddress( $to );

@@ -180,7 +180,6 @@ class Sparkpost {
             'hostname'           => gethostname(),
             'timestamp_arrival'  => date( 'r', $event->timestamp ),
             // Per-Recipient DSN Fields
-            'recipient'          => $event->raw_rcpt_to,
             'status'             => $status,
             'diag_code'          => $diag_code,
         );

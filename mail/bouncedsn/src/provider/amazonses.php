@@ -3,6 +3,8 @@
 namespace Bouncedsn\Provider;
 
 use Analog\Analog;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 /**
  * Process Amazon SES events.
@@ -27,39 +29,6 @@ class Amazonses {
      * A notification
      */
     private $message;
-
-    private $message_tpl = 'This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
-
---=_amazonses_bounce_0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-
-This is a delivery status notification from Amazon SES.
-
-The original message was received on %s
-with recipient %s
-
-Type %s, it is a %s failure.
-
---=_amazonses_bounce_0
-Content-Type: message/delivery-status
-Content-Transfer-Encoding: 7bit
-
-X-Original-Message-Id: %s
-Reporting-MTA: dns; %s
-DSN-Gateway: dns; %s
-Arrival-Date: %s
-
-Original-Recipient: rfc822; %s
-Final-Recipient: rfc822; %s
-Action: failed
-Remote-MTA: dns; %s
-Status: %s
-Diagnostic-Code: %s
-
---=_amazonses_bounce_0--
-';
 
     public function __construct( $bounce_json, $mail ) {
 
@@ -143,32 +112,43 @@ Diagnostic-Code: %s
         $diag_code = $mail->encodeHeader( implode( '  ', $diag_elements ), 'quoted-printable' );
         $status    = $this->message->bounce->bouncedRecipients[0]->status;
 
-        $mail->Subject = 'Delivery Status Notification (Failure)';
+        $twigLoader = new FilesystemLoader( __DIR__ . '/../template' );
+        $twig       = new Environment( $twigLoader );
+        // Have HTML escaping use ascii()
+        $twig->getExtension( 'Twig_Extension_Core' )->setEscaper( 'html', array( $this, 'ascii' ) );
 
+        $mail->Subject = 'Delivery Status Notification (Failure)';
         // WARNING This is a PHPMailer hack
         $mail->ContentType = 'multipart/report; report-type=delivery-status; boundary="=_amazonses_bounce_0"';
-        $mail->Body        = sprintf( $this->message_tpl,
+        $templateVars      = array(
             // The text/plain part for humans
-            $this->ascii( date( 'r', strtotime( $this->message->mail->timestamp ) ) ),
-            $this->ascii( $this->message->bounce->bouncedRecipients[0]->emailAddress ),
-            $this->ascii( $this->message->bounce->bounceSubType ),
-            $this->ascii( $this->message->bounce->bounceType ),
+            'timestamp_original' => date( 'r', strtotime( $this->message->mail->timestamp ) ),
+            'recipient'          => $this->message->bounce->bouncedRecipients[0]->emailAddress,
+            'class_desc'         => $this->message->bounce->bounceSubType,
+            'class_type'         => $this->message->bounce->bounceType,
             // The message/delivery-status part
             // Per-Message DSN Fields
-            $this->ascii( $this->message->mail->messageId ),
-            $this->ascii( $this->message->bounce->reportingMTA ),
-            $this->ascii( gethostname() ),
-            $this->ascii( date( 'r', strtotime( $this->message->mail->timestamp ) ) ),
-            // Per-Recipient DSN fields
-            $this->ascii( $this->message->bounce->bouncedRecipients[0]->emailAddress ),
-            $this->ascii( $this->message->bounce->bouncedRecipients[0]->emailAddress ),
-            $this->ascii( $this->message->mail->sourceIp ),
-            $status,
-            $diag_code
+            'message_id'         => $this->message->mail->messageId,
+            'sending_ip'         => $this->message->bounce->reportingMTA,
+            'hostname'           => gethostname(),
+            'timestamp_arrival'  => date( 'r', strtotime( $this->message->mail->timestamp ) ),
+            // Per-Recipient DSN Fields
+            'status'             => $status,
+            'diag_code'          => $diag_code,
         );
+        // Add custom headers
+        $xHeaders = array();
+        foreach ( $this->message->mail->headers as $header ) {
+            if ( substr( $header->name, 0, 2 ) !== 'X-' ) {
+                continue;
+            }
+            $xHeaders[] = $header;
+        }
+        $templateVars['x_headers'] = $xHeaders;
+        $mail->Body                = $twig->render( 'amazonses-dsn.eml', $templateVars );
     }
 
-    private function ascii( $string ) {
+    public function ascii( $string ) {
 
         return mb_convert_encoding( $string, 'ASCII' );
     }

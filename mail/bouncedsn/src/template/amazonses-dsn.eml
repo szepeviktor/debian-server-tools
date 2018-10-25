@@ -1,0 +1,35 @@
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
+
+--=_amazonses_bounce_0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+This is a delivery status notification from Amazon SES.
+
+The original message was received on {{ timestamp_original|e }}
+with recipient {{ recipient|e }}
+
+Type {{ class_desc|e }}, it is a {{ class_type|e }} failure.
+
+--=_amazonses_bounce_0
+Content-Type: message/delivery-status
+Content-Transfer-Encoding: 7bit
+
+Reporting-MTA: dns; {{ sending_ip|e }}
+Received-From-MTA: dns; smtp-out.amazonses.com
+DSN-Gateway: dns; {{ hostname|e }}
+Arrival-Date: {{ timestamp_arrival|e }}
+X-Original-Message-Id: {{ message_id|e }}
+
+Remote-MTA: dns; {{ ip_address|e }}
+Original-Recipient: rfc822; {{ recipient|e }}
+Final-Recipient: rfc822; {{ recipient|e }}
+Action: failed
+Status: {{ status|e }}
+Diagnostic-Code: {{ diag_code|e }}
+{% for header in x_headers %}
+{{ header.name|e }}: {{ header.value|e }}
+{% endfor %}
+
+--=_amazonses_bounce_0--

@@ -1,0 +1,12 @@
+#$ phpstan analyse
+
+parameters:
+    level: max
+    paths:
+        - %currentWorkingDirectory%/src/
+    excludes_analyse:
+        # TO BE rewritten
+        - %currentWorkingDirectory%/src/provider/mailjet.php
+    ignoreErrors:
+        # Twig
+        - '#^Call to an undefined method Twig_ExtensionInterface::setEscaper\(\)\.$#'
