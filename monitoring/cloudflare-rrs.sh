@@ -2,7 +2,7 @@
 #
 # Create, read, update and delete Cloudflare DNS resource record sets.
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DOCS          :https://api.cloudflare.com/
 # DEPENDS       :apt-get install curl jq
 # LOCATION      :/usr/local/bin/cloudflare-rrs.sh
@@ -157,7 +157,7 @@ else
             > "$TEMP_JSON"
         # Edit RRs
         editor "$TEMP_JSON"
-        Validate_request
+        Validate_request || continue
         if jq '.content' < "$TEMP_JSON" | grep -q -F -x '""'; then
             # Delete RRs
             RESPONSE="$(Cloudflare_api DELETE "zones/${ZONE_ID}/dns_records/${RECORD_IDS}")"

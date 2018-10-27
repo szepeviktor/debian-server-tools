@@ -449,6 +449,7 @@ $TTL 60
 185.123.222.0/24    RO_snowshoe @CH-NET
 185.123.223.0/24    RO_snowshoe @CH-NET
 188.213.232.128/26  RO_snowshoe/26 @CH-NET
+188.214.192.0/24    RO_snowshoe @CH-NET
 193.238.247.0/24    RO_snowshoe @CH-NET
 
 # theconversionpros.com - mail{01..20}.tcprosmail.com @DIGITALOCEAN

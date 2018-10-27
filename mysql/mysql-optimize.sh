@@ -14,7 +14,7 @@ declare -r -i DATALENGTH_MAX="200000000"
 
 set -e
 
-DATABASES="$(mysql --skip-column-names --batch -e "SHOW DATABASES;" | grep -vEx "mysql|information_schema|performance_schema")"
+DATABASES="$(mysql --skip-column-names --batch -e "SHOW DATABASES;" | grep -vEx 'information_schema|mysql|performance_schema|sys')"
 
 while read -r DATABASE; do
     # Check
@@ -37,10 +37,13 @@ while read -r DATABASE; do
         # Big table
         if [ "$DATALENGTH" -gt "$DATALENGTH_MAX" ]; then
             echo "ERROR: ${DATABASE}.${TABLENAME} is a big table" 1>&2
-            exit 101
+            exit 10
         fi
 
         echo "${DATABASE}.${TABLENAME} fragmentation = ${FRAG}%, optimizing ..."
         mysqlcheck --silent --optimize "$DATABASE" "$TABLENAME"
-    done <<< "$TABLESTATUS"
-done <<< "$DATABASES"
+        echo
+    done <<<"$TABLESTATUS"
+done <<<"$DATABASES"
+
+echo "OK."

@@ -21,15 +21,13 @@
 - https://www.sparkpost.com/ on AWS *free:15 000*,
   [retries](https://www.sparkpost.com/docs/faq/how-are-messages-retried/)
 - https://www.mandrill.com/ by MailChimp *free:0*
-- https://www.sendinblue.com/ has own AS *free:9000*
+- https://www.sendinblue.com/ :eu: has own AS *free:9000*
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 
 * https://sendgrid.com/ has own AS *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
 * https://www.mailjet.com/transactional *free:6000*
 * https://postmarkapp.com/ by Wildbit *free:1×25 000*
-
-[Integrity Mailszolgáltatás (SMTP+IMAP)](https://integrity.hu/mailszolgaltatas/)
 
 #### Email delivery features
 
