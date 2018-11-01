@@ -7,12 +7,13 @@
 
 # Alternative for user angets only
 #
-# watch -d -n 10 'grep "$(date +%d/%b/%Y:%H:)" /var/log/apache2/*.log | cut -d \" -f 6| sed \
+# watch -d -n 10 'grep "$(date +%d/%b/%Y:%H:)" /var/log/apache2/*.log | cut -d \" -f 6 | sed \
 #   -e "s/^Mozilla\\/5\\.0 (Windows [^)]\\+)/W/" \
 #   -e "s/^Mozilla\\/5\\.0 (Linux; Android [^)]\\+)/A/" \
 #   -e "s/^Mozilla\\/5\\.0 (Macintosh; Intel Mac/M/" \
 #   -e "s/^Mozilla\\/5\\.0 (iPhone; CPU iPhone/iP/" \
 #   -e "s/^Mozilla\\/5\\.0 (compatible;/~/" \
+#   -e "s/\\[FB[A-Z_][^]]\\+\\]/[FB-data]/" \
 # | sort | uniq -c | sort -n | grep -v "^\\s*[0-9]\\s"'
 
 ACCESS_LOG="/var/log/apache2/project-ssl-access.log"

@@ -138,7 +138,7 @@ if [ -z "$RECORD_IDS" ]; then
         printf -v MX_PRIO ',\n "priority":10'
     fi
     printf '{\n "name": "%s",\n "type": "%s",\n "content": "",\n "ttl": 86400,\n "proxied":false%s\n}\n' "$NAME" "$TYPE" "$MX_PRIO" \
-        > "$TEMP_JSON"
+        >"$TEMP_JSON"
     # Edit RRs
     editor "$TEMP_JSON"
     Validate_request
@@ -154,20 +154,20 @@ else
     while read -r RECORD_ID; do
         Cloudflare_api GET "zones/${ZONE_ID}/dns_records/${RECORD_ID}?per_page=100" \
             | jq "$JQ_UPDATE" \
-            > "$TEMP_JSON"
+            >"$TEMP_JSON"
         # Edit RRs
         editor "$TEMP_JSON"
         Validate_request || continue
-        if jq '.content' < "$TEMP_JSON" | grep -q -F -x '""'; then
+        if jq '.content' <"$TEMP_JSON" | grep -q -F -x '""'; then
             # Delete RRs
-            RESPONSE="$(Cloudflare_api DELETE "zones/${ZONE_ID}/dns_records/${RECORD_IDS}")"
+            RESPONSE="$(Cloudflare_api DELETE "zones/${ZONE_ID}/dns_records/${RECORD_ID}")"
         else
             # Update RRs
-            RESPONSE="$(Cloudflare_api PUT "zones/${ZONE_ID}/dns_records/${RECORD_IDS}" --data "$(cat "$TEMP_JSON")")" #"
+            RESPONSE="$(Cloudflare_api PUT "zones/${ZONE_ID}/dns_records/${RECORD_ID}" --data "$(cat "$TEMP_JSON")")"
         fi
-    done <<< "$RECORD_IDS"
+    done <<<"$RECORD_IDS"
 fi
 
 # Check response
-grep -q -F '"success":true,' <<< "$RESPONSE"
+grep -q -F '"success":true,' <<<"$RESPONSE"
 echo "OK."

@@ -46,7 +46,9 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "echo wp language core install hu_HU --activate"
+      "echo test -r public/wp-config.php",
+      "echo wp language core install hu_HU --activate",
+      "echo wp plugin activate wp-redis && wp redis enable"
     ]
   }
 }

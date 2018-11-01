@@ -24,9 +24,11 @@ for LAST_OCTET in {0..255}; do
 
     if hash dig 2>/dev/null; then
         if [ -n "$NS" ]; then
-            ANSWER="$(dig +noall +answer "@${NS}" -x "$CURRENT_IP" )"
+            # global-queryopt first
+            ANSWER="$(dig +noall +answer "@${NS}" -x "$CURRENT_IP")"
         else
-            ANSWER="$(dig +noall +answer -x "$CURRENT_IP" )"
+            # global-queryopt first
+            ANSWER="$(dig +noall +answer -x "$CURRENT_IP")"
         fi
         echo "${ANSWER:-PTR record is not available for ${CURRENT_IP}}"
     else
