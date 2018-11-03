@@ -1,0 +1,24 @@
+#
+# SpamAssassin config file: PhishTank and OpenPhish
+#
+# API-KEY       :http://www.phishtank.com/api_register.php
+# SCRIPT        :/etc/cron.hourly/spamassassin-phishing
+# LOCATION      :/etc/spamassassin/20_phishing.cf
+
+loadplugin Mail::SpamAssassin::Plugin::Phishing
+
+ifplugin Mail::SpamAssassin::Plugin::Phishing
+
+phishing_openphish_feed /var/lib/spamassassin/openphish.txt
+phishing_phishtank_feed /var/lib/spamassassin/phishtank.csv
+body                    URI_PHISHING  eval:check_phishing()
+describe                URI_PHISHING  Url match phishing in feed
+
+endif
+
+# #!/bin/bash
+#
+# wget -qO- "http://data.phishtank.com/data/API-KEY/online-valid.csv.gz" \
+#     | gunzip >/var/lib/spamassassin/phishtank.csv
+#
+# wget -qO- "https://openphish.com/feed.txt" >/var/lib/spamassassin/openphish.txt

@@ -4,8 +4,6 @@
 # COMMENT       :spammer.dnsbl on worker.szepe.net.
 # LOCATION      :/etc/spamassassin/20_spammer.dnsbl.cf
 
-require_version 3.004001
-
 ifplugin Mail::SpamAssassin::Plugin::DNSEval
 
 header   __RCVD_IN_BL_SPAMMER eval:check_rbl('spammer', 'spammer.dnsbl.')

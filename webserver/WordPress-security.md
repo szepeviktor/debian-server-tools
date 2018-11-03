@@ -11,7 +11,7 @@
 
 ### Compromise through server software
 
-- Use modern server software (OS, web server, PHP version, in-memory cache, database)
+- Use modern server software (OS, web server, PHP version, in-memory cache, database, remote access with SSH)
 - Hide server software version
 - Don't install multiple websites on a server / separate by OS user
 - Subscribe to OS security updates
