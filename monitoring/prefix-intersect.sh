@@ -3,14 +3,14 @@
 # Test overlapping IPv4 prefixes.
 #
 
-# Prefix list from https://bgp.he.net/AS1#_prefixes
+# Prefix list file from https://bgp.he.net/AS1#_prefixes
 PREFIX_LIST="$1"
 
 Ip2dec() {
     local IPV4="$1"
     local -i OCTET1 OCTET2 OCTET3 OCTET4
 
-    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<< "$IPV4"
+    IFS="." read -r OCTET1 OCTET2 OCTET3 OCTET4 <<<"$IPV4"
     echo "$(( (OCTET1 << 24) + (OCTET2 << 16) + (OCTET3 << 8) + OCTET4 ))"
 }
 
@@ -32,7 +32,7 @@ while read -r PREFIX; do
     FROM_TO="$(sipcalc "$PREFIX" | sed -n -e 's|^Network range\s\+- \([0-9.]\+\) - \([0-9.]\+\)$|\1:\2|p')"
     PREFIXES_FROM+=( "$(Ip2dec "${FROM_TO%:*}")" )
     PREFIXES_TO+=( "$(Ip2dec "${FROM_TO#*:}")" )
-done < "$PREFIX_LIST"
+done <"$PREFIX_LIST"
 
 # Loop through prefixes
 declare -i TOTAL="${#PREFIXES[*]}"

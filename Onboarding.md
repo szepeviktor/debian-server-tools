@@ -20,7 +20,7 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
-[Google Cloud Platform Premium Support for $150/mo](https://cloud.google.com/support/?options=premium-support#options)
+[Google Cloud Platform Premium Support for $100/mo](https://cloud.google.com/support/?options=premium-support#support-options)
 
 [AWS Europe invoicing](https://aws.amazon.com/legal/aws-emea/)
 

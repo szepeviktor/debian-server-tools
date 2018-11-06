@@ -1,0 +1,43 @@
+# AS57494 - Krek / ADMAN in Новосибирск, type: SMTP
+#: ipset -exist restore <ipset/krek.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set krek src -j REJECT
+create krek hash:net family inet hashsize 64 maxelem 64
+flush krek
+# *.balagulquran.info
+# Hosting for NOVUM IMPORT "Content Delivery Network, Boundary line team"
+# ns1.adman.com. ns2.adman.com.
+#$ cnet-all.sh AS57494.txt 151.248.116.137|grep -F balagulquran.info|cut -f3|xargs -L1 dig +noall +answer|sed 's/^.*IN\s*A\s*//'|sortip
+add krek 78.153.150.47
+add krek 78.153.151.10
+add krek 78.153.151.117
+add krek 78.153.151.216
+add krek 109.237.110.105
+add krek 109.237.110.116
+add krek 109.237.111.120
+add krek 109.237.111.177
+add krek 185.133.42.246
+add krek 185.135.80.33
+add krek 185.135.80.81
+add krek 185.135.80.95
+add krek 185.135.80.121
+add krek 185.135.81.26
+add krek 185.135.81.93
+add krek 185.135.81.112
+add krek 185.135.81.143
+add krek 185.135.81.197
+add krek 185.135.81.203
+add krek 185.135.81.205
+add krek 185.135.81.231
+add krek 185.135.81.254
+add krek 185.135.82.254
+add krek 185.135.83.53
+add krek 185.135.83.98
+add krek 185.135.83.103
+add krek 185.173.93.21
+add krek 185.173.93.66
+add krek 185.173.93.127
+add krek 185.173.93.166
+add krek 185.173.94.5
+add krek 185.173.94.115
+#$ for B in addicted alluring arrive base bored care creature deadpan disappear elbow feeling fit greasy important left majestic meddle moor need obedience pet receptive ritzy septic silvery slow sown street tent true warehouse wobble
+#$ do; dig +short $B.balagulquran.info.; done

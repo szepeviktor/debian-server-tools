@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.8.5
+# VERSION       :0.8.6
 # DATE          :2018-05-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,7 +21,7 @@
 #
 # List not yet enabled service configs for installed packages
 #     dpkg-query --showformat="\${Package}\n" --show | while read -r PKG; do
-#     if [ -f "services/${PKG}" ] && ! [ -f "/etc/monit/conf-enabled/${PKG}" ]; then
+#       if [ -f "services/${PKG}" ] && [ ! -f "/etc/monit/conf-enabled/${PKG}" ]; then
 #     echo "Missing: ${PKG}"; fi; done
 
 # @TODO
@@ -39,7 +39,7 @@ MONIT_COMPLETION="./bash_completion.d/monit"
 Is_pkg_installed() {
     local PKG="$1"
 
-    test "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed"
+    test "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2>/dev/null)" == "install ok installed"
 }
 
 Monit_template() {
@@ -80,15 +80,16 @@ Monit_template() {
             # Read value into $VAR_NAME
             read -r -e -p "${VAR_NAME}=" -i "${!DEFAULT_NAME}" "$VAR_NAME"
             # Save value as next default
-            echo "${VAR_NAME}_DEFAULT=\"${!VAR_NAME}\"" >> "$MONIT_DEFAULTS"
+            echo "${VAR_NAME}_DEFAULT=\"${!VAR_NAME}\"" >>"$MONIT_DEFAULTS"
             chmod 0600 "$MONIT_DEFAULTS"
         fi
         VALUE="${!VAR_NAME}"
         # Escape for sed
         VALUE="${VALUE//;/\\;}"
         # Substitute variable
-        sed -i -e "s;@@${VAR_NAME}@@;${VALUE};g" "$OUT"
-    done 3<<< "$VARIABLES"
+        sed -e "s/@@${VAR_NAME}@@/${VALUE}/g" -i "$OUT"
+    done 3<<<"$VARIABLES"
+    chmod 0600 "$OUT"
 }
 
 Monit_enable() {
@@ -157,10 +158,10 @@ Monit_all_packages() {
     PACKAGES="$(dpkg-query --showformat='${Package}\n' --show)"
 
     while read -r PACKAGE <&4; do
-        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -q -F ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
+        if [ -f "${MONIT_SERVICES}/${PACKAGE}" ] && ! grep -q -F ":${PACKAGE}:" <<<":${MONIT_EXCLUDED_PACKAGES}:"; then
             Monit_enable "$PACKAGE"
         fi
-    done 4<<< "$PACKAGES"
+    done 4<<<"$PACKAGES"
 }
 
 Monit_virtual_packages() {
@@ -176,7 +177,7 @@ Monit_virtual_packages() {
             continue
         fi
         for PACKAGE in ${VPACKAGES[$MAIN_PACKAGE]//,/ }; do
-            if Is_pkg_installed "$PACKAGE" && ! grep -q -F ":${PACKAGE}:" <<< ":${MONIT_EXCLUDED_PACKAGES}:"; then
+            if Is_pkg_installed "$PACKAGE" && ! grep -q -F ":${PACKAGE}:" <<<":${MONIT_EXCLUDED_PACKAGES}:"; then
                 Monit_enable "$MAIN_PACKAGE"
                 break
             fi
@@ -187,7 +188,7 @@ Monit_virtual_packages() {
 Monit_apt_config() {
     echo "---  apt.conf  ---"
 
-    cat > /etc/apt/apt.conf.d/05monit <<"EOF"
+    cat >/etc/apt/apt.conf.d/05monit <<"EOF"
 DPkg::Pre-Invoke { "test -x /usr/bin/monit && service monit stop" };
 DPkg::Post-Invoke { "test -x /usr/bin/monit && service monit start" };
 EOF
@@ -200,7 +201,7 @@ Monit_wake() {
 
     echo "---  cron.hourly  ---"
 
-    cat > "$CRONJOB" <<"EOF"
+    cat >"$CRONJOB" <<"EOF"
 #!/bin/bash
 #
 # Wake up Monit.
@@ -216,7 +217,7 @@ fi
 
 # Check Monit
 if ! service monit status | grep -q -F 'monit is running' \
-    || ! /usr/bin/monit summary "$(hostname --fqdn)" > /dev/null; then
+    || ! /usr/bin/monit summary "$(hostname --fqdn)" >/dev/null; then
     echo "Monit is not responding" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname --fqdn)" root
     service monit restart || service monit start
 fi

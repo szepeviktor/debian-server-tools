@@ -80,7 +80,7 @@ What to include in continuous integration with 0% code coverage?
 
 Use Docker **containers** for testing.
 
-- Modern task runner (composer:scripts, consolidation/robo, npm only, grunt, gulp)
+- Modern task runner (composer:scripts, consolidation/robo, npm:scripts, grunt, gulp)
 - Parallel package installation (hirak/prestissimo)
 - Git hook integration (phpro/grumphp)
 - Parallel syntax check (php-parallel-lint)
