@@ -1,12 +1,23 @@
 # AS57494 - Krek / ADMAN in Новосибирск, type: SMTP
 #: ipset -exist restore <ipset/krek.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set krek src -j REJECT
-create krek hash:net family inet hashsize 64 maxelem 64
+create krek hash:net family inet hashsize 64 maxelem 128
 flush krek
-# *.balagulquran.info
-# Hosting for NOVUM IMPORT "Content Delivery Network, Boundary line team"
-# ns1.adman.com. ns2.adman.com.
-#$ cnet-all.sh AS57494.txt 151.248.116.137|grep -F balagulquran.info|cut -f3|xargs -L1 dig +noall +answer|sed 's/^.*IN\s*A\s*//'|sortip
+# NOVUM IMPORT "Content Delivery Network, Boundary line team"
+# Detection: DNS "A" record of envelop sender's domain points to AS35828 TERATRADE
+# Webshops: https://dnslytics.com/reverse-analytics/ua-69610531
+add krek 78.153.148.7
+add krek 78.153.148.41
+add krek 78.153.148.132
+add krek 78.153.149.128
+add krek 78.153.149.158
+add krek 78.153.150.86
+add krek 78.153.151.66
+add krek 185.133.40.20
+add krek 185.133.40.65
+add krek 185.133.42.82
+add krek 185.135.83.239
+# *.balagulquran.info.
 add krek 78.153.150.47
 add krek 78.153.151.10
 add krek 78.153.151.117
@@ -39,5 +50,45 @@ add krek 185.173.93.127
 add krek 185.173.93.166
 add krek 185.173.94.5
 add krek 185.173.94.115
-#$ for B in addicted alluring arrive base bored care creature deadpan disappear elbow feeling fit greasy important left majestic meddle moor need obedience pet receptive ritzy septic silvery slow sown street tent true warehouse wobble
-#$ do; dig +short $B.balagulquran.info.; done
+
+# AS46573 - Global Frag Networks
+# NOVUM IMPORT "Content Delivery Network, Boundary line team"
+add krek 157.52.150.128/26
+
+# AS12586 - GHOSTnet
+# NOVUM IMPORT "Content Delivery Network, Boundary line team"
+add krek 89.144.27.160/27
+#$ for L in 194.24.160.{0..255};do echo "  $L ...";wget -qSO- -t1 -T2 http://$L 2>&1 \
+#$ |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -F 'Coming soon!' \
+#$ && echo $L;done | ./a.out # https://github.com/flowchartsman/cidr-convert
+add krek 194.24.160.136/29
+add krek 194.24.160.144/28
+add krek 194.24.160.160/29
+add krek 194.24.160.168
+add krek 194.24.160.170
+add krek 194.24.160.172
+add krek 194.24.160.175
+add krek 194.24.160.177
+add krek 194.24.160.183
+add krek 194.24.160.184/30
+add krek 194.24.160.188/31
+add krek 194.24.160.190
+add krek 194.24.160.193
+add krek 194.24.160.197
+add krek 194.24.160.198/31
+add krek 194.24.160.200/30
+add krek 194.24.160.205
+add krek 194.24.160.206
+add krek 194.24.160.208
+add krek 194.24.160.210/31
+add krek 194.24.160.214
+add krek 194.24.160.216
+add krek 194.24.160.218/31
+add krek 194.24.160.220
+add krek 194.24.160.226/31
+add krek 194.24.160.230/31
+add krek 194.24.160.232/29
+add krek 194.24.160.240/29
+add krek 194.24.160.248/30
+add krek 194.24.160.252/31
+add krek 194.24.160.254

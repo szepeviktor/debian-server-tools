@@ -158,7 +158,7 @@ wp plugin install user-role-editor --activate
 # keepass-button
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-keepass-button/keepass-button.php
 
-# Fail2ban Wordpress
+# WAF (WordPress Fail2ban)
 wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
 #wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/non-wp-projects/wp-login.php
