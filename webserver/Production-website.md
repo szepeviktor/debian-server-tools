@@ -501,7 +501,7 @@ Document in `hosting.yml` and check functionality.
 - Video
 - Maps
 - Widgets
-- Tracking codes (make *UA-number* `'UN'+'parse'+'able'`)
+- Tracking codes (make *UA-number* `"UN" + "parse" + "able"` or `"UA-" + (17*28711).toString() + "-1"`)
 - Advertisement
 - [Live chat](https://www.drift.com/product-tour/)
 - Newsletter subscription

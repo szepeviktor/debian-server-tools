@@ -3,3 +3,4 @@
 deb https://packages.sury.org/php/ stretch main
 #K: wget -qO- https://packages.sury.org/php/apt.gpg | apt-key add -
 #M: https://packages.sury.org/php/README.txt
+#$ printf 'Package: openssl libssl-dev libssl-doc libssl1.1\nPin: origin "packages.sury.org"\nPin-Priority: 400\n' >/etc/apt/preferences.d/openssl

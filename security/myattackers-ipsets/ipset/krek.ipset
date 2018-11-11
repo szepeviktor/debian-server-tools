@@ -60,7 +60,7 @@ add krek 157.52.150.128/26
 add krek 89.144.27.160/27
 #$ for L in 194.24.160.{0..255};do echo "  $L ...";wget -qSO- -t1 -T2 http://$L 2>&1 \
 #$ |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -F 'Coming soon!' \
-#$ && echo $L;done | ./a.out # https://github.com/flowchartsman/cidr-convert
+#$ && echo $L;done | cidr-convert # https://github.com/flowchartsman/cidr-convert
 add krek 194.24.160.136/29
 add krek 194.24.160.144/28
 add krek 194.24.160.160/29
@@ -92,3 +92,10 @@ add krek 194.24.160.240/29
 add krek 194.24.160.248/30
 add krek 194.24.160.252/31
 add krek 194.24.160.254
+# 194.24.160.{0..255}
+add krek 194.55.140.4
+add krek 194.55.140.6/31
+add krek 194.55.140.8/29
+add krek 194.55.140.16/28
+add krek 194.55.140.32/30
+add krek 194.55.140.38

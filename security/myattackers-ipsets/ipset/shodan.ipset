@@ -11,16 +11,16 @@ add shodan 185.181.102.18
 add shodan 71.6.146.185
 # einstein.census.shodan.io.
 add shodan 71.6.167.124
-#$ for S in census{1..9} census1{0..2} \
-#$   {atlantic,border,pacific,rim,ninja,pirate,turtle,einstein,malware-hunter,refrigerator,dojo,sky,mason,house,battery,flower,cloud}.census \
-#$   atlantic.dns blog hello.data; do
-#$     host -t A "${S}.shodan.io."
-#$ done | sed -e 's/^.* \(has address\|has IPv4 address\) //' | sortip | uniq | sed -e 's|^|add shodan |'
+#$ for S in census{1..12} {atlantic,border,pacific,rim,ninja,pirate,turtle}.census \
+#$   {einstein,malware-hunter,refrigerator,dojo,sky,mason,house,battery,flower,cloud}.census \
+#$   atlantic.dns blog hello.data; do dig ${S}.shodan.io. A +short
+#$ done | sortip -u | sed -e 's/^/add shodan /'
 add shodan 66.240.192.138
 add shodan 66.240.205.34
 add shodan 66.240.236.119
 add shodan 71.6.135.131
 add shodan 71.6.146.130
+add shodan 71.6.146.185
 add shodan 71.6.158.166
 add shodan 71.6.165.200
 add shodan 71.6.167.142
@@ -36,8 +36,9 @@ add shodan 93.120.27.62
 add shodan 93.174.95.106
 add shodan 94.102.49.190
 add shodan 94.102.49.193
+add shodan 104.25.89.97
+add shodan 104.25.90.97
 add shodan 104.131.0.69
-add shodan 104.236.198.48
 add shodan 188.138.9.50
 add shodan 198.20.69.74
 add shodan 198.20.69.98
