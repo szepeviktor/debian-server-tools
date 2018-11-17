@@ -1,11 +1,14 @@
-## Secondary MySQL instance configuration
-## /var/tmp/mysql2.cnf
+#
+# Secondary MySQL instance configuration
+#
+# LOCATION      :/var/tmp/mysql2.cnf
 
-## echo -e "[mysqld]\ndatadir=/var/tmp/mysql2" >> /root/.my.cnf
-## innobackupex --copy-back BASE-DIR
-## chown -R mysql:mysql /var/tmp/mysql2
-## mysqld_safe --defaults-file=/var/tmp/mysql2.cnf --skip-kill-mysqld --skip-syslog --verbose &
-## tail -f /var/tmp/mysql2/error.log
+#$ printf '\n[mysqld]\ndatadir=%s\n' /var/tmp/mysql2 >>/root/.my.cnf
+#$ cp ./mysql2.cnf /var/tmp/
+#$ innobackupex --copy-back BASE-DIR
+#$ chown -R mysql:mysql /var/tmp/mysql2
+#$ mysqld_safe --defaults-file=/var/tmp/mysql2.cnf --skip-kill-mysqld --skip-syslog --verbose &
+#$ tail -f /var/tmp/mysql2/error.log
 
 [mysqld]
 user            = mysql
@@ -19,6 +22,8 @@ skip-external-locking
 skip-networking
 log_error       = /var/tmp/mysql2/error.log
 
-## mysqldump -S /var/tmp/mysql2/mysqld.sock dbname > dbname.sql
-## kill -15 $(cat /var/tmp/mysql2/mysqld.pid)
-## editor /root/.my.cnf
+#$ mysqldump -S /var/tmp/mysql2/mysqld.sock DB-NAME >dbname.sql
+#$ kill -15 $(cat /var/tmp/mysql2/mysqld.pid)
+#$ tail /var/tmp/mysql2/error.log
+## Remove datadir=
+#$ editor /root/.my.cnf

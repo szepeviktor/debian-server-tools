@@ -58,7 +58,10 @@ apt-key adv --no-tty --keyserver keys2.kfwebs.net --recv-keys 2C52609D
 echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
     >/etc/apt/sources.list.d/docker.list
 apt-get update -q
-apt-get install -qq docker-engine
+apt-get install -qq docker-engine \
+  || true
+# Work-around for "no sockets found via socket activation: make sure the service was started by systemd"
+  systemctl start docker.service; apt-get install -f
 docker version
 
 # pip

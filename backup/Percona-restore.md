@@ -12,15 +12,16 @@ cd /media/server-backup.s3ql/innodb/
 
 # Look at lsn-s
 cd /root/db-restore/
-grep "^" */xtrabackup_info
+grep -E "^innodb_(from|to)_lsn" */xtrabackup_info
 
 # Prepare
 innobackupex --apply-log --redo-only BASE-DIR
 grep -w LOG-SEQUENCE_NUMBER INCREMENTAL-DIR/xtrabackup_info
 innobackupex --apply-log --redo-only BASE-DIR --incremental-dir=INCREMENTAL-DIR
 innobackupex --apply-log BASE-DIR
+
 # Fix permissions
-chown -R mysql:mysql *
+chown -R mysql:mysql .
 
 # Restore
 service mysql stop
@@ -30,8 +31,11 @@ innobackupex --copy-back BASE-DIR
 cp /root/db-restore/debian-10.0.flag /var/lib/mysql/
 cp /root/db-restore/multi-master.info /var/lib/mysql/
 cp /root/db-restore/mysql_upgrade_info /var/lib/mysql/
+
 # Flush WordPress cache
 wp cache flush
+
+# Restart MySQL server
 service mysql start &
 tail -f /var/log/syslog
 ```
