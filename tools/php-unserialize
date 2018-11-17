@@ -1,5 +1,15 @@
 #!/usr/bin/env php
 <?php
+#
+# Unserialize standard input.
+#
+# VERSION       :0.1.0
+# DATE          :2018-11-12
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# DOCS          :https://top-frog.com/2009/08/28/quickly-unserialize-data-in-textmate/
+# LOCATION      :/usr/local/bin/php-unserialize
 
 /**
  * Unserialize standard input.

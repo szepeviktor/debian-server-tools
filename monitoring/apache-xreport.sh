@@ -34,6 +34,7 @@ Xclude_filter()
     # WordPress Fail2ban
     # Apache access control
     # Apache restart messages at 6 AM
+    # Malformed ??? hostname "5e ed 1d 4c bb 01", "5e ed 51 84 bb 01" via SNI
     grep -Ev "\\sAH00128:|\\sAH02032:\
 |\\swpf2b_|\\sbad_request_|\\sno_wp_here_|\\s404_not_found|\\s403_forbidden|\\snetpromo_|\\sFile does not exist:\
 |\\sclient denied by server configuration:" \

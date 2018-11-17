@@ -30,7 +30,7 @@ Auto_country() {
     rm -f geoipupdate_*_amd64.deb sources.list
 
     wget -nv -O- "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/sources.list" \
-        | sed -e "s|@@MIRROR@@|${MIRROR}|" > /etc/apt/sources.list
+        | sed -e "s|@@MIRROR@@|${MIRROR}|" >/etc/apt/sources.list
 }
 
 set -e -x
@@ -39,7 +39,7 @@ set -e -x
 test -d /tmp && cd /tmp/
 
 # Output may end up in a log file
-echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty
+echo 'Dpkg::Use-Pty "0";' >/etc/apt/apt.conf.d/00usepty
 
 # LeaseWeb sources
 wget -nv -O /etc/apt/sources.list \
@@ -54,9 +54,9 @@ apt-get dist-upgrade -qq
 
 # docker
 apt-get install -qq dirmngr apt-transport-https
-apt-key adv --keyserver keys2.kfwebs.net --recv-keys 2C52609D
+apt-key adv --no-tty --keyserver keys2.kfwebs.net --recv-keys 2C52609D
 echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
-    > /etc/apt/sources.list.d/docker.list
+    >/etc/apt/sources.list.d/docker.list
 apt-get update -q
 apt-get install -qq docker-engine
 docker version

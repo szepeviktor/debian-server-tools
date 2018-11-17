@@ -9,7 +9,7 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install sipcalc dnsutils
-# LOCATION      :/usr/local/bin/cnet
+# LOCATION      :/usr/local/bin/as-ptr.sh
 
 # Get prefix list file from https://bgp.he.net/AS1#_prefixes
 #
@@ -17,7 +17,6 @@
 #$ grep -vF 'PTR record' output.ptr|sed -ne 's/.*\.\([0-9a-z.-]\+\.[a-z]\+\)\.$/\1/p'|sort|uniq -c|sort -n
 
 PREFIX_LIST="$1"
-NS="$2"
 
 Ip2dec()
 {
@@ -36,8 +35,20 @@ Dec2ip()
     echo "$(( DEC >> 24 & MAX )).$(( DEC >> 16 & MAX )).$(( DEC >> 8 & MAX )).$(( DEC & MAX ))"
 }
 
-test -r "$PREFIX_LIST"
-test -n "$NS"
+Get_ns()
+{
+    local IPV4="$1"
+    local RESOLVER="1.1.1.1"
+    local NS1
+
+    NS1="$(dig +trace "@${RESOLVER}" -x "$IPV4" | sed -n -e '/^.*\s\+IN\s\+NS\s\+\(\S\+\)$/h; ${x;s//\1/p}')"
+    # Make sure it has an IP
+    if [ -n "$(dig "$NS1" A +short)" ]; then
+        echo "$NS1"
+    fi
+}
+
+test -r "$PREFIX_LIST" || exit 10
 
 # Parse prefix list file
 while read -r PREFIX; do
@@ -49,10 +60,18 @@ while read -r PREFIX; do
     FROM="$(Ip2dec "${FROM_TO%:*}")"
     TO="$(Ip2dec "${FROM_TO#*:}")"
 
+    FIRST_IP="$(Dec2ip "$FROM")"
+    NS="$(Get_ns "$FIRST_IP")"
     # Loop through all IP addresses
-    for DEC in $(seq "$FROM" "$TO"); do
+    #for DEC in $(seq "$FROM" "$TO"); do
+    for (( DEC=FROM; DEC < TO; DEC+=1 )) do
         CURRENT_IP="$(Dec2ip "$DEC")"
-        ANSWER="$(dig +noall +answer "@${NS}" -x "$CURRENT_IP")"
+        # Update resolver per /24
+        if [ "${CURRENT_IP##*.}" == 0 ]; then
+            NS="$(Get_ns "$CURRENT_IP")"
+        fi
+        printf '%s:  ' "$NS" 1>&2
+        ANSWER="$(dig +noall +answer "@${NS:-1.1.1.1}" -x "$CURRENT_IP")"
         echo "${ANSWER:-PTR record is not available for ${CURRENT_IP}}"
     done
 done <"$PREFIX_LIST"

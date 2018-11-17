@@ -224,7 +224,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
   ([proof-of-work](https://en.wikipedia.org/wiki/Proof-of-work_system#List_of_proof-of-work_functions))
 - Suspicious email address:
     - company domain
-    - blocked domain
+    - blocked domain (e.g. example.com, *.test)
     - disposable address
     - non-existent domain
     - missing MX

@@ -2,11 +2,13 @@
 #
 # Test overlapping IPv4 prefixes.
 #
+# DEPENDS       :apt-get install sipcalc
 
 # Prefix list file from https://bgp.he.net/AS1#_prefixes
 PREFIX_LIST="$1"
 
-Ip2dec() {
+Ip2dec()
+{
     local IPV4="$1"
     local -i OCTET1 OCTET2 OCTET3 OCTET4
 
@@ -27,6 +29,7 @@ INTERSETIONS="0"
 while read -r PREFIX; do
     test -z "$PREFIX" && continue
     test "${PREFIX:0:3}" == ROA && continue
+    test "${PREFIX:0:3}" == IRR && continue
 
     PREFIXES+=( "$PREFIX" )
     FROM_TO="$(sipcalc "$PREFIX" | sed -n -e 's|^Network range\s\+- \([0-9.]\+\) - \([0-9.]\+\)$|\1:\2|p')"
@@ -36,13 +39,13 @@ done <"$PREFIX_LIST"
 
 # Loop through prefixes
 declare -i TOTAL="${#PREFIXES[*]}"
-for NUMBER in $(seq 0 "$((TOTAL - 2))"); do #"
-    echo "Testing #${NUMBER} ${PREFIXES[$NUMBER]} ..."
+for NUMBER in $(seq 0 "$((TOTAL - 2))"); do
+    echo "Testing #${NUMBER} ${PREFIXES[$NUMBER]} ..." 1>&2
     FROM="${PREFIXES_FROM[$NUMBER]}"
     TO="${PREFIXES_TO[$NUMBER]}"
 
     # Compare to other prefixes
-    for NUMBER2 in $(seq "$((NUMBER + 1))" "$((TOTAL - 1))"); do #"
+    for NUMBER2 in $(seq "$((NUMBER + 1))" "$((TOTAL - 1))"); do
         # DBG echo "  Comparing to #${NUMBER2} ${PREFIXES[$NUMBER2]} ..."
         FROM2="${PREFIXES_FROM[$NUMBER2]}"
         TO2="${PREFIXES_TO[$NUMBER2]}"
@@ -51,7 +54,7 @@ for NUMBER in $(seq 0 "$((TOTAL - 2))"); do #"
         # 2......2
         if [[ "$FROM2" -lt "$FROM" && "$TO2" -gt "$TO" ]]; then
             INTERSETIONS+="1"
-            echo "${PREFIXES[$NUMBER2]} covers ${PREFIXES[$NUMBER]}" 1>&2
+            echo "${PREFIXES[$NUMBER2]} covers ${PREFIXES[$NUMBER]}"
             continue
         fi
 
@@ -59,7 +62,7 @@ for NUMBER in $(seq 0 "$((TOTAL - 2))"); do #"
         #    2.....2
         if [[ "$FROM2" -ge "$FROM" && "$FROM2" -le "$TO" ]]; then
             INTERSETIONS+="1"
-            echo "${PREFIXES[$NUMBER2]} starts within ${PREFIXES[$NUMBER]}" 1>&2
+            echo "${PREFIXES[$NUMBER2]} starts within ${PREFIXES[$NUMBER]}"
             continue
         fi
 
@@ -67,10 +70,10 @@ for NUMBER in $(seq 0 "$((TOTAL - 2))"); do #"
         # 2.....2
         if [[ "$TO2" -ge "$FROM" && "$TO2" -le "$TO" ]]; then
             INTERSETIONS+="1"
-            echo "${PREFIXES[$NUMBER2]} ends within ${PREFIXES[$NUMBER]}" 1>&2
+            echo "${PREFIXES[$NUMBER2]} ends within ${PREFIXES[$NUMBER]}"
             continue
         fi
     done
 done
 
-echo "Number of intersections: ${INTERSETIONS}"
+echo "Number of intersections: ${INTERSETIONS}" 1>&2

@@ -129,6 +129,9 @@ wget -P wp-content/mu-plugins/disable-comments-mu/ https://github.com/solarissmo
 # disable feeds
 #wp plugin install disable-feeds --activate
 
+# disable embeds
+#wp plugin install disable-embeds --activate
+
 # smilies
 wp plugin install classic-smilies --activate
 

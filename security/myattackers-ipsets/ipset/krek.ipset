@@ -1,7 +1,7 @@
 # AS57494 - Krek / ADMAN in Новосибирск, type: SMTP
 #: ipset -exist restore <ipset/krek.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set krek src -j REJECT
-create krek hash:net family inet hashsize 64 maxelem 128
+create krek hash:net family inet hashsize 64 maxelem 256
 flush krek
 # NOVUM IMPORT "Content Delivery Network, Boundary line team"
 # Detection: DNS "A" record of envelop sender's domain points to AS35828 TERATRADE
@@ -57,10 +57,36 @@ add krek 157.52.150.128/26
 
 # AS12586 - GHOSTnet
 # NOVUM IMPORT "Content Delivery Network, Boundary line team"
+# 85.93.6.0/24
+add krek 85.93.6.99
+add krek 85.93.6.100/30
+add krek 85.93.6.104/29
+add krek 85.93.6.112/28
+add krek 85.93.6.128/31
+add krek 85.93.6.130
+# 89.144.13.0/24
+add krek 89.144.13.138/31
+add krek 89.144.13.140/30
+add krek 89.144.13.144/28
+add krek 89.144.13.160/29
+add krek 89.144.13.168/31
+# 89.144.27.0/24
 add krek 89.144.27.160/27
-#$ for L in 194.24.160.{0..255};do echo "  $L ...";wget -qSO- -t1 -T2 http://$L 2>&1 \
-#$ |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -F 'Coming soon!' \
-#$ && echo $L;done | cidr-convert # https://github.com/flowchartsman/cidr-convert
+# 89.144.44.0/24
+add krek 89.144.44.22/31
+add krek 89.144.44.24/29
+add krek 89.144.44.32/28
+add krek 89.144.44.48/30
+add krek 89.144.44.52/31
+add krek 89.144.44.54
+# 89.144.63.0/24
+add krek 89.144.63.128/25
+#$ for L in 194.24.160.{0..255}; do echo "  $L ..."; wget -qSO- -t1 -T2 http://$L 2>&1 \
+#$   |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -F 'Coming soon!' \
+#$   && echo $L; done | cidr-convert # https://github.com/flowchartsman/cidr-convert
+# 194.24.160.0/24
+add krek 194.24.160.131
+add krek 194.24.160.132/30
 add krek 194.24.160.136/29
 add krek 194.24.160.144/28
 add krek 194.24.160.160/29
@@ -92,10 +118,26 @@ add krek 194.24.160.240/29
 add krek 194.24.160.248/30
 add krek 194.24.160.252/31
 add krek 194.24.160.254
-# 194.24.160.{0..255}
+# 194.55.140.0/24
 add krek 194.55.140.4
 add krek 194.55.140.6/31
 add krek 194.55.140.8/29
 add krek 194.55.140.16/28
 add krek 194.55.140.32/30
 add krek 194.55.140.38
+# is_teratrade.sh
+#$ grep -Ex '(95\.140\.39\.[0-9]+|185\.207\.8\.[0-9]+|185\.207\.9\.[0-9]+|185\.207\.10\.[0-9]+|185\.207\.11\.[0-9]+)'
+# 194.55.143.0/24
+add krek 194.55.143.3
+add krek 194.55.143.4/30
+add krek 194.55.143.8/29
+add krek 194.55.143.16/28
+add krek 194.55.143.32/27
+add krek 194.55.143.64/26
+add krek 194.55.143.128/26
+add krek 194.55.143.192/27
+add krek 194.55.143.224/28
+add krek 194.55.143.240/29
+add krek 194.55.143.248/30
+add krek 194.55.143.252/31
+add krek 194.55.143.254
