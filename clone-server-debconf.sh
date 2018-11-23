@@ -20,11 +20,11 @@ echo "/etc/modprobe.d/
 /etc/hosts
 /etc/resolv.conf
 /etc/mailname
-/etc/courier/me" | xargs -I % find % -type f > etc-blacklist.txt
-ls /etc/ssh/ssh_host_*_key* >> etc-blacklist.txt
+/etc/courier/me" | xargs -I % find % -type f >etc-blacklist.txt
+ls /etc/ssh/ssh_host_*_key* >>etc-blacklist.txt
 
-debconf-get-selections > debconf.selections
-dpkg-query --show > packages.selections
+debconf-get-selections >debconf.selections
+dpkg-query --show >packages.selections
 tar --exclude-from=etc-blacklist.txt \
     -vczf server.tar.gz debconf.selections packages.selections etc-blacklist.txt /etc/*
 ## Data dirs
@@ -77,10 +77,10 @@ grep '^linux-image' packages.selections
 apt-get update -qq
 apt-get install -qq sysvinit-core sysvinit-utils
 cp -v /usr/share/sysvinit/inittab /etc/inittab
-echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' > /etc/apt/preferences.d/systemd.pref
+echo -e 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1' >/etc/apt/preferences.d/systemd.pref
 # Schedule removal of systemd
 echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
-@reboot root apt-get purge -qq --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd" > /etc/cron.d/withoutsystemd
+@reboot root apt-get purge -qq --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd" >/etc/cron.d/withoutsystemd
 
 # Normalize OS
 ../debian-image-normalize.sh
@@ -88,12 +88,12 @@ echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin
 apt-get install -qq apt-transport-https apt-utils dselect debsums
 
 # Inspect changes in /etc
-while read -r F; do diff -u "$F" "${F/etc/root/clone/etc}"; done < etc-blacklist.txt
+while read -r F; do diff -u "$F" "${F/etc/root/clone/etc}"; done <etc-blacklist.txt
 # Restore /etc
 chmod -c 0755 ./etc
 mv -vf /etc/ /root/etc && mv -vf ./etc /
 # Restore blacklisted files to /etc
-xargs -I % cp -vf /root% % < etc-blacklist.txt
+xargs -I % cp -vf /root% % <etc-blacklist.txt
 # Recreate homes
 sed -ne 's/^\(\S\+\):x:1[0-9][0-9][0-9]:.*$/\1/p' /etc/passwd | xargs -n1 mkhomedir_helper
 #tar -C /home/ -xvf ./homes.tar.gz
@@ -114,10 +114,10 @@ ls -l /etc/udev/
 # Hostname:
 read -r -e -p "Host name? " H
 hostname "$H"
-echo "$H" > /etc/hostname
-echo "$H" > /etc/mailname
+echo "$H" >/etc/hostname
+echo "$H" >/etc/mailname
 editor /etc/hosts
-mkdir /etc/courier; echo "$H" > /etc/courier/me
+mkdir /etc/courier; echo "$H" >/etc/courier/me
 
 # Check hardware again
 clear; fdisk -l /dev/[svx]d?
@@ -127,7 +127,7 @@ ifconfig
 
 # Restore packages
 dselect update
-clear; debconf-set-selections < debconf.selections
+clear; debconf-set-selections <debconf.selections
 # @FIXME Question type: error
 
 # Reconfigure already installed packages
@@ -143,7 +143,7 @@ grep -E '^(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)' packages.selection
 dpkg -l | grep -E '^\S+\s+(open-vm-tools|linux-image|mdadm|lvm|grub|systemd)'
 
 # List non-Debian packages
-aptitude search -F '%p' '?narrow(?installed, ?not(?archive(^stable$)))' > non-Debian.packages
+aptitude search -F '%p' '?narrow(?installed, ?not(?archive(^stable$)))' >non-Debian.packages
 # View non-Debian packages in nice columns
 aptitude search -F $'%O\t%p\t%v' '?narrow(?installed, ?not(?archive(^stable$)))'|sort|column -s $'\t' -t
 # Install packages

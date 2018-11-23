@@ -2,7 +2,7 @@
 #
 # Install and set up Monit.
 #
-# VERSION       :0.8.6
+# VERSION       :0.8.7
 # DATE          :2018-05-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -56,7 +56,7 @@ Monit_template() {
         exit 11
     fi
 
-    VARIABLES="$(grep -o '@@[A-Z0-9_]\+@@' "$TPL" | nl | sort -k 2 | uniq -f 1 | sort -n | sed -e 's;\s*[0-9]\+\s\+;;')"
+    VARIABLES="$(grep -o '@@[A-Z0-9_]\+@@' "$TPL" | nl | sort -k 2 | uniq -f 1 | sort -n | sed -e 's/\s*[0-9]\+\s\+//')"
     if [ -z "$VARIABLES" ]; then
         return 0
     fi
@@ -87,7 +87,7 @@ Monit_template() {
         # Escape for sed
         VALUE="${VALUE//;/\\;}"
         # Substitute variable
-        sed -e "s/@@${VAR_NAME}@@/${VALUE}/g" -i "$OUT"
+        sed -e "s#@@${VAR_NAME}@@#${VALUE}#g" -i "$OUT"
     done 3<<<"$VARIABLES"
     chmod 0600 "$OUT"
 }
@@ -231,12 +231,12 @@ fi
 
 # Try remonitor failed services
 /usr/bin/monit -B summary | tail -n +3 \
-    | sed -e 's|Remote Host\s*$|RemoteHost |' \
+    | sed -e 's/Remote Host\s*$/RemoteHost /' \
     | grep -v -E "\\sSystem\\s*\$|\\s(${IGNORED_STATUSES})\\s*\\S+\\s*\$" \
-    | sed -n -e 's|^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*$|\1|p' \
+    | sed -n -e 's/^\s*\(\S\+\)\s\+.\+\s\+\S\+\s*$/\1/p' \
     | xargs -r -L 1 /usr/bin/monit monitor
 
-if [ $? -ne 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
+if [ "$?" != 0 ] && [ -x /usr/local/sbin/swap-refresh.sh ]; then
     /usr/local/sbin/swap-refresh.sh
 fi
 
@@ -258,7 +258,7 @@ Monit_start() {
     if [ "$MONIT_SYNTAX_CHECK" == "Control file syntax OK" ]; then
         service monit start
         # Must equal to start delay
-        # sed -n -e 's|^.*start delay \([0-9]\+\)$|\1|p' services/00-monitrc
+        # sed -n -e 's/^.*start delay \([0-9]\+\)$/\1/p' services/00-monitrc
         sleep 10
         monit summary
         echo "OK."
