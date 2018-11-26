@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.6.1
+# VERSION       :0.7.0
 # DATE          :2018-02-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -24,7 +24,6 @@
 #     -A myattackers -j RETURN
 
 CHAIN="myattackers"
-SSH_PORT="22"
 
 # Help
 Usage() {
@@ -83,7 +82,7 @@ Is_IP_range()
 
 Check_chain()
 {
-    iptables -n -w -L "$CHAIN" 2>/dev/null | grep -q ' (1 references)$'
+    /sbin/iptables -n -w -L "$CHAIN" 2>/dev/null | grep -q ' (1 references)$'
 }
 
 # Validate IP address or range
@@ -94,22 +93,27 @@ Check_address()
     Is_IP "$ADDRESS" || Is_IP_range "$ADDRESS"
 }
 
+Get_ssh_port()
+{
+    /usr/sbin/sshd -T | sed -n -e 's/^port \([0-9]\+\)$/\1/p'
+}
+
 Init()
 {
     if ! Check_chain; then
-        iptables -w -N "$CHAIN" || return 1
+        /sbin/iptables -w -N "$CHAIN" || return 1
         # Zero out counters
-        iptables -w -Z "$CHAIN"
+        /sbin/iptables -w -Z "$CHAIN"
     fi
 
     # Final return rule
-    if ! iptables -w -C "$CHAIN" -j RETURN &>/dev/null; then
-        iptables -w -A "$CHAIN" -j RETURN || return 2
+    if ! /sbin/iptables -w -C "$CHAIN" -j RETURN &>/dev/null; then
+        /sbin/iptables -w -A "$CHAIN" -j RETURN || return 2
     fi
 
     # Enable our chain at the top of INPUT
-    if ! iptables -w -C INPUT -j "$CHAIN" &>/dev/null; then
-        iptables -w -A INPUT -j "$CHAIN" || return 3
+    if ! /sbin/iptables -w -C INPUT -j "$CHAIN" &>/dev/null; then
+        /sbin/iptables -w -A INPUT -j "$CHAIN" || return 3
     fi
 
     # All OK
@@ -126,7 +130,7 @@ Remove_chain()
 Show()
 {
     # Show only rules sorted by source IP
-    iptables -v -n -w -L ${CHAIN} \
+    /sbin/iptables -v -n -w -L ${CHAIN} \
         | grep -F -w "REJECT" | sort -t "." -k 1.48,1n -k 2,2n -k 3,3n -k 4,4n
 }
 
@@ -162,10 +166,10 @@ Ban()
 
     # Don't populate duplicates
     # shellcheck disable=SC2086
-    if ! iptables -w -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &>/dev/null; then
+    if ! /sbin/iptables -w -C "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} -j REJECT &>/dev/null; then
         # Insert at the top
         # shellcheck disable=SC2086
-        iptables -w -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
+        /sbin/iptables -w -I "$CHAIN" -s "$ADDRESS" ${PROTOCOL_OPTION} ${BANTIME_OPTION} -j REJECT
         logger -t "myattackers" "Ban ${ADDRESS} PROTO=${PROTOCOL}"
     fi
 }
@@ -175,17 +179,17 @@ Unban()
     local ADDRESS="$1"
 
     # Delete rule by searching for source address
-    iptables -n -v -w --line-numbers -L "$CHAIN" \
+    /sbin/iptables -n -v -w --line-numbers -L "$CHAIN" \
         | sed -n -e "s#^\\([0-9]\\+\\)\\s\\+[0-9]\\+\\s\\+[0-9]\\+[KMG]\\?\\s\\+REJECT\\s.*\\s${ADDRESS//./\\.}\\s\\+0\\.0\\.0\\.0/0\\b.*\$#\\1#p" \
         | sort -r -n \
-        | xargs -r -L 1 iptables -w -D "$CHAIN"
+        | xargs -r -L 1 /sbin/iptables -w -D "$CHAIN"
     logger -t "myattackers" "Unban ${ADDRESS}"
 }
 
 Get_rule_data()
 {
     # Output format: LINE-NUMBER <TAB> PACKETS <TAB> IP-ADDRESS <TAB> EXPIRATION-DATE
-    iptables -n -v -w --line-numbers -L "$CHAIN" \
+    /sbin/iptables -n -v -w --line-numbers -L "$CHAIN" \
         | sed -n -e 's#^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+[KMG]\?\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$#\1\t\2\t\3\t\4#p' \
         | sort -r -n
 }
@@ -214,7 +218,7 @@ Unban_expired()
             if [ "$PACKETS" -eq 0 ] \
                 && [ "$EXPIRATION" -le "$NOW" ] \
                 && [ "$EXPIRATION" -gt "$MONTH_AGO" ]; then
-                iptables -w -D "$CHAIN" "$NUMBER"
+                /sbin/iptables -w -D "$CHAIN" "$NUMBER"
                 logger -t "myattackers" "Unban expired ${SOURCE}"
             fi
         done
@@ -244,11 +248,11 @@ Reset_old_rule_counters()
                 if [ "$PACKETS" -eq 0 ]; then
                     # Remove rules with zero traffic
                     # These must be at least 2 months old
-                    iptables -w -D "$CHAIN" "$NUMBER"
+                    /sbin/iptables -w -D "$CHAIN" "$NUMBER"
                     logger -t "myattackers" "Unban expired 1+ months ${SOURCE}"
                 else
                     # Reset the packet and byte counters
-                    iptables -w -Z "$CHAIN" "$NUMBER"
+                    /sbin/iptables -w -Z "$CHAIN" "$NUMBER"
                 fi
             fi
         done
@@ -335,7 +339,7 @@ case "$PROTOCOL" in
         PROTOCOL_OPTION="-p tcp -m multiport --dports imap2,imaps"
         ;;
     ssh|SSH)
-        PROTOCOL_OPTION="-p tcp --dport ${SSH_PORT}"
+        PROTOCOL_OPTION="-p tcp --dport $(Get_ssh_port)"
         ;;
     all|ALL)
         # By default ban all traffic

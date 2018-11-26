@@ -82,38 +82,14 @@ add krek 89.144.44.54
 # 89.144.63.0/24
 add krek 89.144.63.128/25
 #$ for L in 194.24.160.{0..255}; do echo "  $L ..."; wget -qSO- -t1 -T2 http://$L 2>&1 \
-#$   |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -F 'Coming soon!' \
+#$   |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -qF 'Coming soon!' \
 #$   && echo $L; done | cidr-convert # https://github.com/flowchartsman/cidr-convert
 # 194.24.160.0/24
-add krek 194.24.160.131
-add krek 194.24.160.132/30
 add krek 194.24.160.136/29
 add krek 194.24.160.144/28
-add krek 194.24.160.160/29
-add krek 194.24.160.168
-add krek 194.24.160.170
-add krek 194.24.160.172
-add krek 194.24.160.175
-add krek 194.24.160.177
-add krek 194.24.160.183
-add krek 194.24.160.184/30
-add krek 194.24.160.188/31
-add krek 194.24.160.190
-add krek 194.24.160.193
-add krek 194.24.160.197
-add krek 194.24.160.198/31
-add krek 194.24.160.200/30
-add krek 194.24.160.205
-add krek 194.24.160.206
-add krek 194.24.160.208
-add krek 194.24.160.210/31
-add krek 194.24.160.214
-add krek 194.24.160.216
-add krek 194.24.160.218/31
-add krek 194.24.160.220
-add krek 194.24.160.226/31
-add krek 194.24.160.230/31
-add krek 194.24.160.232/29
+add krek 194.24.160.160/27
+add krek 194.24.160.192/27
+add krek 194.24.160.224/28
 add krek 194.24.160.240/29
 add krek 194.24.160.248/30
 add krek 194.24.160.252/31
@@ -126,7 +102,9 @@ add krek 194.55.140.16/28
 add krek 194.55.140.32/30
 add krek 194.55.140.38
 # is_teratrade.sh
-#$ grep -Ex '(95\.140\.39\.[0-9]+|185\.207\.8\.[0-9]+|185\.207\.9\.[0-9]+|185\.207\.10\.[0-9]+|185\.207\.11\.[0-9]+)'
+#$ grep -Ex '(95\.140\.39|185\.207\.8|185\.207\.9|185\.207\.10|185\.207\.11)\.[0-9]+'
+# is_regru.sh
+#$ whois -h whois.reg.com sagarscreen.com. | grep 'Registrar IANA ID: 1606$'
 # 194.55.143.0/24
 add krek 194.55.143.3
 add krek 194.55.143.4/30

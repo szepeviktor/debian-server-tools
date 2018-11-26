@@ -1,9 +1,9 @@
-# Webhely látogatási folyamat (HU)
+# Teljesítménycentrikus Webhely (HU)
 
 ### Stratégia
 
 1. A honlap mely részeire van kapacitásunk, hogy *életben* tartsuk, azaz módosítsuk különböző visszajelzések
-   (statisztika, telefonos kérdések, eladási eredmények) alapján?
+   (látogatások, kattintások, telefonos kérdések, eladási eredmények) alapján?
 1. Mi legyen a honlapon? krumpli pecsét **vs.** *Ez szokott lenni egy honlapon*
    **vs.** visszajelzések alapján priorizált tartalom
 1. Személyes jelleg fotókkal, videóval, idézetekkel
@@ -18,17 +18,17 @@
 
 ### Tartalom
 
-Piramis elv (mindent egyszerre megmutatni hiba)
+Piramis elv (mindent egyszerre megmutatni hiba)  
 főoldal → tematikus aloldal → cikk/lexikon
 
 Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
-   - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
-   - CTA (call-to-action) gombok
-   - Interaktív elemek: **videó**, Ken Burns effektes slider/galéria, hírlevél,
-     letölthető anyag, beúszó feliratkoztató, kupon/kedvezmény, exit modal, friss hírek, megosztás
-   - Zsákutca hiba (Alul hova tovább?)
-   - Fölös háttér, belépő oldal, köszönjük oldal, értesítő levél kihasználása
+- Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
+- CTA (call-to-action) gombok
+- Interaktív elemek: **videó**, Ken Burns effektes slider/galéria, hírlevél,
+  letölthető anyag, beúszó feliratkoztató, kupon/kedvezmény, exit modal, friss hírek, megosztás
+- Zsákutca hiba (Alul hova tovább?)
+- Fölös háttér, belépési oldal, köszönjük oldal, értesítő levél kihasználása
 
 ### Technológia
 
@@ -42,4 +42,3 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 - [Google Cégem](https://support.google.com/business/answer/7091)
 - [Google Tudáspanel](https://support.google.com/business/answer/6331288)
 - [Google Térkép](https://support.google.com/business/answer/6056435)
-- [Google+](https://support.google.com/business/answer/7685471)

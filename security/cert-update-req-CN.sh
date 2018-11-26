@@ -52,7 +52,7 @@ CSR="request-${TODAY}.csr"
 
 # Certificate name for directory and file names (not Common Name)
 read -r -p "Certificate name? " CN
-#CN="example.com"
+#CN="www.example.com"
 test -n "$CN"
 
 CERT_DIR="./${TODAY}-${CN}"
