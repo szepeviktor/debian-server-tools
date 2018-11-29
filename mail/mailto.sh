@@ -2,14 +2,13 @@
 #
 # Test ESMTP communication.
 #
-# VERSION       :0.3.8
-# DATE          :2016-01-23
+# VERSION       :0.3.9
+# DATE          :2018-11-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install telnet bind9-host
-# DEPENDS       :apt-get install telnet knot-host
 # LOCATION      :/usr/local/bin/mailto.sh
 
 # Usage
@@ -130,8 +129,12 @@ test -z "$RCPT" && exit 1
 test "$RCPT" == "${RCPT%@*}" && exit 2
 
 OWN_IP="$(ip addr show scope global up | sed -n -e '0,/^\s*inet \([0-9.]\+\)\b.*$/{s//\1/p}')"
-ME="$(Dnsquery PTR "$OWN_IP")"
-ME="${ME%.}"
+if [ -r /etc/courier/defaultdomain ]; then
+    ME="$(head -n 1 /etc/courier/defaultdomain)"
+else
+    ME="$(Dnsquery PTR "$OWN_IP")"
+    ME="${ME%.}"
+fi
 test -z "$ME" && exit 3
 
 # Mail exchanger

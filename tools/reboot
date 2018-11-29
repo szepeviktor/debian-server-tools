@@ -22,7 +22,7 @@ if [ "$REBOOT" != 1 ]; then
     exit 100
 fi
 
-if [ -f "/extlinux.conf" ] && [ -f "/ldlinux.sys" ]; then
+if [ -f /extlinux.conf ] && [ -f /ldlinux.sys ]; then
     # Extlinux
     # shellcheck disable=SC2016
     FIRST_ROOT="$(sed -n -e '0,/^append /s/^.*\sroot=\(\S\+\).*$/\1/p' /extlinux.conf)"
@@ -52,7 +52,7 @@ esac
 MOUNTED="$DISK"
 
 # Disk and mounted device may differ on LVM
-if [ "${FIRST_ROOT:0:12}" == "/dev/mapper/" ] && grep -q "^${FIRST_ROOT} / " /proc/mounts; then
+if [ "${FIRST_ROOT:0:12}" == /dev/mapper/ ] && grep -q "^${FIRST_ROOT} / " /proc/mounts; then
     MOUNTED="$FIRST_ROOT"
 fi
 
@@ -64,7 +64,7 @@ fi
 
 # Stop monit
 clear
-if [ "$(dpkg-query --showformat='${Status}' --show monit 2> /dev/null)" == "install ok installed" ]; then
+if [ "$(dpkg-query --showformat='${Status}' --show monit 2>/dev/null)" == "install ok installed" ]; then
     if service monit status | grep -q -F 'monit is running'; then
         service monit stop
     fi

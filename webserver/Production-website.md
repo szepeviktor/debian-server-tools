@@ -280,6 +280,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 ### Marketing
 
+- [Home made product photos](/Kaktusz-photo-shoot.jpg)
 - [One-person video team](https://wistia.com/blog/startup-ceo-makes-videos), [Intro video](http://technomatic.hu/)
 - [Google Street View virtual tour](https://www.brand360.hu/szolgaltatasok/google-street-view-belso-nezet-tura/)
 - External URL-s should open in new window :snail:
@@ -538,7 +539,9 @@ Uptime ([pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetri
 
 [List of all errors in Apache httpd](https://wiki.apache.org/httpd/ListOfErrors)
 
-Report JavaScript, PHP (and other) errors with [Sentry](https://docs.sentry.io/server/installation/)
+Track application and JavaScript errors with [Sentry](https://docs.sentry.io/server/installation/)
+
+Set up status page with [Cachet](https://cachethq.io/)
 
 
 ## Backup
