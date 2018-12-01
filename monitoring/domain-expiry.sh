@@ -2,8 +2,8 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.8
-# DATE          :2015-08-06
+# VERSION       :0.1.9
+# DATE          :2018-11-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -24,7 +24,8 @@
 #         escaped.com:April\ 10,\ 2016
 #     )
 
-In_domain_expiry() {
+In_domain_expiry()
+{
     local STRING="$1"
 
     for ITEM in "${DOMAIN_EXPIRY[@]}"; do
@@ -37,7 +38,8 @@ In_domain_expiry() {
 }
 
 # Prepare the list for finding second-level domains
-Publicsuffix_regexp() {
+Publicsuffix_regexp()
+{
     local LIST_URL="https://publicsuffix.org/list/public_suffix_list.dat"
 
     # Download list,
@@ -48,24 +50,26 @@ Publicsuffix_regexp() {
         | sed -e 's/\./\\./g' -e 's/\*/.*/' -e 's/^\(.*\)$/[^.]\\+\\.\1$/'
 }
 
-Apache_domains() {
+Apache_domains()
+{
     apache2ctl -S | sed -n -e 's/^.* \(namevhost\|alias\) \(\S\+\).*$/\2/p'
 }
 
-Courier_domains() {
-    pushd /etc/courier/ > /dev/null
-
-    # Gather all domains,
-    #   remove alias destinations and user part of email addresses,
-    #   remove non-domains (local users)
-    grep -v -h "^\s*[#;]\|^\s*$" me defaultdomain locals hosteddomains esmtpacceptmailfor.dir/* aliases/* \
-        | sed -e 's/:.*$//' -e 's/^.*@//' \
-        | grep -v "^[^.]\+$"
-
-    popd > /dev/null
+Courier_domains()
+{
+    (
+        cd /etc/courier/
+        # Gather all domains,
+        #   remove alias destinations and user part of email addresses,
+        #   remove non-domains (local users)
+        grep -v -h '^\s*[#;]\|^\s*$' me defaultdomain locals hosteddomains esmtpacceptmailfor.dir/* aliases/* \
+            | sed -e 's/:.*$//' -e 's/^.*@//' \
+            | grep -v '^[^.]\+$'
+    )
 }
 
-Server_domain() {
+Server_domain()
+{
     hostname -f
 }
 
@@ -73,6 +77,8 @@ DAEMON="domain-expiry"
 DOMAIN_EXPIRY_RC="/etc/domainexpiryrc"
 DOMAIN_EXPIRY_ALERT_DATE="2 weeks"
 declare -a DOMAIN_EXPIRY
+declare -i ALERT_SEC
+declare -i EXPIRY_SEC
 
 set -e
 
@@ -82,7 +88,7 @@ logger -t "$DAEMON" "Domain expiry started"
 source "$DOMAIN_EXPIRY_RC"
 
 # We need a file for `grep -f -`
-DOMAIN_LIST="$(tempfile)"
+DOMAIN_LIST="$(mktemp)"
 
 # Find all domains used
 {
@@ -91,7 +97,7 @@ DOMAIN_LIST="$(tempfile)"
     Server_domain
 
     # Deduplicate
-} | sort -u > "$DOMAIN_LIST"
+} | sort -u >"$DOMAIN_LIST"
 
 # Find valid SLD-s, deduplicate again
 DOMAINS="$(Publicsuffix_regexp | grep -o -f - "$DOMAIN_LIST" | sort -u)"
@@ -103,16 +109,15 @@ while read -r DOMAIN; do
     if ! In_domain_expiry "$DOMAIN"; then
         echo "Domain ${DOMAIN} is missing from configuration file." 1>&2
     fi
-done <<< "$DOMAINS"
+done <<<"$DOMAINS"
 
 # Check expiry
 ALERT_SEC="$(date --date="$DOMAIN_EXPIRY_ALERT_DATE" "+%s")"
 for ITEM in "${DOMAIN_EXPIRY[@]}"; do
     DOMAIN="${ITEM%%:*}"
     EXPIRY="${ITEM#*:}"
-    EXPIRY_SEC="$(date --date="$EXPIRY" "+%s")"
 
-    if [ $? != 0 ] || [ -z "$EXPIRY_SEC" ] || [ -n "${EXPIRY_SEC//[0-9]/}" ]; then
+    if ! EXPIRY_SEC="$(date --date="$EXPIRY" "+%s")" || [ -z "$EXPIRY_SEC" ] || [ -n "${EXPIRY_SEC//[0-9]/}" ]; then
         echo "Domain ${DOMAIN} has invalid expiry date (${EXPIRY})" 1>&2
         continue
     fi
@@ -123,12 +128,13 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
         # Print links
         if [ "$DOMAIN" != "${DOMAIN%.hu}" ]; then
             # .hu
-            printf "http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n" "${DOMAIN%.hu}"
+            printf 'http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n' "${DOMAIN%.hu}"
         elif [ "$DOMAIN" != "${DOMAIN%.eu}" ]; then
             # .eu
-            printf "https://whois.eurid.eu/en/?domain=%s\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
+            printf 'https://whois.eurid.eu/en/?domain=%s\nhttp://whois.domaintools.com/%s\n\n' "$DOMAIN" "$DOMAIN"
         else
-            printf "http://bgp.he.net/dns/%s#_whois\nhttp://whois.domaintools.com/%s\n\n" "$DOMAIN" "$DOMAIN"
+            # Other TLD-s
+            printf 'https://www.whois.com/whois/%s\nhttp://whois.domaintools.com/%s\n\n' "$DOMAIN" "$DOMAIN"
         fi
     fi
 done | s-nail -E -S "hostname=" -S from="${DAEMON} <root>" -s "domain expiry alert" root

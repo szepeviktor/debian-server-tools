@@ -62,14 +62,14 @@
 - https://www.rainloop.net/changelog/
 
 
-## Problems
+## Email client problems
 
 
 ### Outlook 2013 IMAP fixes
 
 - Root: `Inbox`
 - To recognize standard folder names [delete .pst/.ost file](http://answers.microsoft.com/en-us/office/forum/office_2013_release-outlook/outlook-2013-with-imap-deleted-items-and-trash-i/9ec6e501-8e1a-45cf-bb90-cb9e2205d025)
-after account setup
+  after account setup
 - Fix folder subscription, see /mail/courier-outlook-subscribe-bug.sh (Outlook 2007)
 
 ### Outlook 2007 cipher suite
@@ -90,7 +90,9 @@ MIME type: `application/ms-tnef`
 
 ### Set up G Suite mailing
 
-https://toolbox.googleapps.com/apps/checkmx/
+See [G-Suite.md](/mail/G-Suite.md)
+
+Test tool: https://toolbox.googleapps.com/apps/checkmx/
 
 ### Online IMAP migration
 
@@ -142,7 +144,7 @@ courier-pythonfilter `attachments` module
 blockedPattern = r'^.*\.(ade|adp|bat|chm|cmd|com|cpl|dll|exe|hta|inf|ins|isp|jar|js|jse|lib|lnk|mde|msc|msp|mst|pif|reg|scf|scr|sct|shb|shs|sys|url|xxe|vb|vbe|vbs|vxd|wsc|wsf|wsh)$'
 ```
 
-### GMail's blocked file types
+### Gmail's blocked file types
 
 https://support.google.com/mail/answer/6590
 
@@ -151,7 +153,7 @@ https://support.google.com/mail/answer/6590
 `20_gmail-blocked-filetypes.cf`
 
 ```
-# GMail's blocked file types
+# Gmail's blocked file types
 ifplugin Mail::SpamAssassin::Plugin::MIMEHeader
 
 mimeheader GMAIL_BLOCKED_ATTACH Content-Type =~ /\.(ADE|ADP|BAT|CHM|CMD|COM|CPL|EXE|HTA|INS|ISP|JAR|JSE|LIB|LNK|MDE|MSC|MSP|MST|PIF|SCR|SCT|SHB|SYS|VB|VBE|VBS|VXD|WSC|WSF|WSH)/i
@@ -164,13 +166,13 @@ endif
 
 ### Send all messages in an mbox file to an email address
 
-See [mbox_send2.py](./mbox_send2.py)
+See [mbox_send2.py](/mail/mbox_send2.py)
 
 ### Email forwarding (srs)
 
 Build Courier SRS
 
-See /package/couriersrs-jessie.sh
+See [/package/couriersrs-jessie.sh](/package/couriersrs-jessie.sh)
 
 ### Courier catchall address (virtual domain)
 
@@ -181,7 +183,7 @@ http://www.courier-mta.org/dot-courier.html
 Add alias:
 
 ```
-@target.tld:  foo
+@target.tld:    foo
 ```
 
 Delivery instructions:
@@ -208,8 +210,8 @@ Create an alias:
 
 ### NAIH nyilvántartási szám - "Hungarian National Authority for Data Protection and Freedom of Information" registry
 
-[NAIH kereső](http://81.183.229.204:8080/EMS/EMSDataProtectionRequest/Finder)
-http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
+- [NAIH kereső](http://81.183.229.204:8080/EMS/EMSDataProtectionRequest/Finder)
+- http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
 
 ### Courier MTA message processing order on reception
 
@@ -371,6 +373,7 @@ Deprecated.
 
 #### Headers and Body parts
 
+- :exclamation: Dedicated landing page
 - :sunny: :sunny: :sunny: Descriptive From name "Firstname from Company"
 - :sunny: :sunny: Descriptive subject line
 - :sunny: Short [preview text](https://litmus.com/blog/the-ultimate-guide-to-preview-text-support) at top of the message
@@ -404,7 +407,9 @@ Deprecated.
 
 #### Others
 
-- **When to send a newsletter?**
+- **When to send a newsletter?**,
+  [Mailchimp Send Time Optimization](https://mailchimp.com/help/use-send-time-optimization/),
+  recipient's time zone: [Mailchimp Timewarp](https://mailchimp.com/help/use-timewarp/)
 - HTML and plain text payload
 - [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
 - [Spamhaus Marketing FAQ](https://www.spamhaus.org/faq/section/Marketing%20FAQs)
@@ -412,6 +417,12 @@ Deprecated.
 - :cloud: CDN for images
 - SMTP `MAIL FORM: <user@example.com>`
 - SMTP Envelope sender SPF `include:servers.mcsv.net`
+
+### Providers
+
+- https://mailchimp.com/
+- https://tinyletter.com/
+- https://www.klaviyo.com/
 
 ### Email templates
 
@@ -440,14 +451,15 @@ Deprecated.
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
 
-### Providers
+### Prevent automatic response
 
-- https://tinyletter.com/
-- https://www.klaviyo.com/
-- https://mailchimp.com/
+- All in *Detect automatic responses* section
+- `Auto-Submitted: auto-generated`
+- `X-Auto-Response-Suppress: OOF, AutoReply` https://msdn.microsoft.com/en-us/library/ee219609(v=exchg.80).aspx
 
 ### Detect automatic responses
 
+- Delivery Status Notification https://tools.ietf.org/html/rfc3464
 - `Auto-Submitted: auto-replied` https://tools.ietf.org/html/rfc3834#section-3.1.7
 - `X-Autoreply: yes`
 - `Precedence: bulk`
@@ -456,12 +468,6 @@ Deprecated.
 - `From: .*(noreply|no-reply|donotreply|mailer[-_]daemon@|)`
 - https://github.com/jpmckinney/multi_mail/wiki/Detecting-autoresponders
 - https://serverfault.com/a/462914
-
-### Prevent automatic response
-
-- All in *Detect automatic responses* section
-- `Auto-Submitted: auto-generated`
-- `X-Auto-Response-Suppress: OOF, AutoReply` https://msdn.microsoft.com/en-us/library/ee219609(v=exchg.80).aspx
 
 ### About spam
 

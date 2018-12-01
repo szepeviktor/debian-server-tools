@@ -222,6 +222,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Analyze HTTP headers
 - Browser check with JavaScript
   ([proof-of-work](https://en.wikipedia.org/wiki/Proof-of-work_system#List_of_proof-of-work_functions))
+- Client-side [mail check](https://github.com/mailcheck/mailcheck)
 - Suspicious email address:
     - company domain
     - blocked domain (e.g. example.com, *.test)

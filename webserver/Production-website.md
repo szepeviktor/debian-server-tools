@@ -40,7 +40,7 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 
 1. [Apache-SSL.md](./Apache-SSL.md)
 1. https://www.ssllabs.com/ssltest/ :snail:
-1. https://crt.sh/
+1. https://crt.sh/?
 
 ### WordPress core, theme from git
 

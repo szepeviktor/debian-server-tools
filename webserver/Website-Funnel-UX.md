@@ -25,8 +25,9 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
 - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
 - CTA (call-to-action) gombok
-- Interaktív elemek: **videó**, Ken Burns effektes slider/galéria, hírlevél,
-  letölthető anyag, beúszó feliratkoztató, kupon/kedvezmény, exit modal, friss hírek, megosztás
+- Interaktív elemek: **videó**, virtuális túra, Ken Burns effektes slider/galéria,
+  hírlevél, letölthető anyag, beúszó feliratkoztató, exit modal,
+  kupon/kedvezmény, friss hírek, megosztás
 - Zsákutca hiba (Alul hova tovább?)
 - Fölös háttér, belépési oldal, köszönjük oldal, értesítő levél kihasználása
 
