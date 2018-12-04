@@ -19,9 +19,10 @@
 # Pack (non-existent .deb file)
 #     deb-pack.sh lsb-release_9.20170623_all.deb
 
-Deb_unpack() {
-    [ -r "$DEB" ] || return 1
-    file "$DEB" | grep -q "Debian binary package" || return 2
+Deb_unpack()
+{
+    test -r "$DEB" || return 1
+    file "$DEB" | grep -q -F 'Debian binary package' || return 2
 
     mkdir -p "${DEBDIR}/control" || return 3
     mkdir -p "${DEBDIR}/data" || return 4
@@ -36,28 +37,31 @@ Deb_unpack() {
     tar -C "${DEBDIR}/data/" -xf "${DEBDIR}/data.tar."* || return 7
 }
 
-Deb_pack() {
-    [ -d "$DEBDIR" ] || return 1
+Deb_pack()
+{
+    test -d "$DEBDIR" || return 1
 
-    [ -f "${DEBDIR}/debian-binary" ] || return 2
-    [ -d "${DEBDIR}/control" ] || return 3
-    [ -d "${DEBDIR}/data" ] || return 4
+    test -f "${DEBDIR}/debian-binary" || return 2
+    test -d "${DEBDIR}/control" || return 3
+    test -d "${DEBDIR}/data" || return 4
 
     # Pack data
     if [ -f "${DEBDIR}/control/md5sums" ]; then
         echo "Update MD5 hashes"
-        ( cd "${DEBDIR}/data/"; find -type f -printf "%P\n" | xargs -L 1 md5sum ) \
-            > "${DEBDIR}/control/md5sums" || return 8
+        (
+            cd "${DEBDIR}/data/"
+            find . -type f -printf '%P\n' | xargs -L 1 md5sum
+        ) >"${DEBDIR}/control/md5sums" || return 8
     fi
 
     echo "Pack data"
-    if compgen -G "${DEBDIR}/data.tar.*" > /dev/null; then
+    if compgen -G "${DEBDIR}/data.tar.*" >/dev/null; then
         rm -v "${DEBDIR}/data.tar."*
     fi
     tar -C "${DEBDIR}/data/" -cJf "${DEBDIR}/data.tar.xz" . || return 7
 
     # Debian control files
-    if compgen -G "${DEBDIR}/control.tar.*" > /dev/null; then
+    if compgen -G "${DEBDIR}/control.tar.*" >/dev/null; then
         rm -v "${DEBDIR}/control.tar."*
     fi
     echo "Pack control"
@@ -67,7 +71,10 @@ Deb_pack() {
     if [ -r "${DEBDIR}/${DEB}" ]; then
         rm -v "${DEBDIR}/${DEB}"
     fi
-    ( cd "${DEBDIR}/"; ar rvD "../${DEB}" debian-binary control.tar.gz data.tar.xz ) || return 5
+    (
+        cd "${DEBDIR}/"
+        ar rvD "../${DEB}" debian-binary control.tar.gz data.tar.xz
+    ) || return 5
 }
 
 DEB="$1"
@@ -80,15 +87,16 @@ if [ -r "$DEB" ]; then
     if Deb_unpack; then
         echo "${DEB} unpacked OK."
     else
-        echo "[ERROR] $?" 1>&2
+        echo "[ERROR] ${?}" 1>&2
     fi
 else
     echo "[WARNING] update Version: header in control"
     echo "[WARNING] update changelog.Debian"
     echo
+
     if Deb_pack; then
         echo "${DEB} packed OK."
     else
-        echo "[ERROR] $?" 1>&2
+        echo "[ERROR] ${?}" 1>&2
     fi
 fi

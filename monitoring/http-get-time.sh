@@ -19,20 +19,16 @@
 # User-Agent
 UA="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20130809 Firefox/47.0"
 
-IsIP() {
+IsIP()
+{
     local TOBEIP="$1"
 
-    if grep -q "^\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\$" <<<"$TOBEIP"; then
-        return 0
-    else
-        return 1
-    fi
+    grep -q '^\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}$' <<<"$TOBEIP"
 }
 
 set -e
 
 URL="$1"
-SHOW="$2"
 
 # Empty URL
 test -n "$URL"
@@ -40,7 +36,7 @@ test -n "$URL"
 test -n "${URL##https*}"
 
 # Parse host name
-HOST="$(sed -e 's|^\([^/]*//\)\?\([^:/]\+\).*$|\2|' <<< "$URL")"
+HOST="$(sed -e 's#^\([^/]*//\)\?\([^:/]\+\).*$#\2#' <<<"$URL")"
 test -n "$HOST"
 ( ! IsIP "$HOST" )
 
@@ -67,4 +63,4 @@ Accept-Language: en
 Connection: close
 
 EOF
-} | sed -e 's|$|\r|' | nc "$IP" 80 | ts -s "%.s"
+} | sed -e 's/$/\r/' | nc "$IP" 80 | ts -s "%.s"

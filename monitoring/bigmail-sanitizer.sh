@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install mpack
+# DEPENDS       :apt-get install mpack s-nail
 # DEPENDS       :/usr/local/bin/conv2047.pl
 # LOCATION      :/usr/local/sbin/bigmail-sanitizer.sh
 # CRON-DAILY    :/usr/local/sbin/bigmail-sanitizer.sh
@@ -28,7 +28,7 @@ Daily_warning() {
     find "${MPATH}" -type f -mtime -1 -size +${MAX_SIZE} \
         | while read -r MSG; do
             MDIR="$(mktemp -d)"
-            pushd "$MDIR" > /dev/null
+            pushd "$MDIR" >/dev/null
 
             # Headers
             grep -m 1 "^From:" "$MSG" | conv2047.pl -d -c
@@ -36,17 +36,17 @@ Daily_warning() {
             grep -m 1 "^Date:" "$MSG" | conv2047.pl -d -c
 
             # Attachments bigger than 100 kB
-            munpack -f "$MSG" &> /dev/null
-            find -type f -size +100k \
+            munpack -f "$MSG" &>/dev/null
+            find . -type f -size +100k \
                 | while read -r ATTACHMENT; do
-                    printf "Attachment size: %s, file type:" "$(stat -c %s "$ATTACHMENT")"
+                    printf 'Attachment size: %s, file type:' "$(stat -c %s "$ATTACHMENT")"
                     file "$ATTACHMENT" | head -n 1 | cut -d ":" -f 2- | cut -c 1-120
                 done
             echo
 
-            popd > /dev/null
+            popd >/dev/null
             rm -rf "$MDIR"
-        done | mail -E -S "from=message size exceeded <root>" -s "${MPATH} on $(hostname -f)" root
+        done | s-nail -E -S "from=message size exceeded <root>" -s "${MPATH} on $(hostname -f)" root
 }
 
 find "$MAIL_ROOT" -mindepth 2 -maxdepth 2 -type d \

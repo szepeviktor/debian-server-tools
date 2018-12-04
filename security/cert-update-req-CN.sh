@@ -8,7 +8,6 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# CI            :shellcheck -e SC2034 cert-update-req-CN.sh
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 
 # Intermediate certificates and root certificates
@@ -105,8 +104,11 @@ openssl verify -purpose sslserver -CAfile "$INT" "$PUB"
 
 
 # Common variables
+# shellcheck disable=SC2034
 CABUNDLE="/etc/ssl/certs/ca-certificates.crt"
+# shellcheck disable=SC2034
 PRIV_DIR="/etc/ssl/private"
+# shellcheck disable=SC2034
 PUB_DIR="/etc/ssl/localcerts"
 
 
@@ -115,25 +117,33 @@ PUB_DIR="/etc/ssl/localcerts"
 # "include intermediate CA certificates, sorted from leaf to root"
 
 # Use Common Name as domain name
+# shellcheck disable=SC2034
 APACHE_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's|^.*[/=]CN \?= \?\([^/]\+\).*$|\1|p')"
 #
 # Use last Subject Alternative Name as domain name
+# shellcheck disable=SC2034
 #APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^.*DNS://p}')"
 #
 # Use first Subject Alternative Name as domain name
+# shellcheck disable=SC2034
 #APACHE_DOMAIN="$(openssl x509 -in "$PUB" -text|sed -ne '/^\s*X509v3 Subject Alternative Name:/{n;s/^\s*DNS:\(\S\+\), .*$/\1/p}')"
 #
 # Replace wildcard prefix in domain name
+# shellcheck disable=SC2034
 APACHE_DOMAIN="${APACHE_DOMAIN/\*./wildcard.}"
 #
 # Use $APACHE_DOMAIN for determining name of the virtual host config file
+# shellcheck disable=SC2034
 APACHE_VHOST_CONFIG="/etc/apache2/sites-available/${APACHE_DOMAIN}.conf"
 #
 # Use ./apache.vhost for determining name of the virtual host config file
+# shellcheck disable=SC2034
 test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(head -n 1 ./apache.vhost).conf"
 #
 # Uncomment to activate!
+# shellcheck disable=SC2034
 #APACHE_PUB="${PUB_DIR}/${APACHE_DOMAIN}-public.pem"
+# shellcheck disable=SC2034
 #APACHE_PRIV="${PRIV_DIR}/${APACHE_DOMAIN}-private.key"
 
 
@@ -142,8 +152,11 @@ test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(he
 # From Debian jessie on: private + public + intermediate
 
 # Uncomment to activate!
+# shellcheck disable=SC2034
 #COURIER_COMBINED="/etc/courier/esmtpd.pem"
+# shellcheck disable=SC2034
 #COURIER_DHPARAMS="/etc/courier/dhparams.pem"
+# shellcheck disable=SC2034
 #COURIER_IMAP_COMBINED="/etc/courier/imapd.pem"
 
 
@@ -152,19 +165,26 @@ test -s ./apache.vhost && APACHE_VHOST_CONFIG="/etc/apache2/sites-available/$(he
 # "the primary certificate comes first, then the intermediate certificates"
 
 # Use Common Name
+# shellcheck disable=SC2034
 NGINX_DOMAIN="$(openssl x509 -in "$PUB" -noout -subject|sed -ne 's;^.*/CN=\([^/]\+\).*$;\1;p')"
 #
 # Replace wildcard prefix
+# shellcheck disable=SC2034
 NGINX_DOMAIN="${NGINX_DOMAIN/\*./wildcard.}"
 #
+# shellcheck disable=SC2034
 NGINX_VHOST_CONFIG="/etc/nginx/sites-available/${NGINX_DOMAIN}"
 #
 # Use nginx.vhost
+# shellcheck disable=SC2034
 test -s ./nginx.vhost && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -n 1 nginx.vhost)"
 #
 # Uncomment to activate!
+# shellcheck disable=SC2034
 #NGINX_PUB="${PUB_DIR}/${NGINX_DOMAIN}-public.pem"
+# shellcheck disable=SC2034
 #NGINX_DHPARAM="${PRIV_DIR}/${NGINX_DOMAIN}-dhparam.pem"
+# shellcheck disable=SC2034
 #NGINX_PRIV="${PRIV_DIR}/${NGINX_DOMAIN}-private.key"
 
 
@@ -173,7 +193,9 @@ test -s ./nginx.vhost && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -
 # http://wiki2.dovecot.org/SSL/DovecotConfiguration#Chained_SSL_certificates
 
 # Uncomment to activate!
+# shellcheck disable=SC2034
 #DOVECOT_PUB="/etc/dovecot/dovecot.pem"
+# shellcheck disable=SC2034
 #DOVECOT_PRIV="/etc/dovecot/private/dovecot.key"
 
 
@@ -181,8 +203,11 @@ test -s ./nginx.vhost && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -
 # Proftpd -------------------------
 
 # Uncomment to activate!
+# shellcheck disable=SC2034
 #PROFTPD_PUB="/etc/proftpd/ssl-pub.pem"
+# shellcheck disable=SC2034
 #PROFTPD_PRIV="/etc/proftpd/ssl-priv.key"
+# shellcheck disable=SC2034
 #PROFTPD_INT="/etc/proftpd/sub.class1.server.ca.pem"
 
 
@@ -191,7 +216,9 @@ test -s ./nginx.vhost && NGINX_VHOST_CONFIG="/etc/nginx/sites-available/$(head -
 # SSL check: https://www.digicert.com/help/
 
 # Uncomment to activate!
+# shellcheck disable=SC2034
 #WEBMIN_COMBINED="/etc/webmin/miniserv.pem"
+# shellcheck disable=SC2034
 #WEBMIN_INT="/etc/webmin/sub.class1.server.ca.pem"
 
 

@@ -53,7 +53,7 @@ Log() {
 }
 
 Is_online() {
-    if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ", 0% packet loss,"; then
+    if ! ping -c 5 -W 2 -n "$ALWAYS_ONLINE" 2>&1 | grep -q ', 0% packet loss,'; then
         Log "Server is OFFLINE."
         Alert "Network connection" "pocket loss on pinging ${ALWAYS_ONLINE}"
         exit 100
@@ -91,7 +91,7 @@ for HOST in "${SSH_WATCH[@]}"; do
         continue
     fi
 
-    if LC_ALL=C host -W 2 -t A "$HNAME" 2>&1 | grep -qv " has\( IPv4\)\? address "; then
+    if LC_ALL=C host -W 2 -t A "$HNAME" 2>&1 | grep -q -v ' has\( IPv4\)\? address '; then
         Alert "${HNAME}/DNS" "Failed to get address of ${HNAME}"
         continue
     fi
@@ -99,10 +99,10 @@ for HOST in "${SSH_WATCH[@]}"; do
     declare -i RETRY="$HRETRY"
     # Retry at most once
     while true; do
-        scanssh -i "$INTERNET_IF" -n "$PORT" "$HNAME" 2>&1 | grep -q "^[0-9.]\+:${PORT} SSH-2\.0-OpenSSH_"
+        scanssh -i "$INTERNET_IF" -n "$PORT" "$HNAME" 2>&1 | grep -q "^[0-9.]\\+:${PORT} SSH-2\\.0-OpenSSH_"
         SCAN_RET="$?"
         # Exit loop on successful scan or no more retries
-        if [ "$SCAN_RET" == 0 ] || [ "$RETRY" == 0 ]; then
+        if [ "$SCAN_RET" == 0 ] || [ "$RETRY" -eq 0 ]; then
             break
         fi
         RETRY+="-1"

@@ -28,7 +28,7 @@ CURRENT_SUITE="$(lsb_release -s --codename)"
 
 # Package name from parent directory's name
 test -z "$PKG" && PKG="$(basename "$PWD")"
-if [ "$(uname --machine)" == "x86_64" ]; then
+if [ "$(uname --machine)" == x86_64 ]; then
     ARCH="amd64"
 else
     ARCH="i386"
@@ -40,12 +40,12 @@ rmadison -a "$ARCH" -s "$SUITE" "$PKG"
 echo "Download sources:  dget --allow-unauthenticated -x \$DSC_URL"
 bash
 
-SOURCE_PKG="$(grep -m 1 "^Source: " ./*.dsc | cut -d " " -f 2)"
-if [ -z "$SOURCE_PKG" ] || [ "$(wc -l <<< "$SOURCE_PKG")" -gt 1 ]; then
+SOURCE_PKG="$(grep -m 1 '^Source: ' ./*.dsc | cut -d " " -f 2)"
+if [ -z "$SOURCE_PKG" ] || [ "$(wc -l <<<"$SOURCE_PKG")" -gt 1 ]; then
     ls -d -1 -- */
     read -r -p "Please enter source package name: " SOURCE_PKG
 fi
-SOURCE_DIR="$(find -maxdepth 1 -type d -iname "${SOURCE_PKG}-*" | head -n 1)"
+SOURCE_DIR="$(find . -maxdepth 1 -type d -iname "${SOURCE_PKG}-*" | head -n 1)"
 
 echo -n "Changing directory to: "
 pushd "$SOURCE_DIR"

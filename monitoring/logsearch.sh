@@ -27,7 +27,7 @@ Get_version() {
     local FILE="$1"
     local VER
 
-    VER="$(grep -m 1 "^# VERSION\s*:" "$FILE" | cut -d ":" -f 2-)"
+    VER="$(grep -m 1 '^# VERSION\s*:' "$FILE" | cut -d ":" -f 2-)"
 
     if [ -z "$VER" ]; then
         VER="(unknown)"
@@ -77,7 +77,7 @@ Add_field() {
     local FIELD="$*"
 
     if [ -n "$FIELDS" ]; then
-        FIELDS="${FIELDS}\t"
+        FIELDS="${FIELDS}\\t"
     fi
     FIELDS="${FIELDS}${FIELD}"
 }
@@ -120,28 +120,28 @@ Realpath_all() {
 while getopts ":lwdirunfqstcmpoehx:" opt; do
     case $opt in
         l) # Log PATH
-            Add_field "\1\/\2"
+            Add_field '\1\/\2'
             ;;
         w) # Website name
-            Add_field "\2"
+            Add_field '\2'
             ;;
         d) # DATE
-            Add_field "\4"
+            Add_field '\4'
             ;;
         i) # IP
-            Add_field "\3"
+            Add_field '\3'
             ;;
         r) # REQUEST
-            Add_field "\5"
+            Add_field '\5'
             ;;
         n) # HTTP status code
-            Add_field "\6"
+            Add_field '\6'
             ;;
         f) # REFERER
-            Add_field "\7"
+            Add_field '\7'
             ;;
         u) # UA
-            Add_field "\8"
+            Add_field '\8'
             ;;
         q)
             Add_pipe "uniq -c"
@@ -195,7 +195,7 @@ fi
 
 # Default fields = all
 if [ -z "$FIELDS" ]; then
-    FIELDS="\1\/\2\t\3\t\4\t\5\t\6\t\7\t\8"
+    FIELDS='\1\/\2\t\3\t\4\t\5\t\6\t\7\t\8'
 fi
 
 # access      222.255.28.000 - - [25/May/2014:06:54:27 +0200] "HEAD /siv/siv.zip HTTP/1.1" 200 294 "-" "-"

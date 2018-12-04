@@ -11,24 +11,24 @@
 
 PKGVERSION="0.1.2"
 PKGRELEASE="3"
-MAINTAINER="Viktor Szépe \\<viktor@szepe.net\\>"
+MAINTAINER='Viktor Szépe \<viktor@szepe.net\>'
 
 set -e
 
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
 
-sudo dpkg -i /opt/results/libsrs2-*_amd64.deb
-echo "courier-base courier-base/webadmin-configmode boolean false" | sudo debconf-set-selections -v
-sudo apt-get install -y git checkinstall build-essential autoconf2.64 automake1.11 colormake libpopt-dev courier-mta
+sudo -- dpkg -i /opt/results/libsrs2-*_amd64.deb
+echo "courier-base courier-base/webadmin-configmode boolean false" | sudo -- debconf-set-selections -v
+sudo -- apt-get install -y git checkinstall build-essential autoconf2.64 automake1.11 colormake libpopt-dev courier-mta
 
-git clone https://github.com/szepeviktor/couriersrs
+git clone "https://github.com/szepeviktor/couriersrs"
 cd couriersrs/
 
 ./configure --prefix=/usr --sysconfdir=/etc
 colormake
 
-echo "Forwarding messages in courier using SRS" > description-pak
+echo "Forwarding messages in courier using SRS" >description-pak
 # http://checkinstall.izto.org/docs/README
 sudo checkinstall -D -y --nodoc --strip --stripso --install=no \
     --pkgname="couriersrs" \
@@ -39,10 +39,10 @@ sudo checkinstall -D -y --nodoc --strip --stripso --install=no \
     --pkgsource="https://github.com/szepeviktor/couriersrs" \
     --pkglicense="GPL" \
     --maintainer="$MAINTAINER" \
-    --requires="libc6 \(\>= 2.15\), libsrs2-0 \(\>= 1.0.18\), courier-mta" \
+    --requires='libc6 \(\>= 2.15\), libsrs2-0 \(\>= 1.0.18\), courier-mta' \
     --pakdir="../"
 
 cd ../
 lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
-sudo cp -av ./*.deb /opt/results/
+sudo -- cp -av ./*.deb /opt/results/
 echo "OK."

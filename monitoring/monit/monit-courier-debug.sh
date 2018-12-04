@@ -30,21 +30,21 @@ Courier_dbg() {
     echo -------------------------
 
     date --rfc-3339=seconds
-    (sleep 1; echo -e "QUIT\r") | nc localhost 25
+    (sleep 1; echo -e 'QUIT\r') | nc localhost 25
     echo -------------------------
 
     date --rfc-3339=seconds
-    (sleep 1; echo -e "QUIT\r") | nc ::1 25
-    echo -------------------------
-
-    date --rfc-3339=seconds
-    # EDIT
-    (sleep 1; echo -e "QUIT\r") | nc "$IPV6" 25
+    (sleep 1; echo -e 'QUIT\r') | nc ::1 25
     echo -------------------------
 
     date --rfc-3339=seconds
     # EDIT
-    (sleep 1; echo -e "QUIT\r") | nc "$IP" 25 \
+    (sleep 1; echo -e 'QUIT\r') | nc "$IPV6" 25
+    echo -------------------------
+
+    date --rfc-3339=seconds
+    # EDIT
+    (sleep 1; echo -e 'QUIT\r') | nc "$IP" 25 \
         || /etc/init.d/courier-mta restart
     echo -------------------------
 
@@ -59,6 +59,6 @@ Courier_dbg() {
 
 Courier_dbg >>"$LOG" 2>&1
 
-cat "$LOG" | mail -s "[$(hostname -f)] courier debug (see /tmp/)" admin@szepe.net
+mail -s "[$(hostname -f)] courier debug (see /tmp/)" admin@szepe.net <"$LOG"
 
 # echo "12h" >respawnlo

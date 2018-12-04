@@ -35,16 +35,17 @@
 #     user@host1:~$ ls -lR | pipe.sh put
 #     user@host2:~$ pipe.sh get dir-list.txt
 
-Pipe_get() {
+Pipe_get()
+{
     local OUTPUT="$1"
 
     if [ -z "$OUTPUT" ]; then
         # Receive files
         nc --recv-only -vv "$PIPE_SERVER" "$PIPE_PORT" \
-            | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" | tar xv"$PIPE_COMPRESSION"
+            | aespipe -d -e AES256 -p 3 3<<<"$PIPE_PASSWORD" | tar xv"$PIPE_COMPRESSION"
     else
         # Receive stream and pipe to file
-        [ -d "$OUTPUT" ] && exit 4
+        test -d "$OUTPUT" && exit 4
 
         case "$PIPE_COMPRESSION" in
             z)
@@ -58,14 +59,15 @@ Pipe_get() {
                 ;;
         esac
         nc --recv-only -vv "$PIPE_SERVER" "$PIPE_PORT" \
-            | aespipe -d -e AES256 -p 3 3<<< "$PIPE_PASSWORD" | "$COMPRESS"
+            | aespipe -d -e AES256 -p 3 3<<<"$PIPE_PASSWORD" | "$COMPRESS"
     fi
 }
 
-Pipe_put() {
-    [ -z "$PIPE_SERVER" ] && exit 11
+Pipe_put()
+{
+    test -z "$PIPE_SERVER" && exit 11
 
-    if [ -z "$*" ] || [ "$*" = - ]; then
+    if [ -z "$*" ] || [ "$*" == "-" ]; then
         # Send stream
         case "$PIPE_COMPRESSION" in
             z)
@@ -78,30 +80,30 @@ Pipe_put() {
                 COMPRESS="unxz"
                 ;;
         esac
-        "$COMPRESS" | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
+        "$COMPRESS" | aespipe -e AES256 -p 3 3<<<"$PIPE_PASSWORD" \
             | nc -l -p "$PIPE_PORT" -q 1 --send-only -vv
     else
         # Send files
-        ls "$@" &> /dev/null || exit 12
-        tar -cv"$PIPE_COMPRESSION" "$@" | aespipe -e AES256 -p 3 3<<< "$PIPE_PASSWORD" \
+        ls "$@" &>/dev/null || exit 12
+        tar -cv"$PIPE_COMPRESSION" "$@" | aespipe -e AES256 -p 3 3<<<"$PIPE_PASSWORD" \
             | nc -l -p "$PIPE_PORT" -q 1 --send-only -vv
-
     fi
 }
 
-which nc aespipe xz gzip bzip2 &> /dev/null || exit 99
+which nc aespipe xz gzip bzip2 &>/dev/null || exit 99
 
 CONF="${HOME}/.pipe"
-[ -r "$CONF" ] && source "$CONF"
+# shellcheck disable=SC1090
+test -r "$CONF" && source "$CONF"
 
 # Port from config
-[ -z "$PIPE_PORT" ] && exit 1
+test -z "$PIPE_PORT" && exit 1
 # Compression from config
-[ -z "$PIPE_COMPRESSION" ] && exit 2
+test -z "$PIPE_COMPRESSION" && exit 2
 PIPE_COMPRESSION="${PIPE_COMPRESSION:0:1}"
-[ -z "${PIPE_COMPRESSION/[zjJ]}" ] || exit 3
+test -z "${PIPE_COMPRESSION/[zjJ]}" || exit 3
 # Password from config
-[ -z "$PIPE_PASSWORD" ] && exit 4
+test -z "$PIPE_PASSWORD" && exit 4
 
 CMD="$1"
 shift
@@ -118,11 +120,12 @@ case "$CMD" in
     *)
         # Usage
         echo "$0 get|put [<file(s)>]" 1>&2
-        exit
+        exit 0
         ;;
 esac
 
-if [ $? = 0 ]; then
+# shellcheck disable=SC2181
+if [ "$?" == 0 ]; then
     echo "Piping OK."
 else
     echo 'Piping ERROR!'

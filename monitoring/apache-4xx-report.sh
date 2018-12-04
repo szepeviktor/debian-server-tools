@@ -8,12 +8,9 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install mail-transport-agent apache2 ccze perl
-# DEPENDS       :/usr/local/bin/dategrep
+# DEPENDS       :apt-get install mail-transport-agent apache2 ccze perl dategrep
 # LOCATION      :/usr/local/sbin/apache-4xx-report.sh
 # CRON-DAILY    :/usr/local/sbin/apache-4xx-report.sh
-
-# Use package/dategrep-install.sh
 
 CCZE_CSS_URL="https://cdn.rawgit.com/szepeviktor/debian-server-tools/master/monitoring/apache-ccze.css"
 CCZE_BODY_BG="#fdf6e3"
@@ -103,7 +100,7 @@ while read -r CONFIG_FILE; do
     PROCESSED_LOGS+=( "$ACCESS_LOG" )
 
     # Log lines for 1 day from Debian cron.daily
-    nice /usr/local/bin/dategrep --format apache --multiline \
+    nice dategrep --format apache --multiline \
         --from "1 day ago at 06:25:00" --to "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
         | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"

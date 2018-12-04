@@ -53,7 +53,7 @@ Handle_error() {
             MSG="Unknown error ${RET}"
             ;;
     esac
-    echo "${MSG} (${ITEM})" >&2
+    echo "${MSG} (${ITEM})" 1>&2
 }
 
 Optimize_image() {
@@ -66,17 +66,17 @@ Optimize_image() {
     # JPEG
     if [ "$IMG" != "${IMG%.jpg}" ] || [ "$IMG" != "${IMG%.jpeg}" ]; then
         logger -t "$LOGGER_TAG" "JPEG:${IMG}"
-        jpeginfo --check "$IMG" > /dev/null || return 1
-        TMPIMG="$(tempfile)"
+        jpeginfo --check "$IMG" >/dev/null || return 1
+        TMPIMG="$(mktemp)"
         if ! nice ${JPEG_RECOMPRESS} --quiet "$IMG" "$TMPIMG"; then
-            rm -f "$TMPIMG" &> /dev/null
+            rm -f "$TMPIMG" &>/dev/null
             return 2
         fi
         if [ -f "$TMPIMG" ] && ! mv -f "$TMPIMG" "$IMG"; then
             rm -f "$TMPIMG"
             return 3
         fi
-        jpeginfo --check "$IMG" > /dev/null || return 4
+        jpeginfo --check "$IMG" >/dev/null || return 4
     fi
 
     # PNG
@@ -92,7 +92,7 @@ Optimize_image() {
 WP_CLI+=" --path=${WP_ROOT}"
 
 if ! ${WP_CLI} core is-installed; then
-    echo "This does not seem to be a WordPress install." >&2
+    echo "This does not seem to be a WordPress install." 1>&2
     exit 1
 fi
 

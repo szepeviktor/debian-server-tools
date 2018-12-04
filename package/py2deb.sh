@@ -14,20 +14,21 @@
 # DOCS          :https://pypi.python.org/pypi/stdeb
 # LOCATION      :/usr/local/bin/py2deb.sh
 
-# Install with Python3
+# Installation with Python3
 #     pip3 install --upgrade requests stdeb
 
 PACKAGE="$1"
 
-set -e
-
-Error() {
+Error()
+{
     local RET="$1"
 
     shift
     echo "ERROR: $*" 1>&2
     exit "$RET"
 }
+
+set -e
 
 if [ -z "$PACKAGE" ]; then
     Error 1 "Needs a package name"
@@ -40,6 +41,6 @@ fi
 
 # --no-python2-scripts=true means "exclude /bin scripts from Python2 package"
 python3 /usr/local/bin/py2dsc-deb --with-python2=true --with-python3=true --no-python2-scripts=true \
-    --suite $(lsb_release -cs) "${TARBALL:4}"
+    --suite "$(lsb_release -c -s)" "${TARBALL:4}"
 
 echo "OK."

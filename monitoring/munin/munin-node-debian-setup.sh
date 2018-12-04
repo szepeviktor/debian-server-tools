@@ -57,7 +57,7 @@ ENABLED_PLUGIN_PATH="/etc/munin/plugins"
 #         munin-node-configure --families auto|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# capabilities=.*autoconf"
 #     find fake/modified official auto-s:
 #         munin-node-configure --libdir /usr/local/share/munin/plugins --families auto
-          ?How to handle ?Exclude the one with same name in /usr/share/munin/plugins
+###       ?How to handle ?Exclude the one with same name in /usr/share/munin/plugins
 # - contrib
 #     detect autoconf
 #         cd /usr/share/munin/plugins
@@ -100,7 +100,8 @@ munin-node-configure --libdir /usr/local/share/munin/plugins --families auto,man
     --shell --debug 2>&1
 
 
-Munin_packages2plugins() {
+Munin_packages2plugins()
+{
 # Invent a "depends" mechanism for plugins: have a list: plugin->apt:depends|pip:depends...
     local -A PACKAGES=(
         [coreutils]="df:df_inode"
@@ -111,23 +112,17 @@ Munin_packages2plugins() {
         [munin]="munin_events" # needs logtail
         [rsyslog]="loggrep"
         [memcached]="memcached_"
-        []=""
-        []=""
-        []=""
-        []=""
-        []=""
-        []=""
-        []=""
-        []=""
-        []=""
-        []=""
     )
+
+    echo "${PACKAGES[@]}"
 }
 
-Install_plugin() {
+Install_plugin()
+{
     local PLUGIN_URL="$1"
-    local PLUGIN_NAME="$(basename "$PLUGIN_URL")"
+    local PLUGIN_NAME
 
+    PLUGIN_NAME="$(basename "$PLUGIN_URL")"
     [ -d "$PLUGIN_PATH_LOCAL" ] || mkdir -p "$PLUGIN_PATH_LOCAL"
 
     if ! wget -nv -O "${PLUGIN_PATH_LOCAL}/${PLUGIN_NAME}" "$PLUGIN_URL"; then
@@ -140,7 +135,8 @@ Install_plugin() {
     echo
 }
 
-Enable_plugin() {
+Enable_plugin()
+{
     local PLUGIN_NAME="$1"
     local PLUGIN_ALIAS="$2"
     local ACTUAL_PATH
@@ -162,17 +158,18 @@ Enable_plugin() {
     fi
 }
 
-munin_events() {
+munin_events()
+{
     # For munin master only
     [ -x /usr/bin/munin-cron ] || return 1
 
-    if ! which logtail2 &> /dev/null; then
+    if ! which logtail2 &>/dev/null; then
         echo "ERROR: logtail2 is missing  apt-get install -y logtail"
         return 1
     fi
 
     Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/munin_events"
-    cat > "${PLUGIN_CONF_DIR}/munin_events" <<MUNIN_EVENTS_CONF
+    cat >"${PLUGIN_CONF_DIR}/munin_events" <<MUNIN_EVENTS_CONF
 [munin_events]
 user munin
 env.munin_fatal_critical 0
@@ -182,12 +179,13 @@ env.munin_warning_critical 5
 MUNIN_EVENTS_CONF
 }
 
-munin_monit() {
+munin_monit()
+{
     [ -x /usr/bin/monit ] || return 1
 
 #    Install_plugin "https://github.com/munin-monitoring/contrib/raw/master/plugins/monit/monit_parser"
     Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/monit_parser"
-    cat > "${PLUGIN_CONF_DIR}/monit_parser" <<EOF
+    cat >"${PLUGIN_CONF_DIR}/monit_parser" <<EOF
 [monit_parser]
 user root
 EOF
@@ -195,31 +193,33 @@ EOF
 }
 
 
-munin_mysql() {
-    if ! dpkg -l libmodule-pluggable-perl libdbd-mysql-perl &> /dev/null; then
+munin_mysql()
+{
+    if ! dpkg -l libmodule-pluggable-perl libdbd-mysql-perl &>/dev/null; then
         echo "ERROR: libmodule-pluggable-perl or libdbd-mysql-perl missing," 1>&2
         echo "ERROR: apt-get install -y libmodule-pluggable-perl libdbd-mysql-perl" 1>&2
         return 2
     fi
 
     # Upstream: https://github.com/kjellm/munin-mysql
-    wget https://github.com/kjellm/munin-mysql/archive/master.zip
+    wget "https://github.com/kjellm/munin-mysql/archive/master.zip"
     unzip munin-mysql*.zip
-    cd munin-mysql-master/
+    cd munin-mysql-master/ || return 1
     touch "${PLUGIN_CONF_DIR}/mysql.conf"
     make install
 }
 
-munin_ipmi() {
-    which ipmitool &> /dev/null || return 1
+munin_ipmi()
+{
+    which ipmitool &>/dev/null || return 1
 
-    cat > "${PLUGIN_CONF_DIR}/ipmi" <<IPMI_PLG
+    cat >"${PLUGIN_CONF_DIR}/ipmi" <<IPMI_PLG
 [ipmi_sensor2_*]
 user root
 timeout 20
 IPMI_PLG
 
-    cat > "/etc/munin/ipmi" <<IPMI_CFG
+    cat >"/etc/munin/ipmi" <<IPMI_CFG
 # ipmitool sensor list
 rpm = CPU FAN, SYSTEM FAN
 volts = System 12V, System 5V, System 3.3V, CPU0 Vcore, System 1.25V, System 1.8V, System 1.2V
@@ -229,27 +229,30 @@ IPMI_CFG
     Install_plugin "https://github.com/szepeviktor/debian-server-tools/raw/master/monitoring/munin/ipmi_sensor2_"
 }
 
-munin_fail2ban() {
-    which fail2ban-client &> /dev/null || return 1
+munin_fail2ban()
+{
+    which fail2ban-client &>/dev/null || return 1
 
-    cat > "${PLUGIN_CONF_DIR}/fail2ban" <<EOF
+    cat >"${PLUGIN_CONF_DIR}/fail2ban" <<EOF
 [fail2ban]
 user root
 EOF
 }
 
-munin_loadtime() {
+munin_loadtime()
+{
     [ "$LOADTIME_URL" == "http://www.site.net/login" ] && return 1
     [ -z "$LOADTIME_URL" ] && return 1
 
-    cat > "${PLUGIN_CONF_DIR}/http_loadtime" <<EOF
+    cat >"${PLUGIN_CONF_DIR}/http_loadtime" <<EOF
 [http_loadtime]
 env.target ${LOADTIME_URL}
 EOF
 }
 
-munin_multiping() {
-    cat > "${PLUGIN_CONF_DIR}/multiping" <<EOF
+munin_multiping()
+{
+    cat >"${PLUGIN_CONF_DIR}/multiping" <<EOF
 [multiping]
 #     http://lg.net.telekom.hu/
 #     http://lg.invitel.net/
@@ -260,9 +263,12 @@ EOF
     Enable_plugin "multiping"
 }
 
-munin_startcom() {
+munin_startcom()
+{
+    local STARTCOM_IP
+
     # ocsp.startssl.com
-    local STARTCOM_IP="$(host -t A ocsp.startssl.com|sed -n -e '0,/^.* has address \(.\+\)$/s//\1/p')"
+    STARTCOM_IP="$(host -t A ocsp.startssl.com|sed -n -e '0,/^.* has address \(.\+\)$/s//\1/p')"
 
     if ! ping -c 3 "$STARTCOM_IP"; then
         echo "ERROR: No connection with StartCom" 1>&2
@@ -272,7 +278,8 @@ munin_startcom() {
     Enable_plugin "ping_" "ping_${STARTCOM_IP}"
 }
 
-munin_decix() {
+munin_decix()
+{
     local DECIX_IP="80.81.192.1"
 
     if ! ping -c 3 "$DECIX_IP"; then
@@ -284,12 +291,13 @@ munin_decix() {
     Enable_plugin "ping_" "ping_${DECIX_IP}"
 }
 
-munin_phpfpm() {
+munin_phpfpm()
+{
     # https://github.com/tjstein/php5-fpm-munin-plugins
 
     [ -x /usr/sbin/php5-fpm ] || return 1
 
-    if ! dpkg -l libwww-perl &> /dev/null; then
+    if ! dpkg -l libwww-perl &>/dev/null; then
         echo "ERROR: libwww-perl missing,  apt-get install -y libwww-perl" 1>&2
         return 2
     fi
@@ -312,7 +320,7 @@ munin_phpfpm() {
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_processes"
     Install_plugin "https://github.com/tjstein/php5-fpm-munin-plugins/raw/master/phpfpm_status"
 
-    cat > "${PLUGIN_CONF_DIR}/phpfpm" <<PHP_FPM
+    cat >"${PLUGIN_CONF_DIR}/phpfpm" <<PHP_FPM
 [phpfpm_*]
 env.phpbin php-fpm
 env.phppool ${PHPFPM_POOL}
@@ -326,18 +334,18 @@ PHP_FPM
     Require local
 </Location>
 RewriteEngine On
-RewriteRule "^/statusphp$" - [END]
+RewriteRule "^/statusphp\$" - [END]
 APACHE_CNF
 
     Enable_plugin "phpfpm_memory"
     # @TODO Rewrite PHP plugins: add autoconf
 }
 
-munin_apache() {
-
+munin_apache()
+{
     [ -x /usr/sbin/apache2 ] || return 1
 
-    cat > "${PLUGIN_CONF_DIR}/apache" <<EOF
+    cat >"${PLUGIN_CONF_DIR}/apache" <<EOF
 [apache_*]
 env.url ${APACHE_STATUS}
 EOF
@@ -366,7 +374,7 @@ apt-get install -y liblwp-useragent-determined-perl libcache-cache-perl \
     time logtail munin-node
 
 # Dependency
-which munin-node-configure &> /dev/null || exit 99
+which munin-node-configure &>/dev/null || exit 99
 
 # Monitor monitoring
 munin_events
@@ -433,8 +441,8 @@ echo "Hit Ctrl+D to continue setup"
 bash
 
 # Check plugins
-ls /etc/munin/plugins/ \
-    | while read P; do
+find /etc/munin/plugins/ -type f \
+    | while read -r P; do
         if ! munin-run "$P" config; then
             echo "ERROR ${P} config status=$?"
             sleep 4
@@ -445,7 +453,7 @@ ls /etc/munin/plugins/ \
     done
 
 # Allow munin server access
-echo -e "\nallow ^${MUNIN_MASTER_IP//./\\.}\$" >> /etc/munin/munin-node.conf
+printf '\nallow ^%s$\n' "${MUNIN_MASTER_IP//./\\.}" >>/etc/munin/munin-node.conf
 service munin-node restart
 
 # Add node to the **server**

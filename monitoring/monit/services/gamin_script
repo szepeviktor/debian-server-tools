@@ -16,16 +16,17 @@ set -e
 
 test -x "$TESTGAM"
 
-Gamin_test_virtual() {
+Gamin_test_virtual()
+{
     local GAMTMP
 
     GAMTMP="$(sudo -u "$IMAP_USER" -- mktemp)"
     # shellcheck disable=SC2064
     trap "sudo -u '$IMAP_USER' -- rm -f '$GAMTMP'" EXIT HUP QUIT PIPE TERM
 
-    echo -e "connect test\npending\nsleep 1\ndisconnect" > "$GAMTMP"
+    printf 'connect test\npending\nsleep 1\ndisconnect\n' >"$GAMTMP"
     sudo -u "$IMAP_USER" -- "$TESTGAM" "$GAMTMP" \
-        | grep -Fx "pending 0"
+        | grep -F -x 'pending 0'
 }
 
 # Expected output:
@@ -33,5 +34,5 @@ Gamin_test_virtual() {
 #     pending 0
 #     disconnected
 # Exit status of grep is 1 if not found
-"$TESTGAM" <(echo -e "connect test\npending\nsleep 1\ndisconnect") \
-    | grep -Fx "pending 0"
+"$TESTGAM" <(printf 'connect test\npending\nsleep 1\ndisconnect\n') \
+    | grep -F -x 'pending 0'

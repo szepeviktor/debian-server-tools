@@ -10,11 +10,11 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install util-linux
 # LOCATION      :/usr/local/sbin/mysql-backup.sh
-# CRON.D        :2 2	* * *	root	/usr/local/sbin/mysql-backup.sh
+# CRON.D        :2 2  * * *  root /usr/local/sbin/mysql-backup.sh
 # CONFIG        :~/.my.cnf [mysqldump] section
 
 BACKUP_TARGET="/root/backup/mysql-today.sql.gz"
 
 # CPU nice
 /usr/bin/mysqldump --all-databases --single-transaction --events \
-    | nice gzip -9 > "$BACKUP_TARGET"
+    | gzip -9 >"$BACKUP_TARGET"

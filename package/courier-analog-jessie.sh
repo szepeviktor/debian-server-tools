@@ -10,7 +10,7 @@
 PKGVERSION="0.17"
 PKGRELEASE="1"
 SOURCE_URL="https://sourceforge.net/projects/courier/files/analog/${PKGVERSION}/courier-analog-${PKGVERSION}.tar.bz2/download"
-MAINTAINER="Viktor Szépe \\<viktor@szepe.net\\>"
+MAINTAINER='Viktor Szépe \<viktor@szepe.net\>'
 
 export LC_ALL="C"
 export DEBIAN_FRONTEND="noninteractive"
@@ -26,7 +26,7 @@ if [ "$(dpkg-query --showformat="\${Status}" --show libcourier-unicode-dev 2> /d
     exit 1
 fi
 
-wget -nv -O- "$SOURCE_URL" | tar xj
+wget -nv -O- "$SOURCE_URL" | tar -xj
 
 (
     cd courier-analog-*
@@ -44,12 +44,12 @@ wget -nv -O- "$SOURCE_URL" | tar xj
         --pkgsource="$SOURCE_URL" \
         --pkglicense="GPL" \
         --maintainer="$MAINTAINER" \
-        --requires="libc6 \(\>= 2.19\), libcourier-unicode1" \
+        --requires='libc6 \(\>= 2.19\), libcourier-unicode1' \
         --pakdir="../"
 )
 
 lintian --display-info --display-experimental --pedantic --show-overrides ./*.deb || true
-sudo cp -av ./*.deb /opt/results/
+sudo -- cp -av ./*.deb /opt/results/
 
 echo "OK."
 

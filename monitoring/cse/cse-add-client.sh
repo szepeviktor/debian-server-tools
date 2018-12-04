@@ -28,6 +28,6 @@ OBSCURE_DIR="$(head -c 100 /dev/urandom | md5sum | cut -d " " -f 1)"
 echo "lftp -e 'mkdir ${OBSCURE_DIR}; cd ${OBSCURE_DIR}; put .htaccess; put cse.php;'"
 
 # Add new host to cse
-read -e -p "Enter server hostname: " HOSTNAME
-read -e -p "Enter URL: " -i "http://${HOSTNAME}/${OBSCURE_DIR}/cse.php" URL
-[ -x ./can-send-email.sh ] && ./can-send-email.sh add "$HOSTNAME" "$URL"
+read -r -e -p "Enter server hostname: " HOSTNAME
+read -r -e -p "Enter URL: " -i "http://${HOSTNAME}/${OBSCURE_DIR}/cse.php" URL
+test -x ./can-send-email.sh && ./can-send-email.sh add "$HOSTNAME" "$URL"

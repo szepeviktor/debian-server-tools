@@ -30,16 +30,16 @@
 
 JSON_URL="https://www.phpmyadmin.net/home_page/version.json"
 
-LATEST_VERSION="$(wget -q -O- "$JSON_URL"|sed -n '0,/^.*"version":\s*"\([^"]\+\)".*$/{s//\1/p}')" #'
+LATEST_VERSION="$(wget -q -O- "$JSON_URL" | sed -n -e '0,/^.*"version":\s*"\([^"]\+\)".*$/{s//\1/p}')"
 
 if ! wget -nv -N --content-disposition \
     "https://files.phpmyadmin.net/phpMyAdmin/${LATEST_VERSION}/phpMyAdmin-${LATEST_VERSION}-english.tar.xz"; then
-
-    echo "Download error $?" 1>&2
+    echo "Download error ${?}" 1>&2
     exit 1
 fi
 
 # Freshest tarball in the current directory
+# shellcheck disable=SC2012
 TARBALL="$(ls -t phpMyAdmin-*-english.tar.xz | tail -n 1)"
 
 if [ -z "$TARBALL" ]; then

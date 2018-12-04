@@ -14,7 +14,7 @@ Tripwire_fake() {
     #find "$(dirname "$DOCUMENT_ROOT")/hash/drupal" -type f | xargs cat | nice md5sum; exit
 
     # Core
-    CORE_HASH="$(find "$(dirname "$DOCUMENT_ROOT")/hash/drupal" -type f -printf './%P\0' | xargs -0 cat | nice md5sum)"
+    CORE_HASH="$(find "$(dirname "$DOCUMENT_ROOT")/hash/drupal" -type f -printf './%P\0' | xargs -0 cat | md5sum)"
     test "$CORE_HASH" == "${CURRENT_CORE_HASH}  -" \
         || echo "ERROR: '$(/usr/local/bin/drush core-status --fields=uri --field-labels=0|head -n1)' Core files"
 

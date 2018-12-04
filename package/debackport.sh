@@ -64,7 +64,8 @@ get_key()
     rm "$TEMP"
 }
 
-dch_msg() {
+dch_msg()
+{
     if [ -z "$SPECIAL_BACKPORT" ]; then
         dch --local "$BPOREV" --distribution "${CURRENTSUITE}-backports" "Rebuilt for ${CURRENTSUITE}."
     else
@@ -85,7 +86,7 @@ if [ -n "$SHORTBUILD" ]; then
 fi
 
 # Check for necessary packages
-which make rmadison dget lintian &> /dev/null \
+which make rmadison dget lintian &>/dev/null \
     || die 99 "apt-get install -y build-essential devscripts lintian dpkg-sig reprepro"
 
 # Get current Debian release
@@ -151,20 +152,20 @@ fi
 
 msg "Indicate backport revision number in the changelog"
 if ! dch_msg; then
-    die 20 "writing to changelog failed"
+    die 20 "Writing to changelog failed"
 fi
 
 if [ -z "$SHORTBUILD" ]; then
     msg "Test if we can successfully build the package"
     fakeroot debian/rules binary || die 10 "fakeroot build failed"
 
-    popd
+    popd || die 21 "Can't popd"
 
     msg "Clear fakeroot build and unpack sources again"
-    rm -rf "$DIR"
+    rm -r -f "$DIR"
     dget ${ALLOW_UNAUTH} -x "$DSCURL"
 
-    pushd "$DIR"
+    pushd "$DIR" || die 22 "Can't pushd"
 
     dpkg-checkbuilddeps || die 11 "still dependencies not fullfilled"
     dch_msg
@@ -177,7 +178,7 @@ if ! dpkg-buildpackage -b -us -uc; then
     die 12 "build failed"
 fi
 
-popd
+popd || die 23 "Can't popd at the end"
 
 ok_msg "Packages are ready."
 

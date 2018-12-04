@@ -33,10 +33,13 @@ dh-make-pecl --package-name "realpath-turbo" \
     realpath-turbo.tgz
 
 # Fix underscores in names
-cd php-realpath-turbo-2.0.0/
-sed -e 's|^PECL_PKG_NAME=realpath-turbo$|PECL_PKG_NAME=realpath_turbo|' \
-    -e 's|PECL_PKG_NAME)\.ini|PECL_PKG_REALNAME).ini|' -i debian/rules
-cat > debian/realpath-turbo.ini <<<"EOF"
+(
+    cd php-realpath-turbo-2.0.0/
+    sed -e 's|^PECL_PKG_NAME=realpath-turbo$|PECL_PKG_NAME=realpath_turbo|' \
+        -e 's|PECL_PKG_NAME)\.ini|PECL_PKG_REALNAME).ini|' \
+        -i debian/rules
+
+    cat > debian/realpath-turbo.ini <<"EOF"
 ; configuration for realpath_turbo module
 ; priority=20
 extension=realpath_turbo.so
@@ -58,8 +61,8 @@ realpath_turbo.disable_dangerous_functions = 1
 open_basedir = ""
 EOF
 
-# Build the package
-dpkg-buildpackage -uc -us -B
-cd -
+    # Build the package
+    dpkg-buildpackage -uc -us -B
+)
 
 echo "OK."

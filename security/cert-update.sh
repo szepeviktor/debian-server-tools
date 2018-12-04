@@ -239,9 +239,9 @@ Nginx()
     chmod 0640 "$NGINX_PUB" "$NGINX_PRIV" || Die 75 "nginx perms"
 
     # Check config
-    if  grep -q "^\s*ssl_certificate\s\+${NGINX_PUB}\$" "$NGINX_VHOST_CONFIG" \
-        && grep -q "^\s*ssl_certificate_key\s\+${NGINX_PRIV}\$" "$NGINX_VHOST_CONFIG" \
-        && grep -q "^\s*ssl_dhparam\s\+${NGINX_DHPARAM}\$" "$NGINX_VHOST_CONFIG"; then
+    if  grep -q "^\\s*ssl_certificate\\s\\+${NGINX_PUB}\$" "$NGINX_VHOST_CONFIG" \
+        && grep -q "^\\s*ssl_certificate_key\\s\\+${NGINX_PRIV}\$" "$NGINX_VHOST_CONFIG" \
+        && grep -q "^\\s*ssl_dhparam\\s\\+${NGINX_DHPARAM}\$" "$NGINX_VHOST_CONFIG"; then
 
         nginx -t && service nginx restart
 
@@ -270,9 +270,9 @@ Proftpd()
     chmod 0600 "$PROFTPD_PUB" "$PROFTPD_PRIV" "$PROFTPD_INT" || Die 35 "proftpd perms"
 
     # Check config
-    if  grep -q "^TLSRSACertificateFile\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
-        && grep -q "^TLSRSACertificateKeyFile\s*${PROFTPD_PRIV}\$" /etc/proftpd/tls.conf \
-        && grep -q "^TLSCACertificateFile\s*${PROFTPD_INT}\$" /etc/proftpd/tls.conf; then
+    if  grep -q "^TLSRSACertificateFile\\s*${PROFTPD_PUB}\$" /etc/proftpd/tls.conf \
+        && grep -q "^TLSRSACertificateKeyFile\\s*${PROFTPD_PRIV}\$" /etc/proftpd/tls.conf \
+        && grep -q "^TLSCACertificateFile\\s*${PROFTPD_INT}\$" /etc/proftpd/tls.conf; then
 
         service proftpd restart
 
@@ -300,8 +300,8 @@ Dovecot()
     chmod 0600 "$DOVECOT_PUB" "$DOVECOT_PRIV" || Die 54 "dovecot perms"
 
     # Check config files for ssl_cert, ssl_key
-    if grep -q "^ssl_cert\s*=\s*<${DOVECOT_PUB}\$" /etc/dovecot/conf.d/10-ssl.conf \
-        && grep -q "^ssl_key\s*=\s*<${DOVECOT_PRIV}\$" /etc/dovecot/conf.d/10-ssl.conf; then
+    if grep -q "^ssl_cert\\s*=\\s*<${DOVECOT_PUB}\$" /etc/dovecot/conf.d/10-ssl.conf \
+        && grep -q "^ssl_key\\s*=\\s*<${DOVECOT_PRIV}\$" /etc/dovecot/conf.d/10-ssl.conf; then
 
         service dovecot restart
 

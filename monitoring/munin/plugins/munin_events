@@ -53,6 +53,7 @@ GPLv2
 ##############################
 # Includes
 
+# shellcheck disable=SC1090
 source "${MUNIN_LIBDIR}/plugins/plugin.sh"
 
 ##############################
@@ -61,16 +62,14 @@ source "${MUNIN_LIBDIR}/plugins/plugin.sh"
 muninupdate=${muninupdate:-/var/log/munin/munin-update.log}
 logtail_bin=${logtail_bin:-/usr/sbin/logtail2}
 
-##############################
-# Functions
-
 # Print one value
-Do_value() {
+Do_value()
+{
     local FIELD="$1"
     local EVENT_LABEL="$2"
     local EVENT_COUNT
 
-    EVENT_COUNT="$("$logtail_bin" -t "$muninupdate" 2> /dev/null | grep -c "^[0-9/: ]\{19\} \[${EVENT_LABEL}\]")"
+    EVENT_COUNT="$("$logtail_bin" -t "$muninupdate" 2>/dev/null | grep -c "^[0-9/: ]\\{19\\} \\[${EVENT_LABEL}\\]")"
     if ! [ -z "${EVENT_COUNT//[0-9]/}" ]; then
         echo "Cannot determine event count" 1>&2
         exit 10
@@ -80,18 +79,20 @@ Do_value() {
 }
 
 # Print the munin values
-Values() {
+Values()
+{
     Do_value 'munin_info' 'INFO'
     Do_value 'munin_warning' 'WARNING'
     Do_value 'munin_error' 'ERROR'
     Do_value 'munin_fatal' 'FATAL'
     # Set offset
-    "$logtail_bin" "$muninupdate" &> /dev/null
+    "$logtail_bin" "$muninupdate" &>/dev/null
     chmod 640 "${muninupdate}.offset"
 }
 
 # Print the munin config
-Config() {
+Config()
+{
     echo 'graph_title Munin update events groupped by log levels'
     echo 'graph_info This graph shows INFO, WARNING, ERROR and FATAL events'
     echo 'graph_category munin'
@@ -119,17 +120,15 @@ Config() {
 }
 
 # Print autoconfiguration hint
-Autoconf() {
-    if [ -r "${muninupdate}" ] && [ -x "$logtail_bin" ]; then
+Autoconf()
+{
+    if [ -r "$muninupdate" ] && [ -x "$logtail_bin" ]; then
         echo "yes"
     else
         echo "missing (${muninupdate} or (${logtail_bin})"
     fi
     exit
 }
-
-##############################
-# Main
 
 case "$1" in
     config)

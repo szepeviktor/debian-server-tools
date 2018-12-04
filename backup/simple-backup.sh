@@ -21,14 +21,16 @@ DOC_ROOT="/home/web-user"
 WP_SITE="site"
 HCHK_UUID="aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"
 
-Echo() {
+Echo()
+{
     if [ -t 0 ]; then
         echo "$*"
     fi
     return 0
 }
 
-Error() {
+Error()
+{
     echo "ERROR: ${*}" 1>&2
     exit 10
 }
@@ -64,8 +66,8 @@ nice tar --exclude="$BACKUP_DIR" --exclude=/etc --exclude=/run --exclude=/usr/lo
 Echo "/etc + debconf"
 nice tar --exclude=/etc/.git \
     --one-file-system -cPzf "${CURRENT_DAY}/etc.tar.gz" /etc/ || Error "etc"
-debconf-get-selections > "${CURRENT_DAY}/debconf.selections"
-dpkg-query --show > "${CURRENT_DAY}/packages.selections"
+debconf-get-selections >"${CURRENT_DAY}/debconf.selections"
+dpkg-query --show >"${CURRENT_DAY}/packages.selections"
 
 Echo "/usr/local"
 nice tar --exclude=/usr/local/src \
@@ -75,27 +77,29 @@ Echo "Email"
 nice tar --one-file-system -czPf "${CURRENT_DAY}/email.tar.gz" /var/mail/ || Error "Email"
 
 Echo "MySQL"
-if which innobackupex &> /dev/null; then
+if which innobackupex &>/dev/null; then
     # Full backup first
     #     innobackupex "sql"
     nice innobackupex --incremental ./sql --incremental-basedir="sql/${INNOBCK_FULL_BACKUP}" \
         || Error "SQL"
 else
     nice /usr/bin/mysqldump --all-databases --single-transaction --events \
-        | nice gzip -1 > "${CURRENT_DAY}/mysql-alldbs.sql.gz" || Error "SQL dump"
+        | gzip -1 >"${CURRENT_DAY}/mysql-alldbs.sql.gz" || Error "SQL dump"
 fi
 
 Echo "WordPress"
 nice tar --one-file-system -cPzf "${CURRENT_DAY}/${WP_SITE}-wp-files.tar.gz" "$DOC_ROOT" || Error "WP files"
-{ cd "$DOC_ROOT"; sudo -u "$(stat -c %U .)" -- /usr/local/bin/wp db dump -; } \
-    | nice gzip -1 > "${CURRENT_DAY}/${WP_SITE}-wp.sql.gz" || Error "WP db"
+{
+    cd "$DOC_ROOT"
+    sudo -u "$(stat -c %U .)" -- /usr/local/bin/wp db dump -
+} | gzip -1 >"${CURRENT_DAY}/${WP_SITE}-wp.sql.gz" || Error "WP db"
 
 cd /
 
 #Echo "umount"
 #umount "$BACKUP_DIR"
 
-wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx "OK"
+wget -q -t 3 -O- "https://hchk.io/${HCHK_UUID}" | grep -qFx 'OK'
 
 logger -t "simple-backup" "Finished. $*"
 

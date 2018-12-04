@@ -19,17 +19,22 @@ MODE="auth"
 SMTP_PORT="465"
 STARTTLS=""
 
-Get_version() {
+Get_version()
+{
     local FILE="$1"
-    local VER="$(grep -m1 "^# VERSION\s*:" "$FILE" | cut -d":" -f2-)"
+    local VER
+
+    VER="$(grep -m 1 '^# VERSION\s*:' "$FILE" | cut -d ":" -f 2-)"
 
     if [ -z "$VER" ]; then
         VER="(unknown)"
     fi
+
     echo "$VER"
 }
 
-Usage() {
+Usage()
+{
     cat <<EOF
 smtp-auth v$(Get_version "$0")
 Usage: $(basename "$0") <OPTION> ...
@@ -47,7 +52,8 @@ EOF
     exit 0
 }
 
-Require_all(){
+Require_all()
+{
     local SMTP_HOST="$1"
     local SMTP_USER="$2"
     local SMTP_PASS="$3"
@@ -58,7 +64,8 @@ Require_all(){
     fi
 }
 
-Smtp_auth() {
+Smtp_auth()
+{
     local SMTP_HOST="$1"
 
     if [ -z "$SMTP_HOST" ]; then
@@ -71,10 +78,11 @@ Smtp_auth() {
         echo "EHLO $(hostname -f)"; sleep 2
         echo "QUIT"
     } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" \
-        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null | grep "^250-AUTH"
+        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2>/dev/null | grep '^250-AUTH'
 }
 
-Smtp_plain() {
+Smtp_plain()
+{
     local SMTP_HOST="$1"
     local SMTP_USER="$2"
     local SMTP_PASS="$3"
@@ -85,13 +93,14 @@ Smtp_plain() {
         sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
         # It is also possible to send the username and password, together with the AUTH PLAIN command, as a single line.
-        echo "AUTH PLAIN $(echo -ne "\x00${SMTP_USER}\x00${SMTP_PASS}" | base64 --wrap=0)"; sleep 2
+        echo "AUTH PLAIN $(echo -ne "\\x00${SMTP_USER}\\x00${SMTP_PASS}" | base64 --wrap=0)"; sleep 2
         echo "QUIT"
     } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" \
-        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null | grep "^235 "
+        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2>/dev/null | grep '^235 '
 }
 
-Smtp_login() {
+Smtp_login()
+{
     local SMTP_HOST="$1"
     local SMTP_USER="$2"
     local SMTP_PASS="$3"
@@ -106,10 +115,11 @@ Smtp_login() {
         echo -n "$SMTP_PASS" | base64 --wrap=0; echo; sleep 2
         echo "QUIT"
     } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" \
-        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null | grep "^235 "
+        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2>/dev/null | grep '^235 '
 }
 
-Python_cram_md5() {
+Python_cram_md5()
+{
     local SMTP_USER="$1"
     local SMTP_PASS="$2"
     local SMTP_CHALLANGE="$3"
@@ -129,7 +139,8 @@ EOF
 }
 
 
-Smtp_md5() {
+Smtp_md5()
+{
 # @FIXME expect?
 exit 100
 
@@ -146,12 +157,12 @@ exit 100
         Python_cram_md5 "$SMTP_USER" "$SMTP_PASS" "${FIXME_PREVIOUS_ANWSER}"; sleep 2
         echo "QUIT"
     } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" \
-        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2> /dev/null
+        -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2>/dev/null
 }
 
-which openssl &> /dev/null || exit 99
+which openssl &>/dev/null || exit 99
 
-[ -z "$*" ] && Usage
+test -z "$*" && Usage
 
 while getopts ":aPLCs:p:u:w:h" OPTION; do
     case "$OPTION" in
@@ -172,7 +183,7 @@ while getopts ":aPLCs:p:u:w:h" OPTION; do
             ;;
         p) # Port
             SMTP_PORT="$OPTARG"
-            [ "$SMTP_PORT" == 465 ] || STARTTLS="-starttls smtp"
+            test "$SMTP_PORT" == 465 || STARTTLS="-starttls smtp"
             ;;
         u) # User name
             SMTP_USER="$OPTARG"

@@ -31,21 +31,21 @@ iptables -A INPUT -p tcp -m multiport --dports 80,443 -i eth0 -m state --state N
     -m recent --update --seconds "$SECS" --hitcount "$HITS" -j DROP
 
 
-monitor:
+# monitor:
 
 #!/bin/bash
 
 LOGFILE="/var/log/messages"
 
 grep "^$(LC_ALL=C date --date="1 day ago" "+%b %e ")" "$LOGFILE" \
-    | grep -o "\bHTTP flood: .*" \
-    | cut -d' ' -f6 | uniq -c \
-    | grep -v "^\s\+[0-9] " \
-    | mail -E S from="apache floods <root>" -s "[ad.min] Apache floods on $(hostname -f)" webmaster
-
-
-high:
-
-grep -o "\bHTTP flood: .*" /var/log/messages \
+    | grep -o '\bHTTP flood: .*' \
     | cut -d " " -f 6 | uniq -c \
-    | grep -v "^\s\+[0-9]\{1,2\} "
+    | grep -v '^\s\+[0-9] ' \
+    | mail -E -S from="apache floods <root>" -s "[ad.min] Apache floods on $(hostname -f)" webmaster
+
+
+# high:
+
+grep -o '\bHTTP flood: .*' /var/log/messages \
+    | cut -d " " -f 6 | uniq -c \
+    | grep -E -v '^\s+[0-9]{1,2} '

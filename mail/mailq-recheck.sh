@@ -2,8 +2,8 @@
 #
 # Recheck messages in Courier mail queue.
 #
-# VERSION       :0.2.1
-# DATE          :2015-04-17
+# VERSION       :0.2.2
+# DATE          :2018-11-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -44,7 +44,7 @@ dnsquery() {
     fi
 
     # Last record only, first may be a CNAME
-    IP="$(LC_ALL=C host -W 2 -t "$TYPE" "$HOST" 2> /dev/null | ${RR_SORT} | tail -n 1)"
+    IP="$(LC_ALL=C host -W 2 -t "$TYPE" "$HOST" 2>/dev/null | ${RR_SORT} | tail -n 1)"
 
     # Not found
     if [ -z "$IP" ] || [ "$IP" != "${IP/ not found:/}" ] || [ "$IP" != "${IP/ has no /}" ]; then
@@ -55,7 +55,7 @@ dnsquery() {
         A)
             ANSWER="${IP#* has address }"
             ANSWER="${ANSWER#* has IPv4 address }"
-            if grep -qE "$IP_REGEX" <<< "$ANSWER"; then
+            if grep -qE "$IP_REGEX" <<<"$ANSWER"; then
                 echo "$ANSWER"
             else
                 # Invalid IP
@@ -64,7 +64,7 @@ dnsquery() {
         ;;
         MX)
             ANSWER="${IP#* mail is handled by *[0-9] }"
-            if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
+            if grep -qE "$HOST_REGEX" <<<"$ANSWER"; then
                 echo "$ANSWER"
             else
                 # Invalid mail exchanger
@@ -74,7 +74,7 @@ dnsquery() {
         PTR)
             ANSWER="${IP#* domain name pointer }"
             ANSWER="${ANSWER#* points to }"
-            if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
+            if grep -qE "$HOST_REGEX" <<<"$ANSWER"; then
                 echo "$ANSWER"
             else
                 # Invalid hostname
@@ -84,7 +84,7 @@ dnsquery() {
         TXT)
             ANSWER="${IP#* descriptive text }"
             ANSWER="${ANSWER#* description is }"
-            if grep -qE "$HOST_REGEX" <<< "$ANSWER"; then
+            if grep -qE "$HOST_REGEX" <<<"$ANSWER"; then
                 echo "$ANSWER"
             else
                 # Invalid descriptive text
@@ -102,10 +102,10 @@ dnsquery() {
 declare -a BAD_DOMAIN
 
 # list all recipient addresses
-mailq -sort -batch | head -n -1 | cut -d';' -f 7 \
-    | sort | uniq > "$QUEUE"
+mailq -sort -batch | head -n -1 | cut -d ";" -f 7 \
+    | sort -u >"$QUEUE"
 
-while read EMAIL; do
+while read -r EMAIL; do
     # email domain
     DOMAIN="${EMAIL#*@}"
 
@@ -113,8 +113,8 @@ while read EMAIL; do
     for DOM in "${BAD_DOMAIN[@]}"; do
         if [ "$DOMAIN" == "$DOM" ]; then
             echo "Already bad: $DOMAIN"
-            echo --- >&2
-            echo --- >&2
+            echo "---" 1>&2
+            echo "---" 1>&2
             continue 2
         fi
     done
@@ -124,49 +124,46 @@ while read EMAIL; do
     MXRET=$?
     if [ $MXRET != 0 ]; then
         BAD_DOMAIN+=( "$DOMAIN" )
-        host -v -W 2 -t MX "$DOMAIN" >&2
+        host -v -W 2 -t MX "$DOMAIN" 1>&2
         echo "NO MX for $DOMAIN ($MXL)"
-        echo --- >&2
-        echo --- >&2
+        echo "---" 1>&2
+        echo "---" 1>&2
         continue
     fi
 
     # A record of MX exists?
-    MXLA="$(dnsquery A "$MXL")"
-    if [ $? != 0 ]; then
+    if ! MXLA="$(dnsquery A "$MXL")"; then
         echo "NO A for MX ($MXLA)"
-        echo --- >&2
-        echo --- >&2
+        echo "---" 1>&2
+        echo "---" 1>&2
         continue
     fi
 
     # SMTP answer?
-    ( sleep 2; echo "EHLO $(hostname -f)"; sleep 1; echo "QUIT" ) \
-        | nc -w 5 "$MXL" 25
-    if [ $? != 0 ]; then
+    if ! ( sleep 2; echo "EHLO $(hostname -f)"; sleep 1; echo "QUIT" ) | nc -w 5 "$MXL" 25; then
         BAD_DOMAIN+=( "$DOMAIN" )
         echo "NO SMTP connection for $DOMAIN"
-        echo --- >&2
-        echo --- >&2
+        echo "---" 1>&2
+        echo "---" 1>&2
         continue
     fi
 
     # OK!
-    echo "$EMAIL" >> "$WORKS"
+    echo "$EMAIL" >>"$WORKS"
     echo "--OK-- $DOMAIN - $MXL ($MXRET)"
     echo
-done < "$QUEUE"
+done <"$QUEUE"
 
 # listing commands to clean mailq
 for DOM in "${BAD_DOMAIN[@]}"; do
     echo "# fail:  $DOM"
-    echo "$DOM" >> "$BAD"
-    mailq -sort -batch | head -n -1 | grep "@${DOM};$" | cut -d';' -f 2 \
-        | xargs -L1 echo "sudo -u daemon -- cancelmsg "
+    echo "$DOM" >>"$BAD"
+    mailq -sort -batch | head -n -1 | grep "@${DOM};\$" | cut -d ";" -f 2 \
+        | xargs -L 1 echo "sudo -u courier -- cancelmsg "
 done
 
-echo "# examine reported errors"
+echo "# Examine reported errors"
 echo "cd /var/lib/courier/msgq/ && echo grep -m 2 '^I0 R ' */*"
 
-echo "# cancel ALL"
-echo "mailq -sort -batch|cut -d';' -f2|head -n -1|xargs -L1 sudo -u daemon -- cancelmsg"
+echo "# Cancel ALL"
+echo "mailq -sort -batch | cut -d ';' -f 2 | head -n -1 | xargs -L 1 sudo -u courier -- cancelmsg"

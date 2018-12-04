@@ -2,8 +2,8 @@
 #
 # Report TOP 10 mail folders by message cound and by size.
 #
-# VERSION       :0.2.1
-# DATE          :2015-10-16
+# VERSION       :0.2.2
+# DATE          :2018-12-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -18,34 +18,36 @@
 
 MAILROOT="/var/mail"
 
-Exec_on_folders() {
+Exec_on_folders()
+{
     find "$MAILROOT" -type d -name "cur" -exec bash -c "$1" ";"
 }
 
-Top_579() {
+Top_579()
+{
     #          -f user,folder,size
     cut -d "/" -f 5,7,9 \
         | sort -t "/" -n -r -k 3 \
         | head \
-        | sed "s;/;\t/ ;g"
+        | sed -e 's#/#\t/ #g'
 }
 
 {
-    echo -e "TOP 10 mail folders by message count\n"
+    printf 'TOP 10 mail folders by message count\n\n'
     Exec_on_folders "echo -n '{}/'; ls -f '{}' | wc -l" \
         | Top_579
 
-    echo -e "\n---------------\n"
+    printf '\n---------------\n\n'
 
-    echo -e "TOP 10 mail folders by size\n"
+    printf 'TOP 10 mail folders by size\n\n'
     Exec_on_folders "echo -n '{}/'; du -s --block-size=M '{}' | cut -f 1" \
         | Top_579
 
-    echo -e "\n---------------\n"
+    printf '\n---------------\n\n'
 
-    echo -e "All mail folders\n"
+    printf 'All mail folders\n\n'
     du -s --block-size=G "$MAILROOT"
 
-} | mail -S from="top 10 mail folders <root>" -s "[admin] TOP 10 mail folders on $(hostname -f)" root
+} | s-nail -S from="top 10 mail folders <root>" -s "[admin] TOP 10 mail folders on $(hostname -f)" root
 
 exit 0

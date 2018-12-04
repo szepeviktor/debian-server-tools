@@ -57,16 +57,27 @@ Check_config() {
 
 set -e
 
+# shellcheck disable=SC1091
 source courier-check-authdaemonrc
+# shellcheck disable=SC1091
 source courier-check-courierd-public
+# shellcheck disable=SC1091
 source courier-check-esmtpd-public
+# shellcheck disable=SC1091
 source courier-check-esmtpd-msa-public
+# shellcheck disable=SC1091
 source courier-check-esmtpd-ssl-public
+# shellcheck disable=SC1091
 source courier-check-imapd
+# shellcheck disable=SC1091
 source courier-check-imapd-ssl-public
+# shellcheck disable=SC1091
 #source courier-check-courierd-satellite
+# shellcheck disable=SC1091
 #source courier-check-esmtpd-satellite
+# shellcheck disable=SC1091
 #source courier-check-esmtpd-msa-satellite
+# shellcheck disable=SC1091
 #source courier-check-esmtpd-ssl-satellite
 
 Check_user
@@ -75,37 +86,44 @@ Check_config_perms
 # Authentication
 echo "--- authdaemonrc ---"
 ( ! grep '^\s' /etc/courier/authdaemonrc )
+# shellcheck disable=SC1091
 ( source /etc/courier/authdaemonrc; Check_config "$COURIER_AUTHDAEMONRC_DEFAULTS"; )
 
 # Outbound
 echo "--- courierd ---"
 ( ! grep '^\s' /etc/courier/courierd )
+# shellcheck disable=SC1091
 ( source /etc/courier/courierd; Check_config "$COURIER_COURIERD_DEFAULTS"; )
 
 # Inbound
 echo "--- esmtpd ---"
 ( ! grep '^\s' /etc/courier/esmtpd )
+# shellcheck disable=SC1091
 ( source /etc/courier/esmtpd; Check_config "$COURIER_ESMTPD_DEFAULTS"; )
 
 echo "--- esmtpd-msa ---"
 ( ! grep '^\s' /etc/courier/esmtpd-msa )
+# shellcheck disable=SC1091
 ( source /etc/courier/esmtpd; source /etc/courier/esmtpd-msa; Check_config "$COURIER_ESMTPD_MSA_DEFAULTS"; )
 
 if [ -f /etc/courier/esmtpd-ssl ]; then
     echo "--- esmtpd-ssl ---"
     ( ! grep '^\s' /etc/courier/esmtpd-ssl )
+    # shellcheck disable=SC1091
     ( source /etc/courier/esmtpd; source /etc/courier/esmtpd-ssl; Check_config "$COURIER_ESMTPD_SSL_DEFAULTS"; )
 fi
 
 if [ -f /etc/courier/imapd ]; then
     echo "--- imapd ---"
     ( ! grep '^\s' /etc/courier/imapd )
+    # shellcheck disable=SC1091
     ( source /etc/courier/imapd-ssl; source /etc/courier/imapd; Check_config "$COURIER_IMAPD_DEFAULTS"; )
 fi
 
 if [ -f /etc/courier/imapd-ssl ]; then
     echo "--- imapd-ssl ---"
     ( ! grep '^\s' /etc/courier/imapd-ssl )
+    # shellcheck disable=SC1091
     ( source /etc/courier/imapd; source /etc/courier/imapd-ssl; Check_config "$COURIER_IMAPD_SSL_DEFAULTS"; )
 fi
 

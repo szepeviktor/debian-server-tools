@@ -18,6 +18,7 @@
 # Work-around for pool.ntp.org DNS failures
 Get_pool_ips() {
     local -i SERVER_INDEX="0"
+    # shellcheck disable=SC2206
     local -a SERVERS=( ${NTPSERVERS} 0.europe.pool.ntp.org )
     local A_RECORDS
     local -A IPS
@@ -44,9 +45,11 @@ Get_pool_ips() {
 set -e
 
 if [ -r /etc/default/ntpdate ]; then
+    # shellcheck disable=SC1091
     source /etc/default/ntpdate
 fi
 
+# shellcheck disable=SC2086,SC2046
 /usr/sbin/ntpdate -s ${NTPOPTIONS} $(Get_pool_ips)
 
 exit 0

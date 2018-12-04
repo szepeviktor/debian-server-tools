@@ -34,7 +34,8 @@ ALERT_ADDRESS="root"
 # Example: SILENCED_ATTRS=( /dev/sda:200=1 /dev/sdb:199=10 )
 SILENCED_ATTRS=( )
 
-Smart_error() {
+Smart_error()
+{
     local MESSAGE="$1"
     local LEVEL="${2:-ERROR}"
 
@@ -48,14 +49,17 @@ Smart_error() {
     fi
 }
 
-Check_zero() {
+Check_zero()
+{
     local SMART_ATTRS="$1"
     local ATTR="$2"
+    local VALUE
+
     # Raw value is in the 10th column
-    local VALUE="$(grep "^${ATTR}\b" <<< "$SMART_ATTRS" | cut -d " " -f 10)"
+    VALUE="$(grep "^${ATTR}\\b" <<<"$SMART_ATTRS" | cut -d " " -f 10)"
 
     # Not found
-    [ -z "$VALUE" ] && return 2
+    test -z "$VALUE" && return 2
 
     # OK
     if [ "$VALUE" == 0 ]; then
@@ -66,15 +70,15 @@ Check_zero() {
     return 1
 }
 
-which smartctl mail &> /dev/null || exit 99
+which smartctl mail &>/dev/null || exit 99
 
 # /dev/sd* and /dev/hd*
 # shellcheck disable=SC2013
-for DRIVE in $(grep -o "\b[hs]d[a-z]\$" /proc/partitions); do
+for DRIVE in $(grep -o '\b[hs]d[a-z]$' /proc/partitions); do
     DEVICE="/dev/${DRIVE}"
 
-    if ! smartctl --info "$DEVICE" &> /dev/null; then
-        Smart_error "Cannot read SMART data from (${DEVICE}), exit status: $?" "CRITICAL"
+    if ! smartctl --info "$DEVICE" &>/dev/null; then
+        Smart_error "Cannot read SMART data from (${DEVICE}), exit status: ${?}" "CRITICAL"
         continue
     fi
 
@@ -86,19 +90,19 @@ for DRIVE in $(grep -o "\b[hs]d[a-z]\$" /proc/partitions); do
         fi
 
         NORMAL_ATTR_VALUE="zero"
-        ATTR_VALUE="$(grep "^${ATTR}\b" <<< "$SMART_ATTRS" | cut -d' ' -f10)"
+        ATTR_VALUE="$(grep "^${ATTR}\\b" <<<"$SMART_ATTRS" | cut -d " " -f 10)"
 
         # Skip on silenced attributes
-        if [ ${#SILENCED_ATTRS[@]} -ne 0 ]; then
+        if [ "${#SILENCED_ATTRS[@]}" != 0 ]; then
             for SILENCED in "${SILENCED_ATTRS[@]}"; do
                 # Change default value to silenced value
-                [ "${DEVICE}:${ATTR}" == "${SILENCED%=*}" ] && NORMAL_ATTR_VALUE="${SILENCED##*=}"
+                test "${DEVICE}:${ATTR}" == "${SILENCED%=*}" && NORMAL_ATTR_VALUE="${SILENCED##*=}"
                 # Skip error reporting on match
-                [ "${DEVICE}:${ATTR}=${ATTR_VALUE}" == "$SILENCED" ] && continue 2
+                test "${DEVICE}:${ATTR}=${ATTR_VALUE}" == "$SILENCED" && continue 2
             done
         fi
 
-        ATTR_NAME="$(grep -o "^${ATTR} \S\+" <<< "$SMART_ATTRS")"
+        ATTR_NAME="$(grep -o "^${ATTR} \\S\\+" <<<"$SMART_ATTRS")"
         Smart_error "Attribute ${ATTR_NAME} on ${DEVICE} changed from ${NORMAL_ATTR_VALUE} to ${ATTR_VALUE}" "WARNING"
     done
 done

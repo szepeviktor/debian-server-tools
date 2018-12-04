@@ -7,19 +7,19 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
+# SOURCE        :https://www.openssl.org/source/
 # BASH-VERSION  :4.2+
 
 # Revision history
 #
 # 1.0.2k  2017-01-26
 # 1.0.1j  2014-10-15
-#
-# https://www.openssl.org/source/
 
 OPENSSL_CURRENT="1.0.2k"
 OPENSSL_PREFIX="$(realpath .)/openssl-root"
 
-Openssl_install() {
+Openssl_install()
+{
     # Full install: sudo make install
     # Software without documentation: sudo make install_sw
     mkdir "$OPENSSL_PREFIX"
@@ -28,7 +28,7 @@ Openssl_install() {
 
 set -e
 
-sudo apt-get install -qq zlib1g-dev
+sudo -- apt-get install -qq zlib1g-dev
 
 wget -nv -O - "https://openssl.org/source/openssl-${OPENSSL_CURRENT}.tar.gz" | tar -xz
 cd "openssl-${OPENSSL_CURRENT}" || exit 10
@@ -37,7 +37,7 @@ cd "openssl-${OPENSSL_CURRENT}" || exit 10
 # Explanation in ./INSTALL @ Configuration Options
 ./config --prefix=/usr zlib-dynamic --openssldir=/etc/ssl shared \
     && make && make test && Openssl_install
-echo -e "\nexit code: $?\n" 1>&2
+printf '\nexit code: %s\n' "$?" 1>&2
 
 find "${OPENSSL_PREFIX}/usr/bin/" -type f
 echo

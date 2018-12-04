@@ -35,8 +35,7 @@ Extract_one() {
     fi
 
     # set directory to store attachments
-    STORAGE="${FOLDER_STORAGE}/$(LC_ALL=C date -d "$EMAIL_DATE" "+%Y%m%d-%H%M%S")"
-    if [ $? != 0 ]; then
+    if ! STORAGE="${FOLDER_STORAGE}/$(LC_ALL=C date -d "$EMAIL_DATE" "+%Y%m%d-%H%M%S")"; then
         echo "Invalid date header (${EMAIL_DATE}) in email: ${EMAIL}" 1>&2
         return
     fi
@@ -62,6 +61,8 @@ Extract_one() {
     # separator
     echo
 }
+
+set +e
 
 # detect folder sizes by email size
 # generates .largefolders

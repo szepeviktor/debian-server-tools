@@ -116,7 +116,7 @@ Trigger() {
                 ;;
             "mail")
                 RECIPIENT="${URL#mailto:}"
-                echo -e "Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n" \
+                printf 'Ennek az üzenetnek vissza kéne pattannia.\nThis message should bounce back.\n\n' \
                     | s-nail -S "hostname=" -S sendwait -r "$CSE_ADDRESS" \
                         -s "[cse] bounce message / Email kézbesítés monitorozás" "$RECIPIENT" \
                     || echo "Trigger failed (${?}) for '${URL}'"
@@ -241,7 +241,7 @@ case "$1" in
 
     # Receive message
     "")
-        MSG_TMP="$(tempfile -d "$WORK_DIR")"
+        MSG_TMP="$(mktemp -d "$WORK_DIR")"
         # shellcheck disable=SC2064
         trap "rm '$MSG_TMP' &> /dev/null" EXIT
 
@@ -270,7 +270,7 @@ case "$1" in
         fi
 
         # Forwarded message comes back to CSE_ADDRESS
-        HOSTNAME="$(grep -m1 -i "^To: ${CSE_ADDRESS}" "$MSG_TMP" | sed -e "s/^To: ${CSE_ADDRESS}, \(.*\)\$/\1/I")" #"
+        HOSTNAME="$(grep -m1 -i "^To: ${CSE_ADDRESS}" "$MSG_TMP" | sed -e "s/^To: ${CSE_ADDRESS}, \\(.*\\)\$/\\1/I")"
         if grep -q '^Subject: \[cse\]' "$MSG_TMP" \
             && [ -n "$HOSTNAME" ] \
             && grep -q -i -x "From: ${CSE_ADDRESS}" "$MSG_TMP"; then
@@ -281,7 +281,7 @@ case "$1" in
         # Invalid email or spam
         MSG_PATH="${WORK_DIR}/$(date --utc "+%Y%m%d-%H%M%S")_${RANDOM}.eml"
         cp "$MSG_TMP" "$MSG_PATH"
-        echo -e "\nX-SMTP-Recipient: ${RECIPIENT}\nX-SMTP-Sender: ${SENDER}\n" >> "$MSG_PATH"
+        printf '\nX-SMTP-Recipient: %s\nX-SMTP-Sender: %s\n\n' "$RECIPIENT" "$SENDER" >>"$MSG_PATH"
         logger -t "can-send-email" "Invalid email headers in ${MSG_PATH}"
         echo "501 Syntax error in parameters or arguments"
         ;;

@@ -19,9 +19,10 @@ EXCLUDES="amazon_cloudfront hetrixtools custom"
 #EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools custom"
 
 # https://myip.ms/info/bots/Google_Bing_Yahoo_Facebook_etc_Bot_IP_Addresses.html
-Exclude_custom() {
+Exclude_custom()
+{
     local IPLIST
-    local CUSTOM_HOST="example.com"
+    #local CUSTOM_HOST="example.com"
 
     if ! Exclude_enabled custom; then
         return
@@ -38,7 +39,7 @@ Exclude_custom() {
 
     # Magereport probe servers
     #MAGE_LIST="$(Get_cache_file "https://www.magereport.com/static/ips.txt")"
-    #grep -x "[0-9.]\{7,15\}" "$MAGE_LIST" | Make_excludes
+    #grep -E -x '[0-9.]{7,15}' "$MAGE_LIST" | Make_excludes
 
     # WebyMon servers
     #IPLIST="$(for N in {01..10};do host -tA crawler-node-${N}.webymon.com.;done|sed -n -e 's/^.* has address \([0-9.]\+\)$/\1/p'|uniq)"
@@ -47,10 +48,11 @@ Exclude_custom() {
 
     # Oh Dear! servers
     #OHDEAR_LIST="$(Get_cache_file "https://ohdearapp.com/used-ips")"
-    #grep -x "[0-9.]\{7,15\}" "$OHDEAR_LIST" | Make_excludes
+    #grep -E -x '[0-9.]{7,15}' "$OHDEAR_LIST" | Make_excludes
 }
 
-Get_cache_file() {
+Get_cache_file()
+{
     local URL="$1"
     local CACHE_HOME
     local URL_SHA
@@ -87,19 +89,22 @@ Get_cache_file() {
     echo "$CACHE_FILE"
 }
 
-Exclude_enabled() {
+Exclude_enabled()
+{
     local NAME="$1"
     local PADDED_EXCLUDES=" ${EXCLUDES} "
 
     test "${PADDED_EXCLUDES/ ${NAME} /}" != "$PADDED_EXCLUDES"
 }
 
-Make_excludes() {
+Make_excludes()
+{
     # shellcheck disable=SC2016
-    xargs -n 1 bash -c 'echo -n " --exclude-ip=$0"'
+    xargs -n 1 bash -c 'echo -n " --exclude-ip=${0}"'
 }
 
-Exclude_cloudflare() {
+Exclude_cloudflare()
+{
     local IPLIST
 
     if ! Exclude_enabled cloudflare; then
@@ -108,11 +113,12 @@ Exclude_cloudflare() {
 
     IPLIST="$(Get_cache_file "https://www.cloudflare.com/ips-v4")"
 
-    <"$IPLIST" xargs -n 1 sipcalc | sed -n -e 's|^Network range\s\+- \(.\+\) - \(.\+\)$|\1-\2|p' \
+    <"$IPLIST" xargs -n 1 sipcalc | sed -n -e 's/^Network range\s\+- \(.\+\) - \(.\+\)$/\1-\2/p' \
         | Make_excludes
 }
 
-Exclude_pingdom() {
+Exclude_pingdom()
+{
     local IPLIST
 
     if ! Exclude_enabled pingdom; then
@@ -124,7 +130,8 @@ Exclude_pingdom() {
     <"$IPLIST" Make_excludes
 }
 
-Exclude_amazon_cloudfront() {
+Exclude_amazon_cloudfront()
+{
     local IPLIST
 
     if ! Exclude_enabled amazon_cloudfront; then
@@ -138,7 +145,8 @@ Exclude_amazon_cloudfront() {
         | Make_excludes
 }
 
-Exclude_hetrixtools() {
+Exclude_hetrixtools()
+{
     local IPLIST
 
     if ! Exclude_enabled hetrixtools; then
@@ -147,11 +155,12 @@ Exclude_hetrixtools() {
 
     IPLIST="$(Get_cache_file "https://hetrixtools.com/resources/uptime-monitor-ips.txt")"
 
-    <"$IPLIST" sed -n -e 's|^\S\+\s\([0-9.]\+\)$|\1|p' \
+    <"$IPLIST" sed -n -e 's/^\S\+\s\([0-9.]\+\)$/\1/p' \
         | Make_excludes
 }
 
-Goaccess() {
+Goaccess()
+{
     local GEOIP_DB="/var/lib/GeoIP/GeoLite2-City.mmdb"
 
     # shellcheck disable=SC2046

@@ -11,8 +11,9 @@
 
 MAIL_BASE="/var/mail"
 
-for IMAPSS in $(find "$MAIL_BASE" -type f -name "courierimapsubscribed" -exec grep -l '^$' "{}" ";"); do
-    echo "Empty subscription: ${IMAPSS}" 1>&2
-    # Correct it by deletion
-    sed -i -e '/^$/d' "$IMAPSS"
-done
+find "$MAIL_BASE" -type f -name "courierimapsubscribed" -exec grep -l '^$' "{}" ";" \
+    | while read -r IMAPSS; do
+        echo "Empty subscription: ${IMAPSS}" 1>&2
+        # Correction by deletion
+        sed -e '/^$/d' -i "$IMAPSS"
+    done

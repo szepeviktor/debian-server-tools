@@ -20,19 +20,19 @@ TAGS_API="https://api.github.com/repos/phpmyadmin/phpmyadmin/tags"
 #     first non-beta-alpha release
 #     tarball URL
 if ! wget -q -O- "$TAGS_API" \
-    | grep -m1 -A6 '"name":\s*"RELEASE_[0-9_]\+"' \
-    | grep -m1 '"tarball_url":' | cut -d'"' -f4 \
+    | grep -m 1 -A 6 '"name":\s*"RELEASE_[0-9_]\+"' \
+    | grep -m 1 '"tarball_url":' | cut -d '"' -f 4 \
     | wget -nv --content-disposition -i-; then
 
-    echo "Download error $?" >&2
+    echo "Download error ${?}" 1>&2
     exit 1
 fi
 
 # Latest tarball
-TARBALL="$(ls phpmyadmin-phpmyadmin-*tar* | sort -n | tail -n 1)"
+TARBALL="$(find . -type f -name "phpmyadmin-phpmyadmin-*tar*" -printf '%P\n' | sort -n | tail -n 1)"
 
 if [ -z "$TARBALL" ]; then
-    echo "No tarball found." >&2
+    echo "No tarball found." 1>&2
     exit 2
 fi
 

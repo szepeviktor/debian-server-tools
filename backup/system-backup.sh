@@ -10,7 +10,6 @@
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install debconf-utils rsync mariadb-client percona-xtrabackup s3ql
 # DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
-# CI            :shellcheck -e SC2086 system-backup.sh
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
 # CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
@@ -38,16 +37,20 @@
 CONFIG="/root/.config/system-backup/configuration"
 HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"
 
-Onexit() {
+Onexit()
+{
     local -i RET="$1"
     local BASH_CMD="$2"
 
     set +e
 
     if [ "$RET" -ne 0 ]; then
+        # shellcheck disable=SC2086
         #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &>/dev/null; then
         if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
+            # shellcheck disable=SC2086
             /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET"
+            # shellcheck disable=SC2086
             /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET"
         fi
 
@@ -57,7 +60,8 @@ Onexit() {
     exit "$RET"
 }
 
-Error() {
+Error()
+{
     local STATUS="$1"
 
     set +e
@@ -69,7 +73,8 @@ Error() {
     exit "$STATUS"
 }
 
-Rotate_weekly() { # Error 9x
+Rotate_weekly() # Error 9x
+{
     local DIR="$1"
     local -i PREVIOUS
 
@@ -86,8 +91,10 @@ Rotate_weekly() { # Error 9x
         PREVIOUS="6"
     fi
 
+    # shellcheck disable=SC2086
     /usr/bin/s3qlrm ${S3QL_OPT} "${TARGET}/${DIR}/${CURRENT_DAY}" 1>&2 \
         || Error 92 "Failed to remove current day's directory"
+    # shellcheck disable=SC2086
     /usr/bin/s3qlcp ${S3QL_OPT} "${TARGET}/${DIR}/${PREVIOUS}" "${TARGET}/${DIR}/${CURRENT_DAY}" 1>&2 \
         || Error 93 "Cannot duplicate last daily backup"
 
@@ -95,17 +102,20 @@ Rotate_weekly() { # Error 9x
     echo "${TARGET}/${DIR}/${CURRENT_DAY}"
 }
 
-Check_paths() { # Error 1x
+Check_paths() # Error 1x
+{
     test -r "$AUTHFILE" || Error 10 "Authentication file cannot be read"
     test -d "$TARGET" || Error 11 "Target directory does not exist"
 }
 
-List_dbs() {
+List_dbs()
+{
     echo "SHOW DATABASES;" | mysql --skip-column-names \
         | grep -E -x -v 'information_schema|mysql|performance_schema|sys'
 }
 
-Backup_system_dbs() { # Error 4x
+Backup_system_dbs() # Error 4x
+{
     if [ ! -d "${TARGET}/db-system" ]; then
         mkdir "${TARGET}/db-system" || Error 40 "Failed to create 'db-system' directory in target"
     fi
@@ -121,7 +131,8 @@ Backup_system_dbs() { # Error 4x
         || Error 43 "MySQL system databases backup failed"
 }
 
-Check_db_schemas() { # Error 5x
+Check_db_schemas() # Error 5x
+{
     local DBS
     local DB
     local SCHEMA
@@ -158,7 +169,8 @@ Check_db_schemas() { # Error 5x
     done <<<"$DBS"
 }
 
-Get_base_db_backup_dir() {
+Get_base_db_backup_dir()
+{
     local BACKUP_DIRS
     local XTRAINFO
 
@@ -175,7 +187,8 @@ Get_base_db_backup_dir() {
     return 1
 }
 
-Backup_innodb() { # Error 6x
+Backup_innodb() # Error 6x
+{
     local BASE
     local -i ULIMIT_FD
     local -i MYSQL_TABLES
@@ -209,7 +222,8 @@ Backup_innodb() { # Error 6x
         || Error 63 "InnoDB backup operation not OK"
 }
 
-Backup_files() { # Error 7x
+Backup_files() # Error 7x
+{
     local WEEKLY_ETC
     local WEEKLY_HOME
     local WEEKLY_MAIL
@@ -229,6 +243,7 @@ Backup_files() { # Error 7x
     debconf-get-selections >"${WEEKLY_ETC}/debconf.selections"
     dpkg-query --show >"${WEEKLY_ETC}/packages.selections"
     # Make directory tree immutable
+    # shellcheck disable=SC2086
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_ETC"
 
     # /home
@@ -246,6 +261,7 @@ Backup_files() { # Error 7x
     fi
     ionice rsync "${HOME_EXCLUDE[@]}" -a --delete --force /home/ "$WEEKLY_HOME"
     # Make directory tree immutable
+    # shellcheck disable=SC2086
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_HOME"
 
     # /var/mail
@@ -258,6 +274,7 @@ Backup_files() { # Error 7x
     fi
     ionice rsync -a --delete --force /var/mail/ "$WEEKLY_MAIL"
     # Make directory tree immutable
+    # shellcheck disable=SC2086
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_MAIL"
 
     # /usr/local
@@ -270,23 +287,31 @@ Backup_files() { # Error 7x
     fi
     ionice rsync --exclude="/src/" -a --delete --force /usr/local/ "$WEEKLY_USR"
     # Make directory tree immutable
+    # shellcheck disable=SC2086
     /usr/bin/s3qllock ${S3QL_OPT} "$WEEKLY_USR"
 }
 
-Mount() { # Error 2x
+Mount() # Error 2x
+{
     test -z "$(find "$TARGET" -mindepth 1 -maxdepth 1)" || Error 20 "Target directory is not empty"
 
     # "If the file system is marked clean and not due for periodic checking, fsck.s3ql will not do anything."
+    # shellcheck disable=SC2086
     /usr/bin/fsck.s3ql ${S3QL_OPT} "$STORAGE_URL" 1>&2 || test "$?" == 128
 
+    # shellcheck disable=SC2086
     nice /usr/bin/mount.s3ql ${S3QL_OPT} ${MOUNT_OPTIONS} \
         "$STORAGE_URL" "$TARGET" || Error 21 "Cannot mount storage"
 
+    # shellcheck disable=SC2086
     /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &>/dev/null || Error 22 "Cannot stat storage"
 }
 
-Umount() { # Error 3x
+Umount() # Error 3x
+{
+    # shellcheck disable=SC2086
     /usr/bin/s3qlctrl ${S3QL_OPT} flushcache "$TARGET" || Error 30 "Flush failed"
+    # shellcheck disable=SC2086
     /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 31 "Umount failed"
 }
 

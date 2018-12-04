@@ -19,21 +19,19 @@
 # User-Agent
 UA="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20130809 Firefox/47.0"
 
-IsIP() {
+IsIP()
+{
     local TOBEIP="$1"
 
-    if grep -q "^\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}\$" <<<"$TOBEIP"; then
-        return 0
-    else
-        return 1
-    fi
+    grep -q -E '^([0-9]{1,3}\.){3}[0-9]{1,3}$' <<<"$TOBEIP"
 }
 
-Hide() {
-    if [ "$SHOW" = "-S" ]; then
+Hide()
+{
+    if [ "$SHOW" == "-S" ]; then
         cat
     else
-        cat > /dev/null
+        cat >/dev/null
     fi
 }
 
@@ -77,5 +75,5 @@ Connection: close
 
 EOF
     sleep 5
-} | sed -e 's|$|\r|' \
+} | sed -e 's/$/\r/' \
     | /usr/bin/time --format "%e" openssl s_client -connect "${IP}:443" -servername "$HOST" -crlf | Hide

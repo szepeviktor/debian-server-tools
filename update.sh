@@ -14,8 +14,6 @@
 #
 #     ./update.sh -d
 
-PARAM="$1"
-
 Get_meta() {
     # defaults to self
     local FILE="${1:-$0}"
@@ -23,7 +21,7 @@ Get_meta() {
     local META="${2:-VERSION}"
     local VALUE
 
-    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ":" -f 2-)"
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -31,15 +29,17 @@ Get_meta() {
     echo "$VALUE"
 }
 
-hash colordiff 2> /dev/null || unset PARAM
+PARAM="$1"
+
+hash colordiff 2>/dev/null || unset PARAM
 
 #Input_motd Get_meta input/update-motd.d - Get_meta /etc/update-motd.d/update-motd.d
 
 D="$(dirname "$0")"
-find -type f -size -100k -not -name README.md -not -path "*/.git*" -printf '%P\n' \
+find . -type f -size -100k -not -name README.md -not -path "*/.git*" -printf '%P\n' \
     | while read -r FILE; do
         SCRIPT="$(Get_meta "$FILE" LOCATION)"
-        if [ -z "$SCRIPT" ] || [ "$SCRIPT" == "(unknown)" ] || ! [ -f "$SCRIPT" ]; then
+        if [ -z "$SCRIPT" ] || [ "$SCRIPT" == "(unknown)" ] || [ ! -f "$SCRIPT" ]; then
             continue
         fi
 
@@ -52,6 +52,6 @@ find -type f -size -100k -not -name README.md -not -path "*/.git*" -printf '%P\n
         echo "# Update ${FILE}: ${OLD_VERSION} -> ${CURRENT_VERSION}"
         echo "${D}/install.sh ${FILE}"
         if [ "$PARAM" == "-d" ]; then
-            colordiff -wB "$SCRIPT" "$FILE"
+            colordiff -w -B "$SCRIPT" "$FILE"
         fi
     done

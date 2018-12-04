@@ -24,6 +24,9 @@ lftp -e "lcd /boot/; mirror -i '.*-xxxx-grs-ipv6-64-vps$'; bye" "$OVH_KERNELS"
 NEW="$(ls /boot/*-xxxx-grs-ipv6-64-vps)"
 
 if [ "$CURRENT" != "$NEW" ]; then
-    echo -e "Run update-grub\nNewest kernels: $(ls -1tr /boot/bzImage-* | tail -n 2)" \
+    # shellcheck disable=SC2012
+    printf 'Run update-grub\nNewest kernels: %s' "$(ls -1 -t -r /boot/bzImage-* | tail -n 2)" \
         | s-nail -s "New kernel from OVH on $(hostname --fqdn)" root
 fi
+
+exit 0
