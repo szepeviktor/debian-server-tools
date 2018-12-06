@@ -232,8 +232,8 @@ echo "kitchensink" >/etc/courier/aliasdir/.courier-kitchensink-default
 Add alias:
 
 ```
-ANY.ADDRESS@ANY.DOMAIN.TLD:             kitchensink
-@example.com:                           kitchensink
+ANY.ADDRESS@ANY.DOMAIN.TLD:             kitchensink@localhost
+@example.com:                           kitchensink@localhost
 ```
 
 ### Courier MTA log analyzer
@@ -441,10 +441,10 @@ Deprecated.
 
 - https://www.mail-tester.com/ by Mailpoet
 - https://glockapps.com/
-- http://spamcheck.postmarkapp.com/
+- https://spamcheck.postmarkapp.com/
 - mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/resources/emailauthentication/
 - checkmyauth@auth.returnpath.net
-- https://winning.email/checkup/DOMAIN
+- `https://winning.email/checkup/DOMAIN`
 
 #### HTML content and CSS inlining
 

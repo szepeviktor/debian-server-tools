@@ -127,7 +127,7 @@ https://haveibeenpwned.com/
 - Against mobile malware
 - Ransomware mitigation
 - Data breach prevention (in the application)
-- Incident response plan (outage, security incident)
+- **Incident response plan** (outage, security incident)
 
 ### Onboarding for developers
 
