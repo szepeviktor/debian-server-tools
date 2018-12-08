@@ -1,22 +1,24 @@
 #!/bin/bash
 #
-# List all carriers.
+# List all IPv4 carriers.
 #
-# VERSION       :0.2.0
-# DATE          :2017-06-08
+# VERSION       :0.3.0
+# DATE          :2018-12-08
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 
 # Usage
-#
-#     ./carrier-detect.sh | tee ipv4
+#     ./carrier-detect.sh >ipv4
 #     cat ipv4 | sort -n | uniq -c
+
+# EDIT here
+ROUTER_EXP='^94\.237\.(0|80)\.'
 
 Set_iana_special()
 {
-    # Uses global $IPV4_SPECIAL
+    # global $IPV4_SPECIAL
 
     # https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
     IPV4_SPECIAL=(
@@ -51,7 +53,7 @@ Set_iana_special()
 
 Match_special()
 {
-    # Uses global $IPV4_SPECIAL
+    # global $IPV4_SPECIAL
     local IP="$1"
     local SP
 
@@ -93,26 +95,47 @@ Get_addresses()
     done
 }
 
+Get_hop()
+{
+    local DEST="$1"
+    local -i NUMBER="$2"
+
+    traceroute -n -4 -w 2 -f "$NUMBER" -m "$NUMBER" "$DEST" | sed -n -e "\$s/^ ${NUMBER}  \\([0-9.]\\+\\) .*\$/\\1/p"
+}
+
 declare -a IPV4_SPECIAL
+declare -a ORDINALS=( "0" "1" "Second" "Third" "Fourth" "Fifth" "Sixth" "Seventh" "Eighth" "Ninth" )
 
 set -e
+
+GREEN_CHECKMARK="$(tput setaf 2)✓$(tput sgr0)"
 
 Set_iana_special
 
 for IP in $(Get_addresses); do
-    echo "        ${IP} ..." 1>&2
+    # Inspect second hop through ninth
+    for NUMBER in {2..9}; do
+        printf '%-16s  %s hop is ' "${IP}:" "${ORDINALS[$NUMBER]}" 1>&2
+        HOP="$(Get_hop "$IP" "$NUMBER")"
 
-    HOP="$(traceroute -n -4 -w 2 -f 2 -m 2 "$IP" | sed -n -e '$s/^ 2  \([0-9.]\+\) .*$/\1/p')"
-    # Detect local routers
-    if [[ "$HOP" =~ ^94\.237\.(24|25|26|27|28|29|30|31)\. ]]; then
-        echo "        Third hop ..." 1>&2
-        HOP="$(traceroute -n -4 -w 2 -f 3 -m 3 "$IP" | sed -n -e '$s/^ 3  \([0-9.]\+\) .*$/\1/p')"
-    fi
-    #if [[ "$HOP" =~ ^0.0.0\. ]]; then
-    #    echo "        Fourth hop ..." 1>&2
-    #    HOP="$(traceroute -n -4 -w 2 -f 4 -m 4 "$IP" | sed -n -e '$s/^ 4  \([0-9.]\+\) .*$/\1/p')"
-    #fi
-    if [ -n "$HOP" ]; then
+        # Failure
+        if [ -z "$HOP" ]; then
+            echo "not available." 1>&2
+            break
+        fi
+
+        # Detect local routers
+        if [[ "$HOP" =~ ${ROUTER_EXP} ]]; then
+            echo "local." 1>&2
+            if [ "$NUMBER" -ge 6 ]; then
+                echo "××××× [CRITICAL] Possible routing problem!" 1>&2
+            fi
+            continue
+        fi
+
+        # Found carrier
+        echo "${HOP} ${GREEN_CHECKMARK}" 1>&2
         echo "$HOP"
-    fi
+        break
+    done
 done
