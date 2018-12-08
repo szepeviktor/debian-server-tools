@@ -9,19 +9,21 @@
 
 TCOLORS="0,Black 1,Red 2,Green 3,Yellow 4,Blue 5,Magenta 6,Cyan 7,White 9,Default"
 TATTRS="0,Reset 1,Bright 2,Dim 3,Italic 4,Underscore 5,Blink 6,Blink2 7,Reverse"
-TATTR="\033["
+TATTR='\033['
 # Debug
-#TATTR="←["
+#TATTR='←['
 
 TRESET="${TATTR}0m"
-WHITE_ON_BLACK="${TATTR}0;37;40m"
-BLUE_ON_BLACK="${TATTR}0;34;40m"
+#WHITE_ON_BLACK="${TATTR}0;37;40m"
+#BLUE_ON_BLACK="${TATTR}0;34;40m"
 
-Reset() {
-    printf "${TATTR}0m\n"
+Reset()
+{
+    printf '%b\n' "$TRESET"
 }
 
-PrintColors() {
+PrintColors()
+{
     local COLOR_CODE2="${1%,*}"
     local COLOR_NAME="${1#[0-9],}"
     # 3 - foreground, 4 - background
@@ -38,7 +40,7 @@ PrintColors() {
         SHIM=""
     fi
     printf " ${TATTR}0;${DEFAULT_COLOR};${MODE}${COLOR_CODE2}${SHIM}m %12s " "$COLOR_NAME"
-    printf "${TATTR}1;${MODE}${COLOR_CODE2}${SHIM}m %12s ${TATTR}0;${DEFAULT_COLOR}m\n" "$COLOR_NAME"
+    printf "${TATTR}1;${MODE}${COLOR_CODE2}${SHIM}m %12s ${TATTR}0;${DEFAULT_COLOR}m\\n" "$COLOR_NAME"
 }
 
 Reset
@@ -61,30 +63,30 @@ done
 
 Reset
 echo "256 foreground colors (38)"
-for X in $(seq 0 15); do
-    for Y in $(seq 0 15); do
-        printf "${TATTR}0;38;5;%sm %-3s■ ${TATTR}0m" "$((16 * X + Y))" "$((16 * X + Y))"
+for X in {0..15}; do
+    for Y in {0..15}; do
+        printf "${TATTR}0;38;5;%sm %3s■ " "$((16 * X + Y))" "$((16 * X + Y))"
     done
-    echo
+    Reset
 done
 
 Reset
-echo "256 background colors (48)"
-for AH in $(seq 0 15); do
-    for AL in $(seq 0 15); do
-        printf "${TATTR}0;48;5;%sm %3s ${TATTR}0m" "$((16 * AH + AL))" "$((16 * AH + AL))"
+echo "256 background colors (48) with negative foreground color"
+for AH in {0..15}; do
+    for AL in {0..15}; do
+        printf "${TATTR}0;38;5;%s;48;5;%sm %3s  " "$((255 - (16 * AH + AL)))" "$((16 * AH + AL))" "$((16 * AH + AL))"
     done
-    echo
+    Reset
 done
 
 Reset
 echo "512 random color combinations (0-1; 38; 48)"
-for AH in $(seq 0 15); do
-    for AL in $(seq 0 31); do
+for AH in {0..15}; do
+    for AL in {0..31}; do
         #printf "${TATTR}%s;38;5;%s;48;5;%sm ■ ${TATTR}0m" "$((RANDOM % 2))" "$((RANDOM % 256))" "$((RANDOM % 256))"
-        printf "${TATTR}%s;38;5;%s;48;5;%sm a ${TATTR}0m" "$((RANDOM % 2))" "$((RANDOM % 256))" "$((RANDOM % 256))"
+        printf "${TATTR}%s;38;5;%s;48;5;%sm a " "$((RANDOM % 2))" "$((RANDOM % 256))" "$((RANDOM % 256))"
     done
-    echo
+    Reset
 done
 
-Reset
+echo

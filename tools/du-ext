@@ -5,16 +5,16 @@
 # VERSION       :0.3.0
 # LOCATION      :/usr/local/bin/du-ext
 
-find -type f -printf "%f\n" | grep -o "\.[^.]\+\$" | sort | uniq \
+find . -type f -printf '%f\n' | grep -o '\.[^.]\+$' | sort -u \
     | {
         while read -r FILE; do
-            echo -n "${FILE} "
-            find -type f -name "*${FILE}" -print0 \
+            printf '%s ' "$FILE"
+            find . -type f -name "*${FILE}" -print0 \
                 | du --files0-from=- -k --total | tail -n 1 | cut -f 1
         done
 
         # Extensionless files
-        echo -n "N/A "
-        find -type f -not -name "*.*" -print0 \
-            | du --files0-from=- -k --total | tail -n 1 | cut -f 1 | grep -vFx "N/A 0"
+        printf 'N/A '
+        find . -type f -not -name "*.*" -print0 \
+            | du --files0-from=- -k --total | tail -n 1 | cut -f 1 | grep -v -F -x 'N/A 0'
     } | sort -n -k 2

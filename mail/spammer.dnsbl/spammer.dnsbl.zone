@@ -224,11 +224,19 @@ $TTL 60
 172.96.8.0/22       US_HEYMMAN/AS19969
 172.96.12.0/23      US_HEYMMAN/AS19969
 172.96.15.0/24      US_HEYMMAN/AS19969
+# 172.96.14.0/24
 185.191.228.0/22    US_HEYMMAN/AS174
 185.199.224.0/22    US_HEYMMAN/AS174
 185.202.172.0/22    US_HEYMMAN/AS174
 185.215.148.0/22    US_HEYMMAN/AS174
 185.218.232.0/22    US_HEYMMAN/AS174
+# 185.229.240.0/22
+# 185.235.12.0/23
+# 185.235.14.0/24
+# 193.39.184.0/22
+# 212.162.148.0/22
+# NOVUM-IMPORT "Content Delivery Network, Boundary line team"
+212.162.150.0/24    US_HEYMMAN/AS174
 204.10.160.0/22     US_HEYMMAN/AS32097
 
 # thesuperaffiliatenetwork.com - edc* @OVH
@@ -490,7 +498,7 @@ $TTL 60
 97.107.26.77-80     US_riotgames.com @YESMAIL
 
 # AS35828 TERATRADE-NET @EZIT
-# snowshoe - NOVUM IMPORT "Content Delivery Network, Boundary line team"
+# NOVUM IMPORT "Content Delivery Network, Boundary line team"
 95.140.39.0/24      HU_Teratrade @EZIT
 95.140.39.249       :2:HU_Teratrade exception rdns2.designineu.com.
 185.207.8.0/23      HU_Teratrade @EZIT

@@ -42,9 +42,10 @@ export APT_LISTCHANGES_FRONTEND="none"
 
 APTI_SEARCH="aptitude --disable-columns --display-format %p search"
 
-Info() {
+Info()
+{
     # Informational messages displayed only during `set -x`
-    > /dev/null
+    cat >/dev/null
 }
 
 set -e -x
@@ -55,7 +56,7 @@ cd "${HOME}/os-normalize/"
 Info "List what boot packages are installed"
 
 ${APTI_SEARCH} '?installed' \
- | grep -Ex "$BOOT_PACKAGES" | sed -e 's/$/ # boot/' | tee boot.pkgs
+    | grep -Ex "$BOOT_PACKAGES" | sed -e 's/$/ # boot/' | tee boot.pkgs
 
 Info "APT status"
 
@@ -74,7 +75,7 @@ apt-get update -qq
 Info "Reinstall tasks"
 
 debconf-show tasksel
-tasksel --list-tasks | grep -v "^u " || true
+tasksel --list-tasks | grep -v '^u ' || true
 # shellcheck disable=SC2046
 apt-get purge -qq $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))')
 #tasksel --task-packages ssh-server; tasksel --task-packages standard #'
@@ -92,7 +93,7 @@ set +x
 for DEP in $(${APTI_SEARCH} \
  '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))'); do
     REGEXP="$(sed -e 's;\([^a-z0-9]\);[\1];g' <<< "$DEP")"
-    if aptitude why "$DEP" 2>&1 | grep -Eq "^i.. \S+\s+(Pre)?Depends( | .* )${REGEXP}( |$)"; then
+    if aptitude why "$DEP" 2>&1 | grep -Eq "^i.. \\S+\\s+(Pre)?Depends( | .* )${REGEXP}( |\$)"; then
         apt-mark auto "$DEP" || echo "[ERROR] Marking package ${DEP} failed." 1>&2
     fi
 done
@@ -128,7 +129,7 @@ Info "Remove packages on standard-blacklist"
 # shellcheck disable=SC2046
 apt-get purge -qq $(${APTI_SEARCH} '?installed' | grep -Ex "$STANDARD_BLACKLIST" || true)
 # Exim bug
-getent passwd "Debian-exim" > /dev/null && deluser --force --remove-home "Debian-exim"
+getent passwd "Debian-exim" >/dev/null && deluser --force --remove-home "Debian-exim"
 test -f /etc/aliases && rm /etc/aliases
 test -d /var/spool/exim4 && rm -rf /var/spool/exim4
 # Texinfo config
@@ -144,7 +145,7 @@ Info "Check package integrity and cruft"
 apt-get install -qq debsums cruft > /dev/null
 # Should be empty
 debsums --all --changed 2>&1 | sed -e 's/$/ # integrity/' | tee integrity.log
-cruft --ignore /root > cruft.log 2>&1
+cruft --ignore /root >cruft.log 2>&1
 
 Info "Check for missing and extra packages"
 
@@ -164,19 +165,19 @@ set +e +x
     ${APTI_SEARCH} "$OLD_PACKAGE_QUERY" | sed -e 's/$/ # old/'
     ${APTI_SEARCH} '?and(?installed, ?not(?origin(Debian)))' | sed -e 's/$/ # non-Debian/'
     #:ubuntu ${APTI_SEARCH} '?and(?installed, ?not(?origin(Ubuntu)))' | sed -e 's/$/ # non-Ubuntu/'
-    dpkg -l | grep "\~[a-z]\+" | grep -Ev "^ii  (${TILDE_VERSION})\s" | cut -c 1-55 | sed -e 's/$/ # tilde version/'
+    dpkg -l | grep '\~[a-z]\+' | grep -Ev "^ii  (${TILDE_VERSION})\\s" | cut -c 1-55 | sed -e 's/$/ # tilde version/'
     # "-dev" versioned packages
     ${APTI_SEARCH} '?and(?installed, ?name(-dev))' | sed -e 's/$/ # development/'
     # Overridden priorities
     aptitude --disable-columns --display-format "%p %P" search \
         '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' \
         | while read -r PKG_PRIO; do
-            DPKG_PRIO="$(dpkg-query -s "${PKG_PRIO% *}" | grep "^Priority:" | cut -d " " -f 2)"
-            [ "$DPKG_PRIO" != "${PKG_PRIO#* }" ] && echo "${PKG_PRIO% *} # ${PKG_PRIO#* } <- ${DPKG_PRIO} override"
+            DPKG_PRIO="$(dpkg-query -s "${PKG_PRIO% *}" | grep '^Priority:' | cut -d " " -f 2)"
+            test "$DPKG_PRIO" != "${PKG_PRIO#* }" && echo "${PKG_PRIO% *} # ${PKG_PRIO#* } <- ${DPKG_PRIO} override"
         done
-} 2>&1 | tee extra.pkgs | grep "." && echo "Extra packages" 1>&2
+} 2>&1 | tee extra.pkgs | grep '.' && echo "Extra packages" 1>&2
 
 # List packages by size
-dpkg-query --showformat="\${Installed-size}\t\${Package}\n" --show | sort -k 1 -n > installed-by-size.pkgs
+dpkg-query --showformat='${Installed-size}\t\${Package}\n' --show | sort -k 1 -n >installed-by-size.pkgs
 
 exit 0

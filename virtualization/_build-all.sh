@@ -1,17 +1,17 @@
 #!/bin/bash
 
-#docker rmi -f szepeviktor/jessie-build szepeviktor/jessie-backport
+#docker rmi -f szepeviktor/stretch-build szepeviktor/stretch-backport
 
-docker pull debian:jessie
+docker pull debian:stretch
 
-docker build -t szepeviktor/jessie-build jessie-build
-docker tag szepeviktor/jessie-build:latest \
-    szepeviktor/jessie-build:$(sed -n -e 's|^# VERSION\s\+:\(\S\+\)$|\1|p' jessie-build/Dockerfile)
+docker build -t szepeviktor/stretch-build stretch-build
+docker tag szepeviktor/stretch-build:latest \
+    "szepeviktor/stretch-build:$(sed -n -e 's/^# VERSION\s\+:\(\S\+\)$/\1/p' stretch-build/Dockerfile)"
 
-docker build -t szepeviktor/jessie-backport jessie-backport
-docker tag szepeviktor/jessie-backport:latest \
-    szepeviktor/jessie-backport:$(sed -n -e 's|^# VERSION\s\+:\(\S\+\)$|\1|p' jessie-backport/Dockerfile)
+docker build -t szepeviktor/stretch-backport stretch-backport
+docker tag szepeviktor/stretch-backport:latest \
+    "szepeviktor/stretch-backport:$(sed -n -e 's/^# VERSION\s\+:\(\S\+\)$/\1/p' stretch-backport/Dockerfile)"
 
-docker build -t szepeviktor/jessie-py2deb jessie-py2deb
-docker tag szepeviktor/jessie-py2deb:latest \
-    szepeviktor/jessie-py2deb:$(sed -n -e 's|^# VERSION\s\+:\(\S\+\)$|\1|p' jessie-py2deb/Dockerfile)
+docker build -t szepeviktor/stretch-py2deb stretch-py2deb
+docker tag szepeviktor/stretch-py2deb:latest \
+    "szepeviktor/stretch-py2deb:$(sed -n -e 's/^# VERSION\s\+:\(\S\+\)$/\1/p' stretch-py2deb/Dockerfile)"

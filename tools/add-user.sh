@@ -22,11 +22,9 @@
 #
 #     add-user.sh -e username
 
-# Options
-set -o errexit -o noglob -o nounset -o pipefail
-
 # Entry point
-main() {
+main()
+{
     local U
     # From /etc/adduser.conf
     local NAME_REGEX="^[a-z][-a-z0-9_]*\$"
@@ -38,8 +36,8 @@ main() {
     local SSH_DIR
     local SSH_AUTHKEYS
 
-    while getopts :sp: OPT; do
-        case $OPT in
+    while getopts :sep: OPT; do
+        case "$OPT" in
             s)
                 SUDO="yes"
                 ;;
@@ -59,7 +57,7 @@ main() {
     shift "$((OPTIND - 1))"
 
     # Missing username
-    [ $# -eq 1 ]
+    test "$#" -eq 1
 
     # Last option is the username
     U="$1"
@@ -70,7 +68,7 @@ main() {
     if [ -n "$PASSWORD" ]; then
         # Add user with the specified password
         # GECOS: Full name,Room number,Work phone,Home phone
-        echo -e "${PASSWORD}\n${PASSWORD}" | adduser --gecos "" "$U"
+        printf '%s\n%s\n' "$PASSWORD" "$PASSWORD" | adduser --gecos "" "$U"
 
         # Forget about the password
         unset PASSWORD
@@ -103,12 +101,12 @@ main() {
         editor "$SSH_AUTHKEYS"
     else
         # Get public key from pipe
-        cat > "$SSH_AUTHKEYS"
+        cat >"$SSH_AUTHKEYS"
     fi
 
     # Add line end if necessary
-    if [ -s "$SSH_AUTHKEYS" ] && [ "$(wc -l < "$SSH_AUTHKEYS")" == 0 ]; then
-        echo >> "$SSH_AUTHKEYS"
+    if [ -s "$SSH_AUTHKEYS" ] && [ "$(wc -l <"$SSH_AUTHKEYS")" == 0 ]; then
+        echo >>"$SSH_AUTHKEYS"
     fi
 
     # Change owner of the SSH directory and its contents
@@ -125,6 +123,9 @@ main() {
     # Exit status is that of the last command executed.
     exit
 }
+
+# Options
+set -o errexit -o noglob -o nounset -o pipefail
 
 # Call main
 main "$@"

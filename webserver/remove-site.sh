@@ -29,8 +29,8 @@
 exit 0
 
 
-U=<USER>
-D=<DOMAIN>
+read -r -e -p "User name: " U
+read -r -e -p "Domain name without WWW: " DOMAIN
 
 # backup
 tar -vcJf /root/$U_$(date "+%Y-%m-%d").tar.xz /home/$U

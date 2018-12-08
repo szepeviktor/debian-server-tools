@@ -54,7 +54,7 @@ mc /etc/cron.d/ /var/spool/cron/crontabs/
 
 # Courier MTA
 editor /etc/courier/me
-host -t MX $(cat /etc/courier/me)
+host -t MX "$(head -n 1 /etc/courier/me)"
 editor /etc/courier/defaultdomain
 editor /etc/courier/dsnfrom
 editor /etc/courier/aliases/system

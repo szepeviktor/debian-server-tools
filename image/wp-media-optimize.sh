@@ -68,6 +68,7 @@ Optimize_image() {
         logger -t "$LOGGER_TAG" "JPEG:${IMG}"
         jpeginfo --check "$IMG" >/dev/null || return 1
         TMPIMG="$(mktemp)"
+        # shellcheck disable=SC2086
         if ! nice ${JPEG_RECOMPRESS} --quiet "$IMG" "$TMPIMG"; then
             rm -f "$TMPIMG" &>/dev/null
             return 2
@@ -96,6 +97,7 @@ if ! ${WP_CLI} core is-installed; then
     exit 1
 fi
 
+# shellcheck disable=SC2016
 UPLOADS="$(${WP_CLI} eval '$u=wp_upload_dir(); echo $u["basedir"];')"
 
 # Loop through all attachments without "optimized" metadata
@@ -108,7 +110,7 @@ for ATTACHMENT_ID in $(${WP_CLI} post list --format=ids --post_type=attachment \
 
     # Find the image and all resized variations
     find "${UPLOADS}/$(dirname "${ATTACHMENT_PATH}")" \
-        -regex ".*/${ATTACHMENT_FILE%.*}\(-[0-9]+x[0-9]+\)?\.${ATTACHMENT_FILE##*.}" -print0 \
+        -regex ".*/${ATTACHMENT_FILE%.*}\\(-[0-9]+x[0-9]+\\)?\\.${ATTACHMENT_FILE##*.}" -print0 \
         | while read -d $'\0' -r ATTACHMENT; do
             if Optimize_image "$ATTACHMENT"; then
                 ${WP_CLI} post meta set "$ATTACHMENT_ID" "$META_NAME" 1

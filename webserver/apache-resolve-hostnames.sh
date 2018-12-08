@@ -14,15 +14,15 @@
 # Interface for Apache
 WAN_IF="eth0"
 
-WAN_IP="$(ip addr show dev ${WAN_IF}|sed -ne 's_^\s*inet \([0-9\.]\+\)\b.*$_\1_' -e 's_\._\\._gp')"
+WAN_IP="$(ip addr show dev "$WAN_IF" | sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/' -e 's/\./\\./gp')"
 
 echo "Apache domains with possible failure:"
 
-apache2ctl -S | sed -ne 's_^.*\(namevhost\|alias\) \(\S\+\).*$_\2_p' \
-    | grep -Fvx "localhost" \
+apache2ctl -S | sed -n -e 's/^.*\(namevhost\|alias\) \(\S\+\).*$/\2/p' \
+    | grep -F -v -x 'localhost' \
     | while read -r DOMAIN; do
-        # Don't show correct A records and CNAME records
-        host -t A "$DOMAIN" | grep -v " has address ${WAN_IP}$\| is an alias for "
+        # Don't show correct A records nor CNAME records
+        host -t A "$DOMAIN" | grep -v " has address ${WAN_IP//./\\.}\$\\| is an alias for "
         # Show only CNAME records
-        host -t A "$DOMAIN" | grep " is an alias for "
+        host -t A "$DOMAIN" | grep ' is an alias for '
     done

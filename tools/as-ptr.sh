@@ -41,6 +41,7 @@ Get_ns()
     local RESOLVER="1.1.1.1"
     local NS1
 
+    # shellcheck disable=SC2016
     NS1="$(dig +trace "@${RESOLVER}" -x "$IPV4" | sed -n -e '/^.*\s\+IN\s\+NS\s\+\(\S\+\)$/h; ${x;s//\1/p}')"
     # Make sure it has an IP
     if [ -n "$(dig "$NS1" A +short)" ]; then

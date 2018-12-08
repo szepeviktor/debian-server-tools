@@ -4,7 +4,8 @@
 #
 # VERSION       :0.2.1
 
-Get_passwd() {
+Get_passwd()
+{
     local PROMPT="$1"
     local REAL_PASSWD="$2"
 
@@ -19,7 +20,7 @@ Get_passwd() {
         0 1 2 3 4 5 6 7 8 9
     )
 
-    DEL="$(echo -e "\x7F")"
+    DEL="$(printf '\x7F')"
 
     echo -n "$PROMPT"
 
@@ -42,7 +43,7 @@ Get_passwd() {
     echo
 
     # Return value
-    [ "$PASSWD" == "$REAL_PASSWD" ]
+    test "$PASSWD" == "$REAL_PASSWD"
 }
 
 # Example

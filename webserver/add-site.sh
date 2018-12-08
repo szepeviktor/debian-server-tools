@@ -14,10 +14,10 @@ exit 0
 read -r -e -p "User name: " U
 read -r -e -p "Domain name without WWW: " DOMAIN
 
-adduser --disabled-password --gecos "" ${U}
+adduser --disabled-password --gecos "" "$U"
 
 # Add webserver to this group
-adduser _web ${U}
+adduser _web "$U"
 
 # Add system mail alias to deliver bounces to one address
 # E.g. VIRTUAL-USERGROUP could be one client
@@ -29,22 +29,23 @@ echo "${U}@$(hostname -f): webmaster@$(hostname -d)" >>/etc/courier/aliases/syst
 makealiases
 
 # * Install SSH key
-S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";touch "${S}/authorized_keys";chown -R ${U}:${U} "$S"
+S="$(getent passwd "$U"|cut -d: -f6)/.ssh";mkdir --mode 0700 "$S";touch "${S}/authorized_keys";chown -R "${U}:${U}" "$S"
 editor "${S}/authorized_keys"
 # * Git URL
 echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
-mkdir -v --mode=0750 /home/${U}/website
+mkdir -v --mode=0750 "/home/${U}/website"
 #mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup,fastcgicache}
-mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup}
-chmod 0555 /home/${U}/website/code
+mkdir -v "/home/${U}/website/"{session,tmp,code,pagespeed,backup}
+chmod 0555 "/home/${U}/website/code"
 
 # Add hosting.yml
-cp -v /usr/local/src/debian-server-tools/webserver/hosting.yml /home/${U}/website/
+cp -v /usr/local/src/debian-server-tools/webserver/hosting.yml "/home/${U}/website/"
 
 # Install WordPress
-cd /home/${U}/website/code/
+# shellcheck disable=SC2164
+cd "/home/${U}/website/code/"
 
 # Migrate files NOW!
 #
@@ -55,19 +56,19 @@ cd /home/${U}/website/code/
 
 # Find non-standard permissions, line ends
 #grep -r -I -l $'\r'; grep -r -I -m 1 $'\r' | sed -e 's/\r/■/g'
-find -type f -not -perm 644; find -type d -not -perm 755
+find . -type f -not -perm 644; find . -type d -not -perm 755
 # Repair permissions, line ends
-#find -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
-find -type f -exec chmod --changes 0644 "{}" ";"
-find -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"
+#find . -type f "(" -name ".htaccess" -o -name "*.php" -o -name "*.js" -o -name "*.css" ")" -exec dos2unix --keepdate "{}" ";"
+find . -type f -exec chmod --changes 0644 "{}" ";"
+find . -mindepth 1 -type d -exec chmod --changes 0755 "{}" ";"
 # Sensitive files
-find -name wp-config.php -exec chmod --verbose 0400 "{}" ";"
-#find -path "*/sites/*/settings.php" -exec chmod --verbose 0400 "{}" ";"
-#find -name .env -exec chmod --verbose 0400 "{}" ";"
-find -name .htaccess -exec chmod --verbose 0640 "{}" ";"
+find . -name wp-config.php -exec chmod --verbose 0400 "{}" ";"
+#find . -path "*/sites/*/settings.php" -exec chmod --verbose 0400 "{}" ";"
+#find . -name .env -exec chmod --verbose 0400 "{}" ";"
+find . -name .htaccess -exec chmod --verbose 0640 "{}" ";"
 
 # Set owner
-chown -cR ${U}:${U} /home/${U}/
+chown -c -R "${U}:${U}" "/home/${U}/"
 
 # wp-config.php skeleton
 
@@ -97,7 +98,7 @@ u wp search-replace --precise --recurse-objects --all-tables-with-prefix --dry-r
 
 # * Mount wp-content/cache on tmpfs
 #     editor /etc/fstab
-#     tmpfs  /home/${U}/website/code/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u "$U"),gid=$(id -g "$U"),mode=0755  0 0
+#     tmpfs  /home/${U}/website/code/static/cache  tmpfs  user,noauto,rw,relatime,uid=$(id -u $U),gid=$(id -g $U),mode=0755  0 0
 wp-lib.sh --root="/home/${U}/website/code/static/cache/" mount 100
 
 # * Default image
@@ -106,41 +107,44 @@ TUUH4gMUEQE5VHnaPwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAnSURBVCjP
 Y0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" | base64 -d >checkered-16x16.png
 
 # PHP pool
+# shellcheck disable=SC2164
 #cd /etc/php5/fpm/pool.d/
+# shellcheck disable=SC2164
 cd /etc/php/7.2/fpm/pool.d/
-sed "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >${U}.conf
-editor ${U}.conf
+sed "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >"${U}.conf"
+editor "${U}.conf"
 
 # SSL certificate
 # See /security/LetsEncrypt.md
-read -e -p "Common Name: " -i "$DOMAIN" CN
-editor /etc/ssl/localcerts/${CN}-public.pem
-nice openssl dhparam 2048 >>/etc/ssl/localcerts/${CN}-public.pem
-editor /etc/ssl/private/${CN}-private.key
+read -r -e -p "Common Name: " -i "$DOMAIN" CN
+editor "/etc/ssl/localcerts/${CN}-public.pem"
+nice openssl dhparam 2048 >>"/etc/ssl/localcerts/${CN}-public.pem"
+editor "/etc/ssl/private/${CN}-private.key"
 
 # Apache vhost
 # CloudFlase, Incapsula, StackPath
 #a2enmod remoteip
+# shellcheck disable=SC2164
 cd /etc/apache2/sites-available/
 # SSL
 # "001-${DOMAIN}.conf" non-SNI site
 # See /webserver/Apache-SSL.md
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >${DOMAIN}.conf
+sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >"${DOMAIN}.conf"
 # OCSP server monitoring
-( cd /usr/local/src/debian-server-tools/; ./install.sh monitoring/ocsp-check.sh
-  editor /usr/local/bin/ocsp--${DOMAIN}
-  chmod +x /usr/local/bin/ocsp--${DOMAIN}
-  echo -e "05,35 *\t* * *\tnobody\t/usr/local/bin/ocsp--${DOMAIN}" >/etc/cron.d/ocsp-${DOMAIN//./-} )
+( cd /usr/local/src/debian-server-tools/ && ./install.sh monitoring/ocsp-check.sh
+  editor "/usr/local/bin/ocsp--${DOMAIN}"
+  chmod +x "/usr/local/bin/ocsp--${DOMAIN}"
+  printf '05,35 *  * * *  nobody\t/usr/local/bin/ocsp--%s\n' "$DOMAIN" >"/etc/cron.d/ocsp-${DOMAIN//./-}" )
 # Certificate's common name differs from domain name
-#sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >${DOMAIN}.conf
+#sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >"${DOMAIN}.conf"
 # * Non-SSL
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site.conf >${DOMAIN}.conf
+sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site.conf >"${DOMAIN}.conf"
 
 # * HPKP (HTTP Public Key Pinning) including backup public key
 #     Headers: Public-Key-Pins-Report-Only Public-Key-Pins
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
 # See https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
-openssl x509 -in /etc/ssl/localcerts/${CN}-public.pem -noout -pubkey \
+openssl x509 -in "/etc/ssl/localcerts/${CN}-public.pem" -noout -pubkey \
   | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
 
 # * SRI (Subresource Integrity) for foreign CDN content
@@ -153,9 +157,9 @@ openssl dgst -sha384 -binary | openssl enc -base64 -A
 
 # In case of "www." set ServerAlias
 # Set WORDPRESS_ROOT_URL and WORDPRESS_UPLOADS_URL
-editor ${DOMAIN}.conf
+editor "${DOMAIN}.conf"
 # Enable site
-a2ensite ${DOMAIN}
+a2ensite "$DOMAIN"
 apache-resolve-hostnames.sh
 
 # Reload webserver and PHP
@@ -163,11 +167,11 @@ apache-resolve-hostnames.sh
 webreload.sh
 
 # Fail2ban
-fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-ssl-error.log
-fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-ssl-error.log
+fail2ban-client set apache-combined addlogpath "/var/log/apache2/${U}-ssl-error.log"
+fail2ban-client set apache-instant addlogpath "/var/log/apache2/${U}-ssl-error.log"
 # * Non-SSL
-fail2ban-client set apache-combined addlogpath /var/log/apache2/${U}-error.log
-fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
+fail2ban-client set apache-combined addlogpath "/var/log/apache2/${U}-error.log"
+fail2ban-client set apache-instant addlogpath "/var/log/apache2/${U}-error.log"
 
 # Cron jobs
 # Mute cron errors
@@ -176,6 +180,7 @@ fail2ban-client set apache-instant addlogpath /var/log/apache2/${U}-error.log
 #     /usr/bin/php7.2 -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
 # Cron log
 #     cron-job-command | ts "\%d \%b \%Y \%T \%z" >>/path/to/cron.log
+# shellcheck disable=SC2164
 cd /etc/cron.d/
 # /usr/local/bin/wp --quiet --path=/home/USER/website/code/project cron event run --due-now
 # See /webserver/wp-install/wp-cron-cli.sh

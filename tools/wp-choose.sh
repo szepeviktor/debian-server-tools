@@ -23,7 +23,7 @@ wp --allow-root cli cmd-dump | grep -q '{"name":"find",'
 
 declare -a MENU
 WPS="$(wp --allow-root find "$WP_TOP_PATH" --field=version_path)"
-WP_TOTAL="$(wc -l <<< "$WPS")"
+WP_TOTAL="$(wc -l <<<"$WPS")"
 WP_COUNT="0"
 
 while read -r WP; do
@@ -36,13 +36,12 @@ while read -r WP; do
     MENU+=( "$WP_LOCAL" "$NAME" )
 
     echo "$((++WP_COUNT * 100 / WP_TOTAL))"
-done <<< "$WPS" > >(whiptail --gauge "$GAUGE_TEXT" 7 74 0)
+done <<<"$WPS" > >(whiptail --gauge "$GAUGE_TEXT" 7 74 0)
 
-WP_LOCAL="$(whiptail --title "WordPress" --menu "$MENU_TEXT"  $((${#MENU[*]} / 2 + 7)) 74 10 "${MENU[@]}" 3>&1 1>&2 2>&3)"
-
-if [ $? -ne 0 ] || [ ! -d "$WP_LOCAL" ]; then
+if ! WP_LOCAL="$(whiptail --title "WordPress" --menu "$MENU_TEXT"  $((${#MENU[*]} / 2 + 7)) 74 10 "${MENU[@]}" 3>&1 1>&2 2>&3)" \
+    || [ ! -d "$WP_LOCAL" ]; then
     echo "Cannot find '${WP_LOCAL}'" 1>&2
-    exit 100
+    exit 10
 fi
 
 echo "cd ${WP_LOCAL}"

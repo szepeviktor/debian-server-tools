@@ -10,4 +10,4 @@
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/bin/lastfile.sh
 
-find -type f "$@" -printf '%TY%Tm%Td%TH%TM %P\n' | sort -n
+find . -type f "$@" -printf '%TY%Tm%Td%TH%TM %P\n' | sort -n

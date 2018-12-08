@@ -12,15 +12,16 @@
 
 CURRENT_CS="$(cat /sys/devices/system/clocksource/clocksource0/current_clocksource)"
 
-echo -n "Clock sources:"
+printf 'Clock sources:'
 
+# shellcheck disable=SC2013
 for CS in $(cat /sys/devices/system/clocksource/clocksource0/available_clocksource); do
     if [ "$CS" == "$CURRENT_CS" ]; then
         FLAG="*"
     else
         FLAG=""
     fi
-    echo -n " ${FLAG}${CS}"
+    printf ' %s%s' "$FLAG" "$CS"
 done
 
-echo
+printf '\n'

@@ -13,14 +13,17 @@
 # Start in the background:
 #    maintenance5.sh &
 
-PINGDOM_ACCESS_LOG="/var/log/apache2/project-ssl-access.log"
+# EDIT here
+PINGDOM_ACCESS_LOG="/var/log/apache2/PROJECT-ssl-access.log"
 
-Warn_minute() {
+Warn_minute()
+{
     local NUMBER="$1"
 
     # Display minutes remaining
-    echo -n "<${NUMBER}>" 1>&2
-    echo -en "\a"
+    printf '<%s>' "$NUMBER" 1>&2
+    # Bell!
+    printf '\a'
 }
 
 set -e
@@ -29,8 +32,8 @@ set -e
 sed -n -e '/"Pingdom\.com_bot_version_/q' <(tail -n 0 -f "$PINGDOM_ACCESS_LOG")
 
 # We expect Pingdom bot to come back in 5 minutes
-for N in {5..1}; do
-    Warn_minute "$N"
+for M in {5..1}; do
+    Warn_minute "$M"
     # Wait for a short minute
     sleep 59
 done

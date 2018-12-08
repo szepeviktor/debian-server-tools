@@ -1,5 +1,5 @@
 # New Relic Infrastructure
-# echo "license_key: $LICENSE_KEY" >> /etc/newrelic-infra.yml
+# echo "license_key: $LICENSE_KEY" >>/etc/newrelic-infra.yml
 deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt stretch main
 #K: wget -qO- https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -
 #M: https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/installation/install-infrastructure-linux

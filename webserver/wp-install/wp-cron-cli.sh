@@ -30,23 +30,25 @@
 
 WPCRON_LOCATION="$1"
 
-Die() {
+Die()
+{
     local RET="$1"
 
     shift
-    echo -e "[wp-cron-cli] $*" 1>&2
+    echo -e "[wp-cron-cli] ${*}" 1>&2
     exit "$RET"
 }
 
 # shellcheck disable=SC2120
-Get_meta() {
+Get_meta()
+{
     # Defaults to self
     local FILE="${1:-$0}"
     # Defaults to "VERSION"
     local META="${2:-VERSION}"
     local VALUE
 
-    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\s*:" | cut -d ':' -f 2-)"
+    VALUE="$(head -n 30 "$FILE" | grep -m 1 "^# ${META}\\s*:" | cut -d ":" -f 2-)"
 
     if [ -z "$VALUE" ]; then
         VALUE="(unknown)"
@@ -92,6 +94,6 @@ test -r wp-cron.php || Die 3 "File not found (${WPCRON_DIR}/wp-cron.php)"
 
 # Alternative:  wp cron event run --due-now
 nice /usr/bin/php7.2 -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
-    || Die 4 "PHP exit status $? in ${WPCRON_DIR}/wp-cron.php"
+    || Die 4 "PHP exit status ${?} in ${WPCRON_DIR}/wp-cron.php"
 
 exit 0

@@ -17,7 +17,7 @@ EXTERNAL_PLUGINS=(
 )
 
 for PLUGIN in ${EXTERNAL_PLUGINS[@]}; do
-    wget -q --spider -S "$PLUGIN" 2>&1 | grep -F "Last-Modified:"
+    wget -q --spider -S "$PLUGIN" 2>&1 | grep -F 'Last-Modified:'
 done | diff "$CURRENT" -
 
 #exit 0

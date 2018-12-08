@@ -48,6 +48,7 @@ declare -a AS_HOSTING=(
     AS28573  # CLARO S.A. (ISP)
     AS9299   # Philippine Long Distance Telephone Company (ISP)
     AS200557 # Region40
+    AS32097  # WholeSale Internet
 )
 
 # Labs #
