@@ -37,22 +37,29 @@
 - Click tracking (custom domain?, HTTPS?)
 - Bounce handling ([SMTP bounce classification](https://github.com/phantasm66/smtp-bounce-classifer/blob/master/README.md#the-classifier))
 
+### Marketing automation
+
+Not only an autoresponder/series!
+
+- ONTRAPORT *$79*
+- https://www.drip.com/features *$0*
+- HubSpot *$46*
+- Act-On Software *$900*
+- Campaign Monitor *$29*
+- Delivra by Campaign Monitor *$100*
+- Marketo *$895*
+- Salesforce / Pardot *$1250*
+
 ### Marketing tools
 
-- https://www.drip.com/features *$0*
-- Act-On Software *$900*
 - Adobe Campaign *$$$*
-- Campaign Monitor *$29*
 - Cheetah Digital *$$$*
 - Constant Contact *$20*
 - Oracle Eloqua *$2000*
 - Emma by Campaign Monitor *$89*
-- HubSpot *$46*
 - IBM Watson Campaign Automation *$$$*
 - MailChimp *$0*
-- Marketo *$895*
 - Oracle Responsys *$1200*
-- Salesforce / Pardot *$1250*
 - Salesforce / ExactTarget *$400*
 - SendGrid *$10*
 
@@ -282,6 +289,7 @@ Forwarding a temporary server's tcp/443 to Courier's tcp/465.
 read -p "Courier IP? " COURIER_IP
 read -p "This host's IP? " TEMPORARY_VPS_IP
 sysctl --write net.ipv4.conf.all.route_localnet=1
+#iptables -I FORWARD -i eth0 -p tcp -j ACCEPT
 iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination ${COURIER_IP}:465
 iptables -t nat -A POSTROUTING -p tcp --dst ${COURIER_IP} --dport 465 -j SNAT --to-source ${TEMPORARY_VPS_IP}
 ```

@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.5.2
+# VERSION       :2.5.3
 # DATE          :2018-01-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -12,7 +12,7 @@
 # DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
-# CRON.D        :10 3	* * *	root	/usr/local/sbin/system-backup.sh
+# CRON.D        :10 3  * * *  root /usr/local/sbin/system-backup.sh
 
 # Usage
 #
@@ -68,7 +68,7 @@ Error()
 
     shift
 
-    echo "ERROR ${STATUS}: $*" 1>&2
+    echo "ERROR ${STATUS}: ${*}" 1>&2
 
     exit "$STATUS"
 }
@@ -154,7 +154,7 @@ Check_db_schemas() # Error 5x
         SCHEMA="${TARGET}/db/db-${DB}.schema.sql"
         # Check schema
         mysqldump --skip-comments --no-data --events --routines "$DB" \
-            | sed -e 's| AUTO_INCREMENT=[0-9]\+\b||' \
+            | sed -e 's/ AUTO_INCREMENT=[0-9]\+\b//' \
             >"$TEMP_SCHEMA" || Error 51 "Schema dump failure"
 
         if [ -r "$SCHEMA" ]; then
@@ -179,7 +179,7 @@ Get_base_db_backup_dir()
     while read -r BASE; do
         XTRAINFO="${TARGET}/innodb/${BASE}/xtrabackup_info"
         # First non-incremental is the base
-        if [ -r "$XTRAINFO" ] && grep -q -F -x "incremental = N" "$XTRAINFO"; then
+        if [ -r "$XTRAINFO" ] && grep -q -F -x 'incremental = N' "$XTRAINFO"; then
             echo "$BASE"
             return 0
         fi
@@ -353,11 +353,13 @@ if [ "$1" == "-m" ]; then
     exit 0
 fi
 
-Backup_system_dbs
+if hash mysqldump innobackupex 2>/dev/null; then
+    Backup_system_dbs
 
-Check_db_schemas
+    Check_db_schemas
 
-Backup_innodb
+    Backup_innodb
+fi
 
 Backup_files
 
@@ -367,10 +369,10 @@ Umount
 logger -t "system-backup" "Finished. ${*}"
 
 if [ -n "$HCHK_URL" ]; then
-    wget -q -t 3 -O- "${HCHK_URL}" | grep -q -F -x "OK" || Error 101 "healthchecks.io non-OK response"
+    wget -q -t 3 -O- "${HCHK_URL}" | grep -q -F -x 'OK' || Error 101 "healthchecks.io non-OK response"
 elif [ -n "$HCHK_UUID" ]; then
     # Also "https://hchk.io/${HCHK_UUID}"
-    wget -q -t 3 -O- "https://hc-ping.com/${HCHK_UUID}" | grep -q -F -x "OK" || Error 101 "healthchecks.io non-OK response"
+    wget -q -t 3 -O- "https://hc-ping.com/${HCHK_UUID}" | grep -q -F -x 'OK' || Error 101 "healthchecks.io non-OK response"
 fi
 
 exit 0

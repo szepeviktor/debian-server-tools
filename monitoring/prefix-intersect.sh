@@ -17,13 +17,13 @@ Ip2dec()
 }
 
 declare -a PREFIXES PREFIXES_FROM PREFIXES_TO
-declare -i FROM TO FROM2 TO2 INTERSETIONS
+declare -i FROM TO FROM2 TO2 INTERSECTIONS
 
 set -e
 
 test -r "$PREFIX_LIST"
 
-INTERSETIONS="0"
+INTERSECTIONS="0"
 
 # Parse prefix list file
 while read -r PREFIX; do
@@ -53,7 +53,7 @@ for NUMBER in $(seq 0 "$((TOTAL - 2))"); do
         #   1..1
         # 2......2
         if [[ "$FROM2" -lt "$FROM" && "$TO2" -gt "$TO" ]]; then
-            INTERSETIONS+="1"
+            INTERSECTIONS+="1"
             echo "${PREFIXES[$NUMBER2]} covers ${PREFIXES[$NUMBER]}"
             continue
         fi
@@ -61,7 +61,7 @@ for NUMBER in $(seq 0 "$((TOTAL - 2))"); do
         # 1.....1
         #    2.....2
         if [[ "$FROM2" -ge "$FROM" && "$FROM2" -le "$TO" ]]; then
-            INTERSETIONS+="1"
+            INTERSECTIONS+="1"
             echo "${PREFIXES[$NUMBER2]} starts within ${PREFIXES[$NUMBER]}"
             continue
         fi
@@ -69,11 +69,11 @@ for NUMBER in $(seq 0 "$((TOTAL - 2))"); do
         #    1.....1
         # 2.....2
         if [[ "$TO2" -ge "$FROM" && "$TO2" -le "$TO" ]]; then
-            INTERSETIONS+="1"
+            INTERSECTIONS+="1"
             echo "${PREFIXES[$NUMBER2]} ends within ${PREFIXES[$NUMBER]}"
             continue
         fi
     done
 done
 
-echo "Number of intersections: ${INTERSETIONS}" 1>&2
+echo "Number of intersections: ${INTERSECTIONS}" 1>&2

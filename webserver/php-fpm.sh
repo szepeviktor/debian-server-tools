@@ -25,11 +25,11 @@ Pkg_install_quiet "php${PHP}-fpm" libpcre3 \
     "php${PHP}-curl" "php${PHP}-gd" "php${PHP}-intl" "php${PHP}-mysql" \
     "php${PHP}-sqlite3" # Not for WP
 
-# Not available in PHP5
-if [ -n "$(dpkg-query --showformat="\${Status}" --show "php${PHP}-mbstring" 2>/dev/null)" ]; then
+# Not compiled in every PHP binary
+if [ -n "$(apt-cache madison "php${PHP}-mbstring" 2>/dev/null)" ]; then
     Pkg_install_quiet "php${PHP}-mbstring"
 fi
-if [ -n "$(dpkg-query --showformat="\${Status}" --show "php${PHP}-xml" 2>/dev/null)" ]; then
+if [ -n "$(apt-cache madison "php${PHP}-xml" 2>/dev/null)" ]; then
     Pkg_install_quiet "php${PHP}-xml"
 fi
 

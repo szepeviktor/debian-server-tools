@@ -24,7 +24,7 @@
 #     wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
 #     https://letsencrypt.org/certificates/
 # NetLock (HU)
-#     https://www.netlock.hu/html/cacrl.html
+#     https://netlock.hu/tanusitvanykiadok/
 # Microsec (HU)
 #     https://e-szigno.hu/hitelesites-szolgaltatas/tanusitvanyok/szolgaltatoi-tanusitvanyok.html
 # szepenet (own)
