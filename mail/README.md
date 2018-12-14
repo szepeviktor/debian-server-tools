@@ -279,6 +279,8 @@ sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamas
 
 # Needs opendkim package
 opendkim -vvv -t msg-signed.eml
+# With opendkim-tools
+opendkim-testmsg <msg-signed.eml && echo "OK."
 ```
 
 ### Mailserver SSL test

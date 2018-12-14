@@ -2,7 +2,7 @@
 #
 # Start debian-setup.sh remotely.
 #
-# VERSION       :0.2.3
+# VERSION       :0.2.4
 #
 # - Domain registrar
 # - DNS provider
@@ -32,6 +32,7 @@ ssh -- bash -c "cat >/root/server.yml" <"$SERVER_CONFIGURATION" || exit 11
 
 # Save script for Session #1
 ssh -- bash -c "cat >/root/debian-setup-starter1.sh; chmod +x /root/debian-setup-starter1.sh" <<"EOT"
+set -e
 export LC_ALL=C.UTF-8
 SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/
@@ -54,6 +55,7 @@ EOT
 
 # Save script for Session #2
 ssh -- bash -c "cat >/root/debian-setup-starter2.sh; chmod +x /root/debian-setup-starter2.sh" <<"EOT"
+set -e
 export LC_ALL=C.UTF-8
 SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/debian-server-tools-master/

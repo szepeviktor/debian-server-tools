@@ -45,7 +45,8 @@ APTI_SEARCH="aptitude --disable-columns --display-format %p search"
 Info()
 {
     # Informational messages displayed only during `set -x`
-    cat >/dev/null
+    # shellcheck disable=SC2188
+    >/dev/null
 }
 
 set -e -x

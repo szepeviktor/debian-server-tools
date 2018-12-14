@@ -1,0 +1,4 @@
+# Google Linux Software Repositories (Google Chrome, Google Earth etc.)
+deb http://dl.google.com/linux/chrome/deb/ stable main
+#K: wget -qO- https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+#M: https://www.google.com/linuxrepositories/

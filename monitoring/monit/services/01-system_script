@@ -205,16 +205,16 @@ case "$CHECK" in
         RESULT="$(host -W 2 -t PTR "$IP" | sed -n -e '0,/^[0-9.]\+\.in-addr\.arpa domain name pointer \(.\+\)$/s##\1#p')"
         ;;
     MX1)
-        MX1="$(host -W 2 -t MX "$(hostname -f)")" #"
+        MX1="$(host -W 2 -t MX "$(hostname -f)")"
         test "$MX1" == "${MX1/ mail is handled by /}" && exit 10
-        RESULT="$(echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s##\1#p')"
+        RESULT="$(echo "$MX1" | sed -n -e '0,/^.* mail is handled by [0-9]\+ \(\S\+\).*$/s//\1/p')"
         ;;
     RES)
         # Visualize longer resolver response times
-        # MSEC_DELAY=2 msec host -t PTR 8.8.8.8 $RESOLVER|grep -v --line-buffered '^   [6-9]------'|ts
+        #     MSEC_DELAY=2 msec host -tPTR 1.1.1.1 $RESOLVER|grep -v --line-buffered '^   [6-9]------'|ts
         # Responding resolver count
         declare -i RESULT
-        RESOLVERS="$(sed -n -e 's#^nameserver\s\+\(\S\+\)\s*$#\1#p' /etc/resolv.conf)"
+        RESOLVERS="$(sed -n -e 's/^nameserver\s\+\(\S\+\)\s*$/\1/p' /etc/resolv.conf)"
         while read -r RESOLVER; do
             # Same timeout as "options timeout:2" in resolv.conf
             if HOST_NAME="$(Check_resolver "$RESOLVER" 1.1.1.1.in-addr.arpa. PTR 2)" \
