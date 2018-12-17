@@ -49,6 +49,7 @@
       "echo test -r public/wp-config.php",
       "echo wp language core install hu_HU --activate",
       "echo wp plugin activate wp-redis && wp redis enable"
-    ]
+    ],
+    "wp-core": "@php -r '$api=json_decode(file_get_contents(\"https://api.wordpress.org/core/version-check/1.7/\"));$core=$api->offers[0]->packages->no_content;echo $core.\"\n\".sha1(file_get_contents($core)).\"\n\";'"
   }
 }

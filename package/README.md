@@ -59,7 +59,7 @@ Find actual values in `debian/dists/stable/Release`
 -   o,origin        (e.g. "Debian", "Unofficial Multimedia Packages")
 -   l,label         (e.g. "Debian", "Debian-Security")
 -   n,codename      (e.g. "jessie", "jessie-updates")
--     site          (e.g. "http.debian.net")
+-   site            (e.g. "http.debian.net")
 
 See apt_preferences(5) Determination of Package Version and Distribution Properties
 

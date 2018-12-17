@@ -78,6 +78,8 @@ Password: `changeit`
 [HTTP Connector](https://tomcat.apache.org/tomcat-8.5-doc/config/http.html)
 
 ```xml
+<Server port="8005" shutdown="SHUTDOWN">
+    <Service name="Catalina">
         <Connector port="8005" maxThreads="150" minSpareThreads="25" connectionTimeout="20000" enableLookups="false"
             maxHttpHeaderSize="8192" protocol="HTTP/1.1" useBodyEncodingForURI="true" redirectPort="8443"
             acceptCount="100" disableUploadTimeout="true" bindOnInit="false" secure="true" scheme="https"
@@ -88,7 +90,7 @@ Password: `changeit`
 
 ### SMTP
 
-Use localhost on port 25.
+Use local MTA at localhost on port 25.
 
 ### Init scripts
 
@@ -96,13 +98,13 @@ Add missing run-time dependencies.
 
 ```bash
 ### BEGIN INIT INFO
-# Provides:          confluence
+# Provides:          jira
 # Required-Start:    $remote_fs $network
 # Required-Stop:     $remote_fs $network
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Atlassian Confluence
-# Description:       Atlassian Confluence on custom tomcat
+# Short-Description: Atlassian Jira
+# Description:       Atlassian Jira on custom Tomcat
 ### END INIT INFO
 ```
 
@@ -114,7 +116,7 @@ Add missing run-time dependencies.
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Atlassian Confluence
-# Description:       Atlassian Confluence on custom tomcat
+# Description:       Atlassian Confluence on custom Tomcat
 ### END INIT INFO
 ```
 
