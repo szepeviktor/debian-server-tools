@@ -64,7 +64,9 @@ echo "root=${ROOT}  "
 ROOT_DEVICE="$(/sbin/findfs "$ROOT")"
 echo "root device name is ${ROOT_DEVICE}  "
 # Make sure LVM volumes are activated
-/sbin/vgchange -a y || echo "vgchange: $?  "
+if [ -x /sbin/vgchange ]; then
+    /sbin/vgchange -a y || echo "vgchange: $?  "
+fi
 # Check root filesystem
 /sbin/e2fsck -y -v -f "$ROOT_DEVICE" || echo "e2fsck: $?  "
 # Resize
