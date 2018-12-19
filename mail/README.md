@@ -461,7 +461,11 @@ Deprecated.
 - https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
 
-### Prevent automatic response
+### Prevent automatic replies
+
+1. [RFC3464](https://tools.ietf.org/html/rfc3464): delivery status notifications (bounce message)
+1. [RFC3834](https://tools.ietf.org/html/rfc3834): out of office reply (vacation responder) and delivery confirmation (automatic response)
+1. [RFC3798](https://tools.ietf.org/html/rfc3798): disposition notification (read receipt)
 
 - All in *Detect automatic responses* section
 - `Auto-Submitted: auto-generated`

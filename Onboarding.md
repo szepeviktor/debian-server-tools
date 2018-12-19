@@ -103,7 +103,8 @@ https://haveibeenpwned.com/
 ### Email delivery
 
 - [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages
-  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Tiliq](https://tiliq.com/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+  <!-- not Tiliq -->
 - File sharing, large file sending [WeTransfer](https://wetransfer.com/),
   [Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/)
 - *Transactional* emails and notification emails (alerts, log excerpts) see above
