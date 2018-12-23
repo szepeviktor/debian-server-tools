@@ -206,9 +206,9 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.10.3
+# VERSION       :0.10.4
 
-IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
+IGNORED_STATUSES='Running|Accessible|Status ok|Online with all services|Waiting'
 
 # APT is in progress
 if fuser -s /var/lib/dpkg/lock; then
@@ -224,7 +224,7 @@ fi
 
 ## Check nice level
 #MONIT_PID="$(cat /run/monit.pid)"
-#if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" -ne 0 ]; then
+#if [ "$(ps --no-headers -o nice= --pid "$MONIT_PID")" != 0 ]; then
 #    echo "Monit's nice level changed" | s-nail -S "hostname=" -s "Monit ALERT on $(hostname --fqdn)" root
 #    renice -n 0 -p "$MONIT_PID"
 #fi

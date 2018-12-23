@@ -246,5 +246,5 @@ if [ -n "${EXPECTED+empty}" ]; then
     test "$EXPECTED" == "$RESULT"
 fi
 
-# Test: sed -ne 's#^\s*\([A-Z0-9]\+\)).*#\1#p' ./01-system_script|xargs -I% bash -- ./01-system_script -c % -h 8.8.8.8
-# Test: sed -ne 's#^\s*\([A-Z0-9]\+\)).*#\1#p' server-integrity.sh|xargs -I% server-integrity.sh -c % -h 8.8.8.8
+# Test: sed -ne 's#^\s*\([A-Z0-9]\+\)).*#\1#p' ./01-system_script|xargs -I% bash -- ./01-system_script -c % -h 1.1.1.1
+# Test: sed -ne 's#^\s*\([A-Z0-9]\+\)).*#\1#p' server-integrity.sh|xargs -I% server-integrity.sh -c % -h 1.1.1.1

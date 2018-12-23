@@ -22,10 +22,6 @@ Use `conf.d` style configurations!
 
 Realtime Global Deployments for Docker, Node.js, Static Websites https://zeit.co/now
 
-### Hyper_
-
-Simple and secure container cloud https://hyper.sh/
-
 ### Manual backporting
 
 ```bash
