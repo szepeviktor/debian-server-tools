@@ -1,4 +1,6 @@
-# Teljesítménycentrikus Webhely (HU)
+# Teljesítménycentrikus webhely tervezése (HU)
+
+Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
 
 ### Stratégia
 
@@ -35,6 +37,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
 1. [Tervezés](https://www.figma.com/)/[prototyping](https://www.invisionapp.com/)
 1. Nézetek különböző készülékeken, böngészőkben
+1. Látogatási folyamat (user flow) szimuláció és validálás
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
    alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes info (author bio)
 1. Nyelvek
