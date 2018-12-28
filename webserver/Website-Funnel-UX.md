@@ -29,7 +29,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 - CTA (call-to-action) gombok
 - Interaktív elemek: **videó**, virtuális túra, Ken Burns effektes slider/galéria,
   hírlevél, letölthető anyag, beúszó feliratkoztató, exit modal,
-  kupon/kedvezmény, friss hírek, megosztás
+  kupon/kedvezmény, friss hírek, megosztás, [további elemek angolul](/webserver/Production-website.md#marketing)
 - Zsákutca hiba (Alul hova tovább?)
 - Fölös háttér, belépési oldal, köszönjük oldal, értesítő levél kihasználása
 

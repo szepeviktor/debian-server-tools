@@ -1,6 +1,6 @@
 # Setup a website on the Cloudflare platform
 
-Cloudflare has a data center in Budapest!
+Cloudflare has a data center in [Budapest](https://www.cloudflare.com/cdn-cgi/trace)!
 
 1. Set up cloudflare.local Fail2ban action
 1. Add new LogFormat
@@ -67,7 +67,7 @@ Use a CNAME. May be the CNAME of *another* domain.
 
 ### Trace Report
 
-`https://example.com/cdn-cgi/trace`
+[`https://example.com/cdn-cgi/trace`](https://support.cloudflare.com/hc/en-us/articles/200169986-Which-Cloudflare-data-center-do-I-reach-)
 
 ### Notes
 

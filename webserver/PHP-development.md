@@ -60,6 +60,7 @@ Bits and bytes.
 - → Wait for release → tag and deploy to production server :ship:
 
 Commit checklist:
+[emojis :bug: in commit message](https://gitmoji.carloscuesta.me/),
 code, tests, changelog, [commit message](https://conventionalcommits.org/),
 issue link, watch CI (`PULL_REQUEST_TEMPLATE.md`)
 
@@ -131,6 +132,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Autoloading (composer)
 - ORM
+- Database migration
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
 - HTTP request handling and security (URL structure, WAF)
 - Session handling (very long sessions, CSRF)

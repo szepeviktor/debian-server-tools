@@ -29,6 +29,11 @@ actionban = printf %%b "X-Fail2ban: <ip>,<sender>
 #     x;h                       #    Else copy to it
 #     :Next                     # "Next line" label
 #     ${x;s/\n/ /g;s/^/AS/;p}   # Join hold space lines and print them with "AS" prefix
+#
+# Alternative by restoring valid JSON
+#
+#     sed -e ':a;N;$!ba;s/\n/ /g' -e 's/ <[a-z0-9_]\+>/,/g' -e 's/,\s\+}/}/g' \
+#         | jq '"AS\(.autonomous_system_number) \(.autonomous_system_organization)"'
 
 [Init]
 

@@ -179,6 +179,16 @@ PUB="${COMMON_NAME}.crt"
 # Intermediate certificate file name
 INT="${COMMON_NAME}.intermediate.crt"
 
+#  Certificate Authority Authorization
+if [ "${COMMON_NAME:0:1}" == "*" ]; then
+    echo "${COMMON_NAME}  IN  CAA  0 issue \";\""
+    echo "${COMMON_NAME}  IN  CAA  0 issuewild \"letsencrypt.org\""
+else
+    echo "${COMMON_NAME}  IN  CAA  0 issue \"letsencrypt.org\""
+    echo "${COMMON_NAME}  IN  CAA  0 issuewild \";\""
+fi
+echo "${COMMON_NAME}  IN  CAA  0 iodef \"mailto:admin@szepe.net\""
+
 # Authorize or check authorization
 if [ "$AUTHORIZATION" == HTTP ]; then
     Move_challenge_files "$CHALLENGE_PATH" &
