@@ -60,8 +60,8 @@ Bits and bytes.
 - → Wait for release → tag and deploy to production server :ship:
 
 Commit checklist:
-[emojis :bug: in commit message](https://gitmoji.carloscuesta.me/),
-code, tests, changelog, [commit message](https://conventionalcommits.org/),
+code, tests, changelog, [commit message](https://conventionalcommits.org/)
+with [emojis :bug:](https://gitmoji.carloscuesta.me/),
 issue link, watch CI (`PULL_REQUEST_TEMPLATE.md`)
 
 [Release checklist](https://make.wordpress.org/cli/handbook/release-checklist/):

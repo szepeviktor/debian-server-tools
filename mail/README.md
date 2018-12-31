@@ -23,6 +23,8 @@
 - https://www.mandrill.com/ by MailChimp *free:0*
 - https://www.sendinblue.com/ :eu: has own AS *free:9000*
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
+- _ToBeTested_ https://www.smtp2go.com/pricing/
+- _ToBeTested_ https://elasticemail.com/transactional/ on OVH
 
 * https://sendgrid.com/ has own AS *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
