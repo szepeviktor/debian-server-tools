@@ -121,6 +121,12 @@ https://google-public-dns.appspot.com/cache
 
 https://rawgit.com/ `https://cdn.rawgit.com/USER/REPO/TAG/FILE`
 
+### Whois servers
+
+- `whois -h whois.iana.org $TLD` https://www.iana.org/domains/root/db
+- `dig _nicname._tcp.$TLD SRV` https://tools.ietf.org/html/draft-sanz-whois-srv-01
+- https://github.com/rfc1036/whois/blob/next/tld_serv_list
+
 ### ROA validation, RPKI status
 
 `whois -h whois.bgpmon.net 84.2.228.0`

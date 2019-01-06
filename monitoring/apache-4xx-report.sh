@@ -30,7 +30,7 @@ Filter_client_server_error()
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [[:digit:]]+ "-" "-(\|Host:-)?"$' \
         | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx).* "Amazon CloudFront"' \
-        #| grep -v -E '"GET /.* (SemrushBot/2~bl|DotBot/1\.1|Mail\.RU_Bot/Img/2\.0|Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview|AhrefsBot/5\.2|YandexBot/3\.0|MJ12bot/v1\.4\.8|bingbot/2\.0|Qwantify/2\.4w)' \
+        #| grep -v -E '"GET /.* (SemrushBot/2~bl|DotBot/1\.1|Mail\.RU_Bot/Img/2\.0|Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview|AhrefsBot/|YandexBot/3\.0|MJ12bot/v1\.4\.8|bingbot/2\.0|Qwantify/2\.4w)' \
         #| grep -v -E '/favicon\.ico HTTP/1\.1" 40[34] [[:digit:]]+' \
 
 }

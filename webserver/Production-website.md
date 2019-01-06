@@ -339,7 +339,8 @@ http://google-public-dns.appspot.com/cache :snail:
 - [BOM](https://en.wikipedia.org/wiki/Byte_order_mark) (fix: `sed -ne '1s/\xEF\xBB\xBF/BOM!!!/p'`)
 - Characters before `<!DOCTYPE html>`
 - JavaScript code parsable - by dummy crawlers - as HTML (`<a>` `<iframe>` `<script>`)
-- Page loading overlay, display content by JavaScript causing [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
+- Page loading overlay, display content by JavaScript causing
+  [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content)
 - Unnecessary Firefox caret
 - Confusion in colors: normal text color, link and call2action color, accent color
 - Email header and content check https://www.mail-tester.com/
@@ -376,7 +377,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - Image name `mv DSC-0005.jpeg prefix-descriptive-name.jpg`
 - Image optimization `jpeg-recompress JPEG OPTI_JPEG` :snail:
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
-- JavaScript, CSS concatenation, minification `cat small_1.css small_2.css > large.css`
+- JavaScript, CSS concatenation, minification `cat small_1.css small_2.css >large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, [image gallery](https://www.freepik.com/))
 - Use [async and defer](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html) for JavaScripts
 - Light loading, `&controls=2` for YouTube
@@ -471,23 +472,25 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### Compatiblitity
 
+- JavaScript disabled
+- OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)
+  ([Sharing Debugger](https://developers.facebook.com/tools/debug/))
+  and [Twitter](https://dev.twitter.com/cards/markup) :snail:
 - **Google Translate**, Facebook app (running in an IFRAME), Google Search "Cached" :snail:
-- [\<head> cheatsheet](https://gethead.info/)
+- GoogleImageProxy (Gmail, Google Images)
 - Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
+- Microsoft/Libre Office (copy-and-paste content or open URL)
 - Text selection: color+background-color, disable selection, display share options on select (see Feedly)
 - Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:
 - Emojis and UNICODE (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
-- GoogleImageProxy (Gmail, Google Images)
-- Phone numbers (clickable, monitored)
+- [\<head> cheatsheet](https://gethead.info/)
+- Phone numbers (clickable, tracked)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
-- OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)
-  and [Twitter](https://dev.twitter.com/cards/markup) :snail:
 - [Printer](http://www.printfriendly.com/), [Gutenberg framework](https://github.com/BafS/Gutenberg)
 - [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
 - [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
-- Microsoft/Libre Office (copy-and-paste content or open URL)
 - Reader mode (from Firefox `chrome://global/skin/aboutReaderContent.css`)
 
 ### Integration (3rd party services)
@@ -513,9 +516,10 @@ Document in `hosting.yml` and check functionality.
 
 Gain access, set up and test.
 
-- Google Analytics, Google Tag Manager :snail:
+- Google Analytics (revenue tracking), Google Tag Manager :snail:
 - Facebook Pixel
-- Piwik
+- Segment
+- Matomo (was Piwik)
 - [HEAP](https://heapanalytics.com/)
 - Clicktale
 - Smartlook
@@ -535,7 +539,9 @@ Gain access, set up and test.
 
 See [/monitoring/README.md](/monitoring/README.md)
 
-Uptime ([pingdom.com](https://www.pingdom.com/), [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/)) :snail:
+Uptime ([pingdom.com](https://www.pingdom.com/),
+[hetrixtools.com](https://hetrixtools.com/),
+[selectel.com](https://selectel.com/services/additional/monitoring/)) :snail:
 
 [List of all errors in Apache httpd](https://wiki.apache.org/httpd/ListOfErrors)
 

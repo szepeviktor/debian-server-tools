@@ -96,6 +96,7 @@ https://haveibeenpwned.com/
 - Set up CI
 - Write deploy script
 - Notifications (email, chat, SMS)
+- Revenue tracking
 - Error tracking
 - **Development: development in production?, who has access, where to develop, how to deploy**
 - Editorial duties: **who has time and competence**
@@ -146,6 +147,7 @@ https://haveibeenpwned.com/
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
 - File versioning is not in query string but turned into file names like `filename.002.ext` in URL-s,
   [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L151-L152) reverts them
+- Blacklisted things: FTP/S protocol, web-based administration tools (phpMyAdmin), POP3/S protocol
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
 - [Running a Laravel application](/webserver/laravel)
 - [Installing WordPress](/webserver/WordPress.md)
