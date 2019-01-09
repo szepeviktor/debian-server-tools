@@ -268,6 +268,8 @@ List: https://www.g2crowd.com/categories/help-desk
 
 Multilingual support.
 
+[Aquire, engage and support](https://www.intercom.com/)
+
 #### Login problems
 
 - Password reminder

@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.6.0
+ * @version 0.6.1
  */
 
 namespace O1;
@@ -68,6 +68,7 @@ final class CheckEnv {
         //$this->assert( 'APP_ENV', 'production', getenv( 'APP_ENV' ) );
 
         // Core directives
+        $this->assert_directive( 'short_open_tag', '' );
         $this->assert_directive( 'user_ini.filename', '' );
         $this->assert_directive( 'expose_php', '' );
         $this->assert_directive( 'allow_url_fopen', '' );
@@ -158,6 +159,9 @@ final class CheckEnv {
         // pdo_sqlite sqlite3
         $this->assert_disabled_extension( 'pdo_sqlite' );
         $this->assert_disabled_extension( 'sqlite3' );
+        // https://github.com/sektioneins/suhosin7
+        $this->assert_disabled_extension( 'suhosin7' );
+        $this->assert_disabled_extension( 'suhosin' );
 
         // 3rd-party Extensions
 
@@ -175,6 +179,8 @@ final class CheckEnv {
         //$this->assert_extension( 'sodium' );
 
         // System program execution
+        // Default disabled functions:
+        // exec,shell_exec,system,popen,passthru,proc_open,pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority
         //$this->assert_function( 'proc_open' );
 
         // Directories
@@ -191,6 +197,7 @@ final class CheckEnv {
         */
 
         /*
+        // wkhtmltopdf
         chdir( __DIR__ . '/tmp' );
         $html = <<<EOF
 <!DOCTYPE html><html><head><title>CC</title></head><body>

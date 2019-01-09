@@ -131,6 +131,12 @@ https://haveibeenpwned.com/
 - Data breach prevention (in the application)
 - **Incident response plan** (outage, security incident)
 
+### Collaboration
+
+- _No emails if it is possible_
+- Issues/ticketing: Trello cards
+- Chat: Slack
+
 ### Onboarding for developers
 
 - We run Debian GNU/Linux on an UpCloud cloud instance
@@ -140,9 +146,10 @@ https://haveibeenpwned.com/
 - There are no passwords for Linux users, only SSH keys
 - The server is accessible through SSH: **terminal, MySQL tunnel, file upload, code deploy** etc.
 - TCP ports for web and SSH are heavily protected (maxretry=3) [with Fail2ban](/security/fail2ban-conf)
+- Source code is kept in git (version-control system)
 - PHP OPcache's [file timestamp validation](/webserver/phpfpm-pools/Skeleton-pool.conf#L30) is off,
   thus PHP files are read once at first access, we use [cachetool](https://github.com/gordalina/cachetool)
-  to reset OPcache after a code change
+  to reset OPcache after code change
 - There are *standard* directories for [sessions, upload and tmp](/webserver/phpfpm-pools/Skeleton-pool.conf#L33-L35)
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
 - File versioning is not in query string but turned into file names like `filename.002.ext` in URL-s,

@@ -19,6 +19,7 @@ Not only a WordPress site!
 - A, CNAME (for [CDN](http://www.cdnplanet.com/cdns/))
 - MX
 - SPF, DKIM, DMARC
+- PTR records
 - Proper TTL values
 
 ### SSL certificate
@@ -52,7 +53,7 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 
 ### Plugins
 
-- Plugin licenses, access to support :snail:
+- Document plugin licenses, access to support :snail:
 - See plugin list in [WordPress.md](./WordPress.md#plugins)
 - See MU plugins at https://github.com/szepeviktor/wordpress-plugin-construction
 - Allow accents in URL-s? `mu-latin-accent-urls`
