@@ -47,6 +47,8 @@ Save images as 100% JPEG ("10" in Photoshop) then optimize images.
 - [Windows PNG Gauntlet](http://pnggauntlet.com/)
 - [Mac ImageOptim](https://imageoptim.com/)
 
+Use **progressive** JPEG images.
+
 ##### Online optimization tools
 
 - [mozjpeg by ImageOptim API](https://imageoptim.com/mozjpeg) [mozjpeg](https://mozjpeg.codelove.de/)

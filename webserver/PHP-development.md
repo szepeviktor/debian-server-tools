@@ -135,7 +135,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Database migration
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
 - HTTP request handling and security (URL structure, WAF)
-- Session handling (very long sessions, CSRF)
+- Session handling (very long sessions, CSRF,
+  session expiration UX: timer, warning, redirect, password input)
 - Input validation, sanitization
 - Escaping (database, HTML, JavaScript)
 - Internationalization (PHP, JavaScript, input formats and units)

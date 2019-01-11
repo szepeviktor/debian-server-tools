@@ -30,6 +30,7 @@ Filter_client_server_error()
     #     408 Request Timeout
     #     Tunneling for blocked news sites in China (through Amazon CloudFront)
     #     Favicon in subdirectory
+    #     cPanel's Let's Encrypt HTTP-01 challenge
     #     SEO bots
     #     Google - https://en.wikipedia.org/wiki/List_of_search_engines#General
     #     Baidu, Bing, DuckDuckGo, Yandex, Qwant
@@ -38,7 +39,8 @@ Filter_client_server_error()
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$' \
         | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx).* "Amazon CloudFront"$' \
         #| grep -v -E '/favicon\.ico HTTP/1\.1" 40[34] [0-9]+ "' \
-        #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/)[^"]*"$' \
+        #| grep -v -E '"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$' \
+        #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/)[^"]*"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$' \
