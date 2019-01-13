@@ -15,7 +15,7 @@ Segítség a helyes hozzáálláshoz.
 - Hány műszaki szakember fog résztvenni? (UX designer, grafikus, fejlesztő, SEO, PPC, social)
 - Hány üzleti résztvevő lesz?
 
-#### Kétféle hozzáállás
+### Kétféle hozzáállás
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a már máshonnan ismert hibák elkerülésével,

@@ -1,0 +1,6 @@
+# Fail2Ban configuration file
+
+[Definition]
+
+# Create iptables chains on start
+actionstart_on_demand = false

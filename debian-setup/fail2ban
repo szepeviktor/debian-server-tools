@@ -10,14 +10,17 @@ Pkg_install_quiet python3-pyinotify geoipupdate mmdb-bin
 # Update GeoIP2 databases
 geoipupdate -v
 
-# Migration: https://github.com/fail2ban/fail2ban/issues/1946
-Getpkg fail2ban buster
 # Get latest of 0.9 versions
 #(
 #    cd /root/dist-mod/ || return 1
 #    wget -nv -O fail2ban.deb "http://snapshot.debian.org/archive/debian/20180129T044656Z/pool/main/f/fail2ban/fail2ban_0.9.7-2_all.deb"
 #    dpkg -i fail2ban.deb
 #)
+#printf 'Package: fail2ban\nPin: release a=stretch-backports\nPin-Priority: -1\n' >/etc/apt/preferences.d/fail2ban.pref
+
+# Migration: https://github.com/fail2ban/fail2ban/issues/1946
+Getpkg fail2ban buster
+
 # Apache may not be installed yet
 service fail2ban stop
 
@@ -28,7 +31,8 @@ for FILTER in apache-combined.local apache-default.local apache-instant.local \
     courier-auth.local courier-smtp.local recidive.local; do
     cp -f security/fail2ban-conf/filter.d/${FILTER} /etc/fail2ban/filter.d/
 done
-for ACTION in cloudflare.local sendmail-geoip-lines.local; do
+for ACTION in iptables-allports.local iptables-multiport.local \
+    cloudflare.local sendmail-geoip-lines.local; do
     cp -f security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
 done
 

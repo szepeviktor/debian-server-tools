@@ -283,6 +283,9 @@ sudo -u courier -- spamassassin --test-mode --prefspath=/var/lib/courier/.spamas
 opendkim -vvv -t msg-signed.eml
 # With opendkim-tools
 opendkim-testmsg <msg-signed.eml && echo "OK."
+
+# Display the contents of the Bayes database
+sa-learn --dbpath /var/lib/courier/.spamassassin/ --dump magic
 ```
 
 ### Mailserver SSL test

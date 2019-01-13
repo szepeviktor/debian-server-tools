@@ -53,7 +53,7 @@ https://www.debian.org/doc/packaging-manuals/debconf_specification.html#AEN106
 
 Find actual values in `debian/dists/stable/Release`
 
--   a,archive,suite (e.g. "stable")
+-   a,archive,suite (e.g. "stable", "stretch")
 -   c,component     (e.g. "main", "crontrib" or "non-free")
 -   v,version       (e.g. "1.0.2-1" )
 -   o,origin        (e.g. "Debian", "Unofficial Multimedia Packages")
@@ -62,6 +62,25 @@ Find actual values in `debian/dists/stable/Release`
 -   site            (e.g. "http.debian.net")
 
 See apt_preferences(5) Determination of Package Version and Distribution Properties
+
+### APT pinning
+
+https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_tweaking_candidate_version
+
+```
+Package: <package name>
+Pin: <man 5 apt_preferences>
+Pin-Priority: <integer>
+```
+
+- `Package: *`
+- `Package: *systemd*`
+- `Pin: version 5.20*`
+- `Pin: release a=testing` see previous section and
+  [the Release file](https://packages.sury.org/php/dists/stretch/Release)
+- `Pin: origin ftp.hu.debian.org` pin by host name in sources.list
+- `Pin-Priority: -1` never install
+- `Pin-Priority: 1000` always install
 
 ### Inspect signing keys
 

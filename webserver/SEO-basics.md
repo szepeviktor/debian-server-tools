@@ -6,7 +6,8 @@ See [Production website note](/webserver/Production-website.md#seo)
 ### Keyword research for a website
 
 - Gather seed keywords (from the client, from website)
-- Google Adwords Keyword Planner / Find new keywords (set country, language)
+- [Google Adwords Keyword Planner](https://ads.google.com/aw/keywordplanner/home)
+  / Find new keywords (set country, language)
 - Remove irrelevant ones (e.g. other brands)
 - Google Adwords Keyword Planner / Get search volume (set country, language)
 - Set one keyword per web page

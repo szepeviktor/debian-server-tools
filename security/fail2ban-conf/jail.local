@@ -2,9 +2,6 @@
 
 # @TODO vallumd - central firewall
 
-# Update to 0.10
-# https://github.com/fail2ban/fail2ban/wiki/How-to-test-newer-fail2ban-version-resp.-use-fail2ban-standalone-instance
-
 [DEFAULT]
 #          localhost   own IP
 #                                    proxy         Googlebot      PayPal IPN
@@ -13,11 +10,9 @@ ignoreip = 127.0.0.0/8 @@IP@@ 88.151.99.143 66.249.64.0/19 173.0.80.0/22
 #          Amazon CloudFront
 # wget -qO- "https://ip-ranges.amazonaws.com/ip-ranges.json"|jq -r '.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix'|sortip
 
-# @FIXME gh-1587
 logencoding = utf-8
 
 # ignorecommand = /path/to/command <ip>
-ignorecommand =
 
 bantime = 3600
 
@@ -124,8 +119,7 @@ port     = http,https
 
 [horde]
 #enabled  = true
-logpath  = /var/log/horde/horde.log
-#logpath  = %(syslog_ftp)s
+logpath  = /home/horde/website/log/horde.log
 port     = http,https
 
 [courier-smtp]
