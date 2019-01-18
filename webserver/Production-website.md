@@ -378,6 +378,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - Image name `mv DSC-0005.jpeg prefix-descriptive-name.jpg`
 - Image optimization `jpeg-recompress JPEG OPTI_JPEG` :snail:
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
+- [CSS statistics](https://cssstats.com/)
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css >large.css`
 - Conditional, lazy or late loading (slider, map, facebook content, [image gallery](https://www.freepik.com/))
 - Use [async and defer](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html) for JavaScripts
@@ -526,6 +527,16 @@ Gain access, set up and test.
 - Smartlook
 - Hotjar
 - URL shortening: Link tracking, Download tracking
+
+Verifying and debugging trackers.
+
+- [Wappalyzer](https://chrome.google.com/webstore/detail/wappalyzer/gppongmhjkpfnbhagpmjfkannfbllamg)
+- [Tag Assistant](https://chrome.google.com/webstore/detail/tag-assistant-by-google/kejbdjndbnbjgmefkgdddjlbokphdefk)
+- [Google Analytics Debugger](https://chrome.google.com/webstore/detail/google-analytics-debugger/jnkmfdileelhofjcijamephohjechhna)
+- [Facebook Pixel Helper](https://chrome.google.com/webstore/detail/facebook-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc)
+- [Google Ads phone call tracking](https://support.google.com/google-ads/answer/6095883?co=ADWORDS.IsAWNCustomer%3Dfalse)
+  `sessionStorage.setItem('_goog_wcc_debug', 'y');`
+- Hotjar: add `hjdebug:true` to `_hjSettings` object
 
 ### Last checks
 

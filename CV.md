@@ -89,3 +89,13 @@ Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és
 - Kevesebb **váratlan** incidens
 
 Keressen meg: viktor@szepe.net
+
+### Infrastruktúra szolgáltatás típusok
+
+1. Domain regisztrátor
+1. DNS szolgáltató
+1. Szerver szolgáltató
+1. SSL tanúsítvány szolgáltató (HTTPS-hez)
+1. CDN szolgáltató (statikus fájlokhoz)
+1. Tranzakciós email kiküldő
+1. Biztonsági mentés szolgáltató

@@ -137,7 +137,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 
 - https://neeed.us/
 - https://www.pwstudio.hu/
-- https://www.budaffect.com/ - webáruház
+- https://www.budaffect.com/ - webáruházhoz
 - https://www.upsolution.hu/
 - https://splendex.io/
 
@@ -153,12 +153,3 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 - https://kinsta.com/blog/hire-wordpress-developer/
 - https://jobs.wordpress.net/post-a-job/
 - https://wphu.org/wordpress-fejlesztes/
-
-
-## Alkalmilag vállalt munkák
-
-- *Vírusos* honlap takarítása (WordPress, Drupal, Joomla) - 4 munkaóra
-- Egyszerű, reszponzív mobil nézet készítése (5 oldaltípushoz) - 4 munkaóra
-- Hírlevél technikai ellenőrzés és kiküldés - 2-4 munkaóra
-- Monitorozott email postafiók szolgáltatás - 1 munkaóra megkezdett GB-onként/fő/6 hónap
-- WordPress sablon telepítés, lehetőségeinek ismertetése (kreatív munkát nem tartalmaz) - 4 munkaóra

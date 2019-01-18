@@ -40,7 +40,7 @@ Bits and bytes.
 
 ### Use others' work :exclamation:
 
-- Consider [PSR-s](http://www.php-fig.org/psr/)
+- Declare class, method and variable naming, consider [PSRs](http://www.php-fig.org/psr/)
 - Frameworks/CMS-s
 - Packages/Libraries
 - SaaS (Loco)
