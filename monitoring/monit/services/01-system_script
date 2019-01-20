@@ -186,8 +186,8 @@ case "$CHECK" in
     HOP1)
         test -z "$NEAREST" && exit 8
         RESULT="$(traceroute -n -4 -w 2 -m 1 "$NEAREST" | sed -n -e '$s#^ 1  \([0-9.]\+\) .*$#\1#p')"
-        # Brace expansion for load-balanced routers
         if [ -n "$EXPECTED" ]; then
+            # Brace expansion for load-balanced routers
             for ROUTER in $(eval echo "$EXPECTED"); do
                 if [ "$ROUTER" == "$RESULT" ]; then
                     EXPECTED="$ROUTER"
