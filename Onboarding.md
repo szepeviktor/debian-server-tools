@@ -55,6 +55,7 @@ https://haveibeenpwned.com/
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
 - Servers / Server listing / (server name) / IP ADDRESSES / REVERSE DNS NAME Public IPv4 + IPv6
+- Log out (prevent session hijacking)
 - Document server IP + password
 
 ### Amazon Web Services registration
@@ -73,6 +74,7 @@ https://haveibeenpwned.com/
   Bounce notification
 - S3 / Server backup bucket
 - IAM / Route53 API user + CloudFront API user + S3 API user
+- Log out (prevent session hijacking)
 - Document credentials
 
 ### Infrastructure setup
@@ -154,6 +156,7 @@ https://haveibeenpwned.com/
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
 - File versioning is not in query string but turned into file names like `filename.002.ext` in URL-s,
   [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L151-L152) reverts them
+- Your web application is protected by a [WAF](https://github.com/szepeviktor/wordpress-fail2ban)
 - Blacklisted things: FTP/S protocol, web-based administration tools (phpMyAdmin), POP3/S protocol
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
 - [Running a Laravel application](/webserver/laravel)

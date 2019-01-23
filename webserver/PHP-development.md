@@ -88,6 +88,7 @@ Use Docker **containers** for testing.
 - PSR-2-based coding style (phpcs)
 - Warn on `TODO` and `FIXME`: "Move it into issues!" (phpcs)
 - PHP Compatibility check (phpcompatibility/php-compatibility)
+- [PHPDoc checker](https://github.com/odan/docblock-checker)
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, larastan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (sensiolabs/security-checker, roave/security-advisories, dependencies.io)
@@ -218,7 +219,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - "Forgot password" link
 - Link to Login/Sign up page
 - Privacy Policy and Terms of Service links
-- Support email and chat/open ticket
+- Support email and [chat/open ticket](https://voximplant.com/solutions/dialogflow-connector)
 - Marketing message on ["logged out" pages](https://sendgrid.com/logged-out/)
 
 ### Authentication :key:
