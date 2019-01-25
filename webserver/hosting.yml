@@ -39,7 +39,7 @@ cron:
   - #wp-cron-cli.sh
   - #"job 2"
 3rd-party:
-  high:
+  server-side:
     payment-gateway:
       name: #Payment gateway
       id: #"A000"
@@ -50,6 +50,7 @@ cron:
       id: #"A000"
       access: #"Client 1"
       email: #notification@example.com
+  client-side:
     external-resources:
       name: #External resources (fonts, video, map)
       id: #"A000"
@@ -65,7 +66,6 @@ cron:
       id: #"A000"
       access: #"Client 1"
       email: #notification@example.com
-  low:
     external-search:
       name: #External search
       id: #"A000"

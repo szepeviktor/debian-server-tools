@@ -95,7 +95,7 @@ final class CheckEnv {
         $this->assert_extension( 'zlib' );
 
         // Common Extensions
-        // dpkg -L php7.2-common | sed -n -e 's|^/usr/lib/php/\S\+/\(\S\+\)\.so$|\1|p' | paste -s -d " "
+        // dpkg -L php7.0-common | sed -n -e 's|^/usr/lib/php/\S\+/\(\S\+\)\.so$|\1|p' | paste -s -d " "
         // ctype iconv gettext tokenizer sockets pdo sysvsem fileinfo posix exif sysvmsg phar ftp calendar sysvshm shmop
         $this->assert_extension( 'ctype' ); // wp-includes/ID3/getid3.lib.php
         $this->assert_extension( 'posix' );
@@ -107,26 +107,26 @@ final class CheckEnv {
         $this->assert_extension( 'sockets' );
         $this->assert_extension( 'tokenizer' );
 
-        // php7.2-json
+        // php7.0-json
         $this->assert_extension( 'json' );
-        // php7.2-intl
+        // php7.0-intl
         $this->assert_extension( 'intl' );
-        // php7.2-xml
+        // php7.0-xml
         // wddx xml simplexml xmlwriter xmlreader dom xsl
         $this->assert_extension( 'xml' );
         $this->assert_extension( 'SimpleXML' );
         $this->assert_extension( 'xmlreader' );
         $this->assert_extension( 'dom' );
-        // php7.2-curl
+        // php7.0-curl
         $this->assert_extension( 'curl' );
-        // php7.2-gd
+        // php7.0-gd
         $this->assert_extension( 'gd' );
-        // php7.2-mysql
+        // php7.0-mysql
         // mysqlnd mysqli pdo_mysql
         // WP_USE_EXT_MYSQL will use mysqli through mysqlnd (no PDO)
         $this->assert_extension( 'mysqlnd' );
         $this->assert_extension( 'mysqli' );
-        // php7.2-opcache
+        // php7.0-opcache
         $this->assert_extension( 'Zend OPcache', 'ext.opcache' );
         $this->assert_directive( 'opcache.restrict_api', '/home/prg123/website/' );
         $this->assert_directive( 'opcache.memory_consumption', '256' );
@@ -155,7 +155,7 @@ final class CheckEnv {
         $this->assert_disabled_extension( 'wddx' );
         $this->assert_disabled_extension( 'xmlwriter' );
         $this->assert_disabled_extension( 'xsl' );
-        // php7.2-sqlite3
+        // php7.0-sqlite3
         // pdo_sqlite sqlite3
         $this->assert_disabled_extension( 'pdo_sqlite' );
         $this->assert_disabled_extension( 'sqlite3' );

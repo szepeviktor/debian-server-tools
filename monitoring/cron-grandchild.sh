@@ -2,8 +2,8 @@
 #
 # Report cron "grandchild failed" details.
 #
-# VERSION       :0.1.4
-# DATE          :2017-03-25
+# VERSION       :0.2.0
+# DATE          :2019-01-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -21,8 +21,8 @@ Grandchild_pid()
 shopt -s nullglob
 
 # Every hour 17 minutes as in Debian cron.hourly, local time (non-UTC)
-dategrep --format rsyslog --multiline \
-    --from "1 hour ago from -17:00" --to "-17:00" /var/log/syslog.[1] /var/log/syslog \
+dategrep --multiline \
+    --start "now truncate 3h add 17m" --end "now truncate 1h add 17m" /var/log/syslog.[1] /var/log/syslog \
     | grep -F -v "$0" \
     | Grandchild_pid \
     | while read -r GC_PID; do

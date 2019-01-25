@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.3.6
-# DATE          :2018-07-25
+# VERSION       :1.4.0
+# DATE          :2019-01-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -113,8 +113,8 @@ while read -r CONFIG_FILE; do
     PROCESSED_LOGS+=( "$ACCESS_LOG" )
 
     # Log lines for 1 day from Debian cron.daily
-    nice dategrep --format apache --multiline \
-        --from "1 day ago at 06:25:00" --to "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
+    nice dategrep --multiline \
+        --start "06:25:00 truncate 48h" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
         | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 

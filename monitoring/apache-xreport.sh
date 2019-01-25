@@ -2,8 +2,8 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.3.0
-# DATE          :2018-07-21
+# VERSION       :1.4.0
+# DATE          :2019-01-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -80,7 +80,7 @@ while read -r CONFIG_FILE; do
 
     # Log lines for 1 day from Debian cron.daily
     nice dategrep --format '%a %b %d %T(.[0-9]+)? %Y' --multiline \
-        --from "1 day ago at 06:25:00" --to "06:25:00" "$ERROR_LOG".[1] "$ERROR_LOG" \
+        --start "06:25:00 truncate 48h" --end "06:25:00" "$ERROR_LOG".[1] "$ERROR_LOG" \
         | Xclude_filter \
         | sed "s;^;$(basename "$ERROR_LOG" .log): ;"
 
