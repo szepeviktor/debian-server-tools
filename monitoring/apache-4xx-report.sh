@@ -114,7 +114,7 @@ while read -r CONFIG_FILE; do
 
     # Log lines for 1 day from Debian cron.daily
     nice dategrep --multiline \
-        --start "06:25:00 truncate 48h" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
+        --start "now truncate 24h add -17h35m" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
         | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 

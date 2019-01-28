@@ -1,4 +1,4 @@
 # Goaccess
-deb http://deb.goaccess.io/ jessie main
+deb http://deb.goaccess.io/ stretch main
 #K: wget -qO- http://deb.goaccess.io/gnugpg.key | apt-key add -
 #M: https://github.com/allinurl/goaccess

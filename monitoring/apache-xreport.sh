@@ -80,10 +80,10 @@ while read -r CONFIG_FILE; do
 
     # Log lines for 1 day from Debian cron.daily
     nice dategrep --format '%a %b %d %T(.[0-9]+)? %Y' --multiline \
-        --start "06:25:00 truncate 48h" --end "06:25:00" "$ERROR_LOG".[1] "$ERROR_LOG" \
+        --start "now truncate 24h add -17h35m" --end "06:25:00" "$ERROR_LOG".[1] "$ERROR_LOG" \
         | Xclude_filter \
         | sed "s;^;$(basename "$ERROR_LOG" .log): ;"
 
-done <<< "$APACHE_CONFIGS" | Maybe_sendmail
+done <<<"$APACHE_CONFIGS" | Maybe_sendmail
 
 exit 0

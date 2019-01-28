@@ -99,7 +99,7 @@ Use Docker **containers** for testing.
 
 - PHPUnit
 - Measure code coverage
-- Codeception, Behat, [KantuX](https://a9t9.com/kantu/compare)
+- Codeception, Behat, [KantuX](https://a9t9.com/kantu)
 - Packaging
 - Test deploy
 
@@ -180,7 +180,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Rotate application log
 - Move per-directory webserver configuration to vhost configuration
 - Redirect removed routes, substitute missing images (URL-s)
-- Use queuing MTA for fast email delivery (SMTP is slow), bounce handling
+- Use queuing MTA for fast email delivery (external SMTP is slow), bounce handling
 - Include firewall/Fail2ban triggers at least for: 404-s, failed login attempts, hidden form fields (WAF)
 - Host a [honey pot](http://www.projecthoneypot.org/faq.php#c)
 - Register to webmaster tools (Google, Bing, Yandex)

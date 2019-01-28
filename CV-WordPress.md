@@ -58,7 +58,7 @@ Essentially keep every operation in memory!
 - TokuDB (fractal tree) MariaDB engine
 - Static resource optimization
 - Cut on JavaScripts
-- Continuous monitoring (monit, Pingdom, HetrixTools)
+- Continuous monitoring (Monit, Pingdom, HetrixTools)
 
 ### Infrastructure layers
 

@@ -22,7 +22,7 @@ shopt -s nullglob
 
 # Every hour 17 minutes as in Debian cron.hourly, local time (non-UTC)
 dategrep --multiline \
-    --start "now truncate 3h add 17m" --end "now truncate 1h add 17m" /var/log/syslog.[1] /var/log/syslog \
+    --start "now truncate 1h add -43m" --end "now truncate 1h add 17m" /var/log/syslog.[1] /var/log/syslog \
     | grep -F -v "$0" \
     | Grandchild_pid \
     | while read -r GC_PID; do

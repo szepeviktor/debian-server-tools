@@ -503,10 +503,10 @@ Document in `hosting.yml` and check functionality.
 - A/B testing
 - [External search](https://sitesearch360.com/)
 - External resources (fonts)
+- Video ([Wistia](https://wistia.com/about-wistia))
+- Maps ([HERE](https://wego.here.com/))
 - Social media ([Twitter card](https://cards-dev.twitter.com/validator))
-- Video
-- Maps
-- Widgets
+- Widgets ([TripAdvisor Widgets](https://www.tripadvisor.com/Widgets))
 - Tracking codes (make *UA-number* `"UN" + "parse" + "able"` or `"UA-" + (17*28711).toString() + "-1"`)
 - Advertisement
 - [Live chat](https://www.drift.com/product-tour/)

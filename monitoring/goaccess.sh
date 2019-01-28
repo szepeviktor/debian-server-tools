@@ -2,7 +2,7 @@
 #
 # Real-time web log analyzer.
 #
-# VERSION       :0.3.0
+# VERSION       :0.3.1
 # DEPENDS       :apt-get install goaccess sipcalc jq
 
 # Usage
@@ -15,8 +15,8 @@ U="$(stat . -c %U)"
 #U="${1:-defaultuser}"
 HTTPS="ssl-"
 #HTTPS=""
-EXCLUDES="amazon_cloudfront hetrixtools custom"
-#EXCLUDES="amazon_cloudfront pingdom cloudflare hetrixtools custom"
+EXCLUDES="custom hetrixtools amazon_cloudfront"
+#EXCLUDES="custom pingdom hetrixtools cloudflare amazon_cloudfront"
 
 # https://myip.ms/info/bots/Google_Bing_Yahoo_Facebook_etc_Bot_IP_Addresses.html
 Exclude_custom()
