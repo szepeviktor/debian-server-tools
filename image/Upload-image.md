@@ -54,13 +54,13 @@ Use **progressive** JPEG images.
 - [mozjpeg by ImageOptim API](https://imageoptim.com/mozjpeg) [mozjpeg](https://mozjpeg.codelove.de/)
 - [SHORTPIXEL](https://shortpixel.com/free-demo)
 - [JPEGmini](http://www.jpegmini.com/)
-- [Smush.it uploader](http://www.imgopt.com/)
+- [reSmush.it](https://resmush.it/)
 - Image and Video Management: [Cloudinary](https://cloudinary.com/)
 
 ### Image file name
 
 Rename image file `categoryprefix-nice descriptive and SEO friendly name may include spaces.jpg`.
-Use dash `-` or space "` `" as separator.
+Use dash `-` as separator.
 Avoid underscore `_` character.
 Use only `.jpg` and `.png` (lowercase) extensions.
 

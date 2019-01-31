@@ -11,7 +11,12 @@ Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
 1. Személyes jelleg fotókkal, videóval, idézetekkel
    **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
 1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
-1. Honnan jön? organikus, PPC, közösségi, hírlevél, térkép, másik honlap (árgép, netpincér, hírportál)
+1. Honnan jön?
+    - organikus (Google Kereső, Bing a Facebook-ban)
+    - PPC (Google Ads, Facebook Business, Etarget, YouTube hirdetés, LinkedIn Advertising)
+    - közösségi, térkép (Facebook, **Google Térkép**, Instagram)
+    - hírlevél, **tranzakciós email** felületek
+    - affiliate rendszer, szolgáltatás közvetítők, partner honlap (árgép, netpincér, hírportálok)
 1. Mivel foglalkozunk? pozicionáló mondat/szlogen/mottó
 1. Kampányok megtervezése
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek

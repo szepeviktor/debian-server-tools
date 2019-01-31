@@ -25,7 +25,7 @@ DOCROOT/─┬─index.php
          └─wp-content/
 ```
 
-### Half-secret Subdirectory structure
+### Semisecret Subdirectory structure
 
 ```
 wp-cli.yml
