@@ -4,6 +4,7 @@ Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
 
 ### Stratégia
 
+1. Interneten elérhető a célközönség?
 1. A honlap mely részeire van kapacitásunk, hogy *életben* tartsuk, azaz módosítsuk különböző visszajelzések
    (látogatások, kattintások, telefonos kérdések, eladási eredmények) alapján?
 1. Mi legyen a honlapon? krumpli pecsét **vs.** *Ez szokott lenni egy honlapon*
