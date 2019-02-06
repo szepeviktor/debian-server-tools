@@ -137,8 +137,6 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-sit
   printf '05,35 *  * * *  nobody\t/usr/local/bin/ocsp--%s\n' "$DOMAIN" >"/etc/cron.d/ocsp-${DOMAIN//./-}" )
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >"${DOMAIN}.conf"
-# * Non-SSL
-sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site.conf >"${DOMAIN}.conf"
 
 # * HPKP (HTTP Public Key Pinning) including backup public key
 #     Headers: Public-Key-Pins-Report-Only Public-Key-Pins

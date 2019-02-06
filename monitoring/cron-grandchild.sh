@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install libdate-manip-perl dategrep
+# DEPENDS       :apt-get install dategrep
 # LOCATION      :/usr/local/sbin/cron-grandchild.sh
 # CRON-HOURLY   :/usr/local/sbin/cron-grandchild.sh
 

@@ -1,9 +1,3 @@
-### Site configs diff
-
-```bash
-colordiff Skeleton-site.conf Skeleton-site-ssl.conf
-```
-
 ### Apache variables
 
 ```php

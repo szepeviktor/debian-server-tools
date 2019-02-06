@@ -6,5 +6,7 @@ set -e -x
 Pkg_install_quiet python3-dev python-dev
 wget -nv "https://bootstrap.pypa.io/get-pip.py"
 
+# https://twitter.com/pear/status/1086634389465956352
+
 python3 get-pip.py
 python2 get-pip.py
