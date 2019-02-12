@@ -6,7 +6,9 @@
 
 Details about [infrastructure and source code management](https://git.io/vNryB)
 
-### Choose one infrastructure provider
+### Specialized infrastructure providers
+
+Choose one per category.
 
 1. Domain registrar: **AWS, Gandi :eu:, noip, dyn, Rackhost/.hu :eu:**
 1. DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**

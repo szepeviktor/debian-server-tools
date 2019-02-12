@@ -6,16 +6,16 @@
 # LOCATION      :/etc/spamassassin/10_rare_tld.cf
 
 # From: header
-header   FROM_RARE_TLD From:addr =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date)$/i
+header   FROM_RARE_TLD From:addr =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date|ico)$/i
 describe FROM_RARE_TLD From address in rarely non-spam TLD
 score    FROM_RARE_TLD 2.000
 
 # Reply-To: header
-header   REPTO_RARE_TLD Reply-To =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date)>?$/i
+header   REPTO_RARE_TLD Reply-To =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date|icu)>?$/i
 describe REPTO_RARE_TLD Reply-To address in rarely non-spam TLD
 score    REPTO_RARE_TLD 2.000
 
 # Any URI
-uri      URI_RARE_TLD m;://[^/]+\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date)(?:/|$);i
+uri      URI_RARE_TLD m;://[^/]+\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date|icu)(?:/|$);i
 describe URI_RARE_TLD URI refers to rarely non-spam TLD
 score    URI_RARE_TLD 2.000

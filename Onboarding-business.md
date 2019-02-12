@@ -28,3 +28,11 @@ Egy másik megvilágításban.
    és esetleg még valaki átnézte a kódot, és van hozzá teszt
 
 https://twitter.com/chopeh/status/926074073767206912
+
+### Hogyan működik a proaktivitás?
+
+A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
+
+1. A máshonnan ismert hiba forrás megelőző jellegű javítása → bizonyosság: teljes, 100%
+2. Hiba következik be → bizonyosság: kevesebb, mint 100%
+3. Valamilyen módon - pl. tévedésből - a hiba nem következik be → bizonyosság: sokkal kevesebb, mint 100%
