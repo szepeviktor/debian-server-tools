@@ -57,7 +57,7 @@ Dinstall()
     (
         cd /usr/local/src/ || return 1
         if [ ! -d "debian-server-tools" ]; then
-            git clone https://github.com/szepeviktor/debian-server-tools.git
+            git clone "https://github.com/szepeviktor/debian-server-tools.git"
         fi
         cd debian-server-tools/ || return 1
 
@@ -68,6 +68,6 @@ export -f Dinstall
 
 Data()
 {
-    PYTHONIOENCODING="utf_8" shyaml "$@" < /root/server.yml
+    PYTHONIOENCODING="utf_8" shyaml "$@" </root/server.yml
 }
 export -f Data

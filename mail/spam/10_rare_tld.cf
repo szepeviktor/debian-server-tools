@@ -6,7 +6,7 @@
 # LOCATION      :/etc/spamassassin/10_rare_tld.cf
 
 # From: header
-header   FROM_RARE_TLD From:addr =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date|ico)$/i
+header   FROM_RARE_TLD From:addr =~ /\.(?:wor(?:k|ld)|space|club|science|pub|red|blue|green|link|ninja|lol|xyz|faith|review|download|top|global|(?:web)?site|tech|party|pro|bid|trade|win|moda|news|online|biz|host|loan|study|click|stream|xxx|date|icu)$/i
 describe FROM_RARE_TLD From address in rarely non-spam TLD
 score    FROM_RARE_TLD 2.000
 

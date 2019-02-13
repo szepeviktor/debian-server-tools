@@ -1,0 +1,6 @@
+#!/bin/bash
+
+test -n "$1" || exit 10
+
+mmdblookup --file /var/lib/GeoIP/GeoLite2-Country.mmdb --ip "$1" registered_country iso_code \
+    | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p'

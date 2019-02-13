@@ -54,8 +54,7 @@ apache_user_error_log = /home/*/website/log/*error.log
 
 [sshd]
 enabled  = true
-# Includes sshd-ddos
-filter   = sshd-aggressive
+mode     = aggressive
 port     = @@SSHPORT@@
 maxretry = 3
 

@@ -45,19 +45,26 @@ Pkg_install_quiet \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
     net-tools whois ntpdate ipset netcat-openbsd lftp s-nail \
     gcc libc6-dev make strace \
-    unscd mtr-tiny cruft bash-completion htop mmdb-bin
+    unscd cruft bash-completion htop mmdb-bin
 
 # Provide mail command
 debian-setup/s-nail
+
+# @nonDebian
+Pkg_install_quiet goaccess
 
 # From backports
 # List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian
 Pkg_install_quiet \
-    -t stretch-backports needrestart geoipupdate git goaccess
+    -t stretch-backports needrestart geoipupdate git mtr-tiny
 # Also in debian-setup/fail2ban
 
 # From testing
+# Depends on openssl (>= 1.1.1), from e.g. sury-php
+dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?and(?exact-name(libssl1.1), ?architecture(native))')" ge "1.1.1"
+# @nonDebian
+Pkg_install_quiet openssl libssl1.1
 debian-setup/ca-certificates
 
 # From custom repos

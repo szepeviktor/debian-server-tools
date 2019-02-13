@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.5
+# VERSION       :2.0.6
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -52,7 +52,7 @@
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    export LC_ALL=C.UTF-8; cd debian-server-tools-master/
 # 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
-# 3. cat server.yml debian-setup/providers/upcloud-defra1.yml > /root/server.yml
+# 3. cat server.yml debian-setup/providers/upcloud-defra1.yml >/root/server.yml
 #    editor /root/server.yml
 # 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
 # 5. Check fs type, set volume label:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
@@ -103,7 +103,7 @@ export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME
 # Hungarian Debian mirror
 #export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
-export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml"
+export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml.py"
 
 set -e -x
 
@@ -171,6 +171,7 @@ apt-get install -qq ssh sudo dirmngr apt-transport-https virt-what python-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
+shyaml --help >/dev/null
 
 # Add APT repositories
 for REPO in $(Data get-values package.apt.sources); do

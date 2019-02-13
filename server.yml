@@ -23,6 +23,7 @@ package:
             - percona
             #- mysql-5.7
             #- oracle-mysql-server
+            - goaccess
         extra:
             - php7.2-fpm
             - grepcidr

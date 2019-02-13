@@ -56,6 +56,7 @@ https://haveibeenpwned.com/
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
+- Check IP reputation (Security Trails, Project Honey Pot, HE BGP Toolkit, AbuseIPDB)
 - Servers / Server listing / (server name) / IP ADDRESSES / REVERSE DNS NAME Public IPv4 + IPv6
 - Log out (prevent session hijacking)
 - Document server IP + password
