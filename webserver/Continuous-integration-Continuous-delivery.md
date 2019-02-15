@@ -43,8 +43,8 @@ How to design and implement CI and CD.
 - Check for maintenance mode `test -f storage/framework/down` ,
   Turn on [maintenance mode](https://github.com/laravel/framework/blob/18402cd4b83fd1d944f3baa0d8cc26d7dfcce333/src/Illuminate/Foundation/Application.php#L927-L930)
   covering static resource, page, AJAX and API requests
-- Disable cron jobs and background workers (email piped to a program)
 - Clear caches (configuration, routes, application, template etc.)
+- Disable cron jobs and background workers after clearing caches (email piped to a program)
 - Identify git repository and branch
 - Checkout by commit hash (not by branch HEAD)
 - At least **lint the source code**

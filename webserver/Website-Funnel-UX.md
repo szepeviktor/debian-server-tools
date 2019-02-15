@@ -43,6 +43,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
 1. [Tervezés](https://www.figma.com/)/[prototyping](https://www.invisionapp.com/)/[wireframe](https://balsamiq.com/wireframes/)
 1. Nézetek [mobilon](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
+   és [AMP változat](https://support.google.com/google-ads/answer/7336292?hl=hu)
    és különböző készülékeken, böngészőkben
 1. Látogatási folyamat (user flow) szimuláció és validálás
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
