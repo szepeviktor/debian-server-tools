@@ -26,6 +26,8 @@ add sprint.pl 185.234.219.0/24
 ##188.68.240.0/20     "SPRINT" S.A.
 ##193.42.147.0/24     Data Quest
 ##193.169.252.0/24    AstroVM.net
+# AstroVM.net
+add sprint.pl 193.169.254.0/24
 ##193.169.255.0/24    AstroVM.net
 # "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
 add sprint.pl 195.22.125.0/24
