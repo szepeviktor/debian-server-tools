@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.6.1
+ * @version 0.6.2
  */
 
 namespace O1;
@@ -207,7 +207,7 @@ EOF;
         $this->assert(
             'wkhtmltopdf',
             '4cfe353c60b4fab477c1ff5b8fd75369',
-            wkhtmltopdf( __DIR__ . '/vendor/bin/wkhtmltopdf-amd64', $html )
+            $this->wkhtmltopdf( __DIR__ . '/vendor/bin/wkhtmltopdf-amd64', $html )
         );
         */
     }

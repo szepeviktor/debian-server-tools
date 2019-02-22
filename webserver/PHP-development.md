@@ -227,7 +227,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Analyze HTTP headers
 - Browser check with JavaScript
   ([proof-of-work](https://en.wikipedia.org/wiki/Proof-of-work_system#List_of_proof-of-work_functions))
-- Client-side [mail check](https://github.com/mailcheck/mailcheck)
+- Client-side [address check](https://github.com/mailcheck/mailcheck)
 - Suspicious email address:
     - company domain
     - blocked domain (e.g. example.com, *.test)
@@ -264,6 +264,18 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - If you choose an [identity provider](https://www2.nopassword.com/contextual-adaptive-authentication/)
   search the web for its name plus "breach" "exploit" "security"
 - [Authentication as a Service](https://auth0.com/rules/thisdata-alert-anomalies)
+
+### Email address lifecycle
+
+- `form` analyze HTTP request
+- `form` form hidden field
+- `input` maximum length
+- `input` mailcheck.js
+- `input` Suspicious email address
+- `input` NeverBounce
+- `output` obfuscate email addresses
+- `delivery` prevent automatic responses
+- `delivery` detect bounce -> take action (stop sending, notify user or user's team)
 
 ### User support, user feedback
 

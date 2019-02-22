@@ -17,6 +17,11 @@ Segítség a helyes hozzáálláshoz.
 
 ### Kétféle hozzáállás
 
+1. El kell tartsa a céget a webes alkalmazás?
+2. Vagy a webes alkalmazás csak egy melléktevékenység?
+
+Igények és eredmények irányából.
+
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a már máshonnan ismert hibák elkerülésével,
    és folyamatos "motorháztető alatti" fejlesztések például az erőforrások 10%-a erejéig

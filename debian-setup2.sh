@@ -265,7 +265,7 @@ service fail2ban restart
 Pkg_install_quiet debconf-utils rsync mariadb-client
 # percona-xtrabackup is installed in debian-setup/mariadb,mysql
 # @nonDebian
-Pkg_install_quiet s3ql
+Pkg_install_quiet s3ql -t stretch-backports
 # Disable Apache configuration from javascript-common
 if hash a2disconf 2>/dev/null; then
     a2disconf javascript-common
