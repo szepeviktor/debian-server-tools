@@ -238,7 +238,7 @@ wp db optimize
 
 ### Remove development and testing stuff
 
-- Sample / Demo content :snail:
+- Sample / [Demo content](https://thispersondoesnotexist.com/) :snail:
 - Code editor configuration file `.editorconfig`
 - Files: `find -iname "*example*" -or -iname "*sample*" -or -iname "*demo*"`
 - PHP-FPM pool configuration: `env[WP_ENV] = production`

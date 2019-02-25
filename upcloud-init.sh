@@ -6,7 +6,7 @@
 # Follow log:  tail -f /var/log/upcloud_userdata.log
 
 # http://deb.debian.org/debian/pool/contrib/g/geoipupdate/
-GEOIPUPDATE_VERSION="2.5.0-1"
+GEOIPUPDATE_VERSION="3.1.1-1"
 DEBIAN_CODENAME="stretch"
 
 export LC_ALL="C"
@@ -48,8 +48,8 @@ wget -nv -O /etc/apt/sources.list \
 # Update Debian
 apt-get clean -q
 apt-get update -q
-# Prevent kernel update
-#apt-mark hold linux-image-amd64 "linux-image-[0-9].*-amd64"
+# Pending kernel update prevents docker-engine to run without reboot
+apt-mark hold linux-image-amd64 'linux-image-[0-9].*-amd64'
 apt-get dist-upgrade -qq
 
 # docker
@@ -58,10 +58,8 @@ apt-key adv --no-tty --keyserver keys2.kfwebs.net --recv-keys 2C52609D
 echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
     >/etc/apt/sources.list.d/docker.list
 apt-get update -q
-apt-get install -qq docker-engine \
-  || true
-# Work-around for "no sockets found via socket activation: make sure the service was started by systemd"
-  systemctl start docker.service; apt-get install -f
+apt-get install -qq docker-engine
+systemctl status docker.service
 docker version
 
 # pip
