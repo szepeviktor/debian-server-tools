@@ -492,8 +492,9 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Phone numbers (clickable, tracked)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - [Printer](http://www.printfriendly.com/), [Gutenberg framework](https://github.com/BafS/Gutenberg)
-- [Accessibility attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers
-- [Accessibility Guidelines](https://www.w3.org/TR/WCAG20/)
+- [Accessibility](https://userway.org/),
+  [attributes](https://www.w3.org/TR/wai-aria/states_and_properties) for screen readers,
+  [guidelines](https://www.w3.org/TR/WCAG21/)
 - Reader mode (from Firefox `chrome://global/skin/aboutReaderContent.css`)
 
 ### Integration (3rd party services)

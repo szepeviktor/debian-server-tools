@@ -49,6 +49,7 @@ declare -a AS_HOSTING=(
     AS9299   # Philippine Long Distance Telephone Company (ISP)
     AS200557 # Region40
     AS32097  # WholeSale Internet
+    AS55933  # Cloudie Limited
 )
 
 # Labs #

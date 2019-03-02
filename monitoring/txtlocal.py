@@ -2,33 +2,31 @@
 #
 # Send SMS message through textlocal.com.
 #
-# VERSION        :1.0.1
-# DATE           :2015-07-06
+# VERSION        :1.1.0
+# DATE           :2019-02-26
 # AUTHOR         :Viktor Szépe <viktor@szepe.net>
 # URL            :https://github.com/szepeviktor/debian-server-tools
 # LICENSE        :The MIT License (MIT)
 # PYTHON-VERSION :3.2+
-# DOCS           :http://api.txtlocal.com/docs/
+# DOCS           :http://api.txtlocal.com/docs/sendsms
 # LOCATION       :/usr/local/bin/txtlocal.py
 
-# Fill in USERNAME and API_HASH
+# Fill in API_KEY
 #
 # Alternative Email to SMS method:
 #     txtlocal@mydomain.net: |/usr/sbin/sendmail -f AUTHORIZED@ADDRESS PHONE-NUMBER@txtlocal.co.uk
 
-USERNAME = ''
-API_HASH = ''
+API_KEY = ''
 
 import urllib.request
 import urllib.parse
 import json
 import sys
 
-def send_sms(uname, hash_code, numbers, message):
+def send_sms(api_key, numbers, message):
     txtlocal_api = 'https://api.txtlocal.com/send/?'
     parameters = {
-        'username': uname,
-        'hash': hash_code,
+        'apikey': api_key,
         'numbers': numbers,
         'message' : message,
         'sender': 'xreplyx',
@@ -42,7 +40,7 @@ def send_sms(uname, hash_code, numbers, message):
     return body
 
 def main(argv):
-    resp = send_sms(USERNAME, API_HASH, argv[0], argv[1])
+    resp = send_sms(API_KEY, argv[0], argv[1])
     # Debug: print(resp.decode('utf-8'))
 
     try:

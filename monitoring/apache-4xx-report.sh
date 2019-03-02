@@ -39,6 +39,7 @@ Filter_client_server_error()
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$' \
         | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx).* "Amazon CloudFront"$' \
         #| grep -v -E '/favicon\.ico HTTP/1\.1" 40[34] [0-9]+ "' \
+        #| grep -v -E '/wlwmanifest\.xml HTTP/1\.1" 40[34] [0-9]+ "' \
         #| grep -v -E '"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/)[^"]*"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$' \
