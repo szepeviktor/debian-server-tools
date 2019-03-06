@@ -317,7 +317,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 - [**Mobile views**](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
   (responsive design), [Mobile-friendliness](https://search.google.com/test/mobile-friendly),
-  Accelerated Mobile Pages (AMP)
+  [Accelerated Mobile Pages](https://search.google.com/test/amp) (AMP)
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
@@ -397,7 +397,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - https://report-uri.io/home/tools CSP, HKPK, SRI etc.
 - https://www.webpagetest.org/
 - https://speedcurve.com/
-- [Silktide Insites](https://insites.com/)
+- [Silktide](https://silktide.com/)
 - Does the website have a public API? (WP REST API, WooCommerce API)
 - Test (REST) API with
   [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)

@@ -70,6 +70,8 @@ https://haveibeenpwned.com/
 - Verification phone call: dial numbers
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
+- Billing / Disable Free Tier Usage Alerts
+- CloudWatch / Create Alarm for EstimatedCharges
 - Route53 / Domain + DNS
 - CloudFront / CDN
 - SES / Domain + SMTP credentials +

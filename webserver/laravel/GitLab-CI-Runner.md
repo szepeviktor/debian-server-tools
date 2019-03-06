@@ -6,7 +6,7 @@ See https://docs.gitlab.com/runner/register/index.html#docker
 docker run --rm -i -t -v /opt:/etc/gitlab-runner gitlab/gitlab-runner:latest register
 #  --non-interactive \
 #  --url "https://gitlab.com/" \
-#  --registration-token "PROJECT_REGISTRATION_TOKEN" \
+#  --registration-token "PROJECT-REGISTRATION-TOKEN" \
 #  --executor "docker" \
 #  --docker-image "php:7.2-stretch" \
 #  --description "gitlab-runner on UpCloud" \

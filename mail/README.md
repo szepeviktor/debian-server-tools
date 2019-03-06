@@ -21,13 +21,13 @@
 - https://www.sparkpost.com/ on AWS *free:15 000*,
   [retries](https://www.sparkpost.com/docs/faq/how-are-messages-retried/)
 - https://www.mandrill.com/ by MailChimp *free:0*
-- https://www.sendinblue.com/ :eu: has own AS *free:9000*
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 - _ToBeTested_ https://www.smtp2go.com/pricing/
 - _ToBeTested_ https://elasticemail.com/transactional/ on OVH
 
 * https://sendgrid.com/ has own AS *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
+* https://www.sendinblue.com/ :eu: has own AS *free:9000*
 * https://www.mailjet.com/transactional *free:6000*
 * https://postmarkapp.com/ by Wildbit *free:1×25 000*
 
@@ -511,7 +511,7 @@ Deprecated.
 rblcheck
 ```
 
-Courier MTA
+Built-in blacklist check in Courier MTA
 
 ```ini
 BLACKLISTS="-block=bl.blocklist.de"
@@ -526,6 +526,14 @@ wget -qO- --post-data="_method=POST&data[Reputation][ip]=${IP}" https://ers.tren
 
 OK response: `IP Unlisted in the spam sender list None`
 
+MIPSpace Reputation lists - "No More Email Marketing"
+
+```bash
+wget -qO- --post-data="search=1.2.3.4" "http://www.mipspace.com/lookup.php" \
+    | sed -n -e 's#<[^>]\+>##g;s#^.*\(The IP address .\+\)$#\1#p'
+```
+
+Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputation lists: MIPSpace-Poor`
 
 ### Mail server reputation
 
