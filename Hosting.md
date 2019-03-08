@@ -2,7 +2,7 @@
 
 # :stop_sign: This is a historic listing, NOT a recommendation! :stop_sign:
 
-## :hand: Do you have a [web application or website](/CV.md)?
+## :point_up: Do you have a [web application or website](/CV.md)?
 
 ### Types of website hosting
 
