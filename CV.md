@@ -1,53 +1,45 @@
 [:hungary:](#hu)&nbsp;&nbsp;&nbsp;[:uk:](#en)
 
-[![Honlap műszaki háttere](/Application-infrastructure.png)  
-Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
-
-# <a name="en"></a>Infrastructure, source code management and consulting for web applications
+# <a name="en"></a>Preventing machine and human errors while running your web application
 
 DevOps can be seen as the foundation of my work,
 which focuses on **proactive** maintenance of
 [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).
 This&nbsp;includes comprehensive understanding of the application,
-continuous integration (CI) and automated deployment (CD).
+full source code life cycle, continuous integration (CI) and automated deployment (CD).
 
-My knowledge of these technologies,
-and experience in implementing them in production environments
-complements the knowledge of developers.
-
-My goals for any project are to increase stability,
-reduce vulnerabilities and achieve maximum performance.
-If you can't stand outages or performance lags,
-and are looking for a partner to help you minimize them -
-then we should talk!
+My exclusive focus on **non-userfacing** parts of the application
+implies the need for other team members.
 
 ### Proactive maintenance features
 
-- Choosing service providers based on [measurements](https://github.com/szepeviktor/wordpress-speedtest)
-- Modern OS and software
-- Controlled environment for the application
-- [Monitoring](/monitoring/README.md) all these and 3rd parties by functional tests and integrity checks
-- Regular log analysis
-- Intelligent and encrypted backup to a highly durable storage provider
+- You benefit from all incident at all my clients (ever)
+- I maintain a blacklist and a list of recommendations
+  of technologies, software and business procedures
+- Many types of alerts and regular log analysis
 
-* Design and implementation of [continuous integration](/webserver/Continuous-integration-Continuous-delivery.md) (CI)
-* Automated and monitored application deployment (CD)
-* **Reporting issues** to developers
-* Developing monitoring, **performance and security** [tools](https://github.com/szepeviktor/)
-* [Email delivery](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md)
+### How to build infrastructure?
 
-### Benefits
+We have to start planning (and error prevention)
+from the bulldozer leveling the ground for the datacenter
+and build infrastructure **and** the application from there up to browser rendering.
 
-- **Stable operation**
-- Prevent application vulnerability
-- Better UX for clients
-- Fast page loads
-- Higher Google Search ranking
-- Fewer **unexpected** situations
+- choose specialized domain registrar, dns, ssl, cdn, email, backup providers
+- choose an honest, proactive and technically advanced cloud provider:
+  virtualization, network, storage, processor, memory
+- modern and small operating system
+- modern server software: webserver, fast SSL, database, in-memory cache, PHP environment
+- minimal and audited plugins (modules)
+- static file optimization
+- network and application security
+- heavy monitoring of **everything** we have and depend on
 
 Contact me: viktor@szepe.net
 
 
+
+[![Honlap műszaki háttere](/Application-infrastructure.png)  
+Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
 # <a name="hu"></a>Infrastruktúra, forráskód kezelés és technológiai tanácsadás webes alkalmazásokhoz
 
