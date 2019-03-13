@@ -9,11 +9,16 @@ Segítség a helyes hozzáálláshoz.
 - Készül műszaki dokumentáció vagy drótváz?
 - UX elemzés, tervezés, tesztelés lesz?
 
-### Résztvevők száma
+### Résztvevők
 
 - Lesz projektvezető?
 - Hány műszaki szakember fog résztvenni? (UX designer, grafikus, fejlesztő, SEO, PPC, social)
 - Hány üzleti résztvevő lesz?
+
+### Eszközök
+
+Milyen eszközöket fogunk használni?
+https://szepeviktor.typeform.com/to/O8bLIX
 
 ### Kétféle hozzáállás
 
@@ -38,6 +43,6 @@ https://twitter.com/chopeh/status/926074073767206912
 
 A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 
-1. A máshonnan ismert hiba forrás megelőző jellegű javítása → bizonyosság: teljes, 100%
-2. Hiba következik be → bizonyosság: kevesebb, mint 100%
+1. A máshonnan megismert hiba forrás megelőző jellegű javítása → bizonyosság: teljes, 100%
+2. Bevállaljuk, hogy hiba következik be → bizonyosság: kevesebb, mint 100%
 3. Valamilyen módon - pl. tévedésből - a hiba nem következik be → bizonyosság: sokkal kevesebb, mint 100%

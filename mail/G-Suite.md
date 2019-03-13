@@ -20,3 +20,4 @@
    - `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net"`
 1. Use G Suite Toolbox Check MX service  
    `https://toolbox.googleapps.com/apps/checkmx/check?dkim_selector=google&domain=EXAMPLE.COM`
+1. Optional [SMTP relay](https://admin.google.com/AdminHome?fral=1#ServiceSettings/service=email&subtab=filters)

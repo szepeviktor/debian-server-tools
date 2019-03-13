@@ -17,7 +17,7 @@ test "$(basename "$CURRENT_DIR")" == website || exit 10
 test -r ../.ssh/id_ecdsa || test -r ../.ssh/id_ed25519 || exit 11
 
 # In form of group/project
-read -p GITLAB_PROJECT
+read -r -p "GITLAB_PROJECT=" GITLAB_PROJECT
 
 # CI Container
 echo "Create api+read_repository token: https://gitlab.com/profile/personal_access_tokens"

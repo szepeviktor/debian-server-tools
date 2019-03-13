@@ -179,15 +179,23 @@ PUB="${COMMON_NAME}.crt"
 # Intermediate certificate file name
 INT="${COMMON_NAME}.intermediate.crt"
 
-#  Certificate Authority Authorization
+# Certificate Authority Authorization
 if [ "${COMMON_NAME:0:1}" == "*" ]; then
-    echo "${COMMON_NAME}  IN  CAA  0 issue \";\""
-    echo "${COMMON_NAME}  IN  CAA  0 issuewild \"letsencrypt.org\""
+    echo "${COMMON_NAME}.  IN  CAA  0 issue \";\""
+    echo "${COMMON_NAME}.  IN  CAA  0 issuewild \"letsencrypt.org\""
 else
-    echo "${COMMON_NAME}  IN  CAA  0 issue \"letsencrypt.org\""
-    echo "${COMMON_NAME}  IN  CAA  0 issuewild \";\""
+    echo "${COMMON_NAME}.  IN  CAA  0 issue \"letsencrypt.org\""
+    echo "${COMMON_NAME}.  IN  CAA  0 issuewild \";\""
 fi
 echo "${COMMON_NAME}  IN  CAA  0 iodef \"mailto:admin@szepe.net\""
+
+# Generate TLSA Record
+# Usage:         0 - PKIX-TA: Certificate Authority Constraint
+# Selector:      1 - SPKI: Subject Public Key
+# Matching Type: 2 - SHA-512: SHA-512 Hash
+printf '_443._tcp.%s.  IN  TLSA  0 1 2 ' "$COMMON_NAME"
+openssl x509 -noout -pubkey -in "$INT" \
+    | openssl rsa -pubin -outform DER | openssl sha512 | cut -d " " -f 2 | tr "a-z" "A-Z"
 
 # Authorize or check authorization
 if [ "$AUTHORIZATION" == HTTP ]; then

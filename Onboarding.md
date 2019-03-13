@@ -151,7 +151,7 @@ https://haveibeenpwned.com/
   ([full feature list](/debian-setup.sh#L23))
 - Every web application (and website) runs as a separate Linux user
 - There are no passwords for Linux users, only SSH keys
-- The server is accessible through SSH: **terminal, MySQL tunnel, file upload, code deploy** etc.
+- All **non-production** servers are accessible through SSH: **terminal, MySQL tunnel, file upload, code deploy** etc.
 - TCP ports for web and SSH are heavily protected (maxretry=3) [with Fail2ban](/security/fail2ban-conf)
 - Source code is kept in git (version-control system)
 - PHP OPcache's [file timestamp validation](/webserver/phpfpm-pools/Skeleton-pool.conf#L30) is off,
