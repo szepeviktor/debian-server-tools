@@ -150,6 +150,9 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 ## WordPress fejlesztő keresés
 
 - https://iamgergo.com/about/
-- https://kinsta.com/blog/hire-wordpress-developer/
-- https://jobs.wordpress.net/post-a-job/
-- https://wphu.org/wordpress-fejlesztes/
+- https://webikon.sk/
+- https://www.bluechip.at/de/ueber-uns/leitung-team/
+
+* https://kinsta.com/blog/hire-wordpress-developer/
+* https://jobs.wordpress.net/post-a-job/
+* https://wphu.org/wordpress-fejlesztes/

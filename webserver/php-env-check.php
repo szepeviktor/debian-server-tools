@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.6.2
+ * @version 0.6.3
  */
 
 namespace O1;
@@ -75,6 +75,7 @@ final class CheckEnv {
         $this->assert_directive( 'mail.add_x_header', '0' );
         $this->assert_directive( 'realpath_cache_size', '64k' );
         $this->assert_directive( 'output_buffering', '4096' );
+        $this->assert_directive( 'max_input_time', '60' );
         $this->assert_directive( 'max_execution_time', '30' );
         $this->assert_directive( 'memory_limit', '128M' );
         $this->assert_directive( 'max_input_vars', '1000' );

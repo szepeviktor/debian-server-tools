@@ -153,7 +153,13 @@ Check_db_schemas() # Error 5x
 
         SCHEMA="${TARGET}/db/db-${DB}.schema.sql"
         # Check schema
-        mysqldump --skip-comments --no-data --events --routines "$DB" \
+        #     Tables included by default / --no-data
+        #     Views included by default / --no-data
+        #     Stored Routines: Procedures --routines / excluded by default
+        #     Stored Routines: Functions --routines / excluded by default
+        #     Triggers included by default / --skip-triggers
+        #     Event Scheduler --events / excluded by default
+        mysqldump --skip-comments --no-data --routines --triggers --events "$DB" \
             | sed -e 's/ AUTO_INCREMENT=[0-9]\+\b//' \
             >"$TEMP_SCHEMA" || Error 51 "Schema dump failure"
 
