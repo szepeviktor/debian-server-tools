@@ -51,8 +51,8 @@ class Is {
 			case 'cron':
 				return wp_doing_cron();
 			case 'frontend':
-				return ( ! is_admin() || wp_doing_ajax() ) && ! wp_doing_cron();
-			case 'trackback':
+				return ( ( ! is_admin() || wp_doing_ajax() ) && ! wp_doing_cron() );
+			case 'rest':
 				return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 			case 'trackback':
 				return is_trackback();

@@ -4,6 +4,7 @@
 #
 
 SWAP_FILE="${1:-/swap0}"
+# 2 GB
 SWAP_SIZE="${2:-2047}"
 
 set -e -x
@@ -23,8 +24,8 @@ dd if=/dev/zero of="$SWAP_FILE" bs=1M seek="$SWAP_SIZE" count=0
 fallocate --length "$(stat --format=%s "$SWAP_FILE")" "$SWAP_FILE"
 chmod 0600 "$SWAP_FILE"
 
-# Autogenerate a label and format
+# Autogenerate a label and format swap
 mkswap --label "${SWAP_FILE#/}" "$SWAP_FILE"
 
 # Enable swap
-echo "${SWAP_FILE}    none    swap    sw    0   0" >> /etc/fstab
+echo "${SWAP_FILE}    none    swap    sw    0   0" >>/etc/fstab

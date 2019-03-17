@@ -72,7 +72,7 @@ chown -c -R "${U}:${U}" "/home/${U}/"
 
 # wp-config.php skeleton
 
-# WordPress Fail2ban
+# WAF for WordPress
 
 # Migrate database NOW!
 #

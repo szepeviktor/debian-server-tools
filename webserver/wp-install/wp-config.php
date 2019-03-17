@@ -38,17 +38,17 @@ ini_set( 'log_errors', 1 );
 
 /**
  * Download both files.
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
+wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/http-analyzer/waf4wordpress-http-analyzer.php
+wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/core-events/waf4wordpress-core-events.php
  */
 
-// WordPress Fail2ban.
-define( 'O1_WP_FAIL2BAN_ALLOW_REDIRECT', true ); // Polylang with separate domains.
-define( 'O1_BAD_REQUEST_ALLOW_CONNECTION_EMPTY', true ); // HTTP2.
-define( 'O1_BAD_REQUEST_CDN_HEADERS', 'HTTP_X_AMZ_CF_ID:HTTP_VIA:HTTP_X_FORWARDED_FOR' ); // CDN.
+// WAF for WordPress.
+define( 'W4WP_ALLOW_CONNECTION_EMPTY', true ); // HTTP2.
+define( 'W4WP_CDN_HEADERS', 'HTTP_X_AMZ_CF_ID:HTTP_VIA:HTTP_X_FORWARDED_FOR' ); // CDN.
+define( 'W4WP_ALLOW_REDIRECT', true ); // Polylang with separate domains.
 // require_once __DIR__ . '/wp-miniban-htaccess.inc.php';
-require_once __DIR__ . '/wp-fail2ban-bad-request-instant.inc.php';
-new \O1\Bad_Request();
+require_once __DIR__ . '/waf4wordpress-http-analyzer.php';
+new \Waf4WordPress\Http_Analyzer();
 
 /** Composer. */
 

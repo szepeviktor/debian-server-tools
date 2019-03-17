@@ -28,7 +28,7 @@ Xclude_filter()
     # AH00128: File does not exist
     # #AH00162: server seems busy, (you may need "to increase StartServers, or Min/MaxSpareServers)
     # AH02032: Hostname %s provided via SNI and hostname %s provided via HTTP are different
-    # WordPress Fail2ban
+    # WAF for WordPress
     # Apache access control
     # Apache restart messages at 6 AM
     # Malformed ??? hostname "5e ed 1d 4c bb 01", "5e ed 51 84 bb 01" via SNI

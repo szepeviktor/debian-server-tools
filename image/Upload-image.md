@@ -52,6 +52,7 @@ Use **progressive** JPEG images.
 ##### Online optimization tools
 
 - [mozjpeg by ImageOptim API](https://imageoptim.com/mozjpeg) [mozjpeg](https://mozjpeg.codelove.de/)
+- [Squoosh by Google](https://squoosh.app/)
 - [SHORTPIXEL](https://shortpixel.com/free-demo)
 - [JPEGmini](http://www.jpegmini.com/)
 - [reSmush.it](https://resmush.it/)

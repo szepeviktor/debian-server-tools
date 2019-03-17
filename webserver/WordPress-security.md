@@ -20,7 +20,7 @@
 
 - HTTPS websites receive less attacks: force HTTPS ([HSTS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security))
 - Block known hostile networks ([myattackers-ipset](https://github.com/szepeviktor/debian-server-tools/tree/master/security/myattackers-ipsets))
-- Preventively block vulnerability scanners ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
+- Preventively block vulnerability scanners ([WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban))
 - Restrict access to core, theme and plugin files and directories ([wordpress.inc.conf](/webserver/apache-conf-available/wordpress.inc.conf))
 - Disable file upload to the server
 - Source code integrity check ([hourly](https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/tripwire-fake.sh))
@@ -34,7 +34,7 @@
 - Audit plugins and themes (source code) - prefer authors providing enterprise services
 - Install an [auditing plugin](https://wordpress.org/plugins/wp-user-activity/)
 - Disable file editing
-- Block on WordPress security events ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
+- Block on WordPress security events ([WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban))
 - Add SRI (Subresource Integrity) attributes to elements with foreign CDN content
 - Content Security Policy (CSP) HTTP header
 - Choose wisely if you decide on a [page builder](https://www.wpbeaverbuilder.com/?fla=2082)
@@ -47,8 +47,8 @@
 - Disallow weak passwords
 - Two-factor authentication
 - Alert on foreign country logins (PHP `geoip_country_code_by_name()` or Apache mod_maxminddb)
-- Analyse HTTP headers on login ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
-- Limit login attempts ([WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban))
+- Analyse HTTP headers on login ([WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban))
+- Limit login attempts ([WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban))
 
 ### Maintenance :wrench:
 

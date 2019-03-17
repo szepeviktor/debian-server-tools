@@ -381,7 +381,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
         # All nameservers
         while read -r NS; do
 
-            #test "$NS" == failing.dns.server && continue
+            #test "$NS" == failing.dns.server. && continue
 
             if Is_ipv4 "$DNAME" || Is_ipv6 "$DNAME"; then
                 # NS hack

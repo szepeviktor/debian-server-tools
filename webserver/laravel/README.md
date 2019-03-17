@@ -26,7 +26,7 @@ Laravel upgrade service: https://laravelshift.com/
 ### In-app security
 
 - Use [Argon2 hashing](https://laravel.com/docs/5.6/hashing)
-- WordPress Fail2ban WAF patched
+- WAF for WordPress patched
 - HTTP method not in routes
 - HTTP 404
 - CSRF token mismatch (Google Translate, Facebook app, Google Search "Cached")

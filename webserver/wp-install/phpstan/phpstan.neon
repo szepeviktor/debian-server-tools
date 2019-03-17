@@ -1,0 +1,20 @@
+# See options in https://github.com/phpstan/phpstan/blob/master/conf/config.neon
+services:
+    -
+        class: WordPress\PHPStan\IsWpErrorFunctionTypeSpecifyingExtension
+        tags:
+            - phpstan.typeSpecifier.functionTypeSpecifyingExtension
+    -
+        class: WordPress\PHPStan\WpThemeMagicPropertiesClassReflectionExtension
+        tags:
+            - phpstan.broker.propertiesClassReflectionExtension
+parameters:
+    level: max
+    paths:
+        - %currentWorkingDirectory%/inc/
+    autoload_files:
+        - %currentWorkingDirectory%/vendor/giacocorsiglia/wordpress-stubs/wordpress-stubs.php
+        - %currentWorkingDirectory%/tests/phpstan-bootstrap.php
+    #autoload_directories:
+    ignoreErrors:
+        - '#^Function do_action invoked with [345] parameters, 1-2 required\.$#'

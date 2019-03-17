@@ -161,9 +161,9 @@ wp plugin install user-role-editor --activate
 # keepass-button
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-keepass-button/keepass-button.php
 
-# WAF (WordPress Fail2ban)
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/block-bad-requests/wp-fail2ban-bad-request-instant.inc.php
-wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/mu-plugin/wp-fail2ban-mu-instant.php
+# WAF for WordPress
+wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/http-analyzer/waf4wordpress-http-analyzer.php
+wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/wordpress-fail2ban/raw/master/core-events/waf4wordpress-core-events.php
 #wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/non-wp-projects/wp-login.php
 #wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/non-wp-projects/xmlrpc.php
 
@@ -433,7 +433,7 @@ sed -e "s|'/wp-blog-header\\.php'|'/${SUBDIR}/wp-blog-header.php'|" -i ./index.p
 
 # Move files from parent directory
 mv -v ../wp-config.php ./
-mv -v ../wp-fail2ban-bad-request-instant.inc.php ./
+mv -v ../waf4wordpress-http-analyzer.php ./
 
 # Edit "path:" in wp-cli.yml
 editor ../wp-cli.yml

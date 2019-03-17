@@ -1,11 +1,4 @@
 <?php declare(strict_types = 1);
-/*
-services:
-    -
-        class: WordPress\PHPStan\WpThemeMagicPropertiesClassReflectionExtension
-        tags:
-            - phpstan.broker.propertiesClassReflectionExtension
-*/
 
 namespace WordPress\PHPStan;
 

@@ -54,7 +54,7 @@ https://www.hybrid-analysis.com/ malware analysis (file upload) by [Payload Secu
 Proactive
 
 - mod_security
-- [WordPress Fail2ban](https://github.com/szepeviktor/wordpress-fail2ban)
+- [WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban)
 - File modification monitoring + reverting from snapshot
 - [ConfigServer Security & Firewall (csf)](https://configserver.com/cp/csf.html)
 - HTTP authentication
