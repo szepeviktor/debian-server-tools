@@ -17,6 +17,9 @@ class WpThemeMagicPropertiesClassReflectionExtension implements PropertiesClassR
 
 	public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
 	{
+		if ($classReflection->getName() !== 'WP_Theme') {
+			return false;
+		}
 		return in_array($propertyName, $this->properties);
 	}
 

@@ -5,7 +5,7 @@ create eonix hash:net family inet hashsize 64 maxelem 32
 flush eonix
 
 # AS49532 - ServerHub
-#add eonix 23.231.80.0/22
+add eonix 23.231.80.0/22
 add eonix 50.2.36.0/22
 #add eonix 50.3.68.0/22
 #add eonix 50.3.72.0/22

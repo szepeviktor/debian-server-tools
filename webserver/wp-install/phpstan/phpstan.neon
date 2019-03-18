@@ -14,7 +14,7 @@ parameters:
         - %currentWorkingDirectory%/inc/
     autoload_files:
         - %currentWorkingDirectory%/vendor/giacocorsiglia/wordpress-stubs/wordpress-stubs.php
-        - %currentWorkingDirectory%/tests/phpstan-bootstrap.php
+        - %currentWorkingDirectory%/test/phpstan-bootstrap.php
     #autoload_directories:
     ignoreErrors:
         - '#^Function do_action invoked with [345] parameters, 1-2 required\.$#'
