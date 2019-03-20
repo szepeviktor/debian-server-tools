@@ -29,7 +29,8 @@ Igények és eredmények irányából.
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a már máshonnan ismert hibák elkerülésével,
-   és folyamatos "motorháztető alatti" fejlesztések például az erőforrások 10%-a erejéig
+   és folyamatos "motorháztető alatti" fejlesztések
+   _például az erőforrások 10%-a erejéig_
 
 A _mit jelent a kész_ fényében.
 

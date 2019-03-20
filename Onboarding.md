@@ -131,6 +131,7 @@ https://haveibeenpwned.com/
 
 ### Cyber security
 
+- All participants should stop using their browsers to store form data and passwords
 - Spam filtering
 - Protection against malware and phishing attacks (**credential stealing**)
 - Against mobile malware

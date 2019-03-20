@@ -104,7 +104,7 @@ wp plugin install child-theme-configurator --activate
 
 Keep changes in git.
 
-### Plugins
+### [Plugins](https://plugintests.com/search-ids)
 
 #### Core
 
