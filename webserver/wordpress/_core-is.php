@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Helper functions to determine entry point. (MU)
- * Version:     0.1.0
+ * Version:     0.1.1
  * License:     The MIT License (MIT)
  * Author:      Viktor Szépe
  */
@@ -30,6 +30,13 @@ class Is {
 	 */
 	public static function anonymous_users(): bool {
 		return ( ! is_user_logged_in() );
+	}
+
+	/**
+	 * Whether the current user is a comment author.
+	 */
+	public static function comment_author(): bool {
+		return isset( $_COOKIE[ 'comment_author_' . COOKIEHASH ] );
 	}
 
 	/**

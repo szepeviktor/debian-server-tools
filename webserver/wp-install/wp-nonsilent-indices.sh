@@ -10,5 +10,5 @@ while read -r FILE; do
         continue;
     fi
 
-    echo "Non-empty: $FILE" 1>&2
+    echo "Non-silent: ${FILE}" 1>&2
 done < <(find . -type f -name index.php)

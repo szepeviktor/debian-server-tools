@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.6.3
+ * @version 0.6.4
  */
 
 namespace O1;
@@ -81,6 +81,7 @@ final class CheckEnv {
         $this->assert_directive( 'max_input_vars', '1000' );
         $this->assert_directive( 'post_max_size', '4M' );
         $this->assert_directive( 'upload_max_filesize', '4M' );
+        $this->assert_directive( 'max_file_uploads', '20' );
         $this->assert_directive( 'display_errors', '' );
 
         // Compiled in Extensions
@@ -169,6 +170,9 @@ final class CheckEnv {
         // php-redis
         $this->assert_extension( 'igbinary' );
         $this->assert_extension( 'redis' );
+
+        // php-imagick for PDF thumbnails
+        $this->assert_extension( 'imagick' );
 
         // Not for WordPress
 

@@ -4,7 +4,7 @@
 
 - Choose an enterprise ready server provider (e.g. [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S))
 - Secure control panel access: 2FA, login notification
-- Secure API (IP whitelist)
+- Secure API: IP whitelisting
 - Subscribe to status updates
 - [Protect computers](/Onboarding.md#secure-browser-in-an-ephemeral-cloud-instance)
   used for logging in (HitmanPro.Alert)

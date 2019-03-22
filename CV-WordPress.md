@@ -136,7 +136,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 [webáruházat](https://www.ocado.com/) tervezzenek.
 
 - https://neeed.us/
-- https://www.pwstudio.hu/
+- https://www.pwstudio.hu/ - :fire: CodeIngiter keretrendszer szakértők
 - https://www.budaffect.com/ - webáruházhoz
 - https://www.upsolution.hu/
 - https://splendex.io/
