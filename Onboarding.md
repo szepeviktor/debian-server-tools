@@ -134,6 +134,7 @@ https://haveibeenpwned.com/
 - All participants should stop using their browsers to store form data and passwords
 - Spam filtering
 - Protection against malware and phishing attacks (**credential stealing**)
+- Against key loggers
 - Against mobile malware
 - Ransomware mitigation
 - Data breach prevention (in the application)

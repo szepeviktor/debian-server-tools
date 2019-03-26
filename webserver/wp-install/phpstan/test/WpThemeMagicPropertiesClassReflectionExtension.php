@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace WordPress\PHPStan;
+namespace PHPStan\WordPress;
 
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 use PHPStan\Reflection\ClassReflection;

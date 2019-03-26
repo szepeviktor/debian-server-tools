@@ -1,11 +1,11 @@
 # See options in https://github.com/phpstan/phpstan/blob/master/conf/config.neon
 services:
     -
-        class: WordPress\PHPStan\IsWpErrorFunctionTypeSpecifyingExtension
+        class: PHPStan\WordPress\IsWpErrorFunctionTypeSpecifyingExtension
         tags:
             - phpstan.typeSpecifier.functionTypeSpecifyingExtension
     -
-        class: WordPress\PHPStan\WpThemeMagicPropertiesClassReflectionExtension
+        class: PHPStan\WordPress\WpThemeMagicPropertiesClassReflectionExtension
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:

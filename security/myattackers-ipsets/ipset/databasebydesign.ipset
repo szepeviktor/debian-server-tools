@@ -1,0 +1,21 @@
+# AS17090 - DATABASEBYDESIGNLLC, type: HTTP
+#: ipset -exist restore <ipset/databasebydesign.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set databasebydesign src -j REJECT
+create databasebydesign hash:net family inet hashsize 64 maxelem 32
+flush databasebydesign
+#add databasebydesign 45.73.168.0/23
+#add databasebydesign 66.78.24.0/23
+#add databasebydesign 76.72.160.0/20
+add databasebydesign 162.208.48.0/22
+#add databasebydesign 168.91.88.0/22
+#add databasebydesign 172.98.161.0/24
+#add databasebydesign 172.98.176.0/24
+#add databasebydesign 172.98.180.0/24
+#add databasebydesign 172.98.189.0/24
+#add databasebydesign 172.102.204.0/24
+#add databasebydesign 172.102.212.0/24
+#add databasebydesign 192.100.178.0/24
+#add databasebydesign 199.187.120.0/21
+# Dinkum Interactive
+#add databasebydesign 207.188.168.0/23
+#add databasebydesign 216.74.80.0/23
