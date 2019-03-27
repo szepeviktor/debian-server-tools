@@ -1,16 +1,17 @@
 #
 # szepeviktor/s-nail
 #
+# DOCS          :https://www.sdaoden.eu/code.html#s-mailx
 # BUILD         :docker build -t szepeviktor/s-nail .
 # RUN           :docker run --tty --rm szepeviktor/s-nail
 
 FROM debian:stretch
 
-# Dependencies
+# Dependencies from https://salsa.debian.org/debian/s-nail/blob/master/debian/control
 RUN set -e -x \
     && apt-get update \
-    && apt-get install -y git build-essential original-awk \
-    && apt-get purge mawk -y
+    && apt-get install -y git build-essential \
+        gawk openssl libidn11-dev libkrb5-dev libncurses5-dev libssl-dev
 
 RUN set -e -x \
     && apt-get --purge -y autoremove \
