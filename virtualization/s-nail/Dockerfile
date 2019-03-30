@@ -11,7 +11,7 @@ FROM debian:stretch
 RUN set -e -x \
     && apt-get update \
     && apt-get install -y git build-essential \
-        gawk openssl libidn11-dev libkrb5-dev libncurses5-dev libssl-dev
+        openssl libidn11-dev libkrb5-dev libncurses5-dev libssl-dev
 
 RUN set -e -x \
     && apt-get --purge -y autoremove \

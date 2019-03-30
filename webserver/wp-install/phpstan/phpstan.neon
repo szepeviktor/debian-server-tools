@@ -12,9 +12,14 @@ parameters:
     level: max
     paths:
         - %currentWorkingDirectory%/inc/
+    #excludes_analyse:
     autoload_files:
         - %currentWorkingDirectory%/vendor/giacocorsiglia/wordpress-stubs/wordpress-stubs.php
         - %currentWorkingDirectory%/test/phpstan-bootstrap.php
     #autoload_directories:
     ignoreErrors:
-        - '#^Function do_action invoked with [345] parameters, 1-2 required\.$#'
+        - '#^Function apply_filters invoked with [3456] parameters, 2 required\.$#'
+        - '#^Function do_action invoked with [3456] parameters, 1-2 required\.$#'
+        - '#^Function current_user_can invoked with 2 parameters, 1 required\.$#'
+        - '#^Function add_query_arg invoked with [123] parameters, 0 required\.$#'
+        - '/^Parameter #2 \$deprecated of function load_plugin_textdomain expects string, false given\.$/'

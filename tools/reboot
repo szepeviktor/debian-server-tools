@@ -2,7 +2,7 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.5.0
+# VERSION       :0.5.1
 # DATE          :2018-02-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -73,8 +73,8 @@ fi
 # Start the reboot process
 /sbin/reboot "$@" &
 
-# Follow syslog for 5 seconds
-timeout 5 tail -f /var/log/syslog
+# Follow syslog for 8 seconds
+timeout 8 tail -f /var/log/syslog
 
 # Watch processes exit
 while true; do

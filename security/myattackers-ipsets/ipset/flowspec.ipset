@@ -1,0 +1,6 @@
+## AS210138 - FLOWSPEC
+##: ipset -exist restore <ipset/flowspec.ipset
+##: iptables -w -I myattackers-ipset -m set --match-set flowspec src -j REJECT
+create flowspec hash:net family inet hashsize 64 maxelem 32
+flush flowspec
+add flowspec 176.121.14.0/24
