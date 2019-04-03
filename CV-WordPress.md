@@ -82,7 +82,7 @@ Essentially keep every operation in memory!
 
 - Application (code, static files)
 - Package managers
-- CLI (Command line) tools
+- CLI (command line) tools
 - Third parties (DNS, CDN, SSL OCSP, external monitoring, trackers, video platform, map, ESP)
 
 
@@ -100,7 +100,7 @@ A közlekedési jelzőlámpa példával élve :vertical_traffic_light:
 a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
 A figyelmem az üzembiztonságon, a [sérülékenységen](/webserver/WordPress-security.md) és a sebességen van.
 
-### Mit végzek el proaktív üzemeltetés néven?
+### Hogyan előzöm meg a hibákat?
 
 - Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
 - Modern operációs rendszer és szoftver installálás a szerverére

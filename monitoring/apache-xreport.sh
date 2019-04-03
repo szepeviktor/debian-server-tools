@@ -2,7 +2,7 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.4.0
+# VERSION       :1.4.1
 # DATE          :2019-01-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -33,7 +33,7 @@ Xclude_filter()
     # Apache restart messages at 6 AM
     # Malformed ??? hostname "5e ed 1d 4c bb 01", "5e ed 51 84 bb 01" via SNI
     grep -Ev "\\sAH00128:|\\sAH02032:\
-|\\swpf2b_|\\sbad_request_|\\sno_wp_here_|\\s404_not_found|\\s403_forbidden|\\snetpromo_|\\sFile does not exist:\
+|\\sw4wp_|\\sbad_request_|\\sno_wp_here_|\\s404_not_found|\\s403_forbidden|\\sFile does not exist:\
 |\\sclient denied by server configuration:" \
     | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094):.*' \
 

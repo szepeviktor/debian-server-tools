@@ -50,6 +50,7 @@ declare -a AS_HOSTING=(
     AS200557 # Region40
     AS32097  # WholeSale Internet
     AS55933  # Cloudie Limited
+    AS9009   # M247 Ltd
 )
 
 # Labs #

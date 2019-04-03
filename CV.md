@@ -8,15 +8,15 @@ which focuses on **proactive** maintenance of
 This&nbsp;includes comprehensive understanding of the application,
 full source code life cycle, continuous integration (CI) and automated deployment (CD).
 
-My exclusive focus on **non-userfacing** parts of the application
+My exclusive focus on **non-userfacing** parts (stability, vulnerability, performance) of the application
 implies the need for other team members.
 
 ### Proactive maintenance features
 
-- You benefit from all incident at all my clients (ever)
+- You benefit from all incidents at all my clients (ever)
 - I maintain a blacklist and a list of recommendations
   of technologies, software and business procedures
-- Many types of alerts and regular log analysis
+- Many types of alerts and continuous log analysis
 
 ### How to build infrastructure?
 
@@ -24,13 +24,11 @@ We have to start planning (and error prevention)
 from the bulldozer leveling the ground for the datacenter
 and build infrastructure **and** the application from there up to browser rendering.
 
-- choose specialized domain registrar, dns, ssl, cdn, email, backup providers
+- choose **specialized** domain registrar, dns, ssl, cdn, email, backup providers
 - choose an honest, proactive and technically advanced cloud provider:
   virtualization, network, storage, processor, memory
 - modern and small operating system
 - modern server software: webserver, fast SSL, database, in-memory cache, PHP environment
-- minimal and audited plugins (modules)
-- static file optimization
 - network and application security
 - heavy monitoring of **everything** we have and depend on
 
@@ -45,17 +43,37 @@ Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=d
 
 A DevOps kifejezés jó kiindulási alap lehet megérteni a munkámat.  
 [Webes rendszerek](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md)
-**proaktív** üzemeltetésével foglalkozok, ami magában foglalja az alkalmazás vizsgálatát,
+**proaktív** üzemeltetésével foglalkozok, ami magában foglalja az alkalmazás átfogó megértését,
 a folyamatos integrációs teszteket (CI)
 és automatizált telepítést (deploy, CD).
 A&nbsp;technológiai ismereteim kiegészítik a fejlesztők ismereteit.
 
-A figyelmem az üzembiztonságon, a sérülékenységen és a sebességen van,
-hogy a hibák **ne váratlanul** jöjjenek elő.
+A figyelmem az alkalmazás nem felhasználó felőli részén (üzembiztonság, sérülékenység, sebesség)
+van, ebből az következik, hogy szükség van más csapattagokra.
 
-Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az üzemzavar.
+### Proaktív üzemeltetés előnyei
 
-### Mit végzek el proaktív üzemeltetés néven?
+- Az összes ügyfelem (valaha történt) összes hibájának ellenszérét megkapja
+- Vezetem tiltólistát és ajánlásokat
+  technológiákról, szoftverekről és üzleti eljárásokról
+- Többféle riasztás és folyamatos napló elemzés
+
+### Milyen területeken előzöm meg a hibákat?
+
+- Infrastruktúra szolgáltatók
+- Szerver programok
+- Az alkalmazás futtató környezete
+- Tervezés: kiválasztott szoftveres technológiák
+- Kivitelezés: programozók, szerkesztők, marketingesek stb. munkája
+- Futtatás: a frontend a böngészőben
+- Felhasználók tevékenységei
+- Hálózati és alkalmazás biztonság
+- Harmadik felek (külső szolgáltatók) pl. A/B teszt, CDN, térkép, videó
+- Email kézbesítés
+
+<!-- Milyen hibákat előzök meg? 200 -->
+
+### Milyen módon előzöm meg a hibákat?
 
 - Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
 - Modern operációs rendszer és szoftver installálása
@@ -71,18 +89,9 @@ Olyan területen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és
 * Monitorozó programok, **teljesítmény növelő és biztonsági** [eszközök fejlesztése](https://github.com/szepeviktor/)
 * [Email kézbesítés](https://github.com/szepeviktor/debian-server-tools/blob/master/mail/README.md) (EN)
 
-### Előnyök
-
-- **Stabil üzem** - leállások megelőzése
-- Alkalmazás sérülékenységek kiküszöbölése
-- Jobb felhasználói élmény (UX) az ügyfeleknek
-- Gyors oldal betöltés
-- Jobb helyezés a Google Keresőben
-- Kevesebb **váratlan** incidens
-
 Keressen meg: viktor@szepe.net
 
-### Infrastruktúra szolgáltatás típusok
+### Infrastruktúra szolgáltatók
 
 1. Domain regisztrátor
 1. DNS szolgáltató

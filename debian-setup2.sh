@@ -228,6 +228,7 @@ webserver/php-fpm.sh
 debian-setup/_package-python-pip
 # Needs PHP-CLI
 debian-setup/_package-php-composer
+debian-setup/_package-php-phive
 # Node.js (from package.apt.extra)
 # @nonDebian
 if Is_installed "nodejs"; then

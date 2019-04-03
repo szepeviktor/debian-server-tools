@@ -36,7 +36,7 @@
 # - Courier MTA
 # - System backup with S3QL
 # - Nice motd welcome screen
-# - Package managers: composer, pip, npm
+# - Package managers: composer, phive, pip, npm
 # - CLI tools: WP-CLI, Drush, CacheTool
 #
 # Webserver
