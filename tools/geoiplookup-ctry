@@ -1,4 +1,15 @@
 #!/bin/bash
+#
+# Display country of given IP address.
+#
+# VERSION       :0.1.0
+# DATE          :2019-04-05
+# URL           :https://github.com/szepeviktor/debian-server-tools
+# AUTHOR        :Viktor Szépe <viktor@szepe.net>
+# LICENSE       :The MIT License (MIT)
+# BASH-VERSION  :4.2+
+# DEPENDS       :apt-get install mmdb-bin
+# LOCATION      :/usr/local/bin/geoiplookup-ctry
 
 test -n "$1" || exit 10
 

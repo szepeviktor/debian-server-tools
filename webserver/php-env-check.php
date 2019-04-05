@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.6.4
+ * @version 0.6.5
  */
 
 namespace O1;
@@ -88,7 +88,7 @@ final class CheckEnv {
         // php -n -m | paste -s -d " "
         // Core date filter hash libxml openssl pcntl pcre Reflection session SPL standard zlib
         $this->assert_extension( 'date' );
-        $this->assert_directive( 'date.timezone', 'Europe/Budapest' );
+        $this->assert_directive( 'date.timezone', 'UTC' );
         $this->assert_extension( 'filter' );
         $this->assert_extension( 'hash' );
         $this->assert_extension( 'openssl' );

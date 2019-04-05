@@ -54,9 +54,9 @@ van, ebből az következik, hogy szükség van más csapattagokra.
 ### Proaktív üzemeltetés előnyei
 
 - Az összes ügyfelem (valaha történt) összes hibájának ellenszérét megkapja
-- Vezetem tiltólistát és ajánlásokat
+- Vezetek tiltólistát és ajánlásokat
   technológiákról, szoftverekről és üzleti eljárásokról
-- Többféle riasztás és folyamatos napló elemzés
+- Sokféle riasztás és folyamatos napló elemzés
 
 ### Milyen területeken előzöm meg a hibákat?
 
@@ -71,8 +71,6 @@ van, ebből az következik, hogy szükség van más csapattagokra.
 - Harmadik felek (külső szolgáltatók) pl. A/B teszt, CDN, térkép, videó
 - Email kézbesítés
 
-<!-- Milyen hibákat előzök meg? 200 -->
-
 ### Milyen módon előzöm meg a hibákat?
 
 - Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
@@ -80,7 +78,7 @@ van, ebből az következik, hogy szükség van más csapattagokra.
 - Ellenőrzött környezet felállítása az alkalmazáshoz
 - A fentiek és a harmadik felek állandó [monitorozása](/monitoring/README.md) (EN)
   funkcionális tesztekkel és integritás ellenőrzéssel
-- Napló kivonatok rendszeres elemzése
+- Napló kivonatok folyamatos elemzése
 - Intelligens és titkosított biztonsági mentés nagy adatsérülés-tűrésű szolgáltatóhoz
 
 * [Folyamatos integráció](/webserver/Continuous-integration-Continuous-delivery.md) (CI) megtervezés és kivitelezés

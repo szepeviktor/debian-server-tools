@@ -17,8 +17,9 @@ Segítség a helyes hozzáálláshoz.
 
 ### Eszközök
 
-Milyen eszközöket fogunk használni?
-https://szepeviktor.typeform.com/to/O8bLIX
+- Milyen eszközöket fogunk használni?
+  https://szepeviktor.typeform.com/to/O8bLIX
+- Milyen környezetek lesznek? (develop, staging, beta, demo)
 
 ### Kétféle hozzáállás
 

@@ -20,7 +20,7 @@
 #
 # Save encryption master key
 #
-# Exclud paths in /home by adding lines like "/user/website/session/"
+# Exclude paths in /home by adding lines like "/user/website/session/" or "/user/.cache/"
 #     editor /root/.config/system-backup/exclude.list
 #
 # Mount storage manually

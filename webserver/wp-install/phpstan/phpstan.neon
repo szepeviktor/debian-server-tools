@@ -8,6 +8,10 @@ services:
         class: PHPStan\WordPress\WpThemeMagicPropertiesClassReflectionExtension
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
+    -
+        class: PHPStan\WordPress\RedirectCanonicalDynamicFunctionReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicFunctionReturnTypeExtension
 parameters:
     level: max
     paths:
