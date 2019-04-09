@@ -164,7 +164,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Document everything in `hosting.yml`
 - Declare PHP version, extensions, directives, functions and test them in
-  [php-env-check](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/php-env-check.php),
+  [php-env-check](/webserver/php-env-check.php),
   run in composer.json:pre-install-cmd,
   **PHP version** and extensions also in composer.json:require
 - Have an update policy for PHP, framework, packages

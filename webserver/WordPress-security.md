@@ -12,7 +12,7 @@
 - Choose an enterprise ready server provider (e.g. [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S))
 - Secure control panel access: 2FA, login notification
 - Secure API: IP whitelisting
-- Subscribe to status updates
+- Subscribe to [status updates](https://status.upcloud.com/)
 
 ### Compromise through server software
 
@@ -24,19 +24,20 @@
 ### Server-side
 
 - HTTPS websites receive less attacks: force HTTPS ([HSTS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security))
-- Block known hostile networks ([myattackers-ipset](https://github.com/szepeviktor/debian-server-tools/tree/master/security/myattackers-ipsets))
+- Block known hostile networks ([myattackers-ipset](/security/myattackers-ipsets))
 - Preventively block vulnerability scanners ([WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban))
 - Restrict access to core, theme and plugin files and directories ([wordpress.inc.conf](/webserver/apache-conf-available/wordpress.inc.conf))
 - Disable file upload to the server
-- Source code integrity check ([hourly](https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/tripwire-fake.sh))
-- Alert on source code change ([hourly](https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/siteprotection.sh))
-- Have daily offsite [backup](https://github.com/szepeviktor/debian-server-tools/tree/master/backup)
+- Source code integrity check ([hourly](/monitoring/tripwire-fake.sh))
+- Alert on source code change ([hourly](/monitoring/siteprotection.sh))
+- Have daily offsite [backup](/backup)
 - Keep backups for one week
 
 ### Application
 
 - Delete unused plugins and themes and demo content
-- Audit plugins and themes (source code) - prefer authors providing enterprise services
+- Audit plugins and themes (source code) -
+  prefer [authors with enterprise mindset](/webserver/WordPress.md#plugin-authors-with-enterprise-mindset)
 - Install an [auditing plugin](https://wordpress.org/plugins/wp-user-activity/)
 - Disable file editing
 - Block on WordPress security events ([WAF for WordPress](https://github.com/szepeviktor/wordpress-fail2ban))

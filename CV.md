@@ -16,6 +16,7 @@ implies the need for other team members.
 - You benefit from all incidents at all my clients (ever)
 - I maintain a blacklist and a list of recommendations
   of technologies, software and business procedures
+- You receive documentation on project procedures
 - Many types of alerts and continuous log analysis
 
 ### How to build infrastructure?
@@ -56,6 +57,7 @@ van, ebből az következik, hogy szükség van más csapattagokra.
 - Az összes ügyfelem (valaha történt) összes hibájának ellenszérét megkapja
 - Vezetek tiltólistát és ajánlásokat
   technológiákról, szoftverekről és üzleti eljárásokról
+- Dokumentáció készül a projektben folyó eljárásokról
 - Sokféle riasztás és folyamatos napló elemzés
 
 ### Milyen területeken előzöm meg a hibákat?
