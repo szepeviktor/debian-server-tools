@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Check VMware time synchronization.
+#
+# VERSION       :0.1.0
+# DEPENDS       :apt-get install open-vm-tools
+# LOCATION      :/usr/local/sbin/open-vm-tools-test.sh
+
+set -e
+
+/usr/bin/vmware-toolbox-cmd timesync status | grep -F "Enabled"

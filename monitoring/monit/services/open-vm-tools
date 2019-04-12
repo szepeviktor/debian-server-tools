@@ -1,5 +1,5 @@
- check process open-vm-tools with pidfile /run/vmtoolsd.pid
-   group open-vm-tools
+ check process "open-vm-tools" with pidfile /run/vmtoolsd.pid
+   group "open-vm-tools"
    start program = "/usr/sbin/service open-vm-tools start"
    stop program = "/usr/sbin/service open-vm-tools stop"
    restart program = "/usr/sbin/service open-vm-tools restart"
@@ -8,15 +8,20 @@
    depends on vmware-toolbox
    depends on open-vm-tools_init
 
- check file open-vm-tools_bin with path /usr/bin/vmtoolsd
-   group open-vm-tools
+ check file "open-vm-tools_bin" with path /usr/bin/vmtoolsd
+   group "open-vm-tools"
    include /etc/monit/templates/rootbin
 
- check program vmware-toolbox with path "/usr/bin/vmware-toolbox-cmd stat sessionid" with timeout 10 seconds
-   group open-vm-tools
+ check program "vmware-toolbox" with path "/usr/bin/vmware-toolbox-cmd stat sessionid" with timeout 10 seconds
+   group "open-vm-tools"
    if status != 0 then alert
    if changed status then alert
 
- check file open-vm-tools_init with path /etc/init.d/open-vm-tools
-   group open-vm-tools
+ check file "open-vm-tools_init" with path /etc/init.d/open-vm-tools
+   group "open-vm-tools"
    include /etc/monit/templates/rootbin
+
+ check program "open-vm-tools_test" with path "/usr/local/sbin/open-vm-tools-test.sh" with timeout 3 seconds
+   group "open-vm-tools"
+   if status != 0 then alert
+   if changed status then alert

@@ -28,3 +28,7 @@ add hostkey 31.192.109.0/24
 add hostkey 31.192.110.0/24
 add hostkey 141.105.64.0/21
 add hostkey 158.255.0.0/21
+
+# AS38994 - ERAHOST
+add hostkey 194.61.24.0/23
+add hostkey 194.61.26.0/24

@@ -150,7 +150,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - User roles and capabilities
 - Email addresses, composing and sending
   ([maximum length](https://tools.ietf.org/html/rfc5321#section-4.5.3.1),
-  obfuscate email addresses, form hidden field, mailcheck.js, plain text version, NeverBounce)
+  obfuscate email addresses, hidden field in form, mailcheck.js, plain text version, NeverBounce)
 - Document generation (CSV, PDF, Excel, image)
 - Image management (Cloudinary)
 - Maintenance mode switch and placeholder page (HTTP/503)
@@ -268,7 +268,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 ### Email address lifecycle
 
 - `form` analyze HTTP request
-- `form` form hidden field
+- `form` hidden field in form
 - `input` maximum length
 - `input` mailcheck.js
 - `input` Suspicious email address

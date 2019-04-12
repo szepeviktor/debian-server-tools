@@ -80,7 +80,7 @@ Password: `changeit`
 ```xml
 <Server port="8005" shutdown="SHUTDOWN">
     <Service name="Catalina">
-        <Connector port="8005" maxThreads="150" minSpareThreads="25" connectionTimeout="20000" enableLookups="false"
+        <Connector address="127.0.0.1" port="8005" maxThreads="150" minSpareThreads="25" connectionTimeout="20000" enableLookups="false"
             maxHttpHeaderSize="8192" protocol="HTTP/1.1" useBodyEncodingForURI="true" redirectPort="8443"
             acceptCount="100" disableUploadTimeout="true" bindOnInit="false" secure="true" scheme="https"
             proxyName="VIRTUALHOST-NAME" proxyPort="443"/>
