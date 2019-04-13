@@ -74,10 +74,14 @@ wp option set home https://DOMAIN.TLD
 wp option set siteurl https://DOMAIN.TLD/site
  */
 
+define( 'WP_ALLOW_REPAIR', false );
 define( 'WP_MEMORY_LIMIT', '40M' );
 define( 'WP_MAX_MEMORY_LIMIT', '256M' );
 define( 'DISALLOW_FILE_EDIT', true );
+//define( 'DISALLOW_FILE_MODS', true );
 define( 'WP_USE_EXT_MYSQL', false );
+//define( 'WP_HTTP_BLOCK_EXTERNAL', true );
+//define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org' );
 define( 'WP_POST_REVISIONS', 20 );
 
 /**

@@ -1,0 +1,11 @@
+# Amazon CloudFront mirror
+deb http://cloudfront.debian.net/debian stretch main contrib non-free
+
+# Security
+deb http://security.debian.org/ stretch/updates main contrib non-free
+
+# Updates
+deb http://cloudfront.debian.net/debian stretch-updates main contrib non-free
+
+# Backports
+deb http://cloudfront.debian.net/debian stretch-backports main contrib non-free

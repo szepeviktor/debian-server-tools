@@ -2,21 +2,21 @@
 #
 # Run ntpdate daily and on reboot to correct the system clock.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2016-03-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install ntpdate bind9-host
+# CONFIG        :/etc/default/ntpdate
 # LOCATION      :/usr/local/sbin/ntpdated
-# CRON.D        :@reboot	root	/usr/local/sbin/ntpdated
-# CRON.D        :@hourly	root	/usr/local/sbin/ntpdated
-
-# Options can be set in /etc/default/ntpdate
+# CRON.D        :@reboot root	/usr/local/sbin/ntpdated
+# CRON.D        :@hourly root	/usr/local/sbin/ntpdated
 
 # Work-around for pool.ntp.org DNS failures
-Get_pool_ips() {
+Get_pool_ips()
+{
     local -i SERVER_INDEX="0"
     # shellcheck disable=SC2206
     local -a SERVERS=( ${NTPSERVERS} 0.europe.pool.ntp.org )
@@ -34,7 +34,7 @@ Get_pool_ips() {
         while read -r A; do
             # Prevent duplication by using array indices
             IPS[$A]="1"
-        done <<< "$A_RECORDS"
+        done <<<"$A_RECORDS"
 
         SERVER_INDEX+="1"
     done

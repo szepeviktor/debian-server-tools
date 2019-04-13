@@ -23,7 +23,7 @@ PHP_TZ="UTC"
 # @nonDebian
 Pkg_install_quiet "php${PHP}-fpm" libpcre3 \
     "php${PHP}-curl" "php${PHP}-gd" "php${PHP}-intl" "php${PHP}-mysql" \
-    "php${PHP}-sqlite3" # Not for WP
+    "php${PHP}-sqlite3"
 
 # Not compiled in every PHP binary
 if [ -n "$(apt-cache madison "php${PHP}-mbstring" 2>/dev/null)" ]; then
@@ -33,7 +33,7 @@ if [ -n "$(apt-cache madison "php${PHP}-xml" 2>/dev/null)" ]; then
     Pkg_install_quiet "php${PHP}-xml"
 fi
 
-# Shim directrory for PHP 5.6
+# Shim directory for PHP 5.6
 if dpkg --compare-versions "$PHP" lt 7.0 && [ ! -d /etc/php ]; then
     mkdir /etc/php
     ln -s ../php5 "/etc/php/${PHP}"
