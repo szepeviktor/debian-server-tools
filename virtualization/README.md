@@ -9,7 +9,6 @@
 
 Use `conf.d` style configurations!
 
-
 #### Configuration file patches
 
 - by pkg
@@ -17,6 +16,13 @@ Use `conf.d` style configurations!
 - by config file
 
 `diff -wu installed.conf new.conf`
+
+### Kata Containers
+
+Kata Containers is an open source project that brings the security
+of hardware virtualization to containers through lightweight VMs.
+
+https://www.youtube.com/watch?v=4gmLXyMeYWI
 
 ### Zeit Now
 
@@ -26,7 +32,7 @@ Realtime Global Deployments for Docker, Node.js, Static Websites https://zeit.co
 
 ```bash
 # read -r DSC
-# docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="$DSC" -i --entrypoint=/bin/bash szepeviktor/jessie-backport
+# docker run --rm --tty --volume /opt/results:/opt/results --env PACKAGE="$DSC" -i --entrypoint=/bin/bash szepeviktor/stretch-backport
 
 sudo apt-get install -y nano
 export DEBEMAIL="Viktor Szépe <viktor@szepe.net>"
@@ -34,7 +40,7 @@ dget -ux $PACKAGE
 cd *
 dpkg-buildpackage -us -uc
 sudo apt-get install -y
-dch --bpo --distribution "jessie-backports" "Built from stretch"
+dch --bpo --distribution "stretch-backports" "Built from buster"
 nano debian/control
 nano debian/rules
 dpkg-buildpackage -us -uc

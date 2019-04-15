@@ -1,4 +1,4 @@
 # Lighttpd 2.0 (work in progress)
-deb http://debian.lighttpd.net/lighttpd2-nightlies jessie main
+deb http://debian.lighttpd.net/lighttpd2-nightlies stretch main
 #K: wget -qO- https://debian.lighttpd.net/jenkins-lighttpd.net.gpg | apt-key add -
 #M: https://debian.lighttpd.net/

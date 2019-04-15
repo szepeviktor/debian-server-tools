@@ -1,4 +1,0 @@
-# Tom Geißler's Apache repo
-deb http://www.d7031.de/debian/ jessie-experimental main
-#K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys DF17D0B3
-#M: https://www.d7031.de/content/debian-apache-and-http2/

@@ -1,4 +1,5 @@
 # Docker
-deb https://apt.dockerproject.org/repo debian-jessie main
+######## TODO Buster has https://packages.debian.org/buster/docker.io
+deb https://apt.dockerproject.org/repo debian-stretch main
 #K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys 2C52609D
 #M: https://docs.docker.com/engine/installation/debian/

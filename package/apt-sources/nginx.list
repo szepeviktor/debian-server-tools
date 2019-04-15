@@ -1,5 +1,5 @@
 # NGINX stable
-deb http://nginx.org/packages/debian/ jessie nginx
-#deb http://nginx.org/packages/mainline/debian/ jessie nginx
+deb http://nginx.org/packages/debian/ stretch nginx
+#deb http://nginx.org/packages/mainline/debian/ stretch nginx
 #K: wget -qO- http://nginx.org/keys/nginx_signing.key | apt-key add -
 #M: http://nginx.org/en/linux_packages.html

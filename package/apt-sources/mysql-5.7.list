@@ -5,4 +5,4 @@ deb http://deb.debian.org/debian sid main
 
 # Only needs libevent-core-2.1-6 from sid
 # Installation
-#     apt-get install mysql-common/sid mysql-server-5.7/sid
+#$    apt-get install mysql-common/sid mysql-server-5.7/sid

@@ -1,5 +1,6 @@
 # Oracle JDK 8
-deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main
+# "bionic" for stretch
+deb http://ppa.launchpad.net/webupd8team/java/ubuntu bionic main
 # Oracle JDK 7
 #deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ precise main
 #K: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886

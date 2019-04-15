@@ -1,4 +1,0 @@
-# Microsoft Azure
-deb http://debian-archive.trafficmanager.net/debian-azure jessie main
-#K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys A86CAD7F
-#M: https://gitlab.credativ.com/de/azure-manage/blob/develop/azure_build_image_debian
