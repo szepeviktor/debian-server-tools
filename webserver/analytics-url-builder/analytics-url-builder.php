@@ -12,10 +12,10 @@
  * WARNING! The code is error prone for encoding errors.
  * Target URL-s may contains query strings.
  */
-new O1_UTM( 'utm.url-builder.tld', array(
-    // error -> Site to redirect to in case of errors.
-    'error'    => 'http://website.net/',
-    'site-reg' => 'https://web.site.tld/register/',
+new O1_UTM( 'utm.example.com', array(
+    // error -> Site to redirect to in case of an error.
+    'error'    => 'https://website.tld/',
+    'site-reg' => 'https://web.site.tld/register/?key=new',
 ) );
 
 /**
@@ -38,7 +38,7 @@ final class O1_UTM {
         $bad_request    = $this->bad_request();
         if ( false !== $bad_request ) {
             error_log( sprintf( 'Break-in attempt detected: %s %s',
-                $bad_request
+                $bad_request,
                 addslashes( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '' )
             ) );
             ob_get_level() && ob_end_clean();

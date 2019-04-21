@@ -31,7 +31,7 @@ and build infrastructure **and** the application from there up to browser render
 - modern and small operating system
 - modern server software: webserver, fast SSL, database, in-memory cache, PHP environment
 - network and application security
-- heavy monitoring of **everything** we have and depend on
+- deep monitoring of **everything** we have and depend on
 
 Contact me: viktor@szepe.net
 
@@ -75,12 +75,11 @@ van, ebből az következik, hogy szükség van más csapattagokra.
 
 ### Milyen módon előzöm meg a hibákat?
 
-- Megfelelő szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
-- Modern operációs rendszer és szoftver installálása
+- Szolgáltató választás [mérések alapján](https://github.com/szepeviktor/wordpress-speedtest)
+- Modern operációs rendszer és szerver szoftver telepítése
 - Ellenőrzött környezet felállítása az alkalmazáshoz
-- A fentiek és a harmadik felek állandó [monitorozása](/monitoring/README.md) (EN)
-  funkcionális tesztekkel és integritás ellenőrzéssel
-- Napló kivonatok folyamatos elemzése
+- Mindennek az átfogó [monitorozása](/monitoring/README.md) (EN) amink csak van, vagy függünk tőle
+- Naplók folyamatos elemzése
 - Intelligens és titkosított biztonsági mentés nagy adatsérülés-tűrésű szolgáltatóhoz
 
 * [Folyamatos integráció](/webserver/Continuous-integration-Continuous-delivery.md) (CI) megtervezés és kivitelezés

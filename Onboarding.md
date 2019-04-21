@@ -120,6 +120,7 @@ https://haveibeenpwned.com/
 - Bounce messages for **all three**
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
+- Shared inbox for teams: [Front](https://frontapp.com/), [HelpScout](https://www.helpscout.com/)
 
 ### Backup
 

@@ -82,6 +82,7 @@ define( 'DISALLOW_FILE_EDIT', true );
 define( 'WP_USE_EXT_MYSQL', false );
 //define( 'WP_HTTP_BLOCK_EXTERNAL', true );
 //define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org' );
+// +Yoast SEO define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,www.google.com,www.bing.com' );
 define( 'WP_POST_REVISIONS', 20 );
 
 /**

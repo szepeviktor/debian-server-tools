@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# Run PHP linter with a spinner.
+#
+
+declare -a SPINNER=( "|" "/" "-" "\\" )
+declare -i PHASE="0"
+declare -i SPINNER_MAX="$((${#SPINNER[*]} - 1))"
+
+find . -type f -name "*.php" -exec /usr/bin/php7.2 -l "{}" ";" \
+    | while read -r LINE; do
+        if [ "${LINE#No syntax errors detected in}" == "$LINE" ]; then
+            echo "$LINE"
+            continue
+        fi
+        # Show spinner
+        printf '%s\r' "${SPINNER[$PHASE]}"
+        if [ "$PHASE" -eq "$SPINNER_MAX" ]; then
+            PHASE="0"
+        else
+            PHASE+="1"
+        fi
+    done
+# Remove spinner
+echo " "

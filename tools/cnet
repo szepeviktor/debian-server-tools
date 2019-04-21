@@ -37,6 +37,8 @@ for LAST_OCTET in {0..255}; do
     fi
 
     if [ "$CURRENT_IP" == "$OCTETS" ]; then
-        printf '**********************************************************************\n\n'
+        # https://wiki-dev.bash-hackers.org/commands/builtin/printf#modifiers
+        printf '=%.0s' {1..70}
+        printf '\n\n'
     fi
 done

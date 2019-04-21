@@ -1,5 +1,13 @@
 # Blocking WordPress attack vectors
 
+### Strategy
+
+- Reject traffic from known hostile networks
+- Ban IP addresses on the very first suspicious request preventing futher scanning
+- Serve requests as quick as possible to prevent D/DoS
+- Lowest access level possible for users
+- Monitor everything (source code, traffic, humans)
+
 ### Compromise from your computer and mobile
 
 - Do not store usernames and passwords in browsers
