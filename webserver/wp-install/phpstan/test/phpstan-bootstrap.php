@@ -1,7 +1,7 @@
 <?php
 
 // Add missing constants etc. here
-define( 'ABSPATH', '' );
+define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 define( 'WP_DEBUG', true );
 define( 'MINUTE_IN_SECONDS', 60 );
 define( 'HOUR_IN_SECONDS',   60 * MINUTE_IN_SECONDS );
