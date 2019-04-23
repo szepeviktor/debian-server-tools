@@ -1,13 +1,16 @@
 {
+    "name": "szepeviktor/phpstan-wordpress",
+    "description": "stubs-generator depends on php-parser v3: giacocorsiglia/stubs-generator:^0.5.0",
     "require": {
-        "giacocorsiglia/wordpress-stubs": "^4.9"
+        "php": ">=7.2"
     },
     "require-dev": {
-        "giacocorsiglia/stubs-generator": "^0.5.0"
+        "phpstan/phpstan": "^0.11.5",
+        "giacocorsiglia/wordpress-stubs": "^4.9"
     },
-    "autoload": {
+    "autoload-dev": {
         "psr-4": {
-            "PHPStan\\WordPress\\": "test/"
+            "PHPStan\\WordPress\\": "tests/phpstan/"
         }
     },
     "config": {

@@ -5,6 +5,7 @@
  * File comment informs humans what this is all about.
  * Please use LF line ends.
  * Consider writing your code in `vendor/bin/phpcs --standard=PSR12`
+ * @see https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md
  *
  * @package Properclass
  * @version 1.0.0

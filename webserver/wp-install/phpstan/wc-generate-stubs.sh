@@ -34,9 +34,10 @@ Get_legacy_files()
     echo "includes/libraries/action-scheduler/classes/ActionScheduler_WPCLI_Scheduler_command.php"
 }
 
-# Check WC
+# Check plugin
 if ! grep -q 'Plugin Name:\s\+WooCommerce' ./woocommerce.php 2>/dev/null; then
     echo "Please extract WooCommerce into the current directory!" 1>&2
+    echo "wget https://downloads.wordpress.org/plugin/woocommerce.3.6.1.zip && unzip woocommerce.zip" 1>&2
     exit 10
 fi
 
