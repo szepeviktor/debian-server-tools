@@ -88,6 +88,7 @@ https://haveibeenpwned.com/
 - Gain access to providers (web based sub-account or API)
 - Manage migrations
 - PTR/IPv4, PTR/IPv6 records
+- Domain [locking](https://www.cloudflare.com/domain-security-check/) and autorenew
 - DNS records (check, clean up, monitor)
 - Incoming ESP and bounce notification
 - Whitelisted IP-s (office)
