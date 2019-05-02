@@ -3,6 +3,8 @@
 # Generate WooCommerce stubs.
 #
 
+PLUGIN_VERSION="3.6.1"
+
 Get_legacy_classes()
 {
     cat <<"EOF"
@@ -37,7 +39,7 @@ Get_legacy_files()
 # Check plugin
 if ! grep -q 'Plugin Name:\s\+WooCommerce' ./woocommerce.php 2>/dev/null; then
     echo "Please extract WooCommerce into the current directory!" 1>&2
-    echo "wget https://downloads.wordpress.org/plugin/woocommerce.3.6.1.zip && unzip woocommerce.zip" 1>&2
+    echo "wget https://downloads.wordpress.org/plugin/woocommerce.${PLUGIN_VERSION}.zip && unzip woocommerce.${PLUGIN_VERSION}.zip" 1>&2
     exit 10
 fi
 
@@ -48,4 +50,4 @@ Get_legacy_files | sort -u | grep '^includes/api/legacy/v[12]/' | xargs -r -- rm
 if [ ! -x vendor/bin/generate-stubs ]; then
     composer require --no-interaction --update-no-dev --prefer-dist giacocorsiglia/stubs-generator
 fi
-vendor/bin/generate-stubs --functions --classes --interfaces --traits --out=woocommerce-stubs.php ./includes/
+vendor/bin/generate-stubs --functions --classes --interfaces --traits --out=woocommerce-stubs-${PLUGIN_VERSION}.php ./includes/

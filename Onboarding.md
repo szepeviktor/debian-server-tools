@@ -111,6 +111,7 @@ https://haveibeenpwned.com/
 
 ### Email delivery
 
+- There is no guaranteed email delivery on the Internet
 - [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
   <!-- not Tiliq -->

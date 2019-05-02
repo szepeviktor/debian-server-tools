@@ -2,7 +2,7 @@
 # szepeviktor/python
 #
 # DOCS          :https://github.com/docker-library/python/blob/master/3.5/stretch/Dockerfile
-# BUILD         :docker build -t szepeviktor/python:3.5.6-stretch .
+# BUILD         :docker build -t szepeviktor/python:3.5.7-stretch .
 
 FROM python:3.5-stretch
 

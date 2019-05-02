@@ -2,13 +2,13 @@
 
 ### Installation
 
-Recommended PHP version: 7.0
+PHP version: 7.0
 
 First run `/webserver/add-site.sh`
 
 ```bash
 apt-get install -y gettext php-pear aspell-hu
-su --login horde
+su -- login horde
 
 # Local PEAR installation
 HORDE_PEARCONF="/home/horde/website/pear.conf"
@@ -28,9 +28,9 @@ chmod +x /home/horde/website/horde-pear
 # @FIXME PHP7 needs "--force"
 /home/horde/website/horde-pear channel-discover pear.horde.org
 /home/horde/website/horde-pear install horde/horde_role
-# ENTER /home/horde/website/code
+# Enter: /home/horde/website/code
 /home/horde/website/horde-pear run-scripts horde/Horde_Role
-# Don't build C extensions -> install apt packages
+# Don't build C extensions -> install Debian packages
 /home/horde/website/horde-pear install --nobuild --force horde/horde
 
 # Additional Horde packages
@@ -122,9 +122,9 @@ $conf['compose']['htmlsig_img_size'] = 30000;
 
 Add `hordeadmin` (IMAP) user.
 
-@TODO php-env-check.php from Horde's `/test.php`
+@TODO Generate php-env-check.php from Horde's `/test.php`
 
-Copy `/mail/horde/*` files.
+Copy `/mail/horde/*` files from this repo.
 
 Copy logrotate configuration.
 

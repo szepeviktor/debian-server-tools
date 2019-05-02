@@ -5,7 +5,7 @@
         "php": ">=7.2"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.11.5",
+        "phpstan/phpstan-shim": "^0.11.5",
         "giacocorsiglia/wordpress-stubs": "^4.9"
     },
     "autoload-dev": {

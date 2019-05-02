@@ -3,6 +3,8 @@
 # Generate WooCommerce Subscriptions stubs.
 #
 
+PLUGIN_VERSION="2.5.3"
+
 Get_legacy_files()
 {
     # Already in WC
@@ -26,4 +28,4 @@ Get_legacy_files | xargs -- rm -v -r
 if [ ! -x vendor/bin/generate-stubs ]; then
     composer require --no-interaction --update-no-dev --prefer-dist giacocorsiglia/stubs-generator
 fi
-vendor/bin/generate-stubs --functions --classes --interfaces --traits --out=woocommerce-subscriptions-stubs.php ./includes/
+vendor/bin/generate-stubs --functions --classes --interfaces --traits --out=woocommerce-subscriptions-stubs-${PLUGIN_VERSION}.php ./includes/

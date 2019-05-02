@@ -3,6 +3,8 @@
 # Generate ACF Pro stubs of functions only.
 #
 
+PLUGIN_VERSION="5.7.8"
+
 Fix_phpdoc()
 {
     # - Fix type and variable name order for @param
@@ -32,4 +34,4 @@ Fix_phpdoc
 if [ ! -x vendor/bin/generate-stubs ]; then
     composer require --no-interaction --update-no-dev --prefer-dist giacocorsiglia/stubs-generator
 fi
-vendor/bin/generate-stubs --functions --out=acf-pro-stubs.php ./includes/ ./pro/
+vendor/bin/generate-stubs --functions --out=acf-pro-stubs-${PLUGIN_VERSION}.php ./includes/ ./pro/

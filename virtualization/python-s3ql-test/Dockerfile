@@ -1,10 +1,10 @@
 #
 # szepeviktor/python-s3ql-test
 #
-# BUILD         :docker build -t szepeviktor/python-s3ql-test:stretch-0.2.0 .
-# RUN           :docker run --tty --rm --cap-add SYS_ADMIN --device /dev/fuse szepeviktor/python-s3ql-test:stretch-0.2.0
+# BUILD         :docker build -t szepeviktor/python-s3ql-test:stretch-0.2.1 .
+# RUN           :docker run --tty --rm --cap-add SYS_ADMIN --device /dev/fuse szepeviktor/python-s3ql-test:stretch-0.2.1
 
-FROM szepeviktor/python:3.5.6-stretch
+FROM szepeviktor/python:3.5.7-stretch
 
 # Dependencies
 RUN set -e -x \
@@ -26,11 +26,13 @@ RUN set -e -x \
     && pip install -U "https://github.com/rogerbinns/apsw/releases/download/3.16.2-r1/apsw-3.16.2-r1.zip"
 
 # http://www.rath.org/s3ql-docs/installation.html#dependencies
-# https://github.com/s3ql/s3ql/blob/master/setup.py#L132
+# https://github.com/s3ql/s3ql/blob/master/setup.py#L143
 RUN set -e -x \
     && pip install -U \
-        "cython >= 0.24.1" "sphinx >= 1.2b1" "pytest >= 2.7" \
-        pycrypto requests defusedxml "dugong >= 3.4, < 4.0" "llfuse >= 1.0, < 2.0"
+        cryptography requests defusedxml \
+        'dugong >= 3.4, < 4.0' 'llfuse >= 1.0, < 2.0' \
+        google-auth google-auth-oauthlib \
+        'pytest >= 3.7' 'cython >= 0.24' 'sphinx >= 1.2b1'
 
 # Tests
 CMD set -e -x \

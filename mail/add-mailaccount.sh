@@ -177,8 +177,8 @@ if hash userdb userdbpw 2> /dev/null \
     makeuserdb || Error 37 "Failed to make userdb"
 
     # Removal instruction
-    echo "Remove user command:  userdb '$EMAIL' del"
-    echo "Change password:  echo \"new.user.password\" | userdbpw -md5 | userdb \"$EMAIL\" set systempw"
+    echo "Remove user command:  userdb \"$EMAIL\" del; makeuserdb"
+    echo "Change password:  echo \"new.user.password\" | userdbpw -md5 | userdb \"$EMAIL\" set systempw; makeuserdb"
 fi
 
 # Removal instruction

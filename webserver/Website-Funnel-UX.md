@@ -49,6 +49,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
    alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes info (author bio)
 1. Nyelvek
+1. Megoszthatóság
 1. [Mérés](https://github.com/googleanalytics/autotrack):
    bevétel, látogatás, oldalon belüli esemény (kattintás, menü kinyitás), konverzió, egér követés, hőtérképek
 
