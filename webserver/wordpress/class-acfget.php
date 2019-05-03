@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Strongly typed Advanced Custom Fields get_field function variants
+ * Strongly typed Advanced Custom Fields get_field function variants.
  *
  * @package ACFget
  * @version 0.1.0
@@ -12,6 +12,13 @@
 class ACFget {
 
 	/**
+	 * The post ID of which the value is saved against.
+	 *
+	 * @var int|string|false
+	 */
+	public static $post_id = false;
+
+	/**
 	 * Return custom field value as an string.
 	 *
 	 * @param string $selector
@@ -19,7 +26,7 @@ class ACFget {
 	 * @return string
 	 */
 	public static function string_field( string $selector, string $default = '' ) : string {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		return ( null === $raw_value ) ? $default : $raw_value;
 	}
 
@@ -31,7 +38,7 @@ class ACFget {
 	 * @return int
 	 */
 	public static function int_field( string $selector, int $default = 0 ) : int {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		return ( null === $raw_value ) ? $default : intval( $raw_value );
 	}
 
@@ -43,7 +50,7 @@ class ACFget {
 	 * @return float
 	 */
 	public static function float_field( string $selector, float $default = 0.0 ) : float {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		return ( null === $raw_value ) ? $default : floatval( $raw_value );
 	}
 
@@ -55,7 +62,7 @@ class ACFget {
 	 * @return bool
 	 */
 	public static function bool_field( string $selector, bool $default = false ) : bool {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		return ( null === $raw_value ) ? $default : boolval( $raw_value );
 	}
 
@@ -67,7 +74,7 @@ class ACFget {
 	 * @return bool|null
 	 */
 	public static function trinary_field( string $selector, bool $default = null ) {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		return ( null === $raw_value ) ? $default : boolval( $raw_value );
 	}
 
@@ -79,7 +86,7 @@ class ACFget {
 	 * @return array
 	 */
 	public static function array_field( string $selector, array $default = [] ) : array {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		if ( is_array( $raw_value ) ) {
 			return $raw_value;
 		}
@@ -93,7 +100,7 @@ class ACFget {
 	 * @return \WP_Post|null
 	 */
 	public static function post_field( string $selector ) {
-		$raw_value = \get_field( $selector );
+		$raw_value = \get_field( $selector, static::$post_id );
 		if ( is_object( $raw_value ) && is_a( $raw_value, '\WP_Post', false ) ) {
 			return $raw_value;
 		}
