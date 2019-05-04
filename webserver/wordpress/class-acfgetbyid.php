@@ -19,30 +19,33 @@ class ACFgetbyid {
 	 * @param string $name Method name.
 	 * @param array $arguments Arguments for the method.
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws \LogicException
 	 */
 	public static function __callStatic( string $name, array $arguments ) {
-		// Check static method name and arguments.
+		// Check static method name.
 		if ( ! method_exists( 'ACFget', $name ) ) {
-			throw new \Exception( sprintf( 'Method does not exist: ACFget::%s', $name ) );
-		}
-		$arg_count = count( $arguments );
-		if ( $arg_count !== 2 && $arg_count !== 3 ) {
-			throw new \Exception( sprintf( 'ACFget::%s needs 2 or 3 arguments.', $name ) );
+			throw new \LogicException( sprintf( 'Method does not exist: ACFget::%s', $name ) );
 		}
 
+		$arg_count = count( $arguments );
 		$previous_post_id = ACFget::$post_id;
 		ACFget::$post_id = $arguments[1];
-		if ( 2 === $arg_count ) {
-			// $selector only
-			// phpcs:ignore NeutronStandard.Functions.VariableFunctions.VariableFunction
-			$return_value = ACFget::$name( $arguments[0] );
+
+		switch ( $arg_count ) {
+			case 2:
+				// $selector only
+				// phpcs:ignore NeutronStandard.Functions.VariableFunctions.VariableFunction
+				$return_value = ACFget::$name( $arguments[0] );
+				break;
+			case 3:
+				// $selector and $default
+				// phpcs:ignore NeutronStandard.Functions.VariableFunctions.VariableFunction
+				$return_value = ACFget::$name( $arguments[0], $arguments[2] );
+				break;
+			default:
+				throw new \LogicException( sprintf( 'ACFget::%s needs 2 or 3 arguments.', $name ) );
 		}
-		if ( 3 === $arg_count ) {
-			// $selector and $default
-			// phpcs:ignore NeutronStandard.Functions.VariableFunctions.VariableFunction
-			$return_value = ACFget::$name( $arguments[0], $arguments[2] );
-		}
+
 		// Restore post ID
 		ACFget::$post_id = $previous_post_id;
 

@@ -30,10 +30,11 @@ Filter_client_server_error()
     #     408 Request Timeout
     #     Tunneling for blocked news sites in China (through Amazon CloudFront)
     #     Favicon in subdirectory
+    #     WordPress' Windows Live Writer manifest
     #     cPanel's Let's Encrypt HTTP-01 challenge
     #     SEO bots
-    #     Google - https://en.wikipedia.org/wiki/List_of_search_engines#General
-    #     Baidu, Bing, DuckDuckGo, Yandex, Qwant
+    #     Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
+    #     Baidu, Bing, DuckDuckGo, Yandex, Qwant crawlers
     #     Feed fetchers
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$' \
