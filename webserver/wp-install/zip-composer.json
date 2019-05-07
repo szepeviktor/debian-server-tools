@@ -8,6 +8,7 @@
       "type": "package",
       "package": {
         "name": "wordpress/wordpress",
+        "description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
         "type": "laravel-library",
         "version": "4.9.10",
         "dist": {

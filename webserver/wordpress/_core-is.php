@@ -56,7 +56,7 @@ class Is {
 	}
 
 	/**
-	 * Whether current request is of then given type.
+	 * Whether current request is of the given type.
 	 *
 	 * @param string $type Type of request.
 	 * @return bool

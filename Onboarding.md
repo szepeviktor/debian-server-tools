@@ -15,7 +15,8 @@ Choose one per category.
 1. Server provider: **UpCloud :eu:**
 1. SSL certificate provider for HTTPS:
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
-   [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:**
+   [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:,
+   [Buypass](https://www.buypass.com/ssl) :eu:**
 1. CDN provider: **AWS, KeyCDN :eu:**
 1. Transactional email provider: **AWS, SparkPost, SparkPost EU :eu:**
 1. Storage provider: **AWS, Backblaze B2, Selectel, Oktawave :eu:**
