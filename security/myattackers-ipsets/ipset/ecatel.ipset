@@ -52,3 +52,6 @@ add ecatel 191.101.161.0/24
 # AS48352 - overflow-net / IP Starcev Eugenii Borisovich
 #add ecatel 46.161.9.0/24
 #add ecatel 146.185.222.0/24
+
+# AS209282 - Feo Prest
+add ecatel 139.28.175.0/24

@@ -18,3 +18,5 @@ rm -f composer-setup.php
 
 # Display latest version number
 #     wget -q -O- "https://getcomposer.org/versions" | jq -r '.stable[0].version'
+#     wget -q -O- "https://repo.packagist.org/p/composer/composer.json" \
+#         | jq -r '[."packages"."composer/composer"[] | select(."version" | test("^[0-9.]+$"))] | last."version"'
