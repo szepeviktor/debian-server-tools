@@ -97,8 +97,8 @@ Browse modules: `drush pmi --format=yaml`
 
 Enable module: `drush en -y MODULE`
 
-Report 403 and 404: https://github.com/szepeviktor/wordpress-fail2ban/tree/master/non-wp-projects/drupal-fail2ban
-and [`Bad_Request`](https://github.com/szepeviktor/wordpress-fail2ban/tree/master/block-bad-requests)
+Report 403 and 404: https://github.com/szepeviktor/waf4wordpress/tree/master/non-wp-projects/drupal8-fail2ban
+and [`Http_Analyzer`](https://github.com/szepeviktor/waf4wordpress/tree/master/http-analyzer)
 
 APC cache backend: `drush en -y apc`
 

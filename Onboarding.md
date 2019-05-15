@@ -168,7 +168,7 @@ https://haveibeenpwned.com/
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
 - File versioning is not in query string but turned into file names like `filename.002.ext` in URL-s,
   [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L151-L152) reverts them
-- Your web application is protected by a [WAF](https://github.com/szepeviktor/wordpress-fail2ban)
+- Your web application is protected by a [WAF](https://github.com/szepeviktor/waf4wordpress)
 - Blacklisted things: FTP/S protocol, web-based administration tools (cPanel, phpMyAdmin), POP3/S protocol
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
 - [Running a Laravel application](/webserver/laravel)

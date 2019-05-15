@@ -11,7 +11,7 @@ before = apache-common.conf
 
 #           apache-auth.conf
 #               apache-noscript.conf
-#           wordpress-fail2ban (proxy_fcgi)
+#           waf4wordpress (proxy_fcgi)
 #               WordPress theme, plugin direct access (proxy_fcgi)
 #           non-existent PHP file
 failregex = ^%(_apache_error_client)s (AH(01797|01630): )?client denied by server configuration: (uri )?\S*(, referer: \S+)?\s*$

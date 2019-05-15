@@ -27,7 +27,8 @@ ALERT_DAYS="10"
 CERT_EXPIRY_CONFIG="/etc/certexpiry"
 declare -a CERT_EXPIRY_REMOTES
 
-Check_cert() {
+Check_cert()
+{
     local CERT="$1"
     local -i END_SEC
     local END_CHECK
@@ -72,7 +73,7 @@ for HOST_PORT in "${CERT_EXPIRY_REMOTES[@]}"; do
 
     if openssl s_client -CAfile /etc/ssl/certs/ca-certificates.crt \
         -connect "$HOST_PORT" -servername "${HOST_PORT%%:*}" \
-        < /dev/null 1> "$CERT_EXPIRY_TMP" 2> /dev/null; then
+        </dev/null 1>"$CERT_EXPIRY_TMP" 2>/dev/null; then
         Check_cert "$CERT_EXPIRY_TMP"
     else
         echo "Certificate check error for ${HOST_PORT}" 1>&2

@@ -38,8 +38,8 @@ ini_set( 'log_errors', 1 );
 
 /**
  * Download both files.
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/http-analyzer/waf4wordpress-http-analyzer.php
-wget https://github.com/szepeviktor/wordpress-fail2ban/raw/master/core-events/waf4wordpress-core-events.php
+wget https://github.com/szepeviktor/waf4wordpress/raw/master/http-analyzer/waf4wordpress-http-analyzer.php
+wget https://github.com/szepeviktor/waf4wordpress/raw/master/core-events/waf4wordpress-core-events.php
  */
 
 // WAF for WordPress.

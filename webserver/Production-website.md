@@ -107,7 +107,7 @@ Consider transactional email service through HTTP API. :snail:
 
 ### Security
 
-- WAF [`wordpress-fail2ban`](https://github.com/szepeviktor/wordpress-fail2ban) :snail:
+- WAF [`waf4wordpress`](https://github.com/szepeviktor/waf4wordpress) :snail:
 - _For shared hosting: Sucuri Scanner plugin_
 - _[Ninja Firewall Pro](https://nintechnet.com/ninjafirewall/)_
 - _PHP extension: ionCube24 `ic24.enable = on` (PHP file modification time protection)_
