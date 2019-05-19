@@ -53,9 +53,23 @@ How to design and implement CI and CD.
 - Build code
 - Run database migrations
 - Turn off maintenance mode
-- Populate caches (application, OPcache)
+- Populate caches (application, OPcache, `wp rewrite flush`)
 - Run at least 1 basic functional or unit test (e.g. log in or display dashboard)
 - Check HTML output
 - Special sudo configuration for reloading PHP-FPM or Cachetool
 - **Alert on failure**
-- Send email, Slack or Trello notification
+- Send email, Slack, Trello or Google Hangouts notification
+
+### Deploying WordPress
+
+Trigger theme setup.
+
+```bash
+wp eval '$old_theme=wp_get_theme("our-theme"); do_action("after_switch_theme", $old_theme->get("Name"), $old_theme);'
+```
+
+Use a common `deploy` action.
+
+```bash
+wp eval 'do_action("deploy");'
+```

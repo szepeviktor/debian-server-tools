@@ -43,7 +43,7 @@ Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
-    net-tools whois ntpdate ipset netcat-openbsd lftp s-nail \
+    net-tools ntpdate ipset netcat-openbsd lftp s-nail \
     gcc libc6-dev make strace \
     unscd cruft bash-completion htop mmdb-bin
 
@@ -57,7 +57,7 @@ Pkg_install_quiet goaccess
 # List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian
 Pkg_install_quiet \
-    -t stretch-backports needrestart geoipupdate git mtr-tiny
+    -t stretch-backports needrestart geoipupdate git mtr-tiny whois
 # Also in debian-setup/fail2ban
 
 # From testing

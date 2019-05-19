@@ -16,19 +16,20 @@
 # Alternative Email to SMS method:
 #     txtlocal@mydomain.net: |/usr/sbin/sendmail -f AUTHORIZED@ADDRESS PHONE-NUMBER@txtlocal.co.uk
 
-API_KEY = ''
-
 import urllib.request
 import urllib.parse
 import json
 import sys
+
+API_KEY = ''
+
 
 def send_sms(api_key, numbers, message):
     txtlocal_api = 'https://api.txtlocal.com/send/?'
     parameters = {
         'apikey': api_key,
         'numbers': numbers,
-        'message' : message,
+        'message': message,
         'sender': 'xreplyx',
         'format': 'json'
     }
@@ -38,6 +39,7 @@ def send_sms(api_key, numbers, message):
     with urllib.request.urlopen(request, postdata) as response:
         body = response.read()
     return body
+
 
 def main(argv):
     resp = send_sms(API_KEY, argv[0], argv[1])
@@ -63,6 +65,7 @@ def main(argv):
         print('Unknown response', file=sys.stderr)
         return 11
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     exitcode = main(sys.argv[1:])
     sys.exit(exitcode)
