@@ -19,8 +19,8 @@ CHAT_WEBHOOK = ''
 
 
 def main(argv):
-    bot_message = {'text': argv[0]}
     message_headers = {'Content-Type': 'application/json; charset=UTF-8'}
+    bot_message = {'text': argv[0]}
 
     http_obj = Http()
 
@@ -28,7 +28,7 @@ def main(argv):
         uri=CHAT_WEBHOOK,
         method='POST',
         headers=message_headers,
-        body=dumps(bot_message),
+        body=dumps(bot_message)
     )
 
     if resp_headers.status == 200:

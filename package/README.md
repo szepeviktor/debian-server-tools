@@ -28,7 +28,7 @@ Colon at column :16
 # CRON-DAILY    :/usr/local/sbin/script.sh
 # CRON-WEEKLY   :/usr/local/sbin/script.sh
 # CRON-MONTHLY  :/usr/local/sbin/script.sh | mail -E -s "subject" root
-# CRON.D        :02 2	* * *	root	/usr/local/sbin/script.sh
+# CRON.D        :02 2  * * *  root	/usr/local/sbin/script.sh
 # CONFIG        :~/.config/script/configuration
 
 # Usage/Remarks
