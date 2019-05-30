@@ -1,0 +1,25 @@
+{
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "oomphinc/composer-installers-extender": "^1.1.2",
+        "npm-asset/jquery": "^3.4"
+    },
+    "extra": {
+        "installer-types": [
+            "npm-asset",
+            "bower-asset"
+        ],
+        "installer-paths": {
+            "app/assets/{$name}/": [
+                "type:npm-asset",
+                "type:bower-asset"
+            ]
+        }
+    }
+}

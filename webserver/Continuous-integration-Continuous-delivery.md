@@ -8,7 +8,7 @@ How to design and implement CI and CD.
 - Display environment information
 - Set access credentials
 - Cache OS and programming language library packages
-- Check package management configuration
+- Check package management configuration (validate & normalize)
 - Check outdated packages and known security vulnerabilities
 - Build code
 - Configure application
@@ -72,4 +72,20 @@ Use a common `deploy` action.
 
 ```bash
 wp eval 'do_action("deploy");'
+```
+
+Install languages.
+
+```
+https://translate.wordpress.org/projects/wp-plugins/wordpress-seo/stable/hu/default/export-translations/?format=po
+https://translate.wordpress.org/projects/wp-plugins/wordpress-seo/stable/hu/default/export-translations/?format=mo
+wordpress-seo-hu_HU.mo
+wordpress-seo-hu_HU.po
+? apt-get install gettext #msgfmt
+wp language plugin is-installed wordpress-seo hu_HU
+
+language file sources
+- wordpress.org
+- git repo
+- translate.wordpress.org export
 ```

@@ -9,7 +9,7 @@
  *
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
- * @version 0.6.5
+ * @version 0.6.6
  */
 
 namespace O1;
@@ -171,17 +171,20 @@ final class CheckEnv {
         $this->assert_extension( 'igbinary' );
         $this->assert_extension( 'redis' );
 
+        // php7.0-zip
+        //$this->assert_extension( 'zip' );
+
         // php-imagick for PDF thumbnails
         $this->assert_extension( 'imagick' );
+
+        // Argon2 hashing
+        //$this->assert_extension( 'sodium' );
 
         // Not for WordPress
 
         // Session
         $this->assert_extension( 'session' );
         $this->assert_directive( 'session.gc_maxlifetime', '1440' );
-
-        // Argon2 hashing
-        //$this->assert_extension( 'sodium' );
 
         // System program execution
         // Default disabled functions:
