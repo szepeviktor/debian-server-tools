@@ -144,8 +144,7 @@ final class CheckEnv {
         // shmop sysvmsg(System V messages) sysvsem(System V semaphore) sysvshm(System V shared memory) wddx xmlwriter xsl
         $this->assert_disabled_extension( 'calendar' );
         $this->assert_disabled_extension( 'fileinfo' );
-        // Compiled in
-        //$this->assert_disabled_extension( 'pcntl' );
+        // Compiled in: $this->assert_disabled_extension( 'pcntl' );
         $this->assert_disabled_extension( 'PDO' );
         $this->assert_disabled_extension( 'pdo_mysql' );
         $this->assert_disabled_extension( 'Phar' );

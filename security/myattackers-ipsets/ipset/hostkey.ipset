@@ -10,6 +10,8 @@ add hostkey 31.207.44.0/22
 #add hostkey 46.249.38.0/24
 #add hostkey 66.248.204.0/22
 #add hostkey 80.209.240.0/22
+# Flyservers
+add hostkey 141.98.81.0/24
 add hostkey 146.0.72.0/21
 #add hostkey 185.70.184.0/22
 add hostkey 185.130.224.0/22

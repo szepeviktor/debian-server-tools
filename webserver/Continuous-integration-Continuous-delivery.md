@@ -58,6 +58,7 @@ How to design and implement CI and CD.
 - Check HTML output
 - Special sudo configuration for reloading PHP-FPM or Cachetool
 - **Alert on failure**
+- "Was down for X seconds"
 - Send email, Slack, Trello or Google Hangouts notification
 
 ### Deploying WordPress
@@ -76,16 +77,20 @@ wp eval 'do_action("deploy");'
 
 Install languages.
 
-```
-https://translate.wordpress.org/projects/wp-plugins/wordpress-seo/stable/hu/default/export-translations/?format=po
-https://translate.wordpress.org/projects/wp-plugins/wordpress-seo/stable/hu/default/export-translations/?format=mo
-wordpress-seo-hu_HU.mo
-wordpress-seo-hu_HU.po
-? apt-get install gettext #msgfmt
-wp language plugin is-installed wordpress-seo hu_HU
-
-language file sources
-- wordpress.org
-- git repo
+- wordpress.org `wp language plugin install wordpress-seo hu_HU`
+- git repository `apt-get install gettext # msgfmt`
 - translate.wordpress.org export
+
 ```
+TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN}/stable/hu/default/export-translations/?format=${FORMAT}"
+wget -O wp-content/languages/plugins/wordpress-seo-hu_HU.mo "$TWPORG_URL"
+wp language plugin is-installed wordpress-seo hu_HU
+```
+
+Tag-category collision.
+
+```bash
+{ wp term list post_tag --field=slug; wp term list category --field=slug; }|sort|uniq -d
+```
+
+https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html
