@@ -20,16 +20,16 @@ package:
         sources:
             - sury-php
             - szepeviktor
-            #- nodejs
             - percona
             #- mysql-5.7
             #- oracle-mysql-server
+            #- nodejs
             - goaccess
         extra:
             - php7.2-fpm
             - grepcidr
-            #- nodejs/stretch-backports
             #- nodejs
+            #- nodejs/stretch-backports
             #- percona-server-server-5.7
     ca-certificates:
         # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog

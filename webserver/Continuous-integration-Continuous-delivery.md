@@ -61,6 +61,24 @@ How to design and implement CI and CD.
 - "Was down for X seconds"
 - Send email, Slack, Trello or Google Hangouts notification
 
+### Coding style / Coding standard
+
+* Tool: phive install phpcs # squizlabs/php_codesniffer
+* Tool: dealerdirect/phpcodesniffer-composer-installer
+
+- wp-coding-standards/wpcs
+- automattic/phpcs-neutron-standard # automattic/phpcs-neutron-ruleset
+- slevomat/coding-standard
+- object-calisthenics/phpcs-calisthenics-rules
+
+### Static analysis
+
+* Tool: phpstan/phpstan # phpstan/phpstan-shim # phive install phpstan
+
+- phpstan/phpstan-deprecation-rules
+- phpstan/phpstan-strict-rules
+- szepeviktor/phpstan-wordpress
+
 ### Deploying WordPress
 
 Trigger theme setup.

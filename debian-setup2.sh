@@ -58,6 +58,9 @@ Pkg_install_quiet goaccess
 # @nonDebian
 Pkg_install_quiet \
     -t stretch-backports needrestart geoipupdate git mtr-tiny whois
+# Set restart mode to automatic.
+sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' -i /etc/needrestart/needrestart.conf
+
 # Also in debian-setup/fail2ban
 
 # From testing
@@ -230,6 +233,7 @@ debian-setup/_package-python-pip
 debian-setup/_package-php-composer
 debian-setup/_package-php-phive
 # Node.js (from package.apt.extra)
+# https://nodejs.org/en/download/releases/
 # @nonDebian
 if Is_installed "nodejs"; then
     debian-setup/nodejs

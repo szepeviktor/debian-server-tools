@@ -22,6 +22,7 @@ else
     # NPM global config: /usr/local/lib/node_modules/npm/npmrc
 
     # NPM from source
+    # https://www.npmjs.com/package/npm?activeTab=versions
     (
         cd /usr/local/src/
         mkdir npm

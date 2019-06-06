@@ -17,8 +17,8 @@
 #KNOWN_IP="${CACHE_DIR}/known.list"
 
 # GeoIP database
-#GEOIP_COUNTRY="/usr/share/GeoIP/GeoIP.dat"
-#GEOIP_AS="/usr/share/GeoIP/GeoIPASNum.dat"
+#GEOIP_COUNTRY="/var/lib/GeoIP/GeoLite2-Country.mmdb"
+#GEOIP_AS="/var/lib/GeoIP/GeoLite2-ASN.mmdb"
 
 # Service providers #
 

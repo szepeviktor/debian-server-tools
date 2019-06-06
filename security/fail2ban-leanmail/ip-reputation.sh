@@ -2,13 +2,13 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :0.2.0
-# DATE          :2018-09-09
+# VERSION       :0.2.1
+# DATE          :2019-06-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install dnsutils dos2unix grepcidr geoip-database-contrib jq
+# DEPENDS       :apt-get install dnsutils dos2unix grepcidr mmdb-bin jq
 # CONFIG        :~/.config/ip-reputation/configuration
 # LOCATION      :/usr/local/bin/ip-reputation.sh
 # CRON-HOURLY   :/usr/local/bin/ip-reputation.sh cron
@@ -32,8 +32,8 @@ CACHE_DIR="${HOME}/.cache/ip-reputation"
 KNOWN_IP="${CACHE_DIR}/known.list"
 
 # GeoIP database
-GEOIP_COUNTRY="/usr/share/GeoIP/GeoIP.dat"
-GEOIP_AS="/usr/share/GeoIP/GeoIPASNum.dat"
+GEOIP_COUNTRY="/var/lib/GeoIP/GeoLite2-Country.mmdb"
+GEOIP_AS="/var/lib/GeoIP/GeoLite2-ASN.mmdb"
 
 CONFIGURATION="${HOME}/.config/ip-reputation/configuration"
 
@@ -142,9 +142,11 @@ Match_country()
 {
     local IP="$1"
     local COUNTRY="$2"
+    local IP_COUNTRY
 
-    if /usr/bin/geoiplookup -f "$GEOIP_COUNTRY" "$IP" \
-        | cut -d ":" -f 2- | grep -q "^ ${COUNTRY},"; then
+    IP_COUNTRY="$(mmdblookup --file "$GEOIP_COUNTRY" --ip "$IP" registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p')" #'
+
+    if [ "$COUNTRY" == "$IP_COUNTRY" ]; then
         # Country found
         return 0
     fi
@@ -161,10 +163,10 @@ Match_autonomoussystems()
     local IP_AS
     local AS
 
-    IP_AS="$(/usr/bin/geoiplookup -f "$GEOIP_AS" "$IP" | cut -d ":" -f 2-)"
+    IP_AS="$(mmdblookup --file "$GEOIP_AS" --ip "$IP" | sed -n -e 's/^\s\+\([0-9]\+\) <\S\+>$/AS\1/p')"
 
     for AS in "${AUTONOMOUS_SYSTEMS[@]}"; do
-        if grep -q "^ ${AS} " <<<"$IP_AS"; then
+        if [ "$AS" == "$IP_AS" ]; then
             # AS found
             return 0
         fi
