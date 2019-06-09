@@ -66,10 +66,12 @@ How to design and implement CI and CD.
 * Tool: phive install phpcs # squizlabs/php_codesniffer
 * Tool: dealerdirect/phpcodesniffer-composer-installer
 
+- [commenting rules](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/Squiz/Sniffs/Commenting)
 - wp-coding-standards/wpcs
 - automattic/phpcs-neutron-standard # automattic/phpcs-neutron-ruleset
 - slevomat/coding-standard
 - object-calisthenics/phpcs-calisthenics-rules
+- consistence/coding-standard
 
 ### Static analysis
 
@@ -111,4 +113,4 @@ Tag-category collision.
 { wp term list post_tag --field=slug; wp term list category --field=slug; }|sort|uniq -d
 ```
 
-https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html
+<!-- https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html -->

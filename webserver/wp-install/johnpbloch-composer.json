@@ -40,6 +40,7 @@
     ],
     "post-autoload-dump": [
       "rm -rf public/core/wp-content"
-    ]
+    ],
+    "cleanup": "git status --short --ignored | sed -n -e 's#^!! ##p' | xargs rm -vrf"
   }
 }

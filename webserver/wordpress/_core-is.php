@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Helper functions to determine entry point. (MU)
- * Version:     0.1.1
+ * Version:     0.1.2
  * License:     The MIT License (MIT)
  * Author:      Viktor Szépe
  */
@@ -75,6 +75,9 @@ class Is {
 				return ( isset( $_SERVER['SCRIPT_FILENAME'] ) && ABSPATH . 'wp-admin/async-upload.php' === $_SERVER['SCRIPT_FILENAME'] );
 			case 'preview':
 				return is_preview();
+			case 'autosave':
+				// Autosave post while editing and Heartbeat.
+				return ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE );
 			case 'rest':
 				return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 			case 'ajax':
