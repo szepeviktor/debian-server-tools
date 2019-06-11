@@ -13,3 +13,4 @@ deb http://archive.debian.org/debian jessie-backports main contrib non-free
 
 # jessie-backports/InRelease is expired
 #$    echo 'Acquire::Check-Valid-Until "false";' >/etc/apt/apt.conf.d/00checkvaliduntil
+#$    apt-get -o Acquire::ForceIPv4=true update

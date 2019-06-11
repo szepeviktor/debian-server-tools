@@ -111,6 +111,8 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 
 /** Plugins. */
 
+// typisttech/wp-password-argon-two
+define( 'WP_PASSWORD_ARGON_TWO_PEPPER', getenv( 'WP_PASSWORD_ARGON_TWO_PEPPER' ) );
 // Tiny CDN - No trailing slash!
 define( 'TINY_CDN_INCLUDES_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-includes' );
 define( 'TINY_CDN_CONTENT_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-content' );

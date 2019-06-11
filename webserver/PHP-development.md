@@ -132,6 +132,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 ### Parts of an application
 
 - Autoloading (composer)
+- [DI containers](https://www.php-fig.org/psr/psr-11/meta/#8-implementations)
 - ORM
 - Database migration
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))

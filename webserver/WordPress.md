@@ -152,10 +152,13 @@ wp eval 'var_dump(wp_mail("admin@szepe.net","First outgoing",site_url()));'
 ```bash
 # users/login
 
-wp plugin install password-bcrypt
-cp -v wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
-wp plugin uninstall password-bcrypt
+#wp plugin install password-bcrypt
+#cp -v wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
+#wp plugin uninstall password-bcrypt
+composer require typisttech/wp-password-argon-two
 wp plugin install user-session-control --activate
+# pwned passwords
+wp plugin install disallow-pwned-passwords --activate
 # user role editor
 wp plugin install user-role-editor --activate
 # keepass-button

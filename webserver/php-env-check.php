@@ -10,11 +10,11 @@
  * @package php-env-check
  * @author  Viktor Szépe <viktor@szepe.net>
  * @version 0.6.6
+ *
+ * @see https://github.com/psecio/iniscan
  */
 
 namespace O1;
-
-//check_env();
 
 function check_env() {
 
@@ -41,6 +41,8 @@ function check_env() {
 
     exit( $status ? 0 : 1 );
 }
+
+check_env();
 
 /**
  * Get the difference of hardcoded values and the current PHP configuration.
