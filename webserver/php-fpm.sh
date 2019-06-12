@@ -24,8 +24,7 @@ PHP_TZ="UTC"
 Pkg_install_quiet "php${PHP}-fpm" libpcre3 \
     "php${PHP}-curl" "php${PHP}-gd" "php${PHP}-intl" "php${PHP}-mysql" \
     "php${PHP}-sqlite3"
-
-# Not compiled in every PHP binary
+# Not compiled in every PHP binary: mbstring, xml
 if [ -n "$(apt-cache madison "php${PHP}-mbstring" 2>/dev/null)" ]; then
     Pkg_install_quiet "php${PHP}-mbstring"
 fi
