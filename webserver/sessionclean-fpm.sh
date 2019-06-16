@@ -2,6 +2,7 @@
 #
 # Cleanup stale PHP-FPM sessions.
 #
+# UPSTREAM      :https://salsa.debian.org/php-team/php-defaults/blob/master/sessionclean
 # DEPENDS       :apt-get install libfcgi-bin
 
 Print_get_all_session()
@@ -63,7 +64,7 @@ Gargabe_collect()
 }
 
 set -e -o pipefail
-Print_get_session;exit
+
 Get_fpms | sort -u | Gargabe_collect
 
 exit 0

@@ -4,6 +4,8 @@
 create digitalenergy hash:net family inet hashsize 64 maxelem 64
 flush digitalenergy
 add digitalenergy 179.61.128.0/20
+# Was: sprint.pl/Dmzhost Limited
+add digitalenergy 181.215.195.0/24
 
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24

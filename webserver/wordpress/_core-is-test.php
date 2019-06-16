@@ -13,6 +13,7 @@ function is_request_test() {
         'admin',
         'async-upload',
         'preview',
+        'autosave',
         'rest',
         'ajax',
         'xmlrpc',

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# List /home dynamic web files modified in the last hour.
+# List /home critical files modified during the last hour.
 #
 # VERSION       :0.4.1
 # DATE          :2017-06-22
@@ -10,10 +10,11 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/siteprotection.sh
-# CRON.D        :00 *	* * *	root	/usr/local/sbin/siteprotection.sh
+# CRON.D        :00 *  * * *  root	/usr/local/sbin/siteprotection.sh
 
 #   Exclude WordPress cache
 #   Exclude Laravel view cache
+#find /home/ -type f "(" -iname "*.php" -or -iname ".js" -or -iname ".htaccess" -or -iname ".env" ")" \
 find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" -or -iname ".env" ")" \
     "(" -cmin -61 -or -mmin -61 ")" -printf '%p @%TH:%TM:%TS\n' \
     | grep -v -x '/home/[[:alnum:]]\+/website/code/wp-content/cache/\S\+\.php @[0-9:.]\+' \

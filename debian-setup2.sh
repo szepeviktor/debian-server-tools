@@ -58,8 +58,11 @@ Pkg_install_quiet goaccess
 # @nonDebian
 Pkg_install_quiet \
     -t stretch-backports needrestart geoipupdate git mtr-tiny whois
-# Set restart mode to automatic.
-sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' -i /etc/needrestart/needrestart.conf
+# Set restart mode to automatic
+# And https://github.com/liske/needrestart/issues/44
+sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' \
+    -e 's/^\s*qr(\^dbus).*$/#&/' \
+    -i /etc/needrestart/needrestart.conf
 
 # Also in debian-setup/fail2ban
 
