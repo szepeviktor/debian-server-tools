@@ -139,7 +139,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - HTTP request handling and security (URL structure, WAF)
 - Session handling (very long sessions, CSRF,
   session expiration UX: timer, warning, redirect, password input)
-- Input validation, sanitization
+- Form handling, input validation, sanitization (UserFrontValidate->Request->BackendValidate->BusinessLogic->Response)
 - Escaping (database, HTML, JavaScript)
 - Internationalization (PHP, JavaScript, input formats and units)
 - String translation (gettext, pseudo English)

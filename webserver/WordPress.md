@@ -267,17 +267,17 @@ Resource optimization
 # JPEG image quality
 # add_filter( 'jpeg_quality', function ( $quality ) { return 91; } );
 
-# resource-versioning
+# Resource Versioning
 wp plugin install resource-versioning --activate
 
 # Tiny CDN
 wp plugin install tiny-cdn --activate
 
-# minit
+# Minit
 #wp plugin install https://github.com/kasparsd/minit/archive/master.zip
 #wp plugin install https://github.com/markoheijnen/Minit-Pro/archive/master.zip
 
-# safe redirect manager
+# Safe Redirect Manager
 wp plugin install safe-redirect-manager --activate
 
 # WP-FFPC

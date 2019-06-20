@@ -3,6 +3,8 @@ Debian server tools
 
 Various scripts and tools mainly for Debian servers.
 
+[How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)
+
 ### World&#39;s fastest cloud servers
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)

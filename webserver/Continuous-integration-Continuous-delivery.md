@@ -4,7 +4,7 @@ How to design and implement CI and CD.
 
 ### CI
 
-- Run in a premade container or install packages
+- Run in a premade container or install OS packages
 - Display environment information
 - Set access credentials
 - Cache OS and programming language library packages
@@ -17,7 +17,7 @@ How to design and implement CI and CD.
 - Check coding style
 - **Do static analysis**
 - Run tests
-- Check route methods
+- Check route methods (controllers of routes)
 - Custom checks and warnings
 - Measure code coverage
 - Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)
@@ -38,7 +38,7 @@ How to design and implement CI and CD.
 - Log every output to a file, log start and finish to syslog
 - Limit execution time of time-consuming steps (timeout)
 - Optionally back up project files before starting to deploy
-- Create a bot user on the server for git access with SSH key (@companybot)
+- Create a bot user on the server for git access with SSH key (`@companybot`)
 - List changes in current project files
 - Check for maintenance mode `test -f storage/framework/down` ,
   Turn on [maintenance mode](https://github.com/laravel/framework/blob/18402cd4b83fd1d944f3baa0d8cc26d7dfcce333/src/Illuminate/Foundation/Application.php#L927-L930)
@@ -79,6 +79,7 @@ How to design and implement CI and CD.
 
 - phpstan/phpstan-deprecation-rules
 - phpstan/phpstan-strict-rules
+- nunomaduro/larastan
 - szepeviktor/phpstan-wordpress
 
 ### Deploying WordPress
@@ -97,9 +98,9 @@ wp eval 'do_action("deploy");'
 
 Install languages.
 
-- wordpress.org `wp language plugin install wordpress-seo hu_HU`
-- git repository `apt-get install gettext # msgfmt`
-- translate.wordpress.org export
+- wordpress.org: `wp language plugin install wordpress-seo hu_HU`
+- git repository: `apt-get install gettext # msgfmt`
+- translate.wordpress.org export:
 
 ```
 TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN}/stable/hu/default/export-translations/?format=${FORMAT}"
