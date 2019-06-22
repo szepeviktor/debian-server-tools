@@ -46,7 +46,8 @@ Choose one per category.
 
 ### Notify on account breach
 
-https://haveibeenpwned.com/
+1. Search email address https://haveibeenpwned.com/
+1. Search password https://haveibeenpwned.com/Passwords
 
 ### UpCloud registration
 

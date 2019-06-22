@@ -24,6 +24,7 @@ add shodan 71.6.146.185
 add shodan 71.6.158.166
 add shodan 71.6.165.200
 add shodan 71.6.167.142
+add shodan 71.6.199.23
 add shodan 80.82.77.33
 add shodan 80.82.77.139
 add shodan 82.221.105.6
@@ -36,8 +37,8 @@ add shodan 93.120.27.62
 add shodan 93.174.95.106
 add shodan 94.102.49.190
 add shodan 94.102.49.193
-add shodan 104.25.89.97
-add shodan 104.25.90.97
+add shodan 104.27.74.9
+add shodan 104.27.75.9
 add shodan 104.131.0.69
 add shodan 188.138.9.50
 add shodan 198.20.69.74
