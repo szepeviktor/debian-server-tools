@@ -1,0 +1,5 @@
+# MongoDB Server
+deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main
+#K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys 68818C72E52529D4
+#M: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/
+#F: 68818C72E52529D4:9DA31620334BD75D9DCB49F368818C72E52529D4

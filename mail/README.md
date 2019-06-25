@@ -578,8 +578,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 
 #### Blacklists (RBL, DNSBL)
 
-- http://www.projecthoneypot.org/search_ip.php `R`
-- http://psky.me/
+- https://www.projecthoneypot.org/search_ip.php `R`
 - http://blacklist.lashback.com/
 - https://rbl.foobar.hu/
 - http://filterdb.iss.net/dnsblinfo/

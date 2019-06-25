@@ -51,7 +51,7 @@ package:
 # Mail server reputation
 mail-server:
     monitoring:
-        - http://www.projecthoneypot.org/
+        - https://www.projecthoneypot.org/
         - https://mxtoolbox.com/
         - https://www.rblmon.com/accounts/register/
         - https://rbltracker.com/

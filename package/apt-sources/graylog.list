@@ -1,0 +1,5 @@
+# Graylog
+deb https://packages.graylog2.org/repo/debian/ stable 3.0
+#K: wget -qO- https://packages.graylog2.org/repo/debian/keyring.gpg | apt-key add -
+#M: https://docs.graylog.org/en/3.0/pages/installation/operating_system_packages.html
+#F: B1606F22:28AB6EB572779C2AD196BE22D44C1D8DB1606F22

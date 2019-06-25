@@ -206,7 +206,7 @@ editor /etc/courier/esmtpauthclient
 # See /webserver/hosting.yml
 
 # * Install a Honey Pot
-# http://www.projecthoneypot.org/faq.php#c
+# https://www.projecthoneypot.org/faq.php#c
 
 # * Development/Staging environment?
 # domain name, SMTP, robots.txt

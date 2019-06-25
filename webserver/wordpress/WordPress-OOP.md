@@ -9,6 +9,12 @@
 - [Admin Notices](https://github.com/TypistTech/wp-admin-notices)
 - [`global $wpdb;`](https://gist.github.com/szepeviktor/ddb1bfd12d93accd318cc081637956ec)
 - [ACF `get_field()`](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/wordpress/class-acfget.php)
+- [Twig Template Engine](https://github.com/timber/timber)
+- [Routing](https://github.com/Brain-WP/Cortex)
+- [Assets helper](https://github.com/Brain-WP/Assets)
+- [Template hierarchy](https://github.com/Brain-WP/Hierarchy)
+- [Nonces](https://github.com/Brain-WP/Nonces)
+- [Template context](https://github.com/Brain-WP/Context)
 
 * Laravel technology in WordPress [Themosis framework](https://github.com/themosis/themosis)
 * [Lumberjack MVC framework](https://github.com/Rareloop/lumberjack)
