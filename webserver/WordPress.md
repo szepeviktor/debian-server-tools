@@ -106,7 +106,7 @@ Keep changes in git.
 
 ### [Plugins](https://plugintests.com/search-ids)
 
-#### Core
+#### For core
 
 ```bash
 export WPSZV="https://github.com/szepeviktor/wordpress-plugin-construction/raw/master"
@@ -116,7 +116,7 @@ mkdir wp-content/mu-plugins/
 wget -qO- https://github.com/szepeviktor/debian-server-tools/raw/master/mysql/alter-table.sql \
  | mysql -N $(wp eval 'echo DB_NAME;') | mysql
 
-# themes
+# no parent themes
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/debian-server-tools/raw/master/webserver/wordpress/_core-themes.php
 
 # disable updates
@@ -156,15 +156,17 @@ wp eval 'var_dump(wp_mail("admin@szepe.net","First outgoing",site_url()));'
 #cp -v wp-content/plugins/password-bcrypt/wp-password-bcrypt.php wp-content/mu-plugins/
 #wp plugin uninstall password-bcrypt
 composer require typisttech/wp-password-argon-two
+# sessions
 wp plugin install user-session-control --activate
 # pwned passwords
 wp plugin install disallow-pwned-passwords --activate
-# user role editor
+# user roles
 wp plugin install user-role-editor --activate
-# keepass-button
+# KeePass button
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-keepass-button/keepass-button.php
 
 # WAF for WordPress
+
 wget https://github.com/szepeviktor/waf4wordpress/raw/master/http-analyzer/waf4wordpress-http-analyzer.php
 wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/waf4wordpress/raw/master/core-events/waf4wordpress-core-events.php
 #wget https://github.com/szepeviktor/waf4wordpress/raw/master/non-wp-projects/wp-login.php
@@ -172,6 +174,8 @@ wget -P wp-content/mu-plugins/ https://github.com/szepeviktor/waf4wordpress/raw/
 
 # security suite + audit
 
+# logbook
+wp plugin install logbook --activate
 # audit
 wp plugin install wp-user-activity --activate
 # simple audit
@@ -181,31 +185,31 @@ wp plugin install simple-history --activate
 
 # prevent spam
 
-# Installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
+# installation: https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/mu-nofollow-robot-trap
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-nofollow-robot-trap/nofollow-robot-trap.php
-# CF7 Robot Trap
+# CF7 robot trap
 wget -P wp-content/plugins/contact-form-7-robot-trap/ ${WPSZV}/contact-form-7-robot-trap/cf7-robot-trap.php
 # Comment form robot trap
 wget -P wp-content/plugins/comment-form-robot-trap/ ${WPSZV}/comment-form-robot-trap/comment-form-robot-trap.php
-# Email Address Encoder
+# Email address encoder
 wp plugin install email-address-encoder --activate
-# Stop Spammers
+# Stop spammers
 #wp plugin install stop-spammer-registrations-plugin --activate
 ```
 
 #### Restrictions
 
 ```bash
-# mu-lock-session-ip
+# lock session IP
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-lock-session-ip/lock-session-ip.php
 
-# prevent-concurrent-logins
+# concurrent logins
 #wp plugin install prevent-concurrent-logins --activate
 
-# mu-disallow-weak-passwords
+# weak passwords
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-disallow-weak-passwords/disallow-weak-passwords.php
 
-# user registration: mu-banned-email-addresses
+# user email addresses
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-banned-email-addresses/banned-email-addresses.php
 
 # media

@@ -34,7 +34,7 @@
 ### Feldolgozás és tárolás
 
 - Szélek levágása (crop)
-- Automatikus egyszínű szegély leveágása (autocrop)
+- Automatikus egyszínű szegély levágása (autocrop)
 - Forgatás (rotate)
 - Vízjelezés (watermark)
 - Automatikus forgatás EXIF (kamera) adatokból (autorotate)
@@ -55,7 +55,7 @@
 - Hash-elt képfájl név
 - A hash ne legyen kitalálható, legyen a hash-elt adatok között a képhez *nem* kapcsolódó adat,
   pl. időbélyeg, véletlen szám
-- Minden AWS S3 bucket-hez külön AWs felhasználó
+- Minden AWS S3 bucket-hez külön AWS felhasználó
 - CDN használata (tartalom kiszolgáló hálózat)
 - *Hotlinking* védelem, azaz mások ne tölthessék be a képeket a saját honlapjukba (teszt időszakkal)
 - Hiányzó kép kezelése (image.onerror)

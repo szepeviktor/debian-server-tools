@@ -1,0 +1,7 @@
+# Elasticsearch OSS 6.x
+deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main
+#K: wget -qO- https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+#M: https://www.elastic.co/guide/en/elasticsearch/reference/6.8/deb.html
+#F: D88E42B4:46095ACC8548582C1A2699A9D27D666CD88E42B4
+# JAVA_HOME="$(realpath $(/usr/sbin/update-java-alternatives --list|cut -c 43-))"
+# update-rc.d elasticsearch defaults 95 10

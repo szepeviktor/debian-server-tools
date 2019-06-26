@@ -2,8 +2,8 @@
 #
 # Add the repositories that you install software from.
 #
-# VERSION       :0.3.0
-# DATE          :2018-05-01
+# VERSION       :0.3.1
+# DATE          :2019-06-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -61,7 +61,7 @@ for REPO; do
         | while read -r ID_FP; do
             KEY_ID="${ID_FP%:*}"
             FINGERPRINT="${ID_FP#*:}"
-            CURRENT_FP="$(apt-key adv --with-colons --fingerprint "$KEY_ID" | sed -ne 's/^fpr:::::::::\([0-9A-F]\+\):$/\1/p')"
+            CURRENT_FP="$(apt-key adv --with-colons --fingerprint "$KEY_ID" | sed -ne '/^fpr:::::::::\([0-9A-F]\+\):$/{s//\1/p;q}')"
             if [ "$CURRENT_FP" != "$FINGERPRINT" ]; then
                 rm -f "/etc/apt/sources.list.d/$(basename "$LIST")"
                 apt-key del "$KEY_ID"
