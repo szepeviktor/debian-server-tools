@@ -31,7 +31,7 @@ Choose one per category.
 
 ### Secure browser in an ephemeral cloud instance
 
-- Deploy [Windows Server 2016 Standard instance](https://my.upcloud.com/server/create)
+- Deploy [Windows Server 2016 Standard instance](https://hub.upcloud.com/server/create)
 - Finish installation on the console: set language
 - Log in as `Administrator` with
   [RDP on Windows](https://ci.freerdp.com/job/freerdp-nightly-windows/arch=win64,label=vs2013/)
@@ -54,7 +54,7 @@ Choose one per category.
 - Referral URL
 - [KeePass](https://keepass.info/) is an open source password manager
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
-- Use a virtual bank card
+- Use a virtual bank card with a sub account
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
@@ -68,7 +68,7 @@ Choose one per category.
 - https://aws.amazon.com/
 - [KeePass](https://keepass.info/) is an open source password manager
 - Account type: Professional
-- Use a virtual bank card
+- Use a virtual bank card with a sub account
 - Verification phone call: dial numbers
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))

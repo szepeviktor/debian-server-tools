@@ -6,10 +6,10 @@ DevOps can be seen as the foundation of my work,
 which focuses on **proactive** maintenance of
 [web-based systems](https://github.com/szepeviktor/debian-server-tools/blob/master/webserver/PHP-development.md).
 This&nbsp;includes comprehensive understanding of the application,
-full source code life cycle, continuous integration (CI) and automated deployment (CD).
+full source code life cycle management, continuous integration (CI) and automated deployment (CD).
 
-My exclusive focus on **non-userfacing** parts (stability, vulnerability, performance) of the application
-implies the need for other team members.
+As a team member my exclusive focus is on **non-userfacing** parts
+(sustainability, stability, vulnerability, performance) of the application.
 
 ### Proactive maintenance features
 
