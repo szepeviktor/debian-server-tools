@@ -33,7 +33,8 @@
 
 - [Facebook Shop Section](https://www.facebook.com/business/help/238403573454149)
   [Shops API](https://developers.facebook.com/docs/pages/shops-api/)
-- [Shopify](https://www.shopify.com/) dropshipping https://www.oberlo.com/
+- [Shopify](https://www.shopify.com/), dropshipping https://www.oberlo.com/
+- https://www.bigcommerce.com/essentials/
 - https://www.volusion.com/
 - https://www.squarespace.com/ecommerce-website-tour
 - https://seller.alibaba.com/
@@ -46,6 +47,7 @@
 
 ### Tools
 
+- https://www.bolt.com/
 - https://recart.com/
 - https://textual.ai/
 - https://choice.ai/

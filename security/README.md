@@ -145,7 +145,7 @@ for Q in key kex cipher cipher-auth mac; do echo "--- ${Q} ---"; ssh -Q "$Q"; do
 
 ### Mozilla Server side TLS Tools
 
-[Server side TLS Tools](http://mozilla.github.io/server-side-tls/ssl-config-generator/),
+[Server side TLS Tools](https://ssl-config.mozilla.org/),
 doc: [Server Side TLS Document](https://wiki.mozilla.org/Security/Server_Side_TLS)
 
 ### CloudFlare IP ranges

@@ -4,3 +4,7 @@
 
 # Create iptables chains on start
 actionstart_on_demand = false
+
+# Terminate connections on ban
+actionban = <iptables> -I f2b-<name> 1 -s <ip> -j <blocktype>
+            ss --no-header --numeric --kill dst <ip>
