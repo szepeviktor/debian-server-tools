@@ -12,14 +12,14 @@ How to design and implement CI and CD.
 - Check outdated packages and known security vulnerabilities
 - Build code
 - Configure application
-- Lint source code
+- Lint source code (syntax check) :one:
 - Lint template files
-- Check coding style
-- **Do static analysis**
-- Run tests
+- Check coding style :two:
+- **Do static analysis** :three:
+- Run (unit and functional) tests
+- Measure code coverage
 - Check route methods (controllers of routes)
 - Custom checks and warnings
-- Measure code coverage
 - Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)
 - Wipe sensitive data
 
@@ -115,3 +115,14 @@ Tag-category collision.
 ```
 
 <!-- https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html -->
+
+### Looking at new WordPress code
+
+1. [Main plugin file parts](https://github.com/szepeviktor/phpstan-wordpress/blob/master/README.md#make-your-code-testable)
+1. [Static analysis](https://github.com/szepeviktor/phpstan-wordpress)
+1. [Code quality](https://github.com/nunomaduro/phpinsights)
+1. For themes: https://themecheck.info/ and https://wordpress.org/plugins/theme-check/
+1. Security
+    - https://github.com/WordPress/WordPress-Coding-Standards/tree/develop/WordPress/Sniffs/Security
+    - https://coderisk.com/ by RIPS Technologies
+    - https://wpvulndb.com/
