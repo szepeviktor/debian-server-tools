@@ -8,6 +8,11 @@
 
 # Broken SMTP servers and special cases - allow,BLOCK,BOFHCHECKDNS=0,BOFHCHECKHELO=0
 
+# Freemail.hu broken forwarding - fmfwd0{0..2}.freemail.hu.
+195.228.245.78	allow,BOFHSPFMAILFROM=off
+195.228.245.79	allow,BOFHSPFMAILFROM=off
+195.228.245.80	allow,BOFHSPFMAILFROM=off
+
 # kisgep.hu - mail.phantasy.hu. (spammy transactional emails)
 94.199.181.186	allow,BLOCK
 

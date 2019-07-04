@@ -10,12 +10,14 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 
 Choose one per category.
 
-1. Domain registrar: **Cloudflare, AWS, Gandi :eu:, noip, dyn, Rackhost/.hu :eu:**
-1. DNS provider: **AWS, HE, Cloudflare, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
+1. Domain registrar: **AWS, Gandi :eu:, Cloudflare, noip, dyn, Rackhost/.hu :eu:**
+1. DNS provider: **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Cloudflare, Exoscale :eu:, Gandi :eu:**
 1. Server provider: **UpCloud :eu:**
 1. SSL certificate provider for HTTPS:
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
-   [SSLMate](https://sslmate.com/), DigiCert, Certum :eu:,
+   [SSLMate](https://sslmate.com/),
+   DigiCert,
+   Certum :eu:,
    [Buypass](https://www.buypass.com/ssl) :eu:**
 1. CDN provider: **AWS, KeyCDN :eu:**
 1. Transactional email provider: **AWS, SparkPost, SparkPost EU :eu:**
