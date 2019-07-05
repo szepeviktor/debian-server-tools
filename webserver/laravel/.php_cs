@@ -1,11 +1,16 @@
 <?php
+/**
+ * Convert Laravel presets from StyleCI to PHP CS Fixer.
+ *
+ * 1. Install PHP CS Fixer: phive install php-cs-fixer
+ * 2. Add /.php_cs.cache to .gitignore
+ * 3. Start: tools/php-cs-fixer fix -v --dry-run
+ *
+ * @see https://styleci.readme.io/docs/presets#section-laravel
+ */
 
-// phive install php-cs-fixer
-// .gitignore /.php_cs.cache
-// tools/php-cs-fixer fix -v --dry-run
-
-// @see https://styleci.readme.io/docs/presets#section-laravel
-// wget -qO- "https://api.styleci.io/presets" | jq --indent 4 -r '.[] | select(.name=="laravel") | .fixers'
+// Get Laravel preset from StyleCI's API (uses jq command)
+//$ wget -qO- "https://api.styleci.io/presets" | jq --indent 4 -r '.[] | select(.name=="laravel") | .fixers'
 $styleciFixers = [
     "align_phpdoc",
     "binary_operator_spaces",
@@ -111,8 +116,9 @@ $styleciFixers = [
     "whitespace_after_comma_in_array",
 ];
 
-// wget -qO- "https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/2.15/UPGRADE.md" \
-//   | sed -n -e '/^Renamed rules/,/^Changes to Fixers/s/^\([a-z]\S\+\)\s\+|\s\+\(\S\+\)\b.*$/    "\1" => "\2",/p'
+// Get renamed rules from PHP CS Fixer upgrade guide
+//$ wget -qO- "https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/2.15/UPGRADE.md" \
+//$   | sed -n -e '/^Renamed rules/,/^Changes to Fixers/s/^\([a-z]\S\+\)\s\+|\s\+\(\S\+\)\b.*$/    "\1" => "\2",/p'
 $rulesUpgrade = [
     "align_double_arrow" => "binary_operator_spaces",
     "align_equals" => "binary_operator_spaces",
@@ -185,12 +191,12 @@ $styleciToPhpcs = [
     'length_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'length']],
     'method_visibility_required' => 'visibility_required',
     'no_blank_lines_after_throw' => 'no_blank_lines_after_phpdoc',
-    'no_blank_lines_between_imports' => false, // FIXME single_line_after_imports?
-    'no_blank_lines_between_traits' => false, // FIXME
+    'no_blank_lines_between_imports' => null, // FIXME single_line_after_imports?
+    'no_blank_lines_between_traits' => null, // FIXME
     'no_spaces_inside_offset' => 'no_spaces_around_offset',
     'post_increment' => 'pre_increment',
     'property_visibility_required' => 'visibility_required',
-    'short_list_syntax' => false, // FIXME
+    'short_list_syntax' => null, // FIXME
     'unix_line_endings' => 'line_ending',
     'long_array_syntax' => ['array_syntax' => ['syntax' => 'long']],
     'short_array_syntax' => ['array_syntax' => ['syntax' => 'short']],
@@ -206,15 +212,21 @@ array_map(function ($rule) use (&$fixers) {
 
 // Upgrade old rules
 array_walk($upgrades, function ($new, $old) use (&$fixers) {
-    if (isset($fixers[$old])) {
-        unset($fixers[$old]);
-        if ($new === false) return;
-        if (is_array($new)) {
-            $newKey = key($new);
-            $fixers[$newKey] = $new[$newKey];
-        } else {
-            $fixers[$new] = true;
-        }
+    if (! isset($fixers[$old])) {
+        return;
+    }
+    unset($fixers[$old]);
+    // To be deleted
+    if ($new === null) {
+        return;
+    }
+    if (is_array($new)) {
+        // Rule needs configuration
+        $newKey = key($new);
+        $fixers[$newKey] = $new[$newKey];
+    } else {
+        // Simple rename
+        $fixers[$new] = true;
     }
 });
 
