@@ -2,23 +2,16 @@
   "name": "szepeviktor/wordpress",
   "description": "Install WordPress by using Composer packages.",
   "license": "MIT",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    }
-  ],
   "require": {
     "php": ">=7.0",
     "johnpbloch/wordpress": "^4.9",
     "lkwdwrd/wp-muplugin-loader": "^1.0.0",
     "timber/timber": "^1.8",
-    "wpackagist-plugin/wp-redis": "^0.7.0",
-    "wpackagist-plugin/posts-to-posts": "^1.6"
+    "wpackagist-plugin/posts-to-posts": "^1.6",
+    "wpackagist-plugin/wp-redis": "^0.7.0"
   },
   "extra": {
-    "wordpress-install-dir": "public/core",
-    "installer-paths" : {
+    "installer-paths": {
       "public/wp-content/mu-plugins/{$name}/": [
         "type:wordpress-muplugin"
       ],
@@ -28,9 +21,19 @@
       "public/wp-content/themes/{$name}/": [
         "type:wordpress-theme"
       ]
-    }
+    },
+    "wordpress-install-dir": "public/core"
   },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
   "scripts": {
+    "post-autoload-dump": [
+      "rm -rf public/core/wp-content"
+    ],
     "post-create-project-cmd": [
       "mkdir -p public/wp-content/themes public/wp-content/plugins public/wp-content/mu-plugins",
       "cp public/core/wp-content/index.php public/wp-content/",
@@ -38,9 +41,9 @@
       "cp public/core/wp-content/themes/index.php public/wp-content/themes/",
       "cp public/core/wp-content/plugins/index.php public/wp-content/plugins/"
     ],
-    "post-autoload-dump": [
-      "rm -rf public/core/wp-content"
-    ],
     "cleanup": "git status --short --ignored | sed -n -e 's#^!! ##p' | xargs -r rm -vrf"
+  },
+  "scripts-descriptions": {
+    "cleanup": "Remove all ignored files."
   }
 }

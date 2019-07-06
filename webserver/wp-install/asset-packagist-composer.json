@@ -1,25 +1,27 @@
 {
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
-    "require": {
-        "php": ">=7.0",
-        "oomphinc/composer-installers-extender": "^1.1.2",
-        "npm-asset/jquery": "^3.4"
+  "name": "szepeviktor/asset-packagist",
+  "description": "How to use Asset Packagist.",
+  "require": {
+    "php": ">=7.0",
+    "npm-asset/jquery": "^3.4",
+    "oomphinc/composer-installers-extender": "^1.1.2"
+  },
+  "extra": {
+    "installer-paths": {
+      "app/assets/{$name}/": [
+        "type:npm-asset",
+        "type:bower-asset"
+      ]
     },
-    "extra": {
-        "installer-types": [
-            "npm-asset",
-            "bower-asset"
-        ],
-        "installer-paths": {
-            "app/assets/{$name}/": [
-                "type:npm-asset",
-                "type:bower-asset"
-            ]
-        }
+    "installer-types": [
+      "npm-asset",
+      "bower-asset"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
     }
+  ]
 }

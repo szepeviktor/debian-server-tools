@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="Laravel">
-    <description>Laravel Coding Style.</description>
+<ruleset name="Laravel_Project">
+    <description>The coding standard for Laravel projects.</description>
 
     <file>./app/</file>
 
@@ -10,6 +10,8 @@
     <arg name="parallel" value="4" />
     <!-- Show progress of the run -->
     <arg value="p" />
+
+    <rule ref="PSR12"/>
 
     <rule ref="Squiz.Commenting.BlockComment"/>
 
