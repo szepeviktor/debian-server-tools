@@ -3,7 +3,7 @@
   "description": "How to use Asset Packagist.",
   "require": {
     "php": ">=7.0",
-    "npm-asset/jquery": "^3.4",
+    "npm-asset/mustache": "^3.0.1",
     "oomphinc/composer-installers-extender": "^1.1.2"
   },
   "extra": {

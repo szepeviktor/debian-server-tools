@@ -32,7 +32,8 @@ mkdir( _HOME_DIR . '/session', 0700 );
 
 // See shared-hosting-aid/enable-logging.php
 ini_set( 'error_log', _HOME_DIR . '/log/error.log' );
-ini_set( 'log_errors', 1 );
+ini_set( 'log_errors', '1' );
+ini_set( 'display_errors', '0' );
 
 /** Security. */
 

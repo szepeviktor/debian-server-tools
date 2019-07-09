@@ -17,5 +17,6 @@ return [
                 'format' => '%message% %context%',
             ],
         ],
+
     ]
 ];

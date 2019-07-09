@@ -153,7 +153,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
   ([maximum length](https://tools.ietf.org/html/rfc5321#section-4.5.3.1),
   obfuscate email addresses, hidden field in form, mailcheck.js, plain text version, NeverBounce)
 - Document generation (CSV, PDF, Excel, image)
-- Image management (Cloudinary)
+- Image management (Cloudinary, https://blurha.sh/ )
 - Maintenance mode switch and placeholder page (HTTP/503)
 - Static asset management (building, versioning) and loading
 - [Keep A Changelog](https://github.com/phly/keep-a-changelog)

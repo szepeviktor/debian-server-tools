@@ -44,6 +44,7 @@
     "cleanup": "git status --short --ignored | sed -n -e 's#^!! ##p' | xargs -r rm -vrf"
   },
   "scripts-descriptions": {
-    "cleanup": "Remove all ignored files."
+    "cleanup": "Remove all ignored files.",
+    "wp-core": "Display URL and hash of the latest WordPress core no-content ZIP."
   }
 }

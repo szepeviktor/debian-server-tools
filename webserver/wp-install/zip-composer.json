@@ -55,6 +55,7 @@
     "wp-core": "@php -r '$api=json_decode(file_get_contents(\"https://api.wordpress.org/core/version-check/1.7/\"));$core=$api->offers[0]->packages->no_content;echo $core.\"\n\".sha1(file_get_contents($core)).\"\n\";'"
   },
   "scripts-descriptions": {
-    "cleanup": "Remove all ignored files."
+    "cleanup": "Remove all ignored files.",
+    "wp-core": "Display URL and hash of the latest WordPress core no-content ZIP."
   }
 }

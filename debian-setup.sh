@@ -98,10 +98,10 @@ export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server
 # @TODO Update to https://deb.debian.org/
 # Microsoft Azure Traffic Manager
 export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
+# Amazon CloudFront
+#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
 # Fastly and Amazon CloudFront
 #export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-deb.list"
-# Hungarian Debian mirror
-#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-hu.list"
 
 export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml.py"
 

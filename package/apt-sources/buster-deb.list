@@ -1,0 +1,11 @@
+# New deb.debian.org mirror (Fastly and Amazon CloudFront)
+deb http://deb.debian.org/debian buster main contrib non-free
+
+# Security
+deb http://deb.debian.org/debian-security buster/updates main contrib non-free
+
+# Updates
+deb http://deb.debian.org/debian buster-updates main contrib non-free
+
+# Backports
+deb http://deb.debian.org/debian buster-backports main contrib non-free

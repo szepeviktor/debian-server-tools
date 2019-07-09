@@ -58,6 +58,7 @@
 - Minden AWS S3 bucket-hez külön AWS felhasználó
 - CDN használata (tartalom kiszolgáló hálózat)
 - *Hotlinking* védelem, azaz mások ne tölthessék be a képeket a saját honlapjukba (teszt időszakkal)
+- Helykitöltő (placeholder) generálás https://blurha.sh/
 - Hiányzó kép kezelése (image.onerror)
 - Kép gyorsítótárazásának szabályozása: 1 nap (Cache-Control)
 

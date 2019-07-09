@@ -90,9 +90,9 @@ Choose one per category.
 
 - Document in hosting.yml and server.yml (Skype, Google Contacts, KeePass, link-torzs)
 - Gain access to providers (web based sub-account or API)
-- Manage migrations
+- Manage migrations (WeTransfer.com)
 - PTR/IPv4, PTR/IPv6 records
-- Domain [locking](https://www.cloudflare.com/domain-security-check/) and autorenew
+- Domain locking and autorenew
 - DNS records (check, clean up, monitor)
 - Incoming ESP and bounce notification
 - Whitelisted IP-s (office)
@@ -120,7 +120,7 @@ Choose one per category.
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
   <!-- not Tiliq -->
 - File sharing, large file sending [WeTransfer](https://wetransfer.com/),
-  [Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/)
+  [Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/), [Smash](https://fromsmash.com/)
 - *Transactional* emails and notification emails (alerts, log excerpts) see above
 - *Bulk* email (newsletter)
 - Bounce messages for **all three**
