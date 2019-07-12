@@ -157,3 +157,12 @@ Update init script links: `update-rc.d jira defaults`
 - Binaries and configuration location: /opt/atlassian/
 - Data location: /var/atlassian/
 - See `/var/atlassian/application-data/*/dbconfig.xml` for database names
+
+### Upgrade
+
+- Download installer
+- Run installer
+- [MariaDB Connector/J](https://mariadb.com/downloads/#connectors)
+  from 2.4.0: [disableMariaDbDriver](https://mariadb.com/kb/en/library/about-mariadb-connector-j/#having-mariadb-and-mysql-drivers-in-the-same-classpath)
+  and useMysqlMetadata
+- Restore server.xml

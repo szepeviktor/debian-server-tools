@@ -45,6 +45,25 @@ The value of `CORE` may be the abbreviation of the project.
 
 `wp-content` can be renamed.
 
+### Where script kiddies look for WordPress
+
+- /wordpress/
+- /wp/
+- /blog/
+- /new/
+- /old/
+- /test/
+- /main/
+- /site/
+- /backup/
+- /demo/
+- /home/
+- /tmp/
+- /cms/
+- /dev/
+- /portal/
+- /web/
+
 ### Installation by WP-CLI
 
 `wp-cli.yml`

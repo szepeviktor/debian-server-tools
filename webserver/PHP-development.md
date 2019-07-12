@@ -262,6 +262,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
     - Login notification
     - New device notification
     - Login logging or last successful login logging
+- Inactive accounts
 - If you choose an [identity provider](https://www2.nopassword.com/contextual-adaptive-authentication/)
   search the web for its name plus "breach" "exploit" "security"
 - [Authentication as a Service](https://auth0.com/rules/thisdata-alert-anomalies)

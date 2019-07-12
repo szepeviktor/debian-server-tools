@@ -79,6 +79,7 @@ How to design and implement CI and CD.
 
 - phpstan/phpstan-deprecation-rules
 - phpstan/phpstan-strict-rules
+- thecodingmachine/phpstan-strict-rules
 - nunomaduro/larastan
 - szepeviktor/phpstan-wordpress
 
