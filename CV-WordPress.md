@@ -137,8 +137,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 
 - https://neeed.us/
 - https://www.pwstudio.hu/ - :fire: CodeIgniter keretrendszer szakértők
-- https://www.budaffect.com/ - webáruházhoz
-- https://www.upsolution.hu/
+- https://www.upsolution.hu/ - Laravel
 - https://splendex.io/
 
 * https://www.finetune.hu/

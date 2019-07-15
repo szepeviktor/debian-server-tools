@@ -14,13 +14,6 @@
     <rule ref="PSR12"/>
 
     <rule ref="Squiz.Commenting.BlockComment"/>
-
-    <!-- https://github.com/slevomat/coding-standard/blob/master/README.md#sniffs-included-in-this-standard -->
-
-    <!-- https://github.com/object-calisthenics/phpcs-calisthenics-rules/blob/master/README.md#implemented-rule-sniffs -->
-
-    <!-- https://github.com/consistence/coding-standard/blob/master/consistence-coding-standard.md -->
-
     <rule ref="Squiz.PHP.DiscouragedFunctions">
         <properties>
             <!--
@@ -35,4 +28,13 @@
                 value="env=>null,compact=>null,list=>null,extract=>null,eval=>null,echo=>null,print_r=>null,dump=>null,dd=>null,var_dump=>null,error_log=>null" />
         </properties>
     </rule>
+
+    <!-- https://github.com/slevomat/coding-standard/blob/master/README.md#sniffs-included-in-this-standard -->
+
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+
+    <!-- https://github.com/object-calisthenics/phpcs-calisthenics-rules/blob/master/README.md#implemented-rule-sniffs -->
+
+    <!-- https://github.com/consistence/coding-standard/blob/master/consistence-coding-standard.md -->
+
 </ruleset>

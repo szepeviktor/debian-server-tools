@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /**
  * Convert Laravel presets from StyleCI to PHP CS Fixer.
  *

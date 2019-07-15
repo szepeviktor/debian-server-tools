@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last 3 hours. Simple logcheck.
 #
-# VERSION       :0.8.20
+# VERSION       :0.8.21
 # DATE          :2018-11-21
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,7 +15,8 @@
 
 Exceptions()
 {
-    grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$' \
+    grep -E -v 'kernel: \[    0\.[0-9]{6}\] ' \
+    | grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$' \
     | grep -E -v 'courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$' \
     #| grep -E -v 'rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$' \
     #| grep -E -v 'couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)$' \

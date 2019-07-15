@@ -77,8 +77,9 @@ How to design and implement CI and CD.
 
 * Tool: phpstan/phpstan # phpstan/phpstan-shim # phive install phpstan
 
-- phpstan/phpstan-deprecation-rules
+- ekino/phpstan-banned-code
 - phpstan/phpstan-strict-rules
+- phpstan/phpstan-deprecation-rules
 - thecodingmachine/phpstan-strict-rules
 - nunomaduro/larastan
 - szepeviktor/phpstan-wordpress
