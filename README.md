@@ -3,6 +3,9 @@ Debian server tools
 
 Various scripts and tools mainly for Debian servers.
 
+:warning: This readme does not represent the content of this repository. Please browse all folders.
+
+
 [How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)
 
 ### World&#39;s fastest cloud servers

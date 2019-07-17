@@ -23,6 +23,9 @@ See [Production website note](/webserver/Production-website.md#seo)
 - moz.com
 - semrush.com
 - ahrefs.com
+- https://www.link-assistant.com/rank-tracker/comparison.html
+- https://textoptimizer.com/
+- https://kparser.com/
 
 and more: https://ahrefs.com/blog/free-keyword-research-tools/
 

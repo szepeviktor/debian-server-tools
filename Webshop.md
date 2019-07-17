@@ -25,9 +25,15 @@
 
 ### Self-hosted webshops
 
+- Vue Storefront, StorefrontUI
+- Shopware
+- Sylius
+- Shopsys
 - [WooCommerce](https://woocommerce.com/product-category/woocommerce-extensions/)
 - [Magento](https://marketplace.magento.com/)
 - [PrestaShop](https://addons.prestashop.com/en/)
+- https://github.com/topics/ecommerce-platform
+- https://jamstack.org/
 
 ### SaaS
 
@@ -54,7 +60,7 @@
 - https://morph.ai/ecommerce
 - https://racom.io/
 
-### Integarations
+### Integrations
 
 - https://www.google.com/retail/solutions/merchant-center/
 - https://www.nchannel.com/connectors/
