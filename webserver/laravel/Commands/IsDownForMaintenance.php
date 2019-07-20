@@ -39,16 +39,18 @@ class IsDownForMaintenance extends Command
     {
         if (!$this->laravel->isDownForMaintenance()) {
             $this->info('Application is up.');
-            return;
+            return 0;
         }
 
         $data = json_decode(file_get_contents(storage_path('framework/down')), true);
 
-        $status = sprintf("Time: %s\nRetry: %d\nMessage: '%s'",
+        $status = sprintf(
+            "Time: %s\nRetry: %d\nMessage: '%s'",
             date('c', $data['time']),
             $data['retry'] ?: 0,
             $data['message']
         );
         $this->line($status);
+        return 10;
     }
 }

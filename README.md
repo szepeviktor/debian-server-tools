@@ -86,6 +86,8 @@ scriptreplay --maxdelay 1 NAME.time NAME.script
 
 ### Fast and safe transit of scripts (or any data) via copy&paste
 
+Use [magic-wormhole](https://github.com/warner/magic-wormhole)
+
 ##### Pack
 
 ```bash

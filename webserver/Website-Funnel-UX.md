@@ -31,6 +31,7 @@ főoldal → tematikus aloldal → cikk/lexikon
 
 Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
+- Egy kiemelő szín, szín és forma harmónia, [vibráló dizájn](https://hellobala.hu/)
 - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
 - CTA (call-to-action) gombok
 - Interaktív elemek: **videó**, virtuális túra, Ken Burns effektes slider/galéria,

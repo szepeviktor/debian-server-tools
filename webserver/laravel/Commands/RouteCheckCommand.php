@@ -61,11 +61,11 @@ class RouteCheckCommand extends Command
     {
         if (count($this->routes) == 0) {
             $this->error("Your application doesn't have any routes.");
-            exit(10);
+            return 10;
         }
 
         $routes = $this->getRoutes();
-        $notFound = array();
+        $notFound = [];
         foreach ($routes as $route) {
             $actionParts = explode('@', $route['action']);
             switch (count($actionParts)) {
@@ -84,7 +84,7 @@ class RouteCheckCommand extends Command
                         $notFound[] = [$route['middleware'], $className];
                         continue;
                     }
-                    if (!is_callable(array($className, $actionParts[1]))) {
+                    if (!is_callable([$className, $actionParts[1]])) {
                         $notFound[] = [$route['middleware'], $className . '::' . $actionParts[1]];
                         continue;
                     }
@@ -95,13 +95,13 @@ class RouteCheckCommand extends Command
             }
         }
 
-        if (empty($notFound)) {
-            $this->info('All route methods do exist.');
-            return;
+        if ($notFound !== []) {
+            $this->table(['Middleware', 'Non-existent'], $notFound);
+            return 11;
         }
 
-        $this->table(['Middleware', 'Non-existent'], $notFound);
-        exit(11);
+        $this->info('All route methods do exist.');
+        return 0;
     }
 
     /**

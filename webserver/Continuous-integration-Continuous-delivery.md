@@ -40,11 +40,11 @@ How to design and implement CI and CD.
 - Optionally back up project files before starting to deploy
 - Create a bot user on the server for git access with SSH key (`@companybot`)
 - List changes in current project files
-- Check for maintenance mode `test -f storage/framework/down` ,
-  Turn on [maintenance mode](https://github.com/laravel/framework/blob/18402cd4b83fd1d944f3baa0d8cc26d7dfcce333/src/Illuminate/Foundation/Application.php#L927-L930)
+- [Check for maintenance mode](/webserver/laravel/Commands/IsDownForMaintenance.php),
+  Turn on maintenance mode `php artisan down`
   covering static resource, page, AJAX and API requests
 - Clear caches (configuration, routes, application, template etc.)
-- Disable cron jobs and background workers after clearing caches (email piped to a program)
+- Wait for to finish and disable cron jobs and background workers after clearing caches (email piped to a program)
 - Identify git repository and branch
 - Checkout by commit hash (not by branch HEAD)
 - At least **lint the source code**

@@ -172,7 +172,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Set environment variables (PHP-FPM pool, `.env`)
 - Publish Dockerfile of CI (GitLab Container Registry, Docker Hub)
 - Build and deploy script (file permissions)
-- Cron jobs and queues (check periodically, email sending and time consuming tasks)
+- Cron jobs and queues (check periodically, email sending and time consuming tasks,
+  catch SIGTERM on system shutdown `pcntl_signal(SIGTERM, 'signal_handler');`)
 - Generate sitemaps
 - File change notification: `siteprotection.sh`
 - Manage and monitor application/config/route/view cache and sessions
