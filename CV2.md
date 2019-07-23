@@ -10,7 +10,7 @@
 ### Milyen munkát végzek?
 
 **Proaktívan** gondolkodok, nem kijavítom, hanem megelőzöm a hibákat.
-Az a célom, hogy az első pár hónapban minden hibát kijavítsunk a projektben.
+Az a célom, hogy az első pár hónapban minden hibás dolgot, folyamatot kijavítsunk a projektben.
 
 - Infrastruktúra szolgáltatók kiválasztása és monitorozása
 - A webes alkalmazás forráskódjának tanulmányozása
@@ -31,6 +31,8 @@ Olyan látásmódot igyekszem képviselni, ami a következő **két évre** teki
 - Sérülékenység: automatizált betörések ellen védekezek,
   felbérelt hackerek ellen konkrét technológiai tanácsot tudok adni
 - Sebesség: törekszem, hogy érzékelhetően jobb legyen a felhasználói élmény
-- Dokumentálás: sok dokumentumot készítek
-- Folyamatos visszajelzés: a robotjaim jelentései
-  és a napló elemzések folyamán hibajegyeket nyitok, megbeszéléseken adok elő problémákat
+- Dokumentálás: telepítésről, beállításokról, frissítésről, egyéb folyamatokról
+  készítek jól használható dokumentumokat
+- Folyamatos visszajelzés:
+  a napi fejlesztésű [monitorozó és ellenőrző programok](https://github.com/szepeviktor) jelentései
+  és a napló elemzések folyamán hibajegyeket nyitok, megbeszéléseken problémákat adok elő

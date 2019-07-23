@@ -1,5 +1,6 @@
 # E-commerce solutions
 
+- https://services.google.com/fh/files/events/pdf_retail_ux_playbook.pdf
 - https://trends.builtwith.com/shop
 - https://gkidigital.hu/2018/08/15/e-toplista-2018/
 

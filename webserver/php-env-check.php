@@ -179,7 +179,7 @@ final class CheckEnv {
         $this->assert_extension( 'imagick' );
 
         // Argon2 hashing
-        //$this->assert_extension( 'sodium' );
+        $this->assert_extension( 'sodium' );
 
         // Not for WordPress
 
