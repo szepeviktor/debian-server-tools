@@ -10,23 +10,25 @@
 ### Milyen munkát végzek?
 
 **Proaktívan** gondolkodok, nem kijavítom, hanem megelőzöm a hibákat.
-Az a célom, hogy az első pár hónapban minden hibás dolgot, folyamatot kijavítsunk a projektben.
+Az a célom, hogy az együttműködésünk első pár hónapjában minden hibás dolgot,
+folyamatot kijavítsunk a projektben.
 
 - Infrastruktúra szolgáltatók kiválasztása és monitorozása
 - A webes alkalmazás forráskódjának tanulmányozása
 - Programozói munkát (unit test) nem igénylő
   folyamatos integrációs tesztek és automata telepítés (CI/CD) megvalósítása
 - A webes alkalmazás napi folyamatainak monitorozása
-- Az összes ügyfelem valaha történt összes hibájának ellenszérét telepítem
+- Az összes ügyfelem valaha történt összes hibájának ellenszerét telepítem
 - A nem fenntartható technológiák és folyamatok helyett
   ajánlok és - ha lehetséges - bevezetek másokat
 
-Olyan látásmódot igyekszem képviselni, ami a következő **két évre** tekint.
+Olyan látásmódot igyekszem képviselni, ami a **következő két évre** tekint.
 
 `#prevenció` `#DevOps` `#alkalmazás-üzemeltetés` `#DevSecOps`
 
 ### Miben veszi hasznom?
 
+- Éjjel-nappali ügyfélszolgálat: hibajegy, telefon, email
 - Üzembiztonság: célom, hogy minden incidens hozzám fusson be először
 - Sérülékenység: automatizált betörések ellen védekezek,
   felbérelt hackerek ellen konkrét technológiai tanácsot tudok adni

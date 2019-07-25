@@ -54,7 +54,7 @@ van, ebből az következik, hogy szükség van más csapattagokra.
 
 ### Proaktív üzemeltetés előnyei
 
-- Az összes ügyfelem (valaha történt) összes hibájának ellenszérét megkapja
+- Az összes ügyfelem (valaha történt) összes hibájának ellenszerét megkapja
 - Vezetek tiltólistát és ajánlásokat
   technológiákról, szoftverekről és üzleti eljárásokról
 - Dokumentáció készül a projektben folyó eljárásokról

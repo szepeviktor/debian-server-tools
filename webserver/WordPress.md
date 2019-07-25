@@ -47,22 +47,22 @@ The value of `CORE` may be the abbreviation of the project.
 
 ### Where script kiddies look for WordPress
 
-- /wordpress/
-- /wp/
+- /backup/
 - /blog/
+- /cms/
+- /demo/
+- /dev/
+- /home/
+- /main/
 - /new/
 - /old/
-- /test/
-- /main/
-- /site/
-- /backup/
-- /demo/
-- /home/
-- /tmp/
-- /cms/
-- /dev/
 - /portal/
+- /site/
+- /test/
+- /tmp/
 - /web/
+- /wordpress/
+- /wp/
 
 ### Installation by WP-CLI
 

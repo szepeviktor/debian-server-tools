@@ -1,4 +1,4 @@
-# Develop products WordPress the OOP way
+# Develop products for WordPress the OOP way
 
 - [PSR-11 DI container](https://github.com/TypistTech/wp-contained-hook)
 - [KSES](https://github.com/TypistTech/wp-kses-view)
