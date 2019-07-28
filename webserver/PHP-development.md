@@ -220,6 +220,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - "Remember me" checkbox
 - "Forgot password" link
 - Link to Login/Sign up page
+- Direct registration on login page: email field and signup button
+- SSO
 - Privacy Policy and Terms of Service links
 - Support email and [chat/open ticket](https://voximplant.com/solutions/dialogflow-connector)
 - Marketing message on ["logged out" pages](https://sendgrid.com/logged-out/)

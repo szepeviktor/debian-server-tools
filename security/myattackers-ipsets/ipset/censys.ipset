@@ -1,0 +1,9 @@
+# Merit Network / Censys
+#: ipset -exist restore <ipset/censys.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set censys src -j REJECT
+create censys hash:net family inet hashsize 64 maxelem 32
+flush censys
+
+# AS237
+# https://support.censys.io/en/articles/1294848-frequently-asked-questions-faq
+add censys 198.108.66.0/23
