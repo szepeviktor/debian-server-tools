@@ -26,7 +26,7 @@ new_server_config = Server(
     ],
     login_user=user_viktor,
     # Docker + pip
-    user_data='https://github.com/szepeviktor/debian-server-tools/raw/master/upcloud-init.sh'
+    user_data='https://github.com/szepeviktor/debian-server-tools/raw/master/debian-setup/upcloud-init.sh'
 )
 
 manager.authenticate()

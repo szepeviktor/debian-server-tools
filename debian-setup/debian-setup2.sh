@@ -210,7 +210,7 @@ fi
 Pkg_install_quiet init-alert
 
 # Apache 2.4
-webserver/apache-httpd.sh
+../webserver/apache-httpd.sh
 Dinstall webserver/apache-resolve-hostnames.sh
 if Is_installed "mod-pagespeed-stable"; then
     packages/mod-pagespeed-stable
