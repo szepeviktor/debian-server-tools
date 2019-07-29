@@ -33,10 +33,10 @@ IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
 
 # _check-system needs most
-debian-setup/most
+packages/most
 
 # Manual checks
-debian-setup/_check-system
+packages/_check-system
 
 # Basic packages
 Pkg_install_quiet \
@@ -48,7 +48,7 @@ Pkg_install_quiet \
     unscd cruft bash-completion htop mmdb-bin
 
 # Provide mail command
-debian-setup/s-nail
+packages/s-nail
 
 # @nonDebian
 Pkg_install_quiet goaccess
@@ -64,17 +64,17 @@ sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' \
     -e 's/^\s*qr(\^dbus).*$/#&/' \
     -i /etc/needrestart/needrestart.conf
 
-# Also in debian-setup/fail2ban
+# Also in packages/fail2ban
 
 # From testing
 # Depends on openssl (>= 1.1.1), from e.g. sury-php
 dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?and(?exact-name(libssl1.1), ?architecture(native))')" ge "1.1.1"
 # @nonDebian
 Pkg_install_quiet openssl libssl1.1
-debian-setup/ca-certificates
+packages/ca-certificates
 
 # From custom repos
-debian-setup/ipset-persistent
+packages/ipset-persistent
 
 # Provider packages
 if [ -n "$(Data get-value provider-package "")" ]; then
@@ -83,34 +83,34 @@ if [ -n "$(Data get-value provider-package "")" ]; then
 fi
 
 # Restore original sudoers file
-debian-setup/sudo
+packages/sudo
 
-debian-setup/locales
+packages/locales
 
 # tzdata first as it may modify system time
-debian-setup/tzdata
-debian-setup/rsyslog
+packages/tzdata
+packages/rsyslog
 
-debian-setup/localepurge
-debian-setup/unattended-upgrades
+packages/localepurge
+packages/unattended-upgrades
 
 # Custom APT repository script
 Dinstall package/apt-add-repo.sh
 
 # @FIXME
-#debian-setup/ifupdown
+#packages/ifupdown
 
-debian-setup/_resolv_conf
+packages/_resolv_conf
 
 # Micro Name Service Caching
-debian-setup/unscd
+packages/unscd
 
-debian-setup/kmod
-debian-setup/procps
+packages/kmod
+packages/procps
 
-debian-setup/mount
+packages/mount
 
-debian-setup/initscripts
+packages/initscripts
 
 # IRQ balance
 CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
@@ -123,7 +123,7 @@ elif Is_installed "irqbalance"; then
 fi
 
 # Time synchronization
-debian-setup/util-linux
+packages/util-linux
 # @TODO
 # if grep -F 'kvm-clock' /sys/devices/system/clocksource/clocksource0/current_clocksource \
 #     || dmesg | grep -F -w 'kvm-clock'; then
@@ -132,7 +132,7 @@ debian-setup/util-linux
 #     echo "https://s19n.net/articles/2011/kvm_clock.html"
 # fi
 if [ "$VIRT" == kvm ] && ! Is_installed systemd; then
-    debian-setup/chrony
+    packages/chrony
 fi
 # Monitor clock without monit
 #     Dinstall monitoring/monit/services/ntpdate_script
@@ -153,13 +153,13 @@ fi
 
 # @TODO
 #if [ "$VIRT" == kvm ]; then
-#    debian-setup/_virt-kvm
+#    packages/_virt-kvm
 #fi
 if [ "$VIRT" == xen ]; then
-    debian-setup/_virt-xen
+    packages/_virt-xen
 fi
 if [ "$VIRT" == vmware ]; then
-    debian-setup/_virt-vmware
+    packages/_virt-vmware
 fi
 
 if [ -n "$(Data get-value software.aruba-arping "")" ]; then
@@ -172,22 +172,22 @@ if [ -n "$(Data get-value package.apt.extra "")" ]; then
     Pkg_install_quiet $(Data get-values package.apt.extra)
 fi
 
-debian-setup/cron
+packages/cron
 
-debian-setup/debsums
+packages/debsums
 
-debian-setup/openssh-client
+packages/openssh-client
 
-debian-setup/mc
+packages/mc
 
-debian-setup/iptables
+packages/iptables
 
-# After debian-setup/iptables
-debian-setup/fail2ban
+# After packages/iptables
+packages/fail2ban
 
-#debian-setup/_cert-szepenet
+#packages/_cert-szepenet
 
-#debian-setup/proftpd-basic
+#packages/proftpd-basic
 
 # Tools (courier uses catconf)
 for TOOL in catconf cnet doc hosthost hostinfo ip.sh lsrev msec reboot revip \
@@ -199,10 +199,10 @@ done
 mail/courier-mta-satellite-system.sh
 
 if Is_installed "msmtp-mta"; then
-    debian-setup/msmtp-mta
+    packages/msmtp-mta
 fi
 #if Is_installed "nullmailer"; then
-#    debian-setup/nullmailer
+#    packages/nullmailer
 #fi
 
 # init-alert (after MTA)
@@ -213,7 +213,7 @@ Pkg_install_quiet init-alert
 webserver/apache-httpd.sh
 Dinstall webserver/apache-resolve-hostnames.sh
 if Is_installed "mod-pagespeed-stable"; then
-    debian-setup/mod-pagespeed-stable
+    packages/mod-pagespeed-stable
 fi
 
 # PHP-FPM
@@ -228,39 +228,39 @@ elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.2-fpm'; then
     PHP="7.2"
 fi
 export PHP
-webserver/php-fpm.sh
+../webserver/php-fpm.sh
 
 # Package managers
-debian-setup/_package-python-pip
+packages/_package-python-pip
 # Needs PHP-CLI
-debian-setup/_package-php-composer
-debian-setup/_package-php-phive
+packages/_package-php-composer
+packages/_package-php-phive
 # Node.js (from package.apt.extra)
 # https://nodejs.org/en/download/releases/
 # @nonDebian
 if Is_installed "nodejs"; then
-    debian-setup/nodejs
+    packages/nodejs
 fi
 
 # Webserver reload
 Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
-debian-setup/redis-server
-webserver/php-redis.sh
+packages/redis-server
+../webserver/php-redis.sh
 if Data get-values-0 package.apt.sources | grep -z -F -x 'mysql-5.7'; then
     # MySQL 5.7 from Debian sid
-    debian-setup/mariadb-server
+    packages/mariadb-server
 elif Data get-values-0 package.apt.sources | grep -q -z -F -x 'percona' \
     && [ -n "$(Data get-value package.apt.extra "")" ] \
     && Data get-values-0 package.apt.extra | grep -z -F -x 'percona-server-server-5.7'; then
     # Percona Server 5.7
-    debian-setup/percona-server-server-5.7
+    packages/percona-server-server-5.7
 elif Data get-values-0 package.apt.sources | grep -z -F -x 'oracle-mysql-server'; then
     # Oracle MySQL 5.7
-    debian-setup/mysql-community-server
+    packages/mysql-community-server
 else
     # MariaDB
-    debian-setup/mariadb-server
+    packages/mariadb-server
 fi
 
 # Add the development website, needs composer
@@ -271,7 +271,7 @@ service fail2ban restart
 
 # Backup
 Pkg_install_quiet debconf-utils rsync mariadb-client
-# percona-xtrabackup is installed in debian-setup/mariadb,mysql
+# percona-xtrabackup is installed in packages/mariadb,mysql
 # @nonDebian
 Pkg_install_quiet s3ql -t stretch-backports
 # Disable Apache configuration from javascript-common
@@ -280,11 +280,11 @@ if hash a2disconf 2>/dev/null; then
 fi
 
 # CLI tools
-debian-setup/php-wpcli
+packages/php-wpcli
 # WordPress cron
 Dinstall webserver/wp-install/wp-cron-cli.sh
-debian-setup/php-cachetool
-#debian-setup/php-drush
+packages/php-cachetool
+#packages/php-drush
 
 # Monit - monitoring
 # @FIXME Needs a production website for apache2 and php-fpm
@@ -298,7 +298,7 @@ debian-setup/php-cachetool
 )
 
 # After monit
-debian-setup/libpam-modules
+packages/libpam-modules
 
 # @TODO
 # Munin - network-wide graphing
@@ -312,7 +312,7 @@ apt-get clean
 echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' >/etc/apt/apt.conf.d/76throttle-download
 
 # etckeeper at last
-debian-setup/etckeeper
+packages/etckeeper
 
 # Remove old configuration files
 find /etc/ -type f "(" -iname "*old" -or -iname "*dist" ")" -print -delete

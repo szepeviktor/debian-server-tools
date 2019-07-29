@@ -2,7 +2,7 @@
 #
 # Normalize Debian OS: stretch 9.x netinst (essential, required, important) and standard packages.
 #
-# VERSION       :2.0.0
+# VERSION       :2.0.1
 # DOCS          :https://aptitude.alioth.debian.org/doc/en/ch02s04s05.html
 # DEPENDS       :apt-get install aptitude
 
@@ -179,6 +179,6 @@ set +e +x
 } 2>&1 | tee extra.pkgs | grep '.' && echo "Extra packages" 1>&2
 
 # List packages by size
-dpkg-query --showformat='${Installed-size}\t\${Package}\n' --show | sort -k 1 -n >installed-by-size.pkgs
+dpkg-query --showformat='${Installed-size}\t${Package}\n' --show | sort -k 1 -n >installed-by-size.pkgs
 
 exit 0

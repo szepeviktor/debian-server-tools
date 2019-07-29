@@ -2,6 +2,7 @@
 #
 # Common functions for debian-setup
 #
+# VERSION       :2.1.0
 
 Error()
 {
@@ -12,7 +13,7 @@ Is_installed()
 {
     local PKG="$1"
 
-    test "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" == "install ok installed"
+    test "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2>/dev/null)" == "install ok installed"
 }
 export -f Is_installed
 
@@ -56,7 +57,7 @@ Dinstall()
 {
     (
         cd /usr/local/src/ || return 1
-        if [ ! -d "debian-server-tools" ]; then
+        if [ ! -d debian-server-tools ]; then
             git clone "https://github.com/szepeviktor/debian-server-tools.git"
         fi
         cd debian-server-tools/ || return 1

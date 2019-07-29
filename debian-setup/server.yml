@@ -181,7 +181,7 @@ remarks: |
     Missing default services
     Things to do
 
-# Provider profile: cat ./debian-setup/providers/upcloud-defra1.yml
+# Provider profile: cat ./providers/upcloud-defra1.yml
 
 teardown:
     - Notify users

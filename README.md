@@ -20,12 +20,9 @@ See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how
 
 [Richard Cook at Velocity NY 2013](https://youtu.be/PGLYEDpNu60?t=5m44s)
 
-### Debian install with UTC as timezone
-
-Select Expert install.
-
 ### Directories
 
+- /debian-setup - Debian installation scripts, [debian-setup.sh](/debian-setup/debian-setup.sh)
 - /backup - Tools related to archiving
 - /image - Tools related to image optimization
 - /input - Tools related to the terminal
@@ -37,6 +34,10 @@ Select Expert install.
 - /tools - Various small tools
 - /virtualization - Docker containers
 - /webserver - Tools related to building webservers
+
+### Debian install with UTC as timezone
+
+Select Expert install.
 
 ### Script development
 

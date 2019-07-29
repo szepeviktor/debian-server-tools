@@ -1,3 +1,5 @@
+#!/bin/bash
+
 exit 0
 
 amd64-microcode

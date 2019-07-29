@@ -2,7 +2,7 @@
 #
 # Debian stretch setup on a virtual server.
 #
-# VERSION       :2.0.6
+# VERSION       :2.1.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -50,9 +50,9 @@
 # Execution Steps
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
-#    export LC_ALL=C.UTF-8; cd debian-server-tools-master/
+#    export LC_ALL=C.UTF-8; cd debian-server-tools-master/debian-setup/
 # 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
-# 3. cat server.yml debian-setup/providers/upcloud-defra1.yml >/root/server.yml
+# 3. cat server.yml providers/upcloud-defra1.yml >/root/server.yml
 #    editor /root/server.yml
 # 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
 # 5. Check fs type, set volume label:  lsblk -f; tune2fs -L "instanceID-root" /dev/vda1
@@ -61,7 +61,7 @@
 #    ./debian-setup.sh
 # 7. PuTTY session: Connection/Data: viktor, xterm-256color; Connection/SSH/Auth: [ ] keyboard-interactive
 # 8. Continue after reboot!
-#    export LC_ALL=C.UTF-8; cd debian-server-tools-master/
+#    export LC_ALL=C.UTF-8; cd debian-server-tools-master/debian-setup/
 #    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
 #    script --timing=../debian-setup2.time ../debian-setup2.script
 #    ./debian-setup2.sh
@@ -141,10 +141,10 @@ export IP
 apt-mark auto lsb-release ca-certificates
 
 # Package sources
-debian-setup/apt
+packages/apt
 
 # OS check
-debian-setup/base-files
+packages/base-files
 
 # OS image normalization (does dist-upgrade)
 ./debian-image-normalize.sh
@@ -183,21 +183,21 @@ eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut
 apt-get update -qq
 
 # Virtualization environment
-debian-setup/virt-what
+packages/virt-what
 
-debian-setup/hostname
-debian-setup/login
-debian-setup/readline-common
+packages/hostname
+packages/login
+packages/readline-common
 # Set Bash as default
-debian-setup/dash
+packages/dash
 
 # Root user and first user
-debian-setup/adduser
+packages/adduser
 # After adduser
-debian-setup/openssh-server
+packages/openssh-server
 
 # Optionally switch to SysVinit
-debian-setup/systemd
+packages/systemd
 
 # Log in on a new terminal and log out here
 exit 0

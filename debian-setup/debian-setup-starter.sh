@@ -2,7 +2,7 @@
 #
 # Start debian-setup.sh remotely.
 #
-# VERSION       :0.2.4
+# VERSION       :0.3.0
 #
 # - Domain registrar
 # - DNS provider
@@ -33,16 +33,16 @@ ssh -- bash -c "cat >/root/server.yml" <"$SERVER_CONFIGURATION" || exit 11
 # Save script for Session #1
 ssh -- bash -c "cat >/root/debian-setup-starter1.sh; chmod +x /root/debian-setup-starter1.sh" <<"EOT"
 set -e
-export LC_ALL=C.UTF-8
+export LC_ALL="C.UTF-8"
 SELF="$(realpath "${BASH_SOURCE[0]}")"
 cd /root/
 
 wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
-cd debian-server-tools-master/
+cd debian-server-tools-master/debian-setup/
 
 # Skip missing DNS records
-#sed -e 's|set -e -x|set +e -x|' -i ./debian-setup/hostname
-#echo "true" >>./debian-setup/hostname
+#sed -e 's|set -e -x|set +e -x|' -i ./packages/hostname
+#echo "true" >>./packages/hostname
 
 lsblk -f
 tune2fs -L "debian-root" /dev/vda1
@@ -58,7 +58,7 @@ ssh -- bash -c "cat >/root/debian-setup-starter2.sh; chmod +x /root/debian-setup
 set -e
 export LC_ALL=C.UTF-8
 SELF="$(realpath "${BASH_SOURCE[0]}")"
-cd /root/debian-server-tools-master/
+cd /root/debian-server-tools-master/debian-setup/
 
 # @FIXME
 export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
