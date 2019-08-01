@@ -66,7 +66,7 @@ How to design and implement CI and CD.
 * Tool: phive install phpcs # squizlabs/php_codesniffer
 * Tool: dealerdirect/phpcodesniffer-composer-installer
 
-- [commenting rules](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/Squiz/Sniffs/Commenting)
+- [commenting rules](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/PEAR/Sniffs/Commenting)
 - wp-coding-standards/wpcs
 - automattic/phpcs-neutron-standard # automattic/phpcs-neutron-ruleset
 - slevomat/coding-standard

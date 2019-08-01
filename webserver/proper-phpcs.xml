@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Laravel_Project">
+    <description>The coding standard for Laravel projects.</description>
+
+    <file>proper.php</file>
+
+    <!-- Coding Standards installation
+    composer require -\-dev slevomat/coding-standard
+    -->
+
+    <!-- A comma separated list of file extensions to check -->
+    <arg name="extensions" value="php" />
+    <!-- How many files should be checked simultaneously -->
+    <arg name="parallel" value="4" />
+    <!-- Show progress of the run -->
+    <arg value="p" />
+
+    <rule ref="PSR12"/>
+
+    <!-- File rules -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+    <rule ref="PEAR.Commenting.FileComment">
+        <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingPackageTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
+    </rule>
+
+    <!-- Namespace, class and method rules -->
+    <!-- Already in PSR12: PSR1.Classes.ClassDeclaration.MissingNamespace -->
+    <rule ref="PEAR.Commenting.ClassComment">
+        <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingPackageTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingAuthorTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag"/>
+    </rule>
+    <rule ref="PEAR.Commenting.FunctionComment">
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment"/>
+    </rule>
+
+</ruleset>

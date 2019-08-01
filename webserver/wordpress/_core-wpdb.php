@@ -34,6 +34,7 @@ class WpDb {
      *
      * @param string $name
      * @param mixed $value
+     * @return void
      */
     public function __set( $name, $value ) {}
 

@@ -166,6 +166,6 @@ crontab -e -u USER
 * *  * * *  COMMAND
 ```
 
-### Looking for someone running your application or website?
+### Looking for a dedicated team member running your application or website?
 
 Contact me: viktor@szepe.net

@@ -36,5 +36,6 @@ Olyan látásmódot igyekszem képviselni, ami a **következő két évre** teki
 - Dokumentálás: telepítésről, beállításokról, frissítésről, egyéb folyamatokról
   készítek jól használható dokumentumokat
 - Folyamatos visszajelzés:
-  a napi fejlesztésű [monitorozó és ellenőrző programok](https://github.com/szepeviktor) jelentései
-  és a napló elemzések folyamán hibajegyeket nyitok, megbeszéléseken problémákat adok elő
+  a napi fejlesztésű [monitorozó és ellenőrző programok](https://github.com/szepeviktor)
+  jelentései alapján és a napló elemzések folyamán
+  hibajegyeket nyitok, megbeszéléseken megoldási javaslatokat adok

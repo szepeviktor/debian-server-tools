@@ -1,14 +1,16 @@
 <?php declare(strict_types = 1);
+
 /**
- * A Proper PHP class declares Strict Typing (introduced in PHP 7).
+ * A Proper PHP class file declares Strict Typing (introduced in PHP 7).
  *
  * File comment informs humans what this is all about.
  * Please use LF line ends.
- * Consider writing your code in `vendor/bin/phpcs --standard=PSR12`
- * @see https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md
+ * See proper-phpcs.xml
  *
  * @package Properclass
- * @version 1.0.0
+ * @author Proper Developer <proper@developer.test>
+ * @license https://example.com/ Example-Licence
+ * @see https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md
  */
 
 namespace ProperNameSpace;
@@ -16,7 +18,7 @@ namespace ProperNameSpace;
 /**
  * This is a proper class comment.
  *
- * There must not be any code (require, if, new etc.) OUTSIDE the 1 class.
+ * There must not be any code (require, define, if, new etc.) OUTSIDE the 1 class.
  */
 final class OneClassPerFile
 {
@@ -51,11 +53,11 @@ final class OneClassPerFile
      */
     private function oneOperationPerMethod($keepMethodsShort) : bool
     {
-        if ($keepMethodsShort === 'I do my one job') {
-            return true;
+        if ($keepMethodsShort !== 'I do my one job') {
+            return false;
         }
         // 1 operation per method
-        return false;
+        return true;
     }
 
     /**
@@ -64,6 +66,7 @@ final class OneClassPerFile
      * @see https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/
      *
      * @param array $list
+     * @return void
      */
     public function badPartsOfPhp(array $list)
     {
@@ -75,7 +78,7 @@ final class OneClassPerFile
         }
         if (! $varname1) {
             $thisIsABigNo[] = 'Casting a variable as boolean must be avioided';
-            // ! is only for booleans
+            // `if` is only for booleans
         }
         if (empty($thisIsABigNo)) {
             $thisIsABigNo[] = 'empty() is so complex, you must avoid it';
