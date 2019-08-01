@@ -2,3 +2,9 @@
 token_store.txt
 /security/fail2ban-conf/filter.d/apache-common.conf
 /TODO.md
+
+## .gitignore categories
+# Development
+# IDE
+# Packages
+# Application

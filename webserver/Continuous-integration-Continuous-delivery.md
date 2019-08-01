@@ -72,6 +72,7 @@ How to design and implement CI and CD.
 - slevomat/coding-standard
 - object-calisthenics/phpcs-calisthenics-rules
 - consistence/coding-standard
+- symplify/coding-standard
 
 ### Static analysis
 

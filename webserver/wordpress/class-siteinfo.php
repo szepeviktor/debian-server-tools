@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Provide information on core paths and URLs.
+ */
 class SiteInfo {
 
     /**
@@ -12,7 +15,7 @@ class SiteInfo {
     /**
      * Set paths and URLs.
      *
-     * Hook it to 'init' action at priority 100.
+     * Hook this method to 'init' action at priority 100.
      *
      * @see https://codex.wordpress.org/Determining_Plugin_and_Content_Directories
      */
@@ -34,8 +37,10 @@ class SiteInfo {
             'uploads_url'  => trailingslashit( $upload_path_and_url['baseurl'] ),
 
             // Plugins
-            'plugins_path' => trailingslashit( WP_PLUGIN_DIR ),
-            'plugins_url'  => trailingslashit( plugins_url() ),
+            'plugins_path'    => trailingslashit( WP_PLUGIN_DIR ),
+            'plugins_url'     => trailingslashit( plugins_url() ),
+            'mu_plugins_path' => trailingslashit( WPMU_PLUGIN_DIR ),
+            'mu_plugins_url'  => trailingslashit( WPMU_PLUGIN_URL ),
 
             // Themes
             'themes_root_path'  => trailingslashit( get_theme_root() ),

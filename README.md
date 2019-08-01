@@ -1,7 +1,7 @@
-Debian server tools
-===================
+# Debian server tools
 
-Various scripts and tools mainly for Debian servers.
+You find all my knowledge in GitHub repositories in form of Bash and PHP scripts and Markdown documents.
+Updated as I work daily.
 
 :warning: This readme does not represent the content of this repository. Please browse all folders.
 
@@ -22,7 +22,7 @@ See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how
 
 ### Directories
 
-- /debian-setup - Debian installation scripts, [debian-setup.sh](/debian-setup/debian-setup.sh)
+- /debian-setup - Debian installation scripts including [debian-setup.sh](/debian-setup/debian-setup.sh)
 - /backup - Tools related to archiving
 - /image - Tools related to image optimization
 - /input - Tools related to the terminal
@@ -166,6 +166,6 @@ crontab -e -u USER
 * *  * * *  COMMAND
 ```
 
-### Looking for maintenance for your application or website?
+### Looking for someone running your application or website?
 
 Contact me: viktor@szepe.net
