@@ -39,3 +39,5 @@ Olyan látásmódot igyekszem képviselni, ami a **következő két évre** teki
   a napi fejlesztésű [monitorozó és ellenőrző programok](https://github.com/szepeviktor)
   jelentései alapján és a napló elemzések folyamán
   hibajegyeket nyitok, megbeszéléseken megoldási javaslatokat adok
+
+Keressen meg: viktor@szepe.net

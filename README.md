@@ -3,7 +3,7 @@
 You find all my knowledge in GitHub repositories in form of Bash and PHP scripts and Markdown documents.
 Updated as I work daily.
 
-:warning: This readme does not represent the content of this repository. Please browse all folders.
+:warning: This readme does not represent the contents of this repository. Please browse all folders.
 
 
 [How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)

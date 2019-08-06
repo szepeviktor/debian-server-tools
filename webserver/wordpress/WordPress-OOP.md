@@ -17,6 +17,11 @@
 - [Template hierarchy](https://github.com/Brain-WP/Hierarchy)
 - https://github.com/TomodomoCo/kaiso
 - https://github.com/berlindb/core
+- https://github.com/widoz/wp-filter
+- https://github.com/widoz/wordpress-model
+- https://github.com/RebelCode/cronarchy
+- https://github.com/deliciousbrains/wp-migrations
+- https://github.com/tareq1988/wp-eloquent
 
 * Laravel technology in WordPress [Themosis framework](https://github.com/themosis/themosis)
 * [Lumberjack MVC framework](https://github.com/Rareloop/lumberjack)

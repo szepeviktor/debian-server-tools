@@ -4,7 +4,7 @@
 
 - Reject traffic from known hostile networks
 - Ban IP addresses on the very first suspicious request preventing futher scanning
-- Serve requests as quick as possible to prevent D/DoS
+- Serve requests as quick as possible to prevent DoS attacks
 - Lowest access level possible for users
 - Monitor everything (source code, traffic, humans)
 
@@ -62,6 +62,7 @@
 - Two-factor authentication
 - Alert on foreign country logins (PHP `geoip_country_code_by_name()` or Apache mod_maxminddb)
 - Analyse HTTP headers on login ([WAF for WordPress](https://github.com/szepeviktor/waf4wordpress))
+- Disallow too short usernames and passwords ([WAF for WordPress](https://github.com/szepeviktor/waf4wordpress))
 - Limit login attempts ([WAF for WordPress](https://github.com/szepeviktor/waf4wordpress))
 
 ### Maintenance :wrench:
