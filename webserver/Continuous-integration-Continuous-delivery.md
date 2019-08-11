@@ -77,6 +77,7 @@ How to design and implement CI and CD.
 ### Static analysis
 
 * Tool: phpstan/phpstan # phpstan/phpstan-shim # phive install phpstan
+* Tool: dave-liddament/sarb # phive install sarb
 
 - ekino/phpstan-banned-code
 - phpstan/phpstan-strict-rules

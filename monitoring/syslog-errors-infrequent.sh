@@ -11,7 +11,7 @@
 # DOCS          :https://www.youtube.com/watch?v=pYYtiIwtQxg
 # DEPENDS       :apt-get install logtail
 # LOCATION      :/usr/local/sbin/syslog-errors-infrequent.sh
-# CRON.D        :17 */3	* * *	root	/usr/local/sbin/syslog-errors-infrequent.sh
+# CRON.D        :17 */3  * * *  root	/usr/local/sbin/syslog-errors-infrequent.sh
 
 Exceptions()
 {
@@ -30,6 +30,7 @@ Exceptions()
     #| grep -E -v 'spamd\[[0-9]+\]: spamd:|error@' \
     #| grep -E -v 'mysqld: .* Unsafe statement written to the binary log .* Statement:' \
     #| grep -F -v '/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting' \
+    #| /usr/bin/grepcidr -v -f /usr/local/share/ludost/br.ipranges \
 
 }
 

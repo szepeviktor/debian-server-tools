@@ -9,7 +9,7 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # LOCATION      :/usr/local/sbin/cron-long.sh
-# CRON.D        :*/30 *	* * *	root	/usr/local/sbin/cron-long.sh
+# CRON.D        :*/30 *  * * *  root	/usr/local/sbin/cron-long.sh
 
 # Age threshold in minutes
 declare -i CRON_MAX_AGE="50"
@@ -25,7 +25,7 @@ if [ -z "$CRON_CHILD_PID" ]; then
     exit 0
 fi
 
-# List job age
+# Check age of each cron job
 ps -o etimes= -p "$CRON_CHILD_PID" \
     | while read -r CRON_CHILD_AGE; do
         if [ "$CRON_CHILD_AGE" -lt $((CRON_MAX_AGE * 60)) ]; then

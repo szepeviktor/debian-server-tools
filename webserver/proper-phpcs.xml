@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="Laravel_Project">
-    <description>The coding standard for Laravel projects.</description>
+<ruleset name="Proper_Project">
+    <description>The coding standard for proper PHP projects.</description>
 
     <file>proper.php</file>
 
     <!-- Coding Standards installation
-    composer require -\-dev slevomat/coding-standard
+    composer require -\-dev slevomat/coding-standard dealerdirect/phpcodesniffer-composer-installer
+    vendor/bin/phpcs -\-standard=proper-phpcs.xml
     -->
 
     <!-- A comma separated list of file extensions to check -->
@@ -18,6 +19,7 @@
     <rule ref="PSR12"/>
 
     <!-- File rules -->
+    <!-- Generic.Files.FilePermissions in https://github.com/squizlabs/PHP_CodeSniffer/issues/1808 -->
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
     <rule ref="PEAR.Commenting.FileComment">
         <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag"/>

@@ -5,6 +5,7 @@
  *
  * File comment informs humans what this is all about.
  * Please use LF line ends.
+ * Turn off execution bit of PHP files.
  * See proper-phpcs.xml
  *
  * @package Properclass
