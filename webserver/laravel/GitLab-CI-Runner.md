@@ -26,4 +26,4 @@ Add `-d` to run in detached mode. View log with `docker logs -f CONTAINER-ID`
 
 Supports: s3, gcs.
 
-See https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runners-cache-section
+See https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnerscache-section
