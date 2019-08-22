@@ -125,7 +125,10 @@ Tag-category collision.
 1. [Main plugin file parts](https://github.com/szepeviktor/phpstan-wordpress/blob/master/README.md#make-your-code-testable)
 1. [Static analysis](https://github.com/szepeviktor/phpstan-wordpress)
 1. [Code quality](https://github.com/nunomaduro/phpinsights)
-1. For themes: https://themecheck.info/ and https://wordpress.org/plugins/theme-check/
+1. Tools for themes
+    - https://themecheck.info/
+    - https://wordpress.org/plugins/theme-check/
+    - [WPThemeReview Standard for PHP_CodeSniffer](https://github.com/WPTRT/WPThemeReview)
 1. Security
     - https://github.com/WordPress/WordPress-Coding-Standards/tree/develop/WordPress/Sniffs/Security
     - https://coderisk.com/ by RIPS Technologies

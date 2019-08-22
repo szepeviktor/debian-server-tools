@@ -5,10 +5,10 @@ Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
 ### Stratégia
 
 1. Interneten elérhető a célközönség?
-1. A honlap mely részeire van kapacitásunk, hogy *életben* tartsuk, azaz módosítsuk különböző visszajelzések
-   (látogatások, kattintások, telefonos kérdések, eladási eredmények) alapján?
+1. A honlap mely részeire van kapacitásunk, hogy *életben* tartsuk, azaz módosítsuk különböző mérések
+   (látogatások, kattintások, A/B teszt, telefonos kérdések, eladási eredmények) alapján?
 1. Mi legyen a honlapon? krumpli pecsét **vs.** *Ez szokott lenni egy honlapon*
-   **vs.** visszajelzések alapján priorizált tartalom
+   **vs.** mérések alapján priorizált tartalom
 1. Személyes jelleg fotókkal, videóval, idézetekkel
    **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
 1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
@@ -23,6 +23,7 @@ Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek
 1. "Elhagyott kosár", visszafordulók, bámészkodók kezelése
 1. Visszatérő látogatók kezelése
+1. Visszajelzés lehetővé tétele (visszajelzés űrlap, látogatások rögzítése)
 
 ### Tartalom
 

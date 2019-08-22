@@ -72,6 +72,12 @@ U="$(stat -c %U .)";S="$(getent passwd $U|cut -d: -f6)/.ssh";mkdir -m 0700 "$S";
 ssh-keygen -y -f ~/.ssh/id_ecdsa
 ```
 
+### Display SSH access details
+
+```bash
+printf 'host: %s\nport: %s\nuser: %s\n' "$(hostname)" "$(/usr/sbin/sshd -T|sed -ne 's/^port \([0-9]\+\)$/\1/p')" "$(ls -tr /home/|tail -n1)"
+```
+
 ### List sshd host keys
 
 ```bash
