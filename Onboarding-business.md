@@ -48,3 +48,26 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 1. A máshonnan megismert hiba forrás megelőző jellegű javítása → bizonyosság: teljes, 100%
 2. Bevállaljuk, hogy hiba következik be → bizonyosság: kevesebb, mint 100%
 3. Valamilyen módon - pl. tévedésből - a hiba nem következik be → bizonyosság: sokkal kevesebb, mint 100%
+
+
+## Kódolási büdzsé
+
+Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy fő.
+
+- Specifikáció
+- Technológiák kiválasztása
+- Kód tervezés (architektúra)
+- Grafikai dizájn és UX
+- [MVP](https://en.wikipedia.org/wiki/Minimum_viable_product)
+- Funkciók befejezése (az MVP-n felül)
+- Kézi tesztelés
+- Hiba javítás
+
+### Technikai tartozás (tech debt)
+
+- Kód kommentelés (docblock és üzleti logika)
+- Hiba kezelés
+- Kódolás nélküli (zero coverage) tesztek futtatása
+- Egység (unit) és funkcionális tesztek írása
+- Keretrendszer és csomag frissítés
+- Refaktorálás

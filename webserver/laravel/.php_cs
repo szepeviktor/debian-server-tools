@@ -3,41 +3,54 @@
  * Convert Laravel presets from StyleCI to PHP CS Fixer.
  *
  * 1. Install PHP CS Fixer: phive install php-cs-fixer
- * 2. Add /.php_cs.cache to .gitignore
- * 3. Start: tools/php-cs-fixer fix -v --dry-run
+ * 2. Start: tools/php-cs-fixer fix -v --dry-run
  *
  * @see https://styleci.readme.io/docs/presets#section-laravel
  */
 
-$fixers = (new PhpCsFixerLaravel())->getFixers();
-
-$finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__ . '/app')
-;
-
 return PhpCsFixer\Config::create()
-    ->setRules($fixers)
-    ->setFinder($finder)
+    ->setRules((new PhpCsFixerLaravel())->getFixers())
+    ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__ . '/app'))
     ->setRiskyAllowed(true)
 ;
 
-class PhpCsFixerLaravel {
+final class PhpCsFixerLaravel
+{
     /**
      * Fixer configuration cache file.
+     *
+     * @var string
      */
     const CACHE_FILE = '.php_cs_laravel.cache';
 
     /**
      * Upgrade guide cache file.
+     *
+     * @var string
      */
     const UPGRADE_FILE = '.php_cs_laravel_upgrade.cache';
 
+    /**
+     * StyleCI presets API URL.
+     *
+     * @var string
+     */
     const STYLECI_API_URL = 'https://api.styleci.io/presets';
 
+    /**
+     * PHP CS Fixer upgrade guide document URL.
+     *
+     * @var string
+     */
     const PHP_CS_UPGRADE_URL = 'https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/2.15/UPGRADE.md';
 
+    /**
+     * Conversions from StyleCI to PHP CS Fixer.
+     *
+     * @var array
+     */
     private $styleciToPhpcs = [
-        'align_phpdoc' => ['phpdoc_align' => ['align' => 'vertical']],
+        'align_phpdoc' => ['phpdoc_align' => ['align' => 'vertical']], // TODO Laravel double space
         'length_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'length']],
         'method_visibility_required' => 'visibility_required',
         'no_blank_lines_after_throw' => 'no_blank_lines_after_phpdoc',
@@ -57,7 +70,8 @@ class PhpCsFixerLaravel {
      *
      * @return array
      */
-    public function getFixers() {
+    public function getFixers()
+    {
         $styleciFixers = $this->readStyleciFixers();
         $rulesUpgrade = $this->readRulesUpgrade();
         $fixers = [];
@@ -97,7 +111,8 @@ class PhpCsFixerLaravel {
      *
      * @return array
      */
-    private function readStyleciFixers() {
+    protected function readStyleciFixers()
+    {
         // Check cache
         if (file_exists(self::CACHE_FILE)) {
             $fileContents = file_get_contents(self::CACHE_FILE);
@@ -127,7 +142,8 @@ class PhpCsFixerLaravel {
      *
      * @return array
      */
-    private function readRulesUpgrade() {
+    protected function readRulesUpgrade()
+    {
         // Check cache
         if (file_exists(self::UPGRADE_FILE)) {
             $fileContents = file_get_contents(self::UPGRADE_FILE);

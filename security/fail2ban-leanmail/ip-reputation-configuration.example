@@ -53,6 +53,8 @@ declare -a AS_HOSTING=(
     AS9009   # M247 Ltd
     AS14061  # DIGITALOCEAN
     AS47583  # Hostinger
+    AS31034  # Aruba
+    AS40065  # CNSERVERS
 )
 
 # Labs #

@@ -2,8 +2,8 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.5.1
-# DATE          :2018-02-18
+# VERSION       :0.6.0
+# DATE          :2019-08-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -68,6 +68,11 @@ if [ "$(dpkg-query --showformat='${Status}' --show monit 2>/dev/null)" == "insta
     if service monit status | grep -q -F 'monit is running'; then
         service monit stop
     fi
+fi
+
+# Stop cron
+if service cron status >/dev/null; then
+    service cron stop
 fi
 
 # Start the reboot process
