@@ -33,7 +33,7 @@
 
 https://quixdb.github.io/squash-benchmark/
 
-- https://bitbucket.org/nikratio/s3ql (winner)
+- :trophy: https://github.com/s3ql/s3ql (winner)
 - http://mattmahoney.net/dc/zpaq.html
 - http://obnam.org/
 - http://duplicity.nongnu.org/
@@ -41,13 +41,13 @@ https://quixdb.github.io/squash-benchmark/
 - https://github.com/zbackup/zbackup
 - https://github.com/bup/bup
 - http://moinakg.github.io/pcompress/
-- compression: http://nanozip.net/
 - http://www.byronknoll.com/cmix.html
 - https://github.com/centaurean/density
 - https://github.com/IlyaGrebnov/libbsc
 
 ### Compression
 
+- http://nanozip.net/
 - http://www.7-zip.org/ http://tukaani.org/xz/
 - https://code.google.com/p/snappy/ https://github.com/kubo/snzip
 - https://github.com/google/zopfli High compression zlib-compatible
@@ -60,8 +60,8 @@ https://quixdb.github.io/squash-benchmark/
 
 ```bash
 GH_USER="szepeviktor"
-wget -qO- "https://api.github.com/users/${GH_USER}/repos?per_page=100"|grep '"clone_url"'|cut -d'"' -f4 > github.repos
-cat github.repos|xargs -L 1 git clone
+wget -qO- "https://api.github.com/users/${GH_USER}/repos?per_page=100"|grep '"clone_url"'|cut -d'"' -f4 >github.repos
+cat github.repos|xargs -L1 git clone
 ```
 
 ### S3QL flush before umount
@@ -234,7 +234,7 @@ Lists
 
 ### Servers with large disks
 
-... and [minio](https://minio.io/) as S3 compatible object storage server
+With [minio](https://minio.io/) installed as S3 compatible object storage server.
 
 - [Contabo VPS M](https://contabo.com/?show=vps) 500 GB €7/m
 - [OVH/KS-1 server](https://www.kimsufi.com/en/) 500 GB €5/m

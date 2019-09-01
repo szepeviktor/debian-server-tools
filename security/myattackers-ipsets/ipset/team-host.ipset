@@ -3,25 +3,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set team-host src -j REJECT
 create team-host hash:net family inet hashsize 64 maxelem 64
 flush team-host
-#add team-host 45.8.156.0/24
-#add team-host 46.3.96.0/24
-#add team-host 46.8.21.0/24
-#add team-host 46.8.29.0/24
-#add team-host 46.8.158.0/24
-#add team-host 85.209.0.0/24
-#add team-host 87.251.88.0/24
-#add team-host 92.63.199.0/24
-#add team-host 92.63.203.0/24
-#add team-host 95.182.120.0/22
-#add team-host 109.248.59.0/24
-#add team-host 109.248.133.0/24
-#add team-host 185.176.25.0/24
-#add team-host 185.193.88.0/22
+add team-host 45.82.153.0/24
 add team-host 185.211.244.0/24
 # *.diverseenvironment.com *.changehappening.com 185.211.245.192/26
 add team-host 185.211.245.0/24
-#add team-host 185.211.246.0/24
-#add team-host 185.211.247.0/24
-#add team-host 185.231.244.0/24
-#add team-host 185.231.245.0/24
-#add team-host 185.231.246.0/23

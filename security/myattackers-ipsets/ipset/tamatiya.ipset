@@ -3,6 +3,8 @@
 #: iptables -w -I myattackers-ipset -m set --match-set tamatiya src -j REJECT
 create tamatiya hash:net family inet hashsize 64 maxelem 32
 flush tamatiya
+# ZervDNS / Bunea
+add tamatiya 92.118.38.0/24
 
 # AS209272 - Alviva
 add tamatiya 185.222.211.0/24

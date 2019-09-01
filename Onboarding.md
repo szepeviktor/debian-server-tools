@@ -128,7 +128,8 @@ Choose one per category.
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
-- Shared inbox for teams: [HelpScout](https://www.helpscout.com/), [Front](https://frontapp.com/)
+- Email for teams: [HelpScout](https://www.helpscout.com/), [Front](https://frontapp.com/),
+  [Consider](https://consider.co/)
 
 ### Backup
 
