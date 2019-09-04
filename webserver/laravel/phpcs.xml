@@ -20,12 +20,12 @@
             * env() does not work in production (artisan config:cache)
             * compact(), list() and extract() convert array<->value
             * eval() is dangerous!
-            * echo and print_r() disturb templating, see wilderborn/partyline
+            * echo, print and print_r() disturb templating, see wilderborn/partyline
             * dump(), dd(), var_dump() - consider using barryvdh/laravel-debugbar
             * error_log() has special use
             -->
             <property name="forbiddenFunctions" type="array"
-                value="env=>null,compact=>null,list=>null,extract=>null,eval=>null,echo=>null,print_r=>null,dump=>null,dd=>null,var_dump=>null,error_log=>null" />
+                value="env=>null,compact=>null,list=>null,extract=>null,eval=>null,echo=>null,print=>null,print_r=>null,dump=>null,dd=>null,var_dump=>null,error_log=>null" />
         </properties>
     </rule>
 
