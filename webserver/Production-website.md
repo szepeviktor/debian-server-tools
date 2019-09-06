@@ -382,6 +382,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
 - [CSS statistics](https://cssstats.com/)
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css >large.css`
+- [instant.page](https://github.com/instantpage/instant.page)
 - Conditional, lazy or late loading (slider, map, facebook content, [image gallery](https://www.freepik.com/))
 - Use [async and defer](http://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html) for JavaScripts
 - Light loading, `&controls=2` for YouTube

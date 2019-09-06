@@ -9,23 +9,27 @@ test -n "${SSH_PORT}"
 test "${SSH_PORT}" == "${SSH_PORT/22/}"
 
 # Change port
-sed -i -e "s|^#*Port\\s.*\$|#&\\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
+sed -e "s|^#*Port\\s.*\$|#&\\nPort ${SSH_PORT}|" -i /etc/ssh/sshd_config
 sshd -T | grep -qFx "port ${SSH_PORT}"
 
+# Set maximum attempts
+sed -e 's|^#*MaxAuthTries\s.*$|#&\nMaxAuthTries 1|' -i /etc/ssh/sshd_config
+sshd -T | grep -qFx 'maxauthtries 1'
+
 # Disable root login
-sed -i -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' /etc/ssh/sshd_config
-sshd -T | grep -qFx "permitrootlogin no"
+sed -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' -i /etc/ssh/sshd_config
+sshd -T | grep -qFx 'permitrootlogin no'
 
 # Disable password login for sudoers
-echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >> /etc/ssh/sshd_config
+echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >>/etc/ssh/sshd_config
 
 # Disable DSA host key
-sed -i -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' /etc/ssh/sshd_config
-( ! sshd -T | grep -qFx "hostkey /etc/ssh/ssh_host_dsa_key" )
+sed -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' -i /etc/ssh/sshd_config
+( ! sshd -T | grep -qFx 'hostkey /etc/ssh/ssh_host_dsa_key' )
 
 # Add blocked networks
 HOSTS_CHINA="https://github.com/szepeviktor/debian-server-tools/raw/master/security/hosts.deny.sshd.China"
-wget -nv -O- "$HOSTS_CHINA" >> /etc/hosts.deny
+wget -nv -O- "$HOSTS_CHINA" >>/etc/hosts.deny
 
 # Regenerate host keys
 rm -f /etc/ssh/ssh_host_*
@@ -38,7 +42,7 @@ netstat -n -a -t -p | grep ":${SSH_PORT}\\s.*/sshd\\s*\$"
 
 # Check password authentication for the first sudoer
 if SSH_U="$(getent group "sudo")"; then
-    SSH_U="$(cut -d ":" -f 4 <<< "$SSH_U" | cut -d "," -f 1)"
+    SSH_U="$(cut -d ":" -f 4 <<<"$SSH_U" | cut -d "," -f 1)"
     # Warning! CRLF line ends in the output
     SSH_ASKPASS=/bin/echo setsid -w -- \
         ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1 -p "$SSH_PORT" "${SSH_U}@localhost" 2>&1 \
@@ -47,3 +51,25 @@ fi
 
 # Empty root's known_hosts file
 rm -f /root/.ssh/known_hosts
+
+# New chain for SSH port hiding
+iptables -t nat -N SSHIDE
+# Redirect real SSH port to standard port (closed)
+iptables -t nat -A SSHIDE -p tcp -m tcp --dport "$SSH_PORT" -j REDIRECT --to-ports 22
+# Redirect 3rd SSH connection attempt to real SSH port
+iptables -t nat -A SSHIDE -p tcp -m tcp --dport 22 \
+    -m recent --update --seconds 60 --hitcount 2 --name SSHide --mask 255.255.255.255 --rsource \
+    -j REDIRECT --to-ports "$SSH_PORT"
+# Add source address to "SSHide" list
+iptables -t nat -A SSHIDE -p tcp -m tcp --dport 22 \
+    -m recent --set --name SSHide --mask 255.255.255.255 --rsource -j ACCEPT
+# Reference "SSHIDE" chain
+iptables -t nat -A PREROUTING -i eth0 -p tcp -m multiport --dports "22,${SSH_PORT}" -j SSHIDE
+# Allow only 3 connection attempts (try 3,4 and 5) in 10 minutes
+# iptables -I INPUT -p tcp -m tcp --dport "$SSH_PORT" \
+#     -m recent --update --seconds 600 --hitcount 6 --name SSHide --mask 255.255.255.255 --rsource -j REJECT
+# Query status of "recent" module
+# cat /proc/net/xt_recent/SSHide
+
+# Login needs 3 connections
+# ssh -o ConnectionAttempts=3
