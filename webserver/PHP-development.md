@@ -48,7 +48,7 @@ Bits and bytes.
 - Development tools ([Vagrant](https://app.vagrantup.com/laravel/boxes/homestead),
   [Laragon](https://laragon.org/))
 - Testing tools ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
-- Build and [deployment](/webserver/Continuous-integration-Continuous-delivery.md) tools
+- Build and [deployment](/webserver/Continuous-integration-Continuous-delivery.md) tools (CD)
 - Application monitoring (performance, errors)
 
 ### Workflow in git :octocat:

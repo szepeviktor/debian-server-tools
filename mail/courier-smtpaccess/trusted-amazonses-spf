@@ -1,5 +1,10 @@
 # Amazon SES
-#     host -t TXT amazonses.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|$|\tallow,BLOCK|'
+#$ ../spf-survey.sh amazonses.com. | sed -e 's|$|\tallow,BLOCK|'
 199.255.192.0/22	allow,BLOCK
 199.127.232.0/22	allow,BLOCK
 54.240.0.0/18	allow,BLOCK
+69.169.224.0/20	allow,BLOCK
+76.223.180.0/23	allow,BLOCK
+76.223.188.0/24	allow,BLOCK
+76.223.189.0/24	allow,BLOCK
+76.223.190.0/24	allow,BLOCK

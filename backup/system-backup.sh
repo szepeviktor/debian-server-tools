@@ -262,6 +262,7 @@ Backup_files() # Error 7x
         Error 73 "Failed to create weekly directory for 'home'"
     fi
     # Exclude file
+    # TODO find . -name CACHEDIR.TAG -printf '%h\n' >"$HOME_EXCLUDE_LIST"
     if [ -r "$HOME_EXCLUDE_LIST" ]; then
         HOME_EXCLUDE=( "--exclude-from=${HOME_EXCLUDE_LIST}" )
     fi

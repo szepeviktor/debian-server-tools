@@ -34,17 +34,22 @@ Do_spf()
                 # Recurse into include
                 Do_spf "${MECHANISM#include:}"
                 ;;
+            #"a"|"mx"|"ptr")
+            #    # TODO
+            #    # Get records
+            #    # Resolve IP addresses, handle CNAMEs
+            #    Do_spf IPs
+            #    ;;
             "?all"|"~all"|"-all")
                 # "?" Neutral, "~" SoftFail, "-" Fail
                 continue
                 ;;
             *)
-                # TODO a mx ptr exists
                 echo "Unknown mechanism in SPF: ${MECHANISM}" 1>&2
                 exit 100
                 ;;
         esac
-    done <<< "$SPF_RECORD"
+    done <<<"$SPF_RECORD"
 }
 
 set -e

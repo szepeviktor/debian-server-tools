@@ -128,3 +128,8 @@ add krek 194.55.143.240/29
 add krek 194.55.143.248/30
 add krek 194.55.143.252/31
 add krek 194.55.143.254
+
+# AS209298 - Online Marketing Sources Kft. / Csaba Lovas
+
+# AS42549 - UAB "Baltnetos komunikacijos"
+#add krek 45.146.200.0/22

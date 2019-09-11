@@ -5,8 +5,8 @@ set -e -x
 # SSH port
 SSH_PORT="$(Data get-value package.openssh-server.port "")"
 test -n "${SSH_PORT}"
-# No "22" in port number
-test "${SSH_PORT}" == "${SSH_PORT/22/}"
+## No "22" in port number
+#test "${SSH_PORT}" == "${SSH_PORT/22/}"
 
 # Change port
 sed -e "s|^#*Port\\s.*\$|#&\\nPort ${SSH_PORT}|" -i /etc/ssh/sshd_config
@@ -51,25 +51,6 @@ fi
 
 # Empty root's known_hosts file
 rm -f /root/.ssh/known_hosts
-
-# New chain for SSH port hiding
-iptables -t nat -N SSHIDE
-# Redirect real SSH port to standard port (closed)
-iptables -t nat -A SSHIDE -p tcp -m tcp --dport "$SSH_PORT" -j REDIRECT --to-ports 22
-# Redirect 3rd SSH connection attempt to real SSH port
-iptables -t nat -A SSHIDE -p tcp -m tcp --dport 22 \
-    -m recent --update --seconds 60 --hitcount 2 --name SSHide --mask 255.255.255.255 --rsource \
-    -j REDIRECT --to-ports "$SSH_PORT"
-# Add source address to "SSHide" list
-iptables -t nat -A SSHIDE -p tcp -m tcp --dport 22 \
-    -m recent --set --name SSHide --mask 255.255.255.255 --rsource -j ACCEPT
-# Reference "SSHIDE" chain
-iptables -t nat -A PREROUTING -i eth0 -p tcp -m multiport --dports "22,${SSH_PORT}" -j SSHIDE
-# Allow only 3 connection attempts (try 3,4 and 5) in 10 minutes
-# iptables -I INPUT -p tcp -m tcp --dport "$SSH_PORT" \
-#     -m recent --update --seconds 600 --hitcount 6 --name SSHide --mask 255.255.255.255 --rsource -j REJECT
-# Query status of "recent" module
-# cat /proc/net/xt_recent/SSHide
 
 # Login needs 3 connections
 # ssh -o ConnectionAttempts=3

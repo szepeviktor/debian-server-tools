@@ -1,9 +1,6 @@
 # Gmail by Google
-#     host -t TXT _netblocks.google.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|^.*$|#&\tallow,BLOCK|'
-# Prepend a colon to IPv6 addresses
-#     host -t TXT _netblocks2.google.com. | grep -Eo 'ip[46]:[0-9/.a-f:]{7,}' | cut -d: -f2- | sed -e 's|^.*$|#:&\tallow,BLOCK|'
-#     host -t TXT _netblocks3.google.com. | grep -Eo '[0-9/.]{7,}' | sed -e 's|^.*$|#&\tallow,BLOCK|'
-#64.18.0.0/20	allow,BLOCK
+#$ ../spf-survey.sh _spf.google.com. | sed -e 's|^.*$|#&\tallow,BLOCK|'
+#35.190.247.0/24	allow,BLOCK
 #64.233.160.0/19	allow,BLOCK
 #66.102.0.0/20	allow,BLOCK
 #66.249.80.0/20	allow,BLOCK
@@ -11,7 +8,6 @@
 #74.125.0.0/16	allow,BLOCK
 #108.177.8.0/21	allow,BLOCK
 #173.194.0.0/16	allow,BLOCK
-#207.126.144.0/20	allow,BLOCK
 #209.85.128.0/17	allow,BLOCK
 #216.58.192.0/19	allow,BLOCK
 #216.239.32.0/19	allow,BLOCK
@@ -22,4 +18,10 @@
 #:2a00:1450:4000::/36	allow,BLOCK
 #:2c0f:fb50:4000::/36	allow,BLOCK
 #172.217.0.0/19	allow,BLOCK
+#172.217.32.0/20	allow,BLOCK
+#172.217.128.0/19	allow,BLOCK
+#172.217.160.0/20	allow,BLOCK
+#172.217.192.0/19	allow,BLOCK
 #108.177.96.0/19	allow,BLOCK
+#35.191.0.0/16	allow,BLOCK
+#130.211.0.0/22	allow,BLOCK

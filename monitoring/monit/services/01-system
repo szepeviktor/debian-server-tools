@@ -128,3 +128,11 @@
     with path "/usr/local/sbin/server-integrity.sh -c ROOT -r '@@INTEGRITY_ROOTLIST@@'" every 33 cycles
    group integrity
    if status != 0 then alert
+
+ # Password shadow file
+ check file password_shadow with path "/etc/shadow"
+   group integrity
+   if changed checksum      then alert
+   if failed permission 640 then unmonitor
+   if failed uid root       then unmonitor
+   if failed gid shadow     then unmonitor

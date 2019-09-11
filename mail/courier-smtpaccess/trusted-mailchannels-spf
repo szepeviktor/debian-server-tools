@@ -1,7 +1,10 @@
 # MailChannels Cloud
-# "include:relay.mailchannels.net"
-#     host -t TXT spf1.mailchannels.net. | grep -Eo '[0-9/.]{7,}' | sed -e 's|$|\tallow,BLOCK|'
+#     "include:relay.mailchannels.net"
+#$ ../spf-survey.sh relay.mailchannels.net | sed -e 's|.*|&\tallow,BLOCK|'
 46.232.183.0/24	allow,BLOCK
 23.83.208.1/20	allow,BLOCK
 177.153.0.128/25	allow,BLOCK
 191.252.57.0/25	allow,BLOCK
+199.10.31.235/32	allow,BLOCK
+199.10.31.236/32	allow,BLOCK
+172.255.62.10/32	allow,BLOCK
