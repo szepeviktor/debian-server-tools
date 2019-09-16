@@ -36,7 +36,7 @@ Bits and bytes.
 - Non-ASCII characters (emoji, accented letter, signs) `LC_ALL=C grep -P '[\x80-\xFF]'`
 
 [EditorConfig](/.editorconfig),
-[PSR2 ruleset](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR2/ruleset.xml)
+[PSR12 ruleset](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR12/ruleset.xml)
 
 ### Use others' work :exclamation:
 
@@ -85,7 +85,7 @@ Use Docker **containers** for testing.
 - Parallel package installation (hirak/prestissimo)
 - Git hook integration (phpro/grumphp)
 - Parallel syntax check (php-parallel-lint)
-- PSR-2-based coding style (phpcs)
+- PSR-12-based coding style (phpcs)
 - Warn on `TODO` and `FIXME`: "Move it into issues!" (phpcs)
 - PHP Compatibility check (phpcompatibility/php-compatibility)
 - [PHPDoc checker](https://github.com/odan/docblock-checker)
@@ -231,7 +231,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Analyze HTTP headers
 - Browser check with JavaScript
   ([proof-of-work](https://en.wikipedia.org/wiki/Proof-of-work_system#List_of_proof-of-work_functions))
-- Client-side [address check](https://github.com/mailcheck/mailcheck)
+- Client-side [email address check](https://github.com/mailcheck/mailcheck)
 - Suspicious email address:
     - company domain
     - blocked domain (e.g. example.com, *.test)

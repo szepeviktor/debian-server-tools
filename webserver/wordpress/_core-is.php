@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Helper functions to determine entry point. (MU)
- * Version:     0.1.2
+ * Version:     0.1.3
  * License:     The MIT License (MIT)
  * Author:      Viktor Szépe
  */
@@ -71,13 +71,15 @@ class Is {
 			case 'index':
 				return ( defined( 'WP_USE_THEMES' ) && WP_USE_THEMES );
 			case 'frontend':
+				// Use !frontend for admin pages.
 				return ( ( ! is_admin() || wp_doing_ajax() ) && ! wp_doing_cron() );
 			case 'admin':
+				// Includes admin-ajax :(
 				return is_admin();
 			case 'async-upload':
 				return ( isset( $_SERVER['SCRIPT_FILENAME'] ) && ABSPATH . 'wp-admin/async-upload.php' === $_SERVER['SCRIPT_FILENAME'] );
 			case 'preview': // in 'parse_query' action if(is_main_query())
-				return is_preview();
+				return is_preview() || is_customize_preview();
 			case 'autosave': // after 'heartbeat_received', 500 action
 				// Autosave post while editing and Heartbeat.
 				return ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE );

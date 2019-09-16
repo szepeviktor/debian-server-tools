@@ -11,11 +11,11 @@ sed -e '/^var data = {$/,/^};$/!d' | sed -e '1s/^var data = //; $s/;$//'
 JavaScript events on elements with a certain HTML class
 
 ```bash
-jq '.resource.predicates[] | select(.function="_cn") | .arg1'
+jq '."resource"."predicates"[] | select(."function" == "_cn") | ."arg1"'
 ```
 
 To be injected HTML snippets
 
 ```bash
-jq '.resource.tags[]'
+jq '."resource"."tags"[]'
 ```

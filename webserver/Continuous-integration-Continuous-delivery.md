@@ -102,11 +102,11 @@ wp eval 'do_action("deploy");'
 
 Install languages.
 
-- wordpress.org: `wp language plugin install wordpress-seo hu_HU`
-- git repository: `apt-get install gettext # msgfmt`
-- translate.wordpress.org export:
+- From wordpress.org: `wp language plugin install wordpress-seo hu_HU`
+- From git repository: `apt-get install gettext # msgfmt`
+- Exported from translate.wordpress.org:
 
-```
+```bash
 TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN}/stable/hu/default/export-translations/?format=${FORMAT}"
 wget -O wp-content/languages/plugins/wordpress-seo-hu_HU.mo "$TWPORG_URL"
 wp language plugin is-installed wordpress-seo hu_HU

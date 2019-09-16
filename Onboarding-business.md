@@ -30,8 +30,10 @@ Igények és eredmények irányából.
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a már máshonnan ismert hibák elkerülésével,
-   és folyamatos "motorháztető alatti" fejlesztések
+   és a technikai tartozás (tech debt) folyamatos visszafizetésével
    _például az erőforrások 10%-a erejéig_
+
+https://twitter.com/StepsizeHQ/status/1156582846057844736/photo/1
 
 A _mit jelent a kész_ fényében.
 

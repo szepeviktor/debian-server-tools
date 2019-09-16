@@ -12,7 +12,7 @@ Updated as I work daily.
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
 
-### How to choose VPS provider?
+### How to choose cloud provider?
 
 See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
 

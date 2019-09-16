@@ -52,7 +52,7 @@ final class OneClassPerFile
      * @param string $keepMethodsShort
      * @return bool
      */
-    private function oneOperationPerMethod($keepMethodsShort) : bool
+    private function oneOperationPerMethod($keepMethodsShort): bool
     {
         if ($keepMethodsShort !== 'I do my one job') {
             return false;
@@ -69,7 +69,7 @@ final class OneClassPerFile
      * @param array $list
      * @return void
      */
-    public function badPartsOfPhp(array $list)
+    public function badPartsOfPhp(array $list): void
     {
         // Resist the temptation, avoid bad parts of PHP
         extract($list, EXTR_SKIP);
@@ -86,6 +86,21 @@ final class OneClassPerFile
             // empty on arrays: $array === []
             // empty on strings: $string === ''
         }
+    }
+
+    /**
+     * Errors go into if-s, normal execution goes without indentation.
+     *
+     * @param int $value
+     * @return string|null
+     */
+    function errorsInIf(int $value): ?string
+    {
+        if ($value > 1) {
+            return null;
+        }
+
+        return 'This value is okay: '.strval($value);
     }
 }
 // phpcs:ignore PSR2.Files.ClosingTag.NotAllowed
