@@ -12,7 +12,7 @@ and [clearPHP rules](https://github.com/dseguy/clearPHP)
 - Other's interest in integration with your project (API)
 - Move fast with development, don't use a tool if it slows down development
 - Keep developer morale high
-- Have a fixed time frame for under-the-hood development
+- Have a fixed time frame for paying back technical debt
 - Think about the far future when making decisions today
 
 ### High level overview

@@ -1,0 +1,143 @@
+# AS209298 - OMS-AS / NOVUM IMPORT / "Content Delivery Network, Boundary line team" / Online Marketing Sources Kft. / Csaba Lovas
+#: ipset -exist restore <ipset/oms.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set oms src -j REJECT
+create oms hash:net family inet hashsize 64 maxelem 256
+flush oms
+add oms 84.2.228.0/24
+add oms 217.112.128.0/24
+
+# Detection: DNS "A" record of envelop sender's domain points to AS35828 TERATRADE
+# Webshops: https://dnslytics.com/reverse-analytics/ua-69610531
+
+#$ for L in 194.24.160.{0..255}; do echo "  $L ..."; wget -qSO- -t1 -T2 http://$L 2>&1 \
+#$   |grep -F -A100 'Server: Apache/2.4.6 (CentOS) PHP/5.4.16'|grep -F -A100 '<title></title>'|grep -qF 'Coming soon!' \
+#$   && echo $L; done | cidr-convert # https://github.com/flowchartsman/cidr-convert
+
+# is_teratrade.sh
+#$ grep -Ex '(95\.140\.39|185\.207\.8|185\.207\.9|185\.207\.10|185\.207\.11)\.[0-9]+'
+
+# is_regru.sh
+#$ whois -h whois.reg.com sagarscreen.com. | grep 'Registrar IANA ID: 1606$'
+
+# AS57494 - Krek / ADMAN in Новосибирск
+add oms 78.153.148.7
+add oms 78.153.148.41
+add oms 78.153.148.132
+add oms 78.153.149.128
+add oms 78.153.149.158
+add oms 78.153.150.86
+add oms 78.153.151.66
+add oms 185.133.40.20
+add oms 185.133.40.65
+add oms 185.133.42.82
+add oms 185.135.83.239
+# *.balagulquran.info.
+add oms 78.153.150.47
+add oms 78.153.151.10
+add oms 78.153.151.117
+add oms 78.153.151.216
+add oms 109.237.110.105
+add oms 109.237.110.116
+add oms 109.237.111.120
+add oms 109.237.111.177
+add oms 185.133.42.246
+add oms 185.135.80.33
+add oms 185.135.80.81
+add oms 185.135.80.95
+add oms 185.135.80.121
+add oms 185.135.81.26
+add oms 185.135.81.93
+add oms 185.135.81.112
+add oms 185.135.81.143
+add oms 185.135.81.197
+add oms 185.135.81.203
+add oms 185.135.81.205
+add oms 185.135.81.231
+add oms 185.135.81.254
+add oms 185.135.82.254
+add oms 185.135.83.53
+add oms 185.135.83.98
+add oms 185.135.83.103
+add oms 185.173.93.21
+add oms 185.173.93.66
+add oms 185.173.93.127
+add oms 185.173.93.166
+add oms 185.173.94.5
+add oms 185.173.94.115
+
+# AS46573 - Global Frag Networks
+add oms 157.52.150.128/26
+
+# AS12586 - GHOSTnet
+# 85.93.6.0/24
+add oms 85.93.6.99
+add oms 85.93.6.100/30
+add oms 85.93.6.104/29
+add oms 85.93.6.112/28
+add oms 85.93.6.128/31
+add oms 85.93.6.130
+# 89.144.13.0/24
+add oms 89.144.13.138/31
+add oms 89.144.13.140/30
+add oms 89.144.13.144/28
+add oms 89.144.13.160/29
+add oms 89.144.13.168/31
+# 89.144.27.0/24
+add oms 89.144.27.160/27
+# 89.144.44.0/24
+add oms 89.144.44.22/31
+add oms 89.144.44.24/29
+add oms 89.144.44.32/28
+add oms 89.144.44.48/30
+add oms 89.144.44.52/31
+add oms 89.144.44.54
+# 89.144.63.0/24
+add oms 89.144.63.128/25
+# 194.24.160.0/24
+add oms 194.24.160.136/29
+add oms 194.24.160.144/28
+add oms 194.24.160.160/29
+add oms 194.24.160.170/31
+add oms 194.24.160.177
+add oms 194.24.160.182/31
+add oms 194.24.160.198/31
+add oms 194.24.160.207
+add oms 194.24.160.209
+add oms 194.24.160.213
+add oms 194.24.160.215
+add oms 194.24.160.216
+add oms 194.24.160.229
+add oms 194.24.160.232/29
+add oms 194.24.160.240/29
+add oms 194.24.160.248/30
+add oms 194.24.160.252/31
+add oms 194.24.160.254
+# 194.55.140.0/24
+add oms 194.55.140.4
+add oms 194.55.140.6/31
+add oms 194.55.140.8/29
+add oms 194.55.140.16/28
+add oms 194.55.140.32/30
+add oms 194.55.140.38
+# 194.55.143.0/24
+add oms 194.55.143.3
+add oms 194.55.143.4/30
+add oms 194.55.143.8/29
+add oms 194.55.143.16/28
+add oms 194.55.143.32/27
+add oms 194.55.143.64/26
+add oms 194.55.143.128/26
+add oms 194.55.143.192/27
+add oms 194.55.143.224/28
+add oms 194.55.143.240/29
+add oms 194.55.143.248/30
+add oms 194.55.143.252/31
+add oms 194.55.143.254
+
+# AS42549 - UAB "Baltnetos komunikacijos"
+add oms 45.82.32.0/22
+add oms 45.146.200.0/22
+
+# AS41770 - IMINGO
+# add oms 81.28.96.0/20
+add oms 81.28.100.0/24

@@ -4,7 +4,7 @@
 
 - Reject traffic from known hostile networks
 - Ban IP addresses on the very first suspicious request preventing futher scanning
-- Serve requests as quick as possible to prevent DoS attacks
+- Serve requests as quickly as possible to prevent DoS attacks
 - Lowest access level possible for users
 - Monitor everything (source code, traffic, humans)
 

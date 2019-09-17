@@ -63,7 +63,7 @@ How to design and implement CI and CD.
 
 ### Coding style / Coding standard
 
-* Tool: phive install phpcs # squizlabs/php_codesniffer
+* Tool: squizlabs/php_codesniffer # phive install phpcs
 * Tool: dealerdirect/phpcodesniffer-composer-installer
 
 - [commenting rules](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/PEAR/Sniffs/Commenting)
