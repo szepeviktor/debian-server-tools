@@ -20,6 +20,7 @@
 - Product import (ERP, POS)
 - Product export (price comparison websites)
 - Payment processors
+  ([Revised Directive on Payment Services (PSD2)](https://en.wikipedia.org/wiki/Payment_Services_Directive#Revised_Directive_on_Payment_Services_%28PSD2%29))
 - Shipping
 - Email delivery
 - Support, AI chatbot

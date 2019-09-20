@@ -15,8 +15,7 @@ add sprint.pl 91.234.217.0/24
 add sprint.pl 185.234.216.0/24
 add sprint.pl 185.234.217.0/24
 add sprint.pl 185.234.218.0/24
-# Moved to AS210273
-add sprint.pl 185.234.219.0/24
+# 185.234.219.0/24 moved to AS210273
 ##185.235.245.0/24    ProxyBase LTD
 ##185.255.40.0/24     AttHost Sp. z o.o.
 ##185.255.41.0/24     AttHost Sp. z o.o.
@@ -32,7 +31,11 @@ add sprint.pl 193.169.252.0/24
 # AS59491 193.169.253.0/24
 add sprint.pl 193.169.254.0/24
 
-# AS51373 "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
+# AS210273 - WORLD HOSTING FARM LIMITED
+add sprint.pl 185.234.219.0/24
+add sprint.pl 193.169.255.0/24
+
+# AS51373 - "EuroNet" s.c. Jacek Majak, Aleksandra Kuc
 add sprint.pl 77.87.72.0/22
 add sprint.pl 77.87.76.0/24
 # !Not Announced! "EuroNet" s.c. Jacek Majak, Aleksandra Kuc

@@ -531,3 +531,6 @@ $TTL 60
 76.164.193.0/24     US_Versaweb
 76.164.205.0/24     US_Versaweb
 76.164.224.0/21     :2:Neighbour of Versaweb
+
+# Gruppi
+#for i in {1..12}; do host -t A s${i}.gruppi.hu.; done
