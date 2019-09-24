@@ -41,9 +41,7 @@ Ip46tables -N SSHIDE
 Ip46tables -A SSHIDE \
     -m recent --update --seconds 60 --hitcount 2 --name SSHide --rsource -j RETURN
 # Reject first and second SSH connections attempts
-Ip46tables -A SSHIDE \
-    -m recent --set --name SSHide --rsource \
-    -j REJECT
+Ip46tables -A SSHIDE -m recent --set --name SSHide --rsource -j REJECT
 # Reference "SSHIDE" chain
 Ip46tables -A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j SSHIDE
 

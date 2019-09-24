@@ -87,8 +87,8 @@ final class CheckEnv {
         $this->assert_directive( 'display_errors', '' );
 
         // Compiled in Extensions
+        // [ Core date filter hash libxml openssl pcntl pcre Reflection session SPL standard zlib ]
         // php -n -m | paste -s -d " "
-        // Core date filter hash libxml openssl pcntl pcre Reflection session SPL standard zlib
         $this->assert_extension( 'date' );
         $this->assert_directive( 'date.timezone', 'UTC' );
         $this->assert_extension( 'filter' );
@@ -99,8 +99,8 @@ final class CheckEnv {
         $this->assert_extension( 'zlib' );
 
         // Common Extensions
-        // dpkg -L php7.0-common | sed -n -e 's|^/usr/lib/php/\S\+/\(\S\+\)\.so$|\1|p' | paste -s -d " "
-        // ctype iconv gettext tokenizer sockets pdo sysvsem fileinfo posix exif sysvmsg phar ftp calendar sysvshm shmop
+        // [ ctype iconv gettext tokenizer sockets pdo sysvsem fileinfo posix exif sysvmsg phar ftp calendar sysvshm shmop ]
+        // dpkg -L php7.0-common | sed -n -e 's#^/usr/lib/php/\S\+/\(\S\+\)\.so$#\1#p' | paste -s -d " "
         $this->assert_extension( 'ctype' ); // wp-includes/ID3/getid3.lib.php
         $this->assert_extension( 'posix' );
         $this->assert_extension( 'exif' ); // wp-admin/includes/image.php
@@ -115,8 +115,7 @@ final class CheckEnv {
         $this->assert_extension( 'json' );
         // php7.0-intl
         $this->assert_extension( 'intl' );
-        // php7.0-xml
-        // wddx xml simplexml xmlwriter xmlreader dom xsl
+        // php7.0-xml: [ wddx xml simplexml xmlwriter xmlreader dom xsl ]
         $this->assert_extension( 'xml' );
         $this->assert_extension( 'SimpleXML' );
         $this->assert_extension( 'xmlreader' );
@@ -125,8 +124,7 @@ final class CheckEnv {
         $this->assert_extension( 'curl' );
         // php7.0-gd
         $this->assert_extension( 'gd' );
-        // php7.0-mysql
-        // mysqlnd mysqli pdo_mysql
+        // php7.0-mysql: [ mysqlnd mysqli pdo_mysql ]
         // WP_USE_EXT_MYSQL will use mysqli through mysqlnd (no PDO)
         $this->assert_extension( 'mysqlnd' );
         $this->assert_extension( 'mysqli' );
@@ -142,8 +140,9 @@ final class CheckEnv {
         $this->assert_disabled_extension( 'mysql' );
 
         // Disabled Extensions
-        // calendar fileinfo pcntl PDO pdo_mysql Phar readline
-        // shmop sysvmsg(System V messages) sysvsem(System V semaphore) sysvshm(System V shared memory) wddx xmlwriter xsl
+        // [ calendar fileinfo pcntl PDO pdo_mysql Phar readline
+        //   shmop sysvmsg(System V messages) sysvsem(System V semaphore) sysvshm(System V shared memory)
+        //   wddx xmlwriter xsl ]
         $this->assert_disabled_extension( 'calendar' );
         $this->assert_disabled_extension( 'fileinfo' );
         // Compiled in: $this->assert_disabled_extension( 'pcntl' );
@@ -158,17 +157,16 @@ final class CheckEnv {
         $this->assert_disabled_extension( 'wddx' );
         $this->assert_disabled_extension( 'xmlwriter' );
         $this->assert_disabled_extension( 'xsl' );
-        // php7.0-sqlite3
-        // pdo_sqlite sqlite3
+        // php7.0-sqlite3: [ pdo_sqlite sqlite3 ]
         $this->assert_disabled_extension( 'pdo_sqlite' );
         $this->assert_disabled_extension( 'sqlite3' );
-        // https://github.com/sektioneins/suhosin7
-        $this->assert_disabled_extension( 'suhosin7' );
-        $this->assert_disabled_extension( 'suhosin' );
 
         // 3rd-party Extensions
 
-        // php-redis
+        // https://github.com/sektioneins/suhosin7
+        $this->assert_disabled_extension( 'suhosin7' );
+        $this->assert_disabled_extension( 'suhosin' );
+        // php-redis, php-igbinary
         $this->assert_extension( 'igbinary' );
         $this->assert_extension( 'redis' );
 

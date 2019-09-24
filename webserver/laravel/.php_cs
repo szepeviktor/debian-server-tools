@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types = 1); //phpcs:ignore PSR1.Files.SideEffects.FoundWithSymbols
 /**
  * Convert Laravel presets from StyleCI to PHP CS Fixer.
  *
@@ -6,6 +6,7 @@
  * 2. Start: tools/php-cs-fixer fix -v --dry-run
  *
  * @see https://styleci.readme.io/docs/presets#section-laravel
+ * @version 1.1.0
  */
 
 return PhpCsFixer\Config::create()
@@ -14,6 +15,7 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
 ;
 
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace
 final class PhpCsFixerLaravel
 {
     /**
@@ -31,7 +33,7 @@ final class PhpCsFixerLaravel
     const UPGRADE_FILE = '.php_cs_laravel_upgrade.cache';
 
     /**
-     * StyleCI presets API URL.
+     * StyleCI API URL.
      *
      * @var string
      */
@@ -72,16 +74,12 @@ final class PhpCsFixerLaravel
      */
     public function getFixers()
     {
-        $styleciFixers = $this->readStyleciFixers();
-        $rulesUpgrade = $this->readRulesUpgrade();
-        $fixers = [];
-
-        $upgrades = array_merge($rulesUpgrade, $this->styleciToPhpcs);
+        $upgrades = array_merge($this->readRulesUpgrade(), $this->styleciToPhpcs);
 
         // Convert StyleCI rule names to [$rule => true]
-        array_map(function ($rule) use (&$fixers) {
-            $fixers[$rule] = true;
-        }, $styleciFixers);
+        $fixers = array_reduce($this->readStyleciFixers(), function ($stack, $rule) {
+            return $stack + [$rule => true];
+        }, []);
 
         // Upgrade old rules
         array_walk($upgrades, function ($new, $old) use (&$fixers) {
@@ -102,6 +100,9 @@ final class PhpCsFixerLaravel
                 $fixers[$new] = true;
             }
         });
+
+        // Strict types
+        $fixers['declare_strict_types'] = true;
 
         return $fixers;
     }

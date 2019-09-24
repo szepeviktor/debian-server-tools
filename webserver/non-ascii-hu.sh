@@ -14,6 +14,8 @@
 FILE_GLOB="*.php"
 # Hungarian
 ALPHABET="áÁéÉíÍóÓöÖőŐúÚüÜűŰ"
+# Euro sign
+#ALPHABET+="€"
 
 # Latin-1 Supplement signs (00A1-00BF)
 #ALPHABET="$(for C in A{1..9} A{A..F} B{0..9} B{A..F};do printf "\\x${C}\\x00";done|iconv -f UNICODE -t UTF-8)"
@@ -26,9 +28,10 @@ ALPHABET="áÁéÉíÍóÓöÖőŐúÚüÜűŰ"
 #ALPHABET="$({ for P in {1..4};do for C in ${P}{0..9} ${P}{A..F};do
 #  printf "\\x${C}\\x04";done;done;printf '\x01\x04\x51\x04'; }|iconv -f UNICODE -t UTF-8)"
 
-# Remove exceptions, thus the alphabet
+# **Remove** exceptions, thus the alphabet
 find . -type f -name "$FILE_GLOB" -exec \
     sed -e "s#[${ALPHABET}]#A#g" -i "{}" ";"
+
 # Search for non-ASCII characters
 LC_ALL=C find . -type f -name "$FILE_GLOB" -exec \
     grep -H -n -P '[\x80-\xFF]' "{}" ";"

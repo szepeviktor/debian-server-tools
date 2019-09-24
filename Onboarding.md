@@ -148,13 +148,13 @@ Choose one per category.
 ### Cyber security
 
 - All participants should stop using their browsers to store form data and passwords
+- Data breach prevention in the application: automated attacks, paid hacker
+- **Incident response plan** (outage, security incident)
 - Spam filtering
 - Protection against malware and phishing attacks (**credential stealing**)
 - Against key loggers
 - Against mobile malware
 - Ransomware mitigation
-- Data breach prevention (in the application)
-- **Incident response plan** (outage, security incident)
 
 ### Collaboration
 

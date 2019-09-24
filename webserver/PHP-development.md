@@ -298,6 +298,7 @@ Multilingual support.
 - Get help (see _Logged in_ section)
 - Suggest a password manager (avoid saving passwords to browser)
 - Short [video about password](https://www.youtube.com/watch?v=XchWBCZSOt0) and cybersecurity
+- Signing in on an old login page reopened by the browser with expired cookies
 
 #### Logged in
 
