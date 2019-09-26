@@ -31,6 +31,9 @@ grep -v '^#\|^$' /opt/atlassian/confluence/confluence/WEB-INF/classes/confluence
 
 ### Set up database
 
+For MySQL configuration see
+https://confluence.atlassian.com/adminjiraserver/connecting-jira-applications-to-mysql-5-7-966063305.html
+
 Edit `JIRA-USER` and `PASSWORD`
 
 ```bash

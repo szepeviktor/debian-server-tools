@@ -20,6 +20,7 @@ How to design and implement CI and CD.
 - Measure code coverage
 - Check route methods (controllers of routes)
 - Custom checks and warnings
+- Display logs in CI output or upload logs as artifacts
 - Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)
 - Wipe sensitive data
 

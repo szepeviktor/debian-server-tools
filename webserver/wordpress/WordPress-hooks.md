@@ -44,6 +44,11 @@ See https://codex.wordpress.org/Conditional_Tags
 
 :bulb: `is_admin()` includes `wp_doing_ajax()`!
 
+### In development
+
+- Based on `WP_DEBUG`
+- Based on environment name from `WP_ENV`
+
 ### HTTP Request variables
 
 GET and POST variables.
