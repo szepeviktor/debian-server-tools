@@ -386,6 +386,9 @@ Deprecated.
 
 ### Bulk mail
 
+1. Tonality: **personal** or impersonal
+1. What is the most important message?
+
 #### Headers and Body parts
 
 - :exclamation: Dedicated landing page

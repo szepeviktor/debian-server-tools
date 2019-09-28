@@ -26,20 +26,18 @@ Segítség a helyes hozzáálláshoz.
 1. El kell tartsa a céget a webes alkalmazás?
 2. Vagy a webes alkalmazás csak egy melléktevékenység?
 
-Igények és eredmények irányából.
+Igények és eredmények szerint.
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
-2. Vagy szakértői tervezés a már máshonnan ismert hibák elkerülésével,
-   és a technikai tartozás (tech debt) folyamatos visszafizetésével
+2. Vagy szakértői tervezés a máshonnan már ismert hibák elkerülésével,
+   és a technikai tartozás (technical debt) folyamatos visszafizetésével
    _például az erőforrások 10%-a erejéig_
 
-https://twitter.com/StepsizeHQ/status/1156582846057844736/photo/1
-
-A _mit jelent a kész_ fényében.
+Mit jelent a _kész_?
 
 1. Akkor van kész egy funkció, ha az elvárt értéket írja ki
 2. Akkor van kész valami, ha a kódolási stílus megegyező, kommentezve van, a statikus analízis nem jelez,
-   és esetleg még valaki átnézte a kódot, és van hozzá teszt
+   és esetleg valaki átnézte a kódot, és van hozzá teszt
 
 https://twitter.com/chopeh/status/926074073767206912
 
@@ -47,9 +45,9 @@ https://twitter.com/chopeh/status/926074073767206912
 
 A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 
-1. A máshonnan megismert hiba forrás megelőző jellegű javítása → bizonyosság: teljes, 100%
-2. Bevállaljuk, hogy hiba következik be → bizonyosság: kevesebb, mint 100%
-3. Valamilyen módon - pl. tévedésből - a hiba nem következik be → bizonyosság: sokkal kevesebb, mint 100%
+1. Megelőző jellegű javítása → 100%-ig biztos
+2. Bevállaljuk, hogy hiba következik be → bizonytalan
+3. Valamilyen módon - pl. tévedésből - nem következik be a hiba → elenyésző a valószínűsége
 
 
 ## Kódolási büdzsé
@@ -65,11 +63,14 @@ Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy
 - Kézi tesztelés
 - Hiba javítás
 
-### Technikai tartozás (tech debt)
+### Technikai tartozás (technical debt)
+
+https://twitter.com/StepsizeHQ/status/1156582846057844736/photo/1
 
 - Kód kommentelés (docblock és üzleti logika)
 - Hiba kezelés
 - Kódolás nélküli (zero coverage) tesztek futtatása
 - Egység (unit) és funkcionális tesztek írása
 - Keretrendszer és csomag frissítés
+- `TODO` és `FIXME` kommentek keresése a forráskódban
 - Refaktorálás
