@@ -334,6 +334,7 @@ adduser USER
 # TODO - server backup
 ./install.sh backup/system-backup.sh
 # TODO - monit/apache+php
+lspci -n >lspci.out
 monitoring/monit/monit-debian-setup.sh
 # TODO - Monitoring
 open https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md

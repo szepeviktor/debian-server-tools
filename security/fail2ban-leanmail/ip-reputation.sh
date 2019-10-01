@@ -2,7 +2,7 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2019-06-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -522,6 +522,7 @@ Match()
 
     if [ "$MODE" == ANY ]; then
         # Haven't matched any
+        Log_match "new"
         return 1
     fi
 
