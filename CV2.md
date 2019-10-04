@@ -30,8 +30,8 @@ Olyan látásmódot igyekszem képviselni, ami a **következő két évre** teki
 
 - Éjjel-nappali ügyfélszolgálat: hibajegy, telefon, email
 - Üzembiztonság: célom, hogy minden incidens hozzám fusson be először
-- Sérülékenység: automatizált betörések ellen védekezek,
-  felbérelt hackerek ellen konkrét technológiai tanácsot tudok adni
+- Sérülékenység: [automatizált betörések](https://www.owasp.org/images/3/33/Automated-threat-handbook.pdf)
+  ellen védekezek, felbérelt hackerek ellen konkrét technológiai tanácsot tudok adni
 - Sebesség: törekszem, hogy érzékelhetően jobb legyen a felhasználói élmény
 - Dokumentálás: telepítésről, beállításokról, frissítésről, egyéb folyamatokról
   készítek jól használható dokumentumokat

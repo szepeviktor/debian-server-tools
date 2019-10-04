@@ -123,7 +123,7 @@ Choose one per category.
 
 - There is no guaranteed email delivery on the Internet
 - [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages:
-  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
   <!-- not Tiliq -->
 - File sharing, large file sending: [WeTransfer](https://wetransfer.com/),
   [Firefox Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/),

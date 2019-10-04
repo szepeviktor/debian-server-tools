@@ -139,9 +139,10 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - HTTP request handling and security (URL structure, WAF)
 - Session handling (very long sessions, CSRF,
   session expiration UX: timer, warning, redirect, password input)
-- Form handling, input validation, sanitization (UserFrontValidate->Request->BackendValidate->BusinessLogic->Response)
+- Form handling, input validation, sanitization
+  (UserFrontValidate->Request->BackendValidate->BusinessLogic->Response)
 - Escaping (database, HTML, JavaScript)
-- Internationalization (PHP, JavaScript, input formats and units)
+- Internationalization (PHP, JavaScript, language, time zone, input formats and units)
 - String translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating

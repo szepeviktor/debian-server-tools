@@ -163,6 +163,8 @@ Update init script links: `update-rc.d jira defaults`
 
 ### Upgrade
 
+https://confluence.atlassian.com/adminjiraserver/upgrading-jira-server-manual-938846939.html
+
 - Download installer
 - Run installer
 - [MariaDB Connector/J](https://mariadb.com/downloads/#connectors)
