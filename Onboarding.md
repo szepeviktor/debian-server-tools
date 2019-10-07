@@ -37,6 +37,16 @@ Choose one per category.
 
 [AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#general)
 
+### Policy for accounts at providers
+
+- Who is the legal owner of the account?
+- Who has access rights?
+- Do we share passwords?
+- What other non-relevant services are under this account?
+- Domain registration and DNS must not have an account email address of the same domain.
+- Is the email account/phone number/bank card of this account in daily use?
+- Use a virtual bank card with a sub account instead of a plastic bank card tied to the main bank account!
+
 ### Secure browser in an ephemeral cloud instance
 
 - Deploy [Windows Server 2016 Standard instance](https://hub.upcloud.com/server/create)
@@ -52,17 +62,11 @@ Choose one per category.
 - Use the browser
 - Delete the instance
 
-### Notify on account breach
-
-1. Search email address https://haveibeenpwned.com/
-1. Search password https://haveibeenpwned.com/Passwords
-
 ### UpCloud registration
 
 - Referral URL
 - [KeePass](https://keepass.info/) is an open source password manager
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
-- Use a virtual bank card with a sub account
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
 - Servers / Deploy a server
@@ -76,7 +80,6 @@ Choose one per category.
 - https://aws.amazon.com/
 - [KeePass](https://keepass.info/) is an open source password manager
 - Account type: Professional
-- Use a virtual bank card with a sub account
 - Verification phone call: dial numbers
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
@@ -147,6 +150,8 @@ Choose one per category.
 
 ### Cyber security
 
+- Notify on account breach: search email address https://haveibeenpwned.com/
+- Notify on account breach: search password https://haveibeenpwned.com/Passwords
 - All participants should stop using their browsers to store form data and passwords
 - Data breach prevention in the application: automated attacks, paid hacker
 - **Incident response plan** (outage, security incident)
