@@ -37,15 +37,15 @@ Choose one per category.
 
 [AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#general)
 
-### Policy for accounts at providers
+### Policy for user accounts at service providers
 
 - Who is the legal owner of the account?
-- Who has access rights?
-- Do we share passwords?
+- Who has access to this account?
+- Do we share account passwords?
 - What other non-relevant services are under this account?
-- Domain registration and DNS must not have an account email address of the same domain.
+- Accounts for domain registration and DNS services must use an email address with a different domain name.
 - Is the email account/phone number/bank card of this account in daily use?
-- Use a virtual bank card with a sub account instead of a plastic bank card tied to the main bank account!
+- Use a virtual bank card with a sub account instead of a physical bank card tied to the main bank account!
 
 ### Secure browser in an ephemeral cloud instance
 
