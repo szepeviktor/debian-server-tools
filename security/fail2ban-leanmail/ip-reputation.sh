@@ -2,8 +2,8 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :0.2.2
-# DATE          :2019-06-06
+# VERSION       :1.0.0
+# DATE          :2019-10-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -11,7 +11,7 @@
 # DEPENDS       :apt-get install dnsutils dos2unix grepcidr mmdb-bin jq
 # CONFIG        :~/.config/ip-reputation/configuration
 # LOCATION      :/usr/local/bin/ip-reputation.sh
-# CRON-HOURLY   :/usr/local/bin/ip-reputation.sh cron
+# CRON.D        :16 *  * * *  courier	/usr/local/bin/ip-reputation.sh cron
 
 # Default configuration
 
@@ -44,6 +44,13 @@ Is_ipv4()
     local OCTET="([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
 
     [[ "$TOBEIP" =~ ^${OCTET}\.${OCTET}\.${OCTET}\.${OCTET}$ ]]
+}
+
+Is_loopback()
+{
+    local IPV4="$1"
+
+    test "${IPV4:0:4}" == "127."
 }
 
 Reverse_ip()
@@ -434,7 +441,7 @@ Match()
     fi
 
     # @global AS_HOSTING
-    if Match_autonomoussystems "$IP" "${AS_HOSTING[@]}"; then
+    if ! Is_loopback "$IP" && Match_autonomoussystems "$IP" "${AS_HOSTING[@]}"; then
         if [ "$MODE" == ANY ]; then
             Log_match "hosting"
             return 0
@@ -452,7 +459,7 @@ Match()
         echo "greensnow"
     fi
 
-    if Match_country "$IP" A1; then
+    if ! Is_loopback "$IP" && Match_country "$IP" A1; then
         if [ "$MODE" == ANY ]; then
             Log_match "anonymous-proxy"
             return 0

@@ -210,7 +210,7 @@ fi
 Pkg_install_quiet init-alert
 
 # Apache 2.4
-../webserver/apache-httpd.sh
+../../webserver/apache-httpd.sh
 Dinstall webserver/apache-resolve-hostnames.sh
 if Is_installed "mod-pagespeed-stable"; then
     packages/mod-pagespeed-stable
@@ -228,7 +228,7 @@ elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.2-fpm'; then
     PHP="7.2"
 fi
 export PHP
-../webserver/php-fpm.sh
+../../webserver/php-fpm.sh
 
 # Package managers
 packages/_package-python-pip
@@ -246,7 +246,7 @@ fi
 Dinstall webserver/webrestart.sh
 # Redis server and PHP extension
 packages/redis-server
-../webserver/php-redis.sh
+../../webserver/php-redis.sh
 if Data get-values-0 package.apt.sources | grep -z -F -x 'mysql-5.7'; then
     # MySQL 5.7 from Debian sid
     packages/mariadb-server
