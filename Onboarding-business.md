@@ -65,7 +65,7 @@ Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy
 
 ### Technikai tartozás (technical debt)
 
-https://twitter.com/StepsizeHQ/status/1156582846057844736/photo/1
+https://twitter.com/StepsizeHQ/status/1156582846057844736
 
 - Kód kommentelés (docblock és üzleti logika)
 - Hiba kezelés

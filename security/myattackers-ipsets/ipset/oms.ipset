@@ -54,6 +54,7 @@ add oms 217.112.128.0/24
 #add oms 81.28.96.0/20
 #add oms 81.28.100.0/24
 #add oms 81.28.107.0/24
+#add oms 81.28.111.0/24
 
 # AS16578 - Lanset America
 #add oms 63.80.88.0/24

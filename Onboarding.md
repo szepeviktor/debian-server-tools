@@ -49,6 +49,8 @@ Choose one per category.
 
 ### Secure browser in an ephemeral cloud instance
 
+This section contains preparations for secure registration.
+
 - Deploy [Windows Server 2016 Standard instance](https://hub.upcloud.com/server/create)
 - Finish installation on the console: set language
 - Log in as `Administrator` with

@@ -81,10 +81,10 @@ cruft:
     - /var/log
 # cruft $(shyaml get-values cruft </root/server.yml | xargs -n 1 echo " --ignore ") >cruft.log
 
-# Clients using this server
-clients:
+# Users of this server
+users:
 
-  #"Client Name":
+  #"User Name":
   #  type: user account|empty domain|email account|cron job|Piwik|OWA|website|mailman|mirror
   #  services:
   #      - service 1
@@ -176,6 +176,16 @@ packaging:
     ruby:
         list-command: gem list
         location: /usr/lib/ruby/vendor_ruby
+
+# shyaml get-values stretch-backports </root/server.yml | xargs -- apt-get install -t stretch-backports # -y
+stretch-backports:
+    - init-system-helpers
+    - needrestart
+    - geoipupdate
+    - git
+    - mtr-tiny
+    - whois
+    - s3ql
 
 remarks: |
     Missing default services

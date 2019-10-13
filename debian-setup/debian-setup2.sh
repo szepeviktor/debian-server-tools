@@ -57,14 +57,12 @@ Pkg_install_quiet goaccess
 # List available backports: apt-get upgrade -t stretch-backports
 # @nonDebian
 Pkg_install_quiet \
-    -t stretch-backports needrestart geoipupdate git mtr-tiny whois
+    -t stretch-backports init-system-helpers needrestart geoipupdate git mtr-tiny whois
 # Set restart mode to automatic
 # And https://github.com/liske/needrestart/issues/44
 sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' \
     -e 's/^\s*qr(\^dbus).*$/#&/' \
     -i /etc/needrestart/needrestart.conf
-
-# Also in packages/fail2ban
 
 # From testing
 # Depends on openssl (>= 1.1.1), from e.g. sury-php

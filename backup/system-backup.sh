@@ -12,7 +12,7 @@
 # DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
-# CRON.D        :10 3  * * *  root /usr/local/sbin/system-backup.sh
+# CRON.D        :10 3  * * *  root	/usr/local/sbin/system-backup.sh
 
 # Usage
 #
@@ -34,6 +34,7 @@
 # Check incremental status of InnoDB backups
 #     grep '^incremental =' innodb/*/xtrabackup_info
 
+# Contains STORAGE_URL, TARGET, MOUNT_OPTIONS, AUTHFILE, DB_EXCLUDE, SKIP_DB_SCHEMA_DIFF, HCHK_URL
 CONFIG="/root/.config/system-backup/configuration"
 HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"
 
