@@ -423,9 +423,9 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Keyword planning: [Google suggested searches](https://moz.com/blog/how-googles-search-suggest-instant-works-whiteboard-friday),
   [Google related searches](https://moz.com/blog/how-google-gives-us-insight-into-searcher-intent-through-the-results-whiteboard-friday),
   [Google Trends](https://trends.google.com/)
+- Breadcrumbs
 - Headings: H1, H2 / H3-H6
 - Images: `alt`, `title`
-- Breadcrumbs
 - [Content keyword density](https://www.seoquake.com/)
 - [noarchive?](https://support.google.com/webmasters/answer/79812)
 - Multilingual site (`hreflang` attribute)
