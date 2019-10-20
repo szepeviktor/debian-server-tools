@@ -9,7 +9,10 @@
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
 # REFS          :https://developers.trello.com/reference#boardsboardid-1
-# LOCATION      :/usr/local/sbin/trello-board-backup.sh
+# LOCATION      :/usr/local/bin/trello-board-backup.sh
+
+# Usage
+# Create a cron job: cd /media/backup && trello-board-backup.sh "BOARD-ID" "API-KEY" "API-TOKEN"
 
 BOARDS_ALL_QUERY="actions=all&actions_limit=1000&card_attachment_fields=all&cards=all&lists=all&members=all&member_fields=all&card_attachment_fields=all&checklists=all&fields=all"
 

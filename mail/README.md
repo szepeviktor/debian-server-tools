@@ -458,6 +458,7 @@ Deprecated.
 ### Email tests
 
 - https://www.mail-tester.com/ by Mailpoet
+- [Microsoft Remote Connectivity Analyzer](https://testconnectivity.microsoft.com/)
 - https://glockapps.com/
 - https://spamcheck.postmarkapp.com/
 - mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/resources/emailauthentication/
