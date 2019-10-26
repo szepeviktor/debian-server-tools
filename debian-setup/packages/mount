@@ -4,7 +4,7 @@ set -e -x
 
 # Create swap file
 if [ -z "$(tail -n +2 /proc/swaps)" ]; then
-    debian-setup/_swap
+    packages/_swap
 fi
 
 # Check swap

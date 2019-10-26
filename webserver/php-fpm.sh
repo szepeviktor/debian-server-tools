@@ -16,9 +16,11 @@ source debian-setup-functions.inc.sh
 set -e -x
 
 test -n "$PHP"
+
 PHP_FPM_DIR="/etc/php/${PHP}/fpm"
 PHP_FPM_INI="${PHP_FPM_DIR}/php.ini"
 PHP_TZ="UTC"
+CWD="$(dirname "${BASH_SOURCE[0]}")"
 
 # @nonDebian
 Pkg_install_quiet "php${PHP}-fpm" libpcre3 \
@@ -76,11 +78,11 @@ grep -E -v '^\s*(#|;|$)' "$PHP_FPM_INI" | Php_pager
 # Disable "www" pool
 mv "${PHP_FPM_DIR}/pool.d/www.conf" "${PHP_FPM_DIR}/pool.d/www.conf.default"
 # Add skeletons
-cp webserver/phpfpm-pools/* "${PHP_FPM_DIR}/"
+cp "${CWD}/phpfpm-pools/"* "${PHP_FPM_DIR}/"
 # PHP 5.6 session cleaning
 if dpkg --compare-versions "$PHP" lt 7.0; then
     mkdir -p /usr/local/lib/php5
-    cp webserver/sessionclean5.5 /usr/local/lib/php5/
+    cp "${CWD}/sessionclean5.5" /usr/local/lib/php5/
     printf '15 *  * * *  root\t/usr/local/lib/php5/sessionclean5.5\n' >/etc/cron.d/php-sessionclean
 fi
 

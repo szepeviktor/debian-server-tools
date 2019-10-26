@@ -25,15 +25,15 @@ Getpkg fail2ban buster
 service fail2ban stop
 
 for CONFIG in fail2ban.local jail.local; do
-    cp -f security/fail2ban-conf/${CONFIG} /etc/fail2ban/
+    cp -f ../security/fail2ban-conf/${CONFIG} /etc/fail2ban/
 done
 for FILTER in apache-combined.local apache-default.local apache-instant.local \
     courier-auth.local courier-smtp.local recidive.local; do
-    cp -f security/fail2ban-conf/filter.d/${FILTER} /etc/fail2ban/filter.d/
+    cp -f ../security/fail2ban-conf/filter.d/${FILTER} /etc/fail2ban/filter.d/
 done
 for ACTION in iptables-allports.local iptables-multiport.local \
     cloudflare.local sendmail-geoip-lines.local; do
-    cp -f security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
+    cp -f ../security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
 done
 
 sed -e "s/@@IP@@/${IP}/" -i /etc/fail2ban/jail.local

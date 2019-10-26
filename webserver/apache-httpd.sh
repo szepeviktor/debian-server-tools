@@ -11,6 +11,8 @@ source debian-setup-functions.inc.sh
 # - https://github.com/rfxn/linux-malware-detect
 # - https://github.com/Neohapsis/NeoPI
 
+CWD="$(dirname "${BASH_SOURCE[0]}")"
+
 #apt-get install -y openssl apache2 apache2-utils
 # Install-Recommends=false prevents installing: ssl-cert
 Pkg_install_quiet --no-install-recommends apache2
@@ -33,16 +35,16 @@ sed -e 's/^LogLevel warn/LogLevel info/' -i /etc/apache2/apache2.conf
 sed -e '/<Location \/server-status>/,/<\/Location>/d' -i /etc/apache2/mods-available/status.conf
 # Modules
 a2enmod actions rewrite headers deflate expires proxy_fcgi http2
-cp -f webserver/apache-conf-available/ssl-mozilla-intermediate.default /etc/apache2/mods-available/ssl.conf
+cp -f "${CWD}/apache-conf-available/ssl-mozilla-intermediate.default" /etc/apache2/mods-available/ssl.conf
 # ssl module depends on socache_shmcb
 a2enmod ssl
 
 # Configuration
 # @TODO Add '<IfModule !module.c> Error "We need that module"' to confs and sites.
-cp -f webserver/apache-conf-available/*.conf /etc/apache2/conf-available/
-cp -f webserver/apache-sites-available/*.conf /etc/apache2/sites-available/
+cp -f "${CWD}/apache-conf-available/"*.conf /etc/apache2/conf-available/
+cp -f "${CWD}/apache-sites-available/"*.conf /etc/apache2/sites-available/
 # Security through obscurity
-sed -i -e 's/^ServerTokens OS/ServerTokens Prod/' /etc/apache2/conf-available/security.conf
+sed -e 's/^ServerTokens OS/ServerTokens Prod/' -i /etc/apache2/conf-available/security.conf
 # php-fpm.conf is not enabled, use settings per vhost
 a2enconf logformats admin-address h5bp http2
 

@@ -48,8 +48,9 @@ Courier_config()
     local NEW="$1"
     local CURRENT="$2"
     local ORIGINAL
+    local CWD="$(dirname "${BASH_SOURCE[0]}")"
 
-    ORIGINAL="mail/courier-config/${NEW}.orig"
+    ORIGINAL="${CWD}/courier-config/${NEW}.orig"
 
     if [ -f "$ORIGINAL" ] && ! catconf "$CURRENT" | diff -q -w - "$ORIGINAL"; then
         echo "Courier MTA configuration has changed '${CURRENT}'" 1>&2
@@ -57,7 +58,7 @@ Courier_config()
     fi
 
     # Keep permissions
-    cat "mail/courier-config/${NEW}" >"$CURRENT"
+    cat "${CWD}/courier-config/${NEW}" >"$CURRENT"
 }
 
 set -e -x
