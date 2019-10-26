@@ -11,6 +11,7 @@ flush velia
 #add velia 78.138.118.0/24
 #add velia 78.138.126.0/23
 # On cleantalk.org
+# Pingdom probe servers in 85.195.116.132/30
 add velia 85.195.64.0/18
 #add velia 87.119.195.0/24
 #add velia 87.119.220.0/22
@@ -30,6 +31,7 @@ add velia 146.0.232.0/21
 add velia 146.0.240.0/20
 # Mass Sub Alloc
 add velia 151.106.0.0/19
+# Pingdom probe servers in 151.106.52.132/30
 add velia 151.106.48.0/20
 #add velia 162.211.120.0/21
 #add velia 162.254.200.0/21

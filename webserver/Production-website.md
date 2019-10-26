@@ -481,7 +481,9 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)
   ([Sharing Debugger](https://developers.facebook.com/tools/debug/))
   and [Twitter](https://dev.twitter.com/cards/markup) :snail:
-- **Google Translate**, Facebook app (running in an IFRAME), Google Search "Cached" :snail:
+- **Google Translate** (`notranslate` meta),
+  Facebook app (running in an IFRAME),
+  Google Search "Cached" :snail:
 - GoogleImageProxy (Gmail, Google Images)
 - Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
 - Microsoft/Libre Office (copy-and-paste content or open URL)

@@ -27,8 +27,8 @@
 
 * https://sendgrid.com/ has own AS *free:3000*
 * https://www.mailgun.com/ by Rackspace *free:10 000*
+* https://www.mailjet.com/transactional by Mailgun *free:6000*
 * https://www.sendinblue.com/ :eu: has own AS *free:9000*
-* https://www.mailjet.com/transactional *free:6000*
 * https://postmarkapp.com/ by Wildbit *free:1×25 000*
 
 #### Email delivery features
