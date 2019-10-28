@@ -2,15 +2,15 @@
 #
 # Create, read, update and delete Cloudflare DNS resource record sets.
 #
-# VERSION       :0.1.1
+# VERSION       :0.2.0
 # DOCS          :https://api.cloudflare.com/
 # DEPENDS       :apt-get install curl jq
 # LOCATION      :/usr/local/bin/cloudflare-rrs.sh
 
 # Usage
-# Get your Global API Key https://dash.cloudflare.com/profile
+# Get an API Token https://dash.cloudflare.com/profile with "Zone" permission
 #     mkdir ~/.cloudflare
-#     touch ~/.cloudflare/auth-{email,key}; chmod 0600 ~/.cloudflare/auth-{email,key}
+#     touch ~/.cloudflare/api-token; chmod 0600 ~/.cloudflare/api-token
 # Add HOSTED_ZONE_ID=ZONE-ID to your ~/.profile
 #     cloudflare-rrs.sh . TXT
 #     cloudflare-rrs.sh non-existent-to-create.example.com. AAAA
@@ -21,9 +21,7 @@
 # Delete a record by setting its value to ""
 
 ZONE_ID="$HOSTED_ZONE_ID"
-# @TODO X-Auth-User-Service-Key
-AUTH_EMAIL_FILE="${HOME}/.cloudflare/auth-email"
-AUTH_KEY_FILE="${HOME}/.cloudflare/auth-key"
+AUTH_TOKEN_FILE="${HOME}/.cloudflare/api-token"
 
 Cloudflare_api()
 {
@@ -32,8 +30,7 @@ Cloudflare_api()
     shift 2
 
     curl --silent -X "$METHOD" \
-        -H "X-Auth-Email: ${AUTH_EMAIL}" \
-        -H "X-Auth-Key: ${AUTH_KEY}" \
+        -H "Authorization: Bearer ${AUTH_TOKEN}" \
         -H "Content-Type: application/json" \
         "https://api.cloudflare.com/client/v4/${URI}" "$@"
 }
@@ -72,16 +69,15 @@ EOF
 set -e
 
 # Credentials
-if [ ! -r "$AUTH_EMAIL_FILE" ] || [ ! -r "$AUTH_KEY_FILE" ]; then
-    echo "Unconfigured ~/.cloudflare/auth-{email,key}" 1>&2
+if [ ! -r "$AUTH_TOKEN_FILE" ]; then
+    echo "Unconfigured ~/.cloudflare/api-token" 1>&2
     exit 125
 fi
 
-AUTH_EMAIL="$(head -n 1 "$AUTH_EMAIL_FILE")"
-AUTH_KEY="$(head -n 1 "$AUTH_KEY_FILE")"
+AUTH_TOKEN="$(head -n 1 "$AUTH_TOKEN_FILE")"
 
-if [ -z "$AUTH_EMAIL" ] || [ -z "$AUTH_KEY" ]; then
-    echo "Missing configuration data ~/.cloudflare/auth-{email,key}" 1>&2
+if [ -z "$AUTH_TOKEN" ]; then
+    echo "Missing configuration data ~/.cloudflare/api-token" 1>&2
     exit 125
 fi
 
