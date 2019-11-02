@@ -53,6 +53,7 @@ final class PhpCsFixerLaravel
      */
     private $styleciToPhpcs = [
         'align_phpdoc' => ['phpdoc_align' => ['align' => 'vertical']], // TODO Laravel double space
+        'alpha_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'alpha']],
         'length_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'length']],
         'method_visibility_required' => 'visibility_required',
         'no_blank_lines_after_throw' => 'no_blank_lines_after_phpdoc',

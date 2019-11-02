@@ -26,6 +26,9 @@ if [ -z "$(getent passwd "$U")" ]; then
     # Expire password
     #passwd -e "$U"
 
+    # bash
+    sed -e 's#^xterm\*|rxvt\*#xterm*|rxvt*|putty*#' -i "${HOME_DIR}/.bashrc"
+
     # wget
     echo -e "content_disposition = on" >"${HOME_DIR}/.wgetrc"
 
