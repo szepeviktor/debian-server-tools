@@ -11,6 +11,8 @@ Source: https://www.hackerfactor.com/blog/index.php?/archives/775-Scans-and-Atta
 
 Bot Directory by Distil Networks (now part of Impreva): https://www.distilnetworks.com/bot-directory/
 
+Similar list of hostile networks: https://gitlab.com/ohisee/block-shodan-stretchoid-census
+
 See also Access Watch database: https://access.watch/database
 
 ### Usage

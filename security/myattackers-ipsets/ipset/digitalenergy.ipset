@@ -1,4 +1,4 @@
-# AS61317 - Digital Energy Technologies / Host1Plus / ServerEquity / AS37692 NetStack / AS37692 DET Africa / AS61440 DET Chile
+# AS61317 - Digital Energy Technologies / Host1Plus / ServerEquity / Heficed / AS37692 NetStack / AS37692 DET Africa / AS61440 DET Chile
 #: ipset -exist restore <ipset/digitalenergy.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set digitalenergy src -j REJECT
 create digitalenergy hash:net family inet hashsize 64 maxelem 64
