@@ -1,0 +1,34 @@
+{
+    "name": "company/php-project",
+    "type": "project",
+    "description": "PHP Project.",
+    "license": "proprietary",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "infection/infection": "^0.14.2",
+        "phploc/phploc": "^5.0.0",
+        "phpmd/phpmd": "^2.6.0",
+        "phpstan/phpstan": "^0.11.0",
+        "phpunit/phpunit": "^8.0.0",
+        "sebastian/phpcpd": "^4.0.0",
+        "squizlabs/php_codesniffer": "^3.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Company\\Project\\": "app/"
+        }
+    },
+    "scripts": {
+        "pipeline": [
+            "vendor/bin/phpcs --standard=psr12 app/ tests/",
+            "vendor/bin/phpstan analyse --level=7 app/ tests/",
+            "vendor/bin/phpmd src/ text ruleset.xml",
+            "vendor/bin/phpunit --coverage-clover=coverage.xml",
+            "vendor/bin/infection -s --min-msi=90",
+            "vendor/bin/phpcpd --min-lines=2 --min-tokens=35 app/",
+            "vendor/bin/phploc app/"
+        ]
+    }
+}

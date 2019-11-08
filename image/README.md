@@ -70,6 +70,10 @@ convert                       \
 - [Face retouch](http://makeup.pho.to/)
 - [Editor.Pho.to](http://editor.pho.to/edit/)
 - [Pixlr Editor](https://apps.pixlr.com/editor/)
+- https://www.canva.com/
+- https://www.picmonkey.com/
+- https://www.befunky.com/
+- https://snappa.com/
 
 ### Invalidate objects on Amazon CloudFront
 

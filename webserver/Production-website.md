@@ -480,13 +480,14 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - JavaScript disabled
 - OpenGraph for [Facebook](https://developers.facebook.com/docs/reference/opengraph)
   ([Sharing Debugger](https://developers.facebook.com/tools/debug/))
-  and [Twitter](https://dev.twitter.com/cards/markup) :snail:
+  and [Twitter](https://dev.twitter.com/cards/markup)
+  ([Card validator](https://cards-dev.twitter.com/validator)) :snail:
 - **Google Translate** (`notranslate` meta),
   Facebook app (running in an IFRAME),
   Google Search "Cached" :snail:
 - GoogleImageProxy (Gmail, Google Images)
-- Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect, Ghostery
-- Microsoft/Libre Office (copy-and-paste content or open URL)
+- Ad blockers and filter lists: uBlock Origin, Adblock Plus, Disconnect (Firefox ETP), Ghostery
+- Microsoft Office, Libre Office (copy-and-paste content or open URL in office application)
 - Text selection: color+background-color, disable selection, display share options on select (see Feedly)
 - Keyboard-only navigation (tabbing, [skip navigation](https://webaim.org/techniques/skipnav/)) :snail:
 - Emojis and UNICODE (entering, storing, displaying)

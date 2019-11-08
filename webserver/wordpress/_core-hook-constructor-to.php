@@ -17,26 +17,25 @@ class HookConstructorTo
     protected const DEFAULT_PRIORITY = 10;
 
     /**
-     * Hook to any action name.
+     * Hook to the action in the method name.
      *
      * @param string $actionTag
      * @param array $arguments = [
      *     @type string $class
-     *     @type string $pritority
+     *     @type int $pritority
      * ]
      */
     public static function __callStatic(string $actionTag, array $arguments): void
     {
-        $argCount = count($arguments);
-        if ($argCount < 1) {
-            throw new \ArgumentCountError('Please provide a class name.');
+        if ($arguments === []) {
+            throw new \ArgumentCountError('Class name must be supplied.');
         }
 
         $class = $arguments[0];
 
         $constructor = (new ReflectionClass($class))->getConstructor();
         if ($constructor === null) {
-            throw new \ErrorException('Please provide a class with constructor.');
+            throw new \ErrorException('The class must have a constructor defined.');
         }
 
         // Hook the constructor.
@@ -46,7 +45,7 @@ class HookConstructorTo
                 $args = func_get_args();
                 new $class(...$args);
             },
-            ($argCount >= 2) ? $arguments[1] : self::DEFAULT_PRIORITY,
+            $arguments[1] ?? self::DEFAULT_PRIORITY,
             $constructor->getNumberOfParameters()
         );
     }
