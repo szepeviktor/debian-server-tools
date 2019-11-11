@@ -11,3 +11,6 @@ add tamatiya 185.222.211.0/24
 
 # AS202325 - 4Media
 add tamatiya 78.128.112.0/24
+
+# AS209160 - Miti2000
+add tamatiya 78.128.113.0/24

@@ -72,6 +72,7 @@ Pkg_install_quiet openssl libssl1.1
 packages/ca-certificates
 
 # From custom repos
+# TODO for buster https://packages.debian.org/buster-backports/iptables-persistent
 packages/ipset-persistent
 
 # Provider packages
