@@ -1,5 +1,6 @@
 # OOP libraries for WordPress development
 
+- https://github.com/WebDevStudios/oops-wp
 - [PSR-11 DI container](https://github.com/TypistTech/wp-contained-hook)
 - [KSES](https://github.com/TypistTech/wp-kses-view)
 - [Options API + constants](https://github.com/TypistTech/wp-option-store)
@@ -15,6 +16,7 @@
 - [Nonces](https://github.com/Brain-WP/Nonces)
 - [Template context](https://github.com/Brain-WP/Context)
 - [Template hierarchy](https://github.com/Brain-WP/Hierarchy)
+- https://github.com/inpsyde/Wonolog
 - https://github.com/TomodomoCo/kaiso
 - https://github.com/berlindb/core
 - https://github.com/widoz/wp-filter

@@ -23,15 +23,19 @@ _Milyen készülékeken, böngészőkkel tesztelek?_
 - Sikeres fizetés/regisztráció jóváhagyása
 - Használat [CRUD szerint](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete),
   minden entitás létrehozás (C), megtekintés (R), módosítás (U) és törlés (D)
-- Rendellenes használat (pl. sikertelen fizetés) tesztelése, segítő (nem zsákutca) üzenetek ellenőrzése
+- Rendellenes használat (pl. 404 oldal, sikertelen fizetés) tesztelése, segítő (nem zsákutca) üzenetek ellenőrzése
 - A már ismert és javított hibák tesztelése
 - Felhasználói fiók törlése
 
 ### Kompatibilitás tesztelése
 
+- Megosztható-e (aminek megoszthatónak kell legyen) Twitter-en, Facebook-on
+- [Rich Results/Rich Snippets](https://search.google.com/test/rich-results) "Structured Data" használatával
 - Google Tag Manager mér-e
-- Megosztható-e (aminek megoszthatónak kell legyen) Twitter-en és Facebook-on
+- Reklám blokkolóval (AdBlock) működik-e
+- [még több](Production-website.md#compatiblitity)
 
 ### Egyebek
 
-Az alkalmazás nem webes részeinek tesztelése, pl. Mailchimp email
+- Nem webes részek tesztelése, pl. Mailchimp email, mobil app, SMS küldés
+- Tesztelő eszközök futtatása, pl. https://securityheaders.io/ , https://validator.w3.org/ , https://developers.google.com/speed/pagespeed/insights/
