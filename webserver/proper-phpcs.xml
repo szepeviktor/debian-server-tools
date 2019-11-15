@@ -16,29 +16,29 @@
     <!-- Show progress of the run -->
     <arg value="p" />
 
-    <rule ref="PSR12"/>
+    <rule ref="PSR12" />
 
     <!-- File rules -->
     <!-- Generic.Files.FilePermissions in https://github.com/squizlabs/PHP_CodeSniffer/issues/1808 -->
-    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes" />
     <rule ref="PEAR.Commenting.FileComment">
-        <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag"/>
-        <exclude name="PEAR.Commenting.FileComment.MissingPackageTag"/>
-        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag"/>
-        <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
+        <exclude name="PEAR.Commenting.FileComment.MissingCategoryTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingPackageTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingLinkTag" />
+        <exclude name="PEAR.Commenting.FileComment.MissingVersion" />
     </rule>
 
     <!-- Namespace, class and method rules -->
     <!-- Already in PSR12: PSR1.Classes.ClassDeclaration.MissingNamespace -->
     <rule ref="PEAR.Commenting.ClassComment">
-        <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag"/>
-        <exclude name="PEAR.Commenting.ClassComment.MissingPackageTag"/>
-        <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag"/>
-        <exclude name="PEAR.Commenting.ClassComment.MissingAuthorTag"/>
-        <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingPackageTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingAuthorTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag" />
     </rule>
     <rule ref="PEAR.Commenting.FunctionComment">
-        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment"/>
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
     </rule>
 
 </ruleset>

@@ -41,7 +41,7 @@ Failures()
     grep -E -i "crit|[^f]err[os]|warn[^e]|fail[^2]|alert|unknown|unable|miss[^y]\
 |except|disable|invalid|[^e]fault|cannot|denied|broken|exceed|too big|too many|unsafe\
 |unsolicited|limit reach|unhandled|traps|\\bbad\\b|corrupt|but got status|oom-killer\
-|false|unreach|oops|ignor[ei]|prohibit|timeout|blocked|unavailable|over quota"
+|false|unreach|[^c]oops|ignor[ei]|prohibit|timeout|blocked|unavailable|over quota"
 }
 
 # Search recent log entries

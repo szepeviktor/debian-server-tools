@@ -399,7 +399,9 @@ Deprecated.
 - Link to online version (newsletter archive)
 - Company logo
 - Short main header
+- Personal content for the recipient (e.g. statistics)
 - :bulb: Sections: image + title + description + call2action + background color, see https://litmus.com/subscribe
+- "Updates from #RandomChannel"
 - External resources should be able to load through HTTPS (opening in a HTTPS webmail)
 - :iphone: Mobile compatible
 
