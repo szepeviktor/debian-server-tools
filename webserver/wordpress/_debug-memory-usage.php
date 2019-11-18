@@ -1,8 +1,6 @@
 <?php
-/**
- * Log memory usage.
- */
 
+// Log memory usage.
 add_action(
     'shutdown',
     function () {
@@ -17,5 +15,7 @@ add_action(
         }
         // @codingStandardsChangeSetting WordPress.PHP.DevelopmentFunctions exclude error_log
         error_log( sprintf( 'Peak memory usage = %s %s', $peak_usage, $uri ) );
-    }
+    },
+    -1,
+    0
 );

@@ -33,7 +33,7 @@ class IsDownForMaintenance extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return int Exit status.
      */
     public function handle()
     {

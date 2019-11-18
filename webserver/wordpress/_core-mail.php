@@ -3,7 +3,7 @@
 // Remove X-Mailer header from emails.
 add_action( 'phpmailer_init', function ( $phpmailer ) {
     $phpmailer->XMailer = ' ';
-} );
+}, 10, 1 );
 
 // Log mail sending errors.
 add_action( 'wp_mail_failed', function ( $error ) {
@@ -19,4 +19,4 @@ add_action( 'wp_mail_failed', function ( $error ) {
     error_log( $message );
     openlog( 'php-fpm', LOG_PID, LOG_LOCAL0 );
     syslog( LOG_ALERT, $message );
-} );
+}, -1, 1 );

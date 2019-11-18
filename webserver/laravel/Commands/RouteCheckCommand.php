@@ -55,7 +55,7 @@ class RouteCheckCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return int Exit status.
      */
     public function handle()
     {

@@ -6,4 +6,4 @@ add_action( 'plugins_loaded', function () {
     if ( method_exists( $essb_manager, 'disableUpdater' ) ) {
         $essb_manager->disableUpdates( true );
     }
-} );
+}, 10, 0 );

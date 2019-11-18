@@ -183,10 +183,10 @@ This section contains preparations for secure registration.
 - PHP OPcache's [file timestamp validation](/webserver/phpfpm-pools/Skeleton-pool.conf#L30) is off,
   thus PHP files are read once at first access, we use [cachetool](https://github.com/gordalina/cachetool)
   to reset OPcache after code change
-- There are *standard* directories for [sessions, upload and tmp](/webserver/phpfpm-pools/Skeleton-pool.conf#L33-L35)
+- There are *standard* directories for [sessions, upload and tmp](/webserver/phpfpm-pools/Skeleton-pool.conf#L36-L38)
 - `.htaccess` files are disabled, Apache rules should be in vhost configuration (it is faster)
 - File versioning is not in query string but turned into file names like `filename.002.ext` in URL-s,
-  [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L151-L152) reverts them
+  [an Apache rule](/webserver/apache-sites-available/Skeleton-site-ssl.conf#L155-L156) reverts them
 - Your web application is protected by a [WAF](https://github.com/szepeviktor/waf4wordpress)
 - Blacklisted things: FTP/S protocol, web-based administration tools (cPanel, phpMyAdmin), POP3/S protocol
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
