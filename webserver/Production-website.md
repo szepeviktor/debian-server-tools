@@ -518,7 +518,7 @@ Document in `hosting.yml` and check functionality.
 - Advertisement
 - [Live chat](https://www.drift.com/product-tour/)
 - Newsletter subscription
-- Payment gateway
+- [Payment gateway](https://www.six-payment-services.com/en/home/contacts.html)
 - CDN
 
 ### Tracking
