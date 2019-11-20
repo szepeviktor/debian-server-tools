@@ -31,7 +31,7 @@ https://httpd.apache.org/docs/2.4/misc/perf-tuning.html#runtime
 ### Debug PHP-FPM (FastCGI) unix domain socket
 
 ```bash
-strace $(pidof php-fpm7.0|sed 's|\b[0-9]|-p &|g') -f -e trace=read,write -s 4096 2>&1|sed 's|[A-Z_]\+|\n&|g'
+strace $(pidof php-fpm7.2|sed 's|\b[0-9]|-p &|g') -f -e trace=read,write -s 4096 2>&1|sed 's|[A-Z_]\+|\n&|g'
 ```
 
 ### TCP port forwarder
@@ -76,18 +76,6 @@ REQUEST_METHOD=GET REQUEST_URI=/ HTTPS=on HTTP_HOST=$domain php index.php 2>&1 |
 ```apache
 # CDN with X-Forwarded-For header
 LogFormat "%h %l %u %t \"%r\" %>s %O \"Client-IP:%{X-Forwarded-For}i\" \"%{User-Agent}i\"" cdn
-```
-
-### Remove all comments and indentation from (compact) a PHP script
-
-```bash
-php -w SCRIPT.php | sed -e 's/;/;\n/g'
-```
-
-### Unserialize piped string in PHP
-
-```bash
-cat serialized.txt | php -r '$s="";while(false!==($l=fgets(STDIN))){$s.=$l."\n";}var_export(unserialize($s));echo "\n";'
 ```
 
 ### Apache slow loris protection

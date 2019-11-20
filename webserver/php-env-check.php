@@ -14,7 +14,7 @@
  * @see https://github.com/psecio/iniscan
  */
 
-namespace O1;
+namespace Toolkit4WP;
 
 function check_env() {
 

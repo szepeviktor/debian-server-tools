@@ -1,6 +1,6 @@
 <?php
 
-namespace O1;
+namespace I18n;
 
 /**
  * Generate string of all latin accented characters.
