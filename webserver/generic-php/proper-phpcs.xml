@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="Proper_Project">
+<ruleset name="ProperProject">
     <description>The coding standard for proper PHP projects.</description>
 
     <file>proper.php</file>

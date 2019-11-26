@@ -5,7 +5,7 @@ Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
 ### Stratégia
 
 1. Interneten elérhető a célközönség?
-1. A honlap mely részeire van kapacitásunk, hogy *életben* tartsuk, azaz módosítsuk különböző mérések
+1. A honlap mely részeire van kapacitásunk, hogy _életben tartsuk_, azaz módosítsuk különböző mérések
    (látogatások, kattintások, A/B teszt, telefonos kérdések, eladási eredmények) alapján?
 1. Mi legyen a honlapon? krumpli pecsét **vs.** *Ez szokott lenni egy honlapon*
    **vs.** mérések alapján priorizált tartalom
@@ -17,13 +17,13 @@ Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
     - PPC (Google Ads, Facebook Business, Etarget, YouTube hirdetés, LinkedIn Advertising)
     - közösségi, térkép (Facebook, **Google Térkép**, Instagram)
     - hírlevél, **tranzakciós email** felületek
-    - affiliate rendszer, szolgáltatás közvetítők, partner honlap (árgép, netpincér, hírportálok)
+    - affiliate rendszer, szolgáltatás közvetítők, partner honlapok (árgép, netpincér, hírportálok)
 1. Mivel foglalkozunk? pozicionáló mondat/szlogen/mottó
-1. Kampányok megtervezése
+1. Kampányok betervezése előre
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek
 1. "Elhagyott kosár", visszafordulók, bámészkodók kezelése
 1. Visszatérő látogatók kezelése
-1. Visszajelzés lehetővé tétele (visszajelzés űrlap, látogatások rögzítése)
+1. Visszajelzés lehetővé tétele (visszajelzés űrlap, chat, látogatások rögzítése)
 
 ### Tartalom
 
@@ -39,11 +39,13 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
   hírlevél, letölthető anyag, beúszó feliratkoztató, exit modal,
   kupon/kedvezmény, friss hírek, megosztás, [további elemek angolul](/webserver/Production-website.md#marketing)
 - Zsákutca hiba (Alul hova tovább?)
-- Fölös háttér, belépési oldal, köszönjük oldal, értesítő levél kihasználása
+- Fölös háttér, belépési oldal, köszönjük oldal, értesítő levelek kihasználása
 
 ### Technológia
 
-1. [Tervezés](https://www.figma.com/)/[prototyping](https://www.invisionapp.com/)/[wireframe](https://balsamiq.com/wireframes/)
+1. [Tervezés](https://www.figma.com/) ([vakszöveg](http://www.lorumipse.hu/)) /
+   [prototyping](https://www.invisionapp.com/) /
+   [wireframe](https://balsamiq.com/wireframes/)
 1. Nézetek [mobilon](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
    és [AMP változat](https://support.google.com/google-ads/answer/7336292?hl=hu)
    és különböző készülékeken, böngészőkben

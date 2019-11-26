@@ -118,7 +118,7 @@
    if status != 0 then alert
 
  # Number of resolvers
- check program network_resolv
+ check program network_resolvers
     with path "/usr/local/sbin/server-integrity.sh -c RES -r '@@INTEGRITY_RESOLVERS@@'" every 33 cycles
    group integrity
    if status != 0 then alert

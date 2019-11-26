@@ -10,7 +10,7 @@
  *
  * @package Properclass
  * @author Proper Developer <proper@developer.test>
- * @license https://example.com/ Example-Licence
+ * @license https://opensource.org/licenses Example-Licence
  * @see https://github.com/php-fig/fig-standards/blob/master/proposed/extended-coding-style-guide.md
  */
 

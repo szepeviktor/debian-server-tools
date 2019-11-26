@@ -43,7 +43,7 @@ Bits and bytes.
 - Declare class, method and variable naming, consider [PSRs](http://www.php-fig.org/psr/)
 - Frameworks/CMS-s
 - Packages/Libraries
-- SaaS (Loco)
+- SaaS (Loco, Paperplane)
 - Unified email, calendar, contacts API (Nylas)
 - Development tools ([Vagrant](https://app.vagrantup.com/laravel/boxes/homestead),
   [Laragon](https://laragon.org/))
@@ -133,6 +133,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Autoloading (composer)
 - [DI containers](https://www.php-fig.org/psr/psr-11/meta/#8-implementations)
+- Exception handling
+- Logging
 - ORM
 - Database migration
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
@@ -153,7 +155,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Email addresses, composing and sending
   ([maximum length](https://tools.ietf.org/html/rfc5321#section-4.5.3.1),
   obfuscate email addresses, hidden field in form, mailcheck.js, plain text version, NeverBounce)
-- Document generation (CSV, PDF, Excel, image)
+- Document generation (CSV, [PDF](https://www.paperplane.app/), Excel, image)
 - Image management (Cloudinary, https://blurha.sh/ )
 - Maintenance mode switch and placeholder page (HTTP/503)
 - Static asset management (building, versioning) and loading
