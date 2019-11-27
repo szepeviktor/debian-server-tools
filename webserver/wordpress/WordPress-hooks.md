@@ -12,7 +12,7 @@ See https://codex.wordpress.org/Plugin_API/Action_Reference
 - Generally at `init`
 
 ```php
-add_action( 'plugins_loaded', 'myprefix_add_hooks' );
+add_action('plugins_loaded', 'myprefix_add_hooks', 10, 0);
 ```
 
 ### Unconditional hooking
@@ -23,7 +23,8 @@ add_action( 'plugins_loaded', 'myprefix_add_hooks' );
 ### Based on HTTP request type
 
 - Core request type (entry points and routes),
-  see [template hierarchy](https://wphierarchy.com/) and `Is::request()`
+  see [template hierarchy](https://wphierarchy.com/) and
+  [`Toolkit4WP\Is::request()`](https://github.com/szepeviktor/Toolkit4WP/blob/master/src/Is.php#L64-L117)
 - Plugin and themes request types (e.g. AMP pages, XML sitemap)
 
 :bulb: Anonymous visitors include ones with JS disabled, robots, attackers and pull CDN.
@@ -32,7 +33,7 @@ add_action( 'plugins_loaded', 'myprefix_add_hooks' );
 
 See https://codex.wordpress.org/Conditional_Tags
 
-- Post type `is_singular( $cpt )`
+- Post type `is_singular($cpt)`
 - Page template
 - Archives
 

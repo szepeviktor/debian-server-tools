@@ -2,7 +2,7 @@
 #
 # Create, list and update AWS Route53 DNS resource record sets.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DOCS          :http://jmespath.org/examples.html
 # DEPENDS       :pip3 install awscli
 # LOCATION      :/usr/local/bin/aws-route53-rrs.sh
@@ -17,6 +17,8 @@
 #     aws configure
 # List all zones
 #     aws-route53-rrs.sh . .
+# List all rrs of a zone
+#     aws-route53-rrs.sh . ANY
 # Add HOSTED_ZONE_ID=ZONE-ID to your ~/.profile
 #     aws-route53-rrs.sh . TXT
 #     aws-route53-rrs.sh non-existent-to-create.example.com. AAAA
@@ -95,8 +97,12 @@ fi
 
 # List names and values of RRs
 if [ "$NAME" == . ]; then
-    Route53_list_rrs --output text \
-        --query "ResourceRecordSets[?Type == '${TYPE}'].[Name, ResourceRecords[0].Value]"
+    if [ "$TYPE" == ANY ]; then
+        Route53_list_rrs
+    else
+        Route53_list_rrs --output text \
+            --query "ResourceRecordSets[?Type == '${TYPE}'].[Name, ResourceRecords[0].Value]"
+    fi
     exit 0
 fi
 

@@ -74,6 +74,7 @@ convert                       \
 - https://www.picmonkey.com/
 - https://www.befunky.com/
 - https://snappa.com/
+- [Animated PNG](https://ezgif.com/apng-maker)
 
 ### Invalidate objects on Amazon CloudFront
 

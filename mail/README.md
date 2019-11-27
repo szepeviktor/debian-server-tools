@@ -17,19 +17,19 @@
 
 ### Transactional email providers
 
-- https://aws.amazon.com/ses/ by Amazon *free:0*
-- https://www.sparkpost.com/ on AWS *free:15 000*,
+- https://aws.amazon.com/ses/ by Amazon
+- https://www.sparkpost.com/ on AWS *The world’s largest email sender.*
   [retries](https://www.sparkpost.com/docs/faq/how-are-messages-retried/)
-- https://www.mandrill.com/ by MailChimp *free:0*
+- https://www.mandrill.com/ by MailChimp
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
-- _ToBeTested_ https://www.smtp2go.com/pricing/
+- _ToBeTested_ https://www.smtp2go.com/pricing/ on Linode
 - _ToBeTested_ https://elasticemail.com/transactional/ on OVH
 
-* https://sendgrid.com/ has own AS *free:3000*
-* https://www.mailgun.com/ by Rackspace *free:10 000*
-* https://www.mailjet.com/transactional by Mailgun *free:6000*
-* https://www.sendinblue.com/ :eu: has own AS *free:9000*
-* https://postmarkapp.com/ by Wildbit *free:1×25 000*
+* https://sendgrid.com/ has own AS
+* https://www.mailgun.com/ by Rackspace
+* https://www.mailjet.com/transactional by Mailgun
+* https://www.sendinblue.com/ :eu: has own AS
+* https://postmarkapp.com/ by Wildbit
 
 #### Email delivery features
 
@@ -43,6 +43,7 @@
 
 Not only an autoresponder/series!
 
+- [dotdigital](https://dotdigital.com/) *???*
 - ONTRAPORT *$79*
 - https://www.drip.com/features *$0*
 - HubSpot *$46*
