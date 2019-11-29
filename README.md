@@ -3,16 +3,29 @@
 You find all my knowledge on GitHub in form of Bash and PHP scripts and Markdown documents.  
 Updated as I work daily.
 
-### Featured documents :bulb:
+### Featured documents :star:
 
 1. [Too much of a website](/webserver/Production-website.md)
 1. [Web application development](/webserver/PHP-development.md)
-1. [All thing WordPress](/webserver/WordPress.md)
+1. [All things WordPress](/webserver/WordPress.md)
 1. [Running Laravel](/webserver/laravel)
 1. [Monitoring on paranoid level](/monitoring#readme)
-1. [Debian setup on UpCloud server](/debian-setup) including **Resize root filesystem during boot**
+1. [Debian setup on UpCloud server](/debian-setup)
+   including [Resize root filesystem during boot](/debian-setup/debian-resizefs.sh)
 1. [Live list of Hostile networks](/security/myattackers-ipsets/ipset)
 1. [Bulk mail sending](/mail/README.md#bulk-mail)
+
+### Magyar nyelvű kiemelet dokumentumok :hungary:
+
+1. [Csapatának tagja szeretnék lenni](/CV2.md)
+1. [Ismerkedés Új ügyfelekkel](/Onboarding-business.md)
+1. [Teljesítménycentrikus webhely tervezése](/webserver/Website-Funnel-UX.md)
+1. [Honlap jogi dolgai + GDPR](/webserver/Production-website.md#jogi-dolgok-hu)
+1. [Kézi Tesztelési Kézikönyv](/webserver/Manual-testing.md)
+1. [Képek életciklusa](/image/Kep-eletciklus.md)
+1. [Magyar email szolgáltatók](/mail/Hungarian-ESP.md)
+1. [`(direct) / (none)` Google Analytics-ben](/monitoring/Analytics-direct-none-traffic.md)
+1. [Google Analytics URL készítő](/webserver/analytics-url-builder)
 
 ### World&#39;s fastest cloud servers
 
