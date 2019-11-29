@@ -1,16 +1,26 @@
 # Debian server tools
 
-You find all my knowledge in GitHub repositories in form of Bash and PHP scripts and Markdown documents.
+You find all my knowledge on GitHub in form of Bash and PHP scripts and Markdown documents.  
 Updated as I work daily.
 
-:warning: This readme does not represent the contents of this repository. Please browse all folders.
+### Featured documents :bulb:
 
-
-[How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)
+1. [Too much of a website](/webserver/Production-website.md)
+1. [Web application development](/webserver/PHP-development.md)
+1. [All thing WordPress](/webserver/WordPress.md)
+1. [Running Laravel](/webserver/laravel)
+1. [Monitoring on paranoid level](/monitoring#readme)
+1. [Debian setup on UpCloud server](/debian-setup) including **Resize root filesystem during boot**
+1. [Live list of Hostile networks](/security/myattackers-ipsets/ipset)
+1. [Bulk mail sending](/mail/README.md#bulk-mail)
 
 ### World&#39;s fastest cloud servers
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
+
+### Ergonomy
+
+[How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)
 
 ### How to choose cloud provider?
 
