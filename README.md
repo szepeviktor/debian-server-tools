@@ -31,7 +31,7 @@ Updated as I work daily.
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
 
-### Ergonomy
+### Ergonomics
 
 [How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)
 

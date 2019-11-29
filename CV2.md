@@ -10,8 +10,8 @@
 ### Milyen munkát végzek?
 
 **Proaktívan** gondolkodok, nem kijavítom, hanem megelőzöm a hibákat.
-Az a célom, hogy az együttműködésünk első pár hónapjában minden hibás dolgot,
-folyamatot kijavítsunk a projektben.
+Az a célom, hogy [az együttműködésünk](/Onboarding.md) első pár hónapjában
+minden hibás dolgot, folyamatot kijavítsunk a projektben.
 
 - Infrastruktúra szolgáltatók kiválasztása és monitorozása
 - A webes alkalmazás forráskódjának tanulmányozása
@@ -41,3 +41,6 @@ Olyan látásmódot igyekszem képviselni, ami a **következő két évre** teki
   hibajegyeket nyitok, megbeszéléseken megoldási javaslatokat adok
 
 Keressen meg: viktor@szepe.net
+
+[![Honlap műszaki háttere](/Application-infrastructure.png)  
+Videó egy honlap műszaki hátteréről](https://www.youtube.com/watch?v=dGi6O9naiN8)

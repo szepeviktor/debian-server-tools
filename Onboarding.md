@@ -193,3 +193,13 @@ This section contains preparations for secure registration.
 - [Running a Laravel application](/webserver/laravel)
 - [Installing WordPress](/webserver/WordPress.md)
 - Interesting read on [web applications](/webserver/PHP-development.md)
+
+### Infrastruktúra szolgáltatók (HU)
+
+1. Domain regisztrátor
+1. DNS szolgáltató
+1. Szerver szolgáltató
+1. SSL tanúsítvány szolgáltató (HTTPS-hez)
+1. CDN szolgáltató (statikus fájlokhoz)
+1. Tranzakciós email kiküldő
+1. Biztonsági mentés szolgáltató
