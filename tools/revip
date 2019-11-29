@@ -2,8 +2,8 @@
 #
 # Reverse octets in an IPv4 address.
 #
-# VERSION       :1.0.1
-# DATE          :2015-07-01
+# VERSION       :2.0.0
+# DATE          :2019-11-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -15,21 +15,11 @@
 
 Reverse_string() {
     local STRING="$1"
-    local DELIM="$2"
-    local PART
-    local REV
+    local DELIM="${2:0:1}"
 
-    REV="$(
-        while read -r -d "$DELIM" PART; do
-            echo "$PART"
-        done <<< "${STRING}${DELIM}" \
-            | tac \
-            | while read -r PART; do
-                echo -n "${PART}${DELIM}"
-            done
-    )"
-
-    echo "${REV%$DELIM}"
+    tr "$DELIM" '\n' <<<"$STRING" \
+        | tac \
+        | paste -s -d "$DELIM"
 }
 
 Reverse_string "$1" "."

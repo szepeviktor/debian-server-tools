@@ -32,7 +32,7 @@ Igények és eredmények szerint.
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a máshonnan már ismert hibák elkerülésével,
    és a technikai tartozás (technical debt) folyamatos visszafizetésével
-   _például az erőforrások 10%-a erejéig_
+   &ndash; _például az erőforrások 10%-a erejéig_
 
 Mit jelent a _kész_?
 
