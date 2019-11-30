@@ -1,15 +1,18 @@
 # Debian server tools
 
 You find all my knowledge on GitHub in form of Bash and PHP scripts and Markdown documents.  
-Updated as I work daily.
+Updated daily as I work.
 
 ### Featured documents :star:
 
 1. [Too much of a website](/webserver/Production-website.md)
 1. [Web application development](/webserver/PHP-development.md)
 1. [All things WordPress](/webserver/WordPress.md)
+1. [WordPress Security](/webserver/WordPress-security.md)
 1. [Running Laravel](/webserver/laravel)
+1. [Running Drupal](/webserver/Drupal.md)
 1. [Monitoring on paranoid level](/monitoring#readme)
+1. [Continuous Integration and Continuous Delivery](/webserver/Continuous-integration-Continuous-delivery.md)
 1. [Debian setup on UpCloud server](/debian-setup)
    including [Resize root filesystem during boot](/debian-setup/debian-resizefs.sh)
 1. [Live list of Hostile networks](/security/myattackers-ipsets/ipset)
@@ -166,7 +169,7 @@ https://staticaly.com/ `https://cdn.staticaly.com/gh/USER/REPO/TAG/FILE`
 
 ### ROA validation, RPKI status
 
-`whois -h whois.bgpmon.net 84.2.228.0`
+`whois -h whois.bgpmon.net 94.237.81.0`
 
 ### UNICODE owl domain name
 

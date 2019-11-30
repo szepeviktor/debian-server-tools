@@ -105,9 +105,8 @@ https://discovery.cryptosense.com/
 
 [DigiCert® SSL Installation Diagnostics Tool](https://www.digicert.com/help/)
 
-### Commodo
+### Sectigo (was Commodo)
 
-- [SSL Analyzer](https://sslanalyzer.comodoca.com/)
 - [Certificate Search](https://crt.sh/)
 
 ### HTTP response security headers

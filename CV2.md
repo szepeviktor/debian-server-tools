@@ -1,5 +1,7 @@
 # A csapatának tagja szeretnék lenni (HU)
 
+[:uk: English version](/CV.md)
+
 ### Milyen csapatnak?
 
 - Webes alkalmazás ([SaaS](https://hu.wikipedia.org/wiki/Saas)) gyártók

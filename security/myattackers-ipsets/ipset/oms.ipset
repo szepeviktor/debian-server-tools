@@ -57,16 +57,17 @@ add oms 217.112.128.0/24
 #add oms 81.28.111.0/24
 
 # AS16578 - Lanset America
-#add oms 70.102.102.0/23
 #add oms 63.80.88.0/24
 #add oms 63.80.184.0/24
 #add oms 63.81.87.0/24
 #add oms 69.94.136.0/24
 #add oms 69.94.143.0/24
+#add oms 69.94.145.0/24
 #add oms 69.94.151.0/24
 #add oms 69.94.156.0/24
 #add oms 69.94.157.0/24
 #add oms 69.94.158.0/24
+#add oms 70.102.102.0/23
 
 # AS203145 - DreamServer
 #add oms 188.213.212.0/24
