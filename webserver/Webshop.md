@@ -7,6 +7,7 @@
 ### Webshops to learn from
 
 - https://www.ocado.com/
+- https://www.amazon.com/gp/navigation-country/select-country/
 
 ### Webshop components
 

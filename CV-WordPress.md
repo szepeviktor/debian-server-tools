@@ -1,4 +1,4 @@
-[:hu:](#hu)&nbsp;&nbsp;&nbsp;[:uk:](#en)
+[:hungary:](#hu)&nbsp;&nbsp;&nbsp;[:uk:](#en)
 
 
 ## <a name="en"></a>Maintenance of WordPress websites on a cloud server and technical support

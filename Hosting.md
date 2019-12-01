@@ -32,7 +32,8 @@
 
 ### VPS and cloud server hosting
 
-- [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest servers
+[**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S) fastest servers
+
 - [Contabo](https://contabo.com/?show=vps) large memory
 - [Vultr](https://www.vultr.com/?ref=6815796)
 - [Digital Ocean](https://www.digitalocean.com/?refcode=1f29354cd6ab)
