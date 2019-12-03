@@ -1,6 +1,6 @@
 ## Preventing machine and human errors while running your web application
 
-[:hungary: Magyar verzió](/CV2.md)
+[:hungary: Magyar változat](/CV2.md)
 
 DevOps can be seen as the foundation of my work,
 which focuses on **proactive** maintenance of web-based systems.

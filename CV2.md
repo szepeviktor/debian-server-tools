@@ -26,7 +26,7 @@ minden hibás dolgot, folyamatot kijavítsunk a projektben.
 
 Olyan látásmódot igyekszem képviselni, ami a **következő két évre** tekint.
 
-`#prevenció` `#DevOps` `#alkalmazás-üzemeltetés` `#DevSecOps`
+`#prevenció` `#DevOps` `#proaktív-üzemeltetés` `#DevSecOps`
 
 ### Miben veszi hasznom?
 
