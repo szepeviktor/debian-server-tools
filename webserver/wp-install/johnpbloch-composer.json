@@ -10,6 +10,12 @@
     "wpackagist-plugin/posts-to-posts": "^1.6",
     "wpackagist-plugin/wp-redis": "^0.7.0"
   },
+  "config": {
+    "classmap-authoritative": true,
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
   "extra": {
     "installer-paths": {
       "public/wp-content/mu-plugins/{$name}/": [
@@ -44,7 +50,6 @@
     "cleanup": "git status --short --ignored | sed -n -e 's#^!! ##p' | xargs -r rm -vrf"
   },
   "scripts-descriptions": {
-    "cleanup": "Remove all ignored files.",
-    "wp-core": "Display URL and hash of the latest WordPress core no-content ZIP."
+    "cleanup": "Remove all ignored files."
   }
 }

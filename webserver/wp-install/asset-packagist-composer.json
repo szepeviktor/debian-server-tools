@@ -6,6 +6,12 @@
     "npm-asset/mustache": "^3.0.1",
     "oomphinc/composer-installers-extender": "^1.1.2"
   },
+  "config": {
+    "classmap-authoritative": true,
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
   "extra": {
     "installer-paths": {
       "app/assets/{$name}/": [
