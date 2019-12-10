@@ -28,7 +28,7 @@ Filter_client_server_error()
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     #     408 Request Timeout
-    #     Tunneling for blocked news sites in China (through Amazon CloudFront)
+    #     Tunneling through Amazon CloudFront for blocked news sites in China
     #     Favicon in subdirectory
     #     WordPress' Windows Live Writer manifest
     #     cPanel's Let's Encrypt HTTP-01 challenge
@@ -38,7 +38,7 @@ Filter_client_server_error()
     #     Feed fetchers
     grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$' \
-        | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx).* "Amazon CloudFront"$' \
+        | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/[012.]+" (301|403) [0-9]+ ".*" "Amazon CloudFront"$' \
         #| grep -v -E '/favicon\.ico HTTP/1\.1" 40[34] [0-9]+ "' \
         #| grep -v -E '/wlwmanifest\.xml HTTP/1\.1" 40[34] [0-9]+ "' \
         #| grep -v -E '"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$' \

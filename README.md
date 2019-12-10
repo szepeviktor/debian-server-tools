@@ -167,6 +167,10 @@ https://staticaly.com/ `https://cdn.staticaly.com/gh/USER/REPO/TAG/FILE`
 - `dig _nicname._tcp.$TLD SRV` https://tools.ietf.org/html/draft-sanz-whois-srv-01
 - https://github.com/rfc1036/whois/blob/next/tld_serv_list
 
+### AS information
+
+`whois -h whois.radb.net -- "-i origin AS202053"`
+
 ### ROA validation, RPKI status
 
 `whois -h whois.bgpmon.net 94.237.81.0`
