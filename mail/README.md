@@ -110,11 +110,6 @@ Test tool: https://toolbox.googleapps.com/apps/checkmx/
 - [OVH ImapCopy](https://ssl0.ovh.net/ie/imapcopy/)
 - [OfflineIMAP](https://github.com/OfflineIMAP/offlineimap)
 
-### Email filters
-
-- https://www.mailscanner.info/install/
-- https://wiki.efa-project.org/
-
 ### Decode emails
 
 - Encoded (base64 or QP) headers: `conv2047.pl -d`
@@ -132,9 +127,8 @@ Test tool: https://toolbox.googleapps.com/apps/checkmx/
 - Current SMTP https://tools.ietf.org/html/rfc5321
 - ESMTP https://tools.ietf.org/html/rfc3848
 
-### Malware, virus, phishing scanning
+### Malware, spam, phishing scanning
 
-- [IKARUS mail.security](https://www.ikarussecurity.com/solutions/all-solutions/network-protection/ikarus-cloudsecurity/ikarus-mailsecurity/)
 - ClamAV (CCTTS, Safe Browsing)
 - clamav-unofficial-sigs (paid: SecuriteInfo, MalwarePatrol, free: Sanesecurity)
 - `clamav.py` pythonfilter through pyClamd for Courier MTA
@@ -609,6 +603,18 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange)
 - [Open Threat Intelligence](https://cymon.io/)
 - List of Data Sources: https://github.com/HurricaneLabs/machinae
+
+### Email filtering services
+
+- [MailChannels](https://www.mailchannels.com/outbound/)
+- [Return Path Certification](https://returnpath.com/solutions/email-deliverability-optimization/ip-certification/)
+- [Sophos Email](https://www.sophos.com/en-us/products/sophos-email/tech-specs.aspx)
+- [SolarWinds MSP (formely SpamExperts)](https://www.solarwindsmsp.com/products/mail)
+- [IKARUS mail.security](https://www.ikarussecurity.com/solutions/all-solutions/network-protection/ikarus-cloudsecurity/ikarus-mailsecurity/)
+- [Barracuda Essentials](https://www.barracuda.com/products/essentials)
+- [Proofpoint Essentials](https://www.proofpoint.com/us/products/essentials)
+- https://www.mailscanner.info/install/
+- https://wiki.efa-project.org/
 
 #### Lookup Tools/Monitoring Tools
 

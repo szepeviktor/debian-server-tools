@@ -144,8 +144,10 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Form handling, input validation, sanitization
   (UserFrontValidate->Request->BackendValidate->BusinessLogic->Response)
 - Escaping (database, HTML, JavaScript)
-- Internationalization (PHP, JavaScript, language, time zone, input formats and units)
-- String translation (gettext, pseudo English)
+- Internationalization
+  and [localization](https://www.gnu.org/savannah-checkouts/gnu/libc/manual/html_node/Locale-Categories.html)
+  (PHP, JavaScript, language, time zone, calendar, number formats and units, string collation),
+  string translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating
 - Authentication (Web Authentication API, client certificate, 2FA,

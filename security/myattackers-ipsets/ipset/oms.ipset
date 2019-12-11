@@ -71,3 +71,6 @@ add oms 217.112.128.0/24
 
 # AS203145 - DreamServer
 #add oms 188.213.212.0/24
+
+# AS51191 - Xirra
+#add oms 91.232.96.0/23
