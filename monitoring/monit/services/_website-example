@@ -3,6 +3,8 @@
  check host "EXAMPLE" with address "EXAMPLE.COM"
    group "website"
    if failed host "EXAMPLE.COM" port 443 with protocol https and request "/" status = 200
+     with ssl options {verify: enable}
+     content = "<h1>Page Title"
      with timeout 2 seconds then alert
    #if failed host "EXAMPLE.COM" port 80 with protocol http and request "/" status = 200
    #  with timeout 2 seconds then alert

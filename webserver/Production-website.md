@@ -317,8 +317,10 @@ http://google-public-dns.appspot.com/cache :snail:
 #### Typical theme and plugin errors
 
 - [**Mobile views**](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
-  (responsive design), [Mobile-friendliness](https://search.google.com/test/mobile-friendly),
+  (responsive design),
+  [Mobile-friendliness](https://search.google.com/test/mobile-friendly),
   [Accelerated Mobile Pages](https://search.google.com/test/amp) (AMP)
+- Zooming in desktop browsers
 - Dynamic page parts (e.g. rotating quotes by PHP)
 - Dynamically generated resources `style.css.php` (fix: `grep -E "(register|enqueue).*\.php"`)
 - New WordPress entry point (fix: `grep -E "\b(require|include).*wp-"`)
