@@ -1,14 +1,17 @@
-# AS61317 - Digital Energy Technologies / Host1Plus / ServerEquity / Heficed / AS37692 NetStack / AS37692 DET Africa / AS61440 DET Chile
+# AS61317 - Digital Energy Technologies / Host1Plus / ServerEquity / Heficed / AS37692 NetStack / AS328377 DET Africa / AS61440 DET Chile
 #: ipset -exist restore <ipset/digitalenergy.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set digitalenergy src -j REJECT
 create digitalenergy hash:net family inet hashsize 64 maxelem 64
 flush digitalenergy
-# Netstack Cloud Services
 add digitalenergy 154.16.55.0/24
 add digitalenergy 179.61.128.0/20
-# Was: sprint.pl/Dmzhost Limited
+add digitalenergy 181.214.208.0/22
 add digitalenergy 181.215.195.0/24
+add digitalenergy 185.143.228.0/22
+add digitalenergy 185.158.100.0/22
 add digitalenergy 191.96.102.0/24
+add digitalenergy 191.101.112.0/20
+add digitalenergy 191.101.161.0/24
 
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24

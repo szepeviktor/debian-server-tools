@@ -49,10 +49,6 @@ add ecatel 45.148.10.0/24
 add ecatel 45.142.195.0/24
 #add ecatel 87.246.7.0/24
 
-# AS64484 - ASDMZHOST / JUPITER 25
-add ecatel 191.96.249.0/24
-add ecatel 191.101.161.0/24
-
 # AS62355 - NetworkDedicated
 #add ecatel 185.39.8.0/22
 
