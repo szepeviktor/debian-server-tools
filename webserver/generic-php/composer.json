@@ -4,16 +4,24 @@
     "description": "PHP Project.",
     "license": "proprietary",
     "require": {
-        "php": ">=7.1.0"
+        "php": ">=7.2.0"
     },
     "require-dev": {
+        "ergebnis/composer-normalize": "^2.0.0",
         "infection/infection": "^0.14.2",
+        "jakub-onderka/php-parallel-lint": "^1.0.0",
+        "maglnet/composer-require-checker": "^2.0.0",
         "phploc/phploc": "^5.0.0",
         "phpmd/phpmd": "^2.6.0",
         "phpstan/phpstan": "^0.11.0",
         "phpunit/phpunit": "^8.0.0",
         "sebastian/phpcpd": "^4.0.0",
+        "sensiolabs/security-checker": "^6.0.3",
         "squizlabs/php_codesniffer": "^3.0.0"
+    },
+    "suggest": {
+        "friendsofphp/php-cs-fixer": "Alternative to PHPCS",
+        "phar-io/phive": "Preferred way of PHAR distribuition"
     },
     "autoload": {
         "psr-4": {
@@ -22,13 +30,18 @@
     },
     "scripts": {
         "pipeline": [
-            "vendor/bin/phpcs --standard=psr12 app/ tests/",
-            "vendor/bin/phpstan analyse --level=7 app/ tests/",
-            "vendor/bin/phpmd src/ text ruleset.xml",
-            "vendor/bin/phpunit --coverage-clover=coverage.xml",
-            "vendor/bin/infection -s --min-msi=90",
-            "vendor/bin/phpcpd --min-lines=2 --min-tokens=35 app/",
-            "vendor/bin/phploc app/"
+            "@composer validate --strict",
+            "@composer normalize --dry-run",
+            "parallel-lint app/ tests/",
+            "phpcs --standard=psr12 app/ tests/",
+            "composer-require-checker check",
+            "phpstan analyse --level=max app/ tests/",
+            "phpmd app/ text cleancode,codesize,controversial,design,naming,unusedcode",
+            "phpunit --coverage-clover=coverage.xml tests/",
+            "infection run --show-mutations --min-msi 90",
+            "phpcpd --min-lines=2 --min-tokens=35 app/ tests/",
+            "security-checker security:check",
+            "phploc app/"
         ]
     }
 }
