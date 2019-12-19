@@ -82,6 +82,8 @@ Pin-Priority: <integer>
 - `Pin-Priority: -1` never install
 - `Pin-Priority: 1000` always install
 
+Check pins in effect: `apt-cache policy`
+
 ### Inspect signing keys
 
 ```

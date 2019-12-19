@@ -110,6 +110,7 @@ This section contains preparations for secure registration.
 
 ### Application setup
 
+- Environments: development, staging, production
 - 3rd parties (document, gain access, set up)
 - User names and SSH keys
 - Git repository, branch usage (git flow)
