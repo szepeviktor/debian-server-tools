@@ -17,7 +17,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
     - PPC (Google Ads, Facebook Business, Etarget, YouTube hirdetés, LinkedIn Advertising)
     - közösségi, térkép (Facebook, **Google Térkép**, Instagram)
     - hírlevél, **tranzakciós email** felületek
-    - affiliate rendszer, szolgáltatás közvetítők, partner honlapok (árgép, netpincér, hírportálok)
+    - affiliate rendszer, szolgáltatás közvetítők, partner honlapok (árgép, wolt, hírportálok)
 1. Mivel foglalkozunk? pozicionáló mondat/szlogen/mottó
 1. Kampányok betervezése előre
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek

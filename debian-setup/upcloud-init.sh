@@ -54,11 +54,12 @@ apt-get dist-upgrade -qq
 
 # docker
 apt-get install -qq dirmngr apt-transport-https
-apt-key adv --no-tty --keyserver keys2.kfwebs.net --recv-keys 2C52609D
-echo "deb https://apt.dockerproject.org/repo debian-${DEBIAN_CODENAME} main" \
+wget -qO- https://download.docker.com/linux/debian/gpg | apt-key add -
+echo "deb https://download.docker.com/linux/debian ${DEBIAN_CODENAME} stable" \
     >/etc/apt/sources.list.d/docker.list
 apt-get update -q
-apt-get install -qq docker-engine
+# https://forums.docker.com/t/62505 ExecStart=/usr/bin/dockerd -H unix://
+apt-get install -qq docker-ce || apt-get install -qq -f
 systemctl status docker.service
 docker version
 

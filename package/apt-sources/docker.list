@@ -1,5 +1,6 @@
 # Docker
 ######## TODO Buster has https://packages.debian.org/buster/docker.io
-deb https://apt.dockerproject.org/repo debian-stretch main
-#K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys 2C52609D
-#M: https://docs.docker.com/engine/installation/debian/
+# Older versions of Docker were called: docker docker.io docker-engine
+deb https://download.docker.com/linux/debian stretch stable
+#K: wget -qO- https://download.docker.com/linux/debian/gpg | apt-key add -
+#M: https://docs.docker.com/install/linux/docker-ce/debian/
