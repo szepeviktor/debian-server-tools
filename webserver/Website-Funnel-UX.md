@@ -1,6 +1,6 @@
 # Teljesítménycentrikus webhely tervezése (HU)
 
-Meghatározni valók egy eredményes, munkaeszköznek tekintett honlaphoz.
+Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 
 ### Stratégia
 
@@ -51,7 +51,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
    és különböző készülékeken, böngészőkben
 1. Látogatási folyamat (user flow) szimuláció és validálás
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
-   alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes info (author bio)
+   alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes infó (author bio)
 1. Nyelvek
 1. Megoszthatóság
 1. [Mérés](https://github.com/googleanalytics/autotrack):

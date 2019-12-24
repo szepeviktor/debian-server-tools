@@ -47,6 +47,7 @@ add oms 217.112.128.0/24
 
 # AS42549 - UAB "Baltnetos komunikacijos"
 #add oms 45.82.32.0/22
+#add oms 45.95.35.0/24
 #add oms 45.146.200.0/22
 
 # AS41770 - IMINGO

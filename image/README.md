@@ -34,8 +34,9 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 
 ### Enlarging
 
-- https://topazlabs.com/ai-gigapixel/
+- https://imglarger.com/
 - https://www.alienskin.com/blowup/
+- https://topazlabs.com/ai-gigapixel/
 - [Inkscape Trace bitmap](https://inkscape.org/doc/tracing/tutorial-tracing.html)
 - https://vectormagic.com/
 
