@@ -105,6 +105,7 @@ read -r -e -p "OS_CONTAINER=" OS_CONTAINER
 cat > ~/.s3ql/authinfo2 <<EOF
 [swiftks]
 storage-url: swiftks://auth.cloud.ovh.net/${OS_REGION_NAME}:${OS_CONTAINER}
+backend-options: domain=Default
 backend-login: ${OS_TENANT_NAME}:${OS_USERNAME}
 backend-password: ${OS_PASSWORD}
 fs-passphrase: $(apg -m32 -n1)

@@ -23,7 +23,7 @@ Choose one per category.
    Certum :eu:,
    [Buypass](https://www.buypass.com/ssl) :eu:**
 1. CDN provider:
-   **AWS, KeyCDN :eu:**
+   **AWS, Akamai from Selectel, KeyCDN :eu:**
 1. Transactional email provider:
    **AWS, SparkPost, SparkPost EU :eu:**
 1. Storage provider:

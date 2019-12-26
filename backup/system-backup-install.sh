@@ -14,9 +14,11 @@ mkdir /root/.s3ql
 
 # Create S3QL configuration file
 cat >/root/.s3ql/authinfo2 <<EOF
+[ovh]
+#storage-url: swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_
+#backend-options: domain=Default
 [aws]
 #storage-url: local:///media/backup-server.sshfs
-#storage-url: swiftks://auth.cloud.ovh.net/OS_REGION_NAME:CONTAINER/PREFIX_
 # Frankfurt: eu-central-1 Ireland: eu-west-1 London: eu-west-2 Paris: eu-west-3
 storage-url: s3://S3_REGION/S3_BUCKET/PREFIX_
 backend-login: IAM_ACCESS_KEY_ID
