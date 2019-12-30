@@ -65,12 +65,12 @@ How to design and implement CI and CD.
 
 ### Coding style / Coding standard
 
-* Tool: squizlabs/php_codesniffer # phive install phpcs
+* Tool: squizlabs/php_codesniffer # `phive install phpcs`
 * Tool: dealerdirect/phpcodesniffer-composer-installer
 
 - [commenting rules](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/PEAR/Sniffs/Commenting)
 - wp-coding-standards/wpcs
-- automattic/phpcs-neutron-standard # automattic/phpcs-neutron-ruleset
+- automattic/phpcs-neutron-standard , automattic/phpcs-neutron-ruleset
 - slevomat/coding-standard
 - object-calisthenics/phpcs-calisthenics-rules
 - consistence/coding-standard
@@ -78,8 +78,8 @@ How to design and implement CI and CD.
 
 ### Static analysis
 
-* Tool: phpstan/phpstan # phpstan/phpstan-shim # phive install phpstan
-* Tool: dave-liddament/sarb # phive install sarb
+* Tool: phpstan/phpstan # `phive install phpstan`
+* Tool: dave-liddament/sarb # `phive install sarb`
 
 - ekino/phpstan-banned-code
 - phpstan/phpstan-strict-rules
@@ -97,7 +97,7 @@ Trigger theme setup.
 wp eval '$old_theme=wp_get_theme("our-theme"); do_action("after_switch_theme", $old_theme->get("Name"), $old_theme);'
 ```
 
-Use a common `deploy` action.
+Use a common `deploy` hook.
 
 ```bash
 wp eval 'do_action("deploy");'
@@ -122,6 +122,7 @@ Tag-category collision.
 ```
 
 <!-- https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html -->
+
 
 ### Looking at new WordPress code
 

@@ -72,8 +72,9 @@ tar -xf "$RELEASE_FILE"
     python3 ./setup.py build_ext --inplace
     python3 ./setup.py install --user
 )
-~/.local/bin/s3qlctrl --version
-#s3qlctrl --version
+
+s3qlctrl --version
+#~/.local/bin/s3qlctrl --version
 
 rm -f "$RELEASE_FILE" "${RELEASE_FILE}.asc"
 

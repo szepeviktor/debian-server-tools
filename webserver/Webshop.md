@@ -40,8 +40,8 @@
 
 ### SaaS
 
-- [Facebook Shop Section](https://www.facebook.com/business/help/238403573454149)
-  [Shops API](https://developers.facebook.com/docs/pages/shops-api/)
+- [Facebook Shop Section](https://www.facebook.com/business/help/238403573454149),
+  [Marketing API/Catalog](https://developers.facebook.com/docs/marketing-api/catalog)
 - [Shopify](https://www.shopify.com/), dropshipping https://www.oberlo.com/
 - https://www.bigcommerce.com/essentials/
 - https://www.volusion.com/
@@ -59,7 +59,6 @@
 - https://www.bolt.com/
 - https://recart.com/
 - https://textual.ai/
-- https://choice.ai/
 - https://morph.ai/ecommerce
 - https://racom.io/
 
@@ -67,6 +66,7 @@
 
 - https://www.google.com/retail/solutions/merchant-center/
 - https://www.nchannel.com/connectors/
+- https://www.sellxed.com/shop/en/chf/extensions/module/payment-service-provider/saferpay.html Saferpay by Six Payments
 
 ### Find an expert
 
