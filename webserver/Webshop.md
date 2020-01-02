@@ -8,6 +8,7 @@
 
 - https://www.ocado.com/
 - https://www.amazon.com/gp/navigation-country/select-country/
+- https://www.savoirbeds.com/
 
 ### Webshop components
 

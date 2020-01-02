@@ -45,6 +45,7 @@ Not only an autoresponder/series!
 
 - [dotdigital](https://dotdigital.com/) (Email+SMS+Social+Ads+Mobile+Web+Offline) *???*
 - [MailerLite](https://www.mailerlite.com/) *$30*
+- https://convertkit.com/ *$29*
 - ONTRAPORT *$79*
 - https://www.drip.com/features *$0*
 - HubSpot *$46*

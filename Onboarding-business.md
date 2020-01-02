@@ -20,6 +20,8 @@ Segítség a helyes hozzáálláshoz.
 
 - Milyen eszközöket fogunk használni?
   https://szepeviktor.typeform.com/to/O8bLIX
+- 12 pontos Joel Teszt
+  https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/
 - Milyen környezetek lesznek? (develop, staging, beta, demo)
 
 ### Kétféle hozzáállás

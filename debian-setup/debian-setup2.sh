@@ -44,7 +44,7 @@ Pkg_install_quiet \
     ncurses-term mc most less time moreutils unzip \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
     net-tools ntpdate ipset netcat-openbsd lftp s-nail \
-    gcc libc6-dev make strace \
+    gcc g++ libc6-dev make strace \
     unscd cruft bash-completion htop mmdb-bin
 
 # Provide mail command

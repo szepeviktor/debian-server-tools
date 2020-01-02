@@ -130,8 +130,8 @@ add region40 178.159.100.0/24
 add region40 178.159.107.0/24
 add region40 193.93.193.0/24
 add region40 193.93.194.0/24
-### Channelnet mounted by PIN
-#add region40 5.188.86.0/24
+# Channelnet mounted by PIN
+add region40 5.188.86.0/24
 
 # AS57172 - GLOBALLAYER
 # QualityNetwork

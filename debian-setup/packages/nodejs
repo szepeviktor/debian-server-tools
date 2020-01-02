@@ -30,6 +30,8 @@ else
         tar --directory=npm -xzf npm-*.tgz
         rm npm-*.tgz
         cd npm/package/
+        # Skip HTML docs
+        sed -e 's/^\(docs: mandocs\) htmldocs$/\1/' -i Makefile
 
         # Installation
         # Make sure packages are not installed under /usr/lib/node_modules
