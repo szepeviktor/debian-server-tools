@@ -69,6 +69,11 @@
 - https://www.nchannel.com/connectors/
 - https://www.sellxed.com/shop/en/chf/extensions/module/payment-service-provider/saferpay.html Saferpay by Six Payments
 
+### Headless services
+
+- https://www.moltin.com/
+- https://www.shopify.com/plus/solutions/headless-commerce
+
 ### Find an expert
 
 - https://recart.com/shopify-experts
