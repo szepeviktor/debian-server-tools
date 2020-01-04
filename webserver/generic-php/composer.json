@@ -7,6 +7,7 @@
         "php": ">=7.2.0"
     },
     "require-dev": {
+        "carlosas/phpat": "^0.5.3",
         "ergebnis/composer-normalize": "^2.0.0",
         "infection/infection": "^0.14.2",
         "jakub-onderka/php-parallel-lint": "^1.0.0",
@@ -37,6 +38,7 @@
             "composer-require-checker check",
             "phpstan analyse --level=max app/ tests/",
             "phpmd app/ text cleancode,codesize,controversial,design,naming,unusedcode",
+            "phpat",
             "phpunit --coverage-clover=coverage.xml tests/",
             "infection run --show-mutations --min-msi 90",
             "phpcpd --min-lines=2 --min-tokens=35 app/ tests/",

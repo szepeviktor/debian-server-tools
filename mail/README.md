@@ -35,8 +35,8 @@
 
 - Shared IP / IP pool / Dedicated IP
 - On whitelists (mailspike, dnswl.org, Return Path)
-- Open tracking (custom domain?, HTTPS?)
-- Click tracking (custom domain?, HTTPS?)
+- Open tracking (custom domain, HTTPS)
+- Click tracking (custom domain, HTTPS)
 - Bounce handling ([SMTP bounce classification](https://github.com/phantasm66/smtp-bounce-classifer/blob/master/README.md#the-classifier))
 
 ### Marketing automation

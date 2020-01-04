@@ -50,7 +50,7 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 
 1. Megelőző jellegű javítása → 100%-ig biztos
 2. Bevállaljuk, hogy hiba következik be → bizonytalan
-3. Valamilyen módon - pl. tévedésből - nem következik be a hiba → elenyésző a valószínűsége
+3. Valamilyen módon - pl. szerencsével - nem következik be a hiba → elenyésző a valószínűsége
 
 
 ## Kódolási büdzsé
