@@ -1,21 +1,22 @@
 #!/bin/bash
 #
-# Extract hostname from URL and execute BIND9 host command.
+# Extract hostname from URL and execute dig command.
 #
-# VERSION       :0.3.0
-# DATE          :2016-03-06
+# VERSION       :1.0.0
+# DATE          :2020-01-06
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install bind9-host
+# DEPENDS       :apt-get install dnsutils
 # LOCATION      :/usr/local/bin/host
 
 # Usage
 #
 # The URL must be the last option.
 
-Get_hostname() {
+Get_hostname()
+{
     local URL="$1"
 
     # Strip protocol, e.g. http://
@@ -31,8 +32,26 @@ Get_hostname() {
     echo "$URL"
 }
 
-[ -x /usr/bin/host ] || exit 1
-[ -z "$*" ] && exit 2
+Host()
+{
+    local HOST="$1"
+
+    shift
+
+    while read -r RR; do
+        echo "${HOST%.} has address ${RR}"
+    done < <(dig +short "$@" "$HOST" A)
+
+    while read -r RR; do
+        echo "${HOST%.} has IPv6 address ${RR}"
+    done < <(dig +short "$@" "$HOST" AAAA)
+
+    while read -r RR; do
+        echo "${HOST%.} mail is handled by ${RR}"
+    done < <(dig +short "$@" "$HOST" MX)
+}
+
+test -z "$*" && exit 1
 
 declare -a ARG_ARR
 declare -i LAST_INDEX
@@ -48,6 +67,6 @@ LAST_INDEX="$(( ${#ARG_ARR[@]} - 1 ))"
 ARG_ARR[$LAST_INDEX]="$(Get_hostname "${ARG_ARR[$LAST_INDEX]}")"
 
 # Empty hostname
-[ -z "${ARG_ARR[$LAST_INDEX]}" ] && exit 3
+test -z "${ARG_ARR[$LAST_INDEX]}" && exit 2
 
-exec /usr/bin/host "${ARG_ARR[@]}"
+Host "${ARG_ARR[@]}"

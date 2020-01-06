@@ -2,7 +2,7 @@
 
 set -e -x
 
-echo 'APT::Periodic::Download-Upgradeable-Packages "1";' > /etc/apt/apt.conf.d/20download-upgrade
+echo 'APT::Periodic::Download-Upgradeable-Packages "1";' >/etc/apt/apt.conf.d/20download-upgrade
 
 # Automatic security updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections -v

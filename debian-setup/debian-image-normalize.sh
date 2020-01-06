@@ -78,12 +78,12 @@ Info "Reinstall tasks"
 debconf-show tasksel
 tasksel --list-tasks | grep -v '^u ' || true
 # shellcheck disable=SC2046
-apt-get purge -qq $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))')
-#tasksel --task-packages ssh-server; tasksel --task-packages standard #'
-echo "tasksel tasksel/first select" | debconf-set-selections -v
+apt-get purge -qq $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))') #'
+# grep -A 4 '^Template: ' /var/lib/dpkg/info/tasksel.templates
+echo "tasksel tasksel/first multiselect" | debconf-set-selections -v
+echo "tasksel tasksel/tasks multiselect ssh-server, standard" | debconf-set-selections -v
 echo "tasksel tasksel/desktop multiselect" | debconf-set-selections -v
-echo "tasksel tasksel/first multiselect ssh-server, standard" | debconf-set-selections -v
-echo "tasksel tasksel/tasks multiselect ssh-server" | debconf-set-selections -v
+echo "tasksel tasksel/title title" | debconf-set-selections -v
 apt-get install -qq tasksel
 # This may take a while
 tasksel --new-install

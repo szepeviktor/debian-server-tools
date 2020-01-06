@@ -5,7 +5,8 @@ declare -i RESOLVERS="0"
 declare -i MAXNS="3"
 declare -r EXAMPLECOM_IP="93.184.216.34"
 
-Check_resolver() {
+Check_resolver()
+{
     local NS="$1"
 
     host -v -t A example.com "$NS" \
@@ -20,7 +21,7 @@ cp -f /etc/resolv.conf /root/resolv.conf.orig
 PRIMARY_METHOD="$(Data get-value networking.method)"
 if [ "$PRIMARY_METHOD" == dhcp ]; then
     test -d /etc/dhcp/dhclient-enter-hooks.d || mkdir -p /etc/dhcp/dhclient-enter-hooks.d
-    printf 'make_resolv_conf() {\n    true\n}\n' > /etc/dhcp/dhclient-enter-hooks.d/keep-resolvconf
+    printf 'make_resolv_conf() {\n    true\n}\n' >/etc/dhcp/dhclient-enter-hooks.d/keep-resolvconf
     # @FIXME else keep resolv.conf
 fi
 
@@ -43,14 +44,14 @@ fi
 
     # Options
     echo "options timeout:2"
-    #echo "options rotate"
+    ##echo "options rotate"
 
     # Check number of resolvers
     test "$RESOLVERS" -gt 0
     test "$RESOLVERS" -le "$MAXNS"
-} > /etc/resolv.conf
+} >/etc/resolv.conf
 
 # Check IPv6 connectivity
 if [ -n "$(Data get-value networking.inet6 "")" ]; then
-    ping6 -c 4 ipv6.google.com
+    ping6 -c 4 ipv6.google.com.
 fi

@@ -14,7 +14,7 @@ mv -f /etc/apt/sources.list "/etc/apt/sources.list~"
 wget -nv -O /etc/apt/sources.list "$SETUP_APTSOURCESLIST_URL"
 
 # APT settings
-echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/00languages
+echo 'Acquire::Languages "none";' >/etc/apt/apt.conf.d/00languages
 
 # Check Install-Recommends option
 #     apt-get install -o APT::AutoRemove::RecommendsImportant=false

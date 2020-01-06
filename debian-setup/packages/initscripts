@@ -3,7 +3,7 @@
 set -e -x
 
 # Verbose boot
-sed -i -e 's/^#*VERBOSE=no$/VERBOSE=yes/' /etc/default/rcS
+sed -e 's/^#*VERBOSE=no$/VERBOSE=yes/' -i /etc/default/rcS
 
 # Mount /tmp in RAM
 declare -i LIMIT_MEM_GB="4097"
@@ -11,14 +11,14 @@ declare -i TOTAL_MEM
 TOTAL_MEM="$(sed -n -e 's|^MemTotal:\s*\([0-9]\+\) kB$|\1|p' /proc/meminfo)"
 if [ "$TOTAL_MEM" -gt $((LIMIT_MEM_GB * 1024)) ]; then
     echo "Moving /tmp in RAM"
-    sed -i -e 's/^#RAMTMP=no$/RAMTMP=yes/' /etc/default/tmpfs
+    sed -e 's/^#RAMTMP=no$/RAMTMP=yes/' -i /etc/default/tmpfs
 fi
 
 # Backup original configuration
 cp -f /etc/rc.local /root/rc.local.orig
 
 # Restore empty /etc/rc.local
-cat > /etc/rc.local <<"EOF"
+cat >/etc/rc.local <<"EOF"
 #!/bin/sh -e
 #
 # rc.local

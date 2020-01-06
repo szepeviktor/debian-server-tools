@@ -15,7 +15,7 @@ locale -a
 
 # If no locales are selected
 if ! grep -q -E -v '^\s*#|^\s*$' /etc/locale.gen; then
-    sed -i -e 's|^# \(en_US.UTF-8 UTF-8\)$|\1|' /etc/locale.gen
+    sed -e 's|^# \(en_US.UTF-8 UTF-8\)$|\1|' -i /etc/locale.gen
 fi
 locale-gen "en_US.UTF-8"
 

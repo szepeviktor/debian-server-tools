@@ -6,9 +6,7 @@ set -e -x
 
 test -n "$IP"
 
-Pkg_install_quiet python3-pyinotify geoipupdate mmdb-bin
-# Update GeoIP2 databases
-geoipupdate -v
+Pkg_install_quiet python3-pyinotify geoipupdate mmdb-bin fail2ban
 
 # Get latest of 0.9 versions
 #(
@@ -18,11 +16,17 @@ geoipupdate -v
 #)
 #printf 'Package: fail2ban\nPin: release a=stretch-backports\nPin-Priority: -1\n' >/etc/apt/preferences.d/fail2ban.pref
 
-# Migration: https://github.com/fail2ban/fail2ban/issues/1946
-Getpkg fail2ban buster
-
 # Apache may not be installed yet
 service fail2ban stop
+
+if [ -n "$(Data get-value package.geoipupdate.accountid "")" ]; then
+    sed -e "s|# AccountID .*\$|AccountID $(Data get-value package.geoipupdate.accountid)|" \
+        -e "s|# LicenseKey .*\$|LicenseKey $(Data get-value package.geoipupdate.licensekey)|" \
+        -e 's|^EditionIDs GeoLite2-Country GeoLite2-City$|EditionIDs GeoLite2-Country GeoLite2-City GeoLite2-ASN|' \
+        -i /etc/GeoIP.conf
+fi
+# Update GeoIP2 databases
+geoipupdate -v
 
 for CONFIG in fail2ban.local jail.local; do
     cp -f ../security/fail2ban-conf/${CONFIG} /etc/fail2ban/

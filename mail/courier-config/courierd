@@ -387,7 +387,7 @@ TLS_PRIORITY="NONE:+CHACHA20-POLY1305:+AES-128-GCM:+AES-256-GCM:+AES-128-CBC:+AE
 # This setting must be set when Courier uses a smarthost that requires
 # SMTP SSL certificates for authentication and relaying privileges.
 
-TLS_TRUSTCERTS=/etc/ssl/certs
+TLS_TRUSTCERTS=/etc/ssl/certs/ca-certificates.crt
 
 ##NAME: TLS_TRUSTSECURITYCERTS:0
 #

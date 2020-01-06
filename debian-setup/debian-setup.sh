@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Debian stretch setup on a virtual server.
+# Debian buster setup on a virtual server.
 #
-# VERSION       :2.1.0
+# VERSION       :3.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -82,8 +82,8 @@
 export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
-export IMAGE_CODENAME="stretch"
-#export IMAGE_CODENAME="buster"
+export IMAGE_CODENAME="buster"
+#export IMAGE_CODENAME="bullseye"
 
 # "A real danger for the future of GNU/Linux"
 # https://skarnet.org/software/s6/systemd.html
@@ -167,11 +167,11 @@ rm -rf /var/lib/clamav /var/log/clamav
 rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
-apt-get install -qq ssh sudo dirmngr apt-transport-https virt-what python-yaml
+apt-get install -qq ssh sudo dirmngr apt-transport-https virt-what python3-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 chmod +x /usr/local/bin/shyaml
-shyaml --help >/dev/null
+python3 /usr/local/bin/shyaml --version
 
 # Add APT repositories
 for REPO in $(Data get-values package.apt.sources); do

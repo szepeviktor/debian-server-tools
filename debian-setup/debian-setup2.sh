@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Continue Debian stretch setup on a virtual server.
+# Continue Debian buster setup on a virtual server.
 #
-# VERSION       :2.1.2
+# VERSION       :3.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -24,13 +24,13 @@ if [ ! -t 0 ]; then
 fi
 
 # shellcheck disable=SC1091
-. debian-setup-functions.inc.sh
-
-VIRT="$(Data get-value virtualization)"
-export VIRT
+source debian-setup-functions.inc.sh
 
 IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
 export IP
+
+VIRT="$(Data get-value virtualization)"
+export VIRT
 
 # _check-system needs most
 packages/most
@@ -43,36 +43,29 @@ Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
-    net-tools ntpdate ipset netcat-openbsd lftp s-nail \
+    net-tools dnsutils ntpdate ipset netcat-openbsd lftp s-nail \
     gcc g++ libc6-dev make strace \
-    unscd cruft bash-completion htop mmdb-bin
+    unscd cruft bash-completion htop mmdb-bin \
+    init-system-helpers needrestart geoipupdate git mtr-tiny whois openssl
 
 # Provide mail command
 packages/s-nail
 
 # @nonDebian
+# @FIXME https://github.com/allinurl/goaccess/issues/1365#issuecomment-570950548
+wget -nv -O /root/dist-mod/libssl1.0.2_amd64.deb \
+    "http://security.debian.org/debian-security/pool/updates/main/o/openssl1.0/libssl1.0.2_1.0.2u-1~deb9u1_amd64.deb"
+dpkg -i /root/dist-mod/libssl1.0.2_amd64.deb
 Pkg_install_quiet goaccess
 
 # From backports
-# List available backports: apt-get upgrade -t stretch-backports
+# List available backports: apt-get upgrade -t buster-backports
 # @nonDebian
-Pkg_install_quiet \
-    -t stretch-backports init-system-helpers needrestart geoipupdate git mtr-tiny whois
-# Set restart mode to automatic
-# And https://github.com/liske/needrestart/issues/44
-sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' \
-    -e 's/^\s*qr(\^dbus).*$/#&/' \
-    -i /etc/needrestart/needrestart.conf
+##Pkg_install_quiet -t buster-backports
+packages/needrestart
 
-# From testing
-# Depends on openssl (>= 1.1.1), from e.g. sury-php
-dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?and(?exact-name(libssl1.1), ?architecture(native))')" ge "1.1.1"
-# @nonDebian
-Pkg_install_quiet openssl libssl1.1
 packages/ca-certificates
 
-# From custom repos
-# TODO for buster https://packages.debian.org/buster-backports/iptables-persistent
 packages/ipset-persistent
 
 # Provider packages
@@ -114,7 +107,6 @@ packages/initscripts
 # IRQ balance
 CPU_COUNT="$(grep -c "^processor" /proc/cpuinfo)"
 if [ "$CPU_COUNT" -gt 1 ]; then
-    # Stable has a bug, it exits
     Pkg_install_quiet irqbalance
     cat /proc/interrupts
 elif Is_installed "irqbalance"; then
@@ -186,6 +178,7 @@ packages/fail2ban
 
 #packages/_cert-szepenet
 
+# FTP protocol is deprecated.
 #packages/proftpd-basic
 
 # Tools (courier uses catconf)
@@ -225,15 +218,28 @@ elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.1-fpm'; then
     PHP="7.1"
 elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.2-fpm'; then
     PHP="7.2"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.3-fpm'; then
+    PHP="7.3"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.4-fpm'; then
+    PHP="7.4"
 fi
-export PHP
-../webserver/php-fpm.sh
+if [ -n "$PHP" ]; then
+    export PHP
+    ../webserver/php-fpm.sh
+    # Needs PHP-CLI
+    packages/_package-php-composer
+    packages/_package-php-phive
+    ../webserver/php-redis.sh
+    # CLI tools
+    packages/php-wpcli
+    # WordPress cron
+    Dinstall webserver/wp-install/wp-cron-cli.sh
+    packages/php-cachetool
+    ##packages/php-drush
+fi
 
 # Package managers
 packages/_package-python-pip
-# Needs PHP-CLI
-packages/_package-php-composer
-packages/_package-php-phive
 # Node.js (from package.apt.extra)
 # https://nodejs.org/en/download/releases/
 # @nonDebian
@@ -243,9 +249,10 @@ fi
 
 # Webserver reload
 Dinstall webserver/webrestart.sh
-# Redis server and PHP extension
+
+# Redis server
 packages/redis-server
-../webserver/php-redis.sh
+
 if Data get-values-0 package.apt.sources | grep -z -F -x 'mysql-5.7'; then
     # MySQL 5.7 from Debian sid
     packages/mariadb-server
@@ -272,18 +279,7 @@ service fail2ban restart
 Pkg_install_quiet debconf-utils rsync mariadb-client
 # percona-xtrabackup is installed in packages/mariadb,mysql
 # @nonDebian
-Pkg_install_quiet s3ql -t stretch-backports
-# Disable Apache configuration from javascript-common
-if hash a2disconf 2>/dev/null; then
-    a2disconf javascript-common
-fi
-
-# CLI tools
-packages/php-wpcli
-# WordPress cron
-Dinstall webserver/wp-install/wp-cron-cli.sh
-packages/php-cachetool
-#packages/php-drush
+Pkg_install_quiet -t buster-backports s3ql
 
 # Monit - monitoring
 # @FIXME Needs a production website for apache2 and php-fpm
@@ -298,6 +294,11 @@ packages/php-cachetool
 
 # After monit
 packages/libpam-modules
+
+# Disable Apache configuration from javascript-common
+if hash a2disconf 2>/dev/null && [ -f /etc/apache2/conf-available/javascript-common.conf ]; then
+    a2disconf javascript-common
+fi
 
 # @TODO
 # Munin - network-wide graphing

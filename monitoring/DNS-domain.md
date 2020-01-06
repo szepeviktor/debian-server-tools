@@ -1,12 +1,10 @@
 # DNS providers
 
-
 - https://dns.he.net/
 - https://www.cloudflare.com/
 - https://aws.amazon.com/route53/
 - https://cloud.google.com/dns/
 - https://constellix.com/pricing/dns/service-comparison/
-- https://www.forpsi.hu/
 - [list] https://www.keycdn.com/blog/best-free-dns-hosting-providers/
 - [list] http://www.solvedns.com/dns-comparison/
 
@@ -20,6 +18,7 @@
 - http://dnscheck.ripe.net/
 - http://www.domain.hu/domain/regcheck/ (for .hu TLD)
 - https://www.buddyns.com/delegation-lab/
+- https://dnsviz.net/
 
 - `http://intodns.com/DOMAIN`
 - `http://www.dnsinspect.com/DOMAIN`
@@ -44,6 +43,7 @@
 - https://www.nexcess.net/resources/tools/global-dns-checker/ (21 PoP)
 - https://dnschecker.org/ (24 PoP)
 - https://cachecheck.opendns.com/ (24 PoP)
+- https://www.gdnspc.com/
 
 ### DNS lookup
 
@@ -67,9 +67,7 @@ http://www.duckdns.org/
 - https://www.gandi.net/
 - https://www.dynadot.com/
 - https://www.rackhost.hu/ `.hu`
-- https://uk.godaddy.com/
 - http://www.freenom.com/en/freeandpaiddomains.html
-- https://www.cloudflare.com/registrar/ `$$$`
 
 # How to choose a domain registrar?
 

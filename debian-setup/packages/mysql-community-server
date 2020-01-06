@@ -3,7 +3,7 @@
 set -e -x
 
 # @nonDebian
-Pkg_install_quiet mysql-community-server mysql-community-client percona-xtrabackup-24
+Pkg_install_quiet mysql-community-server mysql-community-client percona-xtrabackup-80
 
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf

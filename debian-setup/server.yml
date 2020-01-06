@@ -31,15 +31,22 @@ package:
             #- nodejs
             #- nodejs/stretch-backports
             #- percona-server-server-5.7
+            #- geoip-database
+            #- geoip-database-extra
     ca-certificates:
+        # Buster has the latest version
         # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
-        install-testing: true
+        install-testing: false
     adduser:
         firstuser:
             name: viktor
             ssh-key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJnaM2JLvO4DWkmmSXys+jn0KhTRVkCfAAhv/1Pszs0DJTheQgOR9e3ThNCgR7CxIqZ5kXrZ+BIDtDs5IGrg9IA= szv-ecdsa"
     openssh-server:
-        port: ##222 (preferably under 1024)
+        # Under 1024
+        port: 22
+    geoipupdate:
+        accountid: ""
+        licensekey: ""
     fail2ban:
         sender: ##admin@example.com
     apache2:

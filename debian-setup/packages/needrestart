@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e -x
+
+# Set restart mode to automatic
+# And https://github.com/liske/needrestart/issues/44
+sed -e 's/^#\?\$nrconf{restart}.*$/$nrconf{restart} = "a";/' \
+    -e 's/^\s*qr(\^dbus).*$/#&/' \
+    -i /etc/needrestart/needrestart.conf

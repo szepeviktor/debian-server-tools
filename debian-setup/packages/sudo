@@ -5,7 +5,7 @@ set -e -x
 # Latest
 #     wget -qO- "https://salsa.debian.org/debian/sudo/raw/master/debian/sudoers"
 
-# Restore sudoers from v1.8.10p3-1+deb8u3
+# Restore sudoers file from 1.8.27-1+deb10u1
 cat > /etc/sudoers <<"EOF"
 #
 # This file MUST be edited with the 'visudo' command as root.

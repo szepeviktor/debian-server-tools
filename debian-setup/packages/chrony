@@ -9,7 +9,7 @@ if [ -z "$CHRONY_POOL" ]; then
     CHRONY_POOL="2.europe.pool.ntp.org"
 fi
 
-cat > /etc/chrony/chrony.conf <<EOF
+cat >/etc/chrony/chrony.conf <<EOF
 # Welcome to the chrony configuration file. See chrony.conf(5) for more
 # information about usuable directives.
 pool ${CHRONY_POOL} iburst

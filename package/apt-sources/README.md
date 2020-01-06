@@ -11,7 +11,7 @@
 
 - Fastly/CloudFront: http://deb.debian.org/debian
 - Closest mirror:    http://http.debian.net/debian
-- National mirror:   http://ftp.COUNTRY-CODE.debian.org/debian
+- National mirror:   `http://ftp.COUNTRY-CODE.debian.org/debian`
 
 Fastest mirror
 
@@ -20,7 +20,7 @@ apt-get install netselect-apt
 netselect-apt -c COUNTRY-CODE stable
 ```
 
-### Get key ID and fingerprint
+### Get key ID/fingerprint
 
 ```bash
 wget -qO- $KEY_URL | gpg - | sed -ne 's|^pub\s\+\S\+/\(\S\+\) .*$|\1|p'
