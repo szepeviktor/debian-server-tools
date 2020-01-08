@@ -19,6 +19,7 @@ pool 2.debian.pool.ntp.org iburst
 # NTP authentication.
 keyfile /etc/chrony/chrony.keys
 
+# Close command port.
 cmdport 0
 
 # This directive specify the file into which chronyd will store the rate
@@ -26,26 +27,24 @@ cmdport 0
 driftfile /var/lib/chrony/chrony.drift
 
 # Uncomment the following line to turn logging on.
-#log tracking measurements statistics
 log statistics
 
 # Log files location.
 logdir /var/log/chrony
 
+# Log 10 msec offset changes.
 logchange 0.010
 
-mailonchange root 0.500
+## seccomp (-F -1) is not compatible with mailonchange
+#mailonchange root 0.500
 
 # Stop bad estimates upsetting machine clock.
 maxupdateskew 100.0
 
-# This directive tells 'chronyd' to parse the 'adjtime' file to find out if the
-# real-time clock keeps local time or UTC. It overrides the 'rtconutc' directive.
-hwclockfile /etc/adjtime
-
 # This directive enables kernel synchronisation (every 11 minutes) of the
 # real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
-##rtcsync
+# Virtual servers do not have permanent RTCs.
+#rtcsync
 
 # Step the system clock instead of slewing it if the adjustment is larger than
 # one second, but only in the first three clock updates.

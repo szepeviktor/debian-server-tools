@@ -206,9 +206,9 @@ Monit_wake() {
 #
 # Wake up Monit.
 #
-# VERSION       :0.10.4
+# VERSION       :0.11.0
 
-IGNORED_STATUSES='Running|Accessible|Status ok|Online with all services|Waiting'
+IGNORED_STATUSES='Running|Accessible|OK|Online with all services|Waiting'
 
 # APT is in progress
 if fuser -s /var/lib/dpkg/lock; then
@@ -273,8 +273,8 @@ set -e
 
 trap 'echo "RET=$?"' EXIT HUP QUIT PIPE TERM
 
-if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?and(?exact-name(monit), ?architecture(native))')" lt "1:5.20"; then
-    echo "Minimum Monit version needed: 5.20" 1>&2
+if dpkg --compare-versions "$(aptitude --disable-columns search -F "%V" '?and(?exact-name(monit), ?architecture(native))')" lt "1:5.26"; then
+    echo "Minimum Monit version needed: 5.26" 1>&2
     exit 1
 fi
 if Is_pkg_installed systemd; then

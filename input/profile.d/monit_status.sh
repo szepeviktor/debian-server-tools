@@ -7,7 +7,7 @@
 # PERMISSION    :0644
 
 if [[ $EUID -eq 0 ]] && [ -x /usr/bin/monit ]; then
-    IGNORED_STATUSES="Running|Accessible|Status ok|Online with all services|Waiting"
+    IGNORED_STATUSES="Running|Accessible|OK|Online with all services|Waiting"
     # Convert to tabular output
     if /usr/bin/monit -B summary \
         | tail -n +3 | sed -e 's|^ ||' -e 's|\s\s\+|\t|g' \
