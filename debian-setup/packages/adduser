@@ -76,9 +76,8 @@ export PS1="\[$(tput sgr0)\][\[$(tput setaf 3)\]\u\[$(tput bold;tput setaf 1)\]@
 \[$(tput bold)\]\!\[\$(PS1exitstatus;tput sgr0)\]]\n"
 
 # Address of the primary network interface
-#export IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
-ROUTER="$(ip -4 route show to default | sed -n -e '0,/^default via \(\S\+\).*$/s//\1/p')"
-export IP="$(ip -4 route get "$ROUTER" | sed -n -e '0,/^.*\ssrc \(\S\+\).*$/s//\1/p')"
+GATEWAY="$(ip -4 route show to default | sed -n -e '0,/^default via \(\S\+\).*$/s//\1/p')"
+export IP="$(ip -4 route get "$GATEWAY" | sed -n -e '0,/^.*\ssrc \(\S\+\).*$/s//\1/p')"
 
 export LS_OPTIONS='--color=auto'
 eval "$(dircolors)"

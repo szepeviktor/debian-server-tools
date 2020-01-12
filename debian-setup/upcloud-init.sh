@@ -20,7 +20,7 @@ Auto_country() {
     dpkg -i geoipupdate_*_amd64.deb
     geoipupdate
 
-    IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+    IP="$(hostname --all-ip-addresses | cut -d " " -f 1)"
     test -n "$IP"
     COUNTRY="$(mmdblookup --file /var/lib/GeoIP/GeoLite2-Country.mmdb --ip "$IP" registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p')" #'
     test -n "$COUNTRY"

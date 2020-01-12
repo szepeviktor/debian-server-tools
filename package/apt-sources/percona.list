@@ -1,5 +1,5 @@
 # Percona
-deb http://repo.percona.com/apt/ stretch main
+deb http://repo.percona.com/apt/ buster main
 #K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys 9334A25F8507EFA5
 #M: https://www.percona.com/doc/percona-xtrabackup/LATEST/installation/apt_repo.html
 #M: https://www.percona.com/doc/percona-server/LATEST/installation/apt_repo.html

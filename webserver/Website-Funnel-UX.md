@@ -49,7 +49,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 1. Nézetek [mobilon](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
    és [AMP változat](https://support.google.com/google-ads/answer/7336292?hl=hu)
    és különböző készülékeken, böngészőkben
-1. Látogatási folyamat (user flow) szimuláció és validálás
+1. Látogatási folyamat (user flow) szimuláció, validálás, [tesztelés](https://helio.app/)
 1. Tipográfia/szövegszerkesztővel bevihető elemek megtervezése:
    alcím, felsorolás, idézet, kép+felirat, galéria, videó, árlista, személyes infó (author bio)
 1. Nyelvek

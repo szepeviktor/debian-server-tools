@@ -134,7 +134,7 @@ if [ "$IS_FUNCTIONAL" != "yes" ]; then
     apt-get install -y ${SETUP_PACKAGES} || true
 fi
 
-IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+IP="$(hostname --all-ip-addresses | cut -d " " -f 1)"
 export IP
 
 # These packages should be auto-installed
@@ -195,6 +195,9 @@ packages/dash
 packages/adduser
 # After adduser
 packages/openssh-server
+
+# Remove apparmor
+apt-get purge -qq apparmor
 
 # Optionally switch to SysVinit
 packages/systemd

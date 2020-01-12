@@ -31,17 +31,15 @@ Updated daily as I work.
 1. [`(direct) / (none)` Google Analytics-ben](/monitoring/Analytics-direct-none-traffic.md)
 1. [Google Analytics URL készítő](/webserver/analytics-url-builder)
 
-### World&#39;s fastest cloud servers
+### Superior cloud hosting
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
+
+How UpCloud was choosen? Read https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
 
 ### Ergonomics
 
 [How to Set Up Your Desk](https://youtu.be/F8_ME4VwTiw?t=31)
-
-### How to choose cloud provider?
-
-See https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
 
 ### Model of how systems work
 

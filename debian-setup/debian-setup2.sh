@@ -26,7 +26,7 @@ fi
 # shellcheck disable=SC1091
 source debian-setup-functions.inc.sh
 
-IP="$(ifconfig | sed -n -e '0,/^\s*inet \(addr:\)\?\([0-9\.]\+\)\b.*$/s//\2/p')"
+IP="$(hostname --all-ip-addresses | cut -d " " -f 1)"
 export IP
 
 VIRT="$(Data get-value virtualization)"
@@ -45,23 +45,20 @@ Pkg_install_quiet \
     logtail apg bc dos2unix ccze colordiff sipcalc jq \
     net-tools dnsutils ntpdate ipset netcat-openbsd lftp s-nail \
     gcc g++ libc6-dev make strace \
-    unscd cruft bash-completion htop mmdb-bin \
-    init-system-helpers needrestart geoipupdate git mtr-tiny whois openssl
+    unscd cruft bash-completion htop mmdb-bin geoipupdate \
+    init-system-helpers needrestart git mtr-tiny whois openssl
 
 # Provide mail command
 packages/s-nail
 
 # @nonDebian
-# @FIXME https://github.com/allinurl/goaccess/issues/1365#issuecomment-570950548
-wget -nv -O /root/dist-mod/libssl1.0.2_amd64.deb \
-    "http://security.debian.org/debian-security/pool/updates/main/o/openssl1.0/libssl1.0.2_1.0.2u-1~deb9u1_amd64.deb"
-dpkg -i /root/dist-mod/libssl1.0.2_amd64.deb
-Pkg_install_quiet goaccess
+packages/goaccess
 
 # From backports
 # List available backports: apt-get upgrade -t buster-backports
 # @nonDebian
 ##Pkg_install_quiet -t buster-backports
+
 packages/needrestart
 
 packages/ca-certificates

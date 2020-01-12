@@ -15,6 +15,8 @@
     </IfModule>
 ```
 
+`a2enmod proxy_ajp`
+
 ### Download installer
 
 - `atlassian-jira-software-VERSION-x64.bin` from https://www.atlassian.com/software/jira/update
@@ -28,6 +30,8 @@ grep -v '^#\|^$' /opt/atlassian/confluence/confluence/WEB-INF/classes/confluence
 ```
 
 [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/) *choose "Platform Independent"*
+
+Copy jar file to `/opt/atlassian/*/lib/`
 
 ### Set up database
 
@@ -157,8 +161,8 @@ Update init script links: `update-rc.d jira defaults`
 
 ### Backup
 
-- Binaries and configuration location: /opt/atlassian/
-- Data location: /var/atlassian/
+- Binaries and configuration location: `/opt/atlassian/`
+- Data location: `/var/atlassian/`
 - See `/var/atlassian/application-data/*/dbconfig.xml` for database names
 
 ### Upgrade

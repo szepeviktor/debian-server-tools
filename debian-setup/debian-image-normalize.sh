@@ -93,8 +93,8 @@ Info "Mark dependencies of standard packages as automatic"
 set +x
 for DEP in $(${APTI_SEARCH} \
  '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))'); do
-    REGEXP="$(sed -e 's;\([^a-z0-9]\);[\1];g' <<< "$DEP")"
-    if aptitude why "$DEP" 2>&1 | grep -Eq "^i.. \\S+\\s+(Pre)?Depends( | .* )${REGEXP}( |\$)"; then
+    REGEXP="$(sed -e 's#\([^a-z0-9]\)#[\1]#g' <<<"$DEP")"
+    if aptitude why "$DEP" 2>&1 | grep -q -E "^i.. \\S+\\s+(Pre)?Depends( | .* )${REGEXP}( |\$)"; then
         apt-mark auto "$DEP" || echo "[ERROR] Marking package ${DEP} failed." 1>&2
     fi
 done

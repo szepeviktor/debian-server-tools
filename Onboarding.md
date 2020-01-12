@@ -42,6 +42,7 @@ Choose one per category.
 - Who is the legal owner of the account?
 - Who has access to this account?
 - Do we share account passwords?
+- Do main accounts have 2FA?
 - What other non-relevant services are under this account?
 - Accounts for domain registration and DNS services must use an email address with a different domain name.
 - Is the email account/phone number/bank card of this account in daily use?

@@ -31,22 +31,26 @@ Ip46tables -A INPUT -m conntrack --ctstate INVALID -j DROP
 # IP range match example
 #iptables -A INPUT -m iprange --src-range 10.10.96.255-10.10.97.14 -j REJECT
 
-# New chain for SSH port hiding
+# SSH port hiding
 Ip46tables -N SSHIDE
 # Allow only 3 connection attempts (try 3, 4 and 5) in 10 minutes
-# Ip46tables -A SSHIDE \
+# Ip46tables -w -A SSHIDE \
 #     -m recent --update --seconds 600 --hitcount 6 --name SSHide --rsource \
 #     -j REJECT
 # Don't reject SSH connections from the 3rd attempt
-Ip46tables -A SSHIDE \
+Ip46tables -w -A SSHIDE \
     -m recent --update --seconds 60 --hitcount 2 --name SSHide --rsource -j RETURN
 # Reject first and second SSH connections attempts
-Ip46tables -A SSHIDE -m recent --set --name SSHide --rsource -j REJECT
+Ip46tables -w -A SSHIDE -m recent --set --name SSHide --rsource -j REJECT
 # Reference "SSHIDE" chain
-Ip46tables -A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j SSHIDE
-
+Ip46tables -w -A INPUT -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j SSHIDE
 # Query status of "recent" module
-# cat /proc/net/xt_recent/SSHide
+cat /proc/net/xt_recent/SSHide
+
+# Fail2ban
+Ip46tables -w -N fail2ban
+Ip46tables -w -A fail2ban -j RETURN
+Ip46tables -w -A INPUT -j fail2ban
 
 # Alternative SSH port hiding
 ## New chain for SSH port hiding
@@ -78,7 +82,6 @@ myattackers.sh -i
     ./myattackers-ipsets-install.sh
 )
 
-# Save IPv4 iptables rules
+# Save IPv4 and IPv6 rules
 iptables-save | grep -E -v '(:|\s)f2b-' | sed -e 's/ \[[0-9]*:[0-9]*\]$/ [0:0]/' >/etc/iptables/rules.v4
-# Save IPv6 iptables rules
 ip6tables-save | grep -E -v '(:|\s)f2b-' | sed -e 's/ \[[0-9]*:[0-9]*\]$/ [0:0]/' >/etc/iptables/rules.v6

@@ -57,11 +57,11 @@
 
 ### Tools
 
-- https://www.bolt.com/
-- https://recart.com/
-- https://textual.ai/
-- https://morph.ai/ecommerce
-- https://racom.io/
+- https://recart.com/ (Facebook Messenger marketing)
+- https://textual.ai/ (content creation)
+- https://morph.ai/ecommerce (chatbot)
+- https://racom.io/ (chatbot)
+- https://www.bolt.com/ (checkout, >$1M/year)
 
 ### Integrations
 
