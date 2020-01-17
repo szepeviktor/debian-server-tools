@@ -161,9 +161,11 @@ Update init script links: `update-rc.d jira defaults`
 
 ### Backup
 
-- Binaries and configuration location: `/opt/atlassian/`
-- Data location: `/var/atlassian/`
-- See `/var/atlassian/application-data/*/dbconfig.xml` for database names
+- Binaries and configuration path: `/opt/atlassian/`
+- Data path: `/var/atlassian/`
+    - Custom plugins: `/var/atlassian/application-data/jira/plugins/`
+    - Attachments and images: `/var/atlassian/application-data/jira/data/`
+    - See `/var/atlassian/application-data/*/dbconfig.xml` for database names
 
 ### Upgrade
 

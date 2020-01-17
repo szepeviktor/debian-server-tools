@@ -14,7 +14,7 @@ Segítség a helyes hozzáálláshoz.
 - Hányadik projektjük ez?
 - Lesz projektvezető?
 - Hány műszaki szakember fog résztvenni? (UX designer, grafikus, fejlesztő, SEO, PPC, social)
-- Hány üzleti résztvevő lesz?
+- Hány üzleti résztvevő lesz, akik köznyelven beszélnek/írnak?
 
 ### Eszközök
 

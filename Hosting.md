@@ -56,6 +56,10 @@
 - OpenShift
 - CenturyLink (AppFog)
 
+### Headless CMS
+
+https://prismic.io/
+
 ### Dedicated server
 
 - https://www.worldstream.nl/more_info.php?id=14 €30

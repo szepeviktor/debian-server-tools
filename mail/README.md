@@ -570,6 +570,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - [Report abuse from Gmail](https://support.google.com/mail/contact/abuse)
 - [Report abuse from Outlook.com](mailto:abuse@outlook.com) See SenderScore
 - [Report abuse or spam on Yahoo](https://help.yahoo.com/kb/SLN26401.html)
+- [Report Amazon AWS abuse](https://support.aws.amazon.com/#/contacts/report-abuse)
 - [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` (list)
 
 #### Whitelists

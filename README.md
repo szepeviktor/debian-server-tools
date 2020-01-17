@@ -35,7 +35,7 @@ Updated daily as I work.
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
 
-How UpCloud was choosen? Read https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
+How UpCloud was chosen? Read https://github.com/szepeviktor/wordpress-speedtest/blob/master/README.md#how-to-choose-vps-provider
 
 ### Ergonomics
 
