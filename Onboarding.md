@@ -149,7 +149,7 @@ This section contains preparations for secure registration.
 - Data on servers is automatically backed up daily with 7 days rotation
 - External resources (S3 bucket)
 - Email accounts (local, IMAP)
-- Issues (Trello, GitLab)
+- Issues (Clubhouse, Trello, GitHub, GitLab)
 - Code repositories (GitLab, GitHub)
 
 ### Cyber security
@@ -168,7 +168,7 @@ This section contains preparations for secure registration.
 ### Collaboration
 
 - _No emails if it is possible_
-- Issues/ticketing: Trello cards
+- Issues/ticketing: Clubhouse or Trello
 - Chat: Slack
 
 ### Onboarding for developers
@@ -205,3 +205,14 @@ This section contains preparations for secure registration.
 1. CDN szolgáltató (statikus fájlokhoz)
 1. Tranzakciós email kiküldő
 1. Biztonsági mentés szolgáltató
+
+### Házirend a szolgáltatóknál lévő fiókjainkhoz (HU)
+
+- Ki a fiók jogos tulajdonosa?
+- Kinek van hozzáférése a fiókhoz?
+- Folytatunk jelszó megosztást?
+- A főfióknál be van kapcsolva a két-faktoros hitelesítés (2FA)?
+- Milyen más nem releváns szolgáltatás van a fiókunkban?
+- A domain regisztrációhoz és DNS szolgáltatáshoz használt fiókoknál egy másik domain-en lévő email címet használjunk.
+- A fiókhoz használt email cím/telefonszám/bankkártya napi használatban van?
+- Használjunk alszámlához kötött virtuális bankkártyát a főszámlához kötött fizikai bankkártya helyett!
