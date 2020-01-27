@@ -25,7 +25,7 @@
 - _ToBeTested_ https://www.smtp2go.com/pricing/ on Linode
 - _ToBeTested_ https://elasticemail.com/transactional/ on OVH
 
-* https://sendgrid.com/ has own AS
+* https://sendgrid.com/ by Twilio has own AS
 * https://www.mailgun.com/ by Rackspace
 * https://www.mailjet.com/transactional by Mailgun
 * https://www.sendinblue.com/ :eu: has own AS
@@ -39,12 +39,11 @@
 - Click tracking (custom domain, HTTPS)
 - Bounce handling ([SMTP bounce classification](https://github.com/phantasm66/smtp-bounce-classifer/blob/master/README.md#the-classifier))
 
-### Marketing automation
+### Campaign automation providers
 
-Not only an autoresponder/series!
-
-- [dotdigital](https://dotdigital.com/) (Email+SMS+Social+Ads+Mobile+Web+Offline) *???*
+- [dotdigital](https://dotdigital.com/) Email+SMS+Social+Ads+Mobile+Web+Offline *???*
 - [MailerLite](https://www.mailerlite.com/) *$30*
+- [Klaviyo](https://www.klaviyo.com/) *$0*
 - https://convertkit.com/ *$29*
 - ONTRAPORT *$79*
 - https://www.drip.com/features *$0*
@@ -54,19 +53,17 @@ Not only an autoresponder/series!
 - Delivra by Campaign Monitor *$100*
 - Marketo *$895*
 - Salesforce / Pardot *$1250*
-
-### Marketing tools
-
 - Adobe Campaign *$$$*
 - Cheetah Digital *$$$*
 - Constant Contact *$20*
 - Oracle Eloqua *$2000*
 - Emma by Campaign Monitor *$89*
 - IBM Watson Campaign Automation *$$$*
-- MailChimp *$0*
+- MailChimp *$0* :gorilla:
 - Oracle Responsys *$1200*
 - Salesforce / ExactTarget *$400*
-- SendGrid *$10*
+- SendGrid by Twilio *$10*
+- https://tinyletter.com/ by Mailchimp :snail:
 
 ### Webmail
 
@@ -434,12 +431,6 @@ Deprecated.
 - :cloud: CDN for images
 - SMTP `MAIL FORM: <user@example.com>`
 - SMTP Envelope sender SPF `include:servers.mcsv.net`
-
-### Providers
-
-- https://mailchimp.com/
-- https://tinyletter.com/
-- https://www.klaviyo.com/
 
 ### Email templates
 

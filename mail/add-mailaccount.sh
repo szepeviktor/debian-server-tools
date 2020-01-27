@@ -112,6 +112,7 @@ fi
 if ! sudo -u virtual -- maildirmake -f "Drafts" "$NEW_MAILDIR"; then
     Error 20 "Cannot create Drafts folder"
 fi
+#HU: ln -s ".Drafts" "${NEW_MAILDIR}/.Piszkozat"
 echo "Drafts OK."
 
 if ! sudo -u virtual -- maildirmake -f "Junk" "$NEW_MAILDIR"; then
@@ -140,6 +141,7 @@ echo "Quota counts symlinked directories"
 ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Items" # Outlook
 ln -s ".Trash" "${NEW_MAILDIR}/.Deleted Messages"
 #HU: ln -s ".Trash" "${NEW_MAILDIR}/.T&APY-r&APY-lt elemek"
+#HU: ln -s ".Trash" "${NEW_MAILDIR}/.Lomt&AOE-r"
 echo "Trash OK."
 
 # MySQL authentication
