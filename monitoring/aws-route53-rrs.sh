@@ -9,9 +9,9 @@
 
 # awscli installation
 #     mkdir /opt/awscli; cd /opt/awscli/
-#     HOME=/opt/awscli pip3 install --user --no-warn-script-location awscli
-#     printf '#!/bin/bash\nPYTHONPATH="%s" exec /opt/awscli/.local/bin/aws "$@"\n' \
-#         /opt/awscli/.local/lib/python3.?/site-packages >/usr/local/bin/aws
+#     pip3 install --prefix /opt/awscli --no-warn-script-location awscli
+#     printf '#!/bin/bash\nPYTHONPATH="%s" exec /opt/awscli/bin/aws "$@"\n' \
+#         /opt/awscli/lib/python3.?/site-packages >/usr/local/bin/aws
 #     chmod +x /usr/local/bin/aws
 # Configure
 #     aws configure

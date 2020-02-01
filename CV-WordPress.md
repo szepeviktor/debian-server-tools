@@ -160,4 +160,4 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 
 * https://kinsta.com/blog/hire-wordpress-developer/
 * https://jobs.wordpress.net/post-a-job/
-* https://wphu.org/wordpress-fejlesztes/
+* wphu.org/wordpress-fejlesztes/

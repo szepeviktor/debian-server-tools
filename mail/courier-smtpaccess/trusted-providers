@@ -87,6 +87,8 @@
 84.2.227.160	allow,BLOCK
 # UPC - *.mx.upcmail.net.
 62.179.121	allow,BLOCK
+# Számlázz.hu - szamlazz.hu.
+91.120.24.42	allow,BLOCK
 # Pingdom - mailer1.pingdom.com. mailer2.pingdom.com.
 176.221.80.4	allow,BLOCK
 176.221.80.5	allow,BLOCK

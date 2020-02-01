@@ -1,31 +1,34 @@
 #!/bin/bash
 #
-# Issue or renew certificate by manuale and cert-update.sh
+# Issue or renew certificate by automatoes and cert-update.sh
 #
-# VERSION       :0.2.4
-# DATE          :2018-09-02
+# VERSION       :0.3.0
+# DATE          :2020-02-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# CI            :shellcheck cert-update-manuale.sh
 # DEPENDS       :apt-get install jq
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 # LOCATION      :/usr/local/sbin/cert-update-manuale.sh
 
-# Install manuale
-# See LetsEncrypt.md
+# automatoes installation
+#     mkdir /opt/manuale; cd /opt/manuale/
+#     pip3 install --prefix /opt/manuale/ --no-warn-script-location automatoes
+#     printf '#!/bin/bash\nPYTHONPATH="%s" exec /opt/manuale/bin/manuale "$@"\n' \
+#         /opt/manuale/lib/python3.?/site-packages >/usr/local/bin/manuale
+#     chmod +x /usr/local/bin/manuale
 #
-# Create a new account and register
+# Register a new account
 #     manuale register EMAIL
 #
 # Create a skeleton configuration file
-#     cert-update.sh -dump example.com.conf
+#     cert-update-manuale.sh -dump example.com.conf
 #
-# Private: ${COMMON_NAME}.pem
-# Cert:    ${COMMON_NAME}.crt
-# Int:     ${COMMON_NAME}.intermediate.crt
-# Chain:   ${COMMON_NAME}.chain.crt
+# Private: CERTIFICATE-NAME.pem
+# Cert:    CERTIFICATE-NAME.crt
+# Int:     CERTIFICATE-NAME.intermediate.crt
+# Chain:   CERTIFICATE-NAME.chain.crt
 
 # Common variables
 # Variables for cert-update.sh
@@ -98,7 +101,7 @@ Manuale()
         # System-wide installation (/usr/bin/, /usr/local/bin/ etc.)
         u bash -c -- 'manuale "$@"' manuale "$@"
     else
-        echo "manuale not found." 1>&2
+        echo "manuale command not found." 1>&2
         exit 127
     fi
 }
@@ -195,7 +198,7 @@ echo "${COMMON_NAME}  IN  CAA  0 iodef \"mailto:admin@szepe.net\""
 # Matching Type: 2 - SHA-512: SHA-512 Hash
 printf '_443._tcp.%s.  IN  TLSA  0 1 2 ' "$COMMON_NAME"
 openssl x509 -noout -pubkey -in "$INT" \
-    | openssl rsa -pubin -outform DER | openssl sha512 | cut -d " " -f 2 | tr "a-z" "A-Z"
+    | openssl rsa -pubin -outform DER | openssl sha512 | cut -d " " -f 2 | tr "[:lower:]" "[:upper:]"
 
 # Authorize or check authorization
 if [ "$AUTHORIZATION" == HTTP ]; then

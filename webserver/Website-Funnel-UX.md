@@ -23,7 +23,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek
 1. "Elhagyott kosár", visszafordulók, bámészkodók kezelése
 1. Visszatérő látogatók kezelése
-1. Visszajelzés lehetővé tétele (visszajelzés űrlap, chat, látogatások rögzítése)
+1. Ügyfelekkel való kapcsolattartás, visszajelzés lehetővé tétele
 
 ### Tartalom
 
