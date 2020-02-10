@@ -37,7 +37,7 @@ set -e -x
 sudo apt-get update -qq
 
 sudo apt-get install -y curl python3-dev build-essential pkg-config \
-    libattr1-dev libsqlite3-dev libfuse-dev fuse psmisc
+    libffi-dev libattr1-dev libsqlite3-dev libfuse-dev fuse psmisc
 
 # Install pip
 curl -s "https://bootstrap.pypa.io/get-pip.py" | sudo python3
@@ -70,7 +70,8 @@ tar -xf "$RELEASE_FILE"
     sed -e "/'google-auth',/d" -e "s/'google-auth-oauthlib'\]/]/" -i ./setup.py
     # Build and install
     python3 ./setup.py build_ext --inplace
-    python3 ./setup.py install --user
+    python3 ./setup.py install
+    #python3 ./setup.py install --user
 )
 
 s3qlctrl --version

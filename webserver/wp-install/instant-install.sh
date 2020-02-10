@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Install WordPress locally.
+# Install WordPress instantly using WP-CLI.
 #
 
 # Constants
@@ -49,11 +49,13 @@ set -e
 test -d "$INSTALLATION_DIRECTORY" && Error "Installation directory exists: ${INSTALLATION_DIRECTORY}"
 wp core download \
     --path="$INSTALLATION_DIRECTORY" --version="$CORE_VERSION" --locale="$CORE_LANGUAGE"
+
 cd "$INSTALLATION_DIRECTORY"
 
 wp config create \
     --dbuser="$DATABASE_USER" --dbpass="$DATABASE_PASSWORD" \
     --dbname="$DATABASE_NAME" --dbprefix="$(Get_db_prefix)"
+chmod 0600 ./wp-config.php
 
 wp core install \
     --url="$PUBLIC_URL" --title="$WEBSITE_TITLE" \
@@ -67,7 +69,7 @@ wp plugin install \
 HOST_PORT="${PUBLIC_URL#*//}"
 PORT="${HOST_PORT#*:}"
 echo "wp server --host=${HOST_PORT%:*} --port=${PORT:-80}" \
-    tee "${INSTALLATION_DIRECTORY}/server.sh"
+    | tee "${INSTALLATION_DIRECTORY}/server.sh"
 chmod +x "${INSTALLATION_DIRECTORY}/server.sh"
 
 echo "OK."

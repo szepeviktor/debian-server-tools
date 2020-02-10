@@ -53,6 +53,24 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 3. Valamilyen módon - pl. szerencsével - nem következik be a hiba → elenyésző a valószínűsége
 
 
+## Céges kommunikáció
+
+Cél: 1 közös platformon kommunikálni.
+
+- hibajegy
+- chat
+- hanghívás, konferencia hívás
+- videó hívás, képernyő megosztás
+- fájl megosztás
+- jegyzetek, dokumentumok közös szerkesztése
+- naptár
+
+### Szolgáltatók
+
+- Cloubhouse
+- Slack
+
+
 ## Kódolási büdzsé
 
 Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy fő.

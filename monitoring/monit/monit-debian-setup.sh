@@ -291,6 +291,9 @@ fi
 if ! Is_pkg_installed bc; then
     apt-get install -y bc
 fi
+if ! Is_pkg_installed libfcgi-bin; then
+    apt-get install -y libfcgi-bin
+fi
 if ! Is_pkg_installed monit; then
     apt-get install -y monit
 fi

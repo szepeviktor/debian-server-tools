@@ -2,13 +2,14 @@
 #
 # Check OPcache status.
 #
-# VERSION       :0.1.2
+# VERSION       :0.2.0
 # DATE          :2018-11-05
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :/usr/local/bin/cachetool
+# DEPENDS       :apt-get install libfcgi-bin
 # LOCATION      :/usr/local/sbin/opcache-check.sh
 
 declare -r -i OPCACHE_MIN_MB="5"
@@ -19,8 +20,41 @@ declare OPCACHE_OUTPUT
 CACHETOOL_SOCKET="$1"
 CACHETOOL_TEMP="$2"
 
+Fpm_redis()
+{
+    local VERSION="${1#*:}"
+    local SCRIPT="${CACHETOOL_TEMP}/redis-check-${RANDOM}.php"
+    local CR
+
+    # Create script file
+    cat >"$SCRIPT" <<"EOF"
+<?php
+define('_REDIS_VERSION', $_SERVER['QUERY_STRING']);
+define('_REDIS_ECHO', 'ping-pong');
+function check(bool $assertion) {
+    if ($assertion) { return; }
+    error_log('Redis extension failure!');
+    exit(10); }
+header('Content-type: text/html');
+header_remove();
+$redis = new \Redis();
+check($redis->connect('127.0.0.1', 6379) === true);
+check($redis->info('server')['redis_version'] === _REDIS_VERSION);
+check($redis->echo(_REDIS_ECHO) === _REDIS_ECHO);
+check($redis->close() === true);
+EOF
+
+    # Should print one carriage return character
+    CR="$(sudo -u "$(stat -c %U "$CACHETOOL_SOCKET")" \
+        SCRIPT_FILENAME="$SCRIPT" REQUEST_METHOD="GET" REQUEST_URI="/" QUERY_STRING="$VERSION" \
+        cgi-fcgi -bind -connect "$CACHETOOL_SOCKET")"
+    rm "$SCRIPT"
+    test "$CR" == $'\r'
+}
+
 # opcache.memory_consumption
-Opcache_free() {
+Opcache_free()
+{
     local -i OPCACHE_MB
     local -i MIN="$1"
 
@@ -36,7 +70,8 @@ Opcache_free() {
 }
 
 # opcache.interned_strings_buffer
-Opcache_string_free() {
+Opcache_string_free()
+{
     local -i OPCACHE_MB
     local -i MIN="$1"
 
@@ -55,7 +90,8 @@ Opcache_string_free() {
 }
 
 # opcache.max_accelerated_files
-Opcache_keys() {
+Opcache_keys()
+{
     local -i OPCACHE_CACHED_KEYS
     local -i OPCACHE_MAX_KEYS
     local -i MIN="$1"
@@ -79,3 +115,4 @@ test -n "$OPCACHE_OUTPUT"
 Opcache_free "$OPCACHE_MIN_MB"
 Opcache_string_free "$OPCACHE_STRING_MIN_MB"
 Opcache_keys "$OPCACHE_MIN_KEYS"
+Fpm_redis "$(dpkg-query --show --showformat='${Version}' redis-server | cut -d "-" -f 1)"
