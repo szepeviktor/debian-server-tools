@@ -436,7 +436,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Multilingual site (`hreflang` attribute)
 - Structured data https://schema.org/ http://microformats.org/
 - [Google My Business](https://www.google.com/business/) :snail:
-- [SERPs Google Location Changer](https://serps.com/tools/google-search-location)
+- [Google Location Changer](https://seranking.com/google-location-changer.html)
 - [AdWords Ad Preview](https://adwords.google.com/anon/AdPreview)
 - http://backlinko.com/google-ranking-factors
 - AdWords campaign as a SEO factor

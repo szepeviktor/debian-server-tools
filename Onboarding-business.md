@@ -64,6 +64,7 @@ Cél: 1 közös platformon kommunikálni.
 - fájl megosztás
 - jegyzetek, dokumentumok közös szerkesztése
 - naptár
+- külsősökkel való kapcsolat a platformon belül vagy emailben
 
 ### Szolgáltatók
 

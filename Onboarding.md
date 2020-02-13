@@ -174,6 +174,7 @@ This section contains preparations for secure registration.
 ### Onboarding for developers
 
 - We run Debian GNU/Linux on an UpCloud cloud instance
+- All services run in [UTC timezone](http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html)
 - MariaDB or Percona Server + Apache with HTTP/2 and event MPM + PHP-FPM 7 + Redis
   ([full feature list](/debian-setup/debian-setup.sh#L23))
 - Every web application (and website) runs as a separate Linux user
