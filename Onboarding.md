@@ -11,7 +11,7 @@ Details about [infrastructure and source code management](https://git.io/vNryB)
 Choose one per category.
 
 1. Domain registrar:
-   **AWS, Gandi :eu:, No-IP, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**
+   **Gandi :eu:, AWS, No-IP, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**
 1. DNS provider with [DNSSEC](https://www.icann.org/news/announcement-2019-02-22-en):
    **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Cloudflare, Exoscale :eu:, Gandi :eu:**
 1. Server provider:
@@ -23,7 +23,7 @@ Choose one per category.
    Certum :eu:,
    [Buypass](https://www.buypass.com/ssl) :eu:**
 1. CDN provider:
-   **AWS, Akamai from Selectel, KeyCDN :eu:**
+   **AWS, KeyCDN :eu:, Akamai from Selectel**
 1. Transactional email provider:
    **AWS, SparkPost, SparkPost EU :eu:**
 1. Storage provider:

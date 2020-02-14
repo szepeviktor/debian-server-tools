@@ -11,6 +11,10 @@
 - https://www.savoirbeds.com/
 - https://www.agoda.com/
 
+### Magyar bér-webáruház (HU)
+
+- https://www.shopngo.hu/
+
 ### Webshop components
 
 - Product data
