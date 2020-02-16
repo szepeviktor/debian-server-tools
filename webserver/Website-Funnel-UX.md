@@ -24,7 +24,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 1. "Elhagyott kosár", visszafordulók, bámészkodók kezelése
 1. Visszatérő látogatók kezelése
 1. Ügyfelekkel való kapcsolattartás, visszajelzés
-1. [Social proof](https://provesrc.com/)
+1. [Social](https://provesrc.com/) [proof](https://www.nudgify.com/)
 
 ### Tartalom
 

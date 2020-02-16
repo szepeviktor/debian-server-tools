@@ -44,8 +44,8 @@ Contact me: viktor@szepe.net
 Essentially keep every operation in memory!
 
 - Modern CPU, high *memory* bandwidth as WordPress is mainly memory copying,
-  sub-msec disk access time, try [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S)!
-- Thin virtualization layer, try UpCloud! Keep away from popular, non-enterprise providers
+  sub-msec disk access time, use [UpCloud](https://www.upcloud.com/register/?promo=U29Q8S)
+- Thin virtualization layer, use UpCloud, stay away from popular, non-enterprise providers
 - Fast operating system: No systemd, Enough entropy, IRQ balance, Low memory usage
 - Block hammering attackers: Fail2ban, permanently block hostile networks
 - Anycast DNS
@@ -141,6 +141,7 @@ Keressen meg: viktor@szepe.net
 Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot,
 [webáruházat](https://www.ocado.com/) tervezzenek.
 
+- https://www.voov.hu/
 - https://neeed.us/
 - https://www.pwstudio.hu/ - :fire: CodeIgniter keretrendszer szakértők
 - https://www.upsolution.hu/ - Laravel

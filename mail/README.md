@@ -23,13 +23,13 @@
 - https://www.mandrill.com/ by MailChimp
 - [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 - _ToBeTested_ https://www.smtp2go.com/pricing/ on Linode
-- _ToBeTested_ https://elasticemail.com/transactional/ on OVH
 
 * https://sendgrid.com/ by Twilio has own AS
+* https://www.sendinblue.com/ :eu: has own AS
 * https://www.mailgun.com/ by Rackspace
 * https://www.mailjet.com/transactional by Mailgun
-* https://www.sendinblue.com/ :eu: has own AS
 * https://postmarkapp.com/ by Wildbit
+* https://elasticemail.com/ on OVH
 
 #### Email delivery features
 
