@@ -1,13 +1,40 @@
 # Új ügyfelekkel való ismerkedés (HU)
 
-Segítség a helyes hozzáálláshoz.
+## Alkalmazás gyártás menete
 
-### Tervezés
+- https://www.fps.hu/work
+- http://www.kozpontbanazember.hu/
+- https://www.google.hu/search?q=user+interview+site%3Ahu
 
-- Készül üzleti terv? Van kitűzött cél?
-- Készül kulcsszó kutatás, piacfelmérés?
-- Készül műszaki dokumentáció vagy drótváz?
-- UX elemzés, tervezés, tesztelés lesz?
+### Megismerés / Discover
+
+Ismernünk kell az üzleti céljait, alapértékeit
+és azonosítani felhasználóinak igényeit
+olyan kutatási módszerek alapján,
+mint a felhasználó interjúzás, terepkísérlet (field study) stb.
+
+### Kiértékelés-Meghatározás / Define
+
+Hogy a termék eleget tegyen a felhasználók igényeinek,
+a funkcionalitás részletes leírást
+és a tartalmi elemek meghatározást kell priorizálni.
+Annak meghatározása, hogy a felhasználó interaktál a funkciókkal,
+az alkalmazás folyamatának (flow) és a tartalom struktúra megalkotása.
+
+### Tervezés / Design
+
+Designing interface elements to facilitate presenting the information
+and the users’ movement through the information architecture by wireframes, prototypes.
+Finally visualizing user interface by creative graphic design.
+
+### Fejlesztés / Develop
+
+Content and essential functions come ﬁrst,
+then visual presentation and interactivity using the latest technology.
+Testing products on a wide range of devices from mobile to desktop.
+
+
+## Segítség a helyes hozzáálláshoz
 
 ### Résztvevők
 
@@ -22,7 +49,7 @@ Segítség a helyes hozzáálláshoz.
   https://szepeviktor.typeform.com/to/O8bLIX
 - 12 pontos Joel Teszt
   https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/
-- Milyen környezetek lesznek? (develop, staging, beta, demo)
+- Milyen környezetek lesznek? (fejlesztési/tesztelési, staging, éles, béta, demó)
 
 ### Kétféle hozzáállás
 
@@ -58,18 +85,18 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 Cél: 1 közös platformon kommunikálni.
 
 - hibajegy
-- chat
-- hanghívás, konferencia hívás
-- videó hívás, képernyő megosztás
-- fájl megosztás
-- jegyzetek, dokumentumok közös szerkesztése
-- naptár
 - külsősökkel való kapcsolat a platformon belül vagy emailben
+- jegyzetek, dokumentumok közös szerkesztése
+- fájl megosztás
+- naptár
 
-### Szolgáltatók
+Szolgáltató: [Clubhouse](https://clubhouse.io/)
 
-- Cloubhouse
-- Slack
+* chat
+* hanghívás, konferencia hívás
+* videó hívás, képernyő megosztás
+
+Szolgáltató: [Slack](https://slack.com/)
 
 
 ## Kódolási büdzsé

@@ -11,7 +11,7 @@
 - https://www.savoirbeds.com/
 - https://www.agoda.com/
 
-### Magyar bér-webáruház (HU)
+### Bérelhető webáruház (HU)
 
 - https://www.shopngo.hu/
 

@@ -5,16 +5,17 @@ networking:
     method: static
     name: eth0
     resolver:
-        - 81.2.192.131
+        # https://support.forpsi.com/kb/a3019/i-have-serverhosting-at-forpsi-what-dns-servers-should-i-set-up.aspx
+        - 81.2.193.227
         - 8.8.8.8
+        - 81.2.192.131
         # MAXNS=3
-        #- 81.2.193.227
     # IPv6 interface
     inet6:
         method: static
         name: eth0
         resolver:
-            - 2001:15e8:102:3::c1d2
+            #- 2001:15e8:102:3::c1d2
             # MAXNS=3
             # google-public-dns-a.google.com.
             #- 2001:4860:4860::8888
