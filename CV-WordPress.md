@@ -158,6 +158,7 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 - https://iamgergo.com/about/
 - https://webikon.sk/
 - https://www.bluechip.at/de/ueber-uns/leitung-team/
+- https://www.towa-digital.com/wordpress/
 
 * https://kinsta.com/blog/hire-wordpress-developer/
 * https://jobs.wordpress.net/post-a-job/

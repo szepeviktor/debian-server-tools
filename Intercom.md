@@ -4,11 +4,11 @@ https://www.intercom.com/
 
 ### Az ügyfélkapcsolat részei
 
-1. Marketing: "visitor"->"lead"
-1. Sales: "lead"->"user"
-1. Support regisztrált felhasználóknak
+1. Marketing: látogató -> lead
+1. Sales: lead -> felhasználó
+1. Support: regisztrált felhasználóknak
 
-### Kommunikációs platformok
+### Kommunikációs csatornák
 
 Az Intercom Inbox-ban 1 platformon lehet kezelni mindet.
 
@@ -25,6 +25,8 @@ Az Intercom Inbox-ban 1 platformon lehet kezelni mindet.
 
 Az Intercom funkciói.
 
+- Messenger - Honlapokba beágyazott live chat
+- Email küldés - Messenger üzenetek, alkalmi email, kampányok
 - Product Tour - Alkalmazásunk bemutatása videóval
 - Help Articles - Tudástár
 

@@ -44,9 +44,10 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
 ### Technológia
 
-1. [Tervezés](https://www.figma.com/) ([vakszöveg](http://www.lorumipse.hu/)) /
-   [prototyping](https://www.invisionapp.com/) /
-   [wireframe](https://balsamiq.com/wireframes/)
+1. Tervezés, prototyping, [vakszöveg](http://www.lorumipse.hu/), [wireframe](https://balsamiq.com/wireframes/)
+    - https://www.figma.com/
+    - https://www.invisionapp.com/
+    - https://www.protopie.io/
 1. Nézetek [mobilon](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
    és [AMP változat](https://support.google.com/google-ads/answer/7336292?hl=hu)
    és különböző készülékeken, böngészőkben

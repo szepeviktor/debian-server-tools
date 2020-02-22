@@ -33,6 +33,12 @@ grep -v '^#\|^$' /opt/atlassian/confluence/confluence/WEB-INF/classes/confluence
 
 Copy jar file to `/opt/atlassian/*/lib/`
 
+### Dependencies
+
+```bash
+apt-get install fontconfig
+```
+
 ### Set up database
 
 For MySQL configuration see
@@ -177,3 +183,4 @@ https://confluence.atlassian.com/adminjiraserver/upgrading-jira-server-manual-93
   from 2.4.0: [disableMariaDbDriver](https://mariadb.com/kb/en/library/about-mariadb-connector-j/#having-mariadb-and-mysql-drivers-in-the-same-classpath)
   and useMysqlMetadata
 - Restore server.xml
+- User-installed apps: Administration / Manage apps / Manage apps `https://example.com/plugins/servlet/upm`
