@@ -18,7 +18,7 @@ mint a felhasználó interjúzás, terepkísérlet (field study) stb.
 Hogy a termék eleget tegyen a felhasználók igényeinek,
 a funkcionalitás részletes leírást
 és a tartalmi elemek meghatározást kell priorizálni.
-Annak meghatározása, hogy a felhasználó interaktál a funkciókkal,
+Annak meghatározása, ahogyan a felhasználó interakcióba lép a funkciókkal,
 az alkalmazás folyamatának (flow) és a tartalom struktúra megalkotása.
 
 ### Tervezés / Design
@@ -97,6 +97,8 @@ Szolgáltató: [Clubhouse](https://clubhouse.io/)
 * videó hívás, képernyő megosztás
 
 Szolgáltató: [Slack](https://slack.com/)
+
+https://basecamp.com/
 
 
 ## Kódolási büdzsé

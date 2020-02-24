@@ -29,6 +29,7 @@ Az Intercom funkciói.
 - Email küldés - Messenger üzenetek, alkalmi email, kampányok
 - Product Tour - Alkalmazásunk bemutatása videóval
 - Help Articles - Tudástár
+- app: [Felhasználó visszajelzés](https://canny.io/)
 
 ### Eszközök az Inbox-ban
 

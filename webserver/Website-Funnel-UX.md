@@ -24,7 +24,6 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 1. "Elhagyott kosár", visszafordulók, bámészkodók kezelése
 1. Visszatérő látogatók kezelése
 1. Ügyfelekkel való kapcsolattartás, visszajelzés
-1. [Social](https://provesrc.com/) [proof](https://www.nudgify.com/)
 
 ### Tartalom
 
@@ -33,12 +32,19 @@ főoldal → tematikus aloldal → cikk/lexikon
 
 Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
-- Egy kiemelő szín, szín és forma harmónia, [vibráló dizájn](https://hellobala.hu/)
+- Arculati kézikönyv: szín és forma harmónia, 1 kiemelő szín, [vibráló dizájn](https://hellobala.hu/)
 - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
 - CTA (call-to-action) gombok
-- Interaktív elemek: **videó**, virtuális túra, Ken Burns effektes slider/galéria,
+- Interaktív elemek: **videó**, Ken Burns effektes slider/galéria,
   hírlevél, letölthető anyag, beúszó feliratkoztató, exit modal,
   kupon/kedvezmény, friss hírek, megosztás, [további elemek angolul](/webserver/Production-website.md#marketing)
+- 3D virtuális túra
+  - [Google Térkép Utcakép](https://www.google.com/intl/hu/streetview/business/) belső nézet túra
+  - Beágyazható [3D Matterport virtuális túra](https://www.brand360.hu/) beltérről
+  - Panorámakép
+  - [Facebook 360 fotók](https://facebook360.fb.com/360-photos/)
+  - [Facebook 3D fotó](https://hu-hu.facebook.com/help/414295416095269)
+- [Social](https://provesrc.com/) [proof](https://www.nudgify.com/)
 - Zsákutca hiba (Alul hova tovább?)
 - Fölös háttér, belépési oldal, köszönjük oldal, értesítő levelek kihasználása
 
