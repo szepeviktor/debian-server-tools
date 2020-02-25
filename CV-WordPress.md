@@ -142,10 +142,12 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 [webáruházat](https://www.ocado.com/) tervezzenek.
 
 - https://www.voov.hu/
+- https://hacky.hu/
 - https://neeed.us/
-- https://www.pwstudio.hu/ - :fire: CodeIgniter keretrendszer szakértők
+- https://www.pwstudio.hu/ - :fire: CodeIgniter
 - https://www.upsolution.hu/ - Laravel
 - https://splendex.io/
+- https://netpeople.hu/
 
 * https://www.finetune.hu/
 * https://www.rblmarketing.hu/

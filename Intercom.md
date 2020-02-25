@@ -18,6 +18,8 @@ Az Intercom Inbox-ban 1 platformon lehet kezelni mindet.
 - közösségi média (pl. Facebook Messenger)
 - app: [Octopods](https://octopods.io/)
 - bejövő és kimenő telefonos és böngészős hívás, videó hívás
+  - https://toky.co/
+  - https://www.cloudtalk.io/
 - app: képernyőkép, képernyő felvétel, képernyő megosztás
 - app: Slack
 

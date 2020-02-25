@@ -51,6 +51,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 ### Technológia
 
 1. Tervezés, prototyping, [vakszöveg](http://www.lorumipse.hu/), [wireframe](https://balsamiq.com/wireframes/)
+    - https://whimsical.com/
     - https://www.figma.com/
     - https://www.invisionapp.com/
     - https://www.protopie.io/
