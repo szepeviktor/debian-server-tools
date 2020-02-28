@@ -37,7 +37,7 @@ dpkg-reconfigure -f noninteractive openssh-server
 service ssh restart
 
 # Check sshd running and listening
-service ssh status
+service ssh status | cat
 netstat -n -a -t -p | grep ":${SSH_PORT}\\s.*/sshd\\s*\$"
 
 # Check password authentication for the first sudoer

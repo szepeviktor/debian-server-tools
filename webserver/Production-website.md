@@ -73,7 +73,7 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 
 ### CDN
 
-- Consider a CDN with multiple A records `host -t A cdn.example.com` :snail:
+- Use a CDN with multiple A records `host -t A cdn.example.com` :snail:
 - [Revving filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
 - Combine and minify CSS and JavaScript files
 - HTML caching or `no-cache`?
@@ -98,7 +98,8 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 - Easy identification for email notifications (filtering to mail folders)
 - SPF for `MAIL FROM:`, SPF for `HELO`, DKIM, DMARC
 
-Consider transactional email service through HTTP API. :snail:
+Use transactional email service through HTTP API
+or with a queueing MTA. :snail:
 
 - Mailgun API: https://wordpress.org/plugins/mailgun/
 - Amazon SES: https://github.com/humanmade/aws-ses-wp-mail

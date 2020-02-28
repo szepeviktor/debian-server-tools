@@ -1,4 +1,4 @@
 # MariaDB Stable
 deb http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.3/debian stretch main
-#K: apt-key adv --keyserver keys2.kfwebs.net --recv-keys F1656F24C74CD1D8
+#K: apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys F1656F24C74CD1D8
 #M: https://downloads.mariadb.org/mariadb/repositories/#distro=Debian

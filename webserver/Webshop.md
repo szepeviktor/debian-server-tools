@@ -11,27 +11,6 @@
 - https://www.savoirbeds.com/
 - https://www.agoda.com/
 
-### Bérelhető webáruház (HU)
-
-- https://www.shopngo.hu/
-
-### Webshop components
-
-- Product data
-  - SKU
-  - Description text per language
-  - **Images**
-  - **Product video**
-  - Variations and other details
-- Fraud protection
-- Product import (ERP, POS)
-- Product export (price comparison websites)
-- Payment processors
-  ([Revised Directive on Payment Services (PSD2)](https://en.wikipedia.org/wiki/Payment_Services_Directive#Revised_Directive_on_Payment_Services_%28PSD2%29))
-- Shipping
-- Email delivery
-- Support, AI chatbot
-
 ### Self-hosted webshops
 
 - Vue Storefront, StorefrontUI
@@ -60,6 +39,15 @@
 - https://hu.bidwonder.com/
 - https://www.vatera.hu/
 
+### Headless services
+
+- https://www.moltin.com/
+- https://www.shopify.com/plus/solutions/headless-commerce
+
+### Bérelhető webáruházak (HU)
+
+- https://www.shopngo.hu/
+
 ### Tools
 
 - https://recart.com/ (Facebook Messenger marketing)
@@ -74,10 +62,26 @@
 - https://www.nchannel.com/connectors/
 - https://www.sellxed.com/shop/en/chf/extensions/module/payment-service-provider/saferpay.html Saferpay by Six Payments
 
-### Headless services
+### Webshop components
 
-- https://www.moltin.com/
-- https://www.shopify.com/plus/solutions/headless-commerce
+- Product data
+  - SKU
+  - Description text per language
+  - **Images**
+  - **Product video**
+  - Variations and other details
+- Fraud protection
+- Product import (ERP, POS)
+- Product export (price comparison websites)
+- Payment processors
+  ([Revised Directive on Payment Services (PSD2)](https://en.wikipedia.org/wiki/Payment_Services_Directive#Revised_Directive_on_Payment_Services_%28PSD2%29))
+- Shipping
+- Email delivery
+- Support, AI chatbot
+
+### Webshop components
+
+- Putting into cart feedback
 
 ### Find an expert
 

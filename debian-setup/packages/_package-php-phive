@@ -5,7 +5,7 @@ set -e -x
 wget -O phive.phar "https://phar.io/releases/phive.phar"
 wget -O phive.phar.asc "https://phar.io/releases/phive.phar.asc"
 
-gpg --batch --keyserver keys2.kfwebs.net --keyserver-options timeout=10 --recv-keys 0x9D8A98B29B2D5D79
+gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=10 --recv-keys 0x9D8A98B29B2D5D79
 if ! gpg --batch --verify phive.phar.asc phive.phar; then
     echo "ERROR: Invalid phive signature" 1>&2
     rm -f phive.phar

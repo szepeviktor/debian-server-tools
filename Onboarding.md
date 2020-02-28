@@ -141,8 +141,7 @@ This section contains preparations for secure registration.
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
-- Email for teams: [HelpScout](https://www.helpscout.com/), [Front](https://frontapp.com/),
-  [Consider](https://consider.co/)
+- Email 2.0 for work: [Consider](https://consider.co/) (Gmail only)
 
 ### Backup
 
