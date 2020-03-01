@@ -1,0 +1,15 @@
+Source: systemd-tmpfiles
+Section: admin
+Priority: important
+Homepage: https://packages.debian.org/bullseye/opentmpfiles
+Standards-Version: 3.9.2
+
+Package: systemd-tmpfiles
+Version: 244.3-1
+Maintainer: Viktor Szépe <viktor@szepe.net>
+Depends: opentmpfiles
+Provides: systemd
+Conflicts: systemd
+Architecture: amd64
+Links: /bin/opentmpfiles-tmpfiles /bin/systemd-tmpfiles
+Description: Provides systemd-tmpfiles command symlinked to opentmpfiles-tmpfiles

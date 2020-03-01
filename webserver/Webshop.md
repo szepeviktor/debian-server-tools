@@ -48,6 +48,12 @@
 
 - https://www.shopngo.hu/
 
+### CMS backend
+
+- https://prismic.io/
+- https://www.storyblok.com/
+- https://wordpress.org/
+
 ### Tools
 
 - https://recart.com/ (Facebook Messenger marketing)
