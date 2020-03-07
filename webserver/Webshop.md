@@ -56,11 +56,12 @@
 
 ### Tools
 
-- https://recart.com/ (Facebook Messenger marketing)
-- https://textual.ai/ (content creation)
-- https://morph.ai/ecommerce (chatbot)
-- https://racom.io/ (chatbot)
-- https://www.bolt.com/ (checkout, >$1M/year)
+- Facebook Messenger marketing https://recart.com/
+- Dynamic content https://www.dynamicyield.com
+- Content creation https://textual.ai/
+- Chatbot https://morph.ai/ecommerce
+- Chatbot https://racom.io/
+- Checkout https://www.bolt.com/ (>$1M/year)
 
 ### Integrations
 

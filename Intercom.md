@@ -10,17 +10,17 @@ https://www.intercom.com/
 
 ### Kommunikációs csatornák
 
-Az Intercom Inbox-ban 1 platformon lehet kezelni mindet.
+Az Intercom Inbox-ban 1 platformon lehet kezelni az alábbiakat.
 
-- webhelyek: honlap, webháruház, blog, webes alkalmazás
-- mobil app
+- chat webhelyeken: honlap, webháruház, blog, webes alkalmazás
+- chat mobil app-ban
 - email
-- közösségi média (pl. Facebook Messenger)
-- app: [Octopods](https://octopods.io/)
-- bejövő és kimenő telefonos és böngészős hívás, videó hívás
+- Facebook Messenger
+- app: több közösségi média https://octopods.io/
+- app: bejövő és kimenő telefonos és böngészős hívás
   - https://toky.co/
   - https://www.cloudtalk.io/
-- app: képernyőkép, képernyő felvétel, képernyő megosztás
+- app: videó hívás, képernyőkép, képernyő felvétel, képernyő megosztás
 - app: Slack
 
 ### Szolgáltatások
@@ -31,19 +31,34 @@ Az Intercom funkciói.
 - Email küldés - Messenger üzenetek, alkalmi email, kampányok
 - Product Tour - Alkalmazásunk bemutatása videóval
 - Help Articles - Tudástár
-- app: [Felhasználó visszajelzés](https://canny.io/)
+- Felhasználó visszajelzés
+  - app: https://canny.io/
+  - app: https://www.userfeed.io/
 
-### Eszközök az Inbox-ban
+### Ügyfél adatok az Inbox-ban
 
-- készülék és böngésző adatok
-- meglátogatott oldalak
-- látogató által megadott adatok
+- Készülék és böngésző adatok
+- Meglátogatott oldalak
+- Látogató által megadott adatok
 - app: email cím ellenőrzés
-- app: [contact](https://www.intercom.com/help/en/articles/1155850-clearbit-reveal-app)
-  [enrichment](https://albacross.com/)
-  email vagy csak IP cím alapján
+- app: contact enrichment email vagy csak IP cím alapján
+  - https://www.intercom.com/help/en/articles/1155850-clearbit-reveal-app
+  - https://albacross.com/ :EU:
 - app: (elő)fizetés kezelése
 - API-n keresztül bármilyen adat beküldhető az Inbox-ba
+
+### Kommunikációs elemek az Inbox-ban
+
+https://www.intercom.com/help/en/articles/319-composing-a-message
+
+- Formázott szöveg
+- Elmentett válaszok
+- GIF animáció
+- Emoji
+- Kép
+- **Videó**
+- Fájl küldés
+- App-ok
 
 ### Automatikus funkciók
 
@@ -52,17 +67,17 @@ Az Intercom funkciói.
     - Product Tour - Alkalmazásunk bemutatása videóval
     - Email
     - Push notification
-    - és kampányok
+    - Kampányok
     - app küldés
 1. Inbox
     - Task Bot
     - Custom Bot
     - Answer Bot
+    - Resolution Bot
 1. Product Tour kódítás nélkül (onboarding-hoz)
 
-Kommunikáció szöveggel, képekkel, **videókkal**, emoji-kkal és app-okkal.
+### [App-ok](https://www.intercom.com/app-store)
 
-[App-ok](https://www.intercom.com/app-store):
 - felhasználói adatok küldése és fogadása
 - kérdőív
 - naptárban időpont foglalás

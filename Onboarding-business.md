@@ -26,6 +26,7 @@ az alkalmazás folyamatának (flow) és a tartalom struktúra megalkotása.
 Designing interface elements to facilitate presenting the information
 and the users’ movement through the information architecture by wireframes, prototypes.
 Finally visualizing user interface by creative graphic design.
+https://www.youtube.com/watch?v=mfieI1UBiaM
 
 ### Fejlesztés / Develop
 

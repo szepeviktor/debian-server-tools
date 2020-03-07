@@ -18,7 +18,7 @@ Not only a WordPress site!
 
 - A, CNAME (for [CDN](http://www.cdnplanet.com/cdns/))
 - MX
-- SPF, DKIM, DMARC
+- TXT records for SPF, DKIM, DMARC
 - PTR records
 - Proper TTL values
 
@@ -33,8 +33,8 @@ Not only a WordPress site!
 - Very cheap
 
 Authorities: Let's Encrypt,
-[RapidSSL](https://cheapsslsecurity.com/sslbrands/rapidssl.html) (GeoTrust/DigiCert),
-CloudFlare SSL
+[RapidSSL](https://cheapsslsecurity.com/sslbrands/rapidssl.html) (by DigiCert),
+DigiCert
 and other [SSL certificate authorities](https://www.netcraft.com/internet-data-mining/ssl-survey/)
 
 [OCSP performance](http://uptime.netcraft.com/perf/reports/performance/OCSP)
@@ -43,13 +43,13 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 1. https://www.ssllabs.com/ssltest/ :snail:
 1. https://crt.sh/
 
-### WordPress core, theme from git
+### WordPress core and theme as Composer packages
 
 1. Set up database connection in `wp-config.php`
 1. Define constants, generate salts based on [wp-config.php skeleton](./wp-install/wp-config.php)
 1. Edit `../wp-cli.yml`
 1. **Use child theme** for purchased themes
-1. Keep custom themes in git `git clone --recursive ssh://user@server:port/path/to/git`
+1. Keep custom plugins and themes in git repositories
 
 ### Plugins
 
@@ -90,7 +90,7 @@ wp eval 'wp_mail("admin@szepe.net","first outgoing",site_url());'
 
 - Obfuscate email addresses `antispambot( 'e@ma.il' )`
 - [JavaScript href fallback](https://gist.github.com/joshdick/961154): https://www.google.com/recaptcha/admin#mailhide
-- Authenticated delivery for email notifications
+- Authenticated delivery for monitoring emails
 - Shortest route of delivery
 - Add server as `RELAYCLIENT` on the smarthost
 - Email `From:` name and address
@@ -441,6 +441,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - [AdWords Ad Preview](https://adwords.google.com/anon/AdPreview)
 - http://backlinko.com/google-ranking-factors
 - AdWords campaign as a SEO factor
+- [ContentKing](https://www.contentkingapp.com/) SEO monitoring
 - [SEO for startups :play_or_pause_button:](https://www.youtube.com/watch?v=El3IZFGERbM)
 - [BP Digital](https://bpdigital.hu/) (HU)
 - [Growww Digital](https://www.growwwdigital.com/)
