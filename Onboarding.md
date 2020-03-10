@@ -98,6 +98,33 @@ This section contains preparations for secure registration.
 - Log out (prevent session hijacking)
 - Document credentials
 
+### Cheapsslsecurity.com registration
+
+[RapidSSL DV](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html)
+
+- Buy Multiple Years: 2 Year
+- Billing Address, Payment Method
+
+[Dashboard](https://cheapsslsecurity.com/client/ordersummary.html)
+
+- Generate Cert Now
+- (1) New **or** Renewal
+- (2) No
+- (3) DNS Based Authentication
+- (4) Generate CSR: `cert-update-req-install.sh DOMAIN`
+- (5) Other
+- (6) SHA-2
+
+Verify your URL
+
+- Check domain name
+- Set TXT record in DNS
+- Wait for issuance
+
+[Dashboard / Manage Renewal Email Preferences](https://cheapsslsecurity.com/client/renewalemail-preferences.html)
+
+- Select Admin/Technical contact: `[ ]` `[ ]`
+
 ### Infrastructure setup
 
 - Document in hosting.yml and server.yml (Skype, Google Contacts, KeePass, link-torzs)

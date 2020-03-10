@@ -10,6 +10,7 @@
 - https://www.amazon.com/gp/navigation-country/select-country/
 - https://www.savoirbeds.com/
 - https://www.agoda.com/
+- booking: https://www.getbellhops.com/ (TypeForm-like)
 
 ### Self-hosted webshops
 
@@ -86,9 +87,26 @@
 - Email delivery
 - Support, AI chatbot
 
-### Webshop components
+### Webshop processes
 
-- Putting into cart feedback
+- Passwordless login
+  - Auth0 (SMS, email)
+  - Google Sign-In
+  - Facebook Login
+  - Login with Amazon
+  - Sign in with Apple
+  - Log in with Twitter
+  - Microsoft identity platform
+  - MojeID (CZ)
+- "Putting products into cart" feedback
+- Express (one click) checkout
+  - Masterpass
+  - Visa Checkout
+  - Amazon Pay
+  - PayPal Checkout
+  - Stripe Checkout
+  - Google Pay
+  - Apple Pay
 
 ### Find an expert
 

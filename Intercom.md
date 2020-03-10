@@ -20,8 +20,10 @@ Az Intercom Inbox-ban 1 platformon lehet kezelni az alábbiakat.
 - app: bejövő és kimenő telefonos és böngészős hívás
   - https://toky.co/
   - https://www.cloudtalk.io/
+- app: SMS üzenet (Octopods / Twilio SMS)
 - app: videó hívás, képernyőkép, képernyő felvétel, képernyő megosztás
-- app: Slack
+
+Beszélgetés Slack-ben.
 
 ### Szolgáltatások
 
@@ -64,7 +66,6 @@ https://www.intercom.com/help/en/articles/319-composing-a-message
 
 1. Outbound: ügyfelekkel való kapcsolat indítása
     - Messenger-ben
-    - Product Tour - Alkalmazásunk bemutatása videóval
     - Email
     - Push notification
     - Kampányok
@@ -74,7 +75,7 @@ https://www.intercom.com/help/en/articles/319-composing-a-message
     - Custom Bot
     - Answer Bot
     - Resolution Bot
-1. Product Tour kódítás nélkül (onboarding-hoz)
+1. Product Tour (alkalmazásunk bemutatása, videókkal is) kódírás nélkül
 
 ### [App-ok](https://www.intercom.com/app-store)
 

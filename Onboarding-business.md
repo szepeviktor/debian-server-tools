@@ -3,7 +3,7 @@
 ## Alkalmazás gyártás menete
 
 - https://www.fps.hu/work
-- http://www.kozpontbanazember.hu/
+- https://web.archive.org/web/20181228074713/http://kozpontbanazember.hu/ (FrancisKodak)
 - https://www.google.hu/search?q=user+interview+site%3Ahu
 
 ### Megismerés / Discover
@@ -35,37 +35,21 @@ then visual presentation and interactivity using the latest technology.
 Testing products on a wide range of devices from mobile to desktop.
 
 
-## Segítség a helyes hozzáálláshoz
+### Kérdések ismerkedéshez
 
-### Résztvevők
-
-- Hányadik projektjük ez?
-- Lesz projektvezető?
-- Hány műszaki szakember fog résztvenni? (UX designer, grafikus, fejlesztő, SEO, PPC, social)
-- Hány üzleti résztvevő lesz, akik köznyelven beszélnek/írnak?
-
-### Eszközök
-
+- Lesz **sorozatosan** műszaki dolgok magyarázása nem műszaki emberek számára?
+- Fogok kapni köznyelven folyószövegként írt emaileket és hibajegyeket?
 - Milyen eszközöket fogunk használni?
   https://szepeviktor.typeform.com/to/O8bLIX
-- 12 pontos Joel Teszt
-  https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/
-- Milyen környezetek lesznek? (fejlesztési/tesztelési, staging, éles, béta, demó)
+- Milyen (futtatási) környezetek lesznek?
+  fejlesztési/tesztelési, staging, éles, béta, demó
 
 ### Kétféle hozzáállás
-
-1. El kell tartsa a céget a webes alkalmazás?
-2. Vagy a webes alkalmazás csak egy melléktevékenység?
-
-Igények és eredmények szerint.
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a máshonnan már ismert hibák elkerülésével,
    és a technikai tartozás (technical debt) folyamatos visszafizetésével
-   &ndash; _például az erőforrások 10%-a erejéig_
-
 Mit jelent a _kész_?
-
 1. Akkor van kész egy funkció, ha az elvárt értéket írja ki
 2. Akkor van kész valami, ha a kódolási stílus megegyező, kommentezve van, a statikus analízis nem jelez,
    és esetleg valaki átnézte a kódot, és van hozzá teszt

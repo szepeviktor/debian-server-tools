@@ -306,6 +306,7 @@ Multilingual support.
 - Suggest a password manager (avoid saving passwords to browser)
 - Short [video about password](https://www.youtube.com/watch?v=XchWBCZSOt0) and cybersecurity
 - Signing in on an old login page (reopened by the browser) with expired cookies
+- Login to a specific page (inside the application) through the login page
 
 #### Logged in
 
