@@ -1,6 +1,6 @@
 # Út az emailtől és kapcsolat űrlaptól az ügyfélkapcsolatig
 
-https://www.intercom.com/
+Paradigma váltás az [Intercom](https://www.intercom.com/)-mal.
 
 ### Az ügyfélkapcsolat részei
 

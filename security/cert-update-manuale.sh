@@ -8,7 +8,6 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install jq
 # DEPENDS       :/usr/local/sbin/cert-update.sh
 # LOCATION      :/usr/local/sbin/cert-update-manuale.sh
 
@@ -166,7 +165,7 @@ if [ ! -r ./account.json ]; then
     echo "Please run:  manuale register EMAIL" 1>&2
     exit 125
 fi
-Manuale info | jq '.'
+Manuale info
 
 # Check domain names
 if [ -z "${COMMON_NAME+x}" ] || [ -z "$COMMON_NAME" ] || [ -z "${DOMAIN_NAMES+x}" ]; then

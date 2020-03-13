@@ -5,9 +5,10 @@
 ### Milyen csapatnak?
 
 - Webes alkalmazás ([SaaS](https://hu.wikipedia.org/wiki/Saas)) gyártók
-- Webáruház üzemeltetők
+- Webáruház (ecommerce) üzemeltetők
+- Hírportálok (publishing)
 - Marketing eszköznek tekintett honlapon kampányolók
-- Hírportálok
+- Digitális ügynökségek
 
 ### Milyen munkát végzek?
 

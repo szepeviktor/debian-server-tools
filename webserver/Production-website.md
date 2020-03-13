@@ -533,11 +533,10 @@ Document in `hosting.yml` and check functionality.
 
 Gain access, set up and test.
 
+- [Heap Analytics](https://heap.io/)
 - Google Analytics (revenue tracking), Google Tag Manager :snail:
 - Facebook Pixel
 - Segment
-- Matomo (was Piwik)
-- [HEAP](https://heapanalytics.com/)
 - Clicktale
 - Smartlook
 - Hotjar
