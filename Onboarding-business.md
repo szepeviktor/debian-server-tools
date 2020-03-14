@@ -71,7 +71,7 @@ Cél: 1 közös platformon kommunikálni.
 
 - hibajegy
 - külsősökkel való kapcsolat a platformon belül vagy emailben
-- jegyzetek, dokumentumok közös szerkesztése
+- jegyzetek, dokumentumok (pl. céges telefonkönyv) közös szerkesztése
 - fájl megosztás
 - naptár
 

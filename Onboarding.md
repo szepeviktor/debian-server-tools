@@ -125,6 +125,23 @@ Verify your URL
 
 - Select Admin/Technical contact: `[ ]` `[ ]`
 
+### Email delivery
+
+- There is no guaranteed email delivery on the Internet
+- [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages:
+  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+  <!-- not Tiliq -->
+- File sharing, large file sending: [WeTransfer](https://wetransfer.com/),
+  [Firefox Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/),
+  [Smash](https://fromsmash.com/)
+- *Transactional* emails and notification emails for alerts, log excerpts:
+  [see providers above](#specialized-infrastructure-providers)
+- *Bulk* email for newsletter: [see providers above](#specialized-infrastructure-providers)
+- Bounce messages for **all three** email types
+- Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
+- My email address: `webmaster@`
+- Email 2.0 for work: [Consider](https://consider.co/) (Gmail only)
+
 ### Infrastructure setup
 
 - Document in hosting.yml and server.yml (Skype, Google Contacts, KeePass, link-torzs)
@@ -152,23 +169,6 @@ Verify your URL
 - Error tracking
 - **Development: development in production?, who has access, where to develop, how to deploy**
 - Editorial duties: **who has time and competence**
-
-### Email delivery
-
-- There is no guaranteed email delivery on the Internet
-- [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages:
-  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
-  <!-- not Tiliq -->
-- File sharing, large file sending: [WeTransfer](https://wetransfer.com/),
-  [Firefox Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/),
-  [Smash](https://fromsmash.com/)
-- *Transactional* emails and notification emails for alerts, log excerpts:
-  [see providers above](#specialized-infrastructure-providers)
-- *Bulk* email for newsletter: [see providers above](#specialized-infrastructure-providers)
-- Bounce messages for **all three** email types
-- Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
-- My email address: `webmaster@`
-- Email 2.0 for work: [Consider](https://consider.co/) (Gmail only)
 
 ### Backup
 
