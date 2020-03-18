@@ -45,7 +45,7 @@ Az Intercom funkciói.
 - app: email cím ellenőrzés
 - app: contact enrichment email vagy csak IP cím alapján
   - https://www.intercom.com/help/en/articles/1155850-clearbit-reveal-app
-  - https://albacross.com/ :EU:
+  - https://albacross.com/ :eu:
 - app: (elő)fizetés kezelése
 - API-n keresztül bármilyen adat beküldhető az Inbox-ba
 

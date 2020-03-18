@@ -40,7 +40,7 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
 - Technológia választásnál tanácsadás
 - Szolgáltató választásnál elemzés (pl. fizetési szolgáltató, omnichannel marketing, projekt menedzsment szoftver)
   - célközönség kiderítése
-  - specializálódás vs. populista szétforgácsolódás
+  - specializált szolgáltató vs. populista szétforgácsolódás
   - pénzeszközök vizsgálata
   - CEO-val, dolgozókkal való párbeszéd
   - szaktudás felfedezése a blogjukból
@@ -50,27 +50,25 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - általuk használt szolgáltatók ellenőrzése
   - kínált integrációk értékelése
   - ár-érték arány mérlegelése
-- Szoftvereknél üzemeltethetőség
+- Szoftver választásnál üzemeltethetőség
   - open-source?
   - csomagolás, telepítés
   - release ciklus
   - hiba bejelentéstől a javításig eltelt idő
   - naplók hasznossága
   - erőforrásigény
-- A cég folyamatainál
-  - .
 
 ### Monitoring
 
-- Éjjel-nappali ügyfélszolgálat: hibajegy, telefon, email
+- Éjjel-nappali ügyfélszolgálat: hibajegy, chat, telefon, email
 - A cég összes folyamatának szoftverekkel való monitorozása
-  - infrastruktúra szolgáltatók (domain, dns, szerver, ssl/ocsp, cdn, email, biztonsági mentés)
+  - infrastruktúra szolgáltatókat (domain, dns, szerver, ssl/ocsp, cdn, email, biztonsági mentés)
   - minden más szolgáltatóé is
-  - a forráskódot
+  - forráskódot
   - az alkalmazás telepítését
   - az alkalmazás naplóját
   - a felhasználók böngészőjében történt hibákat
-  - a projeken dolgozók munkáját
+  - a projekben dolgozók munkáját
   - sales, marketing és support eszközöket
 - Minden incidens kiváltó okának felkutatása, végleges megoldása
 
