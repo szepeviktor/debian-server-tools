@@ -443,8 +443,11 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - AdWords campaign as a SEO factor
 - [ContentKing](https://www.contentkingapp.com/) SEO monitoring
 - [SEO for startups :play_or_pause_button:](https://www.youtube.com/watch?v=El3IZFGERbM)
+- [Longhand](https://longhand.hu/varga-peter-longhand) (HU)
 - [BP Digital](https://bpdigital.hu/) (HU)
 - [Growww Digital](https://www.growwwdigital.com/)
+
+Google's [Search Quality Evaluator Guidelines](https://static.googleusercontent.com/media/guidelines.raterhub.com/en//searchqualityevaluatorguidelines.pdf)
 
 ### Legal (EN)
 

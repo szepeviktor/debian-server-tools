@@ -27,7 +27,7 @@ Filter_client_server_error()
 {
     # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
-    #     408 Request Timeout
+    #     408 Request Timeout on preconnect
     #     Tunneling through Amazon CloudFront for blocked news sites in China
     #     Favicon in subdirectory
     #     WordPress' Windows Live Writer manifest

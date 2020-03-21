@@ -4,7 +4,7 @@
 - https://trends.builtwith.com/shop
 - https://gkidigital.hu/2018/08/15/e-toplista-2018/
 
-### Webshops to learn from
+### Learn from “Best-In-Class”
 
 - https://www.ocado.com/
 - https://www.amazon.com/gp/navigation-country/select-country/

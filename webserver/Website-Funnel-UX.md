@@ -2,6 +2,8 @@
 
 Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 
+[Google UX iránymutatás](https://growrevenue.io/secret-google-ux-playbooks/)
+
 ### Stratégia
 
 1. Interneten elérhető a célközönség?
