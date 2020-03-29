@@ -49,7 +49,9 @@ Testing products on a wide range of devices from mobile to desktop.
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a máshonnan már ismert hibák elkerülésével,
    és a technikai tartozás (technical debt) folyamatos visszafizetésével
+
 Mit jelent a _kész_?
+
 1. Akkor van kész egy funkció, ha az elvárt értéket írja ki
 2. Akkor van kész valami, ha a kódolási stílus megegyező, kommentezve van, a statikus analízis nem jelez,
    és esetleg valaki átnézte a kódot, és van hozzá teszt

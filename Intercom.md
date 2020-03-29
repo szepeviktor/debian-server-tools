@@ -46,6 +46,7 @@ Az Intercom funkciói.
 - app: contact enrichment email vagy csak IP cím alapján
   - https://www.intercom.com/help/en/articles/1155850-clearbit-reveal-app
   - https://albacross.com/ :eu:
+  - hamarosan: https://www.leadfeeder.com/ :eu:
 - app: (elő)fizetés kezelése
 - API-n keresztül bármilyen adat beküldhető az Inbox-ba
 

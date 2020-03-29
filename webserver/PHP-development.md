@@ -246,7 +246,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
     - unresolvable MX
 - Blocked usernames
 - Force [strong passwords](/security/Password-security.md):
-    - not previously used
+    - previously used
+    - on most common passwords list
     - similarity to name, username or other user details
     - length
     - complexity
@@ -307,6 +308,7 @@ Multilingual support.
 - Short [video about password](https://www.youtube.com/watch?v=XchWBCZSOt0) and cybersecurity
 - Signing in on an old login page (reopened by the browser) with expired cookies
 - Login to a specific page (inside the application) through the login page
+- Custom messages on each failed login attempt, automatic redirect to password reminder page
 
 #### Logged in
 

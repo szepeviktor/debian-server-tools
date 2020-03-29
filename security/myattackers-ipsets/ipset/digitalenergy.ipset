@@ -6,15 +6,19 @@ flush digitalenergy
 add digitalenergy 154.16.55.0/24
 add digitalenergy 179.61.128.0/20
 add digitalenergy 179.61.160.0/20
+add digitalenergy 179.61.249.0/24
+add digitalenergy 181.214.0.0/20
 add digitalenergy 181.214.16.0/20
 add digitalenergy 181.214.208.0/22
 add digitalenergy 181.215.195.0/24
 add digitalenergy 185.143.228.0/22
+add digitalenergy 185.145.36.0/22
 add digitalenergy 185.158.100.0/22
 add digitalenergy 185.158.148.0/22
 add digitalenergy 191.96.102.0/24
 add digitalenergy 191.101.80.0/20
 add digitalenergy 191.101.112.0/20
+add digitalenergy 191.101.136.0/21
 add digitalenergy 191.101.161.0/24
 
 # AS61440 - DET Chile

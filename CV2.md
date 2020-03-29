@@ -4,11 +4,11 @@
 
 ### Milyen csapatnak?
 
-- Webes alkalmazás ([SaaS](https://hu.wikipedia.org/wiki/Saas)) gyártók
-- Webáruház (ecommerce) üzemeltetők
+- Webes alkalmazás gyártók ([SaaS](https://hu.wikipedia.org/wiki/Saas))
+- Webáruház üzemeltetők (ecommerce)
 - Hírportálok (publishing)
 - Marketing eszköznek tekintett honlapon kampányolók
-- Digitális ügynökségek
+- Digitális ügynökségek (agency)
 
 ### Milyen munkát végzek?
 
@@ -58,10 +58,10 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - naplók hasznossága
   - erőforrásigény
 
-### Monitoring
+### Üzemeltetés
 
 - Éjjel-nappali ügyfélszolgálat: hibajegy, chat, telefon, email
-- A cég összes folyamatának szoftverekkel való monitorozása
+- A cég összes folyamatának szoftverekkel való **monitorozása**
   - infrastruktúra szolgáltatókat (domain, dns, szerver, ssl/ocsp, cdn, email, biztonsági mentés)
   - minden más szolgáltatóé is
   - forráskódot
