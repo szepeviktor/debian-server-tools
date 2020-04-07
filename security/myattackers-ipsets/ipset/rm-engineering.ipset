@@ -1,0 +1,8 @@
+# AS49877 - RMINJINERING
+#: ipset -exist restore <ipset/rm-engineering.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set rm-engineering src -j REJECT
+create rm-engineering hash:net family inet hashsize 64 maxelem 32
+flush rm-engineering
+#add rm-engineering 45.83.179.0/24
+# ClouDedic.NET
+add rm-engineering 185.153.196.0/22

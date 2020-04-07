@@ -67,6 +67,18 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 3. Valamilyen módon - pl. szerencsével - nem következik be a hiba → elenyésző a valószínűsége
 
 
+## Céges folyamatok
+
+Ami nincs leírva az Onboarding-ban.
+
+- Céges telefonkönyv
+- Céges kommunikáció
+- Projekt menedzser
+  - Hogyan osztjuk be: az új fejlesztéseket, hiba javításokat és a technikai tartozást
+  - Kap-e a fejlesztő egyszerre 1-nél több feladatot
+- Alkalmazás _Dashboard_, döntés támogatás
+
+
 ## Céges kommunikáció
 
 Cél: 1 közös platformon kommunikálni.
@@ -87,6 +99,17 @@ Szolgáltató: [Slack](https://slack.com/)
 
 https://basecamp.com/
 
+## Alkalmazás _Dashboard_
+
+- Bevétel követés
+- Új regisztrációk, előfizetési csomag választás
+- Konverziók
+- Az alkalmazásban létrehozott entitások darabszáma
+
+* Commit-ok darabszáma
+* Hibák darabszáma
+* Hálózati forgalom
+* Támadások száma
 
 ## Kódolási büdzsé
 

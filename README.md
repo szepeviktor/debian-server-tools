@@ -201,6 +201,13 @@ crontab -e -u USER
 * *  * * *  COMMAND
 ```
 
+### Cron scheduling with timezone
+
+```cron
+# Well before the actual execution time!
+00 06  * * *  echo "/bin/ls -l" | at "$(date --date='TZ="Europe/Budapest" 10:30' "+\%H:\%M")" 2>/dev/null
+```
+
 ### Looking for a dedicated team member running your application or website?
 
 Contact me: viktor@szepe.net

@@ -221,7 +221,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 - Logo and title
 - Language selector
-- News or [marketing message](https://www.gosquared.com/join/analytics/)
+- [News](https://app.cloudcannon.com/users/sign_in) or [marketing message](https://www.gosquared.com/join/analytics/)
 - "Remember me" checkbox
 - "Forgot password" link
 - Link to Login/Sign up page
@@ -252,6 +252,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
     - length
     - complexity
     - xkcd password strength
+    - _pwned_ password
 - Provide 2FA (TOTP, SMS, email), encourage users to use KeePass
 - Use [Argon2 hashing](https://wiki.php.net/rfc/argon2_password_hash) `password_hash($pwd, PASSWORD_ARGON2I)`
 - Wipe the plaintext password from memory

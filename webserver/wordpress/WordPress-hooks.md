@@ -55,3 +55,15 @@ See https://codex.wordpress.org/Conditional_Tags
 GET and POST variables.
 
 :bulb: Best to avoid direct request variables access.
+
+### Login requests
+
+- `register` GET, POST
+- `login` GET, POST
+- `logout` GET
+- `lostpassword` (was `retrievepassword`) GET, POST
+- `rp` GET, `resetpass` POST
+- `confirm_admin_email` GET _every six months after an admin has logged in_
+- `postpass` POST _password protected posts_
+- `confirmaction` GET _multisite account activation_
+- `WP_Recovery_Mode_Link_Service::LOGIN_ACTION_ENTERED` GET, POST?

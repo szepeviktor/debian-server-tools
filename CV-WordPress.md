@@ -141,7 +141,7 @@ Keressen meg: viktor@szepe.net
 Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot,
 [webáruházat](https://www.ocado.com/) tervezzenek.
 
-- https://www.voov.hu/
+- https://www.voov.hu/ - Laravel
 - https://hacky.hu/
 - https://neeed.us/
 - https://www.pwstudio.hu/ - :fire: CodeIgniter

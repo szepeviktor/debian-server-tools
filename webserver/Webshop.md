@@ -37,7 +37,6 @@
 - Handmade https://www.etsy.com/
 - For static sites https://snipcart.com/
 - https://www.webareal.cz/
-- https://hu.bidwonder.com/
 - https://www.vatera.hu/
 
 ### Headless services
