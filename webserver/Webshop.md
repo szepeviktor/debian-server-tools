@@ -36,7 +36,6 @@
 - Food https://wolt.com/
 - Handmade https://www.etsy.com/
 - For static sites https://snipcart.com/
-- https://www.webareal.cz/
 - https://www.vatera.hu/
 
 ### Headless services
@@ -44,15 +43,16 @@
 - https://www.moltin.com/
 - https://www.shopify.com/plus/solutions/headless-commerce
 
-### Bérelhető webáruházak (HU)
-
-- https://www.shopngo.hu/
-
-### CMS backend
+### CMS backends
 
 - https://prismic.io/
 - https://www.storyblok.com/
 - https://wordpress.org/
+
+### Bérelhető webáruházak (HU)
+
+- https://www.shopngo.hu/
+- https://www.webareal.cz/
 
 ### Tools
 
@@ -61,7 +61,6 @@
 - Content creation https://textual.ai/
 - Chatbot https://morph.ai/ecommerce
 - Chatbot https://racom.io/
-- Checkout https://www.bolt.com/ (>$1M/year)
 
 ### Integrations
 
@@ -104,8 +103,10 @@
   - Amazon Pay
   - PayPal Checkout
   - Stripe Checkout
+  - [PayU](https://developer.payumoney.com/checkoutfeatures/)
   - Google Pay
   - Apple Pay
+  - https://www.bolt.com/ (>$1M/year)
 
 ### Find an expert
 

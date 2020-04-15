@@ -312,7 +312,7 @@ See also
 
 ### E-mail authentication
 
-- https://www.unlocktheinbox.com/resources/identifieralignments/
+- http://web.archive.org/web/20190205120542/https://www.unlocktheinbox.com/emailidentifieralignments/
 - http://www.openspf.org/Related_Solutions
 - http://www.openspf.org/FAQ/Common_mistakes#helo
 
@@ -365,7 +365,7 @@ Declared "Historic".
 
 An optional extension to the DKIM E-mail authentication scheme.
 
-https://unlocktheinbox.com/resources/adsp/
+http://web.archive.org/web/20161202063549/https://www.unlocktheinbox.com/resources/adsp/
 
 #### Sender ID from Microsoft (From:)
 
@@ -451,7 +451,6 @@ Deprecated.
 - [Microsoft Remote Connectivity Analyzer](https://testconnectivity.microsoft.com/)
 - https://glockapps.com/
 - https://spamcheck.postmarkapp.com/
-- mailtest@unlocktheinbox.com https://www.unlocktheinbox.com/resources/emailauthentication/
 - checkmyauth@auth.returnpath.net
 - `https://winning.email/checkup/DOMAIN`
 

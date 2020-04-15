@@ -67,16 +67,20 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 3. Valamilyen módon - pl. szerencsével - nem következik be a hiba → elenyésző a valószínűsége
 
 
-## Céges folyamatok
+## Cég szervezés
 
 Ami nincs leírva az Onboarding-ban.
 
-- Céges telefonkönyv
-- Céges kommunikáció
+- [Kiberbiztonság](/Onboarding.md#cyber-security) minden készüléken és másodlagos kártevővédelemi szoftver telepítés (HitmanPro.Alert)
+- Jelszó menedzser bevezetése mindenkinél
+- Céges telefonkönyv frissen tartás
+- Céges kommunikáció meghatározása
+- Arculati kézikönyv (branding guide)
 - Projekt menedzser
-  - Hogyan osztjuk be: az új fejlesztéseket, hiba javításokat és a technikai tartozást
+  - Hogyan osztjuk be :one: az új fejlesztéseket, :two: hiba javításokat és :three: a technikai tartozást
   - Kap-e a fejlesztő egyszerre 1-nél több feladatot
-- Alkalmazás _Dashboard_, döntés támogatás
+- Valós idejű _Alkalmazás Dashboard_, döntés támogatás
+
 
 
 ## Céges kommunikáció
