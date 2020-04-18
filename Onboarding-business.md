@@ -42,13 +42,13 @@ Testing products on a wide range of devices from mobile to desktop.
 - Milyen eszközöket fogunk használni?
   https://szepeviktor.typeform.com/to/O8bLIX
 - Milyen (futtatási) környezetek lesznek?
-  fejlesztési/tesztelési, staging, éles, béta, demó
+  fejlesztési/tesztelési, staging, éles, béta, demó/sandbox
 
 ### Kétféle hozzáállás
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
 2. Vagy szakértői tervezés a máshonnan már ismert hibák elkerülésével,
-   és a technikai tartozás (technical debt) folyamatos visszafizetésével
+   és a technikai tartozás (technical debt) folyamatos megfizetésével
 
 Mit jelent a _kész_?
 
@@ -69,21 +69,21 @@ A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
 
 ## Cég szervezés
 
-Ami nincs leírva az Onboarding-ban.
+Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 
 - [Kiberbiztonság](/Onboarding.md#cyber-security) minden készüléken és másodlagos kártevővédelemi szoftver telepítés (HitmanPro.Alert)
 - Jelszó menedzser bevezetése mindenkinél
 - Céges telefonkönyv frissen tartás
 - Céges kommunikáció meghatározása
-- Arculati kézikönyv (branding guide)
+- Arculati kézikönyv (style guide, brand guidelines) szerinti munka
 - Projekt menedzser
   - Hogyan osztjuk be :one: az új fejlesztéseket, :two: hiba javításokat és :three: a technikai tartozást
-  - Kap-e a fejlesztő egyszerre 1-nél több feladatot
+  - Kap-e egy fejlesztő egyszerre 1-nél több feladatot
 - Valós idejű _Alkalmazás Dashboard_, döntés támogatás
 
 
 
-## Céges kommunikáció
+### Céges kommunikáció
 
 Cél: 1 közös platformon kommunikálni.
 
@@ -103,7 +103,7 @@ Szolgáltató: [Slack](https://slack.com/)
 
 https://basecamp.com/
 
-## Alkalmazás _Dashboard_
+### Alkalmazás _Dashboard_
 
 - Bevétel követés
 - Új regisztrációk, előfizetési csomag választás
@@ -114,6 +114,20 @@ https://basecamp.com/
 * Hibák darabszáma
 * Hálózati forgalom
 * Támadások száma
+
+### Szerkesztő képességei
+
+1. Tipográfiai alapismeretek
+1. WYSIWYG szerkesztő profi használata
+1. Tartalom életciklusának megtervezése, kivitelezése
+1. SEO alapismeretek
+1. Az URL részeinek ismerete
+1. Saját bejövő linkek készítőivel való kapcsolat (pl. Facebook menedzserrel)
+1. Képek és média életciklusának ismerete
+1. Képek előfeldolgozása
+1. Beszédes fájlnevek adása
+
+
 
 ## Kódolási büdzsé
 

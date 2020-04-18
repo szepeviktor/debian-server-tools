@@ -109,11 +109,10 @@ This section contains preparations for secure registration.
 
 - Generate Cert Now
 - (1) New **or** Renewal
-- (2) No
-- (3) DNS Based Authentication
-- (4) Generate CSR: `cert-update-req-install.sh DOMAIN`
-- (5) Other
-- (6) SHA-2
+- (2) DNS Based Authentication
+- (3) Generate CSR: `cert-update-req-install.sh DOMAIN`
+- (4) Other
+- (5) SHA-2
 
 Verify your URL
 
