@@ -53,7 +53,7 @@ new \Waf4WordPress\Http_Analyzer();
 
 /** Composer. */
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 /** Core. */
 
@@ -115,7 +115,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 // typisttech/wp-password-argon-two
 define( 'WP_PASSWORD_ARGON_TWO_PEPPER', getenv( 'WP_PASSWORD_ARGON_TWO_PEPPER' ) );
 // Tiny CDN - No trailing slash!
-define( 'TINY_CDN_INCLUDES_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-includes' );
+define( 'TINY_CDN_INCLUDES_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/site/wp-includes' );
 define( 'TINY_CDN_CONTENT_URL', 'https://d2aaaaaaaaaaae.cloudfront.net/wp-content' );
 define( 'WP_CACHE_KEY_SALT', 'SITE-SHORT_' );
 define( 'ENABLE_FORCE_CHECK_UPDATE', true );

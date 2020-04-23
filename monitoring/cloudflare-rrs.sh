@@ -2,7 +2,7 @@
 #
 # Create, read, update and delete Cloudflare DNS resource record sets.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DOCS          :https://api.cloudflare.com/
 # DEPENDS       :apt-get install curl jq
 # LOCATION      :/usr/local/bin/cloudflare-rrs.sh
@@ -124,6 +124,7 @@ TEMP_JSON="$(mktemp)"
 trap 'rm -f "$TEMP_JSON"' EXIT HUP INT QUIT PIPE TERM
 
 # Get record IDs
+# FIXME To add a *new* record of type of an exiting one comment out this line
 RECORD_IDS="$(Get_record_identifiers)"
 MX_PRIO=""
 
@@ -133,7 +134,8 @@ if [ -z "$RECORD_IDS" ]; then
     if [ "$TYPE" == MX ]; then
         printf -v MX_PRIO ',\n "priority":10'
     fi
-    printf '{\n "name": "%s",\n "type": "%s",\n "content": "",\n "ttl": 86400,\n "proxied":false%s\n}\n' "$NAME" "$TYPE" "$MX_PRIO" \
+    printf '{\n "name": "%s",\n "type": "%s",\n "content": "",\n "ttl": 86400,\n "proxied":false%s\n}\n' \
+        "$NAME" "$TYPE" "$MX_PRIO" \
         >"$TEMP_JSON"
     # Edit RRs
     editor "$TEMP_JSON"
@@ -145,7 +147,9 @@ else
     if [ "$TYPE" == MX ]; then
         printf -v MX_PRIO ', priority: .priority'
     fi
-    printf -v JQ_UPDATE '.result | {name: .name, type: .type, content: .content, ttl: .ttl, proxied: .proxied%s}' "$MX_PRIO"
+    printf -v JQ_UPDATE \
+        '.result | {name: .name, type: .type, content: .content, ttl: .ttl, proxied: .proxied%s}' \
+        "$MX_PRIO"
 
     while read -r RECORD_ID; do
         Cloudflare_api GET "zones/${ZONE_ID}/dns_records/${RECORD_ID}?per_page=100" \

@@ -66,6 +66,8 @@ find . -name wp-config.php -exec chmod --verbose 0400 "{}" ";"
 #find . -path "*/sites/*/settings.php" -exec chmod --verbose 0400 "{}" ";"
 #find . -name .env -exec chmod --verbose 0400 "{}" ";"
 find . -name .htaccess -exec chmod --verbose 0640 "{}" ";"
+# Non-ASCII and non-Hungarian file names
+find . -regextype posix-basic -regex '.*[^áÁéÉíÍóÓöÖőŐúÚüÜűŰ ./0-9@A-Z_a-z-].*'
 
 # Set owner
 chown -c -R "${U}:${U}" "/home/${U}/"
