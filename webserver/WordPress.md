@@ -28,6 +28,9 @@ DOCROOT/─┬─index.php
 ### Semisecret Subdirectory structure
 
 ```
+composer.json
+composer.lock
+vendor/
 wp-cli.yml
 DOCROOT/─┬─index.php (modified)
          ├─wp-config.php

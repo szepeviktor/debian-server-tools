@@ -79,6 +79,7 @@ Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 - Projekt menedzser
   - Hogyan osztjuk be :one: az új fejlesztéseket, :two: hiba javításokat és :three: a technikai tartozást
   - Kap-e egy fejlesztő egyszerre 1-nél több feladatot
+- Onboarding folyamat, _Product Tour_ Intercom-mal
 - Valós idejű _Alkalmazás Dashboard_, döntés támogatás
 
 
@@ -126,7 +127,6 @@ https://basecamp.com/
 1. Képek és média életciklusának ismerete
 1. Képek előfeldolgozása
 1. Beszédes fájlnevek adása
-
 
 
 ## Kódolási büdzsé

@@ -45,6 +45,7 @@
 
 ### CMS backends
 
+- https://www.sanity.io/
 - https://prismic.io/
 - https://www.storyblok.com/
 - https://wordpress.org/
