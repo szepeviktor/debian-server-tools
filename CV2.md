@@ -12,10 +12,10 @@
 
 ### Milyen munkát végzek?
 
-**Proaktívan** gondolkodok, főleg azért dolgozok, hogy ne forduljanak elő hibák.
+Proaktívan gondolkodok, a **fenntarthatóságot** igyekszem elérni.
 
 1. DevOps: a munkám az alkalmazás teljes életciklusára kiterjed:
-   tervezés, fejlesztés, üzemeltetés, marketing, sales és support
+   tervezés, fejlesztés, tesztelés, üzemeltetés, marketing, sales és support
 1. QA: elemzésekkel, mérésekkel és tapasztalattal előzöm meg a hibákat,
    a cég összes nem fenntartható folyamatánál, szolgáltatónál, technológiánál és szoftvernél szólok,
    élhető megoldást ajánlok és - ha lehetséges - bevezetek
@@ -38,7 +38,8 @@
 Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
 
 - Technológia választásnál tanácsadás
-- Szolgáltató választásnál elemzés (pl. fizetési szolgáltató, omnichannel marketing, projekt menedzsment szoftver)
+- Szolgáltató választásnál **elemzés**
+  (pl. fizetési szolgáltató, omnichannel marketing, projekt menedzsment szoftver)
   - célközönség kiderítése
   - specializált szolgáltató vs. populista szétforgácsolódás
   - pénzeszközök vizsgálata
@@ -50,7 +51,7 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - általuk használt szolgáltatók ellenőrzése
   - kínált integrációk értékelése
   - ár-érték arány mérlegelése
-- Szoftver választásnál üzemeltethetőség
+- Szoftver választásnál üzemeltethetőség felderítése
   - open-source?
   - csomagolás, telepítés
   - release ciklus

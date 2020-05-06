@@ -49,6 +49,7 @@ Bits and bytes.
   [Laragon](https://laragon.org/))
 - Testing tools ([CI](/webserver/Continuous-integration-Continuous-delivery.md))
 - Build and [deployment](/webserver/Continuous-integration-Continuous-delivery.md) tools (CD)
+- Changelog (Headway)
 - Application performance and error monitoring (Checkly)
 
 ### Workflow in git :octocat:

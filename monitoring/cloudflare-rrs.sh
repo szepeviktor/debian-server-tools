@@ -20,6 +20,8 @@
 #     cloudflare-rrs.sh . .
 # Delete a record by setting its value to ""
 
+# Cloudflare's certificate validation TXT record: "ca3-.{32}"
+
 ZONE_ID="$HOSTED_ZONE_ID"
 AUTH_TOKEN_FILE="${HOME}/.cloudflare/api-token"
 

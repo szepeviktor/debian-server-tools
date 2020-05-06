@@ -79,7 +79,7 @@
   - Variations and other details
 - Fraud protection
 - Product import (ERP, POS)
-- Product export (price comparison websites)
+- Product export (price comparison websites, [no pizza](https://support.google.com/merchants/answer/6150127) for Google Shopping)
 - Payment processors
   ([Revised Directive on Payment Services (PSD2)](https://en.wikipedia.org/wiki/Payment_Services_Directive#Revised_Directive_on_Payment_Services_%28PSD2%29))
 - Shipping
