@@ -14,7 +14,7 @@
 #
 # - Domain registrar
 # - DNS provider
-# - Server provider (e.g. UpCloud)
+# - Server provider (UpCloud)
 # - SSL certificate provider (HTTPS)
 # - CDN provider (static files)
 # - Transactional email provider

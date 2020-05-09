@@ -4,7 +4,7 @@
 
 ![Page HTML load time](/Page-html-load-time.png)
 
-Details about [infrastructure and source code management](https://git.io/vNryB)
+Details about [running your web application](https://git.io/vNryB)
 
 ### Specialized infrastructure providers
 
@@ -140,7 +140,11 @@ Verify your URL
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
+- Teamwork in one Gmail inbox: [Drag](https://www.dragapp.com/)
+
+<!--
 - Email 2.0 for work: [Consider](https://consider.co/) (Gmail only)
+-->
 
 ### Infrastructure setup
 

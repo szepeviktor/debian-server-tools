@@ -401,7 +401,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 - HTTP methods `GET POST HEAD` and `OPTIONS PUT DELETE TRACE` etc.
 - https://redbot.org/
-- Loading in IFRAME (Google translate, Facebook app)
+- Loading in IFRAME (Google Translate, Facebook app)
 - https://securityheaders.io/ and see [Twitter's list](https://github.com/twitter/secureheaders/blob/master/README.md)
 - https://report-uri.io/home/tools CSP, HKPK, SRI etc.
 - https://www.webpagetest.org/
