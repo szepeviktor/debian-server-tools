@@ -4,6 +4,8 @@ set -e -x
 
 echo 'APT::Periodic::Download-Upgradeable-Packages "1";' >/etc/apt/apt.conf.d/20download-upgrade
 
+sed -i -e 's#^.*\(Unattended-Upgrade::MinimalSteps \).*$#\1"false";#' /etc/apt/apt.conf.d/50unattended-upgrades
+
 # Automatic security updates
 echo "unattended-upgrades unattended-upgrades/enable_auto_updates boolean true" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive unattended-upgrades

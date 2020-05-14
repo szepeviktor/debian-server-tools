@@ -50,7 +50,8 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 - [Szövegbe ágyazott űrlap](https://www.towa-digital.com/wordpress/) ("coffee" gomb)
 - [Social](https://provesrc.com/) [proof](https://www.nudgify.com/)
 - Zsákutca hiba (Alul hova tovább?)
-- Fölös háttér, belépési oldal, köszönjük oldal, értesítő levelek kihasználása
+- Fölös háttér, belépési oldal,
+  [köszönjük oldal](http://fast.wistia.net/embed/iframe/tra6gsm6rl), értesítő levelek kihasználása
 
 ### Technológia
 

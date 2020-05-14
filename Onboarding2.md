@@ -39,7 +39,7 @@ Kategóriánként **egy** szolgáltatóra van szükség.
 
 [AWS tanúsítványok csak belső használatra](https://aws.amazon.com/certificate-manager/faqs/#general)
 
-### Házirend a szolgáltatóknál lévő fiókjainkhoz
+### Irányelvek a szolgáltatóknál lévő fiókjainkhoz
 
 - Ki a fiók jogos tulajdonosa?
 - Kinek van hozzáférése a fiókhoz?
@@ -137,7 +137,7 @@ Verify your URL
 ### Email kézbesítés
 
 - Az Interneten nem lehetséges az emailek kézbesítését garantálni
-- [ESP (email fiók szolgáltató](https://twofactorauth.org/#email)
+- [ESP (email fiók szolgáltató)](https://twofactorauth.org/#email)
   a *személyes* emailekhez ideértve a bejövő üzeneteket:
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
 - Fájl megosztás/küldés/fogadás, nagyfájl küldés/fogadás: [WeTransfer](https://wetransfer.com/),
@@ -157,10 +157,11 @@ Verify your URL
 - Értesítés fiók adatok kiszivárgásánál: jelszó keresés https://haveibeenpwned.com/Passwords
 - Minden munkatárs fel kell hagyjon a böngészőben tárolt jelszavakkal, űrlap adatokkal
 - Adat-kiszivárgás elleni védelem az alkalmazásban/a honlapon:
-  autómatikus támadások és felbérelt hackerek
+  automatikus támadások és felbérelt hackerek
 - **Katasztrófa elhárítási terv** (üzemszünetre, biztonsági incidensekre)
 - Kéretlen levél (spam) szűrés
 - Kártékony programok és adathalász emailek elleni védelem (**jelszó lopás**)
 - Billentyűzet naplózó programok elleni védelem
 - Kártékony mobil app-ok emailek elleni védelem
 - Zsarolóprogramok elleni védelem
+- Éves biztonsági ellenőrzés

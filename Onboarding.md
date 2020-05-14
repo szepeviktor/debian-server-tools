@@ -194,6 +194,7 @@ Verify your URL
 - Against key loggers
 - Against mobile malware
 - Ransomware mitigation
+- Yearly security check
 
 ### Collaboration
 
@@ -226,24 +227,3 @@ Verify your URL
 - [Running a Laravel application](/webserver/laravel)
 - [Installing WordPress](/webserver/WordPress.md)
 - Interesting read on [web applications](/webserver/PHP-development.md)
-
-### Infrastruktúra szolgáltatók (HU)
-
-1. Domain regisztrátor
-1. DNS szolgáltató
-1. Szerver szolgáltató
-1. SSL tanúsítvány szolgáltató (HTTPS-hez)
-1. CDN szolgáltató (statikus fájlokhoz)
-1. Tranzakciós email kiküldő
-1. Biztonsági mentés szolgáltató
-
-### Házirend a szolgáltatóknál lévő fiókjainkhoz (HU)
-
-- Ki a fiók jogos tulajdonosa?
-- Kinek van hozzáférése a fiókhoz?
-- Folytatunk jelszó megosztást?
-- A főfióknál be van kapcsolva a két-faktoros hitelesítés (2FA)?
-- Milyen más nem releváns szolgáltatás van a fiókunkban?
-- A domain regisztrációhoz és DNS szolgáltatáshoz használt fiókoknál egy másik domain-en lévő email címet használjunk.
-- A fiókhoz használt email cím/telefonszám/bankkártya napi használatban van?
-- Használjunk alszámlához kötött virtuális bankkártyát a főszámlához kötött fizikai bankkártya helyett!

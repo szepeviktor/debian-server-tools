@@ -84,6 +84,7 @@ How to design and implement CI and CD.
 - ekino/phpstan-banned-code
 - phpstan/phpstan-strict-rules
 - phpstan/phpstan-deprecation-rules
+- ergebnis/phpstan-rules
 - thecodingmachine/phpstan-strict-rules
 - pepakriz/phpstan-exception-rules
 - nunomaduro/larastan

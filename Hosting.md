@@ -66,6 +66,7 @@ https://prismic.io/
 
 ### Server manager
 
+- https://ploi.io/
 - [RunCloud](https://runcloud.io/)
 
 ### Shared hosting
