@@ -7,6 +7,11 @@ Paradigma váltás az [Intercom](https://www.intercom.com/)-mal.
 1. Marketing: látogató -> lead
 1. Sales: lead -> felhasználó
 1. Support: regisztrált felhasználóknak
+1. Speciális kapcsolat fajták
+  - ügyfél visszajelzés
+  - _status page_
+  - alkalmazás fejlesztési hírek, _changelog_
+  - hírlevél
 
 ### Kommunikációs csatornák
 

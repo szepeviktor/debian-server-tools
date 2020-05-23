@@ -1,0 +1,53 @@
+{
+  "name": "szepeviktor/wordpress",
+  "description": "Install WordPress by using Composer packages.",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.0",
+    "roots/wordpress": "^4.9",
+    "timber/timber": "^1.8",
+    "wpackagist-plugin/wp-redis": "^0.7.0"
+  },
+  "config": {
+    "classmap-authoritative": true,
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
+  "extra": {
+    "installer-paths": {
+      "public/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "public/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "public/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    },
+    "wordpress-install-dir": "public/core"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "scripts": {
+    "post-autoload-dump": [
+      "rm -rf public/core/wp-content"
+    ],
+    "post-create-project-cmd": [
+      "mkdir -p public/wp-content/themes public/wp-content/plugins public/wp-content/mu-plugins",
+      "cp public/core/wp-content/index.php public/wp-content/",
+      "cp -a public/core/wp-content/themes public/wp-content/",
+      "cp public/core/wp-content/themes/index.php public/wp-content/themes/",
+      "cp public/core/wp-content/plugins/index.php public/wp-content/plugins/"
+    ],
+    "cleanup": "git status --short --ignored | sed -n -e 's#^!! ##p' | xargs -r rm -vrf"
+  },
+  "scripts-descriptions": {
+    "cleanup": "Remove all ignored files."
+  }
+}

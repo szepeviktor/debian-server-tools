@@ -1,0 +1,4 @@
+# RabbitMQ
+deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main
+#K: wget -qO- https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey | apt-key add -
+#M: https://packagecloud.io/rabbitmq/rabbitmq-server/install

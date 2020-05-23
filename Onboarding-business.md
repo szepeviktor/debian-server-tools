@@ -112,9 +112,12 @@ https://basecamp.com/
 - Az alkalmazásban létrehozott entitások darabszáma
 
 * Commit-ok darabszáma
-* Hibák darabszáma
+* Kinyitott és lezárt hibajegyek darabszáma
+* Hibanapló hossza
 * Hálózati forgalom
 * Támadások száma
+
+https://amplitude.com/
 
 ### Szerkesztő képességei
 
@@ -147,7 +150,7 @@ Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy
 https://twitter.com/StepsizeHQ/status/1156582846057844736
 
 - Kód kommentelés (docblock, üzleti logika és a commit üzenetek is)
-- Hiba kezelés
+- Hiba kezelés (hiba kontextus, könnyű felderíthetőség)
 - Kódolás nélküli (zero coverage) tesztek futtatása
 - Egység (unit) és funkcionális tesztek írása
 - Keretrendszer és csomag frissítés
