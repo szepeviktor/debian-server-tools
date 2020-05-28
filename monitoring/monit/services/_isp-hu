@@ -1,0 +1,28 @@
+# Check connectivity with Hungarian ISP
+
+ # Telekom
+ check host "isp_hu_telekom" with address "84.3.64.1"
+   group "isp"
+   if failed ping4 with timeout 1 seconds then alert
+
+ # Liberty Global
+ check host "isp_hu_upc" with address "89.135.214.36"
+   group "isp"
+   if failed ping4 with timeout 1 seconds then alert
+
+ # DIGI
+ check host "isp_hu_digi" with address "78.131.5.43"
+   group "isp"
+   if failed ping4 with timeout 1 seconds then alert
+
+ # Invitel
+ check host "isp_hu_invitel" with address "217.113.63.72"
+   group "isp"
+   if failed ping4 with timeout 1 seconds then alert
+
+ # Vodafone
+ check host "isp_hu_vodafone" with address "195.89.98.250"
+   group "isp"
+   if failed ping4 with timeout 1 seconds then alert
+
+ # TODO Telenor

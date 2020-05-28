@@ -8,10 +8,11 @@ Paradigma váltás az [Intercom](https://www.intercom.com/)-mal.
 1. Sales: lead -> felhasználó
 1. Support: regisztrált felhasználóknak
 1. Speciális kapcsolat fajták
-  - ügyfél visszajelzés
-  - _status page_
-  - alkalmazás fejlesztési hírek, _changelog_
-  - hírlevél
+    - ügyfél visszajelzés
+    - _status page_
+    - alkalmazás fejlesztési hírek, _changelog_
+    - szakmai blog
+    - hírlevél
 
 ### Kommunikációs csatornák
 
@@ -23,8 +24,8 @@ Az Intercom Inbox-ban 1 platformon lehet kezelni az alábbiakat.
 - Facebook Messenger
 - app: több közösségi média https://octopods.io/
 - app: bejövő és kimenő telefonos és böngészős hívás
-  - https://toky.co/
-  - https://www.cloudtalk.io/
+    - https://toky.co/
+    - https://www.cloudtalk.io/
 - app: SMS üzenet (Octopods / Twilio SMS)
 - app: videó hívás, képernyőkép, képernyő felvétel, képernyő megosztás
 
@@ -39,8 +40,8 @@ Az Intercom funkciói.
 - Product Tour - Alkalmazásunk bemutatása videóval
 - Help Articles - Tudástár
 - Felhasználó visszajelzés
-  - app: https://canny.io/
-  - app: https://www.userfeed.io/
+    - app: https://canny.io/
+    - app: https://www.userfeed.io/
 
 ### Ügyfél adatok az Inbox-ban
 
@@ -49,9 +50,9 @@ Az Intercom funkciói.
 - Látogató által megadott adatok
 - app: email cím ellenőrzés
 - app: contact enrichment email vagy csak IP cím alapján
-  - https://www.intercom.com/help/en/articles/1155850-clearbit-reveal-app
-  - https://albacross.com/ :eu:
-  - hamarosan: https://www.leadfeeder.com/ :eu:
+    - https://www.intercom.com/help/en/articles/1155850-clearbit-reveal-app
+    - https://albacross.com/ :eu:
+    - hamarosan: https://www.leadfeeder.com/ :eu:
 - app: (elő)fizetés kezelése
 - API-n keresztül bármilyen adat beküldhető az Inbox-ba
 

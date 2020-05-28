@@ -125,6 +125,13 @@ Verify your URL
 
 - Select Admin/Technical contact: `[ ]` `[ ]`
 
+##### Renew a certificate
+
+[Dashboard](https://cheapsslsecurity.com/client/ordersummary.html)
+
+- (_select the certificate_)
+- RENEW
+
 ### Email delivery
 
 - There is no guaranteed email delivery on the Internet

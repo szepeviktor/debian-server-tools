@@ -89,7 +89,8 @@ Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 Cél: 1 közös platformon kommunikálni.
 
 - hibajegy
-- külsősökkel való kapcsolat a platformon belül vagy emailben
+- külsősökkel való kapcsolat a platformon belül
+  vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
 - jegyzetek, dokumentumok (pl. céges telefonkönyv) közös szerkesztése
 - fájl megosztás
 - naptár
