@@ -121,6 +121,8 @@ Verify your URL
 - Set TXT record in DNS
 - Wait for issuance
 
+:bulb: Only ASCII characters in name and address.
+
 [Dashboard / Manage Renewal Email Preferences](https://cheapsslsecurity.com/client/renewalemail-preferences.html)
 
 - Select Admin/Technical contact: `[ ]` `[ ]`

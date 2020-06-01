@@ -1,5 +1,8 @@
 # E-commerce solutions
 
+> People are willing to order over the phone even today
+> as it is easier for them to talk than fill in a form with 10+ fields
+
 - https://services.google.com/fh/files/events/pdf_retail_ux_playbook.pdf
 - https://trends.builtwith.com/shop
 - https://gkidigital.hu/2018/08/15/e-toplista-2018/
