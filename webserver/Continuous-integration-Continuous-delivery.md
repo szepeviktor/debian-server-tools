@@ -12,6 +12,8 @@ How to design and implement CI and CD.
 - Check outdated packages and known security vulnerabilities
 - Build code
 - Configure application
+- Check non-ASCII characters in the source code
+  (non-English alphabets, whitespace characters, control characters) :zero:
 - Lint source code (syntax check) :one:
 - Lint template files
 - Check coding style :two:

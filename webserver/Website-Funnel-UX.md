@@ -11,7 +11,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
    (látogatások, kattintások, A/B teszt, telefonos kérdések, eladási eredmények) alapján?
 1. Mi legyen a honlapon? *Ez szokott lenni egy honlapon* (káros téveszmék által meghatározott tartalom)
    **vs.** mérések alapján priorizált tartalom
-1. Személyes jelleg fotókkal, videóval, idézetekkel
+1. Személyes (narrátor) jelleg fotókkal, videóval, idézetekkel
    **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
 1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
 1. Honnan jönnek a látogatók?
@@ -26,7 +26,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 1. "Elhagyott kosár", visszafordulók, bámészkodók kezelése
 1. Visszatérő látogatók kezelése
 1. Értékelések, hozzászólások, visszajelzés
-1. Ügyfelekkel való kapcsolattartás
+1. [Ügyfelekkel való kapcsolattartás](/Intercom.md)
 
 ### Tartalom
 

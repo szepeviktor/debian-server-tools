@@ -10,3 +10,6 @@ php -w SCRIPT.php | sed -e 's/;/;\n/g'
 cat serialized.txt | php -r '$s="";while(false!==($l=fgets(STDIN))){$s.=$l."\n";}var_export(unserialize($s));echo "\n";'
 ```
 
+### PHIVE repository
+
+https://phar.io/data/repositories.xml

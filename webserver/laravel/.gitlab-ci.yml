@@ -50,6 +50,9 @@ test:
     - mkdir --parents ~/.composer
     - echo "$COMPOSER_AUTH_JSON" | base64 --decode >~/.composer/auth.json
     - chmod 0600 ~/.composer/auth.json
+    # Character check (lower ASCII, Hungarian, currencies, Turkish)
+    - |
+      LC_ALL=C.UTF-8 find . -type f -exec grep -PHn '[^ -~ÁÉÍÓÖŐÚÜŰáéíóöőúüű€Kč₽₺ÇĞİÖŞÜçğıöşü]' "{}" ";"
     # Composer
     - composer config cache-dir "${CI_PROJECT_DIR}/.composercache"
     - composer validate --ansi

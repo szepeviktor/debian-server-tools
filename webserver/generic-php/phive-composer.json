@@ -1,0 +1,42 @@
+{
+  "name": "company/php-project-with-phive",
+  "type": "project",
+  "description": "PHIVE as a Composer package.",
+  "license": "BSD-3-Clause",
+  "require": {
+    "phive/phive": "^0.14.3"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "phive/phive",
+        "type": "library",
+        "description": "The Phar Installation and Verification Environment.",
+        "version": "0.14.3",
+        "license": "BSD-3-Clause",
+        "require": {
+          "php": "^7.2",
+          "ext-dom": "*",
+          "ext-curl": "*"
+        },
+        "suggest": {
+          "ext-gnupg": "*",
+          "ext-json": "*"
+        },
+        "bin": [
+          "phive-0.14.3.phar"
+        ],
+        "dist": {
+          "type": "file",
+          "url": "https://github.com/phar-io/phive/releases/download/0.14.3/phive-0.14.3.phar",
+          "shasum": "cbc1b529b6c84cc09469cf3766d7179b2e38ce82"
+        }
+      }
+    }
+  ],
+  "scripts": {
+    "post-install-cmd": "ln -f -s phive-0.14.3.phar vendor/bin/phive",
+    "post-update-cmd": "@post-install-cmd"
+  }
+}
