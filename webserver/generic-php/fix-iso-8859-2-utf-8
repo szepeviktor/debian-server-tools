@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Fix UTF-8 encoded ISO-8859-2 characters.
+#
+
+sed -i \
+    -e 's#Ă‰#É#g' \
+    -e 's#Ăś#Ü#g' \
+    -e 's#Ăˇ#á#g' \
+    -e 's#Ă©#é#g' \
+    -e 's#Ă­#í#g' \
+    -e 's#Ăł#ó#g' \
+    -e 's#Ĺ‘#ő#g' \
+    -e 's#Ă¶#ö#g' \
+    -e 's#ĂĽ#ü#g' \
+    "$@"

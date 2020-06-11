@@ -15,7 +15,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
    **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
 1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
 1. Honnan jönnek a látogatók?
-    - organikus (Google Kereső, Bing a Facebook-ban)
+    - organikus (Google Kereső)
     - PPC (Google Ads, Facebook Business, Etarget, YouTube hirdetés, LinkedIn Advertising)
     - közösségi, térkép (Facebook, **Google Térkép**, Instagram)
     - hírlevél, **tranzakciós email** felületek

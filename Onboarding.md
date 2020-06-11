@@ -87,7 +87,7 @@ This section contains preparations for secure registration.
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - Billing preferences / Disable Free Tier Usage Alerts + Enable Billing Alerts
-- CloudWatch / Create Alarm for EstimatedCharges
+- CloudWatch / Select Region `us-east-1` / Create Alarm for EstimatedCharges
 - Route53 / Domain + DNS
 - CloudFront / CDN
 - SES / Domain + SMTP credentials +
