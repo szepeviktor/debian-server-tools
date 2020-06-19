@@ -31,7 +31,8 @@ SET GLOBAL log_queries_not_using_indexes=OFF; -- Do not log query without index
 SET GLOBAL slow_query_log=ON; -- Start logging!
 ```
 
-- Wait 30 minutes! And stop logging: `SET GLOBAL slow_query_log=OFF;`
+- Wait 30 minutes!
+- Stop logging: `SET GLOBAL slow_query_log=OFF;`
 - Process slow log: `pt-query-digest --report-histogram Query_time /var/log/mysql/mariadb-slow.log >~/slow.log.out`
 
 1. Examine top queries in "Profile"
@@ -42,5 +43,11 @@ SET GLOBAL slow_query_log=ON; -- Start logging!
 
 ```sql
 SHOW GLOBAL VARIABLES LIKE "innodb_buffer_pool_%";
+SHOW STATUS LIKE 'Innodb_buffer%';
 SHOW STATUS LIKE 'Qcache%';
+SHOW FULL PROCESSLIST;
 ```
+
+### SQL code formatter
+
+https://sqlformat.org/

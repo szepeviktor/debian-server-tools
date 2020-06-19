@@ -6,6 +6,15 @@
 
 Details about [running your web application](https://git.io/vNryB)
 
+### Requirements
+
+1. One person able to consider things, decide and act
+1. If moving: access to accounts at all providers below
+1. Access to company email account
+1. Access to company bank card including CVC and 3-D Secure device
+1. Access to company phone
+1. Installed 2FA mobile or desktop app
+
 ### Specialized infrastructure providers
 
 Choose one per category.
@@ -87,7 +96,7 @@ This section contains preparations for secure registration.
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - Billing preferences / Disable Free Tier Usage Alerts + Enable Billing Alerts
-- CloudWatch / Select Region `us-east-1` / Create Alarm for EstimatedCharges
+- CloudWatch / Select Region `us-east-1` / Alarms / Create Alarm for EstimatedCharges
 - Route53 / Domain + DNS
 - CloudFront / CDN
 - SES / Domain + SMTP credentials +
