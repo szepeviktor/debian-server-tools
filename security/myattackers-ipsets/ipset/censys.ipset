@@ -4,6 +4,7 @@
 create censys hash:net family inet hashsize 64 maxelem 32
 flush censys
 
-# AS237
-# https://support.censys.io/en/articles/1294848-frequently-asked-questions-faq
+# AS237 - Merit
+# https://support.censys.io/hc/en-us/articles/360043177092-Opt-Out-of-Scanning
+add censys 192.35.168.0/23
 add censys 198.108.66.0/23

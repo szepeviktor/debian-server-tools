@@ -2,7 +2,7 @@
 #
 # Safe reboot.
 #
-# VERSION       :0.6.0
+# VERSION       :0.6.1
 # DATE          :2019-08-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -71,7 +71,7 @@ if [ "$(dpkg-query --showformat='${Status}' --show monit 2>/dev/null)" == "insta
 fi
 
 # Stop cron
-if service cron status >/dev/null; then
+if service cron status | grep -q -F 'cron is running'; then
     service cron stop
 fi
 
@@ -84,7 +84,7 @@ timeout 8 tail -f /var/log/syslog
 # Watch processes exit
 while true; do
     clear
-    date
+    date -R
     pstree
 
     sleep 0.5

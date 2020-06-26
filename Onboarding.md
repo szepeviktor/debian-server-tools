@@ -85,6 +85,7 @@ This section contains preparations for secure registration.
 - Check IP reputation (Security Trails, Project Honey Pot, HE BGP Toolkit, AbuseIPDB)
 - Servers / Server listing / (server name) / IP ADDRESSES / REVERSE DNS NAME Public IPv4 + IPv6
 - Log out (prevent session hijacking)
+- Have support enable **SMTP** for the account
 - Document server IP + password
 
 ### Amazon Web Services registration

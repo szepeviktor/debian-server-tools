@@ -12,7 +12,7 @@
 
 ### Milyen munkát végzek?
 
-Proaktívan gondolkodok, a **fenntarthatóságot** igyekszem elérni.
+Proaktívan gondolkodok, a **Fenntarthatóságot** igyekszem elérni.
 
 1. DevOps: a munkám az alkalmazás teljes életciklusára kiterjed:
    tervezés, fejlesztés, tesztelés, üzemeltetés, marketing, sales és support
@@ -37,7 +37,6 @@ Proaktívan gondolkodok, a **fenntarthatóságot** igyekszem elérni.
 
 Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
 
-- Technológia választásnál tanácsadás
 - Szolgáltató választásnál **elemzés**
   (pl. fizetési szolgáltató, omnichannel marketing, projekt menedzsment szoftver)
   - célközönség kiderítése
@@ -51,7 +50,10 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - általuk használt szolgáltatók ellenőrzése
   - kínált integrációk értékelése
   - ár-érték arány mérlegelése
+- Technológia választásnál mérés és tanácsadás
 - Szoftver választásnál üzemeltethetőség felderítése
+  - gyártó hozzáállása
+  - kik használják
   - open-source?
   - csomagolás, telepítés
   - release ciklus
@@ -73,7 +75,7 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - sales, marketing és support eszközöket
 - Minden incidens kiváltó okának felkutatása, végleges megoldása
 
-### A munkám eredménye a fenntarthatóság
+### A munkám eredménye a Fenntarthatóság
 
 1. Üzembiztonság: célom, hogy minden incidens hozzám fusson be először,
    a hibák könnyen felfedezhetőek és könnyen javíthatóak lesznek

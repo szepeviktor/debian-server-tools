@@ -14,7 +14,7 @@ if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]; then
 fi
 
 php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
-rm -f composer-setup.php
+rm composer-setup.php
 
 # Display latest version number
 #     wget -q -O- "https://getcomposer.org/versions" | jq -r '.stable[0].version'
