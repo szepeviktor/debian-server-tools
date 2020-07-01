@@ -14,3 +14,12 @@ add tamatiya 78.128.112.0/24
 
 # AS209160 - Miti2000
 add tamatiya 78.128.113.0/24
+
+# AS60310 - Ahoura
+add tamatiya 46.38.148.0/24
+#add tamatiya 46.38.149.0/24
+add tamatiya 46.38.150.0/24
+#add tamatiya 46.38.151.0/24
+add tamatiya 185.143.73.0/24
+#add tamatiya 185.143.74.0/24
+#add tamatiya 185.143.75.0/24

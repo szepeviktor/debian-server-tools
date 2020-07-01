@@ -2,8 +2,8 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :1.0.0
-# DATE          :2019-10-08
+# VERSION       :1.0.1
+# DATE          :2020-06-28
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -151,7 +151,7 @@ Match_country()
     local COUNTRY="$2"
     local IP_COUNTRY
 
-    IP_COUNTRY="$(mmdblookup --file "$GEOIP_COUNTRY" --ip "$IP" registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p')" #'
+    IP_COUNTRY="$(mmdblookup --file "$GEOIP_COUNTRY" --ip "$IP" registered_country iso_code 2>/dev/null | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p')" #'
 
     if [ "$COUNTRY" == "$IP_COUNTRY" ]; then
         # Country found

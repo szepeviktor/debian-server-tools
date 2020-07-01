@@ -14,3 +14,7 @@ add hostbaltic 141.98.11.0/24
 #add hostbaltic 45.125.66.0/24
 # Serveroffer: "Please drop 185.36.81.0/24 subnet"
 add hostbaltic 185.36.81.0/24
+
+# AS135392 - HostBaltic
+add hostbaltic 185.143.72.0/24
+#add hostbaltic 212.95.148.0/24
