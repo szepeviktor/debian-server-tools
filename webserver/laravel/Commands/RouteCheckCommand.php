@@ -74,7 +74,7 @@ class RouteCheckCommand extends Command
                     $className = $actionParts[0];
                     if (!class_exists($className) || !is_callable(new $className)) {
                         $notFound[] = [$route['middleware'], $className . '::__invoke'];
-                        continue;
+                        continue 2;
                     }
                     break;
                 case 2:
@@ -82,16 +82,16 @@ class RouteCheckCommand extends Command
                     $className = $actionParts[0];
                     if (!class_exists($className)) {
                         $notFound[] = [$route['middleware'], $className];
-                        continue;
+                        continue 2;
                     }
                     if (!is_callable([$className, $actionParts[1]])) {
                         $notFound[] = [$route['middleware'], $className . '::' . $actionParts[1]];
-                        continue;
+                        continue 2;
                     }
                     break;
                 default:
                     $notFound[] = [$route['middleware'], $route['action']];
-                    continue;
+                    continue 2;
             }
         }
 
