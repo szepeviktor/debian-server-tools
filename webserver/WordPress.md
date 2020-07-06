@@ -48,7 +48,7 @@ The value of `CORE` may be the abbreviation of the project.
 
 `wp-content` can be renamed.
 
-### Where script kiddies look for WordPress
+##### Where script kiddies look for WordPress
 
 - /backup/
 - /blog/

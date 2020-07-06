@@ -206,6 +206,12 @@ Verify your URL
 - Notify on account breach: search email address https://haveibeenpwned.com/
 - Notify on account breach: search password https://haveibeenpwned.com/Passwords
 - All participants should stop using their browsers to store form data and passwords
+- Password authentication workflow
+  1. Open the login page in a **new** browser tab
+  1. Instruct your password manager to enter credentials and 2FA token
+  1. Operate, do not leave your computer
+  1. After finishing log out
+  1. Close current browser tab
 - Data breach prevention in the application: automated attacks, paid hacker
 - **Incident response plan** (outage, security incident)
 - Spam filtering

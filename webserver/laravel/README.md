@@ -15,6 +15,7 @@ and [Rector](https://github.com/rectorphp/rector/tree/master/config/set/laravel)
 - Database seeding and/or import
 - Media import
 - [CD](/webserver/Continuous-integration-Continuous-delivery.md) testing
+- Per application CLI configuration `php -c /home/user/website/php-cli.ini`
 - Laravel queues
 - Cron jobs (sitemap, queue checks)
 - Outbound email: Laravel SwiftMailer or `mail()` and local queuing MTA
