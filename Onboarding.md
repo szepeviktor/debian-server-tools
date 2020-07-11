@@ -209,7 +209,7 @@ Verify your URL
 - Password authentication workflow
   1. Open the login page in a **new** browser tab
   1. Instruct your password manager to enter credentials and 2FA token
-  1. Operate, do not leave your computer
+  1. Operate, do not leave your computer/device
   1. After finishing log out
   1. Close current browser tab
 - Data breach prevention in the application: automated attacks, paid hacker

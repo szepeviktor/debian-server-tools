@@ -22,6 +22,11 @@ PHP_FPM_INI="${PHP_FPM_DIR}/php.ini"
 PHP_TZ="UTC"
 CWD="$(dirname "${BASH_SOURCE[0]}")"
 
+# Later versions of Ondřej Surý's PHP-FPM "Depends: systemd | systemd-tmpfiles"
+Getpkg opentmpfiles bullseye
+# @nonDebian
+Pkg_install_quiet systemd-tmpfiles
+
 # @nonDebian
 Pkg_install_quiet "php${PHP}-fpm" libpcre3 \
     "php${PHP}-curl" "php${PHP}-gd" "php${PHP}-intl" "php${PHP}-mysql" \

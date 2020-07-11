@@ -16,7 +16,7 @@
 1. [Generate DKIM record](https://admin.google.com/AdminHome#AppDetails:service=email&flyout=authenticate_email)
    1024 bit
 1. Add generated TXT record `google._domainkey.`
-1. Add report-only DKIM record `_dmarc.`
+1. Add report-only DMARC record `_dmarc.`
    - `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net"`
 1. Use G Suite Toolbox Check MX service  
    `https://toolbox.googleapps.com/apps/checkmx/check?dkim_selector=google&domain=EXAMPLE.COM`

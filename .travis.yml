@@ -1,1 +1,4 @@
 # https://lint.travis-ci.org/
+
+# TravisCI Bash functions
+# https://github.com/travis-ci/travis-build/tree/master/lib/travis/build/bash

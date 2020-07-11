@@ -8,6 +8,8 @@ Table engine: InnoDB
 
 ```ini
 [mysqld]
+slow_query_log_file         = /var/log/mysql/mariadb-slow.log
+
 query_cache_type            = ON
 query_cache_size            = 256M
 

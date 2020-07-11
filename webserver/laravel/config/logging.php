@@ -5,14 +5,17 @@
  * Usage: Log::channel('firewall')->error('Malicious traffic detected: laravel_' . $eventSlug, $contextArray);
  */
 
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\ErrorLogHandler;
+
 return [
     'channels' => [
 
         'firewall' => [
             'driver' => 'monolog',
-            'handler' => Monolog\Handler\ErrorLogHandler::class,
+            'handler' => ErrorLogHandler::class,
             'level' => 'error',
-            'formatter' => Monolog\Formatter\LineFormatter::class,
+            'formatter' => LineFormatter::class,
             'formatter_with' => [
                 'format' => '%message% %context%',
             ],
