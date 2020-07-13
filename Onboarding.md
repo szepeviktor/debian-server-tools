@@ -205,6 +205,8 @@ Verify your URL
 
 - Notify on account breach: search email address https://haveibeenpwned.com/
 - Notify on account breach: search password https://haveibeenpwned.com/Passwords
+- Notify on account breach: search all details https://sec.hpi.uni-potsdam.de/ilc/search
+- Enable **OS account security** (fingerprint, face ID, hardware key, password)
 - All participants should stop using their browsers to store form data and passwords
 - Password authentication workflow
   1. Open the login page in a **new** browser tab
@@ -213,12 +215,12 @@ Verify your URL
   1. After finishing log out
   1. Close current browser tab
 - Data breach prevention in the application: automated attacks, paid hacker
-- **Incident response plan** (outage, security incident)
-- Spam filtering
 - Protection against malware and phishing attacks (**credential stealing**)
 - Against key loggers
 - Against mobile malware
 - Ransomware mitigation
+- Spam filtering
+- **Incident response plan** (outage, security incident)
 - Yearly security check
 
 ### Collaboration

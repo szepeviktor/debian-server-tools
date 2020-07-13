@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 
 class RouteCheckCommand extends Command
 {
@@ -67,6 +66,7 @@ class RouteCheckCommand extends Command
         $routes = $this->getRoutes();
         $notFound = [];
         foreach ($routes as $route) {
+            // TODO [ClassName::class, 'method']
             $actionParts = explode('@', $route['action']);
             switch (count($actionParts)) {
                 case 1:

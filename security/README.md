@@ -5,6 +5,7 @@
 - https://haveibeenpwned.com/
 - `https://haveibeenpwned.com/api/v2/breachedaccount/user@example.com`
 - https://breachalarm.com/
+- https://sec.hpi.uni-potsdam.de/ilc/search
 
 ### Incident (abuse) reporting
 

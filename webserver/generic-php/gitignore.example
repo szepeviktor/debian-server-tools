@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE and local environment
+Homestead.json
+Homestead.yaml
+
+# Packages
+/composer.lock
+/vendor
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Application
+.env
+.env.backup
+/public/hot
+/public/storage
+/storage/*.key
+
+# Tests
+.phpunit.result.cache
+
+# Distribution
+/dist/
