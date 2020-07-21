@@ -1,4 +1,6 @@
 # https://EditorConfig.org
+# npm install eclint
+# npx eclint check
 
 root = true
 
