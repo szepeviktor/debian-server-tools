@@ -105,6 +105,8 @@ Szolgáltató: [Slack](https://slack.com/)
 
 https://basecamp.com/
 
+[Belső](https://tettra.com/) [tudástár](https://www.getguru.com/)
+
 ### Alkalmazás _Dashboard_
 
 - Bevétel követés

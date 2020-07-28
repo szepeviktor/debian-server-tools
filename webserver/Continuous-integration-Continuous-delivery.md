@@ -16,7 +16,7 @@ How to design and implement CI and CD.
   (non-English alphabets, whitespace characters, control characters) :zero:
 - Lint source code (syntax check) :one:
 - Lint template files
-- Check coding style :two:
+- Check coding style and adhere to EditorConfig :two:
 - Copy/Paste Detector
 - **Do static analysis** :three:
 - Run (unit and functional) tests

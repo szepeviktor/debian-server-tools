@@ -100,6 +100,7 @@
   - Log in with Twitter
   - Microsoft identity platform
   - MojeID (CZ)
+  - also see [FIDO2: Web Authentication](https://fidoalliance.org/fido2/fido2-web-authentication-webauthn/)
 - "Putting products into cart" feedback
 - Express (one click) checkout
   - Masterpass
@@ -111,6 +112,10 @@
   - Google Pay
   - Apple Pay
   - https://www.bolt.com/ (>$1M/year)
+- Other payment providers
+  - https://www.adyen.com/
+  - https://www.six-payment-services.com/en/site/e-commerce/solutions/paymentsolution.html
+  - https://paddle.com/
 
 ### Find an expert
 

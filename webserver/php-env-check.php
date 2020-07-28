@@ -67,6 +67,7 @@ final class CheckEnv {
 
         // Environment variables
         $this->assert( 'WP_ENV', 'production', getenv( 'WP_ENV' ) );
+        $this->assert( 'WP_ENVIRONMENT_TYPE', 'production', getenv( 'WP_ENVIRONMENT_TYPE' ) );
         //$this->assert( 'APP_ENV', 'production', getenv( 'APP_ENV' ) );
 
         // Core directives

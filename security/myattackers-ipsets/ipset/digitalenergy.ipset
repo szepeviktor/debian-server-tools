@@ -22,6 +22,7 @@ add digitalenergy 191.101.80.0/20
 add digitalenergy 191.101.112.0/20
 add digitalenergy 191.101.136.0/21
 add digitalenergy 191.101.161.0/24
+add digitalenergy 193.43.118.0/24
 
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24
