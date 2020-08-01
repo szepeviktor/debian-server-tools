@@ -1,4 +1,4 @@
-# Preventing machine and human errors in SaaS web application
+# Preventing machine and human errors in SaaS web applications
 
 [:hungary: Magyar változat](/CV2.md)
 
@@ -7,22 +7,30 @@
 1. **Operations**: Running your application including infrastructure and testing source code
 1. **Research**: Provide the results of my research covering the whole life cycle of a web application
 
-Running an application resembles **proactive** DevOps with paranoid monitoring.  
+### About operations
+
+Running an application resembles **proactive** DevOps with paranoid monitoring.
+
 You benefit from all incidents at all my clients ever.
+
+Incidents are rare and easy to resolve.
 
 ### Research areas
 
 1. Service providers
+1. Technologies
 1. The whole life of a web application:
    Design, Development, Deployment (CI/CD), Stability, Security, Performance and **Sustainability**,
-   Handling Technical Debt, Application Dashboard
+   Handling Technical Debt, Application Dashboard, E-commerce
 1. Company processes:
-   Cyber Security, Internal Communications,
+   Cyber Security, Internal Communications, Document Managment,
    Customer Relationships including Marketing, Sales and Support
 
 ### How I think
 
-1. Plan and build everything from the ground up in small steps:
+Focusing on long-term prevention.
+
+1. Plan and build your business logic from the ground up in small steps:
    Yes, it takes a lot of time
 1. Use only best-in-class **specialized** service providers:
    Yes, it takes some money
