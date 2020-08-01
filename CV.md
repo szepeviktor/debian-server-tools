@@ -1,35 +1,41 @@
-## Preventing machine and human errors while running your web application
+# Preventing machine and human errors in SaaS web application
 
 [:hungary: Magyar változat](/CV2.md)
 
-DevOps can be seen as the foundation of my work,
-which focuses on **proactive** maintenance of web-based systems.
-This&nbsp;includes comprehensive understanding of the application,
-full source code life cycle management, continuous integration (CI) and automated deployment (CD).
+:two: Dual service for #SaaS manufacturers.
 
-As a team member my exclusive focus is on **non-userfacing** parts:
-sustainability, stability, vulnerability, performance of the application.
+1. **Operations**: Running your application including infrastructure and testing source code
+1. **Research**: Provide the results of my research covering the whole life cycle of a web application
 
-### Proactive maintenance features
+Running an application resembles **proactive** DevOps with paranoid monitoring.  
+You benefit from all incidents at all my clients ever.
 
-- You benefit from all incidents at all my clients (ever)
-- I maintain a blacklist and a list of recommendations
-  of technologies, software and business procedures
-- You receive documentation on project procedures
-- Many types of alerts and continuous log analysis
+### Research areas
 
-### How to build infrastructure?
+1. Service providers
+1. The whole life of a web application:
+   Design, Development, Deployment (CI/CD), Stability, Security, Performance and **Sustainability**,
+   Handling Technical Debt, Application Dashboard
+1. Company processes:
+   Cyber Security, Internal Communications,
+   Customer Relationships including Marketing, Sales and Support
 
-We have to start planning (and error prevention)
-from _the bulldozer leveling the ground for the datacenter_
-and build infrastructure **and** the application from there up to browser rendering.
+### How I think
 
-- Choose **specialized** domain registrar, dns, ssl, cdn, email, backup providers
-- Choose an honest, proactive and technically advanced cloud provider:
-  virtualization, network, storage, processor, memory
-- Modern and small operating system
-- Modern server software: webserver, fast SSL, database, in-memory cache, PHP environment
-- Network and application security
-- Deep monitoring of **everything** we have and depend on
+1. Plan and build everything from the ground up in small steps:
+   Yes, it takes a lot of time
+1. Use only best-in-class **specialized** service providers:
+   Yes, it takes some money
+1. Keep humans out of production servers,
+   only automated bots may cause changes in live applications:
+   Yes, it may slow down our progress
+1. Warn loudly and repeatedly on bad or error prone practices:
+   :parrot: Yes, a parrot is irritating
+1. Keep software simple and stupid - KISS principle:
+   Yes, brand new technologies are out of scope
+1. Apply updates after masses already done so:
+   Yes, we benefit from the losses of ambitious ones
+1. Monitor everything we have and depend on:
+   Yes, 3rd-parties too
 
 Contact me: viktor@szepe.net

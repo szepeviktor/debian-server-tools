@@ -103,9 +103,9 @@ Szolgáltató: [Clubhouse](https://clubhouse.io/)
 
 Szolgáltató: [Slack](https://slack.com/)
 
-https://basecamp.com/
-
 [Belső](https://tettra.com/) [tudástár](https://www.getguru.com/)
+
+_https://basecamp.com/_
 
 ### Alkalmazás _Dashboard_
 

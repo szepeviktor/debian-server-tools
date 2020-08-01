@@ -1,13 +1,16 @@
-<?php declare(strict_types = 1); //phpcs:ignore PSR1.Files.SideEffects.FoundWithSymbols
+<?php // phpcs:ignore PSR1.Files.SideEffects.FoundWithSymbols
+
 /**
  * Convert Laravel presets from StyleCI to PHP CS Fixer.
  *
  * 1. Install PHP CS Fixer: phive install php-cs-fixer
  * 2. Start: tools/php-cs-fixer fix -v --dry-run
  *
- * @see https://styleci.readme.io/docs/presets#section-laravel
- * @version 1.1.0
+ * @see https://docs.styleci.io/presets#laravel
+ * @version 1.2.0
  */
+
+declare(strict_types=1);
 
 return PhpCsFixer\Config::create()
     ->setRules((new PhpCsFixerLaravel())->getFixers())
@@ -23,35 +26,35 @@ final class PhpCsFixerLaravel
      *
      * @var string
      */
-    const CACHE_FILE = '.php_cs_laravel.cache';
+    public const CACHE_FILE = '.php_cs_laravel.cache';
 
     /**
      * Upgrade guide cache file.
      *
      * @var string
      */
-    const UPGRADE_FILE = '.php_cs_laravel_upgrade.cache';
+    public const UPGRADE_FILE = '.php_cs_laravel_upgrade.cache';
 
     /**
      * StyleCI API URL.
      *
      * @var string
      */
-    const STYLECI_API_URL = 'https://api.styleci.io/presets';
+    public const STYLECI_API_URL = 'https://api.styleci.io/presets';
 
     /**
      * PHP CS Fixer upgrade guide document URL.
      *
      * @var string
      */
-    const PHP_CS_UPGRADE_URL = 'https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/2.15/UPGRADE.md';
+    public const PHP_CS_UPGRADE_URL = 'https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/2.15/UPGRADE.md';
 
     /**
      * Conversions from StyleCI to PHP CS Fixer.
      *
      * @var array
      */
-    private $styleciToPhpcs = [
+    protected $styleciToPhpcs = [
         'align_phpdoc' => ['phpdoc_align' => ['align' => 'vertical']], // TODO Laravel double space
         'alpha_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'alpha']],
         'length_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'length']],
@@ -66,6 +69,10 @@ final class PhpCsFixerLaravel
         'unix_line_endings' => 'line_ending',
         'long_array_syntax' => ['array_syntax' => ['syntax' => 'long']],
         'short_array_syntax' => ['array_syntax' => ['syntax' => 'short']],
+        'die_to_exit' => null, // FIXME
+        // TODO Coming in v3.0 https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/3.0
+        'no_unused_lambda_imports' => null,
+        'switch_continue_to_break' => null,
     ];
 
     /**
@@ -130,6 +137,7 @@ final class PhpCsFixerLaravel
                 return;
             }
             $styleciFixers = $ruleSet['fixers'];
+            // array_merge(...array_values($ruleSet['fixers']));
         }, $allRuleSets);
 
         // Cache response

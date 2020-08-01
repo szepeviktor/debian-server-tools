@@ -9,7 +9,7 @@ flush hostbaltic
 # Online Marketing Sources Kft.
 add hostbaltic 141.98.11.0/24
 
-# AS133398 - Tele Asia
+# AS133398 - TELE-AS / Tele Asia
 #add hostbaltic 45.123.190.0/24
 #add hostbaltic 45.125.66.0/24
 # Serveroffer: "Please drop 185.36.81.0/24 subnet"

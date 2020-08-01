@@ -26,3 +26,6 @@ add tamatiya 185.143.73.0/24
 
 # AS200391 - KREZ 999 / Technology Advanced Investment Limited
 add tamatiya 5.188.206.0/24
+
+# AS133398 - TELE-AS / Tele Asia
+add tamatiya 91.191.209.0/24

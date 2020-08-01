@@ -144,7 +144,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
   session expiration UX: timer, warning, redirect, password input)
 - Form handling, input validation, sanitization
   (UserFrontValidate->Request->BackendValidate->BusinessLogic->Response)
-- Escaping (database, HTML, JavaScript)
+- Escaping (SQL, HTML, URL, JavaScript)
 - Internationalization
   and [localization](https://www.gnu.org/savannah-checkouts/gnu/libc/manual/html_node/Locale-Categories.html)
   (PHP, JavaScript, language, time zone, calendar, number formats and units, string collation),
