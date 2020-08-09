@@ -35,6 +35,10 @@ exit 0
 # Fix perms
 chmod 0640 /etc/courier/esmtpauthclient
 
+# Fix courier-msa PIDFILE
+editor /etc/init.d/courier-msa
+#     PIDFILE=$(sed -ne 's/^PIDFILE=\([^[:space:]]*\)/\1/p' /etc/courier/esmtpd-msa)
+
 # /package/config-compare.sh
 
 # gamin for courier-imap

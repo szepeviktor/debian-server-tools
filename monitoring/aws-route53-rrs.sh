@@ -7,23 +7,28 @@
 # DEPENDS       :pip3 install awscli
 # LOCATION      :/usr/local/bin/aws-route53-rrs.sh
 
-# awscli installation
-#     mkdir /opt/awscli; cd /opt/awscli/
-#     pip3 install --prefix /opt/awscli --no-warn-script-location awscli
-#     printf '#!/bin/bash\nPYTHONPATH="%s" exec /opt/awscli/bin/aws "$@"\n' \
-#         /opt/awscli/lib/python3.?/site-packages >/usr/local/bin/aws
-#     chmod +x /usr/local/bin/aws
+# AWS CLI v1 installation
+#     python-add-opt-package.sh awscli aws
+#
+# AWS CLI v2 installation
+#     pip3 install --no-cache-dir --ignore-installed --no-warn-script-location --prefix /opt/awscliv2 \
+#       https://github.com/boto/botocore/archive/v2.zip  https://github.com/aws/aws-cli/archive/v2.zip
+#
 # Configure
 #     aws configure
+#
 # List all zones
 #     aws-route53-rrs.sh . .
+#
 # List all rrs of a zone
 #     aws-route53-rrs.sh . ANY
+#
 # Add HOSTED_ZONE_ID=ZONE-ID to your ~/.profile
 #     aws-route53-rrs.sh . TXT
 #     aws-route53-rrs.sh non-existent-to-create.example.com. AAAA
 #     aws-route53-rrs.sh example.com. A
 #     aws-route53-rrs.sh example.com. IN TXT
+#
 # Delete a record by appending DELETE! in the Value field
 
 HOSTED_ZONE="$HOSTED_ZONE_ID"

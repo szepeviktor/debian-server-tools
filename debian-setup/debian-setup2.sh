@@ -237,6 +237,7 @@ fi
 
 # Package managers
 packages/_package-python-pip
+Dinstall package/python-add-opt-package.sh
 # Node.js (from package.apt.extra)
 # https://nodejs.org/en/download/releases/
 # @nonDebian

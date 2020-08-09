@@ -2,7 +2,7 @@
 
 [:hungary: Magyar változat](/CV2.md)
 
-:two: Dual service for #SaaS manufacturers.
+:two: Dual benefit for #SaaS manufacturers.
 
 1. **Operations**: Running your application including infrastructure and testing source code
 1. **Research**: Provide the results of my research covering the whole life cycle of a web application

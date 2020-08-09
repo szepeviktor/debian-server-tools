@@ -12,11 +12,7 @@
 # LOCATION      :/usr/local/sbin/cert-update-manuale.sh
 
 # automatoes installation
-#     mkdir /opt/manuale; cd /opt/manuale/
-#     pip3 install --prefix /opt/manuale/ --no-warn-script-location automatoes
-#     printf '#!/bin/bash\nPYTHONPATH="%s" exec /opt/manuale/bin/manuale "$@"\n' \
-#         /opt/manuale/lib/python3.?/site-packages >/usr/local/bin/manuale
-#     chmod +x /usr/local/bin/manuale
+#     python-add-opt-package.sh automatoes manuale
 #
 # Register a new account
 #     manuale register EMAIL

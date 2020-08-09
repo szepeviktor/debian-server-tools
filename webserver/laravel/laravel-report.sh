@@ -2,8 +2,8 @@
 #
 # List Laravel log items above NOTICE severity and check for failed queue jobs.
 #
-# VERSION       :0.3.0
-# DATE          :2018-08-17
+# VERSION       :0.4.0
+# DATE          :2020-08-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -29,7 +29,7 @@ declare -r -i EXTRA_LINES="5"
 LARAVEL_ENV="production"
 #LARAVEL_ENV="staging"
 
-set -e
+set -e -o pipefail
 
 # Laravel directory
 LARAVEL_PATH="$1"
@@ -53,6 +53,7 @@ test -f "$LARAVEL_LOG" || exit 0
 /usr/sbin/logtail2 "$LARAVEL_LOG" \
     | dd iflag=fullblock bs=1M count=5 2> /dev/null \
     | grep -E -A "$EXTRA_LINES" "^\\[[0-9]{4}-.+ ${LARAVEL_ENV}\\.(${MONOLOG_LEVELS}):" \
+    | fold --width=623 --spaces \
     || if [ "$?" != 1 ]; then
         # This is a real error, 1 is "not found"
         exit 102

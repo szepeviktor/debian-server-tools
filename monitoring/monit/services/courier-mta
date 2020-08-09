@@ -19,11 +19,11 @@
    depends on courier-mta_mailq
    depends on courier-mta_sendmail_bin
 
- check process courier-mta-msa with pidfile /run/courier/esmtpd-msa.pid
+ check process courier-msa with pidfile /run/courier/esmtpd-msa.pid
    group mail
-   start program = "/usr/sbin/service courier-mta start"
-   stop program = "/usr/sbin/service courier-mta stop"
-   restart program = "/usr/sbin/service courier-mta restart"
+   start program = "/usr/sbin/service courier-msa start"
+   stop program = "/usr/sbin/service courier-msa stop"
+   restart program = "/usr/sbin/service courier-msa restart"
    # Extended timeout for DNS queries
    if failed host localhost port 587 type tcp protocol smtp timeout 12 seconds then restart
    if 5 restarts within 5 cycles then unmonitor
