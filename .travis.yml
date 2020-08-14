@@ -3,31 +3,41 @@
 # TravisCI Bash functions
 # https://github.com/travis-ci/travis-build/tree/master/lib/travis/build/bash
 
+# https://config.travis-ci.com/
+language: php
+os:
+  - linux
+dist: bionic
+
 cache:
   directories:
-    - $HOME/.phive
+    - "${HOME}/.phive"
 
 before_install:
   - |
     # Download phive if not cached
     if [ ! -r "${HOME}/.phive/phive.phar" ]; then
-        mkdir -p ~/bin
-        if [ "$(phpenv version-name)" == 7.1 ]; then
-            # phive v0.13.3 last version supporting PHP 7.1
-            travis_retry wget -O "${HOME}/.phive/phive.phar" "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar"
-            travis_retry wget -O "${HOME}/.phive/phive.phar.asc" "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar.asc"
-        else
-            travis_retry wget -O "${HOME}/.phive/phive.phar" "https://phar.io/releases/phive.phar"
-            travis_retry wget -O "${HOME}/.phive/phive.phar.asc" "https://phar.io/releases/phive.phar.asc"
-        fi
-        travis_retry gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=10 --recv-keys 0x9D8A98B29B2D5D79
-        if ! gpg --batch --verify "${HOME}/.phive/phive.phar.asc" "${HOME}/.phive/phive.phar"; then
-            echo "Invalid phive signature" 1>&2
-            rm -f "${HOME}/.phive/phive.phar"
-            exit 11
-        fi
-        rm "${HOME}/.phive/phive.phar.asc"
+      mkdir -p "${HOME}/bin" "${HOME}/.phive"
+      if [ "$(phpenv version-name)" == 7.1 ]; then
+        # phive v0.13.3 last version supporting PHP 7.1
+        travis_retry wget -O "${HOME}/.phive/phive.phar" "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar"
+        travis_retry wget -O "${HOME}/.phive/phive.phar.asc" "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar.asc"
+      else
+        travis_retry wget -O "${HOME}/.phive/phive.phar" "https://phar.io/releases/phive.phar"
+        travis_retry wget -O "${HOME}/.phive/phive.phar.asc" "https://phar.io/releases/phive.phar.asc"
+      fi
+      travis_retry gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79
+      if ! gpg --batch --verify "${HOME}/.phive/phive.phar.asc" "${HOME}/.phive/phive.phar"; then
+        echo "Invalid phive signature" 1>&2
+        rm -f "${HOME}/.phive/phive.phar"
+        exit 11
+      fi
+      rm "${HOME}/.phive/phive.phar.asc"
     fi
   - install --verbose --mode=0755 -T "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
+  - travis_retry "${HOME}/bin/phive" install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2
   - export PATH="${HOME}/bin:${PATH}"
-  - travis_retry phive install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEYS
+
+# On CI-s without "travis_retry"
+#   gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79 \
+#     || gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79

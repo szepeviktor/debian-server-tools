@@ -25,7 +25,7 @@ Exceptions()
     #| grep -E -v 'courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX$|,msg="535 Authentication rejected",cmd:)' \
     #| grep -E -v 'courieresmtpd: error,relay=.*,msg="(502 ESMTP command error|writev: Connection reset by peer)",cmd:' \
     #| grep -E -v 'courieresmtpd: error,relay=.+,from=<spameri@tiscali\.it>' \
-    #| grep -E -v 'courierfilter: zdkimfilter.+verified: spf=pass, dkim=pass \(id=\S+, stat=0\) dmarc:quarantine=fail rep=0$' \
+    #| grep -E -v 'courierfilter: zdkimfilter\[[0-9]+\]:id=[0-9A-F.]+: verified: spf=pass, dkim=pass \(id=@\S+, stat=0\) dmarc:(quarantine|reject)=fail rep=0$' \
     #| grep -E -v '@(citromail\.hu|vipmail\.hu)>,status: deferred$' \
     #| grep -E -v 'spamd\[[0-9]+\]: spamd:|error@' \
     #| grep -E -v 'mysqld: .* Unsafe statement written to the binary log .* Statement:' \
