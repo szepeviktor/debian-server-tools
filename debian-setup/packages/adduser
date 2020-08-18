@@ -27,7 +27,7 @@ if [ -z "$(getent passwd "$U")" ]; then
     #passwd -e "$U"
 
     # bash
-    sed -e 's#^xterm\*|rxvt\*#xterm*|rxvt*|putty*#' -i "${HOME_DIR}/.bashrc"
+    sed -i -e 's#^xterm\*|rxvt\*#xterm*|rxvt*|putty*#' "${HOME_DIR}/.bashrc"
 
     # wget
     echo -e "content_disposition = on" >"${HOME_DIR}/.wgetrc"
@@ -42,7 +42,7 @@ fi
 echo "root:*" | chpasswd -c NONE
 
 # Check passwords for other users
-PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -vEx '[^:]+:[!*]+')"
+PASSWORD_USERS="$(cut -d ":" -f 1,2 /etc/shadow | grep -v -E -x '[^:]+:[!*]+')"
 # Only the first user may have a password
 test "$(wc -l <<<"$PASSWORD_USERS")" == 1
 # It is the first user

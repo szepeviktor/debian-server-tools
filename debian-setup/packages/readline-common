@@ -2,4 +2,4 @@
 
 set -e -x
 
-sed -e 's/^# \(".*: history-search-.*ward\)$/\1/' -i /etc/inputrc
+sed -i -e 's/^# \(".*: history-search-.*ward\)$/\1/' /etc/inputrc

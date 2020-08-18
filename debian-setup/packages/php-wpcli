@@ -9,7 +9,7 @@ wget -O /usr/local/bin/wp "$WPCLI_URL"
 chmod +x /usr/local/bin/wp
 
 wget -O- "$WPCLI_COMPLETION_URL" \
-    | sed 's/wp cli completions/wp --allow-root cli completions/' \
+    | sed -e 's/wp cli completions/wp --allow-root cli completions/' \
     > /etc/bash_completion.d/wp-cli
 
 # If you have suhosin in PHP-CLI configuration

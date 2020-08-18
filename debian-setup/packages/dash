@@ -2,6 +2,6 @@
 
 set -e -x
 
-#sed -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' -i /etc/bash.bashrc
+#sed -i -e 's/\(#.*enable bash completion\)/#\1/' -e '/#.*enable bash completion/,+8 { s/^#// }' /etc/bash.bashrc
 echo "dash dash/sh boolean false" | debconf-set-selections -v
 dpkg-reconfigure -f noninteractive dash

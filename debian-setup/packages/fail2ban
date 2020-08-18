@@ -20,10 +20,10 @@ Pkg_install_quiet python3-pyinotify fail2ban
 service fail2ban stop
 
 if [ -n "$(Data get-value package.geoipupdate.accountid "")" ]; then
-    sed -e "s|# AccountID .*\$|AccountID $(Data get-value package.geoipupdate.accountid)|" \
+    sed -i -e "s|# AccountID .*\$|AccountID $(Data get-value package.geoipupdate.accountid)|" \
         -e "s|# LicenseKey .*\$|LicenseKey $(Data get-value package.geoipupdate.licensekey)|" \
         -e 's|^EditionIDs GeoLite2-Country GeoLite2-City$|EditionIDs GeoLite2-Country GeoLite2-City GeoLite2-ASN|' \
-        -i /etc/GeoIP.conf
+        /etc/GeoIP.conf
     # Update GeoIP2 databases
     geoipupdate -v
 fi
@@ -40,7 +40,7 @@ for ACTION in iptables-allports.local iptables-multiport.local \
     cp -f ../security/fail2ban-conf/action.d/${ACTION} /etc/fail2ban/action.d/
 done
 
-sed -e "s/@@IP@@/${IP}/" -i /etc/fail2ban/jail.local
-sed -e "s/@@SENDER@@/$(Data get-value package.fail2ban.sender "root")/" -i /etc/fail2ban/jail.local
+sed -i -e "s/@@IP@@/${IP}/" /etc/fail2ban/jail.local
+sed -i -e "s/@@SENDER@@/$(Data get-value package.fail2ban.sender "root")/" /etc/fail2ban/jail.local
 # Port already checked in debian-setup/openssh-server
-sed -e "s/@@SSHPORT@@/$(Data get-value package.openssh-server.port "22")/" -i /etc/fail2ban/jail.local
+sed -i -e "s/@@SSHPORT@@/$(Data get-value package.openssh-server.port "22")/" /etc/fail2ban/jail.local

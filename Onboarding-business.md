@@ -105,7 +105,8 @@ Szolgáltató: [Slack](https://slack.com/)
 
 [Belső](https://tettra.com/) [tudástár](https://www.getguru.com/)
 
-_https://basecamp.com/_
+- https://basecamp.com/
+- https://www.notion.so/
 
 ### Alkalmazás _Dashboard_
 

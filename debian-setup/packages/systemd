@@ -11,7 +11,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
         # Change to agetty
         #sed -i -e 's|:/sbin/getty |:/sbin/agetty |' /etc/inittab
         # Disable terminals 2-6
-        sed -e '/^\([2-6]\):23:respawn:\/sbin\/getty 38400 tty\1$/d' -i /etc/inittab
+        sed -i -e '/^\([2-6]\):23:respawn:\/sbin\/getty 38400 tty\1$/d' /etc/inittab
         # Prevent systemd from coming back
         printf 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1\n' >/etc/apt/preferences.d/systemd.pref
         # Schedule removal of systemd

@@ -15,7 +15,7 @@ test "$MBR_GRUB" == "GRUB"
 # Check root device (copied from /tools/reboot)
 GRUB_CONFIG="/boot/grub/grub.cfg"
 # shellcheck disable=SC2016
-FIRST_ROOT="$(sed -ne '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
+FIRST_ROOT="$(sed -n -e '/^menuentry/,${s/^\s*linux\b.*root=\(\S\+\).*$/\1/p;/^}/q}' "$GRUB_CONFIG")"
 DISK=""
 # Block device
 if [ "${FIRST_ROOT:0:5}" == "/dev/" ]; then

@@ -374,7 +374,7 @@ http://google-public-dns.appspot.com/cache :snail:
   - Automatic suggestions (specific category archive)
   - Promotions
   - Google's fixurl.js
-  - Message on page or Intercom Bot on repeated attempts
+  - Support: Intercom Bot on repeated attempts or a simple feedback form
 - [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
 - Redirect with delay `<meta http-equiv="refresh" content="8; URL=/">`
 - Additional error pages (500, 503)

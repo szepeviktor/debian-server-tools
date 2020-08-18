@@ -7,12 +7,12 @@ Pkg_install_quiet libpam-cracklib bc figlet
 
 # Enforce strong passwords
 # man 8 pam_cracklib
-sed -e 's|^\(password\t\+requisite\t\+pam_cracklib\.so\).\+$|\1 retry=3 difok=3 minlen=16 minclass=2 maxrepeat=2 maxsequence=3 reject_username|' \
-    -i /etc/pam.d/common-password
+sed -i -e 's|^\(password\t\+requisite\t\+pam_cracklib\.so\).\+$|\1 retry=3 difok=3 minlen=16 minclass=2 maxrepeat=2 maxsequence=3 reject_username|' \
+    /etc/pam.d/common-password
 
 # Nice welcome screen
 # @FIXME Python 2 does not handle UTF-8 in YAML
-printf '*\n*** %s ***\n*\n\n' "$(Data get-value system.trespass-warning)" > /etc/motd.tail
+printf '*\n*** %s ***\n*\n\n' "$(Data get-value system.trespass-warning)" >/etc/motd.tail
 
 Data get-value system.host-color "7" > /etc/hostcolor
 
