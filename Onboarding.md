@@ -204,6 +204,7 @@ Verify your URL
 
 ### Cyber security
 
+- Please see https://www.privacytools.io/
 - Notify on account breach: search email address https://haveibeenpwned.com/
 - Notify on account breach: search password https://haveibeenpwned.com/Passwords
 - Notify on account breach: search all details https://sec.hpi.uni-potsdam.de/ilc/search

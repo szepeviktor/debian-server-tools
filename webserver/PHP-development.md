@@ -110,7 +110,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 ### Testing tools :pick:
 
 - Performance (Tideways, Blackfire)
-- Security scanner (Netsparker, Ripstech)
+- Security scanner (Netsparker, Ripstech, StackHawk)
 - [Laravel Analyzer](https://laravelshift.com/)
 
 ### Tips for developing your application :bulb:

@@ -1,3 +1,5 @@
+# TravisCI configuration for username/projectname
+
 # https://lint.travis-ci.org/
 
 # TravisCI Bash functions

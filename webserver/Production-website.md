@@ -365,19 +365,21 @@ http://google-public-dns.appspot.com/cache :snail:
 ### 404 page
 
 - Post and image removal policy (for bots, for humans, redirect to another post)
-- Informative :snail:
+- Informative
+  - Reassuring the user we know about the problem :snail:
+  - How to go on? :snail:
 - Attractive [404 pages on AWWWARDS](http://www.awwwards.com/inspiration/search?text=404)
-- Cooperative :snail:
+- Cooperative
   - Search form
   - Out of stock message
     `get_page_by_path( untrailingslashit( $_SERVER['REQUEST_URI'] ) . '__trashed', OBJECT, $post_type )`
   - Automatic suggestions (specific category archive)
   - Promotions
   - Google's fixurl.js
-  - Support: Intercom Bot on repeated attempts or a simple feedback form
+  - Support: Intercom Bot on repeated attempts or a simple (3rd-party) feedback form :snail:
 - [Adaptive Content Type for 404-s](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/404-adaptive-wp.php)
 - Redirect with delay `<meta http-equiv="refresh" content="8; URL=/">`
-- Additional error pages (500, 503)
+- Other error pages (500, 503)
 
 ### Resource optimization
 
