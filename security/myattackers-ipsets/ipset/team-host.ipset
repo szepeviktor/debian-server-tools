@@ -7,3 +7,5 @@ add team-host 45.82.153.0/24
 add team-host 185.211.244.0/24
 # *.diverseenvironment.com *.changehappening.com 185.211.245.192/26
 add team-host 185.211.245.0/24
+# Irida Telekom
+add team-host 193.35.48.0/22

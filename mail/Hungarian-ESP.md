@@ -18,3 +18,4 @@
 ### Hosting szolgáltató
 
 - [Integrity Mailszolgáltatás](https://integrity.hu/mailszolgaltatas/)
+- Unas.hu SPF rekord: `include:spf.unas.eu`

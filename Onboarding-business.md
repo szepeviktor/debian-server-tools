@@ -100,6 +100,7 @@ Szolgáltató: [Clubhouse](https://clubhouse.io/)
 * chat
 * hanghívás, konferencia hívás
 * videó hívás, képernyő megosztás
+* hang üzenet [Yac](https://www.yac.com/)
 
 Szolgáltató: [Slack](https://slack.com/)
 
