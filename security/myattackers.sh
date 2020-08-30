@@ -95,7 +95,7 @@ Check_address()
 
 Get_ssh_port()
 {
-    /usr/sbin/sshd -T | sed -n -e 's/^port \([0-9]\+\)$/\1/p'
+    /usr/sbin/sshd -T -C user=root -C host=localhost -C addr=localhost | sed -n -e 's#^port \([0-9]\+\)$#\1#p'
 }
 
 Init()

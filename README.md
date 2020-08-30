@@ -100,7 +100,7 @@ ssh-keygen -y -f ~/.ssh/id_ecdsa
 ### Display SSH access details
 
 ```bash
-printf 'host: %s\nport: %s\nuser: %s\n' "$(hostname)" "$(/usr/sbin/sshd -T|sed -ne 's/^port \([0-9]\+\)$/\1/p')" "$(ls -tr /home/|tail -n1)"
+printf 'host: %s\nport: %s\nuser: %s\n' "$(hostname)" "$(/usr/sbin/sshd -T -C user=root|sed -ne 's/^port \([0-9]\+\)$/\1/p')" "$(ls -tr /home/|tail -n1)"
 ```
 
 ### List sshd host keys

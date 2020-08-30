@@ -1,5 +1,10 @@
 #!/bin/bash
 
+Get_sshd_current_config()
+{
+    sshd -T -C user=root -C host=localhost -C addr=localhost
+}
+
 set -e -x
 
 # SSH port
@@ -10,22 +15,22 @@ test -n "${SSH_PORT}"
 
 # Change port
 sed -i -e "s|^#*Port\\s.*\$|#&\\nPort ${SSH_PORT}|" /etc/ssh/sshd_config
-sshd -T | grep -qFx "port ${SSH_PORT}"
+Get_sshd_current_config | grep -qFx "port ${SSH_PORT}"
 
 # Set maximum attempts
 sed -i -e 's|^#*MaxAuthTries\s.*$|#&\nMaxAuthTries 1|' /etc/ssh/sshd_config
-sshd -T | grep -qFx 'maxauthtries 1'
+Get_sshd_current_config | grep -qFx 'maxauthtries 1'
 
 # Disable root login
 sed -i -e 's|^PermitRootLogin\s.*$|#&\nPermitRootLogin no|' /etc/ssh/sshd_config
-sshd -T | grep -qFx 'permitrootlogin no'
+Get_sshd_current_config | grep -qFx 'permitrootlogin no'
 
 # Disable password login for sudoers
 echo -e '\nMatch Group sudo\n    PasswordAuthentication no' >>/etc/ssh/sshd_config
 
 # Disable DSA host key
 sed -i -e 's|^HostKey\s\+/etc/ssh/ssh_host_dsa_key\s*$|#&|' /etc/ssh/sshd_config
-( ! sshd -T | grep -q -F -x 'hostkey /etc/ssh/ssh_host_dsa_key' )
+( ! Get_sshd_current_config | grep -q -F -x 'hostkey /etc/ssh/ssh_host_dsa_key' )
 
 # Add blocked networks
 HOSTS_CHINA="https://github.com/szepeviktor/debian-server-tools/raw/master/security/hosts.deny.sshd.China"

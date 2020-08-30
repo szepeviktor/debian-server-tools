@@ -2,8 +2,8 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :1.0.1
-# DATE          :2020-06-28
+# VERSION       :1.1.0
+# DATE          :2020-08-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -80,7 +80,7 @@ Get_cache_file()
     CACHE_FILE="${CACHE_DIR}/${SHA}"
 
     if [ ! -s "$CACHE_FILE" ]; then
-        install --mode=0640 /dev/null "$CACHE_FILE"
+        test -r "$CACHE_FILE" || install --mode=0640 /dev/null "$CACHE_FILE"
         # Lock for singleton execution
         # shellcheck disable=SC2094
         {

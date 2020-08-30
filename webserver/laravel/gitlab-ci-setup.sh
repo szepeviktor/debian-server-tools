@@ -34,7 +34,7 @@ Pause
 
 # Display GitLab CI Variables.
 # cd /home/$(stat -c %U .)/website/
-CD_SSH_PORT="$(/usr/sbin/sshd -T | sed -n -e 's/^port \([0-9]\+\)$/\1/p')"
+CD_SSH_PORT="$(/usr/sbin/sshd -T -C user=root -C host=localhost -C addr=localhost | sed -n -e 's/^port \([0-9]\+\)$/\1/p')"
 echo "${ENV}_CD_SSH_HOST $(hostname)"
 echo "${ENV}_CD_SSH_PORT ${CD_SSH_PORT}"
 echo "${ENV}_CD_SSH_USER $(stat -c %U .)"

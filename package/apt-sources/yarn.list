@@ -1,5 +1,5 @@
 # Yarn
 deb https://dl.yarnpkg.com/debian/ stable main
 #K: wget -qO- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-#M: https://yarnpkg.com/en/docs/install#linux-tab
+#M: https://classic.yarnpkg.com/en/docs/install#debian-stable
 #F: 86E50310:72ECF46A56B4AD39C907BBB71646B01B86E50310
