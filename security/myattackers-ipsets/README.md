@@ -27,6 +27,7 @@ Update ipset files with embedded update script: `sed -n -e 's/^#\$ //p' example.
 
 ```bash
 grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
+    | sed -e 's#^[0-9.]\+$#&/32#' \
     | xargs -L 1 echo iptables -I myattackers -j REJECT -s
 ```
 

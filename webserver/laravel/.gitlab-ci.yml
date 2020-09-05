@@ -51,6 +51,7 @@ test:
     - echo "$COMPOSER_AUTH_JSON" | base64 --decode >~/.composer/auth.json
     - chmod 0600 ~/.composer/auth.json
     # Character check (lower ASCII, Hungarian, currencies, Turkish)
+    # Czech alphabet: ÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž
     - |
       LC_ALL=C.UTF-8 find . -type f -exec grep -PHn '[^ -~ÁÉÍÓÖŐÚÜŰáéíóöőúüű€Kč₽₺ÇĞİÖŞÜçğıöşü]' "{}" ";"
     # Composer

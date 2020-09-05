@@ -41,40 +41,34 @@ Testing products on a wide range of devices from mobile to desktop.
 - Fogok kapni köznyelven folyószövegként írt emaileket és hibajegyeket?
 - Milyen eszközöket fogunk használni?
   https://szepeviktor.typeform.com/to/O8bLIX
-- Milyen (futtatási) környezetek lesznek?
-  fejlesztési/tesztelési, staging, éles, béta, demó/sandbox
+- Milyen futtatási környezetek lesznek?
+  fejlesztési, tesztelési, staging, éles, béta, demó, sandbox
 
 ### Kétféle hozzáállás
 
 1. Vagy az üzleti résztvevők igényeinek kielégítése
-2. Vagy szakértői tervezés a máshonnan már ismert hibák elkerülésével,
+2. Vagy szakértői tervezés a már ismert hibák elkerülésével,
    és a technikai tartozás (technical debt) folyamatos megfizetésével
 
 Mit jelent a _kész_?
 
 1. Akkor van kész egy funkció, ha az elvárt értéket írja ki
-2. Akkor van kész valami, ha a kódolási stílus megegyező, kommentezve van, a statikus analízis nem jelez,
+2. Akkor van kész valami, ha a kódolási stílus megegyező,
+   kommentezve van, a statikus analízis nem jelez,
    és esetleg valaki átnézte a kódot, és van hozzá teszt
 
 https://twitter.com/chopeh/status/926074073767206912
-
-### Hogyan működik a proaktivitás?
-
-A már ismert hibákat, hiba forrásokat az alábbi 3 módon lehet kezelni.
-
-1. Megelőző jellegű javítása → 100%-ig biztos
-2. Bevállaljuk, hogy hiba következik be → bizonytalan
-3. Valamilyen módon - pl. szerencsével - nem következik be a hiba → elenyésző a valószínűsége
 
 
 ## Cég szervezés
 
 Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 
-- [Kiberbiztonság](/Onboarding.md#cyber-security) minden készüléken és másodlagos kártevővédelemi szoftver telepítés (HitmanPro.Alert)
+- [Kiberbiztonság](/Onboarding.md#cyber-security) minden készüléken
+  és másodlagos kártevővédelemi szoftver telepítés (HitmanPro.Alert)
 - Jelszó menedzser bevezetése mindenkinél
-- Céges telefonkönyv frissen tartás
-- Céges kommunikáció meghatározása
+- Céges telefonkönyv frissen tartása
+- Cégen belüli kommunikáció meghatározása
 - Arculati kézikönyv (style guide, brand guidelines) szerinti munka
 - Projekt menedzser
   - Hogyan osztjuk be :one: az új fejlesztéseket, :two: hiba javításokat és :three: a technikai tartozást
@@ -83,31 +77,36 @@ Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 - Valós idejű _Alkalmazás Dashboard_, döntés támogatás
 
 
-
-### Céges kommunikáció
+### Cégen belüli kommunikáció
 
 Cél: 1 közös platformon kommunikálni.
 
-- hibajegy
-- külsősökkel való kapcsolat a platformon belül
+##### Aszinkron
+
+- Hibajegy
+- Külsősökkel való kapcsolat a platformon belül
   vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
-- jegyzetek, dokumentumok (pl. céges telefonkönyv) közös szerkesztése
-- fájl megosztás
-- naptár
+- Jegyzetek és dokumentumok (pl. céges telefonkönyv) közös szerkesztése
+- Fájl megosztás
+- Naptár
+- Hang üzenet [Yac](https://www.yac.com/)
+- Belső tudástár https://tettra.com/ https://www.getguru.com/
 
 Szolgáltató: [Clubhouse](https://clubhouse.io/)
 
-* chat
-* hanghívás, konferencia hívás
-* videó hívás, képernyő megosztás
-* hang üzenet [Yac](https://www.yac.com/)
+##### Egyidejű
+
+- Chat
+- Hanghívás, konferencia hívás
+- Videó hívás, képernyő megosztás
 
 Szolgáltató: [Slack](https://slack.com/)
 
-[Belső](https://tettra.com/) [tudástár](https://www.getguru.com/)
+##### Egyéb szolgáltatók
 
-- https://basecamp.com/
-- https://www.notion.so/
+1. https://basecamp.com/
+1. https://www.notion.so/
+
 
 ### Alkalmazás _Dashboard_
 
@@ -122,7 +121,8 @@ Szolgáltató: [Slack](https://slack.com/)
 * Hálózati forgalom
 * Támadások száma
 
-https://amplitude.com/
+Szolgáltató: https://amplitude.com/
+
 
 ### Szerkesztő képességei
 
@@ -149,6 +149,7 @@ Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy
 - Funkciók befejezése (az MVP-n felül)
 - Kézi tesztelés
 - Hiba javítás
+
 
 ### Technikai tartozás (technical debt)
 

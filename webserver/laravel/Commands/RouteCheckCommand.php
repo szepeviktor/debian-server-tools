@@ -9,6 +9,16 @@ use Illuminate\Console\Command;
 
 class RouteCheckCommand extends Command
 {
+    protected const ACTION_PARTS_METHOD = 1;
+
+    protected const ACTION_PARTS_CLASS_AND_METHOD = 2;
+
+    protected const EXIT_STATUS_OK = 0;
+
+    protected const EXIT_STATUS_NO_ROUTE = 10;
+
+    protected const EXIT_STATUS_MISSING_CONTROLLER = 11;
+
     /**
      * The console command name.
      *
@@ -48,7 +58,9 @@ class RouteCheckCommand extends Command
         parent::__construct();
 
         $this->router = $router;
-        $this->routes = $router->getRoutes();
+        /** @var \Illuminate\Routing\RouteCollection */
+        $routeCollection = $router->getRoutes();
+        $this->routes = $routeCollection;
     }
 
     /**
@@ -60,7 +72,7 @@ class RouteCheckCommand extends Command
     {
         if (count($this->routes) == 0) {
             $this->error("Your application doesn't have any routes.");
-            return 10;
+            return self::EXIT_STATUS_NO_ROUTE;
         }
 
         $routes = $this->getRoutes();
@@ -69,16 +81,14 @@ class RouteCheckCommand extends Command
             // TODO [ClassName::class, 'method']
             $actionParts = explode('@', $route['action']);
             switch (count($actionParts)) {
-                case 1:
-                    // Single method class
+                case self::ACTION_PARTS_METHOD:
                     $className = $actionParts[0];
                     if (!class_exists($className) || !is_callable(new $className)) {
                         $notFound[] = [$route['middleware'], $className . '::__invoke'];
                         continue 2;
                     }
                     break;
-                case 2:
-                    // Class@method
+                case self::ACTION_PARTS_CLASS_AND_METHOD:
                     $className = $actionParts[0];
                     if (!class_exists($className)) {
                         $notFound[] = [$route['middleware'], $className];
@@ -97,11 +107,11 @@ class RouteCheckCommand extends Command
 
         if ($notFound !== []) {
             $this->table(['Middleware', 'Non-existent'], $notFound);
-            return 11;
+            return self::EXIT_STATUS_MISSING_CONTROLLER;
         }
 
         $this->info('All route methods do exist.');
-        return 0;
+        return self::EXIT_STATUS_OK;
     }
 
     /**

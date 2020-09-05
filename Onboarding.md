@@ -47,6 +47,8 @@ Choose one per category.
 
 [AWS certificates for internal usage only](https://aws.amazon.com/certificate-manager/faqs/#general)
 
+[AWS CloudFront supports TLS 1.3](https://aws.amazon.com/about-aws/whats-new/2020/09/cloudfront-tlsv1-3-support/)
+
 ### Policy for user accounts at service providers
 
 - Who is the legal owner of the account?
@@ -87,7 +89,7 @@ This section contains preparations for secure registration.
 - Servers / Server listing / (server name) / IP ADDRESSES / REVERSE DNS NAME Public IPv4 + IPv6
 - Log out (prevent session hijacking)
 - Have support enable **SMTP** for the account
-- Document server IP + password
+- Document server IP and password
 
 ### Amazon Web Services registration
 
@@ -179,12 +181,12 @@ Verify your URL
 
 ### Application setup
 
-- Environments: development, staging, production
-- 3rd parties (document, gain access, set up)
-- User names and SSH keys
+- Development providers, e.g. hosted git, issue tracker (document, gain access, set up)
 - Git repository, branch usage (git flow)
-- Issue tracker
-- Paid plugins, libraries (updates, gain access, support)
+- 3rd party providers (document, gain access, set up)
+- Environments: development, staging, production
+- User names and SSH keys
+- Purchased plugins and libraries (updates, gain access, support)
 - Application environment definition
 - Set up CI
 - Write deploy script

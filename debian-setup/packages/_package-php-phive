@@ -12,7 +12,5 @@ if ! gpg --batch --verify phive.phar.asc phive.phar; then
     exit 1
 fi
 
+install --verbose --mode=0755 --no-target-directory phive.phar /usr/local/bin/phive
 rm phive.phar.asc
-
-chmod +x phive.phar
-mv phive.phar /usr/local/bin/phive

@@ -36,7 +36,7 @@ before_install:
       fi
       rm "${HOME}/.phive/phive.phar.asc"
     fi
-  - install --verbose --mode=0755 -T "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
+  - install --verbose --mode=0755 --no-target-directory "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
   - travis_retry "${HOME}/bin/phive" install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2
   - export PATH="${HOME}/bin:${PATH}"
 
