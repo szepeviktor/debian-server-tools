@@ -1,5 +1,7 @@
 # Út az emailtől és kapcsolat űrlaptól az ügyfélkapcsolatig
 
+Az ügyfélkapcsolat a vállalkozás legfontosabb része. https://youtu.be/-hxX_Q5CnaA?t=110
+
 Paradigma váltás az [Intercom](https://www.intercom.com/)-mal.
 
 ### Az ügyfélkapcsolat részei

@@ -28,7 +28,7 @@ Update ipset files with embedded update script: `sed -n -e 's/^#\$ //p' example.
 ```bash
 grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
     | sed -e 's#^[0-9.]\+$#&/32#' \
-    | xargs -L 1 echo iptables -I myattackers -j REJECT -s
+    | xargs -L 1 -- echo "iptables -I myattackers -j REJECT -s"
 ```
 
 ### Usage in htaccess files
@@ -37,7 +37,7 @@ grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
 echo "<RequireAll>"
 echo "Require all granted"
 grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
-    | xargs -L 1 echo Require not ip
+    | xargs -L 1 -- echo "Require not ip"
 echo "</RequireAll>"
 ```
 
@@ -45,8 +45,8 @@ echo "</RequireAll>"
 
 ```bash
 grep -h '^add' *.ipset | cut -d " " -f 3 | sortip \
-    | xargs -I % echo "/ip firewall address-list add list=myattackers-ipset address=%" \
-    > mikrotik-myattackers-ipset.rsc
+    | xargs -I % -- echo "/ip firewall address-list add list=myattackers-ipset address=%" \
+    >mikrotik-myattackers-ipset.rsc
 ```
 
-Usage on router: `/import file=mikrotik-myattackers-ipset.rsc`
+Execution on the router: `/import file=mikrotik-myattackers-ipset.rsc`

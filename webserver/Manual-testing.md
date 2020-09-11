@@ -17,6 +17,8 @@ _Milyen készülékeken, böngészőkkel tesztelek?_
 - **PC** Debian GNU/Linux 10.1, Firefox 70.0.1
 - AMP verzió tesztelése
 
+:bulb: Tesztelés közben tartsd nyitva a böngésző konzolt, mobilon a _debug_ konzolt.
+
 ### Teljes életciklus tesztelése
 
 - Regisztráció

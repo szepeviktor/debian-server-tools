@@ -13,6 +13,7 @@
 - https://www.amazon.com/gp/navigation-country/select-country/
 - https://www.savoirbeds.com/
 - https://www.agoda.com/
+- https://www.zappos.com/
 - booking: https://www.getbellhops.com/ (TypeForm-like)
 
 ### Self-hosted webshops

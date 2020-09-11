@@ -17,7 +17,8 @@ How to design and implement CI and CD.
 - Lint source code (syntax check) :one:
 - Lint template files
 - Check coding style and adhere to EditorConfig :two:
-- Copy/Paste Detector
+- Magic Number Detector
+- Copy-Paste Detector
 - **Do static analysis** :three:
 - Run (unit and functional) tests
 - Measure code coverage

@@ -37,6 +37,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 
 - Arculati kézikönyv: szín és forma harmónia, 1 kiemelő szín, [vibráló dizájn](https://hellobala.hu/)
 - Navigációs elemek UX problémái: lokáció, méret, kinyílás (*mega menü*, egér-fölöttére nyíló)
+  [UX designer](https://skinnydesigns.hu/)
 - CTA (call-to-action) gombok
 - Interaktív elemek: **videó**, Ken Burns effektes slider/galéria,
   hírlevél, letölthető anyag, beúszó feliratkoztató, exit modal,
