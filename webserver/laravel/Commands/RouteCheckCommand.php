@@ -78,7 +78,10 @@ class RouteCheckCommand extends Command
         $routes = $this->getRoutes();
         $notFound = [];
         foreach ($routes as $route) {
-            // TODO [ClassName::class, 'method']
+            // Closure always exists
+            if ($route['action'] === 'Closure') {
+                continue;
+            }
             $actionParts = explode('@', $route['action']);
             switch (count($actionParts)) {
                 case self::ACTION_PARTS_METHOD:

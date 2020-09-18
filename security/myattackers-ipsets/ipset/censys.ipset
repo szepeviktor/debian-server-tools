@@ -6,5 +6,8 @@ flush censys
 
 # AS237 - Merit
 # https://support.censys.io/hc/en-us/articles/360043177092-Opt-Out-of-Scanning
+add censys 74.120.14.0/24
+add censys 162.142.125.0/24
+add censys 167.248.133.0/24
 add censys 192.35.168.0/23
-add censys 198.108.66.0/23
+
