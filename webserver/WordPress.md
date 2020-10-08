@@ -239,7 +239,7 @@ wget -P wp-content/mu-plugins/ ${WPSZV}/mu-image-upload-control/image-upload-con
 wget -P wp-content/mu-plugins/ ${WPSZV}/mu-image-upload-control/image-upload-control-hu.php
 
 # protect plugins
-wget -P wp-content/mu-plugins/ ${WPSZV}/mu-protect-plugins/protect-plugins.php
+#wget -P wp-content/mu-plugins/ ${WPSZV}/mu-protect-plugins/protect-plugins.php
 ```
 
 #### Object cache

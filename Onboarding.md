@@ -154,7 +154,7 @@ Verify your URL
   **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
   <!-- not Tiliq -->
 - File sharing, large file sending: [WeTransfer](https://wetransfer.com/),
-  [Firefox Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/),
+  [pCloud :eu:](https://transfer.pcloud.com/),
   [Smash](https://fromsmash.com/)
 - *Transactional* emails and notification emails for alerts, log excerpts:
   [see providers above](#specialized-infrastructure-providers)

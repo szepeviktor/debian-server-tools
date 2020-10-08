@@ -16,6 +16,7 @@ FBID Identity of Device
 FBLC Locale
 FBOP Other Parameters ???
 FBRV Revision
+FBDM DisplayMetrics
 ```
 
 Filter webserver logs:

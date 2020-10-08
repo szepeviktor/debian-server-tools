@@ -3,6 +3,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set digitalenergy src -j REJECT
 create digitalenergy hash:net family inet hashsize 64 maxelem 64
 flush digitalenergy
+add digitalenergy 45.95.116.0/24
 add digitalenergy 64.137.120.0/24
 add digitalenergy 154.16.55.0/24
 add digitalenergy 179.61.128.0/20

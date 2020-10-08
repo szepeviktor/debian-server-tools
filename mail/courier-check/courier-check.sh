@@ -2,7 +2,7 @@
 #
 # Check Courier MTA configuration.
 #
-# VERSION       :0.2.1
+# VERSION       :0.2.2
 # DATE          :2018-07-09
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
@@ -10,10 +10,10 @@
 # BASH-VERSION  :4.2+
 # CONFIG        :./courier-check-*
 
-COURIER_USER="courier"
 
-Check_user() {
-    if dpkg --compare-versions "$(dpkg-query --show --showformat="\${Version}" courier-mta)" lt "0.75.0-19"; then
+Set_user() {
+    COURIER_USER="courier"
+    if dpkg --compare-versions "$(dpkg-query --show --showformat='${Version}' courier-mta)" lt "0.75.0-19"; then
         COURIER_USER="daemon"
     fi
 }
@@ -80,7 +80,7 @@ source courier-check-imapd-ssl-public
 # shellcheck disable=SC1091
 #source courier-check-esmtpd-ssl-satellite
 
-Check_user
+Set_user
 Check_config_perms
 
 # Authentication

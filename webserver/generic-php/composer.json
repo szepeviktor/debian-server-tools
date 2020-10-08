@@ -46,6 +46,11 @@
             "phpcpd --min-lines=2 --min-tokens=35 app/ tests/",
             "security-checker security:check",
             "phploc app/"
+        ],
+        "phpstanOnPhp5": [
+            "mkdir php7 || echo",
+            "composer --working-dir=php7 show --path szepeviktor/phpstan-wordpress || composer --working-dir=php7 require --dev --ignore-platform-reqs szepeviktor/phpstan-wordpress",
+            "php7/vendor/bin/phpstan analyze --memory-limit=2G"
         ]
     }
 }
