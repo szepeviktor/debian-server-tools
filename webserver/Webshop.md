@@ -66,6 +66,7 @@
 - Content creation https://textual.ai/
 - Chatbot https://morph.ai/ecommerce
 - Chatbot https://racom.io/
+- https://hexometer.com/
 
 ### Integrations
 

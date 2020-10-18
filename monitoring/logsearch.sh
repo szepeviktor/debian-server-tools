@@ -2,8 +2,8 @@
 #
 # Smart search Apache logs.
 #
-# VERSION       :0.6.3
-# DATE          :2015-04-27
+# VERSION       :0.6.4
+# DATE          :2020-10-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -205,7 +205,7 @@ if [ -z "$ERRORLOG" ]; then
     # Process access logs
     # shellcheck disable=SC2086,SC2046
     grep -H -- "${SEARCH}" $(Realpath_all ${LOGS}) \
-        | sed -e 's/^\([^:]*\)\/\([^\/]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
+        | sed -e 's/^\([^:]*\)\/\([^\/:]*\):\([0-9a-f:\.]*\) .* .* \(\[.*\]\) "\(.*\)" \(.*\) .* "\(.*\)" "\(.*\)"$/'"$FIELDS"'/' \
         | eval "$PIPE"
 else
     # Process error logs
