@@ -26,6 +26,7 @@
             * dump(), dd(), var_dump() - consider using barryvdh/laravel-debugbar
             * error_log() has special use
             * define() is for global constants
+            See https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/WordPress/Sniffs/PHP/DiscouragedPHPFunctionsSniff.php
             -->
             <property name="forbiddenFunctions" type="array"
                 value="ini_set=>null,env=>null,compact=>null,list=>null,extract=>null,eval=>null,echo=>null,print=>null,print_r=>null,dump=>null,dd=>null,var_dump=>null,error_log=>null,define=>null" />

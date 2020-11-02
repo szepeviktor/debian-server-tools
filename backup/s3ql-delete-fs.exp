@@ -1,0 +1,23 @@
+#!/usr/bin/expect -f
+#
+# Run s3qladm clear 100 times.
+#
+
+# EDIT here!
+#set storageUrl "s3c://S3_HOST/S3_BUCKET/S3_PREFIX"
+
+set verbose_flag 1
+
+set timeout -1
+
+set s3qlFailures 0
+
+while { $s3qlFailures < 100 } {
+    spawn s3qladm clear $storageUrl
+    expect {
+        "> " { send "yes\r"; exp_continue }
+        wait
+    }
+    sleep 3
+    set s3qlFailures [expr $s3qlFailures + 1]
+}

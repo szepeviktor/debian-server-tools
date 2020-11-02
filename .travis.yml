@@ -1,21 +1,22 @@
 # TravisCI configuration for username/projectname
 
-# https://lint.travis-ci.org/
+# TravisCI Build Config Explorer
+# https://config.travis-ci.com/explore
 
 # TravisCI Bash functions
 # https://github.com/travis-ci/travis-build/tree/master/lib/travis/build/bash
 
-# https://config.travis-ci.com/
-language: php
+language: "php"
 os:
-  - linux
-dist: bionic
+  - "linux"
+dist: "bionic"
 
 cache:
   directories:
     - "${HOME}/.phive"
 
 before_install:
+  - "phpenv config-rm xdebug.ini"
   - |
     # Download phive if not cached
     if [ ! -r "${HOME}/.phive/phive.phar" ]; then
@@ -36,10 +37,23 @@ before_install:
       fi
       rm "${HOME}/.phive/phive.phar.asc"
     fi
-  - install --verbose --mode=0755 --no-target-directory -D "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
-  - travis_retry "${HOME}/bin/phive" install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2
-  - export PATH="${HOME}/bin:${PATH}"
+  - 'install --verbose --mode=0755 --no-target-directory -D "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"'
+  - 'travis_retry "${HOME}/bin/phive" install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2'
+  - 'export PATH="${HOME}/bin:${PATH}"'
 
 # On CI-s without "travis_retry"
 #   gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79 \
 #     || gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79
+
+jobs:
+  include:
+    - name: "Check execution bits"
+      before_install: "skip"
+      install: "skip"
+      before_script: "skip"
+      script:
+        # Scripts should be executable, all other files should not be executable
+        - |
+          test -z "$(find bin/ -type f -name "*.sh" -not -executable)"
+          test -z "$(find . -type f -not -path "./.git/*" -not -path "./bin/*.sh" -executable)"
+      after_script: "skip"

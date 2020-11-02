@@ -85,6 +85,7 @@ define( 'WP_USE_EXT_MYSQL', false );
 //define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org' );
 // +Yoast SEO define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,www.google.com,www.bing.com' );
 define( 'WP_POST_REVISIONS', 20 );
+define( 'MEDIA_TRASH', true );
 
 /**
  * Full page cache.

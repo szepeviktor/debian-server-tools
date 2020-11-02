@@ -32,13 +32,16 @@
 - Cache Behaviors
   - Cache Policy: Managed-CachingOptimized for static routes
   - Cache Policy: Managed-CachingDisabled for API-s and dynamic pages
-  - Origin Request Policy: whitelist headers, cookies, query string
+  - Origin Request Policy
+    - whitelist headers (`Accept`, `Accept-Language`, `Referer`, `User-Agent`, `X-XSRF-TOKEN`, `CloudFront-Viewer-Country`)
+    - whitelist cookies
+    - whitelist query strings
 - Compress Objects Automatically: Yes
 - Disable HTTP caching on the origin
   - `Expires: Thu, 01 Jan 1970 00:00:00 GMT`
   - `Cache-Control: no-store`
   - See https://aws.amazon.com/premiumsupport/knowledge-center/prevent-cloudfront-from-caching-files/
-- Make origin get client IP address from `X-Forwarded-For` HTTP header
+- Make origin fetch client IP address from `X-Forwarded-For` HTTP header
 
 [Caching of HTTP 4xx and 5xx](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HTTPStatusCodes.html)
 

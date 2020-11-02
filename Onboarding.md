@@ -37,7 +37,7 @@ Choose one per category.
 1. Transactional email provider:
    **AWS, SparkPost, SparkPost EU :eu:**
 1. Storage provider:
-   **AWS, Backblaze B2, Selectel, Oktawave :eu:**
+   **AWS, UpCloud :eu:, Backblaze B2, Selectel, Oktawave :eu:**
 
 [.hu domain regisztrátorok](http://www.domain.hu/domain/)
 
