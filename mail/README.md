@@ -97,7 +97,7 @@ See /repo/debian/pool/main/y/ytnef/
 
 MIME type: `application/ms-tnef`
 
-### Set up G Suite mailing
+### Set up Google Workspace mailing
 
 See [G-Suite.md](/mail/G-Suite.md)
 

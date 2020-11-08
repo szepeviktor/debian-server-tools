@@ -1,4 +1,4 @@
-# Set up a domain for G Suite
+# Set up a domain for Google Workspace
 
 1. Register domain, see [onboarding](/Onboarding.md)
 1. Clean up DNS records
@@ -18,6 +18,6 @@
 1. Add generated TXT record `google._domainkey.`
 1. Add report-only DMARC record `_dmarc.`
    - `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net"`
-1. Use G Suite Toolbox Check MX service  
+1. Use Google Admin Toolbox Check MX service
    `https://toolbox.googleapps.com/apps/checkmx/check?dkim_selector=google&domain=EXAMPLE.COM`
 1. Optional [SMTP relay](https://admin.google.com/AdminHome?fral=1#ServiceSettings/service=email&subtab=filters)

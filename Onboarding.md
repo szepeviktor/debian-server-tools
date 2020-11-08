@@ -151,7 +151,7 @@ Verify your URL
 
 - There is no guaranteed email delivery on the Internet
 - [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages:
-  **G Suite, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
+  **Google Workspace, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
   <!-- not Tiliq -->
 - File sharing, large file sending: [WeTransfer](https://wetransfer.com/),
   [pCloud :eu:](https://transfer.pcloud.com/),

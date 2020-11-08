@@ -40,6 +40,9 @@ before_install:
   - 'install --verbose --mode=0755 --no-target-directory -D "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"'
   - 'travis_retry "${HOME}/bin/phive" install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2'
   - 'export PATH="${HOME}/bin:${PATH}"'
+  # Use Composer v1
+  - "composer self-update --1"
+  - "composer validate --strict"
 
 # On CI-s without "travis_retry"
 #   gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79 \
