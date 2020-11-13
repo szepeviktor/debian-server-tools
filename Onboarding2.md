@@ -140,9 +140,9 @@ Verify your URL
 - [ESP (email fiók szolgáltató)](https://twofactorauth.org/#email)
   a *személyes* emailekhez ideértve a bejövő üzeneteket:
   **Google Workspace, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
-- Fájl megosztás/küldés/fogadás, nagyfájl küldés/fogadás: [WeTransfer](https://wetransfer.com/),
-  [Firefox Send](https://send.firefox.com/), [pCloud :eu:](https://transfer.pcloud.com/),
-  [Smash](https://fromsmash.com/)
+- Fájl megosztás/küldés/fogadás, nagyfájl küldés/fogadás: [WeTransfer :eu:](https://wetransfer.com/),
+  [pCloud :eu:](https://transfer.pcloud.com/),
+  [Smash :eu:](https://fromsmash.com/)
 - *Tranzakciós (automata)* emailek és értesítő emailek napló kivonatok, riasztások:
   [lásd a szolgáltatók fent](#speci%C3%A1lis-infrastrukt%C3%BAra-szolg%C3%A1ltat%C3%B3k)
 - *Tömeges* emailek hírlevélhez: [lásd a szolgáltatók fent](#speci%C3%A1lis-infrastrukt%C3%BAra-szolg%C3%A1ltat%C3%B3k)

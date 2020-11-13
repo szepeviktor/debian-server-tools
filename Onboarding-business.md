@@ -156,7 +156,7 @@ Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy
 https://twitter.com/StepsizeHQ/status/1156582846057844736
 
 - Kód kommentelés (docblock, üzleti logika és a commit üzenetek is)
-- Hiba kezelés (hiba kontextus, könnyű felderíthetőség)
+- Hiba kezelés (hiba kontextus, könnyű felderíthetőség) :point_right: ettől tönkremennek a cégek
 - Kódolás nélküli (zero coverage) tesztek futtatása
 - Egység (unit) és funkcionális tesztek írása
 - Keretrendszer és csomag frissítés

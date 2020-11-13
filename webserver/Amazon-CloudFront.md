@@ -95,3 +95,4 @@ class TrustProxies extends Middleware
 ### Edge locations
 
 - Budapest `130.176.34.64 - 130.176.34.95`
+- Vienna `130.176.13.64 - 130.176.13.95`

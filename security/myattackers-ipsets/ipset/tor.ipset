@@ -1,0 +1,9 @@
+## Tor Network
+##: ipset -exist restore <ipset/tor.ipset
+##: iptables -w -I myattackers-ipset -m set --match-set tor src -j REJECT
+#create tor hash:net family inet hashsize 64 maxelem 32
+#flush tor
+## AS60729 - ZWIEBELFREUNDE
+#add tor 185.220.102.0/24
+## AS208294 - ASMK / Markus Koch
+#add tor 185.220.101.0/24
