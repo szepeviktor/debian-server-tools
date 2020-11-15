@@ -52,6 +52,10 @@ add nobis 172.241.232.0/21
 
 # AS60781 - LEASEWEB-NL-AMS-01
 add nobis 45.86.15.0/24
+add nobis 45.136.173.0/24
+add nobis 45.136.175.0/24
+add nobis 45.151.105.0/24
+add nobis 45.151.106.0/24
 add nobis 193.58.108.0/22
 
 # AS7203 - LEASEWEB-USA-SFO-12

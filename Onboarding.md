@@ -8,7 +8,7 @@ Details about [running your web application](https://git.io/vNryB)
 
 ### Requirements
 
-1. One person able to consider things, decide and act
+1. One person able to consider things, decide and act at providers below
 1. If moving: access to accounts at all providers below
 1. Company details (registered name, registration number, address)
 1. Access to company email account

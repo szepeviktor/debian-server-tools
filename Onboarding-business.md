@@ -2,62 +2,34 @@
 
 ## Alkalmazás gyártás menete
 
+1. Megismerés / Discover
+1. Kiértékelés-Meghatározás / Define
+1. Tervezés / Design
+1. Fejlesztés / Develop
+
 - https://www.fps.hu/work
 - https://web.archive.org/web/20181228074713/http://kozpontbanazember.hu/ (FrancisKodak)
 - https://www.google.hu/search?q=user+interview+site%3Ahu
 
-### Megismerés / Discover
+### Milyen szolgáltatásra van szükség?
 
-Ismernünk kell az üzleti céljait, alapértékeit
-és azonosítani felhasználóinak igényeit
-olyan kutatási módszerek alapján,
-mint a felhasználó interjúzás, terepkísérlet (field study) stb.
-
-### Kiértékelés-Meghatározás / Define
-
-Hogy a termék eleget tegyen a felhasználók igényeinek,
-a funkcionalitás részletes leírást
-és a tartalmi elemek meghatározást kell priorizálni.
-Annak meghatározása, ahogyan a felhasználó interakcióba lép a funkciókkal,
-az alkalmazás folyamatának (flow) és a tartalom struktúra megalkotása.
-
-### Tervezés / Design
-
-Designing interface elements to facilitate presenting the information
-and the users’ movement through the information architecture by wireframes, prototypes.
-Finally visualizing user interface by creative graphic design.
-https://www.youtube.com/watch?v=mfieI1UBiaM
-
-### Fejlesztés / Develop
-
-Content and essential functions come ﬁrst,
-then visual presentation and interactivity using the latest technology.
-Testing products on a wide range of devices from mobile to desktop.
-
-
-### Kérdések ismerkedéshez
-
-- Lesz **sorozatosan** műszaki dolgok magyarázása nem műszaki emberek számára?
-- Fogok kapni köznyelven folyószövegként írt emaileket és hibajegyeket?
-- Milyen eszközöket fogunk használni?
-  https://szepeviktor.typeform.com/to/O8bLIX
-- Milyen futtatási környezetek lesznek?
-  fejlesztési, tesztelési, staging, éles, béta, demó, sandbox
-
-### Kétféle hozzáállás
-
-1. Vagy az üzleti résztvevők igényeinek kielégítése
-2. Vagy szakértői tervezés a már ismert hibák elkerülésével,
-   és a technikai tartozás (technical debt) folyamatos megfizetésével
-
-Mit jelent a _kész_?
-
-1. Akkor van kész egy funkció, ha az elvárt értéket írja ki
-2. Akkor van kész valami, ha a kódolási stílus megegyező,
-   kommentezve van, a statikus analízis nem jelez,
-   és esetleg valaki átnézte a kódot, és van hozzá teszt
-
-https://twitter.com/chopeh/status/926074073767206912
+- A felhasználóktól származik a működési költség?
+- Fognak-e emberek dolgozni az éles környezeten?
+- Kik dolgoznak az alkalmazás gyártásban a következő szerepkörökben
+  - Emberek irányításában és szoftver gyártás terén jártas vezető
+  - Szolgáltatói fiókokat kezelő, velük kapcsolatot tartó adminisztrátor
+  - Szoftver tervező mérnök
+  - UI designer
+  - Backend fejlesztő
+  - Frontend fejlesztő
+  - Tartalom szerkesztő
+- Szerver telepítés és üzemeltetés
+- Alkalmazás tervezés
+- Alkalmazás üzemeltetés
+- Fejlesztés követése és PR-ek küldése
+- Krízis kezelés
+- Nem szakember oktatása, _best practice_ megokolása
+- Email-ek feldolgozása, megbeszéléseken való rendszeres részvétel
 
 
 ## Cég szervezés
@@ -75,7 +47,6 @@ Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
   - Kap-e egy fejlesztő egyszerre 1-nél több feladatot
 - Onboarding folyamat, _Product Tour_ Intercom-mal
 - Valós idejű _Alkalmazás Dashboard_, döntés támogatás
-
 
 ### Cégen belüli kommunikáció
 
