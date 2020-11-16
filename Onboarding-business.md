@@ -13,8 +13,8 @@
 
 ### Milyen szolgáltatásra van szükség?
 
-- A felhasználóktól származik a működési költség?
-- Fognak-e emberek dolgozni az éles környezeten?
+- A felhasználóktól származó pénz fogja fedezni a működési költségeket?
+- Hozzá fog nyúlni valaki az éles környezethez?
 - Kik dolgoznak az alkalmazás gyártásban a következő szerepkörökben
   - Emberek irányításában és szoftver gyártás terén jártas vezető
   - Szolgáltatói fiókokat kezelő, velük kapcsolatot tartó adminisztrátor
