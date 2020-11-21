@@ -5,7 +5,7 @@
 :two: Dual benefit for #SaaS manufacturers.
 
 1. **Operations**: Running your application including infrastructure and testing source code
-1. **Research**: Provide the results of my research covering the whole life cycle of a web application
+1. **Consulting**: Provide the results of my research covering the whole life cycle of web applications
 
 ### About operations
 
@@ -19,7 +19,7 @@ Incidents are rare and easy to resolve.
 
 1. Service providers
 1. Technologies
-1. The whole life of a web application:
+1. The whole life of web applications:
    Design, Development, Deployment (CI/CD), Stability, Security, Performance and **Sustainability**,
    Handling Technical Debt, Application Dashboard, E-commerce
 1. Company processes:

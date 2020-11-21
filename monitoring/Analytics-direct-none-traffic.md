@@ -2,6 +2,7 @@
 
 - Beírták az URL-t (ez kb. lehetetlen)
 - Böngészőben megkönyvjelzőzték a honlapot, és úgy nyitották meg (csak visszatérők)
+- Böngésző előzményekből választották ki a honlapot, és úgy nyitották meg (csak visszatérők)
 - Email-ben (pl. hírlevélben vagy aláírásban) lévő linkre kattintottak
 - Skype, Slack vagy más asztali (chat) programban - nem böngészőben - kattintottak
 - PDF-ben, Word DOC-ban, Excel táblázatban lévő linkre kattintottak

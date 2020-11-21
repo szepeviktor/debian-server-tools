@@ -16,10 +16,10 @@ Proaktívan gondolkodok, a **Fenntarthatóságot** igyekszem elérni.
 
 1. DevOps: a munkám az alkalmazás teljes életciklusára kiterjed:
    tervezés, fejlesztés, tesztelés, üzemeltetés, marketing, sales és support
-1. QA: elemzésekkel, mérésekkel és tapasztalattal előzöm meg a hibákat,
-   a cég összes nem fenntartható folyamatánál, szolgáltatónál, technológiánál és szoftvernél szólok,
+1. Tanácsadás: elemzésekkel, mérésekkel és tapasztalattal előzöm meg a hibákat,
+   cégének összes nem fenntartható folyamatánál, szolgáltatónál, technológiánál és szoftvernél szólok,
    élhető megoldást ajánlok és - ha lehetséges - bevezetek
-1. Monitoring: minden szolgáltatót, az alkalmazás fejlesztését, az alkalmazás összes folyamatát,
+1. Monitorozás: minden szolgáltatót, az alkalmazás fejlesztését, az alkalmazás összes folyamatát,
    az összes résztvevő személyt - a felhasználókat is ideértve - szoftverekkel figyelem meg
 
 ### DevOps
@@ -33,7 +33,7 @@ Proaktívan gondolkodok, a **Fenntarthatóságot** igyekszem elérni.
   folyamatos integrációs tesztek írása
 - Fejlesztési és üzemeltetési (pl. hiba feltárás) eszközök írása
 
-### QA
+### Tanácsadás
 
 Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
 

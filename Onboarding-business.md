@@ -22,6 +22,7 @@
   - UI designer
   - Backend fejlesztő
   - Frontend fejlesztő
+  - Kézi tesztelő
   - Tartalom szerkesztő
 - Szerver telepítés és üzemeltetés
 - Alkalmazás tervezés

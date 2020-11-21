@@ -11,9 +11,14 @@ os:
   - "linux"
 dist: "bionic"
 
+stages:
+  - "commits"
+  - "test"
+
 cache:
   directories:
     - "${HOME}/.phive"
+    - "${HOME}/.composer/cache"
 
 before_install:
   - "phpenv config-rm xdebug.ini"
@@ -50,7 +55,28 @@ before_install:
 
 jobs:
   include:
-    - name: "Check execution bits"
+    - stage: "commits"
+      name: "Check committers have a GitHub account"
+      before_install: "skip"
+      install: "skip"
+      before_script: "skip"
+      script:
+        - |
+          Check_author()
+          {
+            local author="$1"
+            local github_api_url="https://api.github.com/search/users"
+            echo "Checking ${author} ..."
+            curl -s -G --data-urlencode "q=type:user in:email ${author}" "${github_api_url}" \
+              | grep -F -x '  "total_count": 1,'
+          }
+          git show --no-patch --pretty="format:%ae" "${TRAVIS_COMMIT_RANGE}" \
+            | sort -u \
+            | while read -r author; do Check_author "${author}"; done
+      after_script: "skip"
+
+    - stage: "commits"
+      name: "Check file execution bits"
       before_install: "skip"
       install: "skip"
       before_script: "skip"
