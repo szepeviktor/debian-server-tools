@@ -47,7 +47,7 @@ final class PhpCsFixerLaravel
      *
      * @var string
      */
-    public const PHP_CS_UPGRADE_URL = 'https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/2.15/UPGRADE.md';
+    public const PHP_CS_UPGRADE_URL = 'https://github.com/FriendsOfPHP/PHP-CS-Fixer/raw/v2.15.10/UPGRADE.md';
 
     /**
      * Conversions from StyleCI to PHP CS Fixer.
@@ -73,6 +73,9 @@ final class PhpCsFixerLaravel
         // TODO Coming in v3.0 https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/3.0
         'no_unused_lambda_imports' => null,
         'switch_continue_to_break' => null,
+        'phpdoc_inline_tag_normalizer' => null,
+        'phpdoc_singular_inheritdoc' => null,
+        'clean_namespace' => null,
     ];
 
     /**

@@ -14,16 +14,16 @@ Homestead.yaml
 
 # Packages
 /composer.lock
-/vendor
-/node_modules
+/vendor/
+/node_modules/
 npm-debug.log
 yarn-error.log
 
 # Application
 .env
 .env.backup
-/public/hot
-/public/storage
+/public/hot/
+/public/storage/
 /storage/*.key
 wp-config.php
 

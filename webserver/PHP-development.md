@@ -139,7 +139,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - ORM
 - Database migration
 - Application caching aka. object cache ([PSR-6](https://github.com/php-cache/illuminate-adapter))
-- HTTP request handling and security (URL structure, WAF)
+- HTTP communication (request, response, routes) and security (URL structure, WAF)
 - Session handling (very long sessions, CSRF,
   session expiration UX: timer, warning, redirect, password input)
 - Form handling, input validation, sanitization

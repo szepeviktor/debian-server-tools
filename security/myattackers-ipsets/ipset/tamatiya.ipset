@@ -1,4 +1,4 @@
-# AS50360 - Tamatiya / 4vendeta.com
+# AS50360 - Tamatiya / 4vendeta.com, connections to Ecatel
 #: ipset -exist restore <ipset/tamatiya.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set tamatiya src -j REJECT
 create tamatiya hash:net family inet hashsize 64 maxelem 32

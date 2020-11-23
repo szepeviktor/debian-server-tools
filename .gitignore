@@ -4,7 +4,9 @@ token_store.txt
 /TODO.*
 
 ## .gitignore categories
-# Development
-# IDE
+# OS
+# IDE and local environment
 # Packages
 # Application
+# Tests
+# Distribution

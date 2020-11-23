@@ -45,9 +45,12 @@ add ecatel 185.216.140.0/23
 # AS48090 - PPTECHNOLOGY
 add ecatel 45.148.10.0/24
 
-# AS208410 - internet-hosting / Bunea TELECOM?
+# AS35478 - Bunea TELECOM
 add ecatel 45.142.195.0/24
+
+# AS208410 - internet-hosting
 #add ecatel 87.246.7.0/24
+add ecatel 212.70.149.0/24
 
 # AS62355 - NetworkDedicated
 #add ecatel 185.39.8.0/22

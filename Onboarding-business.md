@@ -111,7 +111,8 @@ Szolgáltató: https://amplitude.com/
 
 ## Kódolási büdzsé
 
-Két fő (back-end és front-end) fejlesztő **olcsóbb** és gyorsabb, mint egy fő.
+Egy fő back-end és egy fő front-end fejlesztő
+**olcsóbb**, gyorsabb és jobb munkát végez, mint egy fő.
 
 - Specifikáció
 - Technológiák kiválasztása

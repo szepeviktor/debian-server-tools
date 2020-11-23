@@ -57,7 +57,7 @@
     #     https://ssl-config.mozilla.org/#server=apache&server-version=2.4.38&config=intermediate
     #     wget -qO- https://mozilla.github.io/server-side-tls/json/server-side-tls-conf.json | jq '.configurations.intermediate.openssl_ciphersuites'
     # Prioritize AES128-GCM when AES-NI is supported
-    #     grep -E -m 1 '^flags\s*:.*\saes(\s|\$)' /proc/cpuinfo
+    #     grep -E -m 1 '^flags\s*:.*\saes(\s|$)' /proc/cpuinfo
     # * As of 2019-06-29
     SSLCipherSuite ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
     # "Modern"
