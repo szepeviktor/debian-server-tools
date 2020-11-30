@@ -48,7 +48,7 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - használhatóság kipróbálása
   - infrastruktúrájuk vizsgálata
   - általuk használt szolgáltatók ellenőrzése
-  - kínált integrációk értékelése
+  - kínált integrációk (API) értékelése
   - ár-érték arány mérlegelése
 - Technológia választásnál mérés és tanácsadás
 - Szoftver választásnál üzemeltethetőség felderítése

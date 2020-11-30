@@ -162,6 +162,7 @@ Verify your URL
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - My email address: `webmaster@`
+- Outboud spam protection: [MailChannels](https://www.mailchannels.com/pricing/)
 - Teamwork in one Gmail inbox: [Drag](https://www.dragapp.com/)
 
 <!--
