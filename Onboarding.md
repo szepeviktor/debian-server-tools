@@ -158,11 +158,11 @@ Verify your URL
   [Smash :eu:](https://fromsmash.com/)
 - *Transactional* emails and notification emails for alerts, log excerpts:
   [see providers above](#specialized-infrastructure-providers)
-- *Bulk* email for newsletter: [see providers above](#specialized-infrastructure-providers)
+- *Bulk* email for newsletter: customer relations with [Intercom](https://www.intercom.com/)
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
+- Outbound spam protection: [MailChannels](https://www.mailchannels.com/pricing/)
 - My email address: `webmaster@`
-- Outboud spam protection: [MailChannels](https://www.mailchannels.com/pricing/)
 - Teamwork in one Gmail inbox: [Drag](https://www.dragapp.com/)
 
 <!--
