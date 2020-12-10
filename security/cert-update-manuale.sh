@@ -185,7 +185,7 @@ else
     echo "${COMMON_NAME}.  IN  CAA  0 issue \"letsencrypt.org\""
     echo "${COMMON_NAME}.  IN  CAA  0 issuewild \";\""
 fi
-echo "${COMMON_NAME}  IN  CAA  0 iodef \"mailto:admin@szepe.net\""
+echo "${COMMON_NAME}.  IN  CAA  0 iodef \"mailto:admin@szepe.net\""
 
 # Generate TLSA Record
 # Usage:         0 - PKIX-TA: Certificate Authority Constraint

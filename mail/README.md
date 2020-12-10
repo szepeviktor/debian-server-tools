@@ -597,6 +597,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - [Facebook ThreatExchange](https://developers.facebook.com/products/threat-exchange)
 - [Open Threat Intelligence](https://cymon.io/)
 - List of Data Sources: https://github.com/HurricaneLabs/machinae
+- https://exchange.xforce.ibmcloud.com/
 
 ### Email filtering services
 
