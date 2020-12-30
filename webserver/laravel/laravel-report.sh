@@ -2,7 +2,7 @@
 #
 # List Laravel log items above NOTICE severity and check for failed queue jobs.
 #
-# VERSION       :0.4.0
+# VERSION       :0.4.1
 # DATE          :2020-08-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -52,6 +52,7 @@ test -f "$LARAVEL_LOG" || exit 0
 # Take new lines, limit at 5 MB and look for errors
 /usr/sbin/logtail2 "$LARAVEL_LOG" \
     | dd iflag=fullblock bs=1M count=5 2> /dev/null \
+    | tr '\000' '?' \
     | grep -E -A "$EXTRA_LINES" "^\\[[0-9]{4}-.+ ${LARAVEL_ENV}\\.(${MONOLOG_LEVELS}):" \
     | fold --width=623 --spaces \
     || if [ "$?" != 1 ]; then

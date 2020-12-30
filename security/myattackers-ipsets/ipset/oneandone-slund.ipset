@@ -1,4 +1,4 @@
-## AS8560 - 1&1 Internet SE / SCHLUND-CUSTOMERS
+## AS8560 - 1&1 Internet SE / https://icannwiki.org/Schlund_%2B_Partner
 ##: ipset -exist restore <ipset/oneandone-slund.ipset
 ##: iptables -w -I myattackers-ipset -m set --match-set oneandone-slund src -j REJECT
 #create oneandone-slund hash:net family inet hashsize 64 maxelem 32

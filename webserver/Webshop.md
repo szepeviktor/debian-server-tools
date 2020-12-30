@@ -9,7 +9,7 @@
 
 ### Learn from “Best-In-Class”
 
-- https://www.ocado.com/
+- https://www.ocado.com/browse
 - https://www.amazon.com/gp/navigation-country/select-country/
 - https://www.savoirbeds.com/
 - https://www.agoda.com/
@@ -81,6 +81,7 @@
   - Description text per language
   - **Images**
   - **Product video**
+  - 3D/AR https://www.vectary.com/enterprise/
   - Variations and other details
 - Fraud protection
 - Product import (ERP, POS)

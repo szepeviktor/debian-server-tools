@@ -42,10 +42,10 @@ Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 - Jelszó menedzser bevezetése mindenkinél
 - Céges telefonkönyv frissen tartása
 - Cégen belüli kommunikáció meghatározása
-- Arculati kézikönyv (style guide, brand guidelines) szerinti munka
 - Projekt menedzser
   - Hogyan osztjuk be :one: az új fejlesztéseket, :two: hiba javításokat és :three: a technikai tartozást
-  - Kap-e egy fejlesztő egyszerre 1-nél több feladatot
+  - Kap-e egy dolgozó egyszerre 1-nél több feladatot
+- Arculati kézikönyv (style guide, brand guidelines) szerinti munka
 - Onboarding folyamat, _Product Tour_ Intercom-mal
 - Valós idejű _Alkalmazás Dashboard_, döntés támogatás
 
