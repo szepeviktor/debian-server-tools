@@ -22,9 +22,6 @@
 
 # Service providers #
 
-# https://access.watch/api/key
-ACCESSWATCH_APIKEY="*****"
-
 # https://www.projecthoneypot.org/httpbl_api.php
 HTTPBL_ACCESSKEY="*****"
 

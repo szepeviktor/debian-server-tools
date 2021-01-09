@@ -380,28 +380,6 @@ Match_dshield()
     return 10
 }
 
-Match_accesswatch()
-{
-    local IP="$1"
-    local APIKEY="$2"
-    local URL
-
-    # https://access.watch/
-    printf -v URL "https://api.access.watch/1.1/address/%s" "$IP"
-
-    #if wget -q -T "$TIMEOUT" -t 1 -O - \
-    if wget -q -T "10" -t 1 -O - \
-        --header="Accept: application/json" \
-        --header="Api-Key: ${APIKEY}" \
-        "$URL" 2>/dev/null \
-        | grep -F -A 1 '"reputation": {' | grep -q -E '"status": "(bad|suspicious)",'; then
-        # IP is positive
-        return 0
-    fi
-
-    return 10
-}
-
 Match()
 {
     # ANY or ALL
@@ -477,15 +455,6 @@ Match()
     fi
 
     # Network tests ordered by hit rate
-
-    # @global ACCESSWATCH_APIKEY
-    if Match_accesswatch "$IP" "$ACCESSWATCH_APIKEY"; then
-        if [ "$MODE" == ANY ]; then
-            Log_match "accesswatch"
-            return 0
-        fi
-        echo "accesswatch"
-    fi
 
     if Match_spamhaus "$IP"; then
         if [ "$MODE" == ANY ]; then

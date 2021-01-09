@@ -79,3 +79,7 @@ Caching depends on `APP_ENV` variable.
 ### Check route methods
 
 `./artisan route:check` - using `Commands/RouteCheckCommand.php`
+
+### Debugging
+
+https://github.com/spatie/ray

@@ -11,9 +11,9 @@
 
 - https://www.ocado.com/browse
 - https://www.amazon.com/gp/navigation-country/select-country/
-- https://www.savoirbeds.com/
-- https://www.agoda.com/
+- [www.savoirbeds.com](https://web.archive.org/web/20191231113546/https://www.savoirbeds.com/) https://www.savoirbeds.com/
 - https://www.zappos.com/
+- booking: https://www.agoda.com/
 - booking: https://www.getbellhops.com/ (TypeForm-like)
 
 ### Self-hosted webshops

@@ -98,7 +98,7 @@ cache:
 before_install:
   - "phpenv config-rm xdebug.ini"
   - *script_install_phive
-  - 'travis_retry "${HOME}/bin/phive" install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2'
+  - "travis_retry phive install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2"
   # Use Composer v1
   - "composer self-update --1"
   - "composer validate --strict"

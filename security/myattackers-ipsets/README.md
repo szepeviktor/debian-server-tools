@@ -15,8 +15,6 @@ Udger's crawler list: https://udger.com/resources/ua-list/crawlers
 
 Similar list of hostile networks: https://gitlab.com/ohisee/block-shodan-stretchoid-census
 
-See also Access Watch database: https://access.watch/database
-
 ### Usage
 
 Run `myattackers-ipsets-install.sh`
