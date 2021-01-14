@@ -82,6 +82,8 @@ Szolgáltató: [Slack](https://slack.com/)
 
 ### Alkalmazás _Dashboard_
 
+Adatvezérelt üzleti döntésekhez.
+
 - Bevétel követés
 - Új regisztrációk, előfizetési csomag választás
 - Konverziók
