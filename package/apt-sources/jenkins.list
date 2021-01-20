@@ -1,0 +1,5 @@
+# Jenkins
+deb https://pkg.jenkins.io/debian-stable binary/
+#K: wget -qO- https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add -
+#M: https://www.jenkins.io/doc/book/installing/linux/
+#F: 45F2C3D5:62A9756BFD780C377CF24BA8FCEF32E745F2C3D5
