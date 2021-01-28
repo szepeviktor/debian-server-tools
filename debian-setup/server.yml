@@ -42,6 +42,7 @@ package:
     openssh-server:
         # Under 1024
         port: 22
+    # Fail2Ban depends on GeoIP2
     geoipupdate:
         accountid: ""
         licensekey: ""
@@ -52,6 +53,8 @@ package:
         prg-http-pwd: ##secret
         prg-ssl-cn: ##prg.1.2.3.4.xip.io
         mod_ratelimit: disabled
+    python2:
+        install-deprecated: false
 
 # Mail server reputation
 mail-server:

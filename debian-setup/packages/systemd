@@ -17,7 +17,8 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
         # Schedule removal of systemd
         {
             echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin"
-            echo "@reboot root apt-get purge -qq --auto-remove systemd >/dev/null;rm -f /etc/cron.d/withoutsystemd"
+            # Wait for dbus
+            echo "@reboot root sleep 5;apt-get purge -qq --auto-remove systemd >/dev/null && rm -f /etc/cron.d/withoutsystemd"
         } >/etc/cron.d/withoutsystemd
 
         set +x

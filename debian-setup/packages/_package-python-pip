@@ -3,12 +3,18 @@
 set -e -x
 
 # Get pip
-Pkg_install_quiet python3-dev python-dev
+Pkg_install_quiet python3-dev
 wget -nv "https://bootstrap.pypa.io/get-pip.py"
 
 # https://twitter.com/pear/status/1086634389465956352
 
 python3 get-pip.py
-python2 get-pip.py
-
 rm get-pip.py
+
+# DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020.
+if [ "$(Data get-value package.python2.install-deprecated "False")" == True ]; then
+    Pkg_install_quiet python-dev
+    wget -nv "https://bootstrap.pypa.io/2.7/get-pip.py"
+    python2 get-pip.py
+    rm get-pip.py
+fi

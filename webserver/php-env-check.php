@@ -69,6 +69,7 @@ final class CheckEnv {
         $this->assert( 'WP_ENV', 'production', getenv( 'WP_ENV' ) );
         $this->assert( 'WP_ENVIRONMENT_TYPE', 'production', getenv( 'WP_ENVIRONMENT_TYPE' ) );
         //$this->assert( 'APP_ENV', 'production', getenv( 'APP_ENV' ) );
+        //$this->assert( 'AWS_CONFIG_FILE', '/home/user/website/aws-dummy-config', getenv( 'AWS_CONFIG_FILE' ) );
 
         // Core directives
         $this->assert_directive( 'short_open_tag', '' );
