@@ -3,9 +3,9 @@
 ## Where do I find ...?
 
 - Development environment: [/webserver/WP-config-dev.md](/webserver/WP-config-dev.md)
-- Development tools: wordpress-sitebuild/ repo
+- Development tools: `szepeviktor/wordpress-sitebuild` repo
 - Production environment: [/webserver/Production-website.md](/webserver/Production-website.md)
-- Production on cPanel and migration to cPanel: [wordpress-plugin-construction/shared-hosting-aid/cPanel/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/shared-hosting-aid/cPanel/README.md)
+- Production on cPanel and migration to cPanel: [shared-hosting-aid/cPanel/README.md](https://github.com/szepeviktor/shared-hosting-aid/blob/master/cPanel/README.md)
 - Content plugins: [wordpress-plugin-construction/README.md](https://github.com/szepeviktor/wordpress-plugin-construction/blob/master/README.md)
 - WordPress installation: standard, subdirectory (optionally using git) [in this document](#standard-directory-structure)
 - WordPress migration: dev->live, live->other domain [/webserver/Production-website.md](/webserver/Production-website.md#migration)

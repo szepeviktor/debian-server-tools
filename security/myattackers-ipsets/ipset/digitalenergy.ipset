@@ -16,6 +16,7 @@ add digitalenergy 181.214.16.0/20
 add digitalenergy 181.214.32.0/20
 add digitalenergy 181.214.208.0/22
 add digitalenergy 181.215.195.0/24
+add digitalenergy 182.54.239.0/24
 add digitalenergy 185.143.228.0/22
 add digitalenergy 185.145.36.0/22
 add digitalenergy 185.158.100.0/22

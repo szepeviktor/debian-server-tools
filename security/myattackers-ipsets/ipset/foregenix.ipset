@@ -1,0 +1,56 @@
+# AS20860 - Foregenix + other AS-es
+#: ipset -exist restore <ipset/foregenix.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set foregenix src -j REJECT
+create foregenix hash:net family inet hashsize 256 maxelem 1024
+flush foregenix
+#$ for S in scan{10..200}; do dig ${S}.fgxintel.com. A +short; done | sortip -u | sed -e 's/^/add foregenix /'
+add foregenix 51.15.89.104
+add foregenix 78.129.201.60
+add foregenix 78.129.212.66
+add foregenix 78.129.221.10
+add foregenix 78.129.221.11
+add foregenix 78.129.221.12
+add foregenix 78.129.221.32
+add foregenix 78.129.221.84
+add foregenix 78.129.221.85
+add foregenix 78.129.221.86
+add foregenix 78.129.237.30
+add foregenix 78.129.237.55
+add foregenix 78.129.237.56
+add foregenix 78.129.237.113
+add foregenix 78.129.240.74
+add foregenix 78.129.253.107
+add foregenix 87.117.229.54
+add foregenix 87.117.234.60
+add foregenix 87.117.234.176
+add foregenix 88.150.220.6
+add foregenix 88.150.220.8
+add foregenix 88.150.230.191
+add foregenix 88.150.240.29
+add foregenix 88.150.240.30
+add foregenix 88.150.240.31
+add foregenix 88.150.240.138
+add foregenix 88.150.240.188
+add foregenix 88.150.240.189
+add foregenix 88.150.240.192
+add foregenix 88.150.240.193
+add foregenix 88.150.240.195
+add foregenix 88.150.240.219
+add foregenix 88.150.240.220
+add foregenix 88.150.240.248
+add foregenix 88.150.241.10
+add foregenix 88.150.241.123
+add foregenix 88.150.241.124
+add foregenix 88.150.241.125
+add foregenix 88.150.241.126
+add foregenix 88.150.241.127
+add foregenix 109.169.15.78
+add foregenix 109.169.15.85
+add foregenix 109.169.15.87
+add foregenix 109.169.86.112
+add foregenix 109.169.87.7
+add foregenix 109.169.87.13
+add foregenix 109.169.87.34
+add foregenix 176.227.202.14
+add foregenix 188.227.170.44
+add foregenix 188.227.170.64
