@@ -53,9 +53,19 @@ add nobis 172.241.232.0/21
 # AS60781 - LEASEWEB-NL-AMS-01
 # IL-PROBITY1
 add nobis 2.56.101.0/24
+# IL-MPREMIUM
+add nobis 45.9.122.0/24
+# DANIEL
 add nobis 45.86.15.0/24
+# IL-YAZAMNIK
+add nobis 45.87.248.0/24
+# IL-HILAMUKDASI3
+add nobis 45.130.60.0/24
+# DE-TOBIAS1
 add nobis 45.136.173.0/24
 add nobis 45.136.175.0/24
+# IL-EXPRESS2
+add nobis 45.137.63.0/24
 # IL-TALMUKDASI*
 add nobis 45.140.14.0/24
 add nobis 45.147.28.0/24

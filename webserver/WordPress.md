@@ -381,7 +381,7 @@ Also in /webserver/Production-website.md
 - Remove development wp_options -> Option Inspector
 - Delete unused Media files @TODO `for $m in files; search $m in DB;`
 - `wp db optimize`
-- WP Cleanup
+- WP-Sweep
 
 
 #### Settings
