@@ -11,6 +11,30 @@
 - WordPress migration: dev->live, live->other domain [/webserver/Production-website.md](/webserver/Production-website.md#migration)
 
 
+### Onboarding for developers
+
+- Changing WordPress core behavior goes into **MU plugins**
+  - disable comments
+  - disable feeds
+  - disable embeds
+  - disable emojis
+  - mail sending
+  - WAF
+  - spam traps
+  - hardened login
+  - media management
+  - CDN support
+  - nav menu, translation, content caching
+- Content displaying and admin pages go into **themes**
+- Business logic (e.g. input from visitors) goes into **plugins**
+- Please adhere to a coding standard of your choice
+- We run static analysis on all source code
+- The whole WordPress installation is managed by Composer, PSR-4 autoloading is suggested
+- Plugin update checks are disabled
+- Update and WordPress management-related admin pages are removed (done in CLI instead)
+- WP-Cron is ran by a linux cron job
+- Please also see [hosting information for developers](/Onboarding.md#onboarding-for-developers)
+
 ### Standard Directory structure
 
 ```
