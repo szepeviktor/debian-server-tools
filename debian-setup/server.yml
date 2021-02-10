@@ -26,7 +26,7 @@ package:
             #- nodejs
             - goaccess
         extra:
-            - php7.2-fpm
+            - php7.4-fpm
             - grepcidr
             #- nodejs
             #- percona-server-server-5.7
@@ -78,6 +78,8 @@ cruft:
     - /etc/php/7.0
     - /etc/php/7.1
     - /etc/php/7.2
+    - /etc/php/7.3
+    - /etc/php/7.4
     - /var/lib/php/modules
     - /usr/local/bin
     - /usr/local/sbin
@@ -147,7 +149,7 @@ services:
     mariadb:
       type: daemon
       transport: [ tcp/3306, uds ]
-    php7.2-fpm:
+    php7.4-fpm:
       type: daemon
       transport: uds
     syslog-errors:

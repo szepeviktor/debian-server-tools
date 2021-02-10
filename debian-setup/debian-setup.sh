@@ -42,7 +42,7 @@
 # Webserver
 #
 # - Apache 2.4 with HTTP/2 and event MPM
-# - PHP-FPM 7.2
+# - PHP-FPM 7.4
 # - Redis in-memory cache
 # - MariaDB 10 or Percona Server 5.7
 # - 155 MB idle memory usage, 2 GB disk usage

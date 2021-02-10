@@ -10,10 +10,10 @@ wget -O /usr/local/bin/cachetool "$CACHETOOL_URL"
 chmod +x /usr/local/bin/cachetool
 
 # Usage
-# cachetool --tmp-dir=/home/prg999/website/tmp --fcgi=/run/php/php7.2-fpm-prg999.sock opcache:status
+# cachetool --tmp-dir=/home/prg999/website/tmp --fcgi=/run/php/php7.4-fpm-prg999.sock opcache:status
 #
 # Config: ~/.cachetool.yml
 #
 #     adapter: fastcgi
-#     fastcgi: "/run/php/php7.2-fpm-prg999.sock"
+#     fastcgi: "/run/php/php7.4-fpm-prg999.sock"
 #     temp_dir: "/home/prg999/website/tmp"
