@@ -59,18 +59,22 @@ _shared_script_install_phive: &script_install_phive |
 if: "branch = master"
 
 language: "php"
-    # 12.04 Precise: 5.2 - 7.3
-    # 14.04 Trusty: 5.4 - 7.4
-    # 16.04 Xenial: 5.6 - 8.0
-    # 18.04 Bionic: 7.1 - 8.0
-    # 20.04 Focal: 7.4 - 8.0
 os:
   - "linux"
+# 12.04 Precise: 5.2 - 7.3
+# 14.04 Trusty: 5.4 - 7.4
+# 16.04 Xenial: 5.6 - 8.0
+# 18.04 Bionic: 7.1 - 8.0
+# 20.04 Focal: 7.4 - 8.0
 dist: "bionic"
 
 stages:
   - "commits"
   - "test"
+
+env:
+  global:
+    - APP_ENV: "testing"
 
 jobs:
   include:

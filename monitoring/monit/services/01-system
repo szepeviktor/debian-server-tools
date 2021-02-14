@@ -12,8 +12,10 @@
    #if swap usage > 45% then alert
    # IO overload
    if cpu usage (wait) > 20% then alert
-   # Uptime
-   if uptime > 180 days then alert
+
+ # Uptime
+ check system $HOST-uptime
+   if uptime > 180 days then alert every 33 cycles
 
  # Disk full
  check filesystem rootfs with path "/"

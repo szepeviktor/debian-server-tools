@@ -13,26 +13,33 @@
 
 ### Onboarding for developers
 
-- Changing WordPress core behavior goes into **MU plugins**
-  - disable comments
-  - disable feeds
-  - disable embeds
-  - disable emojis
-  - mail sending
-  - WAF
-  - spam traps
-  - hardened login
+Let's prevent working against each other!
+
+- Don't write code changing WordPress core behavior anywhere else than **MU plugins**,
+  all these are part of [our proactive WordPress installation](/webserver/WordPress.md)
+  - removing admin menus, admin bar elements
+  - disabling emojis
+  - disabling comments
+  - disabling feeds
+  - disabling embeds
+  - mail settings and logging
+  - WAF: authentication/login, HTTP and REST API security
+  - comment form and contact form spam traps
   - media management
+  - nav menu, translation and content caching
+  - HTTP and HTML optimization
   - CDN support
-  - nav menu, translation, content caching
-- Content displaying and admin pages go into **themes**
-- Business logic (e.g. input from visitors) goes into **plugins**
-- Please adhere to a coding standard of your choice
+- Plugin update check HTTP requests and updates itself are disabled
+  because the whole WordPress installation is managed by Composer
+- Plugin and theme update and WordPress management-related admin pages are removed (done in CLI instead)
+- WP-Cron is ran by a linux cron job (the default pseudo cron/web callback is disabled)
+- Only things necessary for generating custom admin pages
+  and generating HTML go into the **theme**
+- Business logic (e.g. processing input from visitors) goes into **plugins**
+- Please adhere to a coding standard of **your choice**
+- Please avoid [discouraged functions](/webserver/laravel/phpcs.xml)
 - We run static analysis on all source code
-- The whole WordPress installation is managed by Composer, PSR-4 autoloading is suggested
-- Plugin update checks are disabled
-- Update and WordPress management-related admin pages are removed (done in CLI instead)
-- WP-Cron is ran by a linux cron job
+- PSR-4 autoloading is suggested (no need for `require` and custom class autoloading)
 - Please also see [hosting information for developers](/Onboarding.md#onboarding-for-developers)
 
 ### Standard Directory structure

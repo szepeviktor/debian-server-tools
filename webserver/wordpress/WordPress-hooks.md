@@ -54,7 +54,7 @@ See https://codex.wordpress.org/Conditional_Tags
 
 GET and POST variables.
 
-:bulb: Best to avoid direct request variables access.
+:bulb: Best to avoid direct request variable access.
 
 ### Login requests
 
