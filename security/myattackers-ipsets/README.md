@@ -2,7 +2,7 @@
 
 ### Classifying Attackers
 
-- 25% are known hostile networks (nothing good comes from them)
+- 25% are [known hostile networks](ipset) (nothing good comes from them)
 - 25% are bots
 - 25% come from known cloud providers
 - 25% are "researchers"

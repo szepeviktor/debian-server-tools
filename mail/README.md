@@ -441,7 +441,7 @@ Deprecated.
 
 ### Email design
 
-- https://heml.io/
+- https://heml.io/ by SparkPost
 - https://www.klaviyo.com/
 - https://mailchimp.com/
 - https://wireframe.cc/
@@ -562,6 +562,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - [Report abuse from Outlook.com](mailto:abuse@outlook.com) See SenderScore
 - [Report abuse or spam on Yahoo](https://help.yahoo.com/kb/SLN26401.html)
 - [Report Amazon AWS abuse](https://support.aws.amazon.com/#/contacts/report-abuse)
+- [Report abuse from SendGrid](https://sendgrid.com/report-spam/)
 - [Abuse Contact DB](https://www.abusix.com/contactdb) `host -t TXT $(revip $IP).abuse-contacts.abusix.org` (list)
 
 #### Whitelists

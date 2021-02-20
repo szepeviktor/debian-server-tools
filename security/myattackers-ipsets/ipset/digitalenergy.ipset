@@ -8,7 +8,7 @@ add digitalenergy 64.137.120.0/24
 add digitalenergy 89.19.47.0/24
 add digitalenergy 154.16.55.0/24
 add digitalenergy 179.61.128.0/20
-#add digitalenergy 179.61.144.0/20
+add digitalenergy 179.61.144.0/20
 add digitalenergy 179.61.160.0/20
 add digitalenergy 179.61.249.0/24
 add digitalenergy 181.214.0.0/20
@@ -33,7 +33,9 @@ add digitalenergy 193.43.118.0/24
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24
 add digitalenergy 154.16.214.0/24
+add digitalenergy 181.215.96.0/19
 add digitalenergy 181.215.128.0/19
+add digitalenergy 181.215.200.0/21
 # also in AS32181 - GigeNET
 add digitalenergy 181.215.39.0/24
 

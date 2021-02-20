@@ -130,6 +130,7 @@ Egy fő back-end és egy fő front-end fejlesztő
 
 https://twitter.com/StepsizeHQ/status/1156582846057844736
 
+- Dokumentumok frissítése
 - Kód kommentelés (docblock, üzleti logika és a commit üzenetek is)
 - Hiba kezelés (hiba kontextus, könnyű felderíthetőség) :point_right: ettől tönkremennek a cégek
 - Kódolás nélküli (zero coverage) tesztek futtatása

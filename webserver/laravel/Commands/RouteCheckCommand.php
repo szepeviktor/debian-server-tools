@@ -2,22 +2,17 @@
 
 namespace App\Console\Commands;
 
-use Closure;
+use Illuminate\Console\Command;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
-use Illuminate\Console\Command;
 
 class RouteCheckCommand extends Command
 {
+    /** @var int */
     protected const ACTION_PARTS_METHOD = 1;
 
+    /** @var int */
     protected const ACTION_PARTS_CLASS_AND_METHOD = 2;
-
-    protected const EXIT_STATUS_OK = 0;
-
-    protected const EXIT_STATUS_NO_ROUTE = 10;
-
-    protected const EXIT_STATUS_MISSING_CONTROLLER = 11;
 
     /**
      * The console command name.
@@ -70,97 +65,84 @@ class RouteCheckCommand extends Command
      */
     public function handle()
     {
-        if (count($this->routes) == 0) {
+        if ($this->routes->count() === 0) {
             $this->error("Your application doesn't have any routes.");
-            return self::EXIT_STATUS_NO_ROUTE;
+
+            return self::INVALID;
         }
 
-        $routes = $this->getRoutes();
-        $notFound = [];
-        foreach ($routes as $route) {
+        $missing = [];
+
+        foreach ($this->getRoutes() as $route) {
             // Closure always exists
             if ($route['action'] === 'Closure') {
                 continue;
             }
+
             $actionParts = explode('@', $route['action']);
+
             switch (count($actionParts)) {
                 case self::ACTION_PARTS_METHOD:
                     $className = $actionParts[0];
-                    if (!class_exists($className) || !is_callable(new $className)) {
-                        $notFound[] = [$route['middleware'], $className . '::__invoke'];
+                    if (! class_exists($className) || ! is_callable(new $className)) {
+                        $missing[] = [$className . '::__invoke'];
                         continue 2;
                     }
                     break;
                 case self::ACTION_PARTS_CLASS_AND_METHOD:
                     $className = $actionParts[0];
-                    if (!class_exists($className)) {
-                        $notFound[] = [$route['middleware'], $className];
+                    if (! class_exists($className)) {
+                        $missing[] = [$className];
                         continue 2;
                     }
-                    if (!is_callable([$className, $actionParts[1]])) {
-                        $notFound[] = [$route['middleware'], $className . '::' . $actionParts[1]];
+                    if (! is_callable([$className, $actionParts[1]])) {
+                        $missing[] = [$className . '::' . $actionParts[1]];
                         continue 2;
                     }
                     break;
                 default:
-                    $notFound[] = [$route['middleware'], $route['action']];
+                    $missing[] = [$route['action']];
                     continue 2;
             }
         }
 
-        if ($notFound !== []) {
-            $this->table(['Middleware', 'Non-existent'], $notFound);
-            return self::EXIT_STATUS_MISSING_CONTROLLER;
+        if ($missing !== []) {
+            $this->table(['Missing'], $missing);
+
+            return self::FAILURE;
         }
 
         $this->info('All route methods do exist.');
-        return self::EXIT_STATUS_OK;
+
+        return self::SUCCESS;
     }
 
     /**
      * Compile the routes into a displayable format.
-     *
-     * @return array
      */
-    protected function getRoutes()
+    protected function getRoutes(): array
     {
-        $results = [];
-
-        foreach ($this->routes as $route) {
-            $results[] = $this->getRouteInformation($route);
-        }
-
-        return array_filter($results);
+        return array_map(
+            static function (Route $route): array {
+                return $this->getRouteInformation($route);
+            },
+            $this->routes
+        );
     }
 
     /**
      * Get the route information for a given route.
      *
-     * @param  \Illuminate\Routing\Route  $route
-     * @return array
+     * @link https://github.com/laravel/framework/blob/8.x/src/Illuminate/Foundation/Console/RouteListCommand.php
      */
-    protected function getRouteInformation(Route $route)
+    protected function getRouteInformation(Route $route): array
     {
         return [
-            'host'   => $route->domain(),
-            'method' => implode('|', $route->methods()),
-            'uri'    => $route->uri(),
-            'name'   => $route->getName(),
+            'host' => $route->domain(),
+            'uri' => $route->uri(),
+            'name' => $route->getName(),
             'action' => $route->getActionName(),
-            'middleware' => $this->getMiddleware($route),
+            'method' => implode('|', $route->methods()),
         ];
-    }
-
-    /**
-     * Get before filters.
-     *
-     * @param  \Illuminate\Routing\Route  $route
-     * @return string
-     */
-    protected function getMiddleware($route)
-    {
-        return collect($route->gatherMiddleware())->map(function ($middleware) {
-            return $middleware instanceof Closure ? 'Closure' : $middleware;
-        })->implode(',');
     }
 }
