@@ -147,7 +147,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Escaping (SQL, HTML, URL, JavaScript)
 - Internationalization
   and [localization](https://www.gnu.org/savannah-checkouts/gnu/libc/manual/html_node/Locale-Categories.html)
-  (PHP, JavaScript, language, time zone, calendar, number formats and units, string collation),
+  (PHP, JavaScript, language, [time zone](http://google.com/search?q=Jon+Skeet+date+time),
+  calendar, number formats and units, string collation),
   string translation (gettext, pseudo English)
 - Content management: large pieces of markup, reusable content blocks
 - Templating
