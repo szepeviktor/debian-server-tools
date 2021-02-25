@@ -8,6 +8,7 @@ How to design and implement CI and CD.
 - Display environment information
 - Set access credentials
 - Cache OS and programming language library packages
+- Check programming language and framework version compatibility
 - Check package management configuration (validate & normalize)
 - Check outdated packages and known security vulnerabilities
 - Build code

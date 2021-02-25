@@ -396,6 +396,15 @@ Match()
         echo "amazon-cloudfront"
     fi
 
+    if ! Is_loopback "$IP" && Match_autonomoussystems "$IP" AS25697 AS202053; then
+        if [ "$MODE" == ANY ]; then
+            # Report to abuse@upcloud.com
+            Log_match "UpCloud ERROR"
+            return 2
+        fi
+        echo "upcloud"
+    fi
+
     # Cacheables ordered by hit rate
 
     if Match_known "$IP"; then

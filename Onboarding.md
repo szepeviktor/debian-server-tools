@@ -150,7 +150,7 @@ Verify your URL
 ### Email delivery
 
 - There is no guaranteed email delivery on the Internet
-- [ESP](https://twofactorauth.org/#email) for *One-to-One* emails including inbound messages:
+- [ESP](https://2fa.directory/#email) for *One-to-One* emails including inbound messages:
   **Google Workspace, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/)**
   <!-- not Tiliq -->
 - File sharing, large file sending: [WeTransfer :eu:](https://wetransfer.com/),

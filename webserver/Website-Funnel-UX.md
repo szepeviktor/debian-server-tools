@@ -16,10 +16,10 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
 1. Honnan jönnek a látogatók?
     - organikus (Google Kereső)
-    - PPC (Google Ads, Facebook Business, Etarget, YouTube hirdetés, LinkedIn Advertising)
-    - közösségi, térkép (Facebook, **Google Térkép**, Instagram)
+    - közösségi média, térkép (Facebook, Youtube, Google Térkép, Instagram)
     - hírlevél, **tranzakciós email** felületek
-    - affiliate rendszer, szolgáltatás közvetítők, partner honlapok (árgép, wolt, hírportálok)
+    - PPC (Google Ads, Facebook Business, Etarget, YouTube hirdetés, LinkedIn Advertising)
+    - affiliate rendszer, szolgáltatás közvetítők, partner honlapok (árgép, wolt, hírportálok, influenszerek)
 1. Mivel foglalkozunk? pozicionáló mondat/szlogen/mottó
 1. Kampányok betervezése előre
 1. Tartalom életciklus: időszakos oldalak, landing page-ek, 404 oldal UX, átirányítások, képek, külső linkek
@@ -42,6 +42,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
 - Interaktív elemek: **videó**, Ken Burns effektes slider/galéria,
   hírlevél, letölthető anyag, beúszó feliratkoztató, exit modal,
   kupon/kedvezmény, friss hírek, megosztás, [további elemek angolul](/webserver/Production-website.md#marketing)
+  _Az a jó videó, amire a nézők első reakciója, hogy újra meg akarom nézni._
 - 3D virtuális túra
   - [Google Térkép Utcakép](https://www.google.com/intl/hu/streetview/business/) belső nézet túra
   - Beágyazható [3D Matterport virtuális túra](https://www.brand360.hu/) beltérről

@@ -36,15 +36,15 @@
 - https://www.bigcommerce.com/essentials/
 - https://www.volusion.com/
 - https://www.squarespace.com/ecommerce-website-tour
-- https://seller.alibaba.com/
+- B2B https://seller.alibaba.com/
 - Food https://wolt.com/
 - Handmade https://www.etsy.com/
 - For static sites https://snipcart.com/
-- https://www.vatera.hu/
+- HU https://www.vatera.hu/
 
 ### Headless services
 
-- https://www.moltin.com/
+- https://www.elasticpath.com/product
 - https://www.shopify.com/plus/solutions/headless-commerce
 
 ### CMS backends
@@ -122,5 +122,5 @@
 
 ### Find an expert
 
-- https://recart.com/shopify-experts
-- SEO https://seostrategia.hu/seo-tanacsadas/
+- Shopify https://www.storetasker.com/
+- SEO https://seostrategia.hu/seo-tanacsadas/ (HU)

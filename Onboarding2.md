@@ -137,7 +137,7 @@ Verify your URL
 ### Email kézbesítés
 
 - Az Interneten nem lehetséges az emailek kézbesítését garantálni
-- [ESP (email fiók szolgáltató)](https://twofactorauth.org/#email)
+- [ESP (email fiók szolgáltató)](https://2fa.directory/#email)
   a *személyes* emailekhez ideértve a bejövő üzeneteket:
   **Google Workspace, [Protonmail :eu:](https://protonmail.com/signup), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/), [Почта Mail.Ru](https://biz.mail.ru/mail/)**
 - Fájl megosztás/küldés/fogadás, nagyfájl küldés/fogadás: [WeTransfer :eu:](https://wetransfer.com/),

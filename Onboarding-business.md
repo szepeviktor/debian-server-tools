@@ -84,10 +84,13 @@ Szolgáltató: [Slack](https://slack.com/)
 
 Adatvezérelt üzleti döntésekhez.
 
+1. Nem kívánt dolgok megsokasodása
+1. Kívánt dolgok elmaradása
+
 - Bevétel követés
 - Új regisztrációk, előfizetési csomag választás
-- Konverziók
 - Az alkalmazásban létrehozott entitások darabszáma
+- Konverziók
 
 * Commit-ok darabszáma
 * Kinyitott és lezárt hibajegyek darabszáma
