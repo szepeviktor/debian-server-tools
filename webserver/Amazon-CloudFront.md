@@ -43,6 +43,8 @@
   - See https://aws.amazon.com/premiumsupport/knowledge-center/prevent-cloudfront-from-caching-files/
 - Make origin fetch client IP address from `X-Forwarded-For` HTTP header
 
+:bulb: [Limits](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html)
+
 [Caching of HTTP 4xx and 5xx](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HTTPStatusCodes.html)
 
 ### Laravel TrustProxies

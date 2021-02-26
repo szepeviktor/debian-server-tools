@@ -124,3 +124,26 @@
 
 - Shopify https://www.storetasker.com/
 - SEO https://seostrategia.hu/seo-tanacsadas/ (HU)
+
+### CRO
+
+- General UX
+- Product price
+- Coupons
+- Product name and details
+- Product image and video
+- Search in fields
+- Incentive visual elements
+- Compelling visual elements, e.g. countdown for discount
+- Chat with a bot and a human
+  who can manage cart, customer details and delivery
+- Learning from https://recart.com/
+- Recommended and related products, upsale
+- Sign up to our content feed
+- Price and inventory update notification
+- Customer review and rating
+- Sharing on social media and review sites
+- Social proof
+- Abandoned cart notification
+- Exit modal, hijack box
+- Remarketing

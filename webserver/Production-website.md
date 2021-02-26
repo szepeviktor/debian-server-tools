@@ -1,6 +1,6 @@
 # Setting up a production WordPress website
 
-Not only a WordPress site!
+Not only for WordPress sites!
 
 1. [Installation](#installation)
 1. [Migration](#migration)

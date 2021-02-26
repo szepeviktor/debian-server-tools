@@ -7,9 +7,10 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 ### Stratégia
 
 1. Interneten elérhető a célközönség?
-1. A honlap mely részeire van kapacitásunk, hogy _életben tartsuk_, azaz módosítsuk különböző mérések
+1. A honlap tartalom mely részeire van kapacitásunk, hogy _életben tartsuk_, azaz módosítsuk különböző mérések
    (látogatások, kattintások, A/B teszt, telefonos kérdések, eladási eredmények) alapján?
-1. Mi legyen a honlapon? *Ez szokott lenni egy honlapon* (káros téveszmék által meghatározott tartalom)
+1. Milyen tartalom legyen a honlapon?
+   *Ez szokott lenni egy honlapon* (káros téveszmék által meghatározott tartalom)
    **vs.** mérések alapján priorizált tartalom
 1. Személyes (narrátor) jelleg fotókkal, videóval, idézetekkel
    **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
