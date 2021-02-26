@@ -19,7 +19,7 @@ Updated daily as I work.
 1. [Live list of Hostile networks](/security/myattackers-ipsets/ipset)
 1. [Bulk mail sending](/mail/README.md#bulk-mail)
 
-### Magyar nyelvű kiemelet dokumentumok :hungary:
+### Magyar nyelvű kiemelt dokumentumok :hungary:
 
 1. [Csapatának tagja szeretnék lenni](/CV2.md)
 1. [Ismerkedés Új ügyfelekkel](/Onboarding-business.md)
