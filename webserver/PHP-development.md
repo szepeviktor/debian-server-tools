@@ -226,7 +226,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - [News](https://app.cloudcannon.com/users/sign_in) or [marketing message](https://www.gosquared.com/join/analytics/)
 - "Remember me" checkbox
 - "Forgot password" link
-- Link to Login/Sign up page
+- Login and Sign up page linking each other
 - Direct registration on login page: email field and signup button
 - SSO
 - Privacy Policy and Terms of Service links

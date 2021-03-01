@@ -7,6 +7,26 @@
 - https://trends.builtwith.com/shop
 - https://gkidigital.hu/2018/08/15/e-toplista-2018/
 
+### Parts of e-commerce
+
+Physical products, no dropshipping.
+
+1. _Procurement of goods_ (ERP)
+1. Development of empty webshop
+1. Product management
+1. Marketing: new and returning visitors
+1. Sales
+1. Payment and accounting
+1. Logistics
+1. Support
+
+### Business types
+
+- Many products to near zero manual editing
+  **vs** hand-picked products with carefully edited/generated content
+- Visitors from PPC **vs.** visitors from organic sources
+- One-time visitors **vs.** returning visitors
+
 ### Learn from “Best-In-Class”
 
 - https://www.ocado.com/browse
@@ -104,7 +124,6 @@
   - Microsoft identity platform
   - MojeID (CZ)
   - also see [FIDO2: Web Authentication](https://fidoalliance.org/fido2/fido2-web-authentication-webauthn/)
-- "Putting products into cart" feedback
 - Express (one click) checkout
   - Masterpass
   - Visa Checkout
@@ -119,6 +138,7 @@
   - https://www.adyen.com/
   - https://www.six-payment-services.com/en/site/e-commerce/solutions/paymentsolution.html
   - https://paddle.com/
+- "Putting products into cart" feedback
 
 ### Find an expert
 
@@ -128,22 +148,28 @@
 ### CRO
 
 - General UX
-- Product price
-- Coupons
+- Product price, discount, sales, flash sales
+- Coupons, gift cards
 - Product name and details
 - Product image and video
-- Search in fields
-- Incentive visual elements
+- Search in product data fields
+- Reordering a previous order
+- Incentive visual elements, e.g. flashing green light at available quantity
 - Compelling visual elements, e.g. countdown for discount
 - Chat with a bot and a human
   who can manage cart, customer details and delivery
 - Learning from https://recart.com/
 - Recommended and related products, upsale
-- Sign up to our content feed
 - Price and inventory update notification
+- Subscribing to our content feed
 - Customer review and rating
 - Sharing on social media and review sites
 - Social proof
 - Abandoned cart notification
 - Exit modal, hijack box
 - Remarketing
+- Experimental: share and import cart/product collection
+
+### Actionable insights
+
+Which funnel produced the best spending:cart value ratio?

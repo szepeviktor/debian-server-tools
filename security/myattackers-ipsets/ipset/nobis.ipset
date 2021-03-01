@@ -72,6 +72,8 @@ add nobis 45.147.28.0/24
 add nobis 45.151.105.0/24
 add nobis 45.151.106.0/24
 add nobis 45.152.208.0/24
+## AS62240 - CLOUVIDER
+#add nobis 185.247.116.0/24
 # EU-AMS-VPSSERVERCOM
 add nobis 185.247.117.0/24
 add nobis 193.58.108.0/22

@@ -1,4 +1,6 @@
-# Set up a domain for Google Workspace
+# Set up a domain for Google Workspace Gmail
+
+Custom business email.
 
 1. Register domain, see [onboarding](/Onboarding.md)
 1. Clean up DNS records
