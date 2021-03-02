@@ -5,7 +5,7 @@
 
 - https://services.google.com/fh/files/events/pdf_retail_ux_playbook.pdf
 - https://trends.builtwith.com/shop
-- https://gkidigital.hu/2018/08/15/e-toplista-2018/
+- https://gkidigital.hu/2018/08/15/e-toplista-2018/ (HU)
 
 ### Parts of e-commerce
 
@@ -19,11 +19,12 @@ Physical products, no dropshipping.
 1. Payment and accounting
 1. Logistics
 1. Support
+1. Analytics
 
 ### Business types
 
-- Many products to near zero manual editing
-  **vs** hand-picked products with carefully edited/generated content
+- Many products with near zero manual editing
+  **vs.** hand-picked products with carefully edited/generated content
 - Visitors from PPC **vs.** visitors from organic sources
 - One-time visitors **vs.** returning visitors
 
@@ -31,7 +32,7 @@ Physical products, no dropshipping.
 
 - https://www.ocado.com/browse
 - https://www.amazon.com/gp/navigation-country/select-country/
-- [www.savoirbeds.com](https://web.archive.org/web/20191231113546/https://www.savoirbeds.com/) https://www.savoirbeds.com/
+- :card_file_box: [www.savoirbeds.com](https://web.archive.org/web/20191231113546/https://www.savoirbeds.com/) https://www.savoirbeds.com/
 - https://www.zappos.com/
 - booking: https://www.agoda.com/
 - booking: https://www.getbellhops.com/ (TypeForm-like)
@@ -70,6 +71,7 @@ Physical products, no dropshipping.
 ### CMS backends
 
 - https://www.sanity.io/
+- https://www.contentful.com/
 - https://prismic.io/
 - https://www.storyblok.com/
 - https://wordpress.org/
@@ -170,6 +172,16 @@ Physical products, no dropshipping.
 - Remarketing
 - Experimental: share and import cart/product collection
 
-### Actionable insights
+### Search experience
 
-Which funnel produced the best spending:cart value ratio?
+[MeiliSearch](https://docs.meilisearch.com/learn/what_is_meilisearch/comparison_to_alternatives.html)
+
+### Analytics
+
+Actionable insights.
+
+Which funnel produces the best spending:cart value ratio?
+
+---
+
+_This is work really in progress!_

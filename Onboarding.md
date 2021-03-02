@@ -183,7 +183,7 @@ Verify your URL
 
 ### Application setup
 
-- Development providers, e.g. hosted git, issue tracker (document, gain access, set up)
+- **Development providers/accounts**, e.g. hosted git, issue tracker (document, gain access, set up), mail trap
 - Git repository, branch usage (git flow)
 - 3rd party providers (document, gain access, set up)
 - Environments: development, staging, production
