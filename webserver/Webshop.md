@@ -61,7 +61,7 @@ Physical products, no dropshipping.
 - Food https://wolt.com/
 - Handmade https://www.etsy.com/
 - For static sites https://snipcart.com/
-- HU https://www.vatera.hu/
+- https://www.vatera.hu/ (HU)
 
 ### Headless services
 
@@ -75,11 +75,6 @@ Physical products, no dropshipping.
 - https://prismic.io/
 - https://www.storyblok.com/
 - https://wordpress.org/
-
-### Bérelhető webáruházak (HU)
-
-- https://www.shopngo.hu/
-- https://www.webareal.cz/
 
 ### Tools
 
@@ -175,6 +170,14 @@ Physical products, no dropshipping.
 ### Search experience
 
 [MeiliSearch](https://docs.meilisearch.com/learn/what_is_meilisearch/comparison_to_alternatives.html)
+
+- Default/personalized search box content
+- Typos
+- Synonyms
+- Custom relevancy (prioritization)
+- Filters/search options
+- Faceting (categorization)
+-
 
 ### Analytics
 

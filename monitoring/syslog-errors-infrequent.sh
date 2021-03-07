@@ -2,8 +2,8 @@
 #
 # Send interesting parts of syslog from the last 3 hours. Simple logcheck.
 #
-# VERSION       :0.8.22
-# DATE          :2018-11-21
+# VERSION       :0.9.0
+# DATE          :2021-03-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -13,28 +13,7 @@
 # LOCATION      :/usr/local/sbin/syslog-errors-infrequent.sh
 # CRON.D        :17 */3  * * *  root	/usr/local/sbin/syslog-errors-infrequent.sh
 
-Exceptions()
-{
-    grep -E -v 'kernel: \[    0\.[0-9]{6}\] ' \
-    | grep -E -v 'rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$' \
-    | grep -E -v 'courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$' \
-    #| grep -E -v 'rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$' \
-    #| grep -E -v 'couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)$' \
-    #| grep -E -v 'couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)$' \
-    #| grep -E -v '(courieresmtpd|courierfilter).*(: 554 Mail rejected|: 535 Authentication failed|>: 451\b)' \
-    #| grep -E -v 'courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX$|,msg="535 Authentication rejected",cmd:)' \
-    #| grep -E -v 'courieresmtpd: error,relay=.*,msg="(502 ESMTP command error|writev: Connection reset by peer)",cmd:' \
-    #| grep -E -v 'courieresmtpd: error,relay=.+,from=<spameri@tiscali\.it>' \
-    #| grep -E -v 'courierfilter: zdkimfilter\[[0-9]+\]:id=[0-9A-F.]+: verified: spf=pass, dkim=pass \(id=@\S+, stat=0\) dmarc:(quarantine|reject)=fail rep=0$' \
-    #| grep -E -v '@(citromail\.hu|vipmail\.hu)>,status: deferred$' \
-    #| grep -E -v 'spamd\[[0-9]+\]: spamd:|error@' \
-    #| grep -E -v 'mysqld: .* Unsafe statement written to the binary log .* Statement:' \
-    #| grep -F -v '/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting' \
-    #| /usr/bin/grepcidr -v -f /usr/local/share/ludost/br.ipranges \
-
-}
-
-# More words: https://github.com/raszi/colorize/blob/master/colorize#L21-L22
+# TODO More words: https://github.com/raszi/colorize/blob/master/colorize#L21-L22
 Failures()
 {
     # -intERRupt,-bERRy, -WARNer, -fail2ban, -MISSy, -deFAULT
@@ -49,7 +28,7 @@ Failures()
     | grep -F -v "$0" \
     | dd iflag=fullblock bs=1M count=5 2>/dev/null \
     | Failures \
-    | Exceptions
+    | grep --extended-regexp --invert-match --file=/etc/syslog-errors-excludes.grep
 
 # Process boot log
 if [ -s /var/log/boot ] && [ "$(wc -l </var/log/boot)" -gt 1 ]; then

@@ -14,6 +14,7 @@ printf '\n# Alert root\n*.warn\t\t\t\t:omusrmsg:root\n' >>/etc/rsyslog.conf
 service rsyslog restart
 
 # Simple syslog monitoring
+cp ../monitoring/syslog-errors-excludes.grep /etc/syslog-errors-excludes.grep
 Dinstall monitoring/syslog-errors.sh
 
 # Logrotate periods

@@ -1,0 +1,15 @@
+kernel: \[    0\.[0-9]{6}\][ ]
+rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$
+courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$
+$rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$
+$couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(unknown protocol|unsupported protocol|wrong version number)$
+$couriertls: (accept|connect): error:[0-9A-F]+:SSL routines:SSL2?3_GET_(CLIENT_HELLO|RECORD):(no shared cipher|unknown protocol|unsupported protocol|wrong version number)$
+$(courieresmtpd|courierfilter).*(: 554 Mail rejected|: 535 Authentication failed|>: 451\b)
+$courieresmtpd: error,relay=.*(: 451 4\.7\.1 Please try another MX$|,msg="535 Authentication rejected",cmd:)
+$courieresmtpd: error,relay=.*,msg="(502 ESMTP command error|writev: Connection reset by peer)",cmd:
+$courieresmtpd: error,relay=.+,from=<spameri@tiscali\.it>
+$courierfilter: zdkimfilter\[[0-9]+\]:id=[0-9A-F.]+: verified: spf=pass, dkim=pass \(id=@\S+, stat=0\) dmarc:(quarantine|reject)=fail rep=0$
+$@(citromail\.hu|vipmail\.hu)>,status: deferred$
+$spamd\[[0-9]+\]: spamd:|error@
+$mysqld: .* Unsafe statement written to the binary log .* Statement:
+$/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting
