@@ -151,15 +151,15 @@ Verify your URL
 ### Email delivery
 
 - There is no guaranteed email delivery on the Internet
-- [ESP](https://2fa.directory/#email) for *One-to-One* emails including inbound messages:
+- :man: :incoming_envelope: :man_office_worker: [ESP](https://2fa.directory/#email) for *One-to-One* emails including inbound messages:
   **Google Workspace, [Protonmail :eu:](https://protonmail.com/signup), [Почта Mail.Ru](https://biz.mail.ru/mail/), [DomainFactory :eu:](https://www.df.eu/int/e-mail-hosting/)**
   <!-- not Tiliq -->
 - File sharing, large file sending: [WeTransfer :eu:](https://wetransfer.com/),
   [pCloud :eu:](https://transfer.pcloud.com/),
   [Smash :eu:](https://fromsmash.com/)
-- *Transactional* emails and notification emails for alerts, log excerpts:
+- :robot: :incoming_envelope: :woman_office_worker: *Transactional* emails and notification emails for alerts, log excerpts:
   [see providers above](#specialized-infrastructure-providers)
-- *Bulk* email for newsletter: customer relations with [Intercom](https://www.intercom.com/)
+- :man: :incoming_envelope: :man_office_worker::older_man::woman_mechanic: *Bulk* email for newsletter: customer relations with [Intercom](https://www.intercom.com/)
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
 - Outbound spam protection: [MailChannels](https://www.mailchannels.com/pricing/)
