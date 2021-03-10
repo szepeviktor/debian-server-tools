@@ -150,7 +150,6 @@ Physical products, no dropshipping.
 - Product name and details
 - Product image and video
 - Search in product data fields
-- Reordering a previous order
 - Incentive visual elements, e.g. flashing green light at available quantity
 - Compelling visual elements, e.g. countdown for discount
 - Chat with a bot and a human
@@ -158,12 +157,13 @@ Physical products, no dropshipping.
 - Learning from https://recart.com/
 - Recommended and related products, upsale
 - Price and inventory update notification
+- Reordering a previous order
 - Subscribing to our content feed
 - Customer review and rating
 - Sharing on social media and review sites
 - Social proof
-- Abandoned cart notification
 - Exit modal, hijack box
+- Abandoned cart notification
 - Remarketing
 - Experimental: share and import cart/product collection
 

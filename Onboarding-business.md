@@ -13,6 +13,7 @@
 
 ### Milyen szolgáltatásra van szükség?
 
+- Van-e kitűzött cél a napi session-ök darabszámára? (1000/nap)
 - A felhasználóktól származó pénz fogja fedezni a működési költségeket?
 - Hozzá fog nyúlni valaki az éles környezethez?
 - Kik dolgoznak az alkalmazás gyártásban a következő szerepkörökben

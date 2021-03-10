@@ -17,19 +17,19 @@
 
     <rule ref="Squiz.PHP.DiscouragedFunctions">
         <properties>
-            <!--
-            * ini_set() environment belongs to the server
-            * env() does not work in production (artisan config:cache)
-            * compact(), list() and extract() convert array<->value
-            * eval() is dangerous!
-            * echo, print and print_r() disturb templating, see wilderborn/partyline
-            * dump(), dd(), var_dump() - consider using barryvdh/laravel-debugbar
-            * error_log() has special use
-            * define() is for global constants
-            Defaults: https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/PHP/DiscouragedFunctionsSniff.php
-            See https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/WordPress/Sniffs/PHP/DiscouragedPHPFunctionsSniff.php
-            -->
             <property name="forbiddenFunctions" type="array">
+                <!--
+                * ini_set() environment belongs to the server
+                * env() does not work in production (artisan config:cache)
+                * compact(), list() and extract() convert array<->value
+                * eval() is dangerous!
+                * echo, print and print_r() disturb templating, see wilderborn/partyline
+                * dump(), dd(), var_dump() - consider using barryvdh/laravel-debugbar
+                * error_log() has special use
+                * define() is for global constants
+                Defaults: https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/PHP/DiscouragedFunctionsSniff.php
+                See https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/WordPress/Sniffs/PHP/DiscouragedPHPFunctionsSniff.php
+                -->
                 <element key="ini_set" value="null"/>
                 <element key="env" value="null"/>
                 <element key="compact" value="null"/>
@@ -44,6 +44,49 @@
                 <element key="var_dump" value="null"/>
                 <element key="error_log" value="null"/>
                 <element key="define" value="null"/>
+                <!--
+                Multibyte string functions as alternatives
+                php -\-re mbstring | sed -n -e 's#^\s*Function .* function \(\w\+\) .*$#\1#p'
+                -->
+                <element key="strtoupper" value="mb_strtoupper"/>
+                <element key="strtolower" value="mb_strtolower"/>
+                <element key="parse_str" value="mb_parse_str"/>
+                <element key="str_split" value="mb_str_split"/>
+                <element key="strlen" value="mb_strlen"/>
+                <element key="strpos" value="mb_strpos"/>
+                <element key="strrpos" value="mb_strrpos"/>
+                <element key="stripos" value="mb_stripos"/>
+                <element key="strripos" value="mb_strripos"/>
+                <element key="strstr" value="mb_strstr"/>
+                <element key="strrchr" value="mb_strrchr"/>
+                <element key="stristr" value="mb_stristr"/>
+                <element key="substr_count" value="mb_substr_count"/>
+                <element key="substr" value="mb_substr"/>
+                <element key="mail" value="mb_send_mail"/>
+                <!-- Byte-character conversion functions
+                <element key="ord" value="mb_ord"/>
+                <element key="chr" value="mb_chr"/>
+                -->
+                <element key="ereg" value="mb_ereg"/>
+                <element key="eregi" value="mb_eregi"/>
+                <element key="ereg_replace" value="mb_ereg_replace"/>
+                <element key="eregi_replace" value="mb_eregi_replace"/>
+                <element key="split" value="mb_split"/>
+                <!-- Old functions without underscore -->
+                <element key="mbregex_encoding" value="mb_regex_encoding"/>
+                <element key="mbereg" value="mb_ereg"/>
+                <element key="mberegi" value="mb_eregi"/>
+                <element key="mbereg_replace" value="mb_ereg_replace"/>
+                <element key="mberegi_replace" value="mb_eregi_replace"/>
+                <element key="mbsplit" value="mb_split"/>
+                <element key="mbereg_match" value="mb_ereg_match"/>
+                <element key="mbereg_search" value="mb_ereg_search"/>
+                <element key="mbereg_search_pos" value="mb_ereg_search_pos"/>
+                <element key="mbereg_search_regs" value="mb_ereg_search_regs"/>
+                <element key="mbereg_search_init" value="mb_ereg_search_init"/>
+                <element key="mbereg_search_getregs" value="mb_ereg_search_getregs"/>
+                <element key="mbereg_search_getpos" value="mb_ereg_search_getpos"/>
+                <element key="mbereg_search_setpos" value="mb_ereg_search_setpos"/>
             </property>
         </properties>
     </rule>

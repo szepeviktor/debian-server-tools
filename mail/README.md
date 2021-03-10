@@ -41,7 +41,7 @@
 
 ### Campaign automation providers
 
-- [dotdigital](https://dotdigital.com/) Email+SMS+Social+Ads+Mobile+Web+Offline *???*
+- [dotdigital](https://dotdigital.com/) Email+SMS+Social+Ads+Mobile+Web+Offline *€200*
 - [MailerLite](https://www.mailerlite.com/) *$30*
 - [Klaviyo](https://www.klaviyo.com/) *$0*
 - https://convertkit.com/ *$29*
