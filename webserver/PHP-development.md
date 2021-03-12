@@ -163,6 +163,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Image management (Cloudinary, https://blurha.sh/ )
 - Maintenance mode switch and placeholder page (HTTP/503)
 - Static asset management (building, versioning) and loading
+- Search experience
 - [Keep A Changelog](https://github.com/phly/keep-a-changelog)
 - Analytics, visitor tracking (HEAP, Hotjar, Smartlook, Clicktale)
 - Performance (application monitoring, New Relic)

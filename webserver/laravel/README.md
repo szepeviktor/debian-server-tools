@@ -83,3 +83,11 @@ Caching depends on `APP_ENV` variable.
 ### Debugging
 
 https://github.com/spatie/ray
+
+### URL categories
+
+- Root files - stored in `public/` and `public/.well-known/` directories
+- Static assets - stored in various subdirectories of `public/`
+- User generated media - stored in `storage/app/public/` directory
+- Virtual URL-s are handled by Laravel started in `public/index.php`
+- Explicit API calls prefixed with `/api/` in URL path
