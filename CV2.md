@@ -7,31 +7,20 @@
 - Webes alkalmazás gyártók ([SaaS](https://hu.wikipedia.org/wiki/Saas))
 - Webáruház üzemeltetők (ecommerce)
 - Hírportálok (publishing)
-- Marketing eszköznek tekintett honlapon kampányolók
+- Marketing eszköznek tekintett honlapon kampányolók (website)
 - Digitális ügynökségek (agency)
 
 ### Milyen munkát végzek?
 
 Proaktívan gondolkodok, a **Fenntarthatóságot** igyekszem elérni.
 
-1. DevOps: a munkám az alkalmazás teljes életciklusára kiterjed:
-   tervezés, fejlesztés, tesztelés, üzemeltetés, marketing, sales és support
 1. Tanácsadás: elemzésekkel, mérésekkel és tapasztalattal előzöm meg a hibákat,
    cégének összes nem fenntartható folyamatánál, szolgáltatónál, technológiánál és szoftvernél szólok,
    élhető megoldást ajánlok és - ha lehetséges - bevezetek
 1. Monitorozás: minden szolgáltatót, az alkalmazás fejlesztését, az alkalmazás összes folyamatát,
    az összes résztvevő személyt - a felhasználókat is ideértve - szoftverekkel figyelem meg
-
-### DevOps
-
-- Infrastruktúra szolgáltatók kiválasztása, szigorú fiókházirend bevezetése
-- Szerverek telepítése és frissítése
-- A webes alkalmazás forráskódjának tanulmányozása
-- Jól használható telepítési, tesztelési és frissítési dokumentáció írása
-- CI/CD telepítése, minden egyes fájl automata ellenőrzése
-- Programozói munkát (unit test) nem igénylő
-  folyamatos integrációs tesztek írása
-- Fejlesztési és üzemeltetési (pl. hiba feltárás) eszközök írása
+1. DevOps: a munkám az alkalmazás teljes életciklusára kiterjed:
+   tervezés, fejlesztés, tesztelés, üzemeltetés, marketing, sales és support
 
 ### Tanácsadás
 
@@ -74,6 +63,17 @@ Az összes ügyfelemnél valaha történt összes hiba kiküszöbölése.
   - a projekben dolgozók munkáját
   - sales, marketing és support eszközöket
 - Minden incidens kiváltó okának felkutatása, végleges megoldása
+
+### DevOps
+
+- Infrastruktúra szolgáltatók kiválasztása, szigorú fiókházirend bevezetése
+- Szerverek telepítése és frissítése
+- A webes alkalmazás forráskódjának tanulmányozása
+- Jól használható telepítési, tesztelési és frissítési dokumentáció írása
+- CI/CD telepítése, minden egyes fájl automata ellenőrzése
+- Programozói munkát (unit test) nem igénylő
+  folyamatos integrációs tesztek írása
+- Fejlesztési és üzemeltetési (pl. hiba feltárás) eszközök írása
 
 ### A munkám eredménye a Fenntarthatóság
 

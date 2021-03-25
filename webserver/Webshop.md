@@ -135,7 +135,7 @@ Physical products, no dropshipping.
   - https://www.adyen.com/
   - https://www.six-payment-services.com/en/site/e-commerce/solutions/paymentsolution.html
   - https://paddle.com/
-- "Putting products into cart" feedback
+- Visual feedback for putting products into cart
 
 ### Find an expert
 

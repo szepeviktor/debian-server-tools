@@ -17,6 +17,8 @@ FILE_GLOB="*.php"
 ALPHABET="ÁáÉéÍíÓóÖöŐőÚúÜüŰű"
 # Euro sign
 #ALPHABET+="€"
+# Polish alphabet
+#ALPHABET="ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
 
 # UNICODE Latin-1 Supplement signs (00A1-00BF)
 #ALPHABET="$(for C in A{1..9} A{A..F} B{0..9} B{A..F};do printf "\\x${C}\\x00";done|iconv -f UNICODE -t UTF-8)"
