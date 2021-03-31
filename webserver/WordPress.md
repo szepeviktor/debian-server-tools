@@ -30,8 +30,9 @@ Let's prevent working against each other!
   - HTTP and HTML optimization
   - CDN support
 - Plugin update check HTTP requests and updates itself are disabled
-  because the whole WordPress installation is managed by Composer
-- Plugin and theme update and WordPress management-related admin pages are removed (done in CLI instead)
+  because the whole WordPress installation is **managed by Composer**
+- Plugin and theme update and WordPress management-related admin pages are removed
+  (updated with Composer, administered with WP-CLI)
 - WP-Cron is ran by a linux cron job (the default pseudo cron/web callback is disabled)
 - Only things necessary for generating custom admin pages
   and generating HTML go into the **theme**
@@ -40,6 +41,7 @@ Let's prevent working against each other!
 - Please avoid [discouraged functions](/webserver/laravel/phpcs.xml)
 - We run static analysis on all source code
 - PSR-4 autoloading is suggested (no need for `require` and custom class autoloading)
+- WordPress core is installed in a separate subdirectory
 - Please also see [hosting information for developers](/Onboarding.md#onboarding-for-developers)
 
 ### Standard Directory structure

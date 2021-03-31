@@ -1,4 +1,5 @@
 kernel: \[    0\.[0-9]{6}\][ ]
+systemd-udevd\[[0-9]+\]: Network interface NamePolicy= disabled on kernel command line, ignoring\.$
 rngd\[[0-9]+\]: stats: FIPS 140-2 failures: 0$
 courierd: SHUTDOWN: respawnlo limit reached, system inactive\.$
 $rngd\[[0-9]+\]: block failed FIPS test: 0x0[248]$

@@ -13,20 +13,27 @@
 
 ### Milyen szolgáltatásra van szükség?
 
-- Van-e kitűzött cél a napi session-ök darabszámára? (1000/nap)
+- Van kitűzött cél a napi session-ök darabszámára? (1000/nap)
 - A felhasználóktól származó pénz fogja fedezni a működési költségeket?
 - Hozzá fog nyúlni valaki az éles környezethez?
-- Kik dolgoznak az alkalmazás gyártásban a következő szerepkörökben
-  - Emberek irányításában és szoftver gyártás terén jártas vezető
-  - Szolgáltatói fiókokat kezelő, velük kapcsolatot tartó adminisztrátor
-  - Szoftver tervező mérnök
-  - UI designer
-  - Backend fejlesztő
-  - Frontend fejlesztő
-  - Kézi tesztelő
-  - Tartalom szerkesztő
+- Kik fedik le az alábbi szakterületeket?
+  - Emberek irányítása és a szoftver gyártás közötti híd (vezető)
+  - Szolgáltatói fiókok kezelése és a velük való kapcsolatottartás (adminisztrálás)
+  - Szoftver tervezés
+  - UI/UX design
+  - Back-end fejlesztés
+  - Front-end fejlesztés
+  - Automatikus és kézi tesztek
+  - Tartalom szerkesztés
 - Szerver telepítés és üzemeltetés
-- Alkalmazás tervezés
+- Alkalmazás kitalálása (define)
+- Alkalmazás tervezés (design)
+- Alkalmazás fejlesztés (develop)
+- Define + Design + Develop lehetőségek
+  1. Nem lesz ilyen fázis vagy egy másikkal össze lesz keverve
+  1. Olyanok fogják csinálni, akik nem a fázisnak szakértői
+  1. Külön szakembereket bérelünk fel rá
+  1. Alkalmazottat veszünk fel rá
 - Alkalmazás üzemeltetés
 - Fejlesztés követése és PR-ek küldése
 - Krízis kezelés

@@ -46,6 +46,7 @@ Filter_client_server_error()
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$' \
         #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$' \
+        #| grep -v -E '"GET /dns-query\?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB HTTP/' \
 
 }
 
