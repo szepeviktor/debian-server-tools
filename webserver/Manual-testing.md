@@ -1,43 +1,47 @@
-# KTK (HU)
+# Manual Testing Handbook
 
-Kézi Tesztelési Kézikönyv v1.0.0
+Version 1.0.0
 
-_Melyik kódbázist tesztelem?_
+_Which code base to I test?_
 
 `project-api`
 
-_Melyik verziót tesztelem?_
+_Which version do I test?_
 
-Verzió: `2.6.0` vagy commit hash
+Version `2.6.0` or commit hash
 
-_Milyen készülékeken, böngészőkkel tesztelek?_
+_On what device, browser am I testing?_
 
-- **iPhone 6** oprendszer: iOS 13.2.2, böngésző: Mobile Safari v12.34
+- **iPhone 6** operating system: iOS 13.2.2, browser: Mobile Safari v12.34
 - **PC** Windows 10 v1803, Edge 42.17134.1038.0
 - **PC** Debian GNU/Linux 10.1, Firefox 70.0.1
-- AMP verzió tesztelése
+- Testing of AMP version
 
-:bulb: Tesztelés közben tartsd nyitva a böngésző konzolt, mobilon a _debug_ konzolt.
+:bulb: Keep browser console open while testing, on mobile the _debug_ console.
 
-### Teljes életciklus tesztelése
+### Testing the whole life-cycle
 
-- Regisztráció
-- Sikeres fizetés/regisztráció jóváhagyása
-- Használat [CRUD szerint](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete),
-  minden entitás létrehozás (C), megtekintés (R), módosítás (U) és törlés (D)
-- Rendellenes használat (pl. 404 oldal, sikertelen fizetés) tesztelése, segítő (nem zsákutca) üzenetek ellenőrzése
-- A már ismert és javított hibák tesztelése
-- Felhasználói fiók törlése
+- Registration
+- Approval or verification of successful payment/registration
+- Testing of happy path for [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete),
+  create (C), read (R), update (U) and delete (D) all entities
+- Testing of unhappy path (e.g. 404 page, unsuccessful payment),
+  checking helpful (not dead end) messages
+- Testing already known and fixed errors
+- Deletion of user account
 
-### Kompatibilitás tesztelése
+### Testing compatibility
 
-- Megosztható-e (aminek megoszthatónak kell legyen) Twitter-en, Facebook-on
-- [Rich Results/Rich Snippets](https://search.google.com/test/rich-results) "Structured Data" használatával
-- Google Tag Manager mér-e
-- Reklám blokkolóval (AdBlock) működik-e
-- [még több](Production-website.md#compatiblitity)
+- Sharing (to be shared) pages on Twitter and Facebook
+- Preview [Rich Results/Rich Snippets](https://search.google.com/test/rich-results)
+  using "Structured Data"
+- Does Google Tag Manager work?
+- Checking pages work with an ad blocker (AdBlock)
+- [more compatibility](Production-website.md#compatiblitity)
 
-### Egyebek
+### Miscellaneous
 
-- Nem webes részek tesztelése, pl. Mailchimp email, mobil app, SMS küldés
-- Tesztelő eszközök futtatása, pl. https://securityheaders.io/ , https://validator.w3.org/ , https://developers.google.com/speed/pagespeed/insights/
+- Testing non-web operations, e.g. Mailchimp email, mobile app, SMS sending
+- Running test tools, e.g.
+  https://securityheaders.io/ , https://validator.w3.org/ ,
+  https://developers.google.com/speed/pagespeed/insights/
