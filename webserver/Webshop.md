@@ -139,8 +139,9 @@ Physical products, no dropshipping.
 
 ### Find an expert
 
-- Shopify https://www.storetasker.com/
+- https://pixeliz.ee/ (HU)
 - SEO https://seostrategia.hu/seo-tanacsadas/ (HU)
+- Shopify https://www.storetasker.com/
 
 ### CRO
 

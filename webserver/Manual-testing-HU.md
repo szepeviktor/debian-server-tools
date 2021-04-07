@@ -23,8 +23,8 @@ _Milyen készülékeken, böngészőkkel tesztelek?_
 
 - Regisztráció
 - Sikeres fizetés/regisztráció jóváhagyása
-- Használat [CRUD szerint](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete),
-  minden entitás létrehozás (C), megtekintés (R), módosítás (U) és törlés (D)
+- Fő ág (_happy path_) [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
+  szerinti tesztelése, minden entitás létrehozás (C), megtekintés (R), módosítás (U) és törlés (D)
 - Rendellenes használat (pl. 404 oldal, sikertelen fizetés) tesztelése, segítő (nem zsákutca) üzenetek ellenőrzése
 - A már ismert és javított hibák tesztelése
 - Felhasználói fiók törlése

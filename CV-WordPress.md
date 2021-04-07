@@ -138,15 +138,15 @@ Keressen meg: viktor@szepe.net
 
 ### más: Honlap tervezés
 
-Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó honlapot,
+Ezekről a csapatokról **hallottam** olyat, hogy képesnek arra, hogy hatékony, konverziót hozó honlapot,
 [webáruházat](https://www.ocado.com/) tervezzenek.
 
 - https://www.voov.hu/ - Laravel
 - https://hacky.hu/
-- https://neeed.us/
-- https://www.pwstudio.hu/ - :fire: CodeIgniter
 - https://www.upsolution.hu/ - Laravel
 - https://splendex.io/
+- https://neeed.us/
+- https://www.pwstudio.hu/ - :fire: CodeIgniter
 - https://netpeople.hu/
 
 * https://www.finetune.hu/
@@ -164,4 +164,3 @@ Ezeket a csapatokat tartom képesnek arra, hogy hatékony, konverziót hozó hon
 
 * https://kinsta.com/blog/hire-wordpress-developer/
 * https://jobs.wordpress.net/post-a-job/
-* wphu.org/wordpress-fejlesztes/

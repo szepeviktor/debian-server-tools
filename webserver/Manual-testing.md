@@ -2,7 +2,7 @@
 
 Version 1.0.0
 
-_Which code base to I test?_
+_Which code base do I test?_
 
 `project-api`
 
