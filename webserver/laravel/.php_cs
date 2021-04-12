@@ -55,27 +55,29 @@ final class PhpCsFixerLaravel
      * @var array
      */
     protected $styleciToPhpcs = [
-        'align_phpdoc' => ['phpdoc_align' => ['align' => 'vertical']], // TODO Laravel double space
+        // TODO Laravel double space in PHPDoc: 'align_phpdoc' => null,
+        'align_phpdoc' => ['phpdoc_align' => ['align' => 'vertical']],
         'alpha_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'alpha']],
+        'die_to_exit' => 'no_alias_language_construct_call',
         'length_ordered_imports' => ['ordered_imports' => ['sort_algorithm' => 'length']],
+        'long_array_syntax' => ['array_syntax' => ['syntax' => 'long']],
         'method_visibility_required' => 'visibility_required',
         'no_blank_lines_after_throw' => 'no_blank_lines_after_phpdoc',
-        'no_blank_lines_between_imports' => null, // FIXME single_line_after_imports?
-        'no_blank_lines_between_traits' => null, // FIXME
+        'no_blank_lines_between_imports' => ['no_extra_blank_lines' => ['tokens' => ['use']]],
+        'no_blank_lines_between_traits' => ['no_extra_blank_lines' => ['tokens' => ['use_trait']]],
         'no_spaces_inside_offset' => 'no_spaces_around_offset',
+        'no_unused_lambda_imports' => 'lambda_not_used_import',
         'post_increment' => 'pre_increment',
         'property_visibility_required' => 'visibility_required',
-        'short_list_syntax' => null, // FIXME
-        'unix_line_endings' => 'line_ending',
-        'long_array_syntax' => ['array_syntax' => ['syntax' => 'long']],
+        'psr12_braces' => 'braces',
         'short_array_syntax' => ['array_syntax' => ['syntax' => 'short']],
-        'die_to_exit' => null, // FIXME
+        'short_list_syntax' => ['list_syntax' => ['syntax' => 'short']],
+        'unix_line_endings' => 'line_ending',
         // TODO Coming in v3.0 https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/3.0
-        'no_unused_lambda_imports' => null,
-        'switch_continue_to_break' => null,
+        'clean_namespace' => null,
         'phpdoc_inline_tag_normalizer' => null,
         'phpdoc_singular_inheritdoc' => null,
-        'clean_namespace' => null,
+        'switch_continue_to_break' => null,
     ];
 
     /**
@@ -88,28 +90,34 @@ final class PhpCsFixerLaravel
         $upgrades = array_merge($this->readRulesUpgrade(), $this->styleciToPhpcs);
 
         // Convert StyleCI rule names to [$rule => true]
+        // Start with PSR-2
         $fixers = array_reduce($this->readStyleciFixers(), function ($stack, $rule) {
             return $stack + [$rule => true];
-        }, []);
+        }, ['@PSR2' => true]);
 
         // Upgrade old rules
         array_walk($upgrades, function ($new, $old) use (&$fixers) {
             if (! isset($fixers[$old])) {
                 return;
             }
+
             unset($fixers[$old]);
+
             // To be deleted
             if ($new === null) {
                 return;
             }
+
+            // Rule needs configuration
             if (is_array($new)) {
-                // Rule needs configuration
                 $newKey = key($new);
                 $fixers[$newKey] = $new[$newKey];
-            } else {
-                // Simple rename
-                $fixers[$new] = true;
+
+                return;
             }
+
+            // Simple rename
+            $fixers[$new] = true;
         });
 
         // Strict types

@@ -2,7 +2,7 @@
 #
 # Install a single Python package under /opt directory
 #
-# VERSION       :0.1.0
+# VERSION       :0.1.1
 # DATE          :2020-08-09
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -15,7 +15,7 @@ binary="${2:-$name}"
 
 set -e
 
-mkdir "/opt/${name}"
+mkdir -p "/opt/${name}"
 cd "/opt/${name}/"
 
 pip3 install --no-cache-dir --ignore-installed --no-warn-script-location --prefix "/opt/${name}/" "${name}"

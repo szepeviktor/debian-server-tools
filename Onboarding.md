@@ -172,7 +172,7 @@ Verify your URL
 
 ### Infrastructure setup
 
-- Document in hosting.yml and server.yml (Skype, Google Contacts, KeePass, link-torzs)
+- Document in hosting.yml and server.yml (Skype, `Ugyfelek.yml`, KeePass)
 - Gain access to providers (web based sub-account or API)
 - Manage migrations (WeTransfer.com)
 - PTR/IPv4, PTR/IPv6 records

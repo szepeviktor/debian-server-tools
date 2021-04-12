@@ -6,6 +6,7 @@ flush packet-exchange
 add packet-exchange 5.157.11.0/24
 add packet-exchange 5.157.32.0/24
 add packet-exchange 5.157.55.0/24
+add packet-exchange 165.231.225.0/24
 add packet-exchange 165.231.227.0/24
 add packet-exchange 196.196.148.0/24
 add packet-exchange 196.196.164.0/24
@@ -14,9 +15,13 @@ add packet-exchange 196.196.203.0/24
 add packet-exchange 196.196.246.0/24
 add packet-exchange 196.240.254.0/24
 add packet-exchange 196.242.3.0/24
+add packet-exchange 196.242.47.0/24
 add packet-exchange 196.242.115.0/24
+add packet-exchange 196.244.200.0/24
+add packet-exchange 196.245.236.0/24
 
 # AS41564 - Packet Exchange
+add packet-exchange 196.196.198.0/24
 
 # AS57858 - Inter Connects
 add packet-exchange 196.196.50.0/24
