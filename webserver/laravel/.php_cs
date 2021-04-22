@@ -7,7 +7,8 @@
  * 2. Start: tools/php-cs-fixer fix -v --dry-run
  *
  * @see https://docs.styleci.io/presets#laravel
- * @version 1.2.0
+ * @see https://github.com/matt-allan/laravel-code-style
+ * @version 1.3.0
  */
 
 declare(strict_types=1);

@@ -14,7 +14,10 @@ fi
 #if [ "$(php -r 'echo PHP_MAJOR_VERSION;')" == 7 ]; then
 if [ "$(dpkg-query --showformat='${Status}' --show "php${PHP}-cli" 2>/dev/null)" == "install ok installed" ]; then
     # Is php-redis available?
-    if [ -n "$(aptitude --disable-columns --display-format "%p" search "?exact-name(php-redis)")" ]; then
+    if [ -n "$(aptitude --disable-columns --display-format "%p" search "?exact-name(php${PHP}-redis)")" ]; then
+        # PHP 7.x extension
+        apt-get install -y "php${PHP}-redis"
+    elif [ -n "$(aptitude --disable-columns --display-format "%p" search "?exact-name(php-redis)")" ]; then
         # PHP 7 extension
         apt-get install -y php-redis
     else

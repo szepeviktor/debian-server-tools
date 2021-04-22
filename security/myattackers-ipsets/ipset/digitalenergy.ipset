@@ -5,6 +5,7 @@ create digitalenergy hash:net family inet hashsize 64 maxelem 64
 flush digitalenergy
 add digitalenergy 45.95.39.0/24
 add digitalenergy 45.95.116.0/24
+add digitalenergy 45.141.232.0/24
 add digitalenergy 45.145.121.0/24
 add digitalenergy 64.137.120.0/24
 add digitalenergy 89.19.47.0/24
@@ -29,6 +30,7 @@ add digitalenergy 185.158.100.0/22
 add digitalenergy 185.158.148.0/22
 add digitalenergy 191.96.97.0/24
 add digitalenergy 191.96.102.0/24
+add digitalenergy 191.96.132.0/24
 add digitalenergy 191.101.50.0/24
 #add digitalenergy 191.101.64.0/20
 add digitalenergy 191.101.80.0/20
