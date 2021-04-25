@@ -42,7 +42,6 @@ add region40 46.161.60.0/24
 add region40 46.161.61.0/24
 add region40 46.161.62.0/24
 add region40 46.161.63.0/24
-add region40 79.110.17.0/24
 add region40 79.110.18.0/24
 add region40 79.110.19.0/24
 add region40 79.110.22.0/24
@@ -52,8 +51,6 @@ add region40 91.200.80.0/24
 add region40 91.200.81.0/24
 add region40 91.200.82.0/24
 add region40 91.200.83.0/24
-add region40 91.200.164.0/22
-add region40 91.216.3.0/24
 add region40 91.243.90.0/24
 add region40 91.243.91.0/24
 add region40 91.243.93.0/24
@@ -87,12 +84,8 @@ add region40 178.159.97.0/24
 add region40 179.61.200.0/23
 add region40 181.214.37.0/24
 add region40 185.2.32.0/24
-add region40 185.14.192.0/24
 add region40 185.14.193.0/24
 add region40 185.14.195.0/24
-add region40 185.46.84.0/22
-add region40 185.50.250.0/24
-add region40 185.50.251.0/24
 # ATOMOHOST
 #add region40 185.71.0.0/22
 add region40 185.101.68.0/24
@@ -106,13 +99,10 @@ add region40 188.72.126.0/24
 add region40 188.72.127.0/24
 add region40 191.101.24.0/24
 add region40 191.101.54.0/23
-# ATOMOHOST
-#add region40 193.9.158.0/24
 add region40 193.93.192.0/24
 add region40 193.93.195.0/24
 # FOP Kutcevol Maksum Mukolaevich
 add region40 193.105.171.0/24
-
 
 # AS50896 - Trusov Ilya Igorevych
 # Already in GigeNET
@@ -121,10 +111,7 @@ add region40 37.230.212.0/23
 add region40 91.198.127.0/24
 add region40 146.185.207.0/24
 
-
 # AS49453 - GLOBALLAYER
-# IE Trusov Ilya Igorevych
-add region40 46.243.173.0/24
 # QualityNetwork
 add region40 178.159.100.0/24
 add region40 178.159.107.0/24
@@ -132,6 +119,9 @@ add region40 193.93.193.0/24
 add region40 193.93.194.0/24
 # Channelnet mounted by PIN
 add region40 5.188.86.0/24
+# AS56928 - TRU-CONNECT / Trusov Ilya Igorevych
+#add region40 37.230.241.0/24
+add region40 46.243.173.0/24
 
 # AS57172 - GLOBALLAYER
 # QualityNetwork
@@ -144,3 +134,15 @@ add region40 5.188.86.0/24
 #add region40 185.13.33.0/24
 ### Channelnet mounted by PIN
 #add region40 5.188.87.0/24
+
+# AS35624 - Silverstar / FITZ / ATOMOHOST / FINE GROUP SERVERS SOLUTIONS
+add region40 79.110.17.0/24
+add region40 91.200.164.0/22
+add region40 91.216.3.0/24
+add region40 185.14.192.0/24
+add region40 185.46.84.0/22
+add region40 185.50.250.0/24
+add region40 185.50.251.0/24
+add region40 185.250.46.0/23
+add region40 193.9.158.0/24
+add region40 212.60.20.0/24

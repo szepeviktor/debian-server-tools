@@ -2,7 +2,7 @@
 #
 # Ban malicious hosts manually.
 #
-# VERSION       :0.7.0
+# VERSION       :0.7.1
 # DATE          :2018-02-15
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -190,7 +190,7 @@ Get_rule_data()
 {
     # Output format: LINE-NUMBER <TAB> PACKETS <TAB> IP-ADDRESS <TAB> EXPIRATION-DATE
     /sbin/iptables -n -v -w --line-numbers -L "$CHAIN" \
-        | sed -n -e 's#^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+[KMG]\?\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*\$#\1\t\2\t\3\t\4#p' \
+        | sed -n -e 's#^\([0-9]\+\)\s\+\([0-9]\+\)\s\+[0-9]\+[KMG]\?\s\+REJECT\s\+\S\+\s\+--\s\+\*\s\+\*\s\+\([0-9./]\+\)\s\+0\.0\.0\.0/0\b.*/\* @\([0-9]\+\) \*/.*$#\1\t\2\t\3\t\4#p' \
         | sort -r -n
 }
 

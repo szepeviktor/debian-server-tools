@@ -12,5 +12,5 @@ Later versions of Ondřej Surý's PHP-FPM packages
 
 ### Installation
 
-1. Install [opentmpfiles](https://packages.debian.org/bullseye/opentmpfiles)
+1. Install [opentmpfiles](https://packages.debian.org/sid/opentmpfiles)
 1. Install the dummy package: `dpkg -i ./systemd-tmpfiles_*_amd64.deb`
