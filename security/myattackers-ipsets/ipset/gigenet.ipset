@@ -3,90 +3,49 @@
 #: iptables -w -I myattackers-ipset -m set --match-set gigenet src -j REJECT
 create gigenet hash:net family inet hashsize 64 maxelem 128
 flush gigenet
-# Link Telecom LLC
-add gigenet 5.62.152.0/21
+# TrafficTransitSolution
+add gigenet 83.171.225.0/24
+
+# AS8100 - QuadraNet
 # Trusov Ilya Igorevych
 add gigenet 5.188.217.0/24
-# Link Telecom LLC
-add gigenet 37.9.44.0/22
-#add gigenet 45.41.133.0/24
-#add gigenet 45.41.137.0/24
-#add gigenet 45.41.191.0/24
-#add gigenet 45.56.128.0/24
-#add gigenet 45.56.155.0/24
-#add gigenet 63.208.74.0/24
-#add gigenet 66.55.80.0/21
-#add gigenet 66.55.88.0/21
-#add gigenet 66.252.24.0/24
-#add gigenet 66.252.28.0/24
-#add gigenet 66.252.30.0/24
-#add gigenet 69.39.224.0/20
-#add gigenet 69.65.0.0/18
-#add gigenet 70.32.0.0/22
-# TRUSOV
+# FINE GROUP SERVERS SOLUTIONS
 add gigenet 79.110.28.0/24
+# TRUSOV
 add gigenet 79.110.31.0/24
-# QualityNetwork
-add gigenet 79.133.106.0/24
-#add gigenet 91.204.14.0/23
-#add gigenet 91.243.89.0/24
-#add gigenet 91.243.92.0/24
-#add gigenet 91.243.94.0/24
-# QualityNetwork
-add gigenet 95.181.218.0/24
-#add gigenet 104.143.86.0/24
-#add gigenet 104.193.144.0/23
-#add gigenet 104.194.202.0/24
-#add gigenet 104.200.74.0/24
-#add gigenet 104.232.192.0/24
-#add gigenet 104.232.194.0/24
-#add gigenet 104.232.223.0/24
-#add gigenet 104.237.86.0/24
-#add gigenet 104.237.90.0/24
-#add gigenet 104.238.43.0/24
-#add gigenet 162.218.240.0/23
-#add gigenet 167.160.56.0/24
-#add gigenet 167.160.59.0/24
-#add gigenet 167.160.61.0/24
-#add gigenet 167.160.63.0/24
-#add gigenet 172.86.145.0/24
-#add gigenet 172.111.191.0/24
-#add gigenet 172.111.237.0/24
-#add gigenet 173.239.199.0/24
-#add gigenet 174.141.224.0/22
-#add gigenet 174.141.234.0/24
-# QualityNetwork
-add gigenet 178.159.99.0/24
-#add gigenet 181.214.80.0/24
-#add gigenet 181.214.82.0/24
-#add gigenet 181.214.84.0/24
-#add gigenet 181.214.86.0/24
-#add gigenet 181.214.145.0/24
-#add gigenet 181.214.151.0/24
-#add gigenet 181.214.152.0/24
-#add gigenet 181.214.154.0/24
-#add gigenet 181.215.21.0/24
-# Listed in digitalenergy
-##add gigenet 181.215.39.0/24
-#add gigenet 181.215.215.0/24
-# QualityNetwork
-add gigenet 185.13.32.0/24
 # TRUSOV
 add gigenet 185.14.194.0/24
-# Mykola Sergiovich Leschenko
+# ATOMOHOST
 add gigenet 185.89.100.0/23
-# QualityNetwork
-add gigenet 185.101.69.0/24
-add gigenet 185.101.70.0/24
-#add gigenet 191.96.164.0/24
-#add gigenet 191.96.170.0/24
-#add gigenet 191.96.174.0/24
-#add gigenet 196.53.94.0/24
-#add gigenet 196.54.28.0/24
-#add gigenet 199.168.112.0/22
-#add gigenet 199.168.116.0/22
-#add gigenet 209.212.144.0/20
-#add gigenet 209.222.240.0/23
-#add gigenet 209.222.244.0/23
-#add gigenet 209.222.252.0/22
-#add gigenet 216.38.0.0/19
+# TrafficTransitSolution
+#add gigenet 45.132.186.0/24
+#add gigenet 45.148.127.0/24
+#add gigenet 185.88.101.0/24
+
+# AS46844 - Sharktech
+# Trusov Ilya Igorevych
+add gigenet 37.9.44.0/22
+# FINE GROUP SERVERS SOLUTIONS
+add gigenet 178.159.99.0/24
+# TrafficTransitSolution
+#add gigenet 5.183.253.0/24
+#add gigenet 5.183.254.0/24
+#add gigenet 45.66.209.0/24
+#add gigenet 45.67.212.0/23
+#add gigenet 45.67.214.0/24
+#add gigenet 45.132.185.0/24
+#add gigenet 45.132.187.0/24
+#add gigenet 45.138.101.0/24
+#add gigenet 45.138.103.0/24
+#add gigenet 45.148.126.0/24
+#add gigenet 77.83.85.0/24
+#add gigenet 85.208.85.0/24
+#add gigenet 85.208.86.0/23
+#add gigenet 88.218.65.0/24
+#add gigenet 88.218.66.0/23
+#add gigenet 89.191.228.0/23
+#add gigenet 141.98.85.0/24
+#add gigenet 141.98.86.0/24
+#add gigenet 185.61.216.0/24
+#add gigenet 185.61.220.0/24
+#add gigenet 185.88.102.0/24

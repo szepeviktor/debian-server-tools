@@ -24,7 +24,7 @@ Choose one per category.
 1. Domain registrar:
    **Gandi :eu:, AWS, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**
 1. DNS provider with [DNSSEC](https://www.icann.org/news/announcement-2019-02-22-en):
-   **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Cloudflare, Exoscale :eu:, Gandi :eu:**
+   **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
 1. Server provider:
    **UpCloud :eu:**
 1. SSL certificate provider for HTTPS:

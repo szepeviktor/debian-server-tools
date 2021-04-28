@@ -2,11 +2,11 @@
 
 ### Strategy
 
-- Reject traffic from known hostile networks
-- Ban IP addresses on the very first suspicious request preventing futher scanning
-- Serve requests as quickly as possible to prevent DoS attacks
-- Lowest access level possible for users
-- Monitor everything (source code, traffic, humans)
+1. Reject traffic from known hostile networks
+1. Ban IP addresses on the very first suspicious request preventing futher scanning
+1. Serve requests as quickly as possible to prevent DoS attacks
+1. Lowest access level possible for users
+1. Monitor everything (source code, traffic, humans)
 
 ### Compromise from your computer and mobile
 

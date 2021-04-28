@@ -15,7 +15,7 @@ Kategóriánként **egy** szolgáltatóra van szükség.
 1. Domain regisztrátor
    **Gandi :eu:, AWS, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**
 1. DNS szolgáltató
-   **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Cloudflare, Exoscale :eu:, Gandi :eu:**
+   **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
 1. Szerver szolgáltató
    **UpCloud :eu:**
 1. SSL tanúsítvány szolgáltató (HTTPS-hez)

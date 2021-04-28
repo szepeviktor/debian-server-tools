@@ -1,7 +1,6 @@
 # DNS providers
 
 - https://dns.he.net/
-- https://www.cloudflare.com/
 - https://aws.amazon.com/route53/
 - https://cloud.google.com/dns/
 - https://constellix.com/pricing/dns/service-comparison/

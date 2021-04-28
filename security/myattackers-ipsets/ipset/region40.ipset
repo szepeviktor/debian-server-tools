@@ -1,148 +1,126 @@
-# AS200557 - REGION40 / depo40.ru / Trusov / QualityNetwork
+# AS200557 - Trusov Трусов Илья Игоревич / REGION40 / depo40.ru / QualityNetwork
 #: ipset -exist restore <ipset/region40.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set region40 src -j REJECT
 create region40 hash:net family inet hashsize 64 maxelem 256
 flush region40
-add region40 5.8.36.0/24
-add region40 5.8.37.0/24
-add region40 5.8.39.0/24
-add region40 5.8.44.0/24
-add region40 5.8.45.0/24
-add region40 5.8.46.0/24
-add region40 5.8.47.0/24
-add region40 5.101.216.0/24
-add region40 5.101.217.0/24
-add region40 5.101.218.0/24
-add region40 5.101.219.0/24
-add region40 5.101.220.0/24
-add region40 5.101.221.0/24
-add region40 5.101.222.0/24
-add region40 5.188.216.0/24
-add region40 5.188.219.0/24
-add region40 5.189.200.0/24
-add region40 5.189.201.0/24
-add region40 5.189.202.0/24
-add region40 5.189.203.0/24
-add region40 5.189.204.0/24
-add region40 5.189.205.0/24
-add region40 5.189.206.0/24
-add region40 5.189.207.0/24
-add region40 37.9.40.0/24
-add region40 37.9.41.0/24
-add region40 37.9.42.0/24
-add region40 37.18.42.0/24
-add region40 46.148.112.0/24
-add region40 46.148.120.0/24
-add region40 46.148.127.0/24
-add region40 46.161.56.0/24
-add region40 46.161.57.0/24
-add region40 46.161.58.0/24
-add region40 46.161.59.0/24
-add region40 46.161.60.0/24
-add region40 46.161.61.0/24
-add region40 46.161.62.0/24
-add region40 46.161.63.0/24
-add region40 79.110.18.0/24
-add region40 79.110.19.0/24
-add region40 79.110.22.0/24
-add region40 79.110.25.0/24
-add region40 79.133.107.0/24
-add region40 91.200.80.0/24
-add region40 91.200.81.0/24
-add region40 91.200.82.0/24
-add region40 91.200.83.0/24
-add region40 91.243.90.0/24
-add region40 91.243.91.0/24
-add region40 91.243.93.0/24
-add region40 93.179.88.0/24
-add region40 93.179.89.0/24
-add region40 93.179.90.0/24
-add region40 93.179.91.0/24
-add region40 95.85.80.0/24
-add region40 95.85.81.0/24
-add region40 95.181.176.0/24
-add region40 95.181.177.0/24
-add region40 95.181.182.0/24
-add region40 95.181.183.0/24
-add region40 95.181.216.0/24
-add region40 95.181.217.0/24
-add region40 95.181.219.0/24
-add region40 141.101.132.0/24
-add region40 141.101.201.0/24
-add region40 146.185.200.0/24
-add region40 146.185.201.0/24
-add region40 146.185.202.0/24
-add region40 146.185.203.0/24
-add region40 146.185.204.0/24
-add region40 146.185.205.0/24
-add region40 146.185.206.0/24
-add region40 178.57.65.0/24
-add region40 178.57.66.0/24
-add region40 178.57.67.0/24
-add region40 178.57.68.0/24
-add region40 178.159.97.0/24
-add region40 179.61.200.0/23
-add region40 181.214.37.0/24
-add region40 185.2.32.0/24
-add region40 185.14.193.0/24
-add region40 185.14.195.0/24
-# ATOMOHOST
-#add region40 185.71.0.0/22
-add region40 185.101.68.0/24
-add region40 185.101.71.0/24
-add region40 185.106.104.0/23
-add region40 188.68.0.0/24
-add region40 188.68.1.0/24
-add region40 188.68.3.0/24
-add region40 188.72.96.0/24
-add region40 188.72.126.0/24
-add region40 188.72.127.0/24
-add region40 191.101.24.0/24
-add region40 191.101.54.0/23
-add region40 193.93.192.0/24
-add region40 193.93.195.0/24
-# FOP Kutcevol Maksum Mukolaevich
-add region40 193.105.171.0/24
 
-# AS50896 - Trusov Ilya Igorevych
-# Already in GigeNET
-#add region40 5.188.217.0/24
-add region40 37.230.212.0/23
-add region40 91.198.127.0/24
-add region40 146.185.207.0/24
-
-# AS49453 - GLOBALLAYER
-# QualityNetwork
-add region40 178.159.100.0/24
-add region40 178.159.107.0/24
-add region40 193.93.193.0/24
-add region40 193.93.194.0/24
-# Channelnet mounted by PIN
-add region40 5.188.86.0/24
-# AS56928 - TRU-CONNECT / Trusov Ilya Igorevych
-#add region40 37.230.241.0/24
-add region40 46.243.173.0/24
-
-# AS57172 - GLOBALLAYER
-# QualityNetwork
-#add region40 46.148.115.0/24
-#add region40 46.148.124.0/24
-#add region40 95.85.68.0/24
-#add region40 95.85.69.0/24
-#add region40 95.85.70.0/24
-#add region40 95.85.71.0/24
-#add region40 185.13.33.0/24
-### Channelnet mounted by PIN
-#add region40 5.188.87.0/24
-
-# AS35624 - Silverstar / FITZ / ATOMOHOST / FINE GROUP SERVERS SOLUTIONS
+# AS35624 - Silverstar / Blockchain Network Solutions / FITZ ISP / FINE GROUP SERVERS SOLUTIONS
 add region40 79.110.17.0/24
+add region40 89.191.226.0/24
 add region40 91.200.164.0/22
 add region40 91.216.3.0/24
+add region40 176.119.141.0/24
 add region40 185.14.192.0/24
 add region40 185.46.84.0/22
 add region40 185.50.250.0/24
 add region40 185.50.251.0/24
+add region40 185.250.44.0/23
 add region40 185.250.46.0/23
-add region40 193.9.158.0/24
+# ATOMOHOST
+#add region40 193.9.158.0/24
+add region40 194.156.124.0/23
 add region40 212.60.20.0/24
+add region40 212.60.21.0/24
+add region40 212.119.42.0/23
+
+# AS34665 - Petersburg Internet Network
+add region40 91.243.90.0/24
+add region40 91.243.91.0/24
+add region40 91.243.93.0/24
+
+# AS49453 - GLOBALLAYER / TrafficTransitSolution / FINE GROUP SERVERS SOLUTIONS / Blockchain Network Solutions
+# QualityNetwork
+add region40 45.80.104.0/23
+add region40 178.159.100.0/24
+add region40 178.159.107.0/24
+# Channelnet
+add region40 5.188.86.0/24
+# TrafficTransitSolution
+#add region40 5.133.122.0/24
+#add region40 5.183.255.0/24
+#add region40 31.40.248.0/23
+#add region40 37.44.196.0/23
+#add region40 45.10.166.0/24
+#add region40 45.12.64.0/24
+#add region40 45.12.65.0/24
+#add region40 45.12.66.0/24
+#add region40 45.80.218.0/24
+#add region40 45.80.219.0/24
+#add region40 83.171.224.0/24
+#add region40 83.171.226.0/24
+#add region40 83.171.227.0/24
+#add region40 109.106.20.0/24
+#add region40 141.98.87.0/24
+#add region40 194.104.10.0/24
+#add region40 194.104.11.0/24
+#add region40 212.115.51.0/24
+#add region40 213.108.2.0/24
+#add region40 217.145.224.0/24
+#add region40 217.145.226.0/24
+#add region40 217.145.227.0/24
+
+# AS206485 - UGB Hosting / TrafficTransitSolution / FINE GROUP SERVERS SOLUTIONS / FITZ ISP
+add region40 193.93.193.0/24
+add region40 193.93.194.0/24
+# TrafficTransitSolution
+#add region40 5.133.120.0/23
+#add region40 81.22.46.0/24
+#add region40 81.22.47.0/24
+#add region40 85.202.195.0/24
+#add region40 91.243.191.0/24
+#add region40 94.158.23.0/24
+#add region40 147.78.182.0/24
+#add region40 185.61.218.0/24
+#add region40 185.61.219.0/24
+#add region40 185.61.221.0/24
+
+# AS56928 - TRU-CONNECT / Trusov Ilya Igorevych
+#add region40 37.230.241.0/24
+add region40 46.243.173.0/24
+
+# AS174 - Cogent
+# TrafficTransitSolution
+#add region40 31.40.208.0/23
+#add region40 37.44.254.0/23
+#add region40 83.171.254.0/23
+#add region40 84.54.56.0/23
+#add region40 84.54.58.0/24
+
+# AS35913 - Dedipath
+# TrafficTransitSolution
+#add region40 45.138.102.0/24
+#add region40 45.148.125.0/24
+#add region40 91.243.190.0/24
+#add region40 94.231.218.0/24
+#add region40 94.231.219.0/24
+#add region40 109.94.173.0/24
+#add region40 109.94.174.0/24
+#add region40 109.94.175.0/24
+#add region40 109.94.222.0/24
+#add region40 109.94.223.0/24
+#add region40 109.236.53.0/24
+#add region40 109.236.54.0/24
+#add region40 109.236.55.0/24
+#add region40 185.88.103.0/24
+#add region40 193.56.64.0/24
+#add region40 193.56.65.0/24
+#add region40 193.56.66.0/24
+#add region40 193.56.72.0/24
+#add region40 193.56.73.0/24
+#add region40 193.56.74.0/24
+
+# AS43444 - Blockchain Network Solutions
+#add region40 85.239.42.0/23
+
+# AS62282 - UAB Rakrejus
+# TrafficTransitSolution
+#add region40 45.80.216.0/24
+#add region40 45.132.184.0/24
+#add region40 45.138.100.0/24
+#add region40 45.148.124.0/24
+#add region40 85.202.194.0/24
+#add region40 94.158.22.0/24
+#add region40 109.106.22.0/24
+#add region40 147.78.181.0/24
+#add region40 185.61.217.0/24
+#add region40 185.88.100.0/24
