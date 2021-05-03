@@ -140,7 +140,6 @@ Physical products, no dropshipping.
 ### Find an expert
 
 - https://pixeliz.ee/ (HU)
-- SEO https://seostrategia.hu/seo-tanacsadas/ (HU)
 - Shopify https://www.storetasker.com/
 
 ### CRO

@@ -2,7 +2,7 @@
 #
 # Check domain expiry.
 #
-# VERSION       :0.1.9
+# VERSION       :0.1.10
 # DATE          :2018-11-29
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -128,7 +128,7 @@ for ITEM in "${DOMAIN_EXPIRY[@]}"; do
         # Print links
         if [ "$DOMAIN" != "${DOMAIN%.hu}" ]; then
             # .hu
-            printf 'http://www.domain.hu/domain/domainsearch/?tld=hu&domain=%s\n\n' "${DOMAIN%.hu}"
+            printf 'https://info.domain.hu/webwhois/hu/domain/%s\n\n' "${DOMAIN%.hu}"
         elif [ "$DOMAIN" != "${DOMAIN%.eu}" ]; then
             # .eu
             printf 'https://whois.eurid.eu/en/?domain=%s\nhttp://whois.domaintools.com/%s\n\n' "$DOMAIN" "$DOMAIN"

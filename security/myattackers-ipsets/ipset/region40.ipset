@@ -17,7 +17,7 @@ add region40 185.50.251.0/24
 add region40 185.250.44.0/23
 add region40 185.250.46.0/23
 # ATOMOHOST
-#add region40 193.9.158.0/24
+add region40 193.9.158.0/24
 add region40 194.156.124.0/23
 add region40 212.60.20.0/24
 add region40 212.60.21.0/24
@@ -58,6 +58,8 @@ add region40 5.188.86.0/24
 #add region40 217.145.224.0/24
 #add region40 217.145.226.0/24
 #add region40 217.145.227.0/24
+# Blockchain Network Solutions
+#add region40 37.44.252.0/23
 
 # AS206485 - UGB Hosting / TrafficTransitSolution / FINE GROUP SERVERS SOLUTIONS / FITZ ISP
 add region40 193.93.193.0/24
