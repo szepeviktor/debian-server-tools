@@ -121,13 +121,15 @@ This section contains preparations for secure registration.
 
 [Dashboard](https://cheapsslsecurity.com/client/ordersummary.html)
 
-- Generate Cert Now
+<kbd>Generate Cert Now</kbd>
+
 - (1) New **or** Renewal
-- (2) Switching from Another SSL Brand: No
-- (3) DNS Based Authentication
-- (4) Generate CSR: `cert-update-req-install.sh DOMAIN`
-- (5) Webserver: Other
-- (6) SHA-2
+- (2) Input CSR: paste code block
+- (3) Prove control: DNS
+- (4) Domain validation: base domain
+- (5) Contact: your contact info
+- (6) Additional options: Other / Optional
+- (7) [x] [x]
 
 Verify your URL
 

@@ -59,7 +59,7 @@ Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
 
 ### Cégen belüli kommunikáció
 
-Cél: 1 közös platformon kommunikálni.
+Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítani.
 
 ##### Aszinkron
 
