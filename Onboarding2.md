@@ -31,7 +31,7 @@ Kategóriánként **egy** szolgáltatóra van szükség.
 1. Biztonsági mentés szolgáltató
    **AWS, Backblaze B2, Selectel, Oktawave :eu:**
 
-[.hu domain regisztrátorok](http://www.domain.hu/domain/)
+[.hu domain regisztrátorok](https://www.domain.hu/regisztratorok/)
 
 [Google Cloud Platform Prémium Támogatás $100/hó áron](https://cloud.google.com/support/?options=premium-support#support-options)
 

@@ -275,7 +275,7 @@ service fail2ban restart
 
 # Backup
 Pkg_install_quiet debconf-utils rsync mariadb-client
-# percona-xtrabackup is installed in packages/mariadb,mysql
+# mariabackup/percona-xtrabackup is installed in packages/mariadb,mysql
 # @nonDebian
 Pkg_install_quiet -t buster-backports s3ql
 

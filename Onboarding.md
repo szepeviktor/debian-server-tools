@@ -40,7 +40,7 @@ Choose one per category.
 1. Storage provider:
    **AWS, UpCloud :eu:, Backblaze B2, Selectel, Oktawave :eu:**
 
-[.hu domain regisztrátorok](http://www.domain.hu/domain/)
+[.hu domain regisztrátorok](https://www.domain.hu/regisztratorok/)
 
 [Google Cloud Platform Premium Support for $100/mo](https://cloud.google.com/support/?options=premium-support#support-options)
 

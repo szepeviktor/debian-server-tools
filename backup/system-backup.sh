@@ -2,14 +2,14 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :2.5.3
-# DATE          :2018-01-12
+# VERSION       :3.0.0
+# DATE          :2021-05-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install debconf-utils rsync mariadb-client percona-xtrabackup s3ql
-# DOCS          :https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
+# DEPENDS       :apt-get install debconf-utils rsync mariadb-client mariabackup s3ql
+# DOCS          :https://mariadb.com/kb/en/mariabackup-overview/
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
 # CRON.D        :10 3  * * *  root	/usr/local/sbin/system-backup.sh
@@ -196,10 +196,12 @@ Get_base_db_backup_dir()
 
 Backup_innodb() # Error 6x
 {
+    local TIMESTAMPED_DIR
     local BASE
     local -i ULIMIT_FD
     local -i MYSQL_TABLES
 
+    TIMESTAMPED_DIR="$(date --utc "+%F_%H-%M-%S")"
     ULIMIT_FD="$(ulimit -n)"
     MYSQL_TABLES="$(find /var/lib/mysql/ -type f | wc -l)"
     MYSQL_TABLES+="10"
@@ -213,15 +215,17 @@ Backup_innodb() # Error 6x
         if [ -z "$BASE" ] || [ ! -d "${TARGET}/innodb/${BASE}" ]; then
             Error 60 "No base InnoDB backup"
         fi
-        innobackupex --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
-            "${TARGET}/innodb" \
+        mariabackup --socket=/var/run/mysqld/mysqld.sock --user=root \
+            --backup --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
+            --target-dir="${TARGET}/innodb/${TIMESTAMPED_DIR}" \
             2>>"${TARGET}/innodb/backupex.log" || Error 61 "Incremental InnoDB backup failed"
     else
         # Create base backup
         echo "Creating base InnoDB backup"
         mkdir "${TARGET}/innodb"
-        innobackupex --throttle=100 \
-            "${TARGET}/innodb" \
+        mariabackup --socket=/var/run/mysqld/mysqld.sock --user=root \
+            --backup --throttle=100 \
+            --target-dir="${TARGET}/innodb/${TIMESTAMPED_DIR}" \
             2>>"${TARGET}/innodb/backupex.log" || Error 62 "Base InnoDB backup failed"
     fi
     # Check OK message
@@ -361,7 +365,7 @@ if [ "$1" == "-m" ]; then
     exit 0
 fi
 
-if hash mysqldump innobackupex 2>/dev/null; then
+if hash mysqldump mariabackup 2>/dev/null; then
     Backup_system_dbs
 
     Check_db_schemas
