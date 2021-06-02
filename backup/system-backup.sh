@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install debconf-utils rsync mariadb-client mariabackup s3ql
+# DEPENDS       :apt-get install debconf-utils rsync mariadb-client mariadb-backup s3ql
 # DOCS          :https://mariadb.com/kb/en/mariabackup-overview/
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration
@@ -216,7 +216,7 @@ Backup_innodb() # Error 6x
             Error 60 "No base InnoDB backup"
         fi
         mariabackup --socket=/var/run/mysqld/mysqld.sock --user=root \
-            --backup --throttle=100 --incremental --incremental-basedir="${TARGET}/innodb/${BASE}" \
+            --backup --throttle=100 --incremental-basedir="${TARGET}/innodb/${BASE}" \
             --target-dir="${TARGET}/innodb/${TIMESTAMPED_DIR}" \
             2>>"${TARGET}/innodb/backupex.log" || Error 61 "Incremental InnoDB backup failed"
     else

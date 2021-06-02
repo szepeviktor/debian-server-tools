@@ -3,7 +3,7 @@
 #     License Expired
 #: ipset -exist restore <ipset/nobis.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set nobis src -j REJECT
-create nobis hash:net family inet hashsize 64 maxelem 64
+create nobis hash:net family inet hashsize 64 maxelem 128
 flush nobis
 #add nobis 23.81.16.0/21
 #add nobis 23.81.48.0/20
@@ -59,6 +59,10 @@ add nobis 45.9.122.0/24
 add nobis 45.86.15.0/24
 # IL-YAZAMNIK
 add nobis 45.87.248.0/24
+# DE-TOBIAS*
+add nobis 45.94.36.0/22
+# IL-YEHUDA*
+add nobis 45.94.45.0/24
 # IL-HILAMUKDASI3
 add nobis 45.130.60.0/24
 # DE-TOBIAS1
@@ -72,11 +76,20 @@ add nobis 45.147.28.0/24
 add nobis 45.151.105.0/24
 add nobis 45.151.106.0/24
 add nobis 45.152.208.0/24
+# IL-PNINA2*
+add nobis 45.142.28.0/24
+# US-HELLOCHAKRA3*
+add nobis 45.147.180.0/22
+# CY-TRACKLY*
+add nobis 85.209.129.0/24
+add nobis 85.209.130.0/24
 ## AS62240 - CLOUVIDER
 #add nobis 185.247.116.0/24
 # EU-AMS-VPSSERVERCOM
 add nobis 185.247.117.0/24
 add nobis 193.58.108.0/22
+# RS-NIKOLA*
+add nobis 193.39.245.0/24
 
 # AS7203 - LEASEWEB-USA-SFO-12
 add nobis 23.81.176.0/21

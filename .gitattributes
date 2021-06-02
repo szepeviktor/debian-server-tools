@@ -1,6 +1,7 @@
 # https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
 webserver/apache-conf-available/*.conf linguist-language=ApacheConf
 webserver/apache-sites-available/*.conf linguist-language=ApacheConf
+webserver/phpfpm-pools/*.conf linguist-language=INI
 security/myattackers-ipsets/ipset/*.ipset linguist-language=INI
 security/fail2ban-conf/action.d/*.local linguist-language=INI
 security/fail2ban-conf/filter.d/*.local linguist-language=INI

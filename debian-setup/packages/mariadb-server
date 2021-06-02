@@ -2,7 +2,7 @@
 
 set -e -x
 
-Pkg_install_quiet mariadb-server mariadb-client mariabackup
+Pkg_install_quiet mariadb-server mariadb-client mariadb-backup
 
 # Disable the binary log
 sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
