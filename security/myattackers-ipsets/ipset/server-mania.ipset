@@ -483,7 +483,7 @@ add server-mania 138.128.0.0/20
 #add server-mania 138.128.16.0/24
 #add server-mania 138.128.17.0/24
 #add server-mania 138.128.18.0/24
-#add server-mania 138.128.19.0/24
+add server-mania 138.128.19.0/24
 #add server-mania 138.128.20.0/22
 #add server-mania 138.128.24.0/23
 #add server-mania 138.128.26.0/24
@@ -524,7 +524,8 @@ add server-mania 138.128.90.0/23
 #add server-mania 138.128.107.0/24
 #add server-mania 138.128.108.0/22
 #add server-mania 141.101.156.0/24
-#add server-mania 144.168.128.0/22
+# 144.168.128.0/22
+add server-mania 144.168.131.0/24
 #add server-mania 144.168.153.0/24
 #add server-mania 144.168.158.0/24
 #add server-mania 144.168.159.0/24
@@ -607,7 +608,8 @@ add server-mania 192.198.96.0/20
 add server-mania 192.241.64.0/23
 #add server-mania 192.241.66.0/24
 #add server-mania 192.241.67.0/24
-#add server-mania 192.241.68.0/23
+# 192.241.68.0/23
+add server-mania 192.241.68.0/24
 #add server-mania 192.241.70.0/23
 #add server-mania 192.241.72.0/21
 #add server-mania 192.241.80.0/22
