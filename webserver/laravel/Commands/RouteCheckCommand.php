@@ -74,8 +74,8 @@ class RouteCheckCommand extends Command
         $missing = [];
 
         foreach ($this->getRoutes() as $route) {
-            // Closure always exists
-            if ($route['action'] === 'Closure') {
+            // Closure and ViewController always exist
+            if (in_array($route['action'], ['Closure', '\\Illuminate\\Routing\\ViewController'], true)) {
                 continue;
             }
 

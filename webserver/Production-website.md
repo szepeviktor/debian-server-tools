@@ -464,7 +464,7 @@ Google's [Search Quality Evaluator Guidelines](https://static.googleusercontent.
 
 ### Jogi dolgok (HU)
 
-- Adatkezelési tájékoztató
+- Adatkezelési tájékoztató (cégen belül Adatvédelmi szabályzat)
   [EU általános adatvédelmi rendelet](https://eur-lex.europa.eu/legal-content/HU/TXT/HTML/?uri=CELEX:32016R0679)
   (GDPR, 2018. május 25-től érvényes) :snail:
     - HTML és PDF formátumban (PDF title)

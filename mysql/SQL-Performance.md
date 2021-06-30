@@ -53,3 +53,7 @@ SHOW FULL PROCESSLIST;
 ### SQL code formatter
 
 https://sqlformat.org/
+
+### Other tools
+
+- https://github.com/major/MySQLTuner-perl

@@ -20,7 +20,7 @@ package:
         sources:
             - sury-php
             - szepeviktor
-            - percona
+            #- percona
             #- mysql-5.7
             #- oracle-mysql-server
             #- nodejs

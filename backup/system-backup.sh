@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :3.0.0
+# VERSION       :3.0.1
 # DATE          :2021-05-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -124,7 +124,8 @@ Backup_system_dbs() # Error 4x
     mysqldump --skip-lock-tables mysql >"${TARGET}/db-system/mysql-mysql.sql" \
         || Error 41 "MySQL system databases backup failed"
     # https://dev.mysql.com/doc/refman/5.7/en/performance-schema-variable-table-migration.html
-    if dpkg --compare-versions "$(echo 'SELECT @@global.innodb_version;' | mysql -N)" lt 5.7.6; then
+    if dpkg --compare-versions "$(echo 'SELECT @@global.innodb_version;' | mysql -N)" lt 5.7.6 \
+        || [ "$(echo 'SELECT VERSION() LIKE "%MariaDB%";' | mysql -N)" == 1 ]; then
         mysqldump --skip-lock-tables information_schema >"${TARGET}/db-system/mysql-information_schema.sql" \
             || Error 42 "MySQL system databases backup failed"
     fi

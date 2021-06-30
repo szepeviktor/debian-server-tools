@@ -18,7 +18,7 @@
 - Hozzá fog nyúlni valaki az éles környezethez?
 - Kik fedik le az alábbi szakterületeket?
   - Emberek irányítása és a szoftver gyártás közötti híd (vezető)
-  - Szolgáltatói fiókok kezelése és a velük való kapcsolatottartás (adminisztrálás)
+  - Szolgáltatói fiókok kezelése és a velük való kapcsolattartás (adminisztrálás)
   - Szoftver tervezés
   - UI/UX design
   - Back-end fejlesztés
