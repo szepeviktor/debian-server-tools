@@ -52,7 +52,7 @@ Filter_client_server_error()
 
 Color_html()
 {
-    ccze --plugin httpd --html --options "cssfile=${CCZE_CSS_URL}" -c "cssbody=${CCZE_BODY_BG}" \
+    ccze --plugin httpd --html --options "cssfile=${CCZE_CSS_URL}" --color "cssbody=${CCZE_BODY_BG}" \
         | perl -MMIME::QuotedPrint -p -e '$_=MIME::QuotedPrint::encode_qp($_);'
 }
 

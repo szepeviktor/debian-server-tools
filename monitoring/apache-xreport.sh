@@ -41,7 +41,7 @@ Xclude_filter()
 
 Color_html()
 {
-    ccze --html --options "cssfile=${CCZE_CSS_URL}" -c "cssbody=${CCZE_BODY_BG}" \
+    ccze --html --options "cssfile=${CCZE_CSS_URL}" --color "cssbody=${CCZE_BODY_BG}" \
         | perl -MMIME::QuotedPrint -p -e '$_=MIME::QuotedPrint::encode_qp($_);'
 }
 
