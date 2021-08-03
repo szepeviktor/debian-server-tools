@@ -32,9 +32,7 @@ apt-key adv --fingerprint --with-colons $KEY_ID | sed -ne 's|^fpr:::::::::\([0-9
 
 ### OpenPGP keyservers
 
-https://sks-keyservers.net/status/
-
-Suggested servers: `ha.pool.sks-keyservers.net`
+Suggested server: `keys.openpgp.org`
 
 ### Proposed updates
 

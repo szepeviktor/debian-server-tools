@@ -53,7 +53,7 @@ Pip_install "https://github.com/rogerbinns/apsw/releases/download/3.8.7.1-r1/aps
 Pip_install cryptography defusedxml requests llfuse "dugong >= 3.4, < 4.0" async_generator typing
 
 # Import key "Nikolaus Rath <Nikolaus@rath.org>"
-gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options timeout=10 --recv-keys "3C4E599F" \
+gpg --batch --keyserver keys.openpgp.org --keyserver-options timeout=10 --recv-keys "3C4E599F" \
     || gpg --batch --import "$(dirname "$0")/s3ql-3C4E599F.asc"
 
 # Download s3ql source code

@@ -1,28 +1,48 @@
-# AS58065 - Packet Exchange / Fiber Grid
+# AS58065 - Packet Exchange / Orion Network / Fiber Grid
 #: ipset -exist restore <ipset/packet-exchange.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set packet-exchange src -j REJECT
 create packet-exchange hash:net family inet hashsize 64 maxelem 64
 flush packet-exchange
 add packet-exchange 5.157.11.0/24
+add packet-exchange 5.157.17.0/24
+add packet-exchange 5.157.27.0/24
 add packet-exchange 5.157.32.0/24
 add packet-exchange 5.157.55.0/24
+add packet-exchange 5.157.56.0/24
+add packet-exchange 5.157.58.0/24
+add packet-exchange 5.157.61.0/24
+add packet-exchange 5.157.62.0/24
+add packet-exchange 151.237.186.0/24
+add packet-exchange 165.231.97.0/24
+add packet-exchange 165.231.98.0/24
+add packet-exchange 165.231.108.0/24
 add packet-exchange 165.231.225.0/24
 add packet-exchange 165.231.227.0/24
 add packet-exchange 196.196.148.0/24
 add packet-exchange 196.196.164.0/24
 add packet-exchange 196.196.169.0/24
+add packet-exchange 196.196.198.0/24
 add packet-exchange 196.196.203.0/24
+add packet-exchange 196.196.224.0/24
 add packet-exchange 196.196.246.0/24
+add packet-exchange 196.240.109.0/24
+add packet-exchange 196.240.173.0/24
+add packet-exchange 196.240.237.0/24
 add packet-exchange 196.240.254.0/24
 add packet-exchange 196.242.3.0/24
+add packet-exchange 196.242.20.0/24
 add packet-exchange 196.242.47.0/24
+add packet-exchange 196.242.84.0/24
 add packet-exchange 196.242.115.0/24
 add packet-exchange 196.242.131.0/24
 add packet-exchange 196.244.200.0/24
+add packet-exchange 196.245.164.0/24
 add packet-exchange 196.245.236.0/24
+add packet-exchange 196.247.40.0/24
 
-# AS41564 - Packet Exchange
+# AS41564 - Orion Network
 add packet-exchange 196.196.198.0/24
+
 
 # AS57858 - Inter Connects
 add packet-exchange 196.196.50.0/24

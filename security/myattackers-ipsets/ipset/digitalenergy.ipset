@@ -3,19 +3,26 @@
 #: iptables -w -I myattackers-ipset -m set --match-set digitalenergy src -j REJECT
 create digitalenergy hash:net family inet hashsize 64 maxelem 64
 flush digitalenergy
+add digitalenergy 45.80.210.0/24
 add digitalenergy 45.95.39.0/24
 add digitalenergy 45.95.116.0/22
 add digitalenergy 45.141.232.0/24
+add digitalenergy 45.141.234.0/24
+add digitalenergy 45.141.235.0/24
 add digitalenergy 45.145.121.0/24
 add digitalenergy 64.137.120.0/24
 add digitalenergy 85.208.115.0/24
+add digitalenergy 85.237.200.0/24
 add digitalenergy 89.19.47.0/24
 # HR-SYSHEAD
 add digitalenergy 91.199.42.0/24
+add digitalenergy 102.128.141.0/24
 # GETHOSTED-MY
 add digitalenergy 103.75.228.0/24
+add digitalenergy 103.112.0.0/24
 add digitalenergy 154.16.20.0/24
 add digitalenergy 154.16.55.0/24
+add digitalenergy 176.103.223.0/24
 add digitalenergy 179.61.128.0/20
 add digitalenergy 179.61.144.0/20
 add digitalenergy 179.61.160.0/20
@@ -41,9 +48,15 @@ add digitalenergy 191.101.80.0/20
 add digitalenergy 191.101.112.0/20
 add digitalenergy 191.101.136.0/21
 add digitalenergy 191.101.161.0/24
+add digitalenergy 191.101.250.0/24
+add digitalenergy 192.109.110.0/24
 add digitalenergy 193.43.118.0/24
 # NL-HOSTINGKING
 add digitalenergy 193.176.186.0/24
+add digitalenergy 193.219.0.0/24
+add digitalenergy 194.156.175.0/24
+add digitalenergy 223.29.253.0/24
+add digitalenergy 223.29.254.0/24
 
 # AS61440 - DET Chile
 add digitalenergy 154.16.53.0/24
