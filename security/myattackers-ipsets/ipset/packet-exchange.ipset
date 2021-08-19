@@ -33,12 +33,14 @@ add packet-exchange 196.242.3.0/24
 add packet-exchange 196.242.20.0/24
 add packet-exchange 196.242.47.0/24
 add packet-exchange 196.242.84.0/24
+add packet-exchange 196.242.114.0/24
 add packet-exchange 196.242.115.0/24
 add packet-exchange 196.242.131.0/24
 add packet-exchange 196.244.200.0/24
 add packet-exchange 196.245.164.0/24
 add packet-exchange 196.245.236.0/24
 add packet-exchange 196.247.40.0/24
+add packet-exchange 196.247.192.0/24
 
 # AS41564 - Orion Network
 add packet-exchange 196.196.198.0/24
