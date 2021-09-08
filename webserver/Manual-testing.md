@@ -32,6 +32,7 @@ _On what device, browser am I testing?_
 
 ### Testing compatibility
 
+- Search engines: `robots.txt`, `sitemap.xml`
 - Sharing (to be shared) pages on Twitter and Facebook
 - Preview [Rich Results/Rich Snippets](https://search.google.com/test/rich-results)
   using "Structured Data"
