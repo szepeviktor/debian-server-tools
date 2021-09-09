@@ -9,7 +9,7 @@ amiből sokszor a silány munka a kiút.
 
 1. Ahogyan az [egyetemeken tanítják](https://inf.mit.bme.hu/sites/default/files/materials/category/kateg%C3%B3ria/oktat%C3%A1s/doktorandusz-t%C3%A1rgyak/szoftver-verifik%C3%A1ci%C3%B3-%C3%A9s-valid%C3%A1ci%C3%B3/11/SZVV_EA02_kovetelmenyek.pdf)
 2. Hétköznapi nyelven megkötések nélkül
-3. Az eddigi hibákból tanulva - tapaszt
+3. Az eddigi tapasztalatok alapján az előző kettő egyes elemeit felhasználva
 
 :bulb: Ez a jegyzet a harmadik fajtának megvalósításában próbál meg segíteni.
 
@@ -19,11 +19,11 @@ Mi az, amit az alkalmazás sikeres működése elér, okoz?
 
 ### Elnevezések és jelentésük
 
-Projekt (munka)nevének, aktorok és folyamatok elnevezésének rögzítése.
+Projekt (munka)nevének, aktorok (humán és gépi szereplők) és használati esetek elnevezésének rögzítése.
 
-### Folyamatok
+### Használati esetek
 
-A folyamatok (use case) leírásánál érdemes mindig a _Ki mit csinál?_ kérdésre válaszolni,
+A használati esetek (use case) leírásánál érdemes mindig a _Ki mit csinál?_ kérdésre válaszolni,
 és a CRUD négy részét végig gondolni. (létrehozás, listázás, módosítás, törlés)
 
 ### Műszaki dolgok
