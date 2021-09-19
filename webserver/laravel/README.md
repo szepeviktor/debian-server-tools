@@ -84,6 +84,18 @@ Caching depends on `APP_ENV` variable.
 
 https://github.com/spatie/ray
 
+Add the following to `app/Providers/AppServiceProvider.php`
+
+```php
+    public function boot(): void
+    {
+        \DB::listen(function ($query) {
+            \info('SQL query: ' . $query->sql);
+        });
+    }
+```
+
+
 ### URL categories
 
 - Root files - stored in `public/` and `public/.well-known/` directories

@@ -1,0 +1,35 @@
+# research-scanner.com - hosted on DigitalOcean
+#: ipset -exist restore <ipset/research-scanner.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set research-scanner src -j REJECT
+create research-scanner hash:net family inet hashsize 64 maxelem 512
+flush research-scanner
+add research-scanner 157.245.176.143
+# https://www.shodan.io/search?query=hostname%3Aresearch-scanner.com
+# https://www.greynoise.io/viz/query/?gnql=metadata.rdns%3Aresearch-scanner.com
+add research-scanner 64.227.106.112
+add research-scanner 67.207.95.230
+add research-scanner 104.131.181.99
+add research-scanner 134.122.14.39
+add research-scanner 138.68.249.116
+add research-scanner 138.197.101.95
+add research-scanner 143.198.4.69
+add research-scanner 143.198.100.4
+add research-scanner 157.245.252.5
+add research-scanner 159.65.69.35
+add research-scanner 159.203.91.246
+add research-scanner 161.35.230.3
+add research-scanner 161.35.230.183
+add research-scanner 161.35.236.116
+add research-scanner 161.35.236.158
+add research-scanner 161.35.238.241
+add research-scanner 164.90.139.238
+add research-scanner 165.227.76.114
+add research-scanner 167.71.102.95
+add research-scanner 167.71.102.181
+add research-scanner 167.71.110.14
+add research-scanner 167.99.1.98
+add research-scanner 167.99.107.57
+add research-scanner 167.99.119.168
+add research-scanner 167.172.240.54
+add research-scanner 178.128.66.56
+add research-scanner 178.128.66.109

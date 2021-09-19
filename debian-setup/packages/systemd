@@ -13,12 +13,12 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
         # Disable terminals 2-6
         sed -i -e '/^\([2-6]\):23:respawn:\/sbin\/getty 38400 tty\1$/d' /etc/inittab
         # Prevent systemd from coming back
-        printf 'Package: *systemd*\nPin: origin ""\nPin-Priority: -1\n' >/etc/apt/preferences.d/systemd.pref
+        printf 'Package: systemd*\nPin: release *\nPin-Priority: -1\n' >/etc/apt/preferences.d/systemd.pref
         # Schedule removal of systemd
         {
-            echo "PATH=/usr/sbin:/usr/bin:/sbin:/bin"
-            # Wait for dbus
-            echo "@reboot root sleep 5;apt-get purge -qq --auto-remove systemd >/dev/null && rm -f /etc/cron.d/withoutsystemd"
+            echo "PATH=/usr/sbin:/usr/bin"
+            # Restart dbus
+            echo "@reboot root killall -q dbus-daemon;service dbus start;apt-get purge -qq --auto-remove systemd >/dev/null && rm -f /etc/cron.d/withoutsystemd"
         } >/etc/cron.d/withoutsystemd
 
         set +x

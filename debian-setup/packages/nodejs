@@ -12,6 +12,7 @@ if hash npm 2>/dev/null; then
 
     # Update NPM
     npm install -g npm@latest
+    npm cache -g clean --force
 else
     # Debian packaged nodejs
     # NPM global config: /usr/local/lib/node_modules/npm/npmrc
