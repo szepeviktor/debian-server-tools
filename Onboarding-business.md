@@ -97,8 +97,8 @@ Adatvezérelt üzleti döntésekhez.
 
 - Bevétel követés
 - Új regisztrációk, előfizetési csomag választás
-- Az alkalmazásban létrehozott entitások darabszáma
 - Konverziók
+- Az alkalmazásban létrehozott aktorok darabszáma
 
 * Commit-ok darabszáma
 * Kinyitott és lezárt hibajegyek darabszáma

@@ -153,7 +153,8 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Content management: large pieces of markup, reusable content blocks
 - Templating
 - Authentication (Web Authentication API, client certificate, 2FA,
-  [password security](/security/Password-security.md), lock session to IP address)
+  [password security](/security/Password-security.md), lock session to IP address,
+  stronger authentication for admins)
 - Ability of matching an event (uncaught exception) to a user ID or session
 - User roles and capabilities
 - Email addresses, composing and sending
