@@ -7,6 +7,7 @@ and [Rector](https://github.com/rectorphp/rector/tree/master/config/set/laravel)
 
 - Document everything in `hosting.yml`
 - Git repository and SSH key
+- The first commit must be a tagged release of `laravel/laravel`
 - Default Apache virtualhost + PHP FPM pool + SSL certificate
 - Apache config
 - PHP extensions and directives (declared also in `php-env-check.php`)
