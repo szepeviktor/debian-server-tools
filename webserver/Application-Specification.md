@@ -13,13 +13,20 @@ amiből sokszor a silány munka a kiút.
 
 :bulb: Ez a jegyzet a harmadik fajtának megvalósításában próbál meg segíteni.
 
+### Mikor hasznos az írott specifikáció
+
+1. Amikor a munkafolyamatok része, hogy a dokumentációt aktuálizáljuk
+2. Amikor a projektben résztvevők napi rutinjának része, hogy dokumentációt olvasnak
+
 ### A Vízió
 
 Mi az, amit az alkalmazás sikeres működése elér, okoz?
 
 ### Elnevezések és jelentésük
 
-Projekt (munka)nevének, aktorok (humán és gépi szereplők) és használati esetek elnevezésének rögzítése.
+Projekt (munka)nevének,
+aktorok (humán és gépi szereplők)
+és használati esetekben előforduló elnevezések rögzítése.
 
 ### Használati esetek
 
@@ -29,7 +36,7 @@ A használati esetek (use case) leírásánál érdemes mindig a _Ki mit csinál
 ### Műszaki dolgok
 
 - Meglévő arculat követése vagy új arculat létrehozása (logó, színek, betűtípusok, elrendezés)
-- Specializált szolgáltatók használata kontra saját megoldások fejlesztése
+- Specializált szolgáltatók használata kontra saját megoldások fejlesztése (esetleg szoftvercsomagok használata)
 - Staging környezet
 - Folyamatos integráció (CI)
 - Egység tesztek (unit tests)
