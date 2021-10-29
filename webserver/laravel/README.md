@@ -1,7 +1,7 @@
 # Running a Laravel application
 
 Laravel upgrade service: https://laravelshift.com/
-and [Rector](https://github.com/rectorphp/rector/tree/master/config/set/laravel)
+and [Rector](https://github.com/rectorphp/rector-laravel)
 
 ### Application setup in production
 

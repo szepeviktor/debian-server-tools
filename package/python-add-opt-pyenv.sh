@@ -34,3 +34,19 @@ py_bin pip3 install wheel
 #py_bin pip3 install automatoes
 ## Check automatoes
 #py_bin manuale -h
+
+#py_make_link()
+#{
+#    local bin="$1"
+#    local bin_path="/usr/local/bin/${bin}"
+#
+#    echo "Creating link ${bin_path} ..."
+#    printf 'PYENV_ROOT=/opt/pyenv PYENV_VERSION="%s" exec /opt/pyenv/versions/%s/bin/%s "$@"' >>"${bin_path}" \
+#        "${INSTALL_PYTHON_VERSION}" "${INSTALL_PYTHON_VERSION}" "${bin}"
+#    chmod +x "${bin_path}"
+#}
+## Link all S3QL commands
+#py_bin pip3 install s3ql
+#for bin in /opt/pyenv/versions/${INSTALL_PYTHON_VERSION}/bin/*s3ql*; do
+#    py_make_link "${bin##*/}"
+#done

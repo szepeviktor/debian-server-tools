@@ -12,7 +12,7 @@ actionban = printf %%b "X-Fail2ban: <ip>,<sender>
             From: <sendername> <<sender>>
             To: <dest>\n
             <failures> attempts against <name> - http://szepeviktor.github.io/ip-info/?<ip> https://bgp.he.net/ip/<ip>\n
-            https://toolbox.googleapps.com/apps/dig/#TXT/`echo '<ip>' | sed -e 's|^\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)\.\([0-9]\{1,3\}\)$|\4.\3.\2.\1|'`.abuse-contacts.abusix.org\n\n
+            https://toolbox.googleapps.com/apps/dig/#TXT/<ip-rev>.abuse-contacts.abusix.org\n\n
             Country: `mmdblookup --file /var/lib/GeoIP/GeoLite2-Country.mmdb --ip '<ip>' registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p'`
             AS: `mmdblookup --file /var/lib/GeoIP/GeoLite2-ASN.mmdb --ip '<ip>' | sed -n -e 's/^\s\+\(\([0-9]\+\)\|"\(.\+\)"\) <\S\+>$/\2\3/;TNext;x;/./{x;H;bNext};x;h;:Next;${x;s/\n/ /g;s/^/AS/;p}'`
             Hostname: `host -W 3 -t PTR '<ip>' 2>&1`\n
