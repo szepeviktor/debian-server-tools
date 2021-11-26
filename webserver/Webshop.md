@@ -33,6 +33,7 @@ Physical products, no dropshipping.
 - https://www.ocado.com/browse
 - https://www.amazon.com/gp/navigation-country/select-country/
 - :card_file_box: [www.savoirbeds.com](https://web.archive.org/web/20191231113546/https://www.savoirbeds.com/) https://www.savoirbeds.com/
+- https://www.nordicnest.com/
 - https://www.zappos.com/
 - booking: https://www.agoda.com/
 - booking: https://www.getbellhops.com/ (TypeForm-like)

@@ -1,4 +1,11 @@
-# AS58065 - Packet Exchange / Orion Network / Fiber Grid
+# AS58065 - Packet Exchange / Orion Network / Fiber Grid / Inter Connects
+# DIGITAS LLC (7879436) https://find-and-update.company-information.service.gov.uk/search?q=Digitas+LLC
+# * (ex AS41146) - OPEN INTERNET EXCHANGE LIMITED (11969501)
+# * AS58065 - PACKET EXCHANGE LIMITED (11255662)
+# * AS204353 - GLOBAL OFFSHORE HOST LIMITED (11260147)
+# * (ex AS47536) - GLOBAL IP EXCHANGE LIMITED (11974703)
+# * AS48950 - GLOBAL COLOCATION LIMITED (11939605)
+# * AS41564 - ORION NETWORK LIMITED (10289942)
 #: ipset -exist restore <ipset/packet-exchange.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set packet-exchange src -j REJECT
 create packet-exchange hash:net family inet hashsize 64 maxelem 64
@@ -30,7 +37,6 @@ add packet-exchange 196.240.173.0/24
 add packet-exchange 196.240.237.0/24
 add packet-exchange 196.240.254.0/24
 add packet-exchange 196.242.3.0/24
-add packet-exchange 196.242.20.0/24
 add packet-exchange 196.242.47.0/24
 add packet-exchange 196.242.84.0/24
 add packet-exchange 196.242.114.0/24
@@ -44,7 +50,12 @@ add packet-exchange 196.247.192.0/24
 
 # AS41564 - Orion Network
 add packet-exchange 196.196.198.0/24
-
+add packet-exchange 196.240.104.0/24
+add packet-exchange 196.240.105.0/24
+add packet-exchange 196.240.109.0/24
+add packet-exchange 196.240.173.0/24
+add packet-exchange 196.240.237.0/24
+add packet-exchange 196.242.20.0/24
 
 # AS57858 - Inter Connects
 add packet-exchange 196.196.50.0/24

@@ -32,8 +32,6 @@ add foregenix 88.150.230.191
 add foregenix 88.150.240.29
 add foregenix 88.150.240.30
 add foregenix 88.150.240.31
-add foregenix 88.150.240.138
-add foregenix 88.150.240.188
 add foregenix 88.150.240.189
 add foregenix 88.150.240.192
 add foregenix 88.150.240.193
@@ -52,6 +50,7 @@ add foregenix 109.169.15.85
 add foregenix 109.169.15.87
 add foregenix 109.169.85.26
 add foregenix 109.169.85.38
+add foregenix 109.169.86.65
 add foregenix 109.169.86.112
 add foregenix 109.169.87.7
 add foregenix 109.169.87.13
@@ -64,3 +63,4 @@ add foregenix 188.227.170.44
 add foregenix 188.227.170.64
 add foregenix 188.227.186.43
 add foregenix 212.38.189.44
+add foregenix 212.84.160.19
