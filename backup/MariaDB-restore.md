@@ -1,6 +1,8 @@
-# Restore database backed up by innobackupex
+# Restore database backed up by mariabackup
 
-https://www.percona.com/doc/percona-xtrabackup/2.3/innobackupex/incremental_backups_innobackupex.html
+For MariaDB 10.3
+
+https://mariadb.com/kb/en/incremental-backup-and-restore-with-mariabackup/
 
 ```bash
 # Dump current db
@@ -15,10 +17,9 @@ cd /root/db-restore/
 grep -E "^innodb_(from|to)_lsn" */xtrabackup_info
 
 # Prepare
-innobackupex --apply-log --redo-only BASE-DIR
+mariabackup --prepare --target-dir=BASE-DIR
 grep -w LOG-SEQUENCE-NUMBER INCREMENTAL-DIR/xtrabackup_info
-innobackupex --apply-log --redo-only BASE-DIR --incremental-dir=INCREMENTAL-DIR
-innobackupex --apply-log BASE-DIR
+mariabackup --prepare --target-dir=BASE-DIR --incremental-dir=INCREMENTAL-DIR
 
 # Fix permissions
 chown -R mysql:mysql .
@@ -36,9 +37,9 @@ chown -R mysql:mysql .
 # Restore
 service mysql stop
 mv -v /var/lib/mysql/* /root/db-restore/
-innobackupex --copy-back BASE-DIR
+mariabackup --copy-back --target-dir=BASE-DIR
 # Copy back Debian files
-cp /root/db-restore/debian-10.0.flag /var/lib/mysql/
+cp /root/db-restore/debian-10.3.flag /var/lib/mysql/
 cp /root/db-restore/multi-master.info /var/lib/mysql/
 cp /root/db-restore/mysql_upgrade_info /var/lib/mysql/
 
