@@ -49,6 +49,7 @@ add packet-exchange 196.247.40.0/24
 add packet-exchange 196.247.192.0/24
 
 # AS41564 - Orion Network
+add packet-exchange 5.157.14.0/24
 add packet-exchange 196.196.198.0/24
 add packet-exchange 196.240.104.0/24
 add packet-exchange 196.240.105.0/24
@@ -58,6 +59,7 @@ add packet-exchange 196.240.237.0/24
 add packet-exchange 196.242.20.0/24
 
 # AS57858 - Inter Connects
+add packet-exchange 165.231.45.0/24
 add packet-exchange 196.196.50.0/24
 add packet-exchange 196.196.160.0/24
 

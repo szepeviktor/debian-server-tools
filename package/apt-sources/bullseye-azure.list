@@ -1,0 +1,12 @@
+# Microsoft Azure Traffic Manager mirror
+deb http://debian-archive.trafficmanager.net/debian buster main contrib non-free
+
+# Security
+# https://wiki.debian.org/NewInBullseye#Changes
+deb http://debian-archive.trafficmanager.net/debian-security bullseye-security main contrib non-free
+
+# Updates
+deb http://debian-archive.trafficmanager.net/debian buster-updates main contrib non-free
+
+# Backports
+deb http://debian-archive.trafficmanager.net/debian buster-backports main contrib non-free
