@@ -504,7 +504,7 @@ Google's [Search Quality Evaluator Guidelines](https://static.googleusercontent.
 - Emojis and UNICODE (entering, storing, displaying)
 - Toolbar color of Chrome for Android (`theme-color` meta) :snail:
 - [Windows 8 and 10 tiles](http://www.buildmypinnedsite.com/)
-- [\<head> cheatsheet](https://gethead.info/)
+- [\<head> cheatsheet](https://github.com/joshbuchea/HEAD)
 - Phone numbers (clickable, tracked)
 - Skype IE Add-on `<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">`
 - [Printer](http://www.printfriendly.com/), [Gutenberg framework](https://github.com/BafS/Gutenberg)
