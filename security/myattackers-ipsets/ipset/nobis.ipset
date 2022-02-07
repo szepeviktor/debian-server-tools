@@ -83,6 +83,12 @@ add nobis 45.147.180.0/22
 # CY-TRACKLY*
 add nobis 85.209.129.0/24
 add nobis 85.209.130.0/24
+# SC-RAPIDSEEDBOX*
+add nobis 91.212.123.0/24
+add nobis 141.193.20.0/24
+add nobis 193.8.238.0/24
+# IL-YEHUDA5* / Yehuda Mukdasi
+add nobis 193.32.8.0/24
 ## AS62240 - CLOUVIDER
 #add nobis 185.247.116.0/24
 # EU-AMS-VPSSERVERCOM

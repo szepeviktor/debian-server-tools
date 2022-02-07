@@ -15,13 +15,13 @@ How to design and implement CI and CD.
 - Configure application
 - Check non-ASCII characters in the source code
   (non-English alphabets, whitespace characters, control characters) :zero:
-- Lint source code (syntax check) :one:
-- Lint template files
+- Check source code for syntax errors :one:
+- Check template files for syntax errors
 - Check coding style and adhere to EditorConfig :two:
 - Magic Number Detector
 - Copy-Paste Detector
-- **Do static analysis** :three:
-- Run (unit and functional) tests
+- **Run static analysis** :three:
+- Run unit and functional tests
 - Measure code coverage
 - Check route methods (controllers of routes)
 - Custom checks and warnings

@@ -13,7 +13,7 @@ Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
    *Ez szokott lenni egy honlapon* (káros téveszmék által meghatározott tartalom)
    **vs.** mérések alapján priorizált tartalom
 1. Személyes (narrátor) jelleg fotókkal, videóval, idézetekkel
-   **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása
+   **vs.** a cég és a munkatársak egy-egy oldalra való korlátozása (beszélő hiánya)
 1. Ki miért jön? Melyik oldalra érkezik? Kivel mit érdemes közölni vagy ajánlani neki?
 1. Honnan jönnek a látogatók?
     - organikus (Google Kereső)

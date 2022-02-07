@@ -539,9 +539,9 @@ add server-mania 144.168.131.0/24
 #add server-mania 144.168.214.0/23
 #add server-mania 144.168.216.0/24
 #add server-mania 144.168.217.0/24
-#add server-mania 144.168.218.0/23
+add server-mania 144.168.218.0/23
 #add server-mania 144.168.221.0/24
-#add server-mania 144.168.222.0/23
+add server-mania 144.168.222.0/23
 #add server-mania 144.168.224.0/21
 #add server-mania 144.168.226.0/24
 #add server-mania 144.168.228.0/24
@@ -682,9 +682,9 @@ add server-mania 209.127.38.0/24
 #add server-mania 209.127.64.0/21
 #add server-mania 209.127.72.0/21
 #add server-mania 209.127.92.0/22
-#add server-mania 209.127.96.0/22
-#add server-mania 209.127.104.0/21
-#add server-mania 209.127.112.0/21
+add server-mania 209.127.96.0/22
+add server-mania 209.127.104.0/21
+add server-mania 209.127.112.0/21
 #add server-mania 209.127.120.0/22
 #add server-mania 209.127.124.0/23
 #add server-mania 209.127.126.0/24
@@ -703,4 +703,14 @@ add server-mania 209.127.38.0/24
 #add server-mania 209.127.170.0/24
 #add server-mania 209.127.176.0/20
 #add server-mania 209.127.192.0/24
-#add server-mania 209.127.252.0/23
+add server-mania 209.127.252.0/23
+
+# AS55081 - 24 SHELLS
+add server-mania 45.57.191.0/24
+add server-mania 45.72.18.0/23
+add server-mania 45.72.31.0/24
+add server-mania 45.72.32.0/24
+add server-mania 45.72.85.0/24
+add server-mania 45.72.86.0/24
+add server-mania 45.72.112.0/23
+add server-mania 209.127.172.0/22
