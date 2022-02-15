@@ -12,6 +12,7 @@ create packet-exchange hash:net family inet hashsize 64 maxelem 64
 flush packet-exchange
 add packet-exchange 5.157.11.0/24
 add packet-exchange 5.157.17.0/24
+add packet-exchange 5.157.23.0/24
 add packet-exchange 5.157.27.0/24
 add packet-exchange 5.157.32.0/24
 add packet-exchange 5.157.55.0/24
@@ -24,6 +25,7 @@ add packet-exchange 151.237.186.0/24
 add packet-exchange 165.231.97.0/24
 add packet-exchange 165.231.98.0/24
 add packet-exchange 165.231.108.0/24
+add packet-exchange 165.231.168.0/24
 add packet-exchange 165.231.225.0/24
 add packet-exchange 165.231.227.0/24
 add packet-exchange 196.196.148.0/24
@@ -33,6 +35,9 @@ add packet-exchange 196.196.198.0/24
 add packet-exchange 196.196.203.0/24
 add packet-exchange 196.196.224.0/24
 add packet-exchange 196.196.246.0/24
+add packet-exchange 196.199.55.0/24
+add packet-exchange 196.199.119.0/24
+add packet-exchange 196.240.51.0/24
 add packet-exchange 196.240.109.0/24
 add packet-exchange 196.240.143.0/24
 add packet-exchange 196.240.173.0/24
@@ -45,14 +50,18 @@ add packet-exchange 196.242.84.0/24
 add packet-exchange 196.242.114.0/24
 add packet-exchange 196.242.115.0/24
 add packet-exchange 196.242.131.0/24
+add packet-exchange 196.242.195.0/24
 add packet-exchange 196.244.200.0/24
 add packet-exchange 196.245.164.0/24
+add packet-exchange 196.245.216.0/24
 add packet-exchange 196.245.236.0/24
 add packet-exchange 196.247.40.0/24
 add packet-exchange 196.247.192.0/24
 
 # AS41564 - Orion Network
 add packet-exchange 5.157.14.0/24
+add packet-exchange 165.231.101.0/24
+add packet-exchange 165.231.105.0/24
 add packet-exchange 196.196.198.0/24
 add packet-exchange 196.240.104.0/24
 add packet-exchange 196.240.105.0/24
@@ -60,6 +69,7 @@ add packet-exchange 196.240.109.0/24
 add packet-exchange 196.240.173.0/24
 add packet-exchange 196.240.237.0/24
 add packet-exchange 196.242.20.0/24
+add packet-exchange 196.247.168.0/24
 
 # AS57858 - Inter Connects
 add packet-exchange 165.231.45.0/24
