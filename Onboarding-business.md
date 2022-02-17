@@ -2,12 +2,15 @@
 
 ## Alkalmazás gyártás menete
 
+Nagyon fontos, hogy előre le legyen írva, mit fogunk csinálni.
+Ne forráskód írás közben közben hozzunk nagy döntéseket.
+
 1. Megismerés / Discover
 1. Kiértékelés-Meghatározás / Define
 1. Tervezés / Design
 1. Fejlesztés / Develop
 
-- https://www.fps.hu/work
+- https://web.archive.org/web/20210517140355/https://www.fps.hu/work (fps)
 - https://web.archive.org/web/20181228074713/http://kozpontbanazember.hu/ (FrancisKodak)
 - https://www.google.hu/search?q=user+interview+site%3Ahu
 
@@ -19,8 +22,8 @@
 - Kik fedik le az alábbi szakterületeket?
   - Emberek irányítása és a szoftver gyártás közötti híd (vezető)
   - Szolgáltatói fiókok kezelése és a velük való kapcsolattartás (adminisztrálás)
-  - Szoftver tervezés
-  - UI/UX design
+  - Szoftver tervezés és dokumentálás
+  - UI/UX design és dokumentálás
   - Back-end fejlesztés
   - Front-end fejlesztés
   - Automatikus és kézi tesztek
