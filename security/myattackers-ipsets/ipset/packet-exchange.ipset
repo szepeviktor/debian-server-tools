@@ -8,7 +8,7 @@
 # * AS41564 - ORION NETWORK LIMITED (10289942)
 #: ipset -exist restore <ipset/packet-exchange.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set packet-exchange src -j REJECT
-create packet-exchange hash:net family inet hashsize 64 maxelem 64
+create packet-exchange hash:net family inet hashsize 64 maxelem 128
 flush packet-exchange
 add packet-exchange 5.157.11.0/24
 add packet-exchange 5.157.17.0/24

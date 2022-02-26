@@ -123,13 +123,13 @@ This section contains preparations for secure registration.
 
 <kbd>Generate Cert Now</kbd>
 
-- (1) New **or** Renewal
-- (2) Input CSR: paste code block
-- (3) Prove control: DNS
-- (4) Domain validation: base domain
-- (5) Contact: your contact info
-- (6) Additional options: Other / Optional
-- (7) [x] [x]
+- (1) **Select Your Order Type:** select New **or** Renewal
+- (2) **Input CSR:** paste code block
+- (3) **Prove control over your domain:** select DNS TXT
+- (4) **Choose domain validation level:** select base domain
+- (5) **Contact Information:** enter your contact info
+- (6) **Additional Certificate Options:** Server Platform: select Other
+- (7) **Certificate Services Agreement:** tick both checkboxes `[x]` `[x]`
 
 Verify your URL
 
@@ -141,14 +141,14 @@ Verify your URL
 
 [Dashboard / Manage Renewal Email Preferences](https://cheapsslsecurity.com/client/renewalemail-preferences.html)
 
-- Select Admin/Technical contact: `[ ]` `[ ]`
+- Select Admin/Technical contact: untick both checkboxes `[ ]` `[ ]`
 
 ##### Renew a certificate
 
 [Dashboard](https://cheapsslsecurity.com/client/ordersummary.html)
 
 - (_select the certificate_)
-- RENEW
+- <kbd>RENEW</kbd>
 
 ### Email delivery
 

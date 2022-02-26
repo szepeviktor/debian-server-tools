@@ -1,13 +1,23 @@
-# Merit Network / Censys
+# Censys / Merit
 #: ipset -exist restore <ipset/censys.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set censys src -j REJECT
 create censys hash:net family inet hashsize 64 maxelem 32
 flush censys
 
-# AS237 - Merit
 # https://support.censys.io/hc/en-us/articles/360043177092-Opt-Out-of-Scanning
-add censys 74.120.14.0/24
-add censys 162.142.125.0/24
-add censys 167.248.133.0/24
+
+# AS237 - Merit
 add censys 192.35.168.0/23
 
+# AS398324 - CENSYS-ARIN-01
+add censys 162.142.125.0/24
+add censys 167.94.138.0/24
+
+# AS398705 - CENSYS-ARIN-02
+add censys 167.94.145.0/24
+add censys 167.94.146.0/24
+
+# AS398722 - CENSYS-ARIN-03
+add censys 167.248.133.0/24
+
+## IPv6 2620:96:e000:b0cc:e::

@@ -3,7 +3,7 @@
 ## Alkalmazás gyártás menete
 
 Nagyon fontos, hogy előre le legyen írva, mit fogunk csinálni.
-Ne forráskód írás közben közben hozzunk nagy döntéseket.
+Ne forráskód írás közben hozzunk nagy döntéseket.
 
 1. Megismerés / Discover
 1. Kiértékelés-Meghatározás / Define
@@ -145,8 +145,9 @@ Egy fő back-end és egy fő front-end fejlesztő
 https://twitter.com/StepsizeHQ/status/1156582846057844736
 
 - Dokumentumok frissítése
-- Kód kommentelés (docblock, üzleti logika és a commit üzenetek is)
 - Hiba kezelés (hiba kontextus, könnyű felderíthetőség) :point_right: ettől tönkremennek a cégek
+- Biztonság (security) növelése
+- Kód kommentelés (docblock, üzleti logika és a commit üzenetek is)
 - Kódolás nélküli (zero coverage) tesztek futtatása
 - Egység (unit) és funkcionális tesztek írása
 - Keretrendszer és csomag frissítés
