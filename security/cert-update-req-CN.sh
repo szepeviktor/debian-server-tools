@@ -14,13 +14,12 @@
 #
 # RapidSSL
 #     https://knowledge.digicert.com/generalinformation/INFO1548
-#     https://products.geotrust.com/geocenter/reissuance/reissue.do
 # PositiveSSL, ComodoSSL, EssentialSSL
 #     https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/620/0/which-is-root-which-is-intermediate
 # GeoTrust
 #     https://www.geotrust.com/resources/root-certificates/
 # Let’s Encrypt
-#     wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem
+#     wget https://letsencrypt.org/certs/lets-encrypt-r3.pem
 #     https://letsencrypt.org/certificates/
 # NetLock (HU)
 #     https://netlock.hu/tanusitvanykiadok/
