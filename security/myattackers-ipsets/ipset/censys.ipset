@@ -6,9 +6,6 @@ flush censys
 
 # https://support.censys.io/hc/en-us/articles/360043177092-Opt-Out-of-Scanning
 
-# AS237 - Merit
-add censys 192.35.168.0/23
-
 # AS398324 - CENSYS-ARIN-01
 add censys 162.142.125.0/24
 add censys 167.94.138.0/24
@@ -20,4 +17,6 @@ add censys 167.94.146.0/24
 # AS398722 - CENSYS-ARIN-03
 add censys 167.248.133.0/24
 
-## IPv6 2620:96:e000:b0cc:e::
+## IPv6
+## 2602:80d:1000:b0cc:e::
+## 2620:96:e000:b0cc:e::
