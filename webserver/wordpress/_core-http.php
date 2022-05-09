@@ -13,9 +13,9 @@ add_action( 'http_api_debug', function ( $response, $context, $class, $r, $url )
 	}
 	error_log(
 		sprintf(
-			'%s [%s] %s (%s)',
-			'WordPress external HTTP request failed with message',
+			'WordPress external HTTP request failed with message [%s:%s] %s (%s)',
 			$response->get_error_code(),
+			$response->get_error_message(),
 			$url,
 			json_encode( $r, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE )
 		)

@@ -2,7 +2,7 @@
 #
 # List Laravel log items above NOTICE severity and check for failed queue jobs.
 #
-# VERSION       :0.4.1
+# VERSION       :0.4.2
 # DATE          :2020-08-04
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -18,7 +18,7 @@
 #
 # Adding cron job
 #
-#     59 *	* * *	USER	/usr/local/bin/laravel-report.sh /home/USER/website/code
+#     59 *  * * * USER	/usr/local/bin/laravel-report.sh /home/USER/website/code
 #
 # Last minute tries to make sure there is a new log file at 00:59.
 
@@ -38,7 +38,9 @@ test -d "$LARAVEL_PATH"
 test -x "${LARAVEL_PATH}/artisan"
 
 # Check for failed queue jobs
-if ! "${LARAVEL_PATH}/artisan" queue:failed | grep -q -F 'No failed jobs!'; then
+# Laravel v8 No failed jobs!
+# Laravel v9 No failed jobs found.
+if ! "${LARAVEL_PATH}/artisan" queue:failed | grep -q -F 'No failed jobs'; then
     "${LARAVEL_PATH}/artisan" queue:failed 1>&2
     exit 101
 fi
