@@ -7,13 +7,12 @@ actionstart_on_demand = false
 
 # Terminate connections on ban
 actionban = <iptables> -I f2b-<name> 1 -s <ip> -j <blocktype>
-            <ss> --no-header --numeric --kill dst <ip>
+            <ss> --no-header --numeric --kill dst "<ss_ip>"
 
 [Init]
 
-ss = ss
+ss_ip = <ip>
 
 [Init?family=inet6]
 
-# ss does not accepts inet6 addresses
-ss = true
+ss_ip = [<ip>]

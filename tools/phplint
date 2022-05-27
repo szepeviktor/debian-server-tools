@@ -7,7 +7,7 @@ declare -a SPINNER=( "|" "/" "-" "\\" )
 declare -i PHASE="0"
 declare -i SPINNER_MAX="$((${#SPINNER[*]} - 1))"
 
-find . -type f -name "*.php" -exec /usr/bin/php7.2 -l "{}" ";" \
+find . -type f -name "*.php" -exec /usr/bin/php7.4 -l "{}" ";" \
     | while read -r LINE; do
         if [ "${LINE#No syntax errors detected in}" == "$LINE" ]; then
             echo "$LINE"

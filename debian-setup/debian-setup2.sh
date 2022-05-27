@@ -219,6 +219,8 @@ elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.3-fpm'; then
     PHP="7.3"
 elif Data get-values-0 package.apt.extra | grep -z -F -x 'php7.4-fpm'; then
     PHP="7.4"
+elif Data get-values-0 package.apt.extra | grep -z -F -x 'php8.0-fpm'; then
+    PHP="8.0"
 fi
 if [ -n "$PHP" ]; then
     export PHP

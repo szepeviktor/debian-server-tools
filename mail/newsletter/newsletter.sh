@@ -3,7 +3,7 @@
 # Send newsletter.
 #
 # VERSION       :0.3.2
-# DEPENDS       :apt-get install mpack qprint dos2unix uuid-runtime php7.2-bcmath zdkimfilter at
+# DEPENDS       :apt-get install mpack qprint dos2unix uuid-runtime php7.4-bcmath zdkimfilter at
 # DEPENDS-SUDO  :user	ALL=(ALL) NOPASSWD: /usr/bin/dkimsign --filter
 # DOCS          :https://ga-dev-tools.appspot.com/campaign-url-builder/
 # DOCS          :https://developers.google.com/analytics/devguides/collection/protocol/v1/email
@@ -69,7 +69,7 @@ fi
 while read -r ADDRESS; do
     echo -n "$((++COUNT)). ${ADDRESS}"
     UUID="$(uuidgen)"
-    CRYPT="$(/usr/bin/php7.2 php/hash.php "$ADDRESS")"
+    CRYPT="$(/usr/bin/php7.4 php/hash.php "$ADDRESS")"
 
     printf '%s\t%s\t@%s\n' "$ADDRESS" "$UUID" "$(date "+%s")" >>send.log
 

@@ -8,7 +8,7 @@
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install php7.2-fpm apache2
+# DEPENDS       :apt-get install php7.4-fpm apache2
 # LOCATION      :/usr/local/sbin/webrestart.sh
 # SYMLINK       :/usr/local/sbin/webreload.sh
 
@@ -30,6 +30,12 @@ elif hash php-fpm7.1 2> /dev/null; then
     php-fpm7.1 -t || Error "PHP-FPM 7.1 configuration test failed"
 elif hash php-fpm7.2 2> /dev/null; then
     php-fpm7.2 -t || Error "PHP-FPM 7.2 configuration test failed"
+elif hash php-fpm7.3 2> /dev/null; then
+    php-fpm7.3 -t || Error "PHP-FPM 7.3 configuration test failed"
+elif hash php-fpm7.4 2> /dev/null; then
+    php-fpm7.4 -t || Error "PHP-FPM 7.4 configuration test failed"
+elif hash php-fpm8.0 2> /dev/null; then
+    php-fpm8.0 -t || Error "PHP-FPM 8.0 configuration test failed"
 else
     Error "Unknown PHP version"
 fi
@@ -85,6 +91,12 @@ elif hash php-fpm7.1 2> /dev/null; then
     service php7.1-fpm reload || Error 'PHP-FPM 7.1 reload failed, ACT NOW!'
 elif hash php-fpm7.2 2> /dev/null; then
     service php7.2-fpm reload || Error 'PHP-FPM 7.2 reload failed, ACT NOW!'
+elif hash php-fpm7.3 2> /dev/null; then
+    service php7.3-fpm reload || Error 'PHP-FPM 7.3 reload failed, ACT NOW!'
+elif hash php-fpm7.4 2> /dev/null; then
+    service php7.4-fpm reload || Error 'PHP-FPM 7.4 reload failed, ACT NOW!'
+elif hash php-fpm8.0 2> /dev/null; then
+    service php8.0-fpm reload || Error 'PHP-FPM 8.0 reload failed, ACT NOW!'
 fi
 service apache2 reload || Error 'Apache reload failed, ACT NOW!'
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# DOCS          :https://salsa.debian.org/php-team/php/blob/master-7.2/debian/changelog
+# DOCS          :https://salsa.debian.org/php-team/php/blob/master-7.4/debian/changelog
 
 Php_pager()
 {
@@ -39,12 +39,6 @@ if [ -n "$(apt-cache madison "php${PHP}-mbstring" 2>/dev/null)" ]; then
 fi
 if [ -n "$(apt-cache madison "php${PHP}-xml" 2>/dev/null)" ]; then
     Pkg_install_quiet "php${PHP}-xml"
-fi
-
-# Shim directory for PHP 5.6
-if dpkg --compare-versions "$PHP" lt 7.0 && [ ! -d /etc/php ]; then
-    mkdir /etc/php
-    ln -s ../php5 "/etc/php/${PHP}"
 fi
 
 # FPM configuration
@@ -86,12 +80,6 @@ grep -E -v '^\s*(#|;|$)' "$PHP_FPM_INI" | Php_pager
 mv "${PHP_FPM_DIR}/pool.d/www.conf" "${PHP_FPM_DIR}/pool.d/www.conf.default"
 # Add skeletons
 cp "${CWD}/phpfpm-pools/"* "${PHP_FPM_DIR}/"
-# PHP 5.6 session cleaning
-if dpkg --compare-versions "$PHP" lt 7.0; then
-    mkdir -p /usr/local/lib/php5
-    cp "${CWD}/sessionclean5.5" /usr/local/lib/php5/
-    printf '15 *  * * *  root\t/usr/local/lib/php5/sessionclean5.5\n' >/etc/cron.d/php-sessionclean
-fi
 
 # FIXME PHP timeouts
 # - PHP max_execution_time
@@ -104,33 +92,8 @@ fi
 #     [suhosin]
 #     suhosin.simulation = On
 if Data get-values package.apt.sources "" | grep -q -F -x 'suhosin'; then
-    if dpkg --compare-versions "$PHP" lt 7.0; then
-        # https://github.com/stefanesser/suhosin/releases
-        Pkg_install_quiet php5-suhosin-extension
-        php5enmod -s fpm suhosin
-        # Disable for PHP-CLI
-        if hash phpdismod 2>/dev/null; then
-            phpdismod -v ALL -s cli suhosin
-        else
-            php5dismod -s cli suhosin
-        fi
-        # Check priority
-        if ! grep -q '^; priority=' "/etc/php/${PHP}/mods-available/suhosin.ini"; then
-            # Fix symlink name
-            if hash phpdismod 2>/dev/null; then
-                phpdismod -v ALL -s fpm suhosin
-                sed -e 's/^extension=.*$/; priority=70\n&/' -i "/etc/php/${PHP}/mods-available/suhosin.ini"
-                phpenmod -v ALL -s fpm suhosin
-            else
-                php5dismod -s fpm suhosin
-                sed -e 's/^extension=.*$/; priority=70\n&/' -i "/etc/php/${PHP}/mods-available/suhosin.ini"
-                php5enmod -s fpm suhosin
-            fi
-        fi
-    else
-        # TODO Suhosin extension for PHP 7.x
-        echo "Not yet released https://github.com/sektioneins/suhosin7/releases"
-    fi
+    # TODO Suhosin extension for PHP 7.x
+    echo "Not yet released https://github.com/sektioneins/suhosin7/releases"
 fi
 
 # Use realpath cache despite open_basedir restriction
@@ -152,7 +115,7 @@ fi
 
 # ionCube Loader
 #     https://www.ioncube.com/loaders.php
-#     zend_extension = ioncube_loader_lin_7.0.so
+#     zend_extension = ioncube_loader_lin_7.4.so
 #     ic24.enable = Off
 
 # Siteprotection

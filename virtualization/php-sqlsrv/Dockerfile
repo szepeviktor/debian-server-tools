@@ -3,12 +3,12 @@
 #
 # VERSION       :5.2.0
 # DOCS          :https://docs.microsoft.com/en-us/sql/connect/php/system-requirements-for-the-php-sql-driver?view=sql-server-2017
-# BUILD         :docker build -t szepeviktor/php7.2-sqlsrv:5.2.0 .
-# RUN           :docker run --rm --tty -v /mnt:/mnt szepeviktor/php7.2-sqlsrv:5.2.0
+# BUILD         :docker build -t szepeviktor/php7.4-sqlsrv:5.2.0 .
+# RUN           :docker run --rm --tty -v /mnt:/mnt szepeviktor/php7.4-sqlsrv:5.2.0
 
-FROM debian:stretch
+FROM debian:bullseye
 
-ARG php_version="7.2"
+ARG php_version="7.4"
 ARG msodbcsql_version="17.1.0.1-1"
 
 LABEL maintainer="viktor@szepe.net"
@@ -64,9 +64,9 @@ CMD set -e -x \
     && sudo -- pecl update-channels \
     && sudo -- pecl download pdo_sqlsrv \
     && dh-make-pecl --package-name "sqlsrv" \
-    --maintainer "Viktor Szepe <viktor@szepe.net>" \
-    --depends "php-common (>= 1:61), phpapi-$(/usr/bin/php-config --phpapi)" \
-    pdo_sqlsrv-*.tgz \
+        --maintainer "Viktor Szepe <viktor@szepe.net>" \
+        --depends "php-common (>= 1:61), phpapi-$(/usr/bin/php-config --phpapi)" \
+        pdo_sqlsrv-*.tgz \
     && cd php-sqlsrv-*/ \
     && sed -e 's|^PECL_PKG_NAME=sqlsrv|PECL_PKG_NAME=pdo_sqlsrv|' -i debian/rules \
     && mv debian/sqlsrv.ini debian/pdo_sqlsrv.ini \

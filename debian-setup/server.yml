@@ -80,6 +80,7 @@ cruft:
     - /etc/php/7.2
     - /etc/php/7.3
     - /etc/php/7.4
+    - /etc/php/8.0
     - /var/lib/php/modules
     - /usr/local/bin
     - /usr/local/sbin

@@ -62,7 +62,7 @@
 # 7. PuTTY session: Connection/Data: viktor, xterm-256color; Connection/SSH/Auth: [ ] keyboard-interactive
 # 8. Continue after reboot!
 #    export LC_ALL=C.UTF-8; cd debian-server-tools-master/debian-setup/
-#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm
+#    @FIXME  export MONIT_EXCLUDED_PACKAGES=apache2:php5-fpm:php7.0-fpm:php7.1-fpm:php7.2-fpm:php7.3-fpm:php7.4-fpm:php8.0-fpm
 #    script --timing=../debian-setup2.time ../debian-setup2.script
 #    ./debian-setup2.sh
 # 9. Set up inbound ESP and bounce notification
@@ -82,8 +82,8 @@
 export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
-export IMAGE_CODENAME="buster"
-#export IMAGE_CODENAME="bullseye"
+export IMAGE_CODENAME="bullseye"
+#export IMAGE_CODENAME="bookworm"
 
 # "A real danger for the future of GNU/Linux"
 # https://skarnet.org/software/s6/systemd.html

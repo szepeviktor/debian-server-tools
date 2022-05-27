@@ -2,7 +2,7 @@
 
 set -e
 
-PHP_BIN="/usr/bin/php7.2"
+PHP_BIN="/usr/bin/php7.4"
 TEST_SCRIPT="$(realpath "${BASH_SOURCE[0]}")"
 
 # Switch to this directory

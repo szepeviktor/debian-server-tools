@@ -4,7 +4,7 @@
     "description": "PHP Project.",
     "license": "proprietary",
     "require": {
-        "php": ">=7.2.0"
+        "php": "^7.4"
     },
     "require-dev": {
         "carlosas/phpat": "^0.5.3",

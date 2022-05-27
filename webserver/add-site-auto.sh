@@ -8,11 +8,11 @@ set -e
 read -r -e -p "user name: " U
 read -r -e -p "domain name without WWW: " DOMAIN
 
-# Create system user
-adduser --disabled-password --gecos "" "$U"
-
 # Check DNS record
 host -t A "$DOMAIN"
+
+# Create system user
+adduser --disabled-password --gecos "" "$U"
 
 # Add webserver to this group
 adduser _web "$U"
@@ -30,7 +30,7 @@ touch "/home/${U}/website/wp-cli.yml"
 chown -c -R "${U}:${U}" "/home/${U}/"
 
 # PHP pool
-cd /etc/php/7.2/fpm/pool.d/
+cd /etc/php/7.4/fpm/pool.d/
 sed -e "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >"${U}.conf"
 
 # Apache vhost

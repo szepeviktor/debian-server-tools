@@ -9,7 +9,7 @@
 # SECRET        :COMPOSER_AUTH_JSON
 
 # https://gitlab.com/help/user/project/container_registry
-image: registry.gitlab.com/group/project:7.2
+image: registry.gitlab.com/group/project:7.4
 
 services:
   - mariadb:10.1

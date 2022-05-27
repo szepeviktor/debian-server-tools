@@ -31,7 +31,7 @@ https://httpd.apache.org/docs/2.4/misc/perf-tuning.html#runtime
 ### Debug PHP-FPM (FastCGI) unix domain socket
 
 ```bash
-strace $(pidof php-fpm7.2|sed 's|\b[0-9]|-p &|g') -f -e trace=read,write -s 4096 2>&1|sed 's|[A-Z_]\+|\n&|g'
+strace $(pidof php-fpm7.4|sed 's#\b[0-9]#-p &#g') -f -e trace=read,write -s 4096 2>&1|sed 's#[A-Z_]\+#\n&#g'
 ```
 
 ### TCP port forwarder

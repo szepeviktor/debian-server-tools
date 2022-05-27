@@ -2,14 +2,13 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.11.1
+# VERSION       :0.12.0
 # DATE          :2018-08-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
-# DEPENDS5      :apt-get install php5-cli
-# DEPENDS       :apt-get install php7.2-cli
+# DEPENDS       :apt-get install php7.4-cli
 # LOCATION      :/usr/local/bin/wp-cron-cli.sh
 
 # Disable wp-cron in your wp-config.php
@@ -93,7 +92,7 @@ cd "$WPCRON_DIR" || Die 2 "Cannot change to directory (${WPCRON_DIR})"
 test -r wp-cron.php || Die 3 "File not found (${WPCRON_DIR}/wp-cron.php)"
 
 # Alternative:  wp cron event run --due-now
-nice /usr/bin/php7.2 -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
+nice /usr/bin/php7.4 -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
     || Die 4 "PHP exit status ${?} in ${WPCRON_DIR}/wp-cron.php"
 
 exit 0

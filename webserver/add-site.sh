@@ -110,9 +110,7 @@ Y0xLS2PABoyNjbGKMzGQCEY1EANYcIX32bNnR0OJfhoA+8EE7eneRVUAAAAASUVORK5CYII=" | base
 
 # PHP pool
 # shellcheck disable=SC2164
-#cd /etc/php5/fpm/pool.d/
-# shellcheck disable=SC2164
-cd /etc/php/7.2/fpm/pool.d/
+cd /etc/php/7.4/fpm/pool.d/
 sed "s/@@USER@@/${U}/g" <../Skeleton-pool.conf >"${U}.conf"
 editor "${U}.conf"
 
@@ -177,7 +175,7 @@ fail2ban-client set apache-instant addlogpath "/var/log/apache2/${U}-error.log"
 # Mute cron errors
 #     # php -r 'var_dump(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);' -> int(22517)
 #     https://maximivanov.github.io/php-error-reporting-calculator/
-#     /usr/bin/php7.2 -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
+#     /usr/bin/php7.4 -d error_reporting=22517 -d disable_functions=error_reporting -f /path/to/cron.php
 # Cron log
 #     cron-job-command | ts "\%d \%b \%Y \%T \%z" >>/path/to/cron.log
 # shellcheck disable=SC2164

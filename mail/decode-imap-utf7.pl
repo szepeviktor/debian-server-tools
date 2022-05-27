@@ -12,7 +12,7 @@
 # LOCATION      :/usr/local/bin/decode-imap-utf7.pl
 
 # Alternative
-#     apt-get install php7.2-imap
+#     apt-get install php7.4-imap
 #     php -r 'echo imap_utf7_decode( "$STRING" );'
 
 use Encode::IMAPUTF7;
