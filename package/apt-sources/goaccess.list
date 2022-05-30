@@ -1,4 +1,4 @@
 # Goaccess
 deb http://deb.goaccess.io/ buster main
-#K: wget -qO/etc/apt/trusted.gpg.d/goaccess.gpg https://deb.goaccess.io/gnugpg.key
+#K: wget -qO- https://deb.goaccess.io/gnugpg.key | gpg --yes --dearmor --output /etc/apt/trusted.gpg.d/goaccess.gpg
 #M: https://goaccess.io/download#distro
