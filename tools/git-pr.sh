@@ -13,7 +13,7 @@ test -n "$FORK_URL"
 test -n "$UPSTREAM_URL"
 test -n "$PR_BRANCH"
 
-# Clone the fork and the upsream repositories
+# Clone the fork and the upstream repositories
 git clone "$FORK_URL"
 cd "$(basename -s ".git" "$FORK_URL")/"
 git remote add upstream "$UPSTREAM_URL"

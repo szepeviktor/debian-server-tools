@@ -69,11 +69,11 @@ Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítan
 - Hibajegy
 - Külsősökkel való kapcsolat a platformon belül
   vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
-- Jegyzetek és dokumentumok (pl. céges telefonkönyv) közös szerkesztése
 - Fájl megosztás
 - Naptár
-- Hang üzenet [Yac](https://www.yac.com/)
 - Belső tudástár https://tettra.com/ https://www.getguru.com/
+- Jegyzetek és dokumentumok (pl. szolgáltatók listája, céges telefonkönyv) közös szerkesztése
+- Hang üzenet [Yac](https://www.yac.com/)
 
 Szolgáltató: [Clubhouse](https://clubhouse.io/)
 
