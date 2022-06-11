@@ -31,6 +31,7 @@ _Milyen készülékeken, böngészőkkel tesztelek?_
 
 ### Kompatibilitás tesztelése
 
+- Kereső motorok: `robots.txt`, `sitemap.xml`
 - Megosztható-e (aminek megoszthatónak kell legyen) Twitter-en, Facebook-on
 - [Rich Results/Rich Snippets](https://search.google.com/test/rich-results) "Structured Data" használatával
 - Google Tag Manager mér-e

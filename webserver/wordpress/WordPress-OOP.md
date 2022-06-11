@@ -1,7 +1,8 @@
 # OOP libraries for WordPress development
 
-- https://github.com/WebDevStudios/oops-wp
+- [Snicco](https://github.com/snicco/snicco)
 - [PSR-11 DI container](https://github.com/TypistTech/wp-contained-hook)
+- https://github.com/WebDevStudios/oops-wp
 - [functions.php of themes](https://gist.github.com/tylerlwsmith/dc1f5fb04126189ec42980952cd124d7)
 - [KSES](https://github.com/TypistTech/wp-kses-view)
 - [Options API + constants](https://github.com/TypistTech/wp-option-store)

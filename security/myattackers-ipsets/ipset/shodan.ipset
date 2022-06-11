@@ -9,9 +9,11 @@ add shodan 198.20.87.98
 add shodan 185.181.102.18
 # einstein.census.shodan.io.
 add shodan 71.6.167.124
+# inspire.census.shodan.io.
+add shodan 71.6.146.186
 #$ for S in census{1..12} {atlantic,beastmaster,border,pacific,rim,ninja,pirate,turtle}.census \
 #$   {einstein,malware-hunter,refrigerator,dojo,sky,mason,house,battery,flower,cloud}.census \
-#$   {blue,blue2,green,hat,wine}.census \
+#$   {blue,blue2,green,hat,wine,inspire}.census \
 #$   atlantic.dns blog hello.data; do dig ${S}.shodan.io. A +short
 #$ done | sortip -u | sed -e 's/^/add shodan /'
 add shodan 66.240.192.138
