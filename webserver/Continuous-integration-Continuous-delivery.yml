@@ -1,0 +1,117 @@
+name: "Integrate"
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request: null
+
+jobs:
+  syntax:
+    name: "1️⃣ Check syntax"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.0"
+
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "0️⃣ Find non-printable ASCII characters"
+        run: |
+          ! LC_ALL=C.UTF-8 find . -type f -name "*.php" -print0 | xargs -0 -- grep -PHn "[^ -~]"
+
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "highest"
+
+      - name: "Check syntax"
+        run: "composer exec -- parallel-lint src/"
+
+  unit-tests:
+    name: "2️⃣ Unit tests"
+    needs: "syntax"
+    runs-on: "ubuntu-20.04"
+    strategy:
+      matrix:
+        php-version:
+          - "8.0"
+        dependencies:
+          - "lowest"
+          - "highest"
+    steps:
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+
+      - name: "Execute unit tests"
+        run: "composer exec -- pest --ci"
+
+#      - name: "Tests have failed: display logs"
+#        if: "${{ failure() }}"
+#        run: "cat storage/logs/*.log"
+
+#      - name: Send coverage to Coveralls
+#        if: "matrix.php-version == '8.1' && matrix.dependencies == 'highest'"
+#        env:
+#          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#        run: |
+#          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.2/php-coveralls.phar"
+#          php ./php-coveralls.phar -v
+
+  static-analysis:
+    name: "3️⃣ Execute static analysis"
+    needs: "syntax"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.0"
+
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Validate Composer configuration"
+        run: "composer validate --strict"
+
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "highest"
+
+      - name: "Execute static analysis"
+        run: "composer exec -- phpstan analyze -l 5 src/"
+
+  coding-standards:
+    name: "4️⃣ Check coding standards"
+    needs: "syntax"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "8.0"
+
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "highest"
+
+      - name: "Check syntax"
+        run: "composer exec -- phpcs --standard=PSR12 -s src/"

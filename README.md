@@ -25,11 +25,10 @@ Updated daily as I work.
 1. [Ismerkedés Új ügyfelekkel](/Onboarding-business.md)
 1. [Teljesítménycentrikus webhely tervezése](/webserver/Website-Funnel-UX.md)
 1. [Honlap jogi dolgai + GDPR](/webserver/Production-website.md#jogi-dolgok-hu)
-1. [Kézi Tesztelési Kézikönyv](/webserver/Manual-testing.md)
+1. [Kézi Tesztelési Kézikönyv](/webserver/Manual-testing-HU.md)
 1. [Képek életciklusa](/image/Kep-eletciklus.md)
 1. [Magyar email szolgáltatók](/mail/Hungarian-ESP.md)
 1. [`(direct) / (none)` Google Analytics-ben](/monitoring/Analytics-direct-none-traffic.md)
-1. [Google Analytics URL készítő](/webserver/analytics-url-builder)
 
 ### Superior cloud hosting
 

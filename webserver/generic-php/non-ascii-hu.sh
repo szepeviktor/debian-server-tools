@@ -31,6 +31,9 @@ ALPHABET="ÁáÉéÍíÓóÖöŐőÚúÜüŰű"
 #ALPHABET="$({ for P in {1..4};do for C in ${P}{0..9} ${P}{A..F};do
 #    printf "\\x${C}\\x04";done;done;printf '\x01\x04\x51\x04'; }|iconv -f UNICODE -t UTF-8)"
 
+# Punctuation marks in documents
+#PUNCTUATION_MARKS="’“”«»•…–"
+
 # Search for non-ASCII characters
 LC_ALL=C.UTF-8 find . -type f -name "${FILE_GLOB}" -exec \
     grep -PHn "[^ -~${ALPHABET}]" "{}" ";"
