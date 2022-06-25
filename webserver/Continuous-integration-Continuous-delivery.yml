@@ -7,8 +7,19 @@ on:
   pull_request: null
 
 jobs:
-  syntax:
-    name: "1️⃣ Check syntax"
+  byte_level:
+    name: "0️⃣ Byte-level"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Find non-printable ASCII characters"
+        run: |
+          ! LC_ALL=C.UTF-8 find . -type f -name "*.php" -print0 | xargs -0 -- grep -PHn "[^ -~]"
+
+  syntax_errors:
+    name: "1️⃣ Syntax errors"
     runs-on: "ubuntu-20.04"
     steps:
       - name: "Set up PHP"
@@ -19,21 +30,20 @@ jobs:
       - name: "Checkout code"
         uses: "actions/checkout@v3"
 
-      - name: "0️⃣ Find non-printable ASCII characters"
-        run: |
-          ! LC_ALL=C.UTF-8 find . -type f -name "*.php" -print0 | xargs -0 -- grep -PHn "[^ -~]"
-
       - name: "Install dependencies"
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "highest"
 
-      - name: "Check syntax"
+      - name: "Check source code for syntax errors"
         run: "composer exec -- parallel-lint src/"
+        # @TODO Check template files for syntax errors
 
-  unit-tests:
-    name: "2️⃣ Unit tests"
-    needs: "syntax"
+  unit_tests:
+    name: "2️⃣ Run unit and functional tests"
+    needs:
+      - "byte_level"
+      - "syntax_errors"
     runs-on: "ubuntu-20.04"
     strategy:
       matrix:
@@ -58,6 +68,7 @@ jobs:
 
       - name: "Execute unit tests"
         run: "composer exec -- pest --ci"
+        # @TODO Functional tests
 
 #      - name: "Tests have failed: display logs"
 #        if: "${{ failure() }}"
@@ -71,8 +82,8 @@ jobs:
 #          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.2/php-coveralls.phar"
 #          php ./php-coveralls.phar -v
 
-  static-analysis:
-    name: "3️⃣ Execute static analysis"
+  static_analysis:
+    name: "3️⃣ Static Analysis"
     needs: "syntax"
     runs-on: "ubuntu-20.04"
     steps:
@@ -94,9 +105,10 @@ jobs:
 
       - name: "Execute static analysis"
         run: "composer exec -- phpstan analyze -l 5 src/"
+        # @TODO Magic Number Detector, Copy-Paste Detector
 
-  coding-standards:
-    name: "4️⃣ Check coding standards"
+  coding_standards:
+    name: "4️⃣ Coding Standards"
     needs: "syntax"
     runs-on: "ubuntu-20.04"
     steps:
@@ -108,10 +120,13 @@ jobs:
       - name: "Checkout code"
         uses: "actions/checkout@v3"
 
+      - name: "Check adherence to EditorConfig"
+        uses: "greut/eclint-action@v0"
+
       - name: "Install dependencies"
         uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "highest"
 
-      - name: "Check syntax"
+      - name: "Check coding style"
         run: "composer exec -- phpcs --standard=PSR12 -s src/"
