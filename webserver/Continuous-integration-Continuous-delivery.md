@@ -7,23 +7,33 @@ How to design and implement CI and CD.
 - Run in a premade container or install OS packages
 - Display environment information
 - Set access credentials
+- Version control
+  - Git commiter
+  - Commit message
+  - PR title
 - Cache OS and programming language library packages
 - Check programming language and framework version compatibility
 - Check package management configuration (validate & normalize)
 - Check outdated packages and known security vulnerabilities
 - Build code
 - Configure application
-- Check non-ASCII characters in the source code
-  (non-English alphabets, whitespace characters, control characters) :zero:
-- Check source code for syntax errors :one:
-- Check template files for syntax errors
-- Check coding style and adhere to EditorConfig :two:
-- Magic Number Detector
-- Copy-Paste Detector
-- **Run static analysis** :three:
-- Run unit and functional tests
+- :zero: Byte-level
+  - Look for non-ASCII characters
+    (non-English alphabets, whitespace characters, control characters)
+- :one: Syntax errors
+  - Check source code for syntax errors
+  - Check template files for syntax errors
+- :two: Run unit and functional tests
+- :three: Static Analysis
+  - Run static analysis: **PHPStan**
+  - Magic Number Detector
+  - Copy-Paste Detector
+- :four: Coding Standards
+  - Check coding style
+  - Adhere to EditorConfig
 - Measure code coverage
 - Check route methods (controllers of routes)
+- Check list of distributed files
 - Custom checks and warnings
 - Display logs in CI output or upload logs as artifacts
 - Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)
