@@ -15,7 +15,7 @@ _Milyen készülékeken, böngészőkkel tesztelek?_
 - **iPhone 6** oprendszer: iOS 13.2.2, böngésző: Mobile Safari v12.34
 - **PC** Windows 10 v1803, Edge 42.17134.1038.0
 - **PC** Debian GNU/Linux 10.1, Firefox 70.0.1
-- AMP verzió tesztelése
+- AMP verzió és privát mód tesztelése
 
 :bulb: Tesztelés közben tartsd nyitva a böngésző konzolt, mobilon a _debug_ konzolt.
 

@@ -15,7 +15,7 @@ _On what device, browser am I testing?_
 - **iPhone 6** operating system: iOS 13.2.2, browser: Mobile Safari v12.34
 - **PC** Windows 10 v1803, Edge 42.17134.1038.0
 - **PC** Debian GNU/Linux 10.1, Firefox 70.0.1
-- Testing of AMP version
+- Testing of AMP version and private mode
 
 :bulb: Keep browser console open while testing, on mobile the _debug_ console.
 

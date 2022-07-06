@@ -26,6 +26,16 @@ _shared_script_check_executable: &script_check_executable |
   test -z "$(find bin/ -type f -name "*.sh" -not -executable)"
   test -z "$(find . -type f -not -path "./.git/*" -not -path "./bin/*.sh" -executable)"
 
+_shared_script_verify_exported_files: &script_verify_exported_files |
+  EXPECTED_FILES="CONTRIBUTING.md,LICENSE,README.md,composer.json,phpcs.xml.dist,phpstan.neon.dist,phpunit.xml.dist"
+  mkdir -p tests/ourselves
+  echo '{"repositories":[{"type":"path","url":"../../../","options":{"symlink":false}}],"minimum-stability":"dev"}' >tests/ourselves/composer.json
+  composer require --working-dir=tests/ourselves 'vendor/name:*'
+  CURRENT_FILES="$(find tests/ourselves/vendor/vendor/name/ -type f -not -path 'tests/ourselves/vendor/vendor/name/src/*' -printf '%f\0'|LC_ALL=C sort -z|paste -s -z -d ','|tr -d '\000')"
+  echo "$EXPECTED_FILES"
+  echo "$CURRENT_FILES"
+  test "$EXPECTED_FILES" == "$CURRENT_FILES"
+
 _shared_script_install_phive: &script_install_phive |
   # Install PHIVE (cached)
   if [ ! -r "${HOME}/.phive/phive.phar" ]; then
@@ -51,16 +61,6 @@ _shared_script_install_phive: &script_install_phive |
   fi
   install --verbose --mode=0755 --no-target-directory -D "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
   export PATH="${HOME}/bin:${PATH}"
-
-_shared_script_verify_exported_files: &script_verify_exported_files |
-  EXPECTED_FILES="CONTRIBUTING.md,LICENSE,README.md,composer.json,phpcs.xml.dist,phpstan.neon.dist,phpunit.xml.dist"
-  mkdir -p tests/ourselves
-  echo '{"repositories":[{"type":"path","url":"../../../","options":{"symlink":false}}],"minimum-stability":"dev"}' >tests/ourselves/composer.json
-  composer require --working-dir=tests/ourselves 'vendor/name:*'
-  CURRENT_FILES="$(find tests/ourselves/vendor/vendor/name/ -type f -not -path 'tests/ourselves/vendor/vendor/name/src/*' -printf '%f\0'|LC_ALL=C sort -z|paste -s -z -d ','|tr -d '\000')"
-  echo "$EXPECTED_FILES"
-  echo "$CURRENT_FILES"
-  test "$EXPECTED_FILES" == "$CURRENT_FILES"
 
 # On CI-s without "travis_retry"
 # gpg --batch --keyserver keys.openpgp.org --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79 \

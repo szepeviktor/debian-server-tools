@@ -18,6 +18,7 @@ How to design and implement CI and CD.
 - Build code
 - Configure application
 - :zero: Byte-level
+  - Check execute file mode bit
   - Look for non-ASCII characters
     (non-English alphabets, whitespace characters, control characters)
 - :one: Syntax errors

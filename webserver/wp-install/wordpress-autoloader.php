@@ -15,7 +15,7 @@ use function spl_autoload_register;
 
 spl_autoload_register(
 	/**
-	 * Closure of the autoloader.
+	 * Closure for the autoloader.
 	 *
 	 * @param class-string $class_name The fully-qualified class name.
 	 * @return void

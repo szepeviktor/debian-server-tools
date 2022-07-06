@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
 name: "Integrate"
 
 on:
@@ -13,6 +15,10 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: "actions/checkout@v3"
+
+      - name: "Check file permissions"
+        run: |
+          test "$(find . -type f -not -path './.git/*' -executable)" == ""
 
       - name: "Find non-printable ASCII characters"
         run: |
@@ -40,7 +46,7 @@ jobs:
         # @TODO Check template files for syntax errors
 
   unit_tests:
-    name: "2️⃣ Run unit and functional tests"
+    name: "2️⃣ Unit and functional tests"
     needs:
       - "byte_level"
       - "syntax_errors"
@@ -84,7 +90,9 @@ jobs:
 
   static_analysis:
     name: "3️⃣ Static Analysis"
-    needs: "syntax"
+    needs:
+      - "byte_level"
+      - "syntax_errors"
     runs-on: "ubuntu-20.04"
     steps:
       - name: "Set up PHP"
@@ -109,7 +117,9 @@ jobs:
 
   coding_standards:
     name: "4️⃣ Coding Standards"
-    needs: "syntax"
+    needs:
+      - "byte_level"
+      - "syntax_errors"
     runs-on: "ubuntu-20.04"
     steps:
       - name: "Set up PHP"
