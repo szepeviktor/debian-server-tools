@@ -2,7 +2,7 @@
 #
 # List your server's resources.
 #
-# VERSION       :1.1.0
+# VERSION       :1.2.0
 # DATE          :2018-08-24
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -163,10 +163,18 @@ case "$CHECK" in
         # while :;do ENTR=$(cat /proc/sys/kernel/random/entropy_avail);printf -v BAR '%*s' $((ENTR/25));echo ${BAR// /_} $ENTR;sleep 10;done
         declare -i ENTROPY
         ENTROPY="$(cat /proc/sys/kernel/random/entropy_avail)"
-        if [ "$ENTROPY" -ge 1000 ]; then
-            RESULT="min1000"
+        if [ -f /proc/sys/kernel/random/read_wakeup_threshold ]; then
+            if [ "$ENTROPY" -ge 1000 ]; then
+                RESULT="min1000"
+            else
+                RESULT="insufficient (${ENTROPY})"
+            fi
         else
-            RESULT="insufficient (${ENTROPY})"
+            if [ "$ENTROPY" -eq 256 ]; then
+                RESULT="normal"
+            else
+                RESULT="unknown (${ENTROPY})"
+            fi
         fi
         ;;
     VCONSOLE)

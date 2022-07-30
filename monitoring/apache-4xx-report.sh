@@ -2,7 +2,7 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.4.0
+# VERSION       :1.4.1
 # DATE          :2019-01-25
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -25,7 +25,7 @@ APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 
 Filter_client_server_error()
 {
-    # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4
+    # https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     #     408 Request Timeout on preconnect
     #     Tunneling through Amazon CloudFront for blocked news sites in China
@@ -36,7 +36,7 @@ Filter_client_server_error()
     #     Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
     #     Baidu, Bing, DuckDuckGo, Yandex, Qwant crawlers
     #     Feed fetchers
-    grep -E '" (4(0[0-9]|1[0-7])|50[0-5]) [0-9]+ "' \
+    grep -E '" (4(0[0-9]|1[0-7]|2[126])|50[0-5]) [0-9]+ "' \
         | grep -v -E ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$' \
         | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/[012.]+" (301|403) [0-9]+ ".*" "Amazon CloudFront"$' \
         #| grep -v -E '/favicon\.ico HTTP/1\.1" 40[34] [0-9]+ "' \

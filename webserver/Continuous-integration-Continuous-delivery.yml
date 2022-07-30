@@ -50,7 +50,6 @@ jobs:
     needs:
       - "byte_level"
       - "syntax_errors"
-    runs-on: "ubuntu-20.04"
     strategy:
       matrix:
         php-version:
@@ -58,6 +57,7 @@ jobs:
         dependencies:
           - "lowest"
           - "highest"
+    runs-on: "ubuntu-20.04"
     steps:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
