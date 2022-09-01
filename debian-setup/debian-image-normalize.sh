@@ -80,7 +80,7 @@ tasksel --list-tasks | grep -v '^u ' || true
 # shellcheck disable=SC2046
 apt-get purge -qq $(${APTI_SEARCH} '?and(?installed, ?or(?name(^task-), ?name(^tasksel)))') #'
 # grep -A 4 '^Template: ' /var/lib/dpkg/info/tasksel.templates
-echo "tasksel tasksel/first multiselect" | debconf-set-selections -v
+echo "tasksel tasksel/first multiselect ssh-server, standard" | debconf-set-selections -v
 echo "tasksel tasksel/tasks multiselect ssh-server, standard" | debconf-set-selections -v
 echo "tasksel tasksel/desktop multiselect" | debconf-set-selections -v
 echo "tasksel tasksel/title title" | debconf-set-selections -v

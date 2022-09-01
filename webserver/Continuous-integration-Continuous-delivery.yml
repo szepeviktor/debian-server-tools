@@ -7,6 +7,11 @@ on:
     branches:
       - "master"
   pull_request: null
+  # Add [skip ci] to commit message to skip CI.
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   byte_level:
@@ -18,11 +23,12 @@ jobs:
 
       - name: "Check file permissions"
         run: |
-          test "$(find . -type f -not -path './.git/*' -executable)" == ""
+          test "$(find . -type f -not -path './.git/*' -executable)" = ""
 
       - name: "Find non-printable ASCII characters"
         run: |
-          ! LC_ALL=C.UTF-8 find . -type f -name "*.php" -print0 | xargs -0 -- grep -PHn "[^ -~]"
+          #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs -0 -- grep -PHn '[^ -~]' | grep -v '// @ignore-non-ascii$'
+          ! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs -0 -- grep -PHn '[^ -~]'
 
   syntax_errors:
     name: "1️⃣ Syntax errors"
@@ -32,6 +38,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "8.0"
+          coverage: "none"
 
       - name: "Checkout code"
         uses: "actions/checkout@v3"
@@ -51,6 +58,7 @@ jobs:
       - "byte_level"
       - "syntax_errors"
     strategy:
+      #fail-fast: false
       matrix:
         php-version:
           - "8.0"
@@ -61,6 +69,8 @@ jobs:
     steps:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
+#        env:
+#            COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.GITHUB_TOKEN }}"}}'
         with:
           php-version: "${{ matrix.php-version }}"
 
@@ -80,10 +90,10 @@ jobs:
 #        if: "${{ failure() }}"
 #        run: "cat storage/logs/*.log"
 
-#      - name: Send coverage to Coveralls
-#        if: "matrix.php-version == '8.1' && matrix.dependencies == 'highest'"
+#      - name: "Send coverage to Coveralls"
 #        env:
 #          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#        if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.1' && matrix.dependencies == 'highest' }}"
 #        run: |
 #          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.2/php-coveralls.phar"
 #          php ./php-coveralls.phar -v
@@ -99,6 +109,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "8.0"
+          coverage: "none"
 
       - name: "Checkout code"
         uses: "actions/checkout@v3"
@@ -111,9 +122,12 @@ jobs:
         with:
           dependency-versions: "highest"
 
-      - name: "Execute static analysis"
+      - name: "Check for PSR-4 mapping errors"
+        run: "composer dump-autoload --optimize --strict-psr"
+
+      - name: "Perform static analysis"
         run: "composer exec -- phpstan analyze -l 5 src/"
-        # @TODO Magic Number Detector, Copy-Paste Detector
+        # @TODO Mess Detector, Magic Number Detector, Copy-Paste Detector
 
   coding_standards:
     name: "4️⃣ Coding Standards"
@@ -126,9 +140,13 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "8.0"
+          coverage: "none"
 
       - name: "Checkout code"
         uses: "actions/checkout@v3"
+
+      - name: "Check EditorConfig configuration"
+        run: "test -f .editorconfig"
 
       - name: "Check adherence to EditorConfig"
         uses: "greut/eclint-action@v0"
@@ -154,7 +172,7 @@ jobs:
       - name: "Check exported files"
         run: |
           EXPECTED="LICENSE,README.md,composer.json"
-          CURRENT="$(git archive HEAD | tar --list --exclude="src" --exclude="src/*" | paste -s -d ",")"
+          CURRENT="$(git archive HEAD | tar --list --exclude="src" --exclude="src/*" | paste --serial --delimiters=",")"
           echo "CURRENT =${CURRENT}"
           echo "EXPECTED=${EXPECTED}"
-          test "${CURRENT}" == "${EXPECTED}"
+          test "${CURRENT}" = "${EXPECTED}"

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# DOCS          :https://salsa.debian.org/php-team/php/blob/master-7.4/debian/changelog
+# DOCS          :https://salsa.debian.org/php-team/php/-/blob/debian/main/7.4/debian/changelog
 
 Php_pager()
 {
@@ -24,10 +24,7 @@ PHP_TZ="UTC"
 CWD="$(dirname "${BASH_SOURCE[0]}")"
 
 # Later versions of Ondřej Surý's PHP-FPM "Depends: systemd | systemd-tmpfiles"
-# CVE-2017-18925
-Getpkg opentmpfiles sid
-# @nonDebian
-Pkg_install_quiet systemd-tmpfiles
+Pkg_install_quiet systemd-standalone-tmpfiles/bullseye-backports
 
 # @nonDebian
 Pkg_install_quiet "php${PHP}-fpm" libpcre3 \

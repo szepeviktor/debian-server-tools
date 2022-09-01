@@ -45,7 +45,8 @@ cd debian-server-tools-master/debian-setup/
 #echo "true" >>./packages/hostname
 
 lsblk -f
-tune2fs -L "debian-root" /dev/vda1
+# New gpt partion table: vda1 + vda2
+tune2fs -L "debian-root" "$(df --output=source --type=ext4 / | tail -n +2)"
 
 ##script --timing=../debian-setup.time ../debian-setup.script
 ./debian-setup.sh

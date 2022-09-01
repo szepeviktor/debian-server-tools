@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Debian buster setup on a virtual server.
+# Debian bullseye setup on a virtual server.
 #
 # VERSION       :3.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools

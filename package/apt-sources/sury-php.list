@@ -1,5 +1,5 @@
 # DEB.SURY.ORG (is in CZ)
-deb https://packages.sury.org/php/ buster main
+deb https://packages.sury.org/php/ bullseye main
 #K: wget -qO/etc/apt/trusted.gpg.d/sury-php.gpg https://packages.sury.org/php/apt.gpg
 #M: https://packages.sury.org/php/README.txt
 #P: printf 'Package: openssl libssl-dev libssl-doc libssl1.1\nPin: origin "packages.sury.org"\nPin-Priority: -1\n' >/etc/apt/preferences.d/openssl

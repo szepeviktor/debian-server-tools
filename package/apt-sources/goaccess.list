@@ -1,4 +1,4 @@
 # Goaccess
-deb http://deb.goaccess.io/ buster main
+deb http://deb.goaccess.io/ bullseye main
 #K: wget -qO- https://deb.goaccess.io/goaccess.gpg.key >/etc/apt/trusted.gpg.d/goaccess.gpg
 #M: https://goaccess.io/download#distro

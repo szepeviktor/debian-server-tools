@@ -4,5 +4,4 @@ set -e -x
 
 echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections -v
 echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections -v
-# @nonDebian
-Pkg_install_quiet -t buster-backports iptables-persistent ipset-persistent
+Pkg_install_quiet iptables-persistent ipset-persistent

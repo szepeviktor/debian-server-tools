@@ -4,7 +4,7 @@
 system:
     fqdn: ##host.example.com
     uuid: ##/usr/sbin/dmidecode -s system-uuid | tr '[:upper:]' '[:lower:]'
-    os: "Debian ‘buster’"
+    os: "Debian ‘bullseye’"
     install-date: ##YYYY-MM-DD
     # tput sgr0;for C in {1..7};do tput setaf $C;echo -n "■${C}■  ";tput sgr0;done;echo
     host-color: 7
@@ -19,7 +19,7 @@ package:
         # See /package/apt-sources/
         sources:
             - sury-php
-            - szepeviktor
+            #- szepeviktor # for up to stretch
             #- percona
             #- mysql-5.7
             #- oracle-mysql-server

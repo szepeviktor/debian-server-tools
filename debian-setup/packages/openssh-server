@@ -43,7 +43,7 @@ service ssh restart
 
 # Check sshd running and listening
 service ssh status | cat
-netstat -n -a -t -p | grep ":${SSH_PORT}\\s.*/sshd\\s*\$"
+netstat -n -a -t -p | grep ":${SSH_PORT}\\s.*/sshd[[:space:]:]"
 
 # Check password authentication for the first sudoer
 if SSH_U="$(getent group "sudo")"; then
