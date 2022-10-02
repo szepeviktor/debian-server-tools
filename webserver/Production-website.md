@@ -14,6 +14,24 @@ Not only for WordPress sites!
 ## Installation
 
 
+### Overview
+
+- linux user account for website
+- application source code
+- SQL database
+- deploy script
+- CLI tools (application management, OPcache, DNS)
+- SSL certificate
+- PHP-FPM pool
+- webserver virtual host
+- DNS records
+- CDN
+- email sending
+- set up application
+- cron jobs
+- check log files
+- register in webmaster tools
+
 ### DNS setup
 
 - A, CNAME (for [CDN](http://www.cdnplanet.com/cdns/))

@@ -12,7 +12,7 @@
 # LOCATION      :/usr/local/bin/https-get-time.sh
 
 # Usage
-#     https-time.sh https://example.com/page
+#     https-get-time.sh https://example.com/page
 
 # Use -S option after the URL to show HTTP response headers and body on stdout.
 

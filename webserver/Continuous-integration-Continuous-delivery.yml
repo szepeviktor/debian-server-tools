@@ -122,7 +122,7 @@ jobs:
         with:
           dependency-versions: "highest"
 
-      - name: "Check for PSR-4 mapping errors"
+      - name: "Check PSR-4 mapping"
         run: "composer dump-autoload --optimize --strict-psr"
 
       - name: "Perform static analysis"

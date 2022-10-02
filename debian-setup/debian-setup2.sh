@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Continue Debian buster setup on a virtual server.
+# Continue Debian bullseye setup on a virtual server.
 #
 # VERSION       :3.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -55,9 +55,9 @@ packages/s-nail
 packages/goaccess
 
 # From backports
-# List available backports: apt-get upgrade -t buster-backports
+# List available backports: apt-get upgrade -t bullseye-backports
 # @nonDebian
-##Pkg_install_quiet -t buster-backports
+##Pkg_install_quiet -t bullseye-backports
 
 packages/needrestart
 
@@ -279,7 +279,7 @@ service fail2ban restart
 Pkg_install_quiet debconf-utils rsync mariadb-client
 # mariadb-backup/percona-xtrabackup is installed in packages/mariadb,mysql
 # @nonDebian
-Pkg_install_quiet -t buster-backports s3ql
+packages/s3ql
 
 # Monit - monitoring
 # @FIXME Needs a production website for apache2 and php-fpm

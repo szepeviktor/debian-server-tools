@@ -170,8 +170,10 @@ rm -rf /etc/console-setup
 apt-get install -qq ssh sudo dirmngr apt-transport-https virt-what python3-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
+# @FIXME
+sed -i -e '1 s#/usr/bin/env python#/usr/bin/env python3#' /usr/local/bin/shyaml
 chmod +x /usr/local/bin/shyaml
-python3 /usr/local/bin/shyaml --version
+shyaml --version
 
 # Add APT repositories
 for REPO in $(Data get-values package.apt.sources); do

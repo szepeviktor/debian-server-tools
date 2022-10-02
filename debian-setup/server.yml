@@ -32,9 +32,9 @@ package:
             #- percona-server-server-5.7
             #- goaccess/testing
     ca-certificates:
-        # Buster has the latest version
+        # Bookworm has the latest version
         # http://metadata.ftp-master.debian.org/changelogs/main/c/ca-certificates/testing_changelog
-        install-testing: false
+        install-testing: true
     adduser:
         firstuser:
             name: viktor
@@ -188,8 +188,8 @@ packaging:
         list-command: gem list
         location: /usr/lib/ruby/vendor_ruby
 
-# shyaml get-values buster-backports </root/server.yml | xargs -- apt-get install -t buster-backports # -y
-buster-backports:
+# shyaml get-values bullseye-backports </root/server.yml | xargs -- apt-get install -t bullseye-backports # -y
+bullseye-backports:
     - init-system-helpers
     - needrestart
     - geoipupdate

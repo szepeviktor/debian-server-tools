@@ -1,4 +1,4 @@
- check process chronyd with pidfile /run/chronyd.pid
+ check process chronyd with pidfile /run/chrony/chronyd.pid
    group system
    group chronyd
    start program = "/usr/sbin/service chrony start"
