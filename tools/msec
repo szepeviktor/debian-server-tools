@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Draws a line as long as the execution time in miliseconds.
+# Draws a line as long as the execution time in milliseconds.
 #
 # VERSION       :0.2.1
 # DATE          :2015-07-07

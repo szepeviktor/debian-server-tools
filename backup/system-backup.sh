@@ -8,7 +8,7 @@
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DEPENDS       :apt-get install debconf-utils rsync mariadb-client mariadb-backup s3ql
+# DEPENDS       :apt-get install debconf-utils rsync mariadb-client s3ql
 # DOCS          :https://mariadb.com/kb/en/mariabackup-overview/
 # LOCATION      :/usr/local/sbin/system-backup.sh
 # CONFIG        :/root/.config/system-backup/configuration

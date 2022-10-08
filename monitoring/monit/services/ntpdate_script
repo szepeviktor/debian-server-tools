@@ -32,7 +32,7 @@ if [ -z "$OFFSET" ]; then
     Error 1 "Failed to measure offset"
 fi
 
-# Absolute milisecond offset
+# Absolute millisecond offset
 OFFSET_MSEC="$(echo "( ${OFFSET#-} * 1000 )/1" | bc -q)"
 
 if [ "$OFFSET_MSEC" -gt 128 ]; then

@@ -167,7 +167,7 @@ rm -rf /var/lib/clamav /var/log/clamav
 rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
-apt-get install -qq ssh sudo dirmngr apt-transport-https virt-what python3-yaml
+apt-get install -qq ssh sudo dirmngr virt-what python3-yaml
 # Install SHYAML (config reader)
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 # @FIXME
