@@ -24,7 +24,7 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
 add_filter( 'wpseo_submenu_pages', function ( $submenu_pages ) {
     foreach ( $submenu_pages as $key => $submenu_page ) {
         // Fifth element is $page_slug
-        if ( 'wpseo_licenses' === $submenu_page[4] ) {
+        if ( in_array( $submenu_page[4], ['wpseo_licenses', 'wpseo_workouts', 'wpseo_redirects'] ) ) {
             unset( $submenu_pages[ $key ] );
         }
     }

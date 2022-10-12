@@ -1,0 +1,68 @@
+#
+# Overview
+#
+# 1. Installation repo on GitHub with environment-named branches
+# 2. Deploy with a GHA workflow
+# 3. GHA connects to server through restricted SSH
+# 4. Server connects back to GitHub through SSH with Deploy key
+# 5. Server connects to private GitHub repos with a Personal token
+#
+# echo "${ENV}_CD_SSH_USER_AT_HOST $(stat -c %U ~)@$(hostname)"
+# echo "${ENV}_CD_SSH_KEY_B64 $(cat ~/.ssh/id_ed25519 | base64 -w 0)"
+# echo "${ENV}_CD_SSH_KNOWN_HOSTS_B64 $(ssh-keyscan $(hostname) | base64 -w 0)"
+
+name: "Deploy"
+
+on:
+  workflow_dispatch: null
+
+jobs:
+  deploy_to_server:
+    name: "Deploy from ${{ github.ref_name }}"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Deploy to staging environment"
+        env:
+          CD_SSH_USER_AT_HOST: "${{ secrets.STAGING_CD_SSH_USER_AT_HOST }}"
+          CD_SSH_KEY_B64: "${{ secrets.STAGING_CD_SSH_KEY_B64 }}"
+          CD_SSH_KNOWN_HOSTS_B64: "${{ secrets.STAGING_CD_SSH_KNOWN_HOSTS_B64 }}"
+        if: "${{ env.CD_SSH_USER_AT_HOST != '' && github.ref_name == 'staging' }}"
+        run: |
+          # Create files and directories
+          ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
+          rm ~/.ssh/id_ed25519.pub
+          # Our server's public key
+          echo "${CD_SSH_KNOWN_HOSTS_B64}" | base64 --decode >>~/.ssh/known_hosts
+          # Project user's SSH private key
+          echo "${CD_SSH_KEY_B64}" | base64 --decode >~/.ssh/id_ed25519
+          # Trigger deployment
+          echo "${{ github.repository }} ${{ github.ref_name }} ${{ github.sha }}" \
+            | ssh -4 -o ConnectionAttempts=3 -o PasswordAuthentication=no "${CD_SSH_USER_AT_HOST}"
+
+      - name: "Deploy to PRODUCTION environment"
+        env:
+          CD_SSH_USER_AT_HOST: "${{ secrets.PROD_CD_SSH_USER_AT_HOST }}"
+          CD_SSH_KEY_B64: "${{ secrets.PROD_CD_SSH_KEY_B64 }}"
+          CD_SSH_KNOWN_HOSTS_B64: "${{ secrets.PROD_CD_SSH_KNOWN_HOSTS_B64 }}"
+        if: "${{ env.CD_SSH_USER_AT_HOST != '' && github.ref_name == 'production' }}"
+        run: |
+          # Create files and directories
+          ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519
+          rm ~/.ssh/id_ed25519.pub
+          # Our server's public key
+          echo "${CD_SSH_KNOWN_HOSTS_B64}" | base64 --decode >>~/.ssh/known_hosts
+          # Project user's SSH private key
+          echo "${CD_SSH_KEY_B64}" | base64 --decode >~/.ssh/id_ed25519
+          # Trigger deployment
+          echo "${{ github.repository }} ${{ github.ref_name }} ${{ github.sha }}" \
+            | ssh -4 -o ConnectionAttempts=3 -o PasswordAuthentication=no "${CD_SSH_USER_AT_HOST}"
+
+      - name: "Deploy to development environment"
+        if: "${{ github.ref_name != 'staging' && github.ref_name != 'production' }}"
+        run: |
+          echo "::error::We don't have a development server :("
+          exit 1
+
+      - name: "Clean up secrets"
+        run: |
+          rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts

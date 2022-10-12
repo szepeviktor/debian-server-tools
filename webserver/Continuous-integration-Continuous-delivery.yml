@@ -114,6 +114,10 @@ jobs:
       - name: "Checkout code"
         uses: "actions/checkout@v3"
 
+#      - name: "Check JSON files"
+#        run: |
+#          find . -type f -name '*.json' | xargs -t -L 1 -- php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
+
       - name: "Validate Composer configuration"
         run: "composer validate --strict"
 

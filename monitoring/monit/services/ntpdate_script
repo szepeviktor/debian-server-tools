@@ -2,8 +2,8 @@
 #
 # Check system time and alert on offset greater than +-128 ms.
 #
-# VERSION       :0.4.0
-# DATE          :2016-08-30
+# VERSION       :0.5.0
+# DATE          :2022-10-08
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -26,14 +26,14 @@ export NTPSERVERS="${*:-0.europe.pool.ntp.org}"
 declare -i OFFSET_MSEC
 
 OFFSET="$(/usr/sbin/ntpdate-debian -q \
-    | sed -n -e '0,/^.*: \(adjust\|step\) time server [0-9a-f.:]\+ offset \(-\?[0-9.]\+\) sec$/s//\2/p')"
+    | sed -n -e '0,/^.*: \(adjust\|step\) time server [0-9a-f.:]\+ offset [+-]\?\([0-9.]\+\) sec$/ s//\2/p')"
 
 if [ -z "$OFFSET" ]; then
     Error 1 "Failed to measure offset"
 fi
 
 # Absolute millisecond offset
-OFFSET_MSEC="$(echo "( ${OFFSET#-} * 1000 )/1" | bc -q)"
+OFFSET_MSEC="$(echo "( ${OFFSET} * 1000 )/1" | bc -q)"
 
 if [ "$OFFSET_MSEC" -gt 128 ]; then
     logger -t "ntp-alert" "Measured offset is ${OFFSET} sec"
