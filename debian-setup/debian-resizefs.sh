@@ -32,9 +32,10 @@ case "$1" in
 esac
 
 . /usr/share/initramfs-tools/hook-functions
-copy_exec /sbin/findfs /sbin
-copy_exec /sbin/e2fsck /sbin
-copy_exec /sbin/resize2fs /sbin
+
+copy_exec /usr/sbin/findfs /usr/sbin
+# copy_exec /sbin/e2fsck /sbin
+copy_exec /usr/sbin/resize2fs /usr/sbin
 EOF
 
 chmod +x /etc/initramfs-tools/hooks/resize2fs
@@ -61,17 +62,17 @@ ROOT_SIZE="8G"
 
 # Convert root from possible UUID to device name
 echo "root=${ROOT}  "
-ROOT_DEVICE="$(/sbin/findfs "$ROOT")"
+ROOT_DEVICE="$(/usr/sbin/findfs "$ROOT")"
 echo "root device name is ${ROOT_DEVICE}  "
 # Make sure LVM volumes are activated
-if [ -x /sbin/vgchange ]; then
-    /sbin/vgchange -a y || echo "vgchange: $?  "
+if [ -x /usr/sbin/vgchange ]; then
+    /usr/sbin/vgchange -a y || echo "vgchange: $?  "
 fi
 # Check root filesystem
-/sbin/e2fsck -y -v -f "$ROOT_DEVICE" || echo "e2fsck: $?  "
+/usr/sbin/e2fsck -y -v -f "$ROOT_DEVICE" || echo "e2fsck: $?  "
 # Resize
 # debug-flag 8 means debug moving the inode table
-/sbin/resize2fs -d 8 "$ROOT_DEVICE" "$ROOT_SIZE" || echo "resize2fs: $?  "
+/usr/sbin/resize2fs -d 8 "$ROOT_DEVICE" "$ROOT_SIZE" || echo "resize2fs: $?  "
 EOF
 
 chmod +x /etc/initramfs-tools/scripts/init-premount/resize
@@ -88,4 +89,5 @@ reboot
 # lsinitramfs /boot/initrd.img-*-amd64
 
 # Remove files from initrd after reboot
+# and don't forget to resize the logical volume with lvreduce // FIXME: how to do that to the exect size of fs
 # update-initramfs -u
