@@ -13,7 +13,7 @@ add shodan 71.6.167.124
 add shodan 71.6.146.186
 #$ for S in census{1..12} {atlantic,beastmaster,border,pacific,rim,ninja,pirate,turtle}.census \
 #$   {einstein,malware-hunter,refrigerator,dojo,sky,mason,house,battery,flower,cloud}.census \
-#$   {blue,blue2,green,hat,wine,inspire}.census \
+#$   {blue,blue2,green,hat,red,wine,inspire}.census \
 #$   atlantic.dns blog hello.data; do dig ${S}.shodan.io. A +short
 #$ done | sortip -u | sed -e 's/^/add shodan /'
 add shodan 66.240.192.138
@@ -27,8 +27,6 @@ add shodan 71.6.167.142
 add shodan 71.6.199.23
 add shodan 80.82.77.33
 add shodan 80.82.77.139
-add shodan 82.221.105.6
-add shodan 82.221.105.7
 add shodan 85.25.43.94
 add shodan 85.25.103.50
 add shodan 89.248.167.131
@@ -44,6 +42,7 @@ add shodan 185.142.236.35
 add shodan 185.142.236.36
 add shodan 185.142.236.40
 add shodan 185.142.236.43
+add shodan 185.165.190.34
 add shodan 188.138.9.50
 add shodan 198.20.69.74
 add shodan 198.20.69.98

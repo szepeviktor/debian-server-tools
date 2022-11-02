@@ -21,16 +21,6 @@ class IsDownForMaintenance extends Command
     protected $description = 'Determine if the application is currently down';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int Exit status.
@@ -39,18 +29,14 @@ class IsDownForMaintenance extends Command
     {
         if (!$this->laravel->isDownForMaintenance()) {
             $this->info('Application is up.');
-            return 0;
+
+            return Command::FAILURE;
         }
 
         $data = json_decode(file_get_contents(storage_path('framework/down')), true);
 
-        $status = sprintf(
-            "Time: %s\nRetry: %d\nMessage: '%s'",
-            date('c', $data['time']),
-            $data['retry'] ?: 0,
-            $data['message']
-        );
-        $this->line($status);
-        return 10;
+        $this->info('Number of data fields: ' . (string) count($data));
+
+        return Command::SUCCESS;
     }
 }

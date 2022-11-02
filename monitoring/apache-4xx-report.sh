@@ -25,6 +25,9 @@ APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 
 Filter_client_server_error()
 {
+    # "+" encoded spaces, lower case hexadecimal digits
+    ## grep -E '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])'
+
     # https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     #     408 Request Timeout on preconnect

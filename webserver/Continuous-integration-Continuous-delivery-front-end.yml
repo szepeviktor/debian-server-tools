@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Integrate"
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request: null
+  # Add [skip ci] to commit message to skip CI.
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  front_end:
+    name: "2️⃣ Front-end checks"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Set up NodeJS"
+        uses: "actions/setup-node@v3"
+        with:
+          node-version: "16"
+
+      - name: "Configure npm"
+        run: "npm config set engine-strict true"
+
+      - name: "Install all dependencies"
+        run: "npm ci"
+
+      - name: "Run JavaScript linter"
+        run: "npm run js:lint -- --format json --output-file /tmp/eslint_report.json"
+        continue-on-error: true
+
+      - name: "Annotate Code Linting Results"
+        uses: "ataylorme/eslint-annotate-action@v2"
+        with:
+          check-name: "*️⃣ ESLint Annotations"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "/tmp/eslint_report.json"
+
+      - name: "Install production dependencies"
+        run: "npm ci --omit=dev"
+
+      - name: "Build front-end"
+        run: "npm run prod"
+
+      - name: "Check differences"
+        run: "git diff --exit-code"
+
+      - name: "Install stylelint-formatter-github-annotate"
+        run: "npm install stylelint-formatter-github-annotate"
+
+      - name: "Run SASS linter"
+        run: "npm run sass:lint -- --custom-formatter=node_modules/stylelint-formatter-github-annotate"
