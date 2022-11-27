@@ -25,9 +25,6 @@ APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 
 Filter_client_server_error()
 {
-    # "+" encoded spaces, lower case hexadecimal digits
-    ## grep -E '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])'
-
     # https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
     # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
     #     408 Request Timeout on preconnect
@@ -123,6 +120,12 @@ while read -r CONFIG_FILE; do
         --start "now truncate 24h add -17h35m" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
         | Filter_client_server_error \
         | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
+
+    ## "+" encoded spaces, lower case hexadecimal digits
+    #nice dategrep --multiline \
+    #    --start "now truncate 24h add -17h35m" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
+    #    | grep -E '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])' \
+    #    | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 
 done <<<"$APACHE_CONFIGS" | Maybe_sendmail
 

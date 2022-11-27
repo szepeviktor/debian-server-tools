@@ -9,6 +9,11 @@ on:
   pull_request: null
   # Add [skip ci] to commit message to skip CI.
 
+permissions: {}
+# permissions: "read-all"
+# permissions:
+#   contents: "read"
+
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
@@ -93,7 +98,7 @@ jobs:
 #      - name: "Send coverage to Coveralls"
 #        env:
 #          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-#        if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.1' && matrix.dependencies == 'highest' }}"
+#        if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}"
 #        run: |
 #          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.2/php-coveralls.phar"
 #          php ./php-coveralls.phar -v
@@ -119,7 +124,7 @@ jobs:
 #          find . -type f -name '*.json' | xargs -t -L 1 -- php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
 
       - name: "Validate Composer configuration"
-        run: "composer validate --strict"
+        run: "composer validate --no-interaction --strict"
 
       - name: "Install dependencies"
         uses: "ramsey/composer-install@v2"
@@ -127,7 +132,7 @@ jobs:
           dependency-versions: "highest"
 
       - name: "Check PSR-4 mapping"
-        run: "composer dump-autoload --optimize --strict-psr"
+        run: "composer dump-autoload --no-interaction --optimize --strict-psr"
 
       - name: "Perform static analysis"
         run: "composer exec -- phpstan analyze -l 5 src/"
