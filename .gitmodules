@@ -31,6 +31,3 @@
 [submodule "mail/courier-pythonfilter"]
 	path = mail/courier-pythonfilter
 	url = git@github.com:szepeviktor/courier-pythonfilter.git
-[submodule "webserver/wordpress/acf-get"]
-	path = webserver/wordpress/acf-get
-	url = git@github.com:szepeviktor/acf-get.git
