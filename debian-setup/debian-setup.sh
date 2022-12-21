@@ -200,6 +200,7 @@ packages/openssh-server
 
 # Remove apparmor
 apt-get purge -qq apparmor
+printf 'Package: apparmor\nPin: release *\nPin-Priority: -1\n' >/etc/apt/preferences.d/apparmor.pref
 
 # Optionally switch to SysVinit
 packages/systemd

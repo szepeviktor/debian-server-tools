@@ -32,8 +32,8 @@ jobs:
 
       - name: "Find non-printable ASCII characters"
         run: |
-          #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs -0 -- grep -PHn '[^ -~]' | grep -v '// @ignore-non-ascii$'
-          ! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs -0 -- grep -PHn '[^ -~]'
+          #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]' | grep -v '// @ignore-non-ascii$'
+          ! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]'
 
   syntax_errors:
     name: "1️⃣ Syntax errors"
@@ -100,7 +100,7 @@ jobs:
 #          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 #        if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}"
 #        run: |
-#          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.2/php-coveralls.phar"
+#          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar"
 #          php ./php-coveralls.phar -v
 
   static_analysis:
