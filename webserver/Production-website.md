@@ -226,16 +226,16 @@ Check database collation and table storage engines.
 
 See [alter-table.sql](/mysql/alter-table.sql)
 
-Delete transients and object cache.
+Delete transients and object cache contents.
 
 ```bash
 wp plugin install --activate wp-sweep
 wp transient delete-all
-wp db query "DELETE FROM $(wp eval 'global $table_prefix;echo $table_prefix;')options WHERE option_name LIKE '%_transient_%'"
+wp db query "DELETE FROM $(wp db prefix)options WHERE option_name LIKE '%_transient_%'"
 wp cache flush
 ```
 
-Flush page cache.
+Flush full page caches.
 
 ```bash
 wp w3-total-cache flush

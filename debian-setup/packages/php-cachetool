@@ -1,6 +1,9 @@
 #!/bin/bash
 
-CACHETOOL_URL="http://gordalina.github.io/cachetool/downloads/cachetool.phar"
+# For PHP 8.*
+#CACHETOOL_URL="http://gordalina.github.io/cachetool/downloads/cachetool.phar"
+# For PHP 7.4
+CACHETOOL_URL="https://github.com/gordalina/cachetool/raw/gh-pages/downloads/cachetool-7.1.0.phar"
 # For PHP 7.0
 #CACHETOOL_URL="https://github.com/gordalina/cachetool/raw/gh-pages/downloads/cachetool-3.2.1.phar"
 

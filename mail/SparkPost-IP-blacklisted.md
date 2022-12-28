@@ -1,4 +1,4 @@
-# How to report blacklisted IP addresses to SparkPort?
+# How to report blacklisted IP addresses to SparkPost?
 
 Look up these details in Reports / Message Events or through the API.
 
