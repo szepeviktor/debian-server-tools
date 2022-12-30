@@ -1,5 +1,5 @@
 # Node.js from NodeSource
 # https://nodejs.org/en/about/releases/
-deb https://deb.nodesource.com/node_16.x buster main
+deb https://deb.nodesource.com/node_18.x buster main
 #K: wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --yes --dearmor --output /etc/apt/trusted.gpg.d/nodesource.gpg
 #M: https://github.com/nodesource/distributions/blob/master/README.md#debmanual
