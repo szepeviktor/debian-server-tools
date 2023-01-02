@@ -72,7 +72,7 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 ### Plugins
 
 - Document plugin licenses, access to support :snail:
-- See plugin list in [WordPress.md](./WordPress.md#plugins)
+- See plugin list in [Plugins.md](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/Plugins.md)
 - See MU plugins at https://github.com/szepeviktor/wordpress-plugin-construction
 - Allow accents in URL-s? `mu-latin-accent-urls`
 

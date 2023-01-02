@@ -49,7 +49,7 @@ cd "/home/${U}/website/code/"
 
 # Migrate files NOW!
 #
-# See /webserver/WordPress.md
+# See https://github.com/szepeviktor/wordpress-website-lifecycle
 #
 # * HTML-ize WordPress
 #     https://gist.github.com/szepeviktor/4535c5f20572b77f1f52

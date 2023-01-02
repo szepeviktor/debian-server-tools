@@ -264,5 +264,5 @@ Verify your URL
   POP3/S protocol
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
 - [Running a Laravel application](/webserver/laravel)
-- [Installing WordPress](/webserver/WordPress.md)
+- [WordPress lifecycle](https://github.com/szepeviktor/wordpress-website-lifecycle)
 - Interesting read on [web applications](/webserver/PHP-development.md)
