@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Cdespell" # :)
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request: null
+  # Add [skip ci] to commit message to skip CI.
+
+permissions: {}
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  byte_level:
+    name: "Codespell"
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Install codespell"
+        run: "pip install --user 'codespell>=2.2.2'"
+
+      - name: "Search for misspellings"
+        run: "python -m codespell_lib"
