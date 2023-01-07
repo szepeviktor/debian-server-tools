@@ -88,7 +88,7 @@ DYNAMICDELIVERIES=1
 # Uncomment this setting to automatically create a home directory when
 # the first message is received. If the AUTH_MKHOMEDIR_SKEL environment
 # variable is set, and the home directory does not exist, the home
-# directory gets created, with its initial contents copied fro
+# directory gets created, with its initial contents copied from
 # AUTH_MKHOMEDIR_SKEL which must be a directory, typically /etc/skel.
 #
 # Note that this must be a complete home directory structure, including

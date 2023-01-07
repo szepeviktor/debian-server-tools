@@ -1,6 +1,6 @@
 # Fail2Ban filter for low priority HTTP attacks (maxretry = 6)
 
-# INCLUDES setion is necessary: there is no apache-combined.conf
+# INCLUDES section is necessary: there is no apache-combined.conf
 [INCLUDES]
 
 before = apache-common.conf

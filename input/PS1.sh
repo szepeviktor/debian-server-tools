@@ -7,7 +7,7 @@
 #
 # - user/root
 # - 16/256
-# - last comand exit code
+# - last command exit code
 # - last command's order number
 # - .git status
 

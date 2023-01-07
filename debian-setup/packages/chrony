@@ -11,7 +11,7 @@ fi
 
 cat >/etc/chrony/chrony.conf <<EOF
 # Welcome to the chrony configuration file. See chrony.conf(5) for more
-# information about usuable directives.
+# information about usable directives.
 pool ${CHRONY_POOL} iburst
 pool 2.debian.pool.ntp.org iburst
 

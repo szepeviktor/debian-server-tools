@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Report TOP 10 mail folders by message cound and by size.
+# Report TOP 10 mail folders by message count and by size.
 #
 # VERSION       :0.2.2
 # DATE          :2018-12-01

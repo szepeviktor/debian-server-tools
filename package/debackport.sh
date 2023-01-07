@@ -167,7 +167,7 @@ if [ -z "$SHORTBUILD" ]; then
 
     pushd "$DIR" || die 22 "Can't pushd"
 
-    dpkg-checkbuilddeps || die 11 "still dependencies not fullfilled"
+    dpkg-checkbuilddeps || die 11 "still dependencies not fulfilled"
     dch_msg
 else
     msg "Doing shortbuild!"

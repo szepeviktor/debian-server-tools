@@ -6,7 +6,7 @@
 
 ### Complexity
 
-- Minimum lenght: 8
+- Minimum length: 8
 - Maximum length: 32
 - Must contain characters: lowercase, uppercase, digit, symbol+space
 - May not contain characters: ?

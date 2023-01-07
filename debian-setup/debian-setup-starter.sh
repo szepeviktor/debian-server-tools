@@ -12,7 +12,7 @@
 # - Transactional email provider
 # - Storage provider (server backup)
 #
-# 1. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
+# 1. Acquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 2. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX
 # 3. PuTTY session: Connection/Data: viktor, xterm-256color; Connection/SSH/Auth: [ ] keyboard-interactive
 # 4. Set up inbound ESP and bounce notification
@@ -45,7 +45,7 @@ cd debian-server-tools-master/debian-setup/
 #echo "true" >>./packages/hostname
 
 lsblk -f
-# New gpt partion table: vda1 + vda2
+# New gpt partition table: vda1 + vda2
 tune2fs -L "debian-root" "$(df --output=source --type=ext4 / | tail -n +2)"
 
 ##script --timing=../debian-setup.time ../debian-setup.script

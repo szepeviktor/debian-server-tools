@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Downlaod and start debian-setup.sh without configuration.
+# Download and start debian-setup.sh without configuration.
 #
 echo 'Dpkg::Use-Pty "0";' >/etc/apt/apt.conf.d/00usepty
 

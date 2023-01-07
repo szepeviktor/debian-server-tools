@@ -26,7 +26,7 @@ https://www.csirt.cz/reportingrules/ and https://aws.amazon.com/forms/report-abu
 > - Open proxy
 > - Port scanning
 > - IRC botnet activity
-> - Denial of Serice attack (DoS/DDoS)
+> - Denial of Service attack (DoS/DDoS)
 > - Alleged misuse of copyrighted work
 
 Details

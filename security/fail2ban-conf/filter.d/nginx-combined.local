@@ -8,7 +8,7 @@
 #            403/deny
 #            http auth failure
 #            404
-#            incalid HTTP method
+#            invalid HTTP method
 #            invalid URI/invalid character in URI
 #            naxsi block
 #

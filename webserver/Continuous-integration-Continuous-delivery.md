@@ -8,7 +8,7 @@ How to design and implement CI and CD.
 - Display environment information
 - Set access credentials
 - Version control
-  - Git commiter
+  - Git committer
   - Commit message
   - PR title
 - Cache OS and programming language library packages

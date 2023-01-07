@@ -129,26 +129,26 @@ Do_install()
     Get_meta_all "$FILE" DEPENDS | sed -n -e 's/^apt-get install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if [ "$(dpkg-query --showformat="\${Status}" --show "$PKG" 2> /dev/null)" != "install ok installed" ]; then
-                echo "MISSING DEPENDECY: apt-get install ${PKG}" 1>&2
+                echo "MISSING DEPENDENCY: apt-get install ${PKG}" 1>&2
             fi
         done
     # Check PyPA dependencies
     Get_meta_all "$FILE" DEPENDS | sed -n -e 's/^pip install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if ! pip show "$PKG" | grep -q -x 'Version: \S\+'; then
-                echo "MISSING DEPENDECY: pip install ${PKG}" 1>&2
+                echo "MISSING DEPENDENCY: pip install ${PKG}" 1>&2
             fi
         done
     Get_meta_all "$FILE" DEPENDS | sed -n -e 's/^pip3 install \(.\+\)$/\1 /p' \
         | while read -r -d " " PKG; do
             if ! pip3 show "$PKG" | grep -q -x 'Version: \S\+'; then
-                echo "MISSING DEPENDECY: pip3 install ${PKG}" 1>&2
+                echo "MISSING DEPENDENCY: pip3 install ${PKG}" 1>&2
             fi
         done
     # Check file dependencies
     Get_meta_all "$FILE" DEPENDS | sed -n -e 's|^\(/.\+\)$|\1|p' \
         | while read -r PKG; do
-            test -x "$PKG" || echo "MISSING DEPENDECY: Install '${PKG}'" 1>&2
+            test -x "$PKG" || echo "MISSING DEPENDENCY: Install '${PKG}'" 1>&2
         done
 }
 

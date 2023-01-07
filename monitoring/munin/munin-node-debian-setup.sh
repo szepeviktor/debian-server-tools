@@ -74,7 +74,7 @@ ENABLED_PLUGIN_PATH="/etc/munin/plugins"
 #         munin-node-configure --families manual|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# capabilities=.*autoconf"
 # - wildcard: All suggest-s should be autoconf also
 # - wildcard: Fix non-suggest-s to be suggest
-# - missing familiy magic markers (send PR to munin)
+# - missing family magic markers (send PR to munin)
 #         cd /usr/share/munin/plugins
 #         munin-node-configure|tail -n +3|cut -d' ' -f1|xargs -L1 grep -HL "#%# family"
 

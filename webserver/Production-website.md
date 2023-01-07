@@ -307,7 +307,7 @@ http://google-public-dns.appspot.com/cache :snail:
   [Silent room](https://www.youtube.com/watch?v=GeB6QoKEyCk)
 - [Google Street View virtual tour](https://www.brand360.hu/szolgaltatasok/google-street-view-belso-nezet-tura/)
 - External URL-s should open in new window :snail:
-- Use emojis (meta desciption, titles)
+- Use emojis (meta description, titles)
 - Abandoned cart :snail:
 - [Contact widget](https://pepper.swat.io/)
 - Newsletter subscribe

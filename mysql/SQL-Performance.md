@@ -1,4 +1,4 @@
-# MariaDB 10.1 Perfomance tuning
+# MariaDB 10.1 Performance tuning
 
 Videos by Aurimas Mikalauskas: https://www.youtube.com/channel/UCMu7hy-Ji8OWoxAqzbj7LhQ/videos
 

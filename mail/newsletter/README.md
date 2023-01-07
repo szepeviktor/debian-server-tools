@@ -6,7 +6,7 @@ Feladó: Name <info@example.com>
 
 Válasz cím: info@example.com
 
-Visszapattanó cím: am-user@exmaple.com
+Visszapattanó cím: am-user@example.com
 
 Tárgy: ([Emoji](https://getemoji.com/)) Subject
 

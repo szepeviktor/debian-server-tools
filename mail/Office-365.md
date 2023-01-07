@@ -36,6 +36,6 @@ $All | foreach {Set-MailboxJunkEmailConfiguration $_.Name -Enabled $false}
 # Check
 Get-MailboxJunkEmailConfiguration -Identity user@example.com
 
-# Afer you have finished
+# After you have finished
 Remove-PSSession $Session
 ```

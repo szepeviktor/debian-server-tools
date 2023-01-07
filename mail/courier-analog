@@ -78,7 +78,7 @@ if ($help)
     print "  --smtpinet   Inbound SMTP by network to stdout (default).\n";
     print "  --smtpitime  Inbound SMTP by time to stdout.\n";
     print "  --smtpierr   Inbound SMTP by error message to stdout.\n";
-    print "  --smtpos     Succesful outbound SMTP deliveries.\n";
+    print "  --smtpos     Successful outbound SMTP deliveries.\n";
     print "  --smtpod     Deferred outbound SMTP deliveries.\n";
     print "  --smtpof     Failed outbound SMTP deliveries.\n";
     print "  --imapnet    IMAP connections by network to stdout.\n";
@@ -990,7 +990,7 @@ sub report_smtpout_2 {
     report_smtpout_3($$hash{"s"}, "$maintitle - BY SENDER",
 		     $html, "$htmlsubdir" . "s", $txt_fd);
 
-    report_smtpout_3($$hash{"r"}, "$maintitle - BY RECEIPIENT",
+    report_smtpout_3($$hash{"r"}, "$maintitle - BY RECIPIENT",
 		     $html, "$htmlsubdir" . "r", $txt_fd);
     print MAIN "</tr>\n";
 }

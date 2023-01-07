@@ -89,7 +89,7 @@ def extract_params(url):
 
 def extract_url_redirection(url):
     """
-        Follow the url redirection if necesary
+        Follow the url redirection if necessary
     """
     return requests.get(url).url
 

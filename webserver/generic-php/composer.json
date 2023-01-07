@@ -23,7 +23,7 @@
     },
     "suggest": {
         "friendsofphp/php-cs-fixer": "Alternative to PHPCS",
-        "phar-io/phive": "Preferred way of PHAR distribuition"
+        "phar-io/phive": "Preferred way of PHAR distribution"
     },
     "autoload": {
         "psr-4": {

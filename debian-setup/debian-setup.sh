@@ -51,7 +51,7 @@
 #
 # 1. wget -O- https://github.com/szepeviktor/debian-server-tools/archive/master.tar.gz|tar xz
 #    export LC_ALL=C.UTF-8; cd debian-server-tools-master/debian-setup/
-# 2. Aquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
+# 2. Acquire settings: webmaster@, hostname, networking, DNS resolvers, NTP servers, custom kernel, user names, SSH keys
 # 3. cat server.yml providers/upcloud-defra1.yml >/root/server.yml
 #    editor /root/server.yml
 # 4. Set up DNS resource records: PTR/IPv4 PTR/IPv6, A, AAAA, MX

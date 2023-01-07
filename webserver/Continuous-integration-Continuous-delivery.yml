@@ -136,7 +136,7 @@ jobs:
 
       - name: "Perform static analysis"
         run: "composer exec -- phpstan analyze -l 5 src/"
-        # @TODO Mess Detector, Magic Number Detector, Copy-Paste Detector
+        # @TODO Cognitive Complexity, Mess Detector, Magic Number Detector, Copy-Paste Detector
 
   coding_standards:
     name: "4️⃣ Coding Standards"
@@ -185,3 +185,24 @@ jobs:
           echo "CURRENT =${CURRENT}"
           echo "EXPECTED=${EXPECTED}"
           test "${CURRENT}" = "${EXPECTED}"
+
+  spelling:
+    name: "Spelling"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Cache pip"
+        uses: "actions/cache@v3"
+        with:
+          path: "~/.cache/pip"
+          key: "${{ runner.os }}-pip-codespell"
+
+      - name: "Install codespell"
+        run: |
+          pip install --user 'codespell>=2.2'
+
+      - name: "Search for misspellings"
+        run: |
+          "$(python -m site --user-base)/bin/codespell"

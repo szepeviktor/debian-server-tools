@@ -7,7 +7,7 @@
 # Default-Stop:      0 1 6
 # Short-Description: LSB init script for executables (SysVinit)
 # Description:       Provide a more complete description of the actions of the init
-#                    script. May span mulitple lines. In a multiline description, each
+#                    script. May span multiple lines. In a multiline description, each
 #                    continuation line shall begin with a '#' followed by tab character or
 #                    a '#' followed by at least two space characters.
 ### END INIT INFO

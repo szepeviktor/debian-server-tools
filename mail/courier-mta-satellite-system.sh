@@ -124,7 +124,7 @@ Courier_config esmtpd /etc/courier/esmtpd
 sed -e 's#^ESMTPDSSLSTART=.*$#ESMTPDSSLSTART=NO#' -i /etc/courier/esmtpd-ssl
 service courier-mta-ssl stop
 
-# Test GnuTLS prority strings
+# Test GnuTLS priority strings
 (
     TLS_PRIORITY="NORMAL:-CTYPE-OPENPGP"
     # shellcheck disable=SC1091

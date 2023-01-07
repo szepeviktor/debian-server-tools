@@ -1677,7 +1677,7 @@ static void validatechars(const char **ptmpl, const char *data, int len,
 }
 
 /* validate a tokenized header
- *  A       arbitary atom
+ *  A       arbitrary atom
  *  C       allow comments and whitespace without a warning
  *  D       domain
  *  d       quoted date-time
@@ -1691,7 +1691,7 @@ static void validatechars(const char **ptmpl, const char *data, int len,
  *  N       number
  *  O#[:]   set optional flag
  *  P       phrase
- *  Q       arbitary quoted-string
+ *  Q       arbitrary quoted-string
  *  S       string token (atom or quoted-string)
  *  T       text token
  *  V#      set header value number 0-9

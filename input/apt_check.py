@@ -149,7 +149,7 @@ def run(options=None):
             upgrades = upgrades + 1
 
             # now check for security updates that are masked by a
-            # canidate version from another repo (-proposed or -updates)
+            # candidate version from another repo (-proposed or -updates)
             for ver in pkg.version_list:
                 if (inst_ver and apt_pkg.version_compare(ver.ver_str, inst_ver.ver_str) <= 0):
                     #print("skipping '%s' " % ver.VerStr)

@@ -18,6 +18,6 @@ See https://github.com/szepeviktor/wordpress-speedtest
 - imgmin https://github.com/rflynn/imgmin/tree/e64807bc613ef0310910a5030ed4e5bd8bfeeefc/examples
 - jpeg-recompress https://www.dropbox.com/s/hb3ah7p5hcjvhc1/jpeg-archive-test-files.zip
 
-### Comparision
+### Comparison
 
 https://www.cpubenchmark.net/singleThread.html

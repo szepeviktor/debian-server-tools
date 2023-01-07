@@ -9,7 +9,7 @@
 
 ####  1   - Dangerous network
 ####  2   - Tor exit node (deprecated)
-####  4   - (unused reponse code)
+####  4   - (unused response code)
 ####  128 - Blocked network
 
 $NS 3600 worker.szepe.net

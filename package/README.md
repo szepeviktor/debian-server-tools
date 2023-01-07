@@ -1,4 +1,4 @@
-# Packaging related informations
+# Packaging related information
 
 ### Script meta
 

@@ -10,7 +10,7 @@ wget --content-disposition "http://zsmith.co/archives/bandwidth-${BW_VER}.tar.gz
 tar -xf "bandwidth-${BW_VER}.tar.gz"
 cd bandwidth-${BW_VER}/
 make bandwidth64
-# Use fastest mode to aviod averages
+# Use fastest mode to avoid averages
 nice -n -2 ./bandwidth64 --fastest
 ```
 

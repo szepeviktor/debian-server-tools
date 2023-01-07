@@ -25,7 +25,7 @@
 - _ToBeTested_ https://www.smtp2go.com/pricing/ on Linode
 
 * https://sendgrid.com/ by Twilio has own AS
-* https://www.sendinblue.com/ :eu: has own AS
+* https://www.sendinblue.com/ :eu: has own AS, [forced link tracking](https://help.sendinblue.com/hc/en-us/articles/209421325)
 * https://www.mailgun.com/ by Rackspace
 * https://www.mailjet.com/transactional by Mailgun
 * https://postmarkapp.com/ by Wildbit
@@ -606,7 +606,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - [MailChannels](https://www.mailchannels.com/outbound/)
 - [Return Path Certification](https://returnpath.com/solutions/email-deliverability-optimization/ip-certification/)
 - [Sophos Email](https://www.sophos.com/en-us/products/sophos-email/tech-specs.aspx)
-- [SolarWinds MSP (formely SpamExperts)](https://www.solarwindsmsp.com/products/mail)
+- [SolarWinds MSP (formerly SpamExperts)](https://www.solarwindsmsp.com/products/mail)
 - [IKARUS mail.security](https://www.ikarussecurity.com/solutions/all-solutions/network-protection/ikarus-cloudsecurity/ikarus-mailsecurity/)
 - [Barracuda Essentials](https://www.barracuda.com/products/essentials)
 - [Proofpoint Essentials](https://www.proofpoint.com/us/products/essentials)

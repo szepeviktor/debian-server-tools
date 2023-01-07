@@ -23,7 +23,7 @@ Incidents are rare and easy to resolve.
    Design, Development, Deployment (CI/CD), Stability, Security, Performance and **Sustainability**,
    Handling Technical Debt, Application Dashboard, E-commerce
 1. Company processes:
-   Cyber Security, Internal Communications, Document Managment,
+   Cyber Security, Internal Communications, Document Management,
    Customer Relationships including Marketing, Sales and Support
 
 ### How I think

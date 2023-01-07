@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Outdated packages"
+
+on:
+  workflow_dispatch: null
+  schedule:
+    # Every day at 04:31
+    - cron: "31 04 * * *"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  back_end_packages:
+    name: "PHP packages"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "7.4"
+          coverage: "none"
+
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Install dependencies"
+        uses: "ramsey/composer-install@v2"
+        with:
+          dependency-versions: "highest"
+
+      - name: "Show available updates"
+        run: "composer outdated --direct --strict"
+
+  front_end_packages:
+    name: "Node.js packages"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
+      - name: "Set up NodeJS"
+        uses: "actions/setup-node@v3"
+        with:
+          node-version: "16"
+
+      - name: "Configure npm"
+        run: "npm config set engine-strict true"
+
+#      - name: "Install all dependencies"
+#        run: "npm ci"
+#
+#      - name: "Check for outdated packages"
+#        run: "npm outdated"
+
+      - name: "Install production dependencies"
+        run: "npm ci --omit=dev"
+
+      - name: "Check for outdated production packages"
+        run: "npm outdated --omit=dev"

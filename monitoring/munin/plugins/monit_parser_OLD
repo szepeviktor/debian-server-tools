@@ -24,7 +24,7 @@ procs = dict()
 
 status, output = getstatusoutput(STATUS_CMD)
 if status != 0:
-    print "Errror running status command: %s" % (output)
+    print "Error running status command: %s" % (output)
     sys.exit(status)
 
 output = output.split('\n')

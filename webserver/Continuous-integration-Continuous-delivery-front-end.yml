@@ -28,10 +28,10 @@ on:
   pull_request: null
   # Add [skip ci] to commit message to skip CI.
 
-permissions: {}
+# permissions: {}
 # permissions: "read-all"
-# permissions:
-#   contents: "read"
+permissions:
+  contents: "read"
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"
@@ -42,14 +42,15 @@ jobs:
     name: "𝟙 JavaScript Syntax Errors"
     runs-on: "ubuntu-20.04"
     steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
       - name: "Set up NodeJS"
         uses: "actions/setup-node@v3"
         with:
           node-version: "18"
+          check-latest: true
           cache: "npm"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
 
       - name: "Configure npm"
         run: "npm config set engine-strict true"
@@ -63,16 +64,20 @@ jobs:
 
   js_coding_standards:
     name: "𝟚 JavaScript Coding Standards"
+    permissions:
+      checks: "write"
+      contents: "read"
+      pull-requests: "read"
     runs-on: "ubuntu-20.04"
     steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
       - name: "Set up NodeJS"
         uses: "actions/setup-node@v3"
         with:
           node-version: "18"
           cache: "npm"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
 
       - name: "Configure npm"
         run: "npm config set engine-strict true"
@@ -95,14 +100,14 @@ jobs:
     name: "𝟛 Sassy CSS Coding Standards"
     runs-on: "ubuntu-20.04"
     steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
       - name: "Set up NodeJS"
         uses: "actions/setup-node@v3"
         with:
           node-version: "18"
           cache: "npm"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
 
       - name: "Configure npm"
         run: "npm config set engine-strict true"
@@ -124,14 +129,14 @@ jobs:
       - "scss_coding_standards"
     runs-on: "ubuntu-20.04"
     steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+
       - name: "Set up NodeJS"
         uses: "actions/setup-node@v3"
         with:
           node-version: "18"
           cache: "npm"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
 
       - name: "Configure npm"
         run: "npm config set engine-strict true"
@@ -142,7 +147,7 @@ jobs:
       - name: "Build front-end"
         run: "npm run prod:build"
 
-      - name: "Check differences"
+      - name: "Check differences to repository"
         run: "git diff --exit-code"
 
 # Job numbers: https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols
