@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """Convert certbot private_key.json to manuale's account.json
 Source: https://gist.github.com/JonLundy/f25c99ee0770e19dc595
-``
+
 ./jwk_convert.py private_key.json > private-key.asn1
 openssl asn1parse -genconf private-key.asn1 -noout -out private-key.der
 openssl rsa -inform DER -in private-key.der -outform PEM -out private-key.key
