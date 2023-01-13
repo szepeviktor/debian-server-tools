@@ -1,4 +1,7 @@
+# https://github.com/github/linguist/blob/master/docs/overrides.md#summary
+
 # https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
+.codespellrc linguist-language=INI
 webserver/apache-conf-available/*.conf linguist-language=ApacheConf
 webserver/apache-sites-available/*.conf linguist-language=ApacheConf
 webserver/phpfpm-pools/*.conf linguist-language=INI

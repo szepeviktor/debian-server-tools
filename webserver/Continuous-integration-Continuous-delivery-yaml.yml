@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+---
+
+name: "YAML"
+
+on:  # yamllint disable-line rule:truthy
+    push:
+        branches:
+        - "master"
+        paths:
+        - "**/*.yml"
+        - "**/*.yaml"
+        - "**/*.yml.dist"
+        - "**/*.yaml.dist"
+    pull_request:
+        paths:
+        - "**/*.yml"
+        - "**/*.yaml"
+        - "**/*.yml.dist"
+        - "**/*.yaml.dist"
+# Add [skip ci] to commit message to skip CI.
+
+permissions:
+    contents: "read"
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+    yaml:
+        name: "YAML"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout code"
+            uses: "actions/checkout@v3"
+        -
+            name: "Cache pip"
+            uses: "actions/cache@v3"
+            with:
+                path: "~/.cache/pip"
+                key: "${{ runner.os }}-pip-yamllint"
+        -
+            name: "Install codespell"
+            run: |
+                pip install --user 'yamllint>=1.29'
+        -
+            name: "Check YAML formatting"
+            run: |
+                "$(python -m site --user-base)/bin/yamllint --strict ."

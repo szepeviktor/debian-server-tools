@@ -1,5 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
+---
+
 name: "Front-end"
 
 # ECMAScript version: ES6 (2015)
@@ -12,143 +14,147 @@ name: "Front-end"
 
 # Set engine versions in package.json
 # {
-#   "engines": {
-#     "node": "~18.12",
-#     "npm": "please-use-yarn",
-#     "yarn": "^1.22.19"
-#   }
+#     "engines": {
+#         "node": "~18.12",
+#         "npm": "please-use-yarn",
+#         "yarn": "^1.22.19"
+#     }
 # }
 
 # Yarn is a better package manager.
 
-on:
-  push:
-    branches:
-      - "master"
-  pull_request: null
-  # Add [skip ci] to commit message to skip CI.
+on:  # yamllint disable-line rule:truthy
+    push:
+        branches:
+        - "master"
+    pull_request: null
+# Add [skip ci] to commit message to skip CI.
 
 # permissions: {}
 # permissions: "read-all"
 permissions:
-  contents: "read"
+    contents: "read"
 
 concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
-  cancel-in-progress: true
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
 
 jobs:
-  js_syntax_errors:
-    name: "𝟙 JavaScript Syntax Errors"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
+    js_syntax_errors:
+        name: "𝟙 JavaScript Syntax Errors"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout code"
+            uses: "actions/checkout@v3"
+        -
+            name: "Set up NodeJS"
+            uses: "actions/setup-node@v3"
+            with:
+                node-version: "18"
+                check-latest: true
+                cache: "npm"
+        -
+            name: "Configure npm"
+            run: "npm config set engine-strict true"
+        -
+            name: "Install all dependencies"
+            run: "npm ci"
+        -
+            name: "Check JavaScript files for syntax errors"
+            run: |
+                find resources/js/ -type f -name '*.js' -print0 | xargs -0 -- npx acorn --ecma2015 --module --silent
 
-      - name: "Set up NodeJS"
-        uses: "actions/setup-node@v3"
-        with:
-          node-version: "18"
-          check-latest: true
-          cache: "npm"
+    js_coding_standards:
+        name: "𝟚 JavaScript Coding Standards"
+        permissions:
+            checks: "write"
+            contents: "read"
+            pull-requests: "read"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout code"
+            uses: "actions/checkout@v3"
+        -
+            name: "Set up NodeJS"
+            uses: "actions/setup-node@v3"
+            with:
+                node-version: "18"
+                cache: "npm"
+        -
+            name: "Configure npm"
+            run: "npm config set engine-strict true"
+        -
+            name: "Install all dependencies"
+            run: "npm ci"
+        -
+            name: "Run ESLint"
+            run: "npm run js:eslint -- --format json --output-file /tmp/eslint_report.json"
+            continue-on-error: true
+        -
+            name: "Annotate ESLint Results"
+            uses: "ataylorme/eslint-annotate-action@v2"
+            with:
+                check-name: "𝕩 ESLint Annotations"
+                repo-token: "${{ secrets.GITHUB_TOKEN }}"
+                report-json: "/tmp/eslint_report.json"
 
-      - name: "Configure npm"
-        run: "npm config set engine-strict true"
+    scss_coding_standards:
+        name: "𝟛 Sassy CSS Coding Standards"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout code"
+            uses: "actions/checkout@v3"
+        -
+            name: "Set up NodeJS"
+            uses: "actions/setup-node@v3"
+            with:
+                node-version: "18"
+                cache: "npm"
+        -
+            name: "Configure npm"
+            run: "npm config set engine-strict true"
+        -
+            name: "Install all dependencies"
+            run: "npm ci"
+        -
+            name: "Install stylelint-formatter-github-annotate"
+            run: "npm install --no-save stylelint-formatter-github-annotate"
+        -
+            name: "Check coding style"
+            run: "npm run scss:cs -- --custom-formatter=node_modules/stylelint-formatter-github-annotate"
 
-      - name: "Install all dependencies"
-        run: "npm ci"
-
-      - name: "Check JavaScript files for syntax errors"
-        run: |
-          find resources/js/ -type f -name '*.js' -print0 | xargs -0 -- npx acorn --ecma2015 --module --silent
-
-  js_coding_standards:
-    name: "𝟚 JavaScript Coding Standards"
-    permissions:
-      checks: "write"
-      contents: "read"
-      pull-requests: "read"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Set up NodeJS"
-        uses: "actions/setup-node@v3"
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: "Configure npm"
-        run: "npm config set engine-strict true"
-
-      - name: "Install all dependencies"
-        run: "npm ci"
-
-      - name: "Run ESLint"
-        run: "npm run js:eslint -- --format json --output-file /tmp/eslint_report.json"
-        continue-on-error: true
-
-      - name: "Annotate ESLint Results"
-        uses: "ataylorme/eslint-annotate-action@v2"
-        with:
-          check-name: "𝕩 ESLint Annotations"
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "/tmp/eslint_report.json"
-
-  scss_coding_standards:
-    name: "𝟛 Sassy CSS Coding Standards"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Set up NodeJS"
-        uses: "actions/setup-node@v3"
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: "Configure npm"
-        run: "npm config set engine-strict true"
-
-      - name: "Install all dependencies"
-        run: "npm ci"
-
-      - name: "Install stylelint-formatter-github-annotate"
-        run: "npm install --no-save stylelint-formatter-github-annotate"
-
-      - name: "Check coding style"
-        run: "npm run scss:cs -- --custom-formatter=node_modules/stylelint-formatter-github-annotate"
-
-  build:
-    name: "𝟜 Build"
-    needs:
-      - "js_syntax_errors"
-      - "js_coding_standards"
-      - "scss_coding_standards"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Set up NodeJS"
-        uses: "actions/setup-node@v3"
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: "Configure npm"
-        run: "npm config set engine-strict true"
-
-      - name: "Install production dependencies"
-        run: "npm ci --omit=dev"
-
-      - name: "Build front-end"
-        run: "npm run prod:build"
-
-      - name: "Check differences to repository"
-        run: "git diff --exit-code"
+    build:
+        name: "𝟜 Build"
+        needs:
+        - "js_syntax_errors"
+        - "js_coding_standards"
+        - "scss_coding_standards"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout code"
+            uses: "actions/checkout@v3"
+        -
+            name: "Set up NodeJS"
+            uses: "actions/setup-node@v3"
+            with:
+                node-version: "18"
+                cache: "npm"
+        -
+            name: "Configure npm"
+            run: "npm config set engine-strict true"
+        -
+            name: "Install production dependencies"
+            run: "npm ci --omit=dev"
+        -
+            name: "Build front-end"
+            run: "npm run prod:build"
+        -
+            name: "Check differences to repository"
+            run: "git diff --exit-code"
 
 # Job numbers: https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols
 # JavaScript documentation: https://jsdoc.app/ https://www.npmjs.com/package/eslint-plugin-jsdoc

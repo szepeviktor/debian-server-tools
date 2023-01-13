@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# One line description for this script.
+# Lookup URL-s on Google Safe Browsing API.
 #
 # VERSION       :0.2.0
 # DATE          :2017-05-28

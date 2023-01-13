@@ -1,0 +1,21 @@
+---
+
+extends: "default"
+
+rules:
+    braces:
+        forbid: true
+    brackets:
+        forbid: true
+    empty-values:
+        forbid-in-block-mappings: true
+        forbid-in-flow-mappings: true
+    indentation:
+        spaces: 4
+        indent-sequences: false
+    line-length:
+        level: "error"
+        max: 120
+    quoted-strings:
+        quote-type: "double"
+        required: true

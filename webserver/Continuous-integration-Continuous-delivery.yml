@@ -168,6 +168,11 @@ jobs:
       - name: "Check coding style"
         run: "composer exec -- phpcs --standard=PSR12 -s src/"
 
+      # Move TODO-s into GitHub issues!
+      - name: "Search for TODO-s and FIXME-s"
+        run: |
+          ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!*/integrate\.yml'
+
   exported_files:
     name: "5️⃣ Exported files"
     needs:
