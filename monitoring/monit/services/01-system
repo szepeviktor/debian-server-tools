@@ -16,6 +16,7 @@
    #if swap usage > 45% then alert
    # IO overload
    if cpu usage (wait) > 20% then alert
+   if filedescriptors > 5000 then alert
 
  # Disk full
  check filesystem rootfs with path "/"

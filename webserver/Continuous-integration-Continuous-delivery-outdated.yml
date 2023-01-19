@@ -1,7 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
----
-
 name: "Outdated packages"
 
 on:  # yamllint disable-line rule:truthy
@@ -26,7 +24,7 @@ jobs:
                 php-version: "7.4"
                 coverage: "none"
         -
-            name: "Checkout code"
+            name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
             name: "Install dependencies"
@@ -42,7 +40,7 @@ jobs:
         runs-on: "ubuntu-20.04"
         steps:
         -
-            name: "Checkout code"
+            name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
             name: "Set up NodeJS"

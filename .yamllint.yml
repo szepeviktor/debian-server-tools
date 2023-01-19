@@ -3,6 +3,8 @@
 extends: "default"
 
 rules:
+    document-start:
+        present: false
     braces:
         forbid: true
     brackets:

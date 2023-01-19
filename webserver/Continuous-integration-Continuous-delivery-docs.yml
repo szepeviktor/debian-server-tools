@@ -1,7 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
----
-
 name: "Docs"
 
 on:  # yamllint disable-line rule:truthy
@@ -28,9 +26,8 @@ jobs:
         runs-on: "ubuntu-20.04"
         steps:
         -
-            name: "Checkout code"
+            name: "Checkout repository"
             uses: "actions/checkout@v3"
-
         -
             name: "Check Markdown documents"
             uses: "DavidAnson/markdownlint-cli2-action@v9"

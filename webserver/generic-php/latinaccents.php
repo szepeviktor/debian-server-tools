@@ -3,7 +3,7 @@
 namespace I18n;
 
 /**
- * Generate string of all latin accented characters.
+ * Generate a file with a string of all latin accented characters.
  */
 class LatinAccents
 {
@@ -14,7 +14,7 @@ class LatinAccents
     public function __construct()
     {
         file_put_contents('./latin-accented-characters.php', sprintf(
-            "<?php\n\$return '%s';\n",
+            "<?php\nreturn '%s';\n",
             $this->getModernLatinCharacters()
         ));
     }

@@ -2,212 +2,227 @@
 
 name: "Integrate"
 
-on:
-  push:
-    branches:
-      - "master"
-  pull_request: null
-  # Add [skip ci] to commit message to skip CI.
+on:  # yamllint disable-line rule:truthy
+    push:
+        branches:
+        - "master"
+    pull_request: null
+# Add [skip ci] to commit message to skip CI.
 
-permissions: {}
-# permissions: "read-all"
-# permissions:
-#   contents: "read"
+permissions: {}  # yamllint disable-line rule:braces
+#permissions: "read-all"
+#permissions:
+#    contents: "read"
 
 concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
-  cancel-in-progress: true
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
 
 jobs:
-  byte_level:
-    name: "0️⃣ Byte-level"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
+    byte_level:
+        name: "0️⃣ Byte-level"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Check file permissions"
+            run: |
+                test "$(find . -type f -not -path './.git/*' -executable)" = ""
+        -
+            name: "Find non-printable ASCII characters"
+            run: |
+                #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 \
+                #    | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]' \
+                #    | grep -v '// @ignore-non-ascii$'
+                ! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 \
+                    | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]'
 
-      - name: "Check file permissions"
-        run: |
-          test "$(find . -type f -not -path './.git/*' -executable)" = ""
+    syntax_errors:
+        name: "1️⃣ Syntax errors"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@v2"
+            with:
+                php-version: "8.0"
+                coverage: "none"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Install dependencies"
+            uses: "ramsey/composer-install@v2"
+            with:
+                dependency-versions: "highest"
+        -
+            name: "Check source code for syntax errors"
+            run: "composer exec -- parallel-lint src/"
+            # @TODO Check template files for syntax errors
 
-      - name: "Find non-printable ASCII characters"
-        run: |
-          #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]' | grep -v '// @ignore-non-ascii$'
-          ! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]'
+    unit_tests:
+        name: "2️⃣ Unit and functional tests"
+        needs:
+        - "byte_level"
+        - "syntax_errors"
+        strategy:
+            #fail-fast: false
+            matrix:
+                php-version:
+                - "8.0"
+                dependencies:
+                - "lowest"
+                - "highest"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@v2"
+            #env:
+            #    COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.GITHUB_TOKEN }}"}}'
+            with:
+                php-version: "${{ matrix.php-version }}"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Install dependencies"
+            uses: "ramsey/composer-install@v2"
+            with:
+                dependency-versions: "${{ matrix.dependencies }}"
+        -
+            name: "Execute unit tests"
+            run: "composer exec -- pest --ci"
+            # @TODO Functional tests
+        #-
+        #    name: "Tests have failed: display logs"
+        #    if: "${{ failure() }}"
+        #    run: "cat storage/logs/*.log"
+        #-
+        #    name: "Send coverage to Coveralls"
+        #    env:
+        #        COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        #    if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}"
+        #    run: |
+        #        wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar"
+        #        php ./php-coveralls.phar -v
 
-  syntax_errors:
-    name: "1️⃣ Syntax errors"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Set up PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "8.0"
-          coverage: "none"
+    static_analysis:
+        name: "3️⃣ Static Analysis"
+        needs:
+        - "byte_level"
+        - "syntax_errors"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@v2"
+            with:
+                php-version: "8.0"
+                coverage: "none"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        #-
+        #    name: "Check JSON files"
+        #    run: |
+        #        find . -type f -name '*.json' \
+        #            | xargs -t -L 1 -- php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
+        -
+            name: "Validate Composer configuration"
+            run: "composer validate --no-interaction --strict"
+        -
+            name: "Install dependencies"
+            uses: "ramsey/composer-install@v2"
+            with:
+                dependency-versions: "highest"
+        -
+            name: "Check PSR-4 mapping"
+            run: "composer dump-autoload --no-interaction --optimize --strict-psr"
+        -
+            name: "Perform static analysis"
+            run: "composer exec -- phpstan analyze -l 5 src/"
+            # @TODO Cognitive Complexity, Mess Detector, Magic Number Detector, Copy-Paste Detector
 
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
+    coding_standards:
+        name: "4️⃣ Coding Standards"
+        needs:
+        - "byte_level"
+        - "syntax_errors"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Set up PHP"
+            uses: "shivammathur/setup-php@v2"
+            with:
+                php-version: "8.0"
+                coverage: "none"
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Check EditorConfig configuration"
+            run: "test -f .editorconfig"
+        -
+            name: "Check adherence to EditorConfig"
+            uses: "greut/eclint-action@v0"
+        -
+            name: "Install dependencies"
+            uses: "ramsey/composer-install@v2"
+            with:
+                dependency-versions: "highest"
+        -
+            name: "Check coding style"
+            run: "composer exec -- phpcs --standard=PSR12 -s src/"
+        # Move TODO-s into GitHub issues!
+        -
+            name: "Search for TODO-s and FIXME-s"
+            run: |
+                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!*/integrate\.yml'
 
-      - name: "Install dependencies"
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "highest"
+    exported_files:
+        name: "5️⃣ Exported files"
+        needs:
+        - "byte_level"
+        - "syntax_errors"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Check exported files"
+            run: |
+                EXPECTED="LICENSE,README.md,composer.json"
+                CURRENT="$(
+                    git archive HEAD \
+                        | tar --list --exclude="src" --exclude="src/*" \
+                        | paste --serial --delimiters=","
+                )"
+                echo "CURRENT =${CURRENT}"
+                echo "EXPECTED=${EXPECTED}"
+                test "${CURRENT}" = "${EXPECTED}"
 
-      - name: "Check source code for syntax errors"
-        run: "composer exec -- parallel-lint src/"
-        # @TODO Check template files for syntax errors
-
-  unit_tests:
-    name: "2️⃣ Unit and functional tests"
-    needs:
-      - "byte_level"
-      - "syntax_errors"
-    strategy:
-      #fail-fast: false
-      matrix:
-        php-version:
-          - "8.0"
-        dependencies:
-          - "lowest"
-          - "highest"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Set up PHP"
-        uses: "shivammathur/setup-php@v2"
-#        env:
-#            COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.GITHUB_TOKEN }}"}}'
-        with:
-          php-version: "${{ matrix.php-version }}"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Install dependencies"
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-
-      - name: "Execute unit tests"
-        run: "composer exec -- pest --ci"
-        # @TODO Functional tests
-
-#      - name: "Tests have failed: display logs"
-#        if: "${{ failure() }}"
-#        run: "cat storage/logs/*.log"
-
-#      - name: "Send coverage to Coveralls"
-#        env:
-#          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-#        if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}"
-#        run: |
-#          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar"
-#          php ./php-coveralls.phar -v
-
-  static_analysis:
-    name: "3️⃣ Static Analysis"
-    needs:
-      - "byte_level"
-      - "syntax_errors"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Set up PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "8.0"
-          coverage: "none"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-#      - name: "Check JSON files"
-#        run: |
-#          find . -type f -name '*.json' | xargs -t -L 1 -- php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
-
-      - name: "Validate Composer configuration"
-        run: "composer validate --no-interaction --strict"
-
-      - name: "Install dependencies"
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "highest"
-
-      - name: "Check PSR-4 mapping"
-        run: "composer dump-autoload --no-interaction --optimize --strict-psr"
-
-      - name: "Perform static analysis"
-        run: "composer exec -- phpstan analyze -l 5 src/"
-        # @TODO Cognitive Complexity, Mess Detector, Magic Number Detector, Copy-Paste Detector
-
-  coding_standards:
-    name: "4️⃣ Coding Standards"
-    needs:
-      - "byte_level"
-      - "syntax_errors"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Set up PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "8.0"
-          coverage: "none"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Check EditorConfig configuration"
-        run: "test -f .editorconfig"
-
-      - name: "Check adherence to EditorConfig"
-        uses: "greut/eclint-action@v0"
-
-      - name: "Install dependencies"
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "highest"
-
-      - name: "Check coding style"
-        run: "composer exec -- phpcs --standard=PSR12 -s src/"
-
-      # Move TODO-s into GitHub issues!
-      - name: "Search for TODO-s and FIXME-s"
-        run: |
-          ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!*/integrate\.yml'
-
-  exported_files:
-    name: "5️⃣ Exported files"
-    needs:
-      - "byte_level"
-      - "syntax_errors"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Check exported files"
-        run: |
-          EXPECTED="LICENSE,README.md,composer.json"
-          CURRENT="$(git archive HEAD | tar --list --exclude="src" --exclude="src/*" | paste --serial --delimiters=",")"
-          echo "CURRENT =${CURRENT}"
-          echo "EXPECTED=${EXPECTED}"
-          test "${CURRENT}" = "${EXPECTED}"
-
-  spelling:
-    name: "Spelling"
-    runs-on: "ubuntu-20.04"
-    steps:
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Cache pip"
-        uses: "actions/cache@v3"
-        with:
-          path: "~/.cache/pip"
-          key: "${{ runner.os }}-pip-codespell"
-
-      - name: "Install codespell"
-        run: |
-          pip install --user 'codespell>=2.2'
-
-      - name: "Search for misspellings"
-        run: |
-          "$(python -m site --user-base)/bin/codespell"
+    spelling:
+        name: "Spelling"
+        runs-on: "ubuntu-20.04"
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Cache pip"
+            uses: "actions/cache@v3"
+            with:
+                path: "~/.cache/pip"
+                key: "${{ runner.os }}-pip-codespell"
+        -
+            name: "Install codespell"
+            run: |
+                pip install --user 'codespell>=2.2'
+        -
+            name: "Search for misspellings"
+            run: |
+                "$(python -m site --user-base)/bin/codespell"

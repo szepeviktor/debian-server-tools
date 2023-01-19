@@ -11,7 +11,7 @@ if [[ $EUID -eq 0 ]] && [ -x /usr/bin/monit ]; then
     # Convert to tabular output
     if /usr/bin/monit -B summary \
         | tail -n +3 | sed -e 's|^ ||' -e 's|\s\s\+|\t|g' \
-        | grep -vE "	(${IGNORED_STATUSES})	"; then
+        | grep -v -E "	(${IGNORED_STATUSES})	"; then
 
         echo
         echo "[ALERT] Monit status is NOT OK."

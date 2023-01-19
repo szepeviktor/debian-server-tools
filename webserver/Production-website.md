@@ -63,17 +63,16 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 
 ### WordPress core and theme as Composer packages
 
-1. Set up database connection in `wp-config.php`
-1. Define constants, generate salts based on [wp-config.php skeleton](./wp-install/wp-config.php)
-1. Edit `../wp-cli.yml`
+1. See [WordPress website lifecycle](https://github.com/szepeviktor/wordpress-website-lifecycle)
+1. Set up database connection
+1. Define constants, generate salts
+1. Edit `wp-cli.yml`
 1. **Use child theme** for purchased themes
 1. Keep custom plugins and themes in git repositories
 
 ### Plugins
 
 - Document plugin licenses, access to support :snail:
-- See plugin list in [Plugins.md](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/Plugins.md)
-- See MU plugins at https://github.com/szepeviktor/wordpress-plugin-construction
 - Allow accents in URL-s? `mu-latin-accent-urls`
 
 ### Root files
@@ -429,11 +428,11 @@ http://google-public-dns.appspot.com/cache :snail:
 - [Silktide](https://silktide.com/)
 - Does the website have a public API? (WP REST API, WooCommerce API)
 - Test (REST) API with
-  [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop)
+  [Postman](https://www.postman.com/downloads/)
 
 ### PHP errors
 
-wp-config.php: `define( 'WP_DEBUG', true );`
+wp-config.php: `define('WP_DEBUG', !false);`
 
 ```bash
 tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
@@ -447,7 +446,8 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 - Page title (blue in SERP) :snail:
 - Permalink structure and slug optimization (green in [SERP](https://en.wikipedia.org/wiki/Search_engine_results_page)) :snail:
 - Page meta description (grey in SERP) :snail:
-- Keyword planning: [Google suggested searches](https://moz.com/blog/how-googles-search-suggest-instant-works-whiteboard-friday),
+- Keyword planning: https://answerthepublic.com/
+  [Google suggested searches](https://moz.com/blog/how-googles-search-suggest-instant-works-whiteboard-friday),
   [Google related searches](https://moz.com/blog/how-google-gives-us-insight-into-searcher-intent-through-the-results-whiteboard-friday),
   [Google Trends](https://trends.google.com/)
 - Breadcrumbs
