@@ -44,6 +44,7 @@
                 <element key="var_dump" value="null"/>
                 <element key="error_log" value="null"/>
                 <element key="define" value="null"/>
+                <element key="goto" value="null"/>
                 <!--
                 Multibyte string functions as alternatives
                 php -\-re mbstring | sed -n -e 's#^\s*Function .* function \(\w\+\) .*$#\1#p'

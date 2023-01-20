@@ -71,7 +71,7 @@ Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítan
   vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
 - Fájl megosztás
 - Naptár
-- Belső tudástár https://tettra.com/ https://www.getguru.com/
+- Belső tudástár [Notion](https://www.notion.so/)
 - Jegyzetek és dokumentumok (pl. szolgáltatók listája, céges telefonkönyv) közös szerkesztése
 - Hang üzenet [Yac](https://www.yac.com/)
 
@@ -88,8 +88,8 @@ Szolgáltató: [Slack](https://slack.com/)
 ##### Egyéb szolgáltatók
 
 1. https://basecamp.com/
-1. https://www.notion.so/
-
+1. ( https://tettra.com/ )
+1. ( https://www.getguru.com/ )
 
 ### Alkalmazás _Dashboard_
 
