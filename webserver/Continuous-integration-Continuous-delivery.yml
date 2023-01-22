@@ -97,9 +97,12 @@ jobs:
             run: "composer exec -- pest --ci"
             # @TODO Functional tests
         #-
-        #    name: "Tests have failed: display logs"
+        #    name: "Tests have failed: upload logs"
         #    if: "${{ failure() }}"
-        #    run: "cat storage/logs/*.log"
+        #    uses: "actions/upload-artifact@v3"
+        #    with:
+        #        name: "larvel-logs-${{ matrix.php-version }}-${{ matrix.dependencies }}"
+        #        path: "storage/logs/"
         #-
         #    name: "Send coverage to Coveralls"
         #    env:
