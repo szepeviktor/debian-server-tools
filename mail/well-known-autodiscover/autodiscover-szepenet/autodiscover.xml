@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- http://technet.microsoft.com/en-us/library/cc511507.aspx -->
+<!-- https://interoperability.blob.core.windows.net/files/MS-OXDSCLI/%5BMS-OXDSCLI%5D.pdf -->
 <Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
 <!-- Response: Required
 This tag serves as an indication that the retrieved XML is an Autodiscovery Response
@@ -89,14 +90,14 @@ If unspecified, the default is set to on.
 </Protocol>
 
 <Protocol>
-<Type>SMTP</Type>
-<Server>mail.szepe.net</Server>
-<Port>465</Port>
-<DomainRequired>on</DomainRequired>
-<DomainName>@@DOMAIN@@</DomainName>
-<SPA>off</SPA>
-<SSL>on</SSL>
-<AuthRequired>on</AuthRequired>
+    <Type>SMTP</Type>
+    <Server>mail.szepe.net</Server>
+    <Port>465</Port>
+    <DomainRequired>on</DomainRequired>
+    <DomainName>@@DOMAIN@@</DomainName>
+    <SPA>off</SPA>
+    <SSL>on</SSL>
+    <AuthRequired>on</AuthRequired>
 </Protocol>
 
 </Account>

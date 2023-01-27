@@ -3,10 +3,10 @@
 name: "Outdated packages"
 
 on:  # yamllint disable-line rule:truthy
-    workflow_dispatch: null
     schedule:
     # Every day at 04:31
     - cron: "31 04 * * *"
+    workflow_dispatch: null
 
 concurrency:
     group: "${{ github.workflow }}-${{ github.ref }}"

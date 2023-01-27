@@ -18,6 +18,7 @@ A checklist to test website functionality.
 
 ## Public parts
 
+- Delete cookies!
 - Post content: front page, page types (see template files), header, footer
 - Interactions: cookie consent, forms, registration, login, password reset, social login, share, search
 - `/favicon.ico`

@@ -3,15 +3,15 @@
 name: "YAML"
 
 on:  # yamllint disable-line rule:truthy
-    push:
-        branches:
-        - "master"
+    pull_request:
         paths:
         - "**/*.yml"
         - "**/*.yaml"
         - "**/*.yml.dist"
         - "**/*.yaml.dist"
-    pull_request:
+    push:
+        branches:
+        - "master"
         paths:
         - "**/*.yml"
         - "**/*.yaml"

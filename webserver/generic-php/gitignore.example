@@ -1,10 +1,14 @@
 # See https://github.com/github/gitignore
 
 # OS
+# Better place for these is a file specified by git global configuration option `core.excludesFile` 
+# git config --global core.excludesfile ~/.gitignore
 .DS_Store
 Thumbs.db
 
 # IDE and local environment
+# Better place for these is a file specified by git global configuration option `core.excludesFile` 
+# git config --global core.excludesfile ~/.gitignore
 Homestead.json
 Homestead.yaml
 /.vscode/

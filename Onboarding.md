@@ -28,7 +28,7 @@ Choose one per category.
    **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
 1. Server provider:
    **UpCloud :eu:**
-1. SSL certificate provider for HTTPS:
+1. SSL certificate vendor for HTTPS:
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
    [SSLMate](https://sslmate.com/),
    DigiCert,

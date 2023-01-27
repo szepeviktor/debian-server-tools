@@ -15,7 +15,7 @@
 # - Domain registrar
 # - DNS provider
 # - Server provider (UpCloud)
-# - SSL certificate provider (HTTPS)
+# - SSL certificate vendor (HTTPS)
 # - CDN provider (static files)
 # - Transactional email provider
 # - Storage provider (server backup)
@@ -137,7 +137,7 @@ fi
 IP="$(hostname --all-ip-addresses | cut -d " " -f 1)"
 export IP
 
-# These packages should be auto-installed
+# These packages from SETUP_PACKAGES should be auto-installed
 apt-mark auto lsb-release ca-certificates
 
 # Package sources
@@ -167,8 +167,10 @@ rm -rf /var/lib/clamav /var/log/clamav
 rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
-apt-get install -qq ssh sudo dirmngr virt-what python3-yaml
+Pkg_install_quiet ssh sudo dirmngr
+
 # Install SHYAML (config reader)
+Pkg_install_quiet python3-yaml
 wget -nv -O /usr/local/bin/shyaml "$SETUP_SHYAML_URL"
 # @FIXME
 sed -i -e '1 s#/usr/bin/env python#/usr/bin/env python3#' /usr/local/bin/shyaml

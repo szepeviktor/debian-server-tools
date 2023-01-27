@@ -158,6 +158,8 @@ Alias /Autodiscover/Autodiscover.xml ${DOCUMENT_ROOT}/rpc.php
 Alias /AutoDiscover/AutoDiscover.xml ${DOCUMENT_ROOT}/rpc.php
 ```
 
+https://testconnectivity.microsoft.com/tests/O365Ola/input
+
 ### Upgrade
 
 ```bash

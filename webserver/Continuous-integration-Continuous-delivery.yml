@@ -3,10 +3,10 @@
 name: "Integrate"
 
 on:  # yamllint disable-line rule:truthy
+    pull_request: null
     push:
         branches:
         - "master"
-    pull_request: null
 # Add [skip ci] to commit message to skip CI.
 
 permissions: {}  # yamllint disable-line rule:braces

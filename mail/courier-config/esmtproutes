@@ -1,6 +1,17 @@
 szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
 #satellite.this.fqdn: mail.szepe.net,25 /SECURITY=REQUIRED
 
+#hotmail.com: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#hotmail.de: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#hotmail.hu: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#live.com: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#msn.com: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#outlook.com: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#outlook.fr: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#outlook.hu: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#outlook.it: smtp-relay.example.com,587 /SECURITY=REQUIRED
+#windowslive.com: smtp-relay.example.com,587 /SECURITY=REQUIRED
+
 #: email-smtp.eu-west-1.amazonaws.com,587 /SECURITY=REQUIRED
 #: smtp.sparkpostmail.com,587 /SECURITY=REQUIRED
 #: smtp-relay.gmail.com,587 /SECURITY=REQUIRED
