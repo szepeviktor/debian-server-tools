@@ -51,7 +51,7 @@ package:
     apache2:
         prg-http-user: ##user
         prg-http-pwd: ##secret
-        prg-ssl-cn: ##prg.1.2.3.4.xip.io
+        prg-ssl-cn: ##prg.1.2.3.4.nip.io
         mod_ratelimit: disabled
     python2:
         install-deprecated: false

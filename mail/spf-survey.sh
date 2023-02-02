@@ -44,6 +44,10 @@ Do_spf()
                 # "?" Neutral, "~" SoftFail, "-" Fail
                 continue
                 ;;
+            "")
+                # Space between two TCP packets
+                continue
+                ;;
             *)
                 echo "Unknown mechanism in SPF: ${MECHANISM}" 1>&2
                 exit 100

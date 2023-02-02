@@ -19,6 +19,7 @@ A checklist to test website functionality.
 ## Public parts
 
 - Delete cookies!
+- Check `HTTP/200` and `HTTP/404` response status codes
 - Post content: front page, page types (see template files), header, footer
 - Interactions: cookie consent, forms, registration, login, password reset, social login, share, search
 - `/favicon.ico`

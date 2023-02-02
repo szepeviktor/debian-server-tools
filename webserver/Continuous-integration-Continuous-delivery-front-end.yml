@@ -13,7 +13,7 @@ name: "Front-end"
 # Set engine versions in package.json
 # {
 #     "engines": {
-#         "node": "~18.12",
+#         "node": "^18.12",
 #         "npm": "please-use-yarn",
 #         "yarn": "^1.22.19"
 #     }
@@ -40,7 +40,7 @@ concurrency:
 jobs:
     js_syntax_errors:
         name: "𝟙 JavaScript Syntax Errors"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"
@@ -69,7 +69,7 @@ jobs:
             checks: "write"
             contents: "read"
             pull-requests: "read"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"
@@ -100,7 +100,7 @@ jobs:
 
     scss_coding_standards:
         name: "𝟛 Sassy CSS Coding Standards"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"
@@ -130,7 +130,7 @@ jobs:
         - "js_syntax_errors"
         - "js_coding_standards"
         - "scss_coding_standards"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"

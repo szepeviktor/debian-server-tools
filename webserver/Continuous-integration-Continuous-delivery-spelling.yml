@@ -1,22 +1,12 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "YAML"
+name: "Spelling"
 
 on:  # yamllint disable-line rule:truthy
-    pull_request:
-        paths:
-        - "**/*.yml"
-        - "**/*.yaml"
-        - "**/*.yml.dist"
-        - "**/*.yaml.dist"
+    pull_request: null
     push:
         branches:
         - "master"
-        paths:
-        - "**/*.yml"
-        - "**/*.yaml"
-        - "**/*.yml.dist"
-        - "**/*.yaml.dist"
 # Add [skip ci] to commit message to skip CI.
 
 permissions:
@@ -27,8 +17,8 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    yaml:
-        name: "YAML"
+    spell_check:
+        name: "Spell check"
         runs-on: "ubuntu-22.04"
         steps:
         -
@@ -39,12 +29,12 @@ jobs:
             uses: "actions/cache@v3"
             with:
                 path: "~/.cache/pip"
-                key: "${{ runner.os }}-pip-yamllint"
+                key: "${{ runner.os }}-pip-codespell"
         -
             name: "Install codespell"
             run: |
-                pip install --user 'yamllint>=1.29'
+                pip install --user 'codespell>=2.2'
         -
-            name: "Check YAML formatting"
+            name: "Search for misspellings"
             run: |
-                "$(python -m site --user-base)/bin/yamllint --strict ."
+                "$(python -m site --user-base)/bin/codespell"

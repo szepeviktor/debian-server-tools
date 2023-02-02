@@ -627,6 +627,7 @@ Set up status page with [Cachet](https://cachethq.io/)
 - Email accounts
 - External resources (3rd party services)
 - [Google Search Console](https://www.google.com/webmasters/tools/url-removal)
+- Delete accounts at service providers
 
 
 

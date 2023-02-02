@@ -33,7 +33,7 @@ Choose one per category.
    [SSLMate](https://sslmate.com/),
    DigiCert,
    Certum :eu:,
-   [Buypass](https://www.buypass.com/ssl) :eu:**
+   [Buypass](https://www.buypass.com/products/tls-ssl-certificates) :eu:**
 1. CDN provider:
    **AWS, KeyCDN :eu:, Akamai from Selectel**
 1. Transactional email provider:

@@ -5,7 +5,7 @@
 # Start:          \033[
 # Separator:      ;
 # End:            m
-# Docs:           http://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes
+# Docs:           https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
 
 TCOLORS="0,Black 1,Red 2,Green 3,Yellow 4,Blue 5,Magenta 6,Cyan 7,White 9,Default"
 TATTRS="0,Reset 1,Bright 2,Dim 3,Italic 4,Underscore 5,Blink 6,Blink2 7,Reverse"
@@ -39,7 +39,9 @@ PrintColors()
     else
         SHIM=""
     fi
+    # Normal intensity
     printf " ${TATTR}0;${DEFAULT_COLOR};${MODE}${COLOR_CODE2}${SHIM}m %12s " "$COLOR_NAME"
+    # Bold or increased intensity
     printf "${TATTR}1;${MODE}${COLOR_CODE2}${SHIM}m %12s ${TATTR}0;${DEFAULT_COLOR}m\\n" "$COLOR_NAME"
 }
 
@@ -52,13 +54,13 @@ done
 Reset
 echo "18 foreground colors (30-37,39)"
 for C in ${TCOLORS}; do
-    PrintColors "$C" 3 49
+    PrintColors "$C" "3" "49"
 done
 
 Reset
 echo "18 background colors (40-47,49)"
 for C in ${TCOLORS}; do
-    PrintColors "$C" 4 30
+    PrintColors "$C" "4" "30"
 done
 
 Reset

@@ -21,7 +21,7 @@ concurrency:
 jobs:
     byte_level:
         name: "0️⃣ Byte-level"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"
@@ -41,7 +41,7 @@ jobs:
 
     syntax_errors:
         name: "1️⃣ Syntax errors"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Set up PHP"
@@ -57,6 +57,7 @@ jobs:
             uses: "ramsey/composer-install@v2"
             with:
                 dependency-versions: "highest"
+        # composer require --dev php-parallel-lint/php-parallel-lint
         -
             name: "Check source code for syntax errors"
             run: "composer exec -- parallel-lint src/"
@@ -75,7 +76,7 @@ jobs:
                 dependencies:
                 - "lowest"
                 - "highest"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Set up PHP"
@@ -117,7 +118,7 @@ jobs:
         needs:
         - "byte_level"
         - "syntax_errors"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Set up PHP"
@@ -154,7 +155,7 @@ jobs:
         needs:
         - "byte_level"
         - "syntax_errors"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Set up PHP"
@@ -190,7 +191,7 @@ jobs:
         needs:
         - "byte_level"
         - "syntax_errors"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"
@@ -210,7 +211,7 @@ jobs:
 
     spelling:
         name: "Spelling"
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         steps:
         -
             name: "Checkout repository"

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Add utility site.
+# Add web-based administration tools.
 #
 # VERSION       :0.2.0
 # DEPENDS       :apt-get install apache2 php5-cli php5-fpm php5-mysqlnd courier-mta apg netcat-openbsd git
@@ -10,10 +10,7 @@
 
 # Usage
 #
-# Put SSL certificate in place
-#
-#     editor /etc/ssl/private/CN-private.key
-#     editor /etc/ssl/localcerts/CN-public.pem
+# !!! Please do not use this.
 
 set -e
 
@@ -35,7 +32,7 @@ test -f "package/phpmyadmin-get.sh"
 getent passwd _web &> /dev/null
 
 U="prg$((RANDOM % 1000))"
-DOMAIN="prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').xip.io"
+DOMAIN="prg.$(ip addr show dev eth0|sed -ne 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p').nip.io"
 
 # Create user
 adduser --disabled-password --gecos "" ${U}
@@ -71,10 +68,10 @@ printf 'User-agent: *\nDisallow: /\n# Please stop sending further requests.\n' >
 cp webserver/default-image-38FC48.jpg "${PRG_ROOT}/"
 
 # OPcache control panel
-# kabel / ocp.php
+# https://gist.github.com/kabel/d12c35bde74814e45c14
 cp webserver/ocp.php "${PRG_ROOT}/"
 
-# APCu ontrol panel
+# APCu control panel
 # apc.php from APCu master
 php -r 'if(1===version_compare("5.5",phpversion())) exit(1);' \
     && wget -nv -O ${PRG_ROOT}/apc.php "https://github.com/krakjoe/apcu/raw/master/apc.php"
