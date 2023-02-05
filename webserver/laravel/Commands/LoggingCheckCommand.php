@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-class LoggingCheck extends Command
+class LoggingCheckCommand extends Command
 {
     public const LOGGER_NAME = 'stack';
 

@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class IsDownForMaintenance extends Command
+class IsDownForMaintenanceCommand extends Command
 {
     /**
      * The name and signature of the console command.

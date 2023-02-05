@@ -110,8 +110,8 @@ jobs:
         #        COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         #    if: "${{ env.COVERALLS_REPO_TOKEN && matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}"
         #    run: |
-        #        wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar"
-        #        php ./php-coveralls.phar -v
+        #        wget --no-verbose "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.3/php-coveralls.phar"
+        #        php ./php-coveralls.phar --verbose
 
     static_analysis:
         name: "3️⃣ Static Analysis"

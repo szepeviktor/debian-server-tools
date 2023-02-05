@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class NamespaceCheck extends Command
+class NamespaceCheckCommand extends Command
 {
     /**
      * The console command name.
