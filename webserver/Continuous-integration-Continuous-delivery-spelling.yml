@@ -18,8 +18,9 @@ concurrency:
 
 jobs:
     spell_check:
-        name: "Spell check"
+        name: "文A Spell check"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 1
         steps:
         -
             name: "Checkout repository"

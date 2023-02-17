@@ -41,6 +41,7 @@ jobs:
     js_syntax_errors:
         name: "𝟙 JavaScript Syntax Errors"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Checkout repository"
@@ -70,6 +71,7 @@ jobs:
             contents: "read"
             pull-requests: "read"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Checkout repository"
@@ -101,6 +103,7 @@ jobs:
     scss_coding_standards:
         name: "𝟛 Sassy CSS Coding Standards"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Checkout repository"
@@ -131,6 +134,7 @@ jobs:
         - "js_coding_standards"
         - "scss_coding_standards"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Checkout repository"
@@ -153,6 +157,19 @@ jobs:
         -
             name: "Check differences to repository"
             run: "git diff --exit-code"
+
+    svg:
+        name: "𝟝 SVG files"
+        runs-on: "ubuntu-22.04"
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Validate SVG files"
+            uses: "szepeviktor/svg-validator@v0.1.0"
+            with:
+                svg_path: "public/**/*.svg"
 
 # Job numbers: https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols
 # JavaScript documentation: https://jsdoc.app/ https://www.npmjs.com/package/eslint-plugin-jsdoc

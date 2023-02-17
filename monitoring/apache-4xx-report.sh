@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :1.4.1
-# DATE          :2019-01-25
+# VERSION       :2.0.0
+# DATE          :2023-02-12
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -128,5 +128,12 @@ while read -r CONFIG_FILE; do
     #    | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 
 done <<<"$APACHE_CONFIGS" | Maybe_sendmail
+
+# Report PHP-FPM errors
+nice dategrep --multiline \
+    --start "now truncate 24h add -17h35m" --end "06:25:00" /var/log/php*-fpm.log.[1] /var/log/php*-fpm.log \
+    | grep -v -F ' NOTICE: ' \
+    | sed -e 's#^#php-fpm.log: #' \
+    | Maybe_sendmail
 
 exit 0

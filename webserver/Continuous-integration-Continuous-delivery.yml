@@ -22,6 +22,7 @@ jobs:
     byte_level:
         name: "0️⃣ Byte-level"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 1
         steps:
         -
             name: "Checkout repository"
@@ -42,6 +43,7 @@ jobs:
     syntax_errors:
         name: "1️⃣ Syntax errors"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Set up PHP"
@@ -77,6 +79,7 @@ jobs:
                 - "lowest"
                 - "highest"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Set up PHP"
@@ -119,6 +122,7 @@ jobs:
         - "byte_level"
         - "syntax_errors"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Set up PHP"
@@ -145,6 +149,9 @@ jobs:
         -
             name: "Check PSR-4 mapping"
             run: "composer dump-autoload --no-interaction --optimize --strict-psr"
+        #-
+        #    name: "Check architecture"
+        #    run: "composer exec -- phparkitect check --config=vendor/mortexa/laravel-arkitect/src/phparkitect.php"
         -
             name: "Perform static analysis"
             run: "composer exec -- phpstan analyze -l 5 src/"
@@ -156,6 +163,7 @@ jobs:
         - "byte_level"
         - "syntax_errors"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 5
         steps:
         -
             name: "Set up PHP"
@@ -180,6 +188,7 @@ jobs:
         -
             name: "Check coding style"
             run: "composer exec -- phpcs --standard=PSR12 -s src/"
+            # run: "composer exec -- pint --test"
         # Move TODO-s into GitHub issues!
         -
             name: "Search for TODO-s and FIXME-s"
@@ -192,6 +201,7 @@ jobs:
         - "byte_level"
         - "syntax_errors"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 1
         steps:
         -
             name: "Checkout repository"
@@ -208,25 +218,3 @@ jobs:
                 echo "CURRENT =${CURRENT}"
                 echo "EXPECTED=${EXPECTED}"
                 test "${CURRENT}" = "${EXPECTED}"
-
-    spelling:
-        name: "Spelling"
-        runs-on: "ubuntu-22.04"
-        steps:
-        -
-            name: "Checkout repository"
-            uses: "actions/checkout@v3"
-        -
-            name: "Cache pip"
-            uses: "actions/cache@v3"
-            with:
-                path: "~/.cache/pip"
-                key: "${{ runner.os }}-pip-codespell"
-        -
-            name: "Install codespell"
-            run: |
-                pip install --user 'codespell>=2.2'
-        -
-            name: "Search for misspellings"
-            run: |
-                "$(python -m site --user-base)/bin/codespell"

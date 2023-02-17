@@ -71,6 +71,31 @@ Caching depends on `APP_ENV` variable.
 
 [Larastan](https://github.com/nunomaduro/larastan) a PHPStan wrapper for Laravel.
 
+### Throttle 404 errors
+
+```php
+namespace App\Providers;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+class RouteServiceProvider extends ServiceProvider
+{
+    public function boot(): void
+    {
+        $this->configureRateLimiting();
+    }
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for('web', static function (Request $request): Limit {
+            return is_null($request->user('web'))
+                ? Limit::perMinute(6)->by($request->ip())
+                : Limit::none();
+        });
+    }
+}
+```
+
 ### Is Laravel down?
 
 1. `echo 'App::isDownForMaintenance();exit;' | ./artisan tinker`
@@ -95,7 +120,6 @@ Add the following to `app/Providers/AppServiceProvider.php`
         });
     }
 ```
-
 
 ### URL categories
 
