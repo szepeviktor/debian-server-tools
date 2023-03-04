@@ -3,7 +3,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set foregenix src -j REJECT
 create foregenix hash:net family inet hashsize 256 maxelem 1024
 flush foregenix
-#$ for S in scan{01..09} scan{10..200}; do dig ${S}.fgxintel.com. A +short; done | sortip -u | sed -e 's/^/add foregenix /'
+#$ for S in scan{01..09} scan{10..200};do dig +short ${S}.fgxintel.com. A;done|sortip -u|sed -e 's/^/add foregenix /'
 add foregenix 51.15.89.104
 add foregenix 78.129.201.60
 add foregenix 78.129.212.66
@@ -38,13 +38,13 @@ add foregenix 88.150.240.193
 add foregenix 88.150.240.195
 add foregenix 88.150.240.219
 add foregenix 88.150.240.220
-add foregenix 88.150.240.248
 add foregenix 88.150.241.10
 add foregenix 88.150.241.123
 add foregenix 88.150.241.124
 add foregenix 88.150.241.125
 add foregenix 88.150.241.126
 add foregenix 88.150.241.127
+add foregenix 109.169.14.33
 add foregenix 109.169.15.78
 add foregenix 109.169.15.85
 add foregenix 109.169.15.87

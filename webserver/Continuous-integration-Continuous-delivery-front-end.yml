@@ -161,6 +161,7 @@ jobs:
     svg:
         name: "𝟝 SVG files"
         runs-on: "ubuntu-22.04"
+        timeout-minutes: 1
         steps:
         -
             name: "Checkout repository"

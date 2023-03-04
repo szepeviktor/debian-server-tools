@@ -4,8 +4,8 @@ name: "Outdated packages"
 
 on:  # yamllint disable-line rule:truthy
     schedule:
-    # Every day at 04:31
-    - cron: "31 04 * * *"
+    # Update Monday
+    - cron: "31 04 * * 1"
     workflow_dispatch: null
 
 concurrency:

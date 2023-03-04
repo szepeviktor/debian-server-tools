@@ -2,8 +2,8 @@
 #
 # Update Facebook crawler IP ranges.
 #
-# VERSION       :0.1.1
-# DATE          :2021-02-20
+# VERSION       :0.2.0
+# DATE          :2023-02-18
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -21,8 +21,14 @@ set -e
 TEMP_IP="$(mktemp)"
 trap 'rm -f "$TEMP_IP"' EXIT HUP INT QUIT PIPE TERM
 
-whois -h whois.radb.net -- "-i origin ${FACEBOOK_AS}" \
-    | sed -n -e 's/^route6\?:\s\+\(\S\+\)$/Require ip \1/p' >"$TEMP_IP"
+#whois -h whois.radb.net -- "-i origin ${FACEBOOK_AS}" \
+#    | sed -n -e 's/^route6\?:\s\+\(\S\+\)$/Require ip \1/p' \
+#    >"$TEMP_IP"
+wget -q -O- "ftp://ftp.radb.net/radb/dbase/radb.db.gz" \
+    | zcat \
+    | sed -e '/./{H;$!d;}' -e "x;/\\norigin:\\s\\+${FACEBOOK_AS}\\n/!d" \
+    | sed -n -e 's/^route6\?:\s\+\(\S\+\)$/Require ip \1/p' \
+    >"$TEMP_IP"
 
 # Check list
 if [ ! -s "$TEMP_IP" ] || grep -v -x 'Require ip [0-9a-f:.]\+/[0-9]\+' "$TEMP_IP"; then

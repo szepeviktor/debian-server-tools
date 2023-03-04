@@ -13,7 +13,10 @@ Bot Directory by Distil Networks (now part of Impreva): https://www.distilnetwor
 
 Udger's crawler list: https://udger.com/resources/ua-list/crawlers
 
-Similar list of hostile networks: https://gitlab.com/ohisee/block-shodan-stretchoid-census
+Similar list of hostile networks:
+
+- https://gitlab.com/ohisee/block-shodan-stretchoid-census
+- https://gitlab.com/mcollins_at_isi/acknowledged_scanners
 
 ### Usage
 

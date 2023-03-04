@@ -91,7 +91,7 @@ export WITHOUT_SYSTEMD="yes"
 
 export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget apt apt-utils aptitude net-tools"
 #:ubuntu test "$(dpkg-vendor --query vendor)" == Ubuntu
-#export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils net-tools"
+#export SETUP_PACKAGES="ubuntu-keyring lsb-release ca-certificates wget apt apt-utils aptitude net-tools"
 
 # APT sources must be hardcoded as shyaml is unavailable before OS image normalization
 export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources"

@@ -17,7 +17,7 @@ Do_spf()
     local SPF_RECORD
     local MECHANISM
 
-    SPF_RECORD="$(host -t TXT "$DOMAIN" | sed -n -e 's|.* descriptive text "\(v=spf1 .*\)"$|\1|p')" #'
+    SPF_RECORD="$(host -t TXT "$DOMAIN" | sed -n -e 's#.* descriptive text "\(v=spf1 .*\)"$#\1#p')"
 
     while read -r -d " " MECHANISM; do
         case "$MECHANISM" in
