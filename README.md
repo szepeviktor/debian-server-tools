@@ -30,6 +30,14 @@ Updated daily as I work.
 1. [Magyar email szolgáltatók](/mail/Hungarian-ESP.md)
 1. [`(direct) / (none)` Google Analytics-ben](/monitoring/Analytics-direct-none-traffic.md)
 
+### Support my work
+
+Please consider supporting my work.
+
+[![Sponsor](https://github.com/szepeviktor/.github/raw/master/.github/assets/github-like-sponsor-button.svg)](https://github.com/sponsors/szepeviktor)
+
+Thank you!
+
 ### Superior cloud hosting
 
 Install Debian on [**UpCloud**](https://www.upcloud.com/register/?promo=U29Q8S)
@@ -173,9 +181,8 @@ https://staticaly.com/ `https://cdn.staticaly.com/gh/USER/REPO/TAG/FILE`
 
 `whois -h whois.bgpmon.net 94.237.81.0`
 
-### UNICODE owl domain name
-
-[﴾͡๏̯͡๏﴿.tk](http://xn--wta3hb403ica11187ama.tk/)
+<!-- UNICODE owl domain name 
+[﴾͡๏̯͡๏﴿.tk](http://xn--wta3hb403ica11187ama.tk/) -->
 
 ### Crontab format
 
