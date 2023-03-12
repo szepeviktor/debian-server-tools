@@ -1,6 +1,6 @@
 # Norton Safe Web
 
-Register a website and recieve notification of site rating changes.
+Register a website and receive notification of site rating changes.
 
 1. Navigate to https://safeweb.norton.com/saml/login
 1. Click on "Create an account"
@@ -11,7 +11,7 @@ Register a website and recieve notification of site rating changes.
 1. Click on "Verify your site" 
 1. Open "Upload an HTML file" and follow all four steps
 1. Click on "Notify me when site rating changes"
-1. If displayes click on "Rate my site"
+1. If displays click on "Rate my site"
 1. Your name (top right corner) / "My Profile" / "Signout"
 
 ## Safe Web Report

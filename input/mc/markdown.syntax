@@ -35,7 +35,7 @@ context default
     keyword \s_*_\s			white
 
 
-## Horisontal ruler
+## Horizontal ruler
     keyword linestart -+ white
 
 ## List

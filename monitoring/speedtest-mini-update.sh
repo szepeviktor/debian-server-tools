@@ -78,7 +78,7 @@ Update_mini() {
     mv "${MINI_PATH}/mini/index-php.html" "${MINI_PATH}/index.php" || Die 9 "Index file cannot be moved in place."
 
     # Remove files for other platforms
-    rm -r "${MINI_PATH}/mini" || Die 10 "Failed to remove unnecassary files."
+    rm -r "${MINI_PATH}/mini" || Die 10 "Failed to remove unnecessary files."
     # Set permissions
     find "${MINI_PATH}" -type f -exec chmod -x "{}" ";" || Die 11 "Failed to turn off execution bit."
 }

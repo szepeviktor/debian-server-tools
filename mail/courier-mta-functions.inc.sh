@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 # Common functions for courier-mta-*.sh
 
-Courier_pythonfilter_pyhton2()
+Courier_pythonfilter_python2()
 {
     # Courier pythonfilter (Python 2)
     #     Original URL: http://www.dragonsdawn.net/~gordon/courier-pythonfilter/

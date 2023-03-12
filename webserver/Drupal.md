@@ -26,7 +26,7 @@ PHP-FPM configuration
 ```ini
 ; Drupal
 php_admin_value[allow_url_fopen] = On
-; Is it ineffective as mbstring.encoding_traslation is disabled
+; Is it ineffective as mbstring.encoding_translation is disabled
 php_admin_value[mbstring.http_input] = pass
 php_admin_value[mbstring.http_output] = pass
 ```

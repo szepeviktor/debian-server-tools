@@ -122,7 +122,7 @@ Python_cram_md5()
 {
     local SMTP_USER="$1"
     local SMTP_PASS="$2"
-    local SMTP_CHALLANGE="$3"
+    local SMTP_CHALLENGE="$3"
 
     python <<EOF
 import sys, hmac, hashlib
@@ -134,7 +134,7 @@ def cram_md5_response(username, password, base64challenge):
                      hashlib.md5).hexdigest()).encode('base64')
 
 if __name__ == "__main__":
-    print(cram_md5_response('$SMTP_USER', '$SMTP_PASS', '$SMTP_CHALLANGE'))
+    print(cram_md5_response('$SMTP_USER', '$SMTP_PASS', '$SMTP_CHALLENGE'))
 EOF
 }
 
@@ -154,7 +154,7 @@ exit 100
         sleep "$INITIAL_WAIT"
         echo "EHLO $(hostname -f)"; sleep 2
         echo "AUTH LOGIN CRAM-MD5"; sleep 2
-        Python_cram_md5 "$SMTP_USER" "$SMTP_PASS" "${FIXME_PREVIOUS_ANWSER}"; sleep 2
+        Python_cram_md5 "$SMTP_USER" "$SMTP_PASS" "${FIXME_PREVIOUS_ANSWER}"; sleep 2
         echo "QUIT"
     } | openssl s_client -quiet -crlf -CAfile "$CA_CERTIFICATES" \
         -connect "${SMTP_HOST}:${SMTP_PORT}" ${STARTTLS} 2>/dev/null

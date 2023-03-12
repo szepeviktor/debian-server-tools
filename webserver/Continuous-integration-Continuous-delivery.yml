@@ -51,16 +51,11 @@ jobs:
             uses: "shivammathur/setup-php@v2"
             with:
                 php-version: "8.0"
+                tools: "parallel-lint"
                 coverage: "none"
         -
             name: "Checkout repository"
             uses: "actions/checkout@v3"
-        -
-            name: "Install dependencies"
-            uses: "ramsey/composer-install@v2"
-            with:
-                dependency-versions: "highest"
-        # composer require --dev php-parallel-lint/php-parallel-lint
         -
             name: "Check source code for syntax errors"
             run: "composer exec -- parallel-lint src/"
@@ -97,6 +92,7 @@ jobs:
             uses: "ramsey/composer-install@v2"
             with:
                 dependency-versions: "${{ matrix.dependencies }}"
+                #composer-options: "--with=laravel/framework:${{ matrix.laravel-constraint }}"
         -
             name: "Execute unit tests"
             run: "composer exec -- pest --ci"
@@ -106,8 +102,8 @@ jobs:
         #    if: "${{ failure() }}"
         #    uses: "actions/upload-artifact@v3"
         #    with:
-        #        name: "larvel-logs-${{ matrix.php-version }}-${{ matrix.dependencies }}"
         #        path: "storage/logs/"
+        #        name: "larvel-logs-${{ matrix.php-version }}-${{ matrix.dependencies }}"
         #-
         #    name: "Send coverage to Coveralls"
         #    env:

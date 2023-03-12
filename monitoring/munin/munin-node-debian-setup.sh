@@ -434,7 +434,7 @@ echo '# Enable plugins by hand'
 echo "Hit Ctrl+D to continue setup"
 bash
 
-echo '# Review services to mintor'
+echo '# Review services to monitor'
 ps aux
 ls -l /etc/munin/plugins
 echo "Hit Ctrl+D to continue setup"

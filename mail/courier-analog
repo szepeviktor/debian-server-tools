@@ -669,8 +669,8 @@ sub report_conn {
     open(INDEX, ">$indexfile") || die "$indexfile: $!\n";
     print INDEX "<html><head><title>$main::REPORTTITLE</title></head>"
 	. "<frameset rows='24,*' border='0'>"
-	. "<frame src='header.html' name='main' scrollin='no'>"
-	. "<frame name='body' scrollin='no'>"
+	. "<frame src='header.html' name='main' scrolling='no'>"
+	. "<frame name='body' scrolling='no'>"
 	. "<noframes><a href='header.html'>Enter without frame support</a>"
 	. "</noframes></frameset></html>\n";
     close(INDEX);

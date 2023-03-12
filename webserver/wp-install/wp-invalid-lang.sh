@@ -5,11 +5,11 @@
 # VERSION       :0.1.2
 # DEPENDS       :apt-get install wget jq
 
-WP_ORG_CORE_TRANLATIONS="https://api.wordpress.org/translations/core/1.0/"
+WP_ORG_CORE_TRANSLATIONS="https://api.wordpress.org/translations/core/1.0/"
 
 set -e
 
-LANGS_REGEXP="en_US|$(wget -q -O- "$WP_ORG_CORE_TRANLATIONS" | jq -r '.translations[].language' | paste -s -d "|")"
+LANGS_REGEXP="en_US|$(wget -q -O- "$WP_ORG_CORE_TRANSLATIONS" | jq -r '.translations[].language' | paste -s -d "|")"
 
 while read -r MO; do
     MO_LANG="$(basename "$MO")"

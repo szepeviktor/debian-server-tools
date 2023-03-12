@@ -113,7 +113,7 @@ def run(options=None):
         sys.stderr.write("E: "+ _("Error: Marking the upgrade (%s)") % e)
         sys.exit(-1)
 
-    # analyze the ugprade
+    # analyze the upgrade
     upgrades = 0
     security_updates = 0
 

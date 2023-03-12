@@ -20,7 +20,7 @@ class PingController extends Controller
     {
         try {
             if (!is_dir(Storage::disk('public')->path(''))) {
-                throw new \RuntimeException('Filesytem or storage path is not available');
+                throw new \RuntimeException('Filesystem or storage path is not available');
             }
 
             DB::connection()->getPdo();

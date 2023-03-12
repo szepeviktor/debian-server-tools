@@ -1,0 +1,7 @@
+[files]
+extend-exclude = ["mail/spam/21_KAM.cf","security/password2remember_hu.txt","monitoring/aruba-serclient.deb/","mysql/mysqltuner/","security/ca/ca-web/text","monitoring/watcher/","webserver/server-configs-nginx/","image/packjpg/","monitoring/hdd-seeker/","image/jpegrescan/"]
+[default.extend-identifiers]
+rsource = "rsource"
+[default.extend-words]
+helo = "helo"
+referer = "referer"

@@ -122,7 +122,7 @@ nice openssl dhparam 2048 >>"/etc/ssl/localcerts/${CN}-public.pem"
 editor "/etc/ssl/private/${CN}-private.key"
 
 # Apache vhost
-# CloudFlase, Incapsula, StackPath
+# CloudFlare, Incapsula, StackPath
 #a2enmod remoteip
 # shellcheck disable=SC2164
 cd /etc/apache2/sites-available/
