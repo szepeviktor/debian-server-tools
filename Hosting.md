@@ -13,6 +13,8 @@
 - Manged hosting: usually a fine-tuned virtual server plus maintenance
 - Shared hosting: a user and a limited virtualhost on a physical web server
 
+![managed hosting](/.github/assets/Managed-hosting.png)
+
 ### VPS in Hungary
 
 - [Rackforest](https://rackforest.hu/vps/linux-vps/)

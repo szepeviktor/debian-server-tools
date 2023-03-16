@@ -2,7 +2,7 @@
 
 Java -> Selenium Server -> ChromeDriver -> Google Chrome
 
-### Selenium Server
+## Selenium Server
 
 - https://www.seleniumhq.org/download/
 - http://selenium-release.storage.googleapis.com/index.html
@@ -12,7 +12,7 @@ apt-get install default-jre-headless
 wget "https://bit.ly/2TlkRyu"
 ```
 
-### Google Chrome browser
+## Google Chrome browser
 
 ```bash
 apt-add-repo.sh google-software
@@ -20,7 +20,7 @@ apt-get install google-chrome-stable
 google-chrome --disable-gpu --headless --screenshot=screenshot.png "https://github.com/"
 ```
 
-### ChromeDriver
+## ChromeDriver
 
 https://sites.google.com/a/chromium.org/chromedriver/downloads
 
@@ -39,8 +39,12 @@ echo "https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver
 
 Start selenium-server-standalone.jar in an infinite loop.
 
-### WebDriver bindings for PHP
+## WebDriver bindings for PHP
 
 ```bash
 composer require facebook/webdriver
 ```
+
+## Detecting Chrome headless mode
+
+https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html

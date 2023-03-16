@@ -2,7 +2,7 @@
 
 *Üdvözlöm az infrastruktúrájának és az webes alkalmazásának/honlapjának létrehozásának folyamatában!*
 
-![HTML oldal betöltési ideje](/Page-html-load-time.png)
+![HTML oldal betöltési ideje](/.github/assets/Page-html-load-time.png)
 
 További részletek a [webes alkalmazás futtatásáról](/CV2.md)
 

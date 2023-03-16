@@ -89,7 +89,7 @@ Essentially keep every operation in memory!
 
 ## <a name="hu"></a>WordPress üzemeltetés cloud szerveren és műszaki támogatás
 
-[![Honlap műszaki háttere](/Application-infrastructure.png)  
+[![Honlap műszaki háttere](/.github/assets/Application-infrastructure.png)  
 Videó egy honlap műszaki hátteréről (HU)](https://www.youtube.com/watch?v=dGi6O9naiN8)
 
 Létező honlapok **proaktív** üzemeltetésével foglalkozok.  

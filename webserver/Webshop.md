@@ -145,6 +145,8 @@ Physical products, no dropshipping.
 
 ### CRO
 
+Conversion rate optimization.
+
 - General UX
 - Product price, discount, sales, flash sales
 - Coupons, gift cards

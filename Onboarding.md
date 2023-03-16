@@ -2,7 +2,7 @@
 
 *Welcome to the process of setting up your infrastructure and your application!*
 
-![Page HTML load time](/Page-html-load-time.png)
+![Page HTML load time](/.github/assets/Page-html-load-time.png)
 
 Details about [running your web application](https://git.io/vNryB)
 

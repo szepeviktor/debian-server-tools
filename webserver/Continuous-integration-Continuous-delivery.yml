@@ -51,8 +51,8 @@ jobs:
             uses: "shivammathur/setup-php@v2"
             with:
                 php-version: "8.0"
-                tools: "parallel-lint"
                 coverage: "none"
+                tools: "parallel-lint"
         -
             name: "Checkout repository"
             uses: "actions/checkout@v3"
