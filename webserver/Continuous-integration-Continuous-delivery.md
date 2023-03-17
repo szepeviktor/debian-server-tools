@@ -1,8 +1,8 @@
- # Continuous integration and Continuous delivery
+# Continuous integration and Continuous delivery
 
 How to design and implement CI and CD.
 
-### CI
+## CI
 
 - Run in a premade container or install OS packages
 - Display environment information
@@ -41,7 +41,7 @@ How to design and implement CI and CD.
 - Start CD by SSH-ing to own server (`restrict,command` in authorized_keys and `DenyUsers` in sshd.conf)
 - Wipe sensitive data
 
-### CD
+## CD
 
 - Possible constrains:
   * successful tests
@@ -79,7 +79,7 @@ How to design and implement CI and CD.
 - "Was down for X seconds"
 - Send email, Slack, Trello or Google Hangouts notification
 
-### Coding style / Coding standard
+## Coding standards
 
 * Tool: squizlabs/php_codesniffer # `phive install phpcs`
 * Tool: dealerdirect/phpcodesniffer-composer-installer
@@ -92,7 +92,7 @@ How to design and implement CI and CD.
 - consistence/coding-standard
 - symplify/coding-standard
 
-### Static analysis
+## Static analysis
 
 * Tool: phpstan/phpstan # `phive install phpstan`
 * Tool: dave-liddament/sarb # `phive install sarb`
@@ -105,52 +105,3 @@ How to design and implement CI and CD.
 - pepakriz/phpstan-exception-rules
 - nunomaduro/larastan
 - szepeviktor/phpstan-wordpress
-
-### Deploying WordPress
-
-Trigger theme setup.
-
-```bash
-wp eval '$old_theme=wp_get_theme("our-theme"); do_action("after_switch_theme", $old_theme->get("Name"), $old_theme);'
-```
-
-Use a common `deploy` hook.
-
-```bash
-wp eval 'do_action("deploy");'
-```
-
-Install languages.
-
-- From wordpress.org: `wp language plugin install wordpress-seo hu_HU`
-- From git repository: `apt-get install gettext # msgfmt`
-- Exported from translate.wordpress.org:
-
-```bash
-TWPORG_URL="https://translate.wordpress.org/projects/wp-plugins/${PLUGIN}/stable/hu/default/export-translations/?format=${FORMAT}"
-wget -O wp-content/languages/plugins/wordpress-seo-hu_HU.mo "$TWPORG_URL"
-wp language plugin is-installed wordpress-seo hu_HU
-```
-
-Tag-category collision.
-
-```bash
-{ wp term list post_tag --field=slug; wp term list category --field=slug; }|sort|uniq -d
-```
-
-<!-- https://antoinevastel.com/bot%20detection/2018/01/17/detect-chrome-headless-v2.html -->
-
-
-### Looking at new WordPress code
-
-1. [Main plugin file parts](https://github.com/szepeviktor/phpstan-wordpress/blob/master/README.md#make-your-code-testable)
-1. [Static analysis](https://github.com/szepeviktor/phpstan-wordpress)
-1. [Code quality](https://github.com/nunomaduro/phpinsights)
-1. Tools for themes
-    - https://themecheck.info/
-    - https://wordpress.org/plugins/theme-check/
-    - [WPThemeReview Standard for PHP_CodeSniffer](https://github.com/WPTRT/WPThemeReview)
-1. Security
-    - https://github.com/WordPress/WordPress-Coding-Standards/tree/develop/WordPress/Sniffs/Security
-    - https://coderisk.com/ by RIPS Technologies
-    - https://wpvulndb.com/

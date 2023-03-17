@@ -39,7 +39,7 @@ concurrency:
 
 jobs:
     js_syntax_errors:
-        name: "𝟙 JavaScript Syntax Errors"
+        name: "𝟏 JavaScript Syntax Errors"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 5
         steps:
@@ -65,7 +65,7 @@ jobs:
                 find resources/js/ -type f -name '*.js' -print0 | xargs -0 -- npx acorn --ecma2015 --module --silent
 
     js_coding_standards:
-        name: "𝟚 JavaScript Coding Standards"
+        name: "𝟐 JavaScript Coding Standards"
         permissions:
             checks: "write"
             contents: "read"
@@ -101,7 +101,7 @@ jobs:
                 report-json: "/tmp/eslint_report.json"
 
     scss_coding_standards:
-        name: "𝟛 Sassy CSS Coding Standards"
+        name: "𝟑 Sassy CSS Coding Standards"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 5
         steps:
@@ -128,7 +128,7 @@ jobs:
             run: "npm run scss:cs -- --custom-formatter=node_modules/stylelint-formatter-github-annotate"
 
     build:
-        name: "𝟜 Build"
+        name: "𝟒 Build"
         needs:
         - "js_syntax_errors"
         - "js_coding_standards"
@@ -159,7 +159,7 @@ jobs:
             run: "git diff --exit-code"
 
     svg:
-        name: "𝟝 SVG files"
+        name: "𝟓 SVG files"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 1
         steps:

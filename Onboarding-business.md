@@ -75,7 +75,7 @@ Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítan
 - Jegyzetek és dokumentumok (pl. szolgáltatók listája, céges telefonkönyv) közös szerkesztése
 - Hang üzenet [Yac](https://www.yac.com/)
 
-Szolgáltató: [Clubhouse](https://clubhouse.io/)
+Szolgáltató: [Clubhouse](https://www.shortcut.com/)
 
 ##### Egyidejű
 

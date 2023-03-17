@@ -206,7 +206,7 @@ Verify your URL
 - Data on servers is automatically backed up daily with 7 days rotation
 - External resources (S3 bucket)
 - Email accounts (local, IMAP)
-- Issues (Clubhouse, Trello, GitHub, GitLab)
+- Issues ([Clubhouse](https://www.shortcut.com/), Trello, GitHub, GitLab)
 - Code repositories (GitLab, GitHub)
 
 ### Cyber security
@@ -235,7 +235,7 @@ Verify your URL
 ### Collaboration
 
 - _No emails if it is possible_
-- Issues/ticketing: Clubhouse or Trello
+- Issues/ticketing: [Clubhouse](https://www.shortcut.com/) or Trello
 - Chat: Slack
 
 ### Onboarding for developers
