@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :2.0.0
-# DATE          :2023-02-12
+# VERSION       :3.0.0
+# DATE          :2023-03-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -23,32 +23,42 @@ Content-Transfer-Encoding: quoted-printable
 "
 APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 
-Filter_client_server_error()
-{
-    # https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
-    # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
-    #     408 Request Timeout on preconnect
-    #     Tunneling through Amazon CloudFront for blocked news sites in China
-    #     Favicon in subdirectory
-    #     WordPress' Windows Live Writer manifest
-    #     cPanel's Let's Encrypt HTTP-01 challenge
-    #     SEO bots
-    #     Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
-    #     Baidu, Bing, DuckDuckGo, Yandex, Qwant crawlers
-    #     Feed fetchers
-    grep -E '" (4(0[0-9]|1[0-7]|2[126])|50[0-5]) [0-9]+ "' \
-        | grep -v -E ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$' \
-        | grep -v -E '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/[012.]+" (301|403) [0-9]+ ".*" "Amazon CloudFront"$' \
-        #| grep -v -E '/favicon\.ico HTTP/1\.1" 40[34] [0-9]+ "' \
-        #| grep -v -E '/wlwmanifest\.xml HTTP/1\.1" 40[34] [0-9]+ "' \
-        #| grep -v -E '"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$' \
-        #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/)[^"]*"$' \
-        #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$' \
-        #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$' \
-        #| grep -v -E '"GET /.*" 404 [0-9]+ ".* (facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$' \
-        #| grep -v -E '"GET /dns-query\?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB HTTP/' \
-
-}
+# 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
+declare -a IGNORE_PATTERNS=(
+    # 408 Request Timeout on preconnect
+    ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$'
+    # Tunneling through Amazon CloudFront for blocked news sites in China
+    '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/(1\.0|1\.1|2\.0)" (301|403) [0-9]+ ".*" "Amazon CloudFront"$'
+    # Favicon in subdirectory
+    #'/favicon\.ico HTTP/(1\.0|1\.1|2\.0)" 40[34] [0-9]+ "'
+    # WordPress login page
+    #'"GET /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 404'
+    #'"GET /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 403'
+    #'"GET /wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 404'
+    #'"GET /wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 403'
+    #'"GET /[a-z]+/wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 404'
+    #'"GET /[a-z]+/wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 403'
+    #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 404'
+    #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 403'
+    # WordPress' Windows Live Writer manifest
+    #'/wlwmanifest\.xml HTTP/(1\.0|1\.1|2\.0)" 40[34] [0-9]+ "'
+    # WordPress direct execution
+    #'"GET /wp-content/(plugins|themes)/\S+(\.php(\?\S+)?|/readme\.txt) HTTP/(1\.0|1\.1|2\.0)" 403'
+    # Dynamic request from AWS CDN
+    #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 403 [0-9]+ "-" "Amazon CloudFront"$'
+    # cPanel's Let's Encrypt HTTP-01 challenge
+    #'"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$'
+    # SEO bots
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/)[^"]*"$'
+    # Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$'
+    # Baidu, Bing, DuckDuckGo, Yandex, Qwant crawlers
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$'
+    # Feed fetchers
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$'
+    # DNS over HTTP
+    #'"GET /dns-query\?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB HTTP/(1\.0|1\.1|2\.0)"'
+)
 
 Color_html()
 {
@@ -84,6 +94,14 @@ In_array()
     return 1
 }
 
+Array_to_lines()
+{
+    while [ -n "${1}" ]; do
+        echo "${1}"
+        shift
+    done
+}
+
 declare -a PROCESSED_LOGS
 
 if [ -z "$APACHE_CONFIGS" ]; then
@@ -97,6 +115,8 @@ source /etc/apache2/envvars
 
 # For non-existent previous log files
 shopt -s nullglob
+
+LOG_EXCERPT="$(mktemp --suffix=.apachelog)"
 
 while read -r CONFIG_FILE; do
     # Skip if marked
@@ -116,9 +136,10 @@ while read -r CONFIG_FILE; do
     PROCESSED_LOGS+=( "$ACCESS_LOG" )
 
     # Log lines for 1 day from Debian cron.daily
+    #   https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
     nice dategrep --multiline \
         --start "now truncate 24h add -17h35m" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
-        | Filter_client_server_error \
+        | grep --extended-regexp '" (4(0[0-9]|1[0-7]|2[126])|50[0-5]) [0-9]+ "' \
         | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 
     ## "+" encoded spaces, lower case hexadecimal digits
@@ -127,7 +148,25 @@ while read -r CONFIG_FILE; do
     #    | grep -E '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])' \
     #    | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
 
-done <<<"$APACHE_CONFIGS" | Maybe_sendmail
+done <<<"$APACHE_CONFIGS" >"${LOG_EXCERPT}"
+
+{
+    echo "$(wc -l <"${LOG_EXCERPT}") errors total."
+
+    for PATTERN in "${IGNORE_PATTERNS[@]}"; do
+        COUNT="$(grep --extended-regexp --count "${PATTERN}" "${LOG_EXCERPT}")"
+        if [ "${COUNT}" == 0 ]; then
+            continue
+        fi
+        echo "Ignored: $(printf '%4d' "${COUNT}") × #${PATTERN}#"
+    done
+
+    Array_to_lines "${IGNORE_PATTERNS[@]}" \
+        | grep --extended-regexp --invert-match --file=- "${LOG_EXCERPT}" \
+        | dd iflag=fullblock bs=1M count=5 2>/dev/null
+} | Maybe_sendmail
+
+rm "${LOG_EXCERPT}"
 
 # Report PHP-FPM errors
 nice dategrep --multiline \

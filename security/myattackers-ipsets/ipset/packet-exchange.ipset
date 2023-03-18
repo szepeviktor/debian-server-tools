@@ -31,32 +31,45 @@ add packet-exchange 165.231.227.0/24
 add packet-exchange 196.196.148.0/24
 add packet-exchange 196.196.164.0/24
 add packet-exchange 196.196.169.0/24
-add packet-exchange 196.196.198.0/24
 add packet-exchange 196.196.203.0/24
 add packet-exchange 196.196.224.0/24
 add packet-exchange 196.196.246.0/24
 add packet-exchange 196.199.55.0/24
 add packet-exchange 196.199.119.0/24
 add packet-exchange 196.240.51.0/24
-add packet-exchange 196.240.109.0/24
 add packet-exchange 196.240.143.0/24
-add packet-exchange 196.240.173.0/24
-add packet-exchange 196.240.237.0/24
+#add packet-exchange 196.240.250.0/24
 add packet-exchange 196.240.254.0/24
 add packet-exchange 196.242.3.0/24
 add packet-exchange 196.242.10.0/24
 add packet-exchange 196.242.47.0/24
+#add packet-exchange 196.242.57.0/24
 add packet-exchange 196.242.84.0/24
 add packet-exchange 196.242.114.0/24
 add packet-exchange 196.242.115.0/24
 add packet-exchange 196.242.131.0/24
+#add packet-exchange 196.242.178.0/24
 add packet-exchange 196.242.195.0/24
+#add packet-exchange 196.244.4.0/24
+#add packet-exchange 196.244.46.0/24
+#add packet-exchange 196.244.48.0/24
 add packet-exchange 196.244.200.0/24
 add packet-exchange 196.245.164.0/24
+#add packet-exchange 196.245.159.0/24
+#add packet-exchange 196.245.160.0/24
+#add packet-exchange 196.245.163.0/24
 add packet-exchange 196.245.216.0/24
+#add packet-exchange 196.245.219.0/24
+#add packet-exchange 196.245.220.0/24
 add packet-exchange 196.245.236.0/24
+#add packet-exchange 196.245.237.0/24
+#add packet-exchange 196.245.246.0/24
+#add packet-exchange 196.245.247.0/24
+#add packet-exchange 196.245.250.0/24
 add packet-exchange 196.247.40.0/24
 add packet-exchange 196.247.192.0/24
+#add packet-exchange 196.247.205.0/24
+#add packet-exchange 196.247.213.0/24
 
 # AS41564 - Orion Network
 add packet-exchange 5.157.14.0/24
@@ -69,6 +82,8 @@ add packet-exchange 196.240.109.0/24
 add packet-exchange 196.240.173.0/24
 add packet-exchange 196.240.237.0/24
 add packet-exchange 196.242.20.0/24
+#add packet-exchange 196.245.148.0/24
+#add packet-exchange 196.245.149.0/24
 add packet-exchange 196.247.168.0/24
 
 # AS57858 - Inter Connects
@@ -97,4 +112,9 @@ add packet-exchange 165.231.1.0/24
 add packet-exchange 165.231.143.0/24
 add packet-exchange 165.231.148.0/24
 add packet-exchange 165.231.149.0/24
+add packet-exchange 196.245.184.0/24
+add packet-exchange 196.245.185.0/24
+add packet-exchange 196.245.186.0/24
+add packet-exchange 196.245.187.0/24
 add packet-exchange 196.247.163.0/24
+add packet-exchange 196.247.224.0/24
