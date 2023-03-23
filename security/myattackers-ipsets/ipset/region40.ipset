@@ -1,4 +1,4 @@
-# AS200557 - Trusov Трусов Илья Игоревич / REGION40 / depo40.ru / QualityNetwork
+# Trusov Трусов Илья Игоревич / REGION40 / depo40.ru / QualityNetwork / PureVoltage
 #: ipset -exist restore <ipset/region40.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set region40 src -j REJECT
 create region40 hash:net family inet hashsize 64 maxelem 256
@@ -28,8 +28,8 @@ add region40 91.243.90.0/24
 add region40 91.243.91.0/24
 add region40 91.243.93.0/24
 
-# AS49453 - GLOBALLAYER / TrafficTransitSolution / FINE GROUP SERVERS SOLUTIONS / Blockchain Network Solutions
-# QualityNetwork
+# AS26548 - PureVoltage
+# Qualitynetwork
 add region40 45.80.104.0/23
 add region40 178.159.100.0/24
 add region40 178.159.107.0/24
@@ -37,29 +37,22 @@ add region40 178.159.107.0/24
 add region40 5.188.86.0/24
 # TrafficTransitSolution
 #add region40 5.133.122.0/24
-#add region40 5.183.255.0/24
 #add region40 31.40.248.0/23
-#add region40 37.44.196.0/23
 #add region40 45.10.166.0/24
 #add region40 45.12.64.0/24
 #add region40 45.12.65.0/24
 #add region40 45.12.66.0/24
 #add region40 45.80.218.0/24
 #add region40 45.80.219.0/24
-#add region40 83.171.224.0/24
-#add region40 83.171.226.0/24
-#add region40 83.171.227.0/24
 #add region40 109.106.20.0/24
-#add region40 141.98.87.0/24
-#add region40 194.104.10.0/24
 #add region40 194.104.11.0/24
 #add region40 212.115.51.0/24
 #add region40 213.108.2.0/24
 #add region40 217.145.224.0/24
 #add region40 217.145.226.0/24
-#add region40 217.145.227.0/24
+add region40 217.145.227.0/24
 # Blockchain Network Solutions
-#add region40 37.44.252.0/23
+add region40 37.44.252.0/23
 
 # AS206485 - UGB Hosting / TrafficTransitSolution / FINE GROUP SERVERS SOLUTIONS / FITZ ISP
 add region40 193.93.193.0/24
@@ -114,11 +107,9 @@ add region40 46.243.173.0/24
 # AS43444 - Blockchain Network Solutions
 #add region40 85.239.42.0/23
 
-# AS62282 - UAB Rakrejus
 # TrafficTransitSolution
-#add region40 45.80.216.0/24
 #add region40 45.132.184.0/24
-#add region40 45.138.100.0/24
+add region40 45.138.100.0/24
 #add region40 45.148.124.0/24
 #add region40 85.202.194.0/24
 #add region40 94.158.22.0/24
@@ -126,3 +117,28 @@ add region40 46.243.173.0/24
 #add region40 147.78.181.0/24
 #add region40 185.61.217.0/24
 #add region40 185.88.100.0/24
+
+# AS52000 - MIRholding
+#add region40 5.183.255.0/24
+add region40 37.44.196.0/23
+#add region40 83.171.224.0/24
+#add region40 83.171.226.0/24
+#add region40 83.171.227.0/24
+#add region40 85.239.36.0/24
+#add region40 85.239.37.0/24
+#add region40 85.239.38.0/24
+#add region40 85.239.39.0/24
+#add region40 141.98.87.0/24
+#add region40 185.152.92.0/24
+#add region40 185.152.93.0/24
+#add region40 185.152.94.0/24
+#add region40 185.152.95.0/24
+#add region40 193.233.88.0/24
+#add region40 193.233.89.0/24
+#add region40 193.233.90.0/24
+#add region40 193.233.91.0/24
+#add region40 193.233.248.0/24
+#add region40 193.233.249.0/24
+#add region40 193.233.250.0/24
+#add region40 193.233.251.0/24
+#add region40 194.104.10.0/24

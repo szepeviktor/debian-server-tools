@@ -26,11 +26,13 @@ APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 # 1.2.3.4 - - [27/Jun/2015:14:35:41 +0200] "GET /request-uri HTTP/1.1" 404 1234 "-" "User-agent/1.1"
 declare -a IGNORE_PATTERNS=(
     # 408 Request Timeout on preconnect
-    ' - - \[\S+ \S+\] "-" 408 [0-9]+ "-" "-(\|Host:-)?"$'
+    '"-" 408 [0-9]+ "-" "-(\|Host:-)?"$'
+    # Bad request
+    '"GET / HTTP/(1\.0|1\.1|2\.0)" 400 0 "-" "-"$'
     # Tunneling through Amazon CloudFront for blocked news sites in China
-    '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/(1\.0|1\.1|2\.0)" (301|403) [0-9]+ ".*" "Amazon CloudFront"$'
+    '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/(1\.0|1\.1|2\.0)" (301|403) [0-9]+ "[^"]+" "Amazon CloudFront"$'
     # Favicon in subdirectory
-    #'/favicon\.ico HTTP/(1\.0|1\.1|2\.0)" 40[34] [0-9]+ "'
+    #'/favicon\.(ico|png) HTTP/(1\.0|1\.1|2\.0)" (403|404) [0-9]+ "'
     # WordPress login page
     #'"GET /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 404'
     #'"GET /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 403'
@@ -41,7 +43,7 @@ declare -a IGNORE_PATTERNS=(
     #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 404'
     #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 403'
     # WordPress' Windows Live Writer manifest
-    #'/wlwmanifest\.xml HTTP/(1\.0|1\.1|2\.0)" 40[34] [0-9]+ "'
+    #'/wlwmanifest\.xml HTTP/(1\.0|1\.1|2\.0)" (403|404) [0-9]+ "'
     # WordPress direct execution
     #'"GET /wp-content/(plugins|themes)/\S+(\.php(\?\S+)?|/readme\.txt) HTTP/(1\.0|1\.1|2\.0)" 403'
     # Dynamic request from AWS CDN
@@ -49,13 +51,13 @@ declare -a IGNORE_PATTERNS=(
     # cPanel's Let's Encrypt HTTP-01 challenge
     #'"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$'
     # SEO bots
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/)[^"]*"$'
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/|BLEXBot/)[^"]*"$'
     # Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$'
-    # Baidu, Bing, DuckDuckGo, Yandex, Qwant crawlers
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$'
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$'
+    # Other search engine crawlers
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|PetalBot;|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$'
     # Feed fetchers
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ ".* (facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$'
+    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$'
     # DNS over HTTP
     #'"GET /dns-query\?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB HTTP/(1\.0|1\.1|2\.0)"'
 )
@@ -73,8 +75,8 @@ Maybe_sendmail()
     read -r -n 1 STRIPPED_BYTE \
         && {
             # stdin is not empty
-            echo "$EMAIL_HEADER"
-            { echo -n "$STRIPPED_BYTE"; cat; } | Color_html
+            echo "${EMAIL_HEADER}"
+            { echo -n "${STRIPPED_BYTE}"; cat; } | Color_html
         } | /usr/sbin/sendmail
 }
 
@@ -86,7 +88,7 @@ In_array()
     shift
 
     for ELEMENT; do
-        if [ "$ELEMENT" == "$NEEDLE" ]; then
+        if [ "${ELEMENT}" == "${NEEDLE}" ]; then
             return 0
         fi
     done
@@ -104,7 +106,7 @@ Array_to_lines()
 
 declare -a PROCESSED_LOGS
 
-if [ -z "$APACHE_CONFIGS" ]; then
+if [ -z "${APACHE_CONFIGS}" ]; then
     echo "Apace log files could not be found." 1>&2
     exit 1
 fi
@@ -120,35 +122,34 @@ LOG_EXCERPT="$(mktemp --suffix=.apachelog)"
 
 while read -r CONFIG_FILE; do
     # Skip if marked
-    if grep -q -F '#APACHE-4XXREPORT-SKIP#' "$CONFIG_FILE"; then
+    if grep -q -F '#APACHE-4XXREPORT-SKIP#' "${CONFIG_FILE}"; then
         continue
     fi
 
-    ACCESS_LOG="$(sed -n -e '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
-    SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "$CONFIG_FILE")"
+    ACCESS_LOG="$(sed -n -e '/^\s*CustomLog\s\+\(\S\+\)\s\+\S\+.*$/I{s//\1/p;q;}' "${CONFIG_FILE}")"
+    SITE_USER="$(sed -n -e '/^\s*Define\s\+SITE_USER\s\+\(\S\+\).*$/I{s//\1/p;q;}' "${CONFIG_FILE}")"
     # Substitute variables
-    ACCESS_LOG="$(sed -e "s#\${APACHE_LOG_DIR}#${APACHE_LOG_DIR}#g" -e "s#\${SITE_USER}#${SITE_USER}#g" <<<"$ACCESS_LOG")"
+    ACCESS_LOG="$(sed -e "s#\${APACHE_LOG_DIR}#${APACHE_LOG_DIR}#g" -e "s#\${SITE_USER}#${SITE_USER}#g" <<<"${ACCESS_LOG}")"
 
     # Prevent double log processing
-    if In_array "$ACCESS_LOG" "${PROCESSED_LOGS[@]}"; then
+    if In_array "${ACCESS_LOG}" "${PROCESSED_LOGS[@]}"; then
         continue
     fi
-    PROCESSED_LOGS+=( "$ACCESS_LOG" )
+    PROCESSED_LOGS+=( "${ACCESS_LOG}" )
 
     # Log lines for 1 day from Debian cron.daily
-    #   https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
+    # https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
     nice dategrep --multiline \
-        --start "now truncate 24h add -17h35m" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
-        | grep --extended-regexp '" (4(0[0-9]|1[0-7]|2[126])|50[0-5]) [0-9]+ "' \
-        | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
+        --start "now truncate 24h add -17h35m" --end "06:25:00" "${ACCESS_LOG}".[1] "${ACCESS_LOG}" \
+        | grep --extended-regexp '" (40[0-9]|41[0-7]|42[126]|50[0-5]) [0-9]+ "' \
+        | sed -e "s#^#$(basename "${ACCESS_LOG}" .log): #"
 
     ## "+" encoded spaces, lower case hexadecimal digits
     #nice dategrep --multiline \
-    #    --start "now truncate 24h add -17h35m" --end "06:25:00" "$ACCESS_LOG".[1] "$ACCESS_LOG" \
+    #    --start "now truncate 24h add -17h35m" --end "06:25:00" "${ACCESS_LOG}".[1] "${ACCESS_LOG}" \
     #    | grep -E '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])' \
-    #    | sed -e "s#^#$(basename "$ACCESS_LOG" .log): #"
-
-done <<<"$APACHE_CONFIGS" >"${LOG_EXCERPT}"
+    #    | sed -e "s#^#$(basename "${ACCESS_LOG}" .log): #"
+done <<<"${APACHE_CONFIGS}" >"${LOG_EXCERPT}"
 
 {
     echo "$(wc -l <"${LOG_EXCERPT}") errors total."

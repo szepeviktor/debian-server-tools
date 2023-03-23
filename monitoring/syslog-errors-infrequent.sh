@@ -17,7 +17,7 @@
 Filter_failures()
 {
     # -intERRupt,-bERRy, -WARNer, -fail2ban, -MISSy, -deFAULT
-    grep --extended-regexp --invert-match "crit|[^f]err[os]|warn[^e]|fail[^2]\
+    grep --extended-regexp --ignore-case "crit|[^f]err[os]|warn[^e]|fail[^2]\
 |alert|unknown|unable|miss[^y]|except|disable|invalid|[^e]fault|cannot|denied\
 |broken|exceed|too big|too many|unsafe|unsolicited|limit reach|unhandled|traps\
 |\\bbad\\b|corrupt|but got status|oom-killer|false|unreach|[^c]oops|ignor[ei]\
