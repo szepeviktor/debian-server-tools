@@ -122,7 +122,7 @@ LOG_EXCERPT="$(mktemp --suffix=.apachelog)"
 
 while read -r CONFIG_FILE; do
     # Skip if marked
-    if grep -q -F '#APACHE-4XXREPORT-SKIP#' "${CONFIG_FILE}"; then
+    if grep --quiet --fixed-strings '#APACHE-4XXREPORT-SKIP#' "${CONFIG_FILE}"; then
         continue
     fi
 
@@ -147,7 +147,7 @@ while read -r CONFIG_FILE; do
     ## "+" encoded spaces, lower case hexadecimal digits
     #nice dategrep --multiline \
     #    --start "now truncate 24h add -17h35m" --end "06:25:00" "${ACCESS_LOG}".[1] "${ACCESS_LOG}" \
-    #    | grep -E '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])' \
+    #    | grep --extended-regexp '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])' \
     #    | sed -e "s#^#$(basename "${ACCESS_LOG}" .log): #"
 done <<<"${APACHE_CONFIGS}" >"${LOG_EXCERPT}"
 
@@ -172,7 +172,7 @@ rm "${LOG_EXCERPT}"
 # Report PHP-FPM errors
 nice dategrep --multiline \
     --start "now truncate 24h add -17h35m" --end "06:25:00" /var/log/php*-fpm.log.[1] /var/log/php*-fpm.log \
-    | grep -v -F ' NOTICE: ' \
+    | grep --fixed-strings --invert-match ' NOTICE: ' \
     | sed -e 's#^#php-fpm.log: #' \
     | Maybe_sendmail
 

@@ -28,7 +28,7 @@ LOG_EXCERPT="$(mktemp --suffix=.syslog)"
 
 # Search recent log entries
 /usr/sbin/logtail2 /var/log/syslog \
-    | grep -F -v "$0" \
+    | grep --fixed-strings --invert-match "$0" \
     | Filter_failures \
     > "${LOG_EXCERPT}"
 
@@ -40,10 +40,10 @@ while read -r PATTERN; do
         continue
     fi
     echo "Ignored: $(printf '%4d' "${COUNT}") × #${PATTERN}#"
-done </etc/syslog-errors.grep
+done </etc/syslog-errors-excludes.grep
 
 cat "${LOG_EXCERPT}" \
-    | grep --extended-regexp --invert-match --file=/etc/syslog-errors.grep \
+    | grep --extended-regexp --invert-match --file=/etc/syslog-errors-excludes.grep \
     | dd iflag=fullblock bs=1M count=5 2>/dev/null
 
 rm "${LOG_EXCERPT}"
@@ -53,7 +53,7 @@ if [ -s /var/log/boot ] && [ "$(wc -l </var/log/boot)" -gt 1 ]; then
     # Skip "(Nothing has been logged yet.)"
     /usr/sbin/logtail2 /var/log/boot \
         | sed -e '1!b;/^(Nothing .*$/d' \
-        | Failures
+        | Filter_failures
 fi
 
 exit 0
