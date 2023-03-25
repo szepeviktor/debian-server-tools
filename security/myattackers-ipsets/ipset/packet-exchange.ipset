@@ -28,6 +28,7 @@ add packet-exchange 165.231.108.0/24
 add packet-exchange 165.231.168.0/24
 add packet-exchange 165.231.225.0/24
 add packet-exchange 165.231.227.0/24
+add packet-exchange 196.196.147.0/24
 add packet-exchange 196.196.148.0/24
 add packet-exchange 196.196.164.0/24
 add packet-exchange 196.196.169.0/24
@@ -36,12 +37,14 @@ add packet-exchange 196.196.224.0/24
 add packet-exchange 196.196.246.0/24
 add packet-exchange 196.199.55.0/24
 add packet-exchange 196.199.119.0/24
+add packet-exchange 196.199.122.0/24
 add packet-exchange 196.240.51.0/24
 add packet-exchange 196.240.143.0/24
-#add packet-exchange 196.240.250.0/24
+add packet-exchange 196.240.250.0/24
 add packet-exchange 196.240.254.0/24
 add packet-exchange 196.242.3.0/24
 add packet-exchange 196.242.10.0/24
+add packet-exchange 196.242.46.0/24
 add packet-exchange 196.242.47.0/24
 #add packet-exchange 196.242.57.0/24
 add packet-exchange 196.242.84.0/24
@@ -50,9 +53,10 @@ add packet-exchange 196.242.115.0/24
 add packet-exchange 196.242.131.0/24
 #add packet-exchange 196.242.178.0/24
 add packet-exchange 196.242.195.0/24
+add packet-exchange 196.242.200.0/24
 #add packet-exchange 196.244.4.0/24
 #add packet-exchange 196.244.46.0/24
-#add packet-exchange 196.244.48.0/24
+add packet-exchange 196.244.48.0/24
 add packet-exchange 196.244.200.0/24
 add packet-exchange 196.245.164.0/24
 #add packet-exchange 196.245.159.0/24
@@ -69,6 +73,7 @@ add packet-exchange 196.245.236.0/24
 add packet-exchange 196.247.40.0/24
 add packet-exchange 196.247.192.0/24
 #add packet-exchange 196.247.205.0/24
+add packet-exchange 196.247.212.0/24
 #add packet-exchange 196.247.213.0/24
 
 # AS41564 - Orion Network
@@ -109,6 +114,7 @@ add packet-exchange 196.196.160.0/24
 
 # AS37518 - Fiber Grid
 add packet-exchange 165.231.1.0/24
+add packet-exchange 165.231.103.0/24
 add packet-exchange 165.231.143.0/24
 add packet-exchange 165.231.148.0/24
 add packet-exchange 165.231.149.0/24

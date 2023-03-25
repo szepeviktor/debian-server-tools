@@ -42,8 +42,7 @@ while read -r PATTERN; do
     echo "Ignored: $(printf '%4d' "${COUNT}") × #${PATTERN}#"
 done </etc/syslog-errors-excludes.grep
 
-cat "${LOG_EXCERPT}" \
-    | grep --extended-regexp --invert-match --file=/etc/syslog-errors-excludes.grep \
+grep --extended-regexp --invert-match --file=/etc/syslog-errors-excludes.grep "${LOG_EXCERPT}" \
     | dd iflag=fullblock bs=1M count=5 2>/dev/null
 
 rm "${LOG_EXCERPT}"

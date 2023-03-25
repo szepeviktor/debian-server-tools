@@ -29,9 +29,9 @@ declare -a IGNORE_PATTERNS=(
     '"-" 408 [0-9]+ "-" "-(\|Host:-)?"$'
     # Bad request
     '"GET / HTTP/(1\.0|1\.1|2\.0)" 400 0 "-" "-"$'
-    # Tunneling through Amazon CloudFront for blocked news sites in China
+    # Tunneling attempts through Amazon CloudFront for blocked news sites in China
     '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/(1\.0|1\.1|2\.0)" (301|403) [0-9]+ "[^"]+" "Amazon CloudFront"$'
-    # Favicon in subdirectory
+    # Favicon in a subdirectory
     #'/favicon\.(ico|png) HTTP/(1\.0|1\.1|2\.0)" (403|404) [0-9]+ "'
     # WordPress login page
     #'"GET /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 404'
@@ -42,22 +42,24 @@ declare -a IGNORE_PATTERNS=(
     #'"GET /[a-z]+/wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 403'
     #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 404'
     #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 403'
+    # WordPress user enumeration
+    #'"GET (/\?author=|/wp-json/wp/v2/users/)[0-9]+ HTTP/(1\.0|1\.1|2\.0)" 403'
     # WordPress' Windows Live Writer manifest
     #'/wlwmanifest\.xml HTTP/(1\.0|1\.1|2\.0)" (403|404) [0-9]+ "'
-    # WordPress direct execution
+    # WordPress direct execution and readme sniffing
     #'"GET /wp-content/(plugins|themes)/\S+(\.php(\?\S+)?|/readme\.txt) HTTP/(1\.0|1\.1|2\.0)" 403'
-    # Dynamic request from AWS CDN
+    # Dynamic request from CDN
     #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 403 [0-9]+ "-" "Amazon CloudFront"$'
     # cPanel's Let's Encrypt HTTP-01 challenge
     #'"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$'
     # SEO bots
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/|BLEXBot/)[^"]*"$'
+    #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/|BLEXBot/)[^"]*"$'
     # Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$'
+    #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(Googlebot/2\.1|Googlebot-Image/1\.0|Google Web Preview)[^"]*"$'
     # Other search engine crawlers
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|PetalBot;|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$'
+    #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(Baiduspider/2\.0|bingbot/2\.0|DuckDuckBot/1\.1|PetalBot;|YandexBot/3\.0|Qwantify/2\.4w)[^"]*"$'
     # Feed fetchers
-    #'"GET /.* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$'
+    #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(facebookexternalhit/|Twitterbot/|Mail\.RU_Bot/Img/)[^"]*"$'
     # DNS over HTTP
     #'"GET /dns-query\?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB HTTP/(1\.0|1\.1|2\.0)"'
 )
