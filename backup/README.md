@@ -67,8 +67,8 @@ cat github.repos|xargs -L1 git clone
 ### S3QL flush before umount
 
 - synchronize: fsync(2)
-- upload: sync && s3qlctrl flushcache
-- unmount: umount.s3ql
+- upload: `sync && s3qlctrl flushcache`
+- unmount: `umount.s3ql`
 
 ### S3QL recover metadata from backup
 

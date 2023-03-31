@@ -121,9 +121,9 @@ add region40 45.138.100.0/24
 # AS52000 - MIRholding
 #add region40 5.183.255.0/24
 add region40 37.44.196.0/23
-#add region40 83.171.224.0/24
-#add region40 83.171.226.0/24
-#add region40 83.171.227.0/24
+add region40 83.171.224.0/24
+add region40 83.171.226.0/24
+add region40 83.171.227.0/24
 #add region40 85.239.36.0/24
 #add region40 85.239.37.0/24
 #add region40 85.239.38.0/24
@@ -133,6 +133,7 @@ add region40 37.44.196.0/23
 #add region40 185.152.93.0/24
 #add region40 185.152.94.0/24
 #add region40 185.152.95.0/24
+add region40 193.31.126.0/24
 #add region40 193.233.88.0/24
 #add region40 193.233.89.0/24
 #add region40 193.233.90.0/24

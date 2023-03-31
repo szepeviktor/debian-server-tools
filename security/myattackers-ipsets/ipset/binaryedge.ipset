@@ -1,11 +1,16 @@
 # AS63949 - BinaryEdge + other AS-es
 #: ipset -exist restore <ipset/binaryedge.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set binaryedge src -j REJECT
-create binaryedge hash:net family inet hashsize 256 maxelem 1024
+create binaryedge hash:net family inet hashsize 1024 maxelem 4096
 flush binaryedge
 #$ wget -qO- https://api.binaryedge.io/v1/minions|jq -r '."scanners"[]'|sortip -u|sed -e 's/^/add binaryedge /'
 add binaryedge 23.239.1.56
 add binaryedge 23.239.2.81
+add binaryedge 23.239.24.120
+add binaryedge 23.239.24.168
+add binaryedge 23.239.24.221
+add binaryedge 23.239.24.229
+add binaryedge 23.239.24.238
 add binaryedge 23.239.27.72
 add binaryedge 23.239.27.106
 add binaryedge 24.199.82.198
@@ -51,6 +56,7 @@ add binaryedge 45.33.66.67
 add binaryedge 45.33.66.99
 add binaryedge 45.33.66.112
 add binaryedge 45.33.66.113
+add binaryedge 45.33.66.158
 add binaryedge 45.33.71.36
 add binaryedge 45.33.71.164
 add binaryedge 45.33.82.32
@@ -74,6 +80,8 @@ add binaryedge 45.56.71.146
 add binaryedge 45.56.92.19
 add binaryedge 45.56.115.47
 add binaryedge 45.56.117.16
+add binaryedge 45.56.127.227
+add binaryedge 45.56.127.251
 add binaryedge 45.79.3.50
 add binaryedge 45.79.3.62
 add binaryedge 45.79.3.81
@@ -110,11 +118,16 @@ add binaryedge 45.79.99.182
 add binaryedge 45.79.111.228
 add binaryedge 45.79.112.221
 add binaryedge 45.79.112.245
+add binaryedge 45.79.113.125
 add binaryedge 45.79.120.82
 add binaryedge 45.79.122.124
 add binaryedge 45.79.124.146
 add binaryedge 45.79.125.176
+add binaryedge 45.79.129.143
 add binaryedge 45.79.148.83
+add binaryedge 45.79.162.40
+add binaryedge 45.79.180.155
+add binaryedge 45.79.183.9
 add binaryedge 45.79.204.117
 add binaryedge 45.79.206.63
 add binaryedge 45.79.221.26
@@ -154,6 +167,7 @@ add binaryedge 50.116.11.111
 add binaryedge 50.116.13.90
 add binaryedge 50.116.39.62
 add binaryedge 50.116.47.184
+add binaryedge 50.116.53.227
 add binaryedge 64.225.17.74
 add binaryedge 64.225.32.4
 add binaryedge 64.225.32.14
@@ -175,6 +189,7 @@ add binaryedge 64.225.112.169
 add binaryedge 64.225.112.181
 add binaryedge 64.225.112.201
 add binaryedge 64.225.120.1
+add binaryedge 64.225.120.29
 add binaryedge 64.227.3.37
 add binaryedge 64.227.15.18
 add binaryedge 64.227.18.222
@@ -188,6 +203,7 @@ add binaryedge 64.227.47.33
 add binaryedge 64.227.48.76
 add binaryedge 64.227.48.90
 add binaryedge 64.227.48.112
+add binaryedge 64.227.48.132
 add binaryedge 64.227.48.175
 add binaryedge 64.227.48.228
 add binaryedge 64.227.65.95
@@ -229,7 +245,10 @@ add binaryedge 64.227.162.72
 add binaryedge 64.227.168.210
 add binaryedge 64.227.172.211
 add binaryedge 66.175.222.159
+add binaryedge 66.228.33.22
+add binaryedge 66.228.40.119
 add binaryedge 66.228.59.238
+add binaryedge 67.205.129.125
 add binaryedge 67.205.131.13
 add binaryedge 67.205.131.61
 add binaryedge 67.205.131.98
@@ -275,15 +294,20 @@ add binaryedge 68.183.111.164
 add binaryedge 68.183.112.129
 add binaryedge 68.183.112.174
 add binaryedge 68.183.116.47
+add binaryedge 68.183.117.38
+add binaryedge 68.183.117.143
 add binaryedge 68.183.122.130
 add binaryedge 68.183.123.90
 add binaryedge 68.183.128.61
 add binaryedge 68.183.128.63
+add binaryedge 68.183.134.195
+add binaryedge 68.183.138.125
 add binaryedge 68.183.142.206
 add binaryedge 68.183.145.138
 add binaryedge 68.183.150.105
 add binaryedge 68.183.160.72
 add binaryedge 68.183.160.79
+add binaryedge 68.183.160.102
 add binaryedge 68.183.160.106
 add binaryedge 68.183.160.133
 add binaryedge 68.183.160.150
@@ -304,6 +328,7 @@ add binaryedge 68.183.196.117
 add binaryedge 68.183.196.141
 add binaryedge 68.183.197.230
 add binaryedge 68.183.201.1
+add binaryedge 68.183.201.9
 add binaryedge 68.183.201.84
 add binaryedge 68.183.204.95
 add binaryedge 68.183.204.227
@@ -321,6 +346,7 @@ add binaryedge 69.55.55.170
 add binaryedge 69.55.61.115
 add binaryedge 69.164.205.19
 add binaryedge 69.164.205.34
+add binaryedge 69.164.214.99
 add binaryedge 74.207.235.82
 add binaryedge 74.207.243.182
 add binaryedge 74.207.245.18
@@ -348,9 +374,15 @@ add binaryedge 85.159.214.244
 add binaryedge 85.159.214.246
 add binaryedge 88.80.189.44
 add binaryedge 88.80.189.220
+add binaryedge 97.107.130.72
+add binaryedge 97.107.131.25
+add binaryedge 97.107.138.187
+add binaryedge 97.107.139.100
 add binaryedge 103.253.147.251
 add binaryedge 104.131.69.106
 add binaryedge 104.131.180.187
+add binaryedge 104.200.19.53
+add binaryedge 104.200.19.171
 add binaryedge 104.236.4.28
 add binaryedge 104.236.4.32
 add binaryedge 104.236.67.35
@@ -367,6 +399,7 @@ add binaryedge 104.248.19.111
 add binaryedge 104.248.40.158
 add binaryedge 104.248.49.35
 add binaryedge 104.248.49.41
+add binaryedge 104.248.50.6
 add binaryedge 104.248.51.235
 add binaryedge 104.248.53.161
 add binaryedge 104.248.54.98
@@ -411,6 +444,8 @@ add binaryedge 104.248.208.68
 add binaryedge 104.248.208.121
 add binaryedge 104.248.208.143
 add binaryedge 104.248.208.228
+add binaryedge 104.248.208.234
+add binaryedge 104.248.208.235
 add binaryedge 104.248.224.241
 add binaryedge 104.248.225.94
 add binaryedge 104.248.236.254
@@ -449,6 +484,7 @@ add binaryedge 134.122.35.18
 add binaryedge 134.122.38.169
 add binaryedge 134.122.38.191
 add binaryedge 134.122.40.21
+add binaryedge 134.122.41.61
 add binaryedge 134.122.43.86
 add binaryedge 134.122.44.116
 add binaryedge 134.122.45.238
@@ -475,6 +511,7 @@ add binaryedge 134.122.114.26
 add binaryedge 134.122.117.242
 add binaryedge 134.122.121.21
 add binaryedge 134.122.123.129
+add binaryedge 134.122.127.73
 add binaryedge 134.209.0.82
 add binaryedge 134.209.0.119
 add binaryedge 134.209.0.154
@@ -600,6 +637,7 @@ add binaryedge 137.184.196.228
 add binaryedge 137.184.206.213
 add binaryedge 137.184.214.180
 add binaryedge 137.184.216.227
+add binaryedge 137.184.217.199
 add binaryedge 137.184.218.100
 add binaryedge 137.184.218.155
 add binaryedge 137.184.221.3
@@ -667,6 +705,7 @@ add binaryedge 138.68.224.17
 add binaryedge 138.68.224.112
 add binaryedge 138.68.232.104
 add binaryedge 138.68.239.4
+add binaryedge 138.68.240.204
 add binaryedge 138.197.0.25
 add binaryedge 138.197.9.219
 add binaryedge 138.197.11.54
@@ -680,6 +719,8 @@ add binaryedge 138.197.110.247
 add binaryedge 138.197.112.127
 add binaryedge 138.197.131.132
 add binaryedge 138.197.131.226
+add binaryedge 138.197.133.47
+add binaryedge 138.197.133.108
 add binaryedge 138.197.133.200
 add binaryedge 138.197.134.95
 add binaryedge 138.197.136.25
@@ -688,13 +729,16 @@ add binaryedge 138.197.137.165
 add binaryedge 138.197.138.96
 add binaryedge 138.197.139.145
 add binaryedge 138.197.141.177
+add binaryedge 138.197.141.250
 add binaryedge 138.197.141.254
 add binaryedge 138.197.143.89
 add binaryedge 138.197.144.241
 add binaryedge 138.197.149.244
 add binaryedge 138.197.151.197
+add binaryedge 138.197.153.166
 add binaryedge 138.197.154.118
 add binaryedge 138.197.154.135
+add binaryedge 138.197.155.71
 add binaryedge 138.197.156.166
 add binaryedge 138.197.161.11
 add binaryedge 138.197.161.81
@@ -702,6 +746,7 @@ add binaryedge 138.197.161.223
 add binaryedge 138.197.162.148
 add binaryedge 138.197.163.40
 add binaryedge 138.197.163.199
+add binaryedge 138.197.164.35
 add binaryedge 138.197.165.171
 add binaryedge 138.197.166.48
 add binaryedge 138.197.166.70
@@ -718,6 +763,8 @@ add binaryedge 138.197.189.109
 add binaryedge 138.197.192.172
 add binaryedge 138.197.192.247
 add binaryedge 138.197.200.124
+add binaryedge 138.197.200.184
+add binaryedge 138.197.200.194
 add binaryedge 138.197.207.2
 add binaryedge 138.197.207.41
 add binaryedge 138.197.207.104
@@ -845,6 +892,7 @@ add binaryedge 139.162.230.74
 add binaryedge 139.162.230.122
 add binaryedge 139.162.235.124
 add binaryedge 139.162.236.233
+add binaryedge 139.162.241.224
 add binaryedge 139.162.243.31
 add binaryedge 139.162.243.46
 add binaryedge 139.162.243.86
@@ -871,6 +919,7 @@ add binaryedge 139.177.199.54
 add binaryedge 139.177.201.117
 add binaryedge 139.177.201.190
 add binaryedge 139.177.201.197
+add binaryedge 142.93.5.59
 add binaryedge 142.93.16.10
 add binaryedge 142.93.16.107
 add binaryedge 142.93.16.183
@@ -888,6 +937,7 @@ add binaryedge 142.93.56.128
 add binaryedge 142.93.69.115
 add binaryedge 142.93.74.240
 add binaryedge 142.93.79.172
+add binaryedge 142.93.80.113
 add binaryedge 142.93.80.128
 add binaryedge 142.93.80.199
 add binaryedge 142.93.80.218
@@ -929,6 +979,7 @@ add binaryedge 142.93.238.20
 add binaryedge 142.93.239.119
 add binaryedge 142.93.246.90
 add binaryedge 142.93.248.99
+add binaryedge 143.42.3.144
 add binaryedge 143.42.9.141
 add binaryedge 143.42.10.179
 add binaryedge 143.42.23.9
@@ -994,6 +1045,7 @@ add binaryedge 143.42.63.55
 add binaryedge 143.42.63.238
 add binaryedge 143.42.97.243
 add binaryedge 143.42.108.123
+add binaryedge 143.42.118.195
 add binaryedge 143.42.122.94
 add binaryedge 143.42.122.98
 add binaryedge 143.42.122.106
@@ -1011,6 +1063,25 @@ add binaryedge 143.42.122.249
 add binaryedge 143.42.122.252
 add binaryedge 143.42.122.253
 add binaryedge 143.42.122.254
+add binaryedge 143.42.126.183
+add binaryedge 143.42.131.61
+add binaryedge 143.42.131.64
+add binaryedge 143.42.131.67
+add binaryedge 143.42.137.151
+add binaryedge 143.42.137.159
+add binaryedge 143.42.137.178
+add binaryedge 143.42.137.225
+add binaryedge 143.42.137.253
+add binaryedge 143.42.139.4
+add binaryedge 143.42.139.14
+add binaryedge 143.42.139.20
+add binaryedge 143.42.139.23
+add binaryedge 143.42.139.28
+add binaryedge 143.42.139.39
+add binaryedge 143.42.139.43
+add binaryedge 143.42.139.47
+add binaryedge 143.42.139.56
+add binaryedge 143.42.139.58
 add binaryedge 143.42.154.81
 add binaryedge 143.42.154.91
 add binaryedge 143.42.156.237
@@ -1048,6 +1119,7 @@ add binaryedge 143.42.167.30
 add binaryedge 143.42.167.31
 add binaryedge 143.42.167.33
 add binaryedge 143.42.173.138
+add binaryedge 143.42.183.188
 add binaryedge 143.42.184.209
 add binaryedge 143.42.184.223
 add binaryedge 143.42.184.224
@@ -1143,6 +1215,7 @@ add binaryedge 143.42.236.186
 add binaryedge 143.42.236.190
 add binaryedge 143.42.236.191
 add binaryedge 143.42.236.192
+add binaryedge 143.42.239.91
 add binaryedge 143.110.128.169
 add binaryedge 143.110.149.197
 add binaryedge 143.110.152.196
@@ -1311,6 +1384,7 @@ add binaryedge 146.190.168.109
 add binaryedge 146.190.170.226
 add binaryedge 146.190.172.250
 add binaryedge 146.190.210.74
+add binaryedge 146.190.212.161
 add binaryedge 146.190.216.247
 add binaryedge 146.190.218.114
 add binaryedge 146.190.220.191
@@ -1341,6 +1415,7 @@ add binaryedge 146.190.252.229
 add binaryedge 146.190.252.238
 add binaryedge 146.190.252.242
 add binaryedge 147.182.130.252
+add binaryedge 147.182.131.219
 add binaryedge 147.182.142.160
 add binaryedge 147.182.142.254
 add binaryedge 147.182.144.21
@@ -1358,9 +1433,11 @@ add binaryedge 147.182.152.229
 add binaryedge 147.182.154.140
 add binaryedge 147.182.154.232
 add binaryedge 147.182.154.248
+add binaryedge 147.182.156.51
 add binaryedge 147.182.158.227
 add binaryedge 147.182.160.25
 add binaryedge 147.182.168.34
+add binaryedge 147.182.168.50
 add binaryedge 147.182.172.108
 add binaryedge 147.182.173.8
 add binaryedge 147.182.193.117
@@ -1381,6 +1458,7 @@ add binaryedge 157.230.22.247
 add binaryedge 157.230.25.99
 add binaryedge 157.230.44.180
 add binaryedge 157.230.46.41
+add binaryedge 157.230.49.139
 add binaryedge 157.230.56.72
 add binaryedge 157.230.57.114
 add binaryedge 157.230.58.168
@@ -1391,16 +1469,20 @@ add binaryedge 157.230.88.8
 add binaryedge 157.230.89.68
 add binaryedge 157.230.90.134
 add binaryedge 157.230.90.223
+add binaryedge 157.230.92.9
 add binaryedge 157.230.94.233
 add binaryedge 157.230.95.59
 add binaryedge 157.230.114.230
 add binaryedge 157.230.119.225
 add binaryedge 157.230.128.53
 add binaryedge 157.230.128.136
+add binaryedge 157.230.128.165
+add binaryedge 157.230.128.171
 add binaryedge 157.230.144.12
 add binaryedge 157.230.144.51
 add binaryedge 157.230.144.94
 add binaryedge 157.230.144.117
+add binaryedge 157.230.144.180
 add binaryedge 157.230.160.11
 add binaryedge 157.230.160.61
 add binaryedge 157.230.160.97
@@ -1457,6 +1539,7 @@ add binaryedge 157.245.156.209
 add binaryedge 157.245.158.85
 add binaryedge 157.245.160.37
 add binaryedge 157.245.160.81
+add binaryedge 157.245.160.153
 add binaryedge 157.245.160.206
 add binaryedge 157.245.160.243
 add binaryedge 157.245.176.13
@@ -1529,6 +1612,7 @@ add binaryedge 159.65.201.117
 add binaryedge 159.65.204.154
 add binaryedge 159.65.204.231
 add binaryedge 159.65.217.113
+add binaryedge 159.65.218.98
 add binaryedge 159.65.226.196
 add binaryedge 159.65.229.9
 add binaryedge 159.65.229.34
@@ -1619,18 +1703,20 @@ add binaryedge 159.203.30.139
 add binaryedge 159.203.30.163
 add binaryedge 159.203.30.234
 add binaryedge 159.203.31.187
-add binaryedge 159.203.34.97
 add binaryedge 159.203.34.200
 add binaryedge 159.203.34.202
 add binaryedge 159.203.34.212
 add binaryedge 159.203.36.189
 add binaryedge 159.203.40.93
 add binaryedge 159.203.40.251
+add binaryedge 159.203.42.79
+add binaryedge 159.203.42.243
 add binaryedge 159.203.43.135
 add binaryedge 159.203.47.78
 add binaryedge 159.203.47.94
 add binaryedge 159.203.56.79
 add binaryedge 159.203.56.122
+add binaryedge 159.203.56.237
 add binaryedge 159.203.57.230
 add binaryedge 159.203.61.90
 add binaryedge 159.203.62.86
@@ -1671,6 +1757,7 @@ add binaryedge 159.223.94.2
 add binaryedge 159.223.94.58
 add binaryedge 159.223.100.3
 add binaryedge 159.223.104.234
+add binaryedge 159.223.109.76
 add binaryedge 159.223.112.201
 add binaryedge 159.223.126.80
 add binaryedge 159.223.128.178
@@ -1844,6 +1931,7 @@ add binaryedge 165.22.125.255
 add binaryedge 165.22.128.23
 add binaryedge 165.22.128.51
 add binaryedge 165.22.128.58
+add binaryedge 165.22.128.91
 add binaryedge 165.22.128.125
 add binaryedge 165.22.128.128
 add binaryedge 165.22.128.161
@@ -1885,6 +1973,7 @@ add binaryedge 165.227.8.35
 add binaryedge 165.227.15.12
 add binaryedge 165.227.15.44
 add binaryedge 165.227.15.48
+add binaryedge 165.227.15.64
 add binaryedge 165.227.16.127
 add binaryedge 165.227.16.200
 add binaryedge 165.227.24.11
@@ -2013,6 +2102,7 @@ add binaryedge 167.71.144.207
 add binaryedge 167.71.144.224
 add binaryedge 167.71.144.227
 add binaryedge 167.71.144.245
+add binaryedge 167.71.144.250
 add binaryedge 167.71.159.12
 add binaryedge 167.71.159.27
 add binaryedge 167.71.166.131
@@ -2061,12 +2151,14 @@ add binaryedge 167.99.148.77
 add binaryedge 167.99.154.176
 add binaryedge 167.99.160.10
 add binaryedge 167.99.160.177
+add binaryedge 167.99.160.178
 add binaryedge 167.99.160.206
 add binaryedge 167.99.160.208
 add binaryedge 167.99.160.209
 add binaryedge 167.99.175.16
 add binaryedge 167.99.175.65
 add binaryedge 167.99.176.123
+add binaryedge 167.99.176.133
 add binaryedge 167.99.177.207
 add binaryedge 167.99.178.4
 add binaryedge 167.99.179.221
@@ -2128,6 +2220,7 @@ add binaryedge 167.172.192.52
 add binaryedge 167.172.192.54
 add binaryedge 167.172.192.59
 add binaryedge 167.172.192.119
+add binaryedge 167.172.192.155
 add binaryedge 167.172.192.170
 add binaryedge 167.172.192.171
 add binaryedge 167.172.192.194
@@ -2224,6 +2317,24 @@ add binaryedge 170.187.171.154
 add binaryedge 170.187.171.157
 add binaryedge 170.187.172.146
 add binaryedge 170.187.172.150
+add binaryedge 170.187.174.149
+add binaryedge 170.187.174.150
+add binaryedge 170.187.174.151
+add binaryedge 170.187.174.152
+add binaryedge 170.187.174.154
+add binaryedge 170.187.174.155
+add binaryedge 170.187.174.160
+add binaryedge 170.187.174.161
+add binaryedge 170.187.174.162
+add binaryedge 170.187.174.171
+add binaryedge 170.187.174.176
+add binaryedge 170.187.174.177
+add binaryedge 170.187.174.178
+add binaryedge 170.187.174.180
+add binaryedge 170.187.174.181
+add binaryedge 170.187.174.182
+add binaryedge 170.187.174.186
+add binaryedge 170.187.174.193
 add binaryedge 170.187.176.5
 add binaryedge 170.187.176.60
 add binaryedge 170.187.176.61
@@ -2359,6 +2470,7 @@ add binaryedge 173.255.218.114
 add binaryedge 173.255.218.137
 add binaryedge 173.255.218.191
 add binaryedge 173.255.218.202
+add binaryedge 173.255.236.47
 add binaryedge 173.255.243.64
 add binaryedge 173.255.245.50
 add binaryedge 173.255.248.104
@@ -2455,6 +2567,7 @@ add binaryedge 178.128.145.73
 add binaryedge 178.128.146.118
 add binaryedge 178.128.148.242
 add binaryedge 178.128.150.190
+add binaryedge 178.128.152.109
 add binaryedge 178.128.162.17
 add binaryedge 178.128.168.149
 add binaryedge 178.128.170.97
@@ -2528,6 +2641,16 @@ add binaryedge 188.166.244.231
 add binaryedge 192.46.210.152
 add binaryedge 192.46.213.6
 add binaryedge 192.46.214.107
+add binaryedge 192.46.216.22
+add binaryedge 192.46.216.68
+add binaryedge 192.46.216.78
+add binaryedge 192.46.216.83
+add binaryedge 192.46.216.90
+add binaryedge 192.46.216.127
+add binaryedge 192.46.216.156
+add binaryedge 192.46.216.181
+add binaryedge 192.46.216.184
+add binaryedge 192.46.216.237
 add binaryedge 192.46.221.147
 add binaryedge 192.46.223.139
 add binaryedge 192.46.231.228
@@ -2574,6 +2697,7 @@ add binaryedge 198.58.123.200
 add binaryedge 198.58.123.235
 add binaryedge 198.199.69.25
 add binaryedge 198.199.73.72
+add binaryedge 198.199.75.191
 add binaryedge 198.199.81.122
 add binaryedge 204.48.24.0
 add binaryedge 204.48.28.39
@@ -2624,7 +2748,9 @@ add binaryedge 206.189.149.15
 add binaryedge 206.189.151.51
 add binaryedge 206.189.160.19
 add binaryedge 206.189.160.200
+add binaryedge 206.189.175.23
 add binaryedge 206.189.176.58
+add binaryedge 206.189.183.152
 add binaryedge 206.189.185.48
 add binaryedge 206.189.186.152
 add binaryedge 206.189.206.151
