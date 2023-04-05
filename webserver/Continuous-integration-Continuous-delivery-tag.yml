@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Tags"
+
+on:  # yamllint disable-line rule:truthy
+    push:
+        tags:
+        - "**"
+
+permissions:
+    contents: "read"
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+    double_tag:
+        name: "Detect tag without new commit"
+        runs-on: "ubuntu-22.04"
+        timeout-minutes: 1
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "List commits with multiple tags"
+            run: |
+                DUPLICATES="$(git show-ref --tags --hash=7 | sort | uniq --repeated)"
+                if [ -n "${DUPLICATES}" ]; then
+                    echo "::error::Commit with multiple tags"
+                    echo "${DUPLICATES}"
+                    exit 10
+                fi
