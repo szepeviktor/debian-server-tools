@@ -115,15 +115,19 @@ UPTIME_SECONDS="$(</proc/uptime)"
 UPTIME_SECONDS="${UPTIME_SECONDS%% *}"
 UPTIME_SECONDS="${UPTIME_SECONDS%.*}"
 # 180 days, 172 days
-Display_left "Up time" "$UPTIME" "$(Tl_limits "$UPTIME_SECONDS" 15552000 14860800)"
+Display_left "Up time" "${UPTIME}" "$(Tl_limits "${UPTIME_SECONDS}" 15552000 14860800)"
 
 LOAD_AVG="$(</proc/loadavg)"
 LOAD_AVG="${LOAD_AVG%% *}"
-declare -i LOAD_AVG00
-LOAD_AVG00="$(echo "$LOAD_AVG" | awk '{ printf("%.0f",($1 * 100)) }')"
+declare -i LOAD_AVG_INT
+LOAD_AVG_INT="$(awk '{ printf("%.0f",($1 * 100)) }' <<<"${LOAD_AVG}")"
 declare -i CPU_COUNT
 CPU_COUNT="$(grep -c '^processor' /proc/cpuinfo)"
-Display_left "System load" "$LOAD_AVG" "$(Tl_limits "$LOAD_AVG00" $((CPU_COUNT * 100)) $((CPU_COUNT * 50)))" #"
+Display_left "System load" "${LOAD_AVG}" "$(Tl_limits "${LOAD_AVG_INT}" $((CPU_COUNT * 100)) $((CPU_COUNT * 50)))"
+
+# Uses CPU_COUNT from "System load"
+USAGE_PER_HOUR="$(awk "{ printf(\"%.1f\",(3600 - 3600 / \$1 / ${CPU_COUNT} * \$2)) }" </proc/uptime)"
+Display_left "Useful sec/h" "${USAGE_PER_HOUR}" "$(Tl_limits "-${USAGE_PER_HOUR%.*}" -20 -150)"
 
 declare -i MEM_USAGE
 if free | grep -q -F 'buff/cache'; then
