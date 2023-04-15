@@ -19,32 +19,33 @@
         <properties>
             <property name="forbiddenFunctions" type="array">
                 <!--
-                * ini_set() environment belongs to the server
-                * env() does not work in production (artisan config:cache)
                 * compact(), list() and extract() convert array<->value
-                * eval() is dangerous!
-                * echo, print and print_r() disturb templating, see wilderborn/partyline
-                * dump(), dd(), var_dump() - consider using barryvdh/laravel-debugbar
-                * error_log() has special use
                 * define() is for global constants
+                * dump(), dd(), var_dump() - consider using barryvdh/laravel-debugbar
+                * echo, print and print_r() disturb templating, see wilderborn/partyline
+                * env() does not work in production (artisan config:cache)
+                * error_log() has special use
+                * eval() is dangerous!
+                * ini_set() environment belongs to the server
                 Defaults: https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/PHP/DiscouragedFunctionsSniff.php
                 See https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/WordPress/Sniffs/PHP/DiscouragedPHPFunctionsSniff.php
+                Copy of https://github.com/szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset/blob/master/PSR12NeutronRuleset/ruleset.xml
                 -->
-                <element key="ini_set" value="null"/>
-                <element key="env" value="null"/>
                 <element key="compact" value="null"/>
-                <element key="list" value="null"/>
-                <element key="extract" value="null"/>
-                <element key="eval" value="null"/>
-                <element key="echo" value="null"/>
-                <element key="print" value="null"/>
-                <element key="print_r" value="null"/>
-                <element key="dump" value="null"/>
                 <element key="dd" value="null"/>
-                <element key="var_dump" value="null"/>
-                <element key="error_log" value="null"/>
                 <element key="define" value="null"/>
+                <element key="dump" value="null"/>
+                <element key="echo" value="null"/>
+                <element key="env" value="null"/>
+                <element key="error_log" value="null"/>
+                <element key="eval" value="null"/>
+                <element key="extract" value="null"/>
                 <element key="goto" value="null"/>
+                <element key="ini_set" value="null"/>
+                <element key="list" value="null"/>
+                <element key="print_r" value="null"/>
+                <element key="print" value="null"/>
+                <element key="var_dump" value="null"/>
                 <!--
                 Multibyte string functions as alternatives
                 php -\-re mbstring | sed -n -e 's#^\s*Function .* function \(\w\+\) .*$#\1#p'

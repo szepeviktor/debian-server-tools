@@ -222,6 +222,7 @@ Verify your URL
   1. Instruct your password manager to enter credentials and 2FA token
   1. Operate, do not leave your computer/device
   1. After finishing log out
+  1. Click lock icon / Delete cookie in the address bar
   1. Close current browser tab
 - Data breach prevention in the application: automated attacks, paid hacker
 - Protection against malware and phishing attacks (**credential stealing**)
