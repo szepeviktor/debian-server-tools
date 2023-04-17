@@ -29,16 +29,18 @@
                 * ini_set() environment belongs to the server
                 Defaults: https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/PHP/DiscouragedFunctionsSniff.php
                 See https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/WordPress/Sniffs/PHP/DiscouragedPHPFunctionsSniff.php
-                Copy of https://github.com/szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset/blob/master/PSR12NeutronRuleset/ruleset.xml
                 -->
+                <!-- PHP built-in global functions -->
+                <!-- Copy of https://github.com/szepeviktor/phpcs-psr-12-neutron-hybrid-ruleset/blob/master/PSR12NeutronRuleset/ruleset.xml -->
                 <element key="compact" value="null"/>
-                <element key="dd" value="null"/>
+                <element key="create_function" value="null"/>
                 <element key="define" value="null"/>
-                <element key="dump" value="null"/>
+                <element key="die" value="null"/>
                 <element key="echo" value="null"/>
                 <element key="env" value="null"/>
                 <element key="error_log" value="null"/>
                 <element key="eval" value="null"/>
+                <element key="exit" value="null"/>
                 <element key="extract" value="null"/>
                 <element key="goto" value="null"/>
                 <element key="ini_set" value="null"/>
@@ -46,10 +48,98 @@
                 <element key="print_r" value="null"/>
                 <element key="print" value="null"/>
                 <element key="var_dump" value="null"/>
-                <!--
-                Multibyte string functions as alternatives
-                php -\-re mbstring | sed -n -e 's#^\s*Function .* function \(\w\+\) .*$#\1#p'
-                -->
+                <!-- Symfony helpers -->
+                <element key="dd" value="null"/>
+                <element key="dump" value="null"/>
+                <!-- Laravel helpers -->
+                <!-- See find-global-functions.php -->
+                <!-- <element key="__" value="null"/> -->
+                <element key="abort" value="null"/>
+                <element key="abort_if" value="null"/>
+                <element key="abort_unless" value="null"/>
+                <element key="action" value="null"/>
+                <element key="app" value="null"/>
+                <element key="append_config" value="null"/>
+                <element key="app_path" value="null"/>
+                <element key="asset" value="null"/>
+                <element key="auth" value="null"/>
+                <element key="back" value="null"/>
+                <element key="base_path" value="null"/>
+                <element key="bcrypt" value="null"/>
+                <element key="blank" value="null"/>
+                <element key="broadcast" value="null"/>
+                <element key="cache" value="null"/>
+                <element key="class_basename" value="null"/>
+                <element key="class_uses_recursive" value="null"/>
+                <element key="collect" value="null"/>
+                <element key="config" value="null"/>
+                <element key="config_path" value="null"/>
+                <element key="cookie" value="null"/>
+                <element key="csrf_field" value="null"/>
+                <element key="csrf_token" value="null"/>
+                <element key="database_path" value="null"/>
+                <element key="data_fill" value="null"/>
+                <element key="data_get" value="null"/>
+                <element key="data_set" value="null"/>
+                <element key="decrypt" value="null"/>
+                <element key="dispatch" value="null"/>
+                <element key="dispatch_sync" value="null"/>
+                <element key="e" value="null"/>
+                <element key="encrypt" value="null"/>
+                <element key="env" value="null"/>
+                <element key="event" value="null"/>
+                <element key="fake" value="null"/>
+                <element key="filled" value="null"/>
+                <element key="head" value="null"/>
+                <element key="info" value="null"/>
+                <element key="lang_path" value="null"/>
+                <element key="last" value="null"/>
+                <element key="logger" value="null"/>
+                <element key="logs" value="null"/>
+                <element key="method_field" value="null"/>
+                <element key="mix" value="null"/>
+                <element key="now" value="null"/>
+                <element key="object_get" value="null"/>
+                <element key="old" value="null"/>
+                <element key="optional" value="null"/>
+                <element key="policy" value="null"/>
+                <element key="precognitive" value="null"/>
+                <element key="preg_replace_array" value="null"/>
+                <element key="public_path" value="null"/>
+                <element key="queueable" value="null"/>
+                <element key="redirect" value="null"/>
+                <element key="report" value="null"/>
+                <element key="report_if" value="null"/>
+                <element key="report_unless" value="null"/>
+                <element key="request" value="null"/>
+                <element key="rescue" value="null"/>
+                <element key="resolve" value="null"/>
+                <element key="resource_path" value="null"/>
+                <element key="response" value="null"/>
+                <element key="retry" value="null"/>
+                <element key="route" value="null"/>
+                <element key="secure_asset" value="null"/>
+                <element key="secure_url" value="null"/>
+                <element key="session" value="null"/>
+                <element key="storage_path" value="null"/>
+                <element key="str" value="null"/>
+                <element key="tap" value="null"/>
+                <element key="throw_if" value="null"/>
+                <element key="throw_unless" value="null"/>
+                <element key="today" value="null"/>
+                <element key="to_route" value="null"/>
+                <element key="trait_uses_recursive" value="null"/>
+                <element key="trans" value="null"/>
+                <element key="trans_choice" value="null"/>
+                <element key="transform" value="null"/>
+                <element key="url" value="null"/>
+                <element key="validator" value="null"/>
+                <element key="value" value="null"/>
+                <element key="view" value="null"/>
+                <element key="windows_os" value="null"/>
+                <element key="with" value="null"/>
+                <!-- Multibyte string functions as alternatives -->
+                <!-- php -\-re mbstring | sed -n -e 's#^\s*Function .* function \(\w\+\) .*$#\1#p' -->
                 <element key="strtoupper" value="mb_strtoupper"/>
                 <element key="strtolower" value="mb_strtolower"/>
                 <element key="parse_str" value="mb_parse_str"/>
@@ -65,15 +155,14 @@
                 <element key="substr_count" value="mb_substr_count"/>
                 <element key="substr" value="mb_substr"/>
                 <element key="mail" value="mb_send_mail"/>
-                <!-- Byte-character conversion functions
-                <element key="ord" value="mb_ord"/>
-                <element key="chr" value="mb_chr"/>
-                -->
                 <element key="ereg" value="mb_ereg"/>
                 <element key="eregi" value="mb_eregi"/>
                 <element key="ereg_replace" value="mb_ereg_replace"/>
                 <element key="eregi_replace" value="mb_eregi_replace"/>
                 <element key="split" value="mb_split"/>
+                <!-- Byte-character conversion functions -->
+                <element key="ord" value="mb_ord"/>
+                <element key="chr" value="mb_chr"/>
                 <!-- Old functions without underscore -->
                 <element key="mbregex_encoding" value="mb_regex_encoding"/>
                 <element key="mbereg" value="mb_ereg"/>

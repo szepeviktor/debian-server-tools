@@ -7,3 +7,5 @@
 #add tor 185.220.102.0/24
 ## AS208294 - ASMK / Markus Koch
 #add tor 185.220.101.0/24
+# All exit nodes
+# https://check.torproject.org/torbulkexitlist
