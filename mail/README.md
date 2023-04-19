@@ -68,7 +68,7 @@
 ### Webmail
 
 - https://www.horde.org/
-- https://www.rainloop.net/changelog/
+- https://github.com/afterlogic/webmail-lite-8
 
 
 ## Email client problems
