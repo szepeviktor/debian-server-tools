@@ -2,7 +2,7 @@
 
 How to move fast while keeping the codebase clean?
 
-See an article on [Moving Fast With High Code Quality](https://engineering.quora.com/Moving-Fast-With-High-Code-Quality)
+See an article on [Moving Fast With High Code Quality](https://quoraengineering.quora.com/Moving-Fast-With-High-Code-Quality)
 and [clearPHP rules](https://github.com/dseguy/clearPHP)
 
 ### Forces influencing development

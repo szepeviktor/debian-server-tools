@@ -21,13 +21,13 @@
 - https://www.sparkpost.com/ on AWS *The world’s largest email sender.*
   [retries](https://www.sparkpost.com/docs/faq/how-are-messages-retried/)
 - https://www.mandrill.com/ by MailChimp
-- [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
-- _ToBeTested_ https://www.smtp2go.com/pricing/ on Linode
+- list: [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 
-* https://sendgrid.com/ by Twilio has own AS
+* https://sendgrid.com/ by Twilio has own AS, does not support aligned DKIM signature
 * https://www.sendinblue.com/ :eu: has own AS, [forced link tracking](https://help.sendinblue.com/hc/en-us/articles/209421325)
 * https://www.mailgun.com/ by Rackspace
 * https://www.mailjet.com/transactional by Mailgun
+* https://www.smtp2go.com/pricing/ on Linode
 * https://postmarkapp.com/ by Wildbit
 * https://elasticemail.com/ on OVH
 

@@ -14,6 +14,7 @@ Custom business email.
     - `5 ALT2.ASPMX.L.GOOGLE.COM.`
     - `10 ALT3.ASPMX.L.GOOGLE.COM.`
     - `10 ALT4.ASPMX.L.GOOGLE.COM.`
+
     After April 2023
     - `1 smtp.google.com.`
 1. [Enable mailing](https://admin.google.com/ac/domains/manage)
