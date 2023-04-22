@@ -93,6 +93,7 @@ add packet-exchange 196.247.168.0/24
 
 # AS57858 - Inter Connects
 add packet-exchange 165.231.45.0/24
+add packet-exchange 196.196.31.0/24
 add packet-exchange 196.196.50.0/24
 add packet-exchange 196.196.160.0/24
 
