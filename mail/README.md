@@ -23,7 +23,7 @@
 - https://www.mandrill.com/ by MailChimp
 - list: [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 
-* https://sendgrid.com/ by Twilio has own AS, does not support aligned DKIM signature
+* https://sendgrid.com/ by Twilio has own AS, aligned DMARC through CNAME records
 * https://www.sendinblue.com/ :eu: has own AS, [forced link tracking](https://help.sendinblue.com/hc/en-us/articles/209421325)
 * https://www.mailgun.com/ by Rackspace
 * https://www.mailjet.com/transactional by Mailgun

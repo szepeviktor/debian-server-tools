@@ -2,8 +2,8 @@
 #
 # Report Apache errors of the last 24 hours.
 #
-# VERSION       :1.4.1
-# DATE          :2019-01-25
+# VERSION       :1.4.2
+# DATE          :2023-04-23
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -32,10 +32,10 @@ Xclude_filter()
     # Apache access control
     # Apache restart messages at 6 AM
     # Malformed ??? hostname "5e ed 1d 4c bb 01", "5e ed 51 84 bb 01" via SNI
-    grep -Ev "\\sAH00128:|\\sAH02032:\
-|\\sw4wp_|\\sbad_request_|\\sno_wp_here_|\\s404_not_found|\\s403_forbidden|\\sFile does not exist:\
-|\\sclient denied by server configuration:" \
-    | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094):.*' \
+    grep -Ev "\\s(AH00128:|AH02032:\
+|w4wp_|bad_request_|no_wp_here_|404_not_found|403_forbidden|File does not exist:\
+|client denied by server configuration:)" \
+        | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094|AH01883|h2_workers):.*' \
 
 }
 
