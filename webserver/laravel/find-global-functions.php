@@ -11,4 +11,4 @@ HELPERS_REGEXP="$(
         | paste -d '|' -s
 )"
 
-grep -rEnw "[^>:](${HELPERS_REGEXP})\\(" app/ #resources/
+grep -rEnw "[^>:](${HELPERS_REGEXP})\\(" app/ # resources/

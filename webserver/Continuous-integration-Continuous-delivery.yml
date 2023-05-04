@@ -183,8 +183,8 @@ jobs:
             with:
                 dependency-versions: "highest"
         -
-            name: "Check coding style"
-            run: "composer exec -- phpcs --standard=PSR12 -s src/"
+            name: "Detect coding standards violations"
+            run: "composer exec -- phpcs -s --standard=PSR12 src/"
             # run: "composer exec -- pint --test"
         # Move TODO-s into GitHub issues!
         -

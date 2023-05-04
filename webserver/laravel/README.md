@@ -73,27 +73,16 @@ Caching depends on `APP_ENV` variable.
 
 ### Throttle 404 errors
 
+`routes/web.php`
+
 ```php
-namespace App\Providers;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-class RouteServiceProvider extends ServiceProvider
-{
-    public function boot(): void
-    {
-        $this->configureRateLimiting();
-    }
-    protected function configureRateLimiting(): void
-    {
-        RateLimiter::for('web', static function (Request $request): Limit {
-            return is_null($request->user('web'))
-                ? Limit::perMinute(6)->by($request->ip())
-                : Limit::none();
-        });
-    }
-}
+use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+// Throttle 404 errors
+Route::fallback(static function () {
+    throw new NotFoundHttpException();
+})->middleware('throttle:10,1');
 ```
 
 ### Is Laravel down?
