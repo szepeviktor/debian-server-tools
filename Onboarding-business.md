@@ -1,72 +1,71 @@
-# Új ügyfelekkel való ismerkedés (HU)
+# Getting to know new clients
 
-## Alkalmazás gyártás menete
+## Processs of making a web application
 
-Nagyon fontos, hogy előre le legyen írva, mit fogunk csinálni.
-Ne forráskód írás közben hozzunk nagy döntéseket.
+It is highly important to write down in advance what we will do.
+Do not make big decisions while writing source code.
 
-1. Megismerés / Discover
-1. Kiértékelés-Meghatározás / Define
-1. Tervezés / Design
-1. Fejlesztés / Develop
+1. Discover
+1. Define
+1. Design
+1. Develop
 
 - https://web.archive.org/web/20210517140355/https://www.fps.hu/work (fps)
 - https://web.archive.org/web/20181228074713/http://kozpontbanazember.hu/ (FrancisKodak)
 - https://www.google.hu/search?q=user+interview+site%3Ahu
 
-### Milyen szolgáltatásra van szükség?
+### What services do you need?
 
-- Van kitűzött cél a napi session-ök darabszámára? (1000/nap)
-- A felhasználóktól származó pénz fogja fedezni a működési költségeket?
-- Hozzá fog nyúlni valaki az éles környezethez?
-- Kik fedik le az alábbi szakterületeket?
-  - Emberek irányítása és a szoftver gyártás közötti híd (vezető)
-  - Szolgáltatói fiókok kezelése és a velük való kapcsolattartás (adminisztrálás)
-  - Szoftver tervezés és dokumentálás
-  - UI/UX design és dokumentálás
-  - Back-end fejlesztés
-  - Front-end fejlesztés
-  - Automatikus és kézi tesztek
-  - Tartalom szerkesztés
-- Szerver telepítés és üzemeltetés
-- Alkalmazás kitalálása (define)
-- Alkalmazás tervezés (design)
-- Alkalmazás fejlesztés (develop)
-- Define + Design + Develop lehetőségek
-  1. Nem lesz ilyen fázis vagy egy másikkal össze lesz keverve
-  1. Olyanok fogják csinálni, akik nem a fázisnak szakértői
-  1. Külön szakembereket bérelünk fel rá
-  1. Alkalmazottat veszünk fel rá
-- Alkalmazás üzemeltetés
-- Fejlesztés követése és PR-ek küldése
-- Krízis kezelés
-- Nem szakember oktatása, _best practice_ megokolása
-- Email-ek feldolgozása, megbeszéléseken való rendszeres részvétel
+- Is there a target for the number of sessions per day? (1000/day)
+- Will the money coming from users cover the operating costs?
+- Will someone touch the production environment?
+- Who cover the following areas of expertise?
+    - Bridge between managing people and software production (leader)
+    - Managing service provider accounts and being in contact with service providers (administration)
+    - Software architecture and documentation
+    - UI/UX design and documentation
+    - Back-end development
+    - Front-end development
+    - Automated and manual testing
+    - Content management
+- Web server installation and maintenance
+- Defining the application
+- Designing the application
+- Developing the application
+- Define + Design + Develop execution
+    1. There will be no such phase or it will be mixed with another one
+    1. It will be done by people who are not experts in the phase
+    1. We hire freelancer experts
+    1. We hire an employee
+- Running the application
+- Following development and sending PR-s
+- Crisis management
+- Teaching non experts, reasoning _best practices_
+- Reading emails, attending meetings regularly
 
+## Organizing a company
 
-## Cég szervezés
+Additions to [Onboarding](/Onboarding.md).
 
-Ami nincs leírva az [Onboarding-ban](/Onboarding.md).
+- [Cybersecurity](/Onboarding.md#cyber-security) on every device
+    and second opinion behavioral scanner installation (HitmanPro.Alert)
+- Introducing a password manager for everyone
+- Keeping the company phonebook up to date
+- Setting up rules for internal communications
+- Project Manager
+    - How to schedule :one: new features, :two: bug fixes and :three: technical debt
+    - Is an employee assigned more than 1 task at a time
+- Following style guide, brand guidelines
+- Onboarding and _Product Tour_ with Intercom
+- Real time _Application Dashboard_, data-driven decisions
 
-- [Kiberbiztonság](/Onboarding.md#cyber-security) minden készüléken
-  és másodlagos kártevővédelemi szoftver telepítés (HitmanPro.Alert)
-- Jelszó menedzser bevezetése mindenkinél
-- Céges telefonkönyv frissen tartása
-- Cégen belüli kommunikáció meghatározása
-- Projekt menedzser
-  - Hogyan osztjuk be :one: az új fejlesztéseket, :two: hiba javításokat és :three: a technikai tartozást
-  - Kap-e egy dolgozó egyszerre 1-nél több feladatot
-- Arculati kézikönyv (style guide, brand guidelines) szerinti munka
-- Onboarding folyamat, _Product Tour_ Intercom-mal
-- Valós idejű _Alkalmazás Dashboard_, döntés támogatás
+### Internal communications
 
-### Cégen belüli kommunikáció
+Goal: communicate on one common platform, retire email communication.
 
-Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítani.
+##### Asynchronous
 
-##### Aszinkron
-
-- Hibajegy
+- Issues (bug reports, feature requests)
 - Külsősökkel való kapcsolat a platformon belül
   vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
 - Fájl megosztás
@@ -77,7 +76,7 @@ Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítan
 
 Szolgáltató: [Clubhouse](https://www.shortcut.com/)
 
-##### Egyidejű
+##### Synchronous
 
 - Chat
 - Hanghívás, konferencia hívás
@@ -85,13 +84,11 @@ Szolgáltató: [Clubhouse](https://www.shortcut.com/)
 
 Szolgáltató: [Slack](https://slack.com/)
 
-##### Egyéb szolgáltatók
+##### Other providers
 
 1. https://basecamp.com/
-1. ( https://tettra.com/ )
-1. ( https://www.getguru.com/ )
 
-### Alkalmazás _Dashboard_
+### Application Dashboard
 
 Adatvezérelt üzleti döntésekhez.
 
@@ -111,7 +108,6 @@ Adatvezérelt üzleti döntésekhez.
 
 Szolgáltató: https://amplitude.com/
 
-
 ### Szerkesztő képességei
 
 1. Tipográfiai alapismeretek
@@ -123,7 +119,6 @@ Szolgáltató: https://amplitude.com/
 1. Képek és média életciklusának ismerete
 1. Képek előfeldolgozása
 1. Beszédes fájlnevek adása
-
 
 ## Kódolási büdzsé
 
@@ -138,7 +133,6 @@ Egy fő back-end és egy fő front-end fejlesztő
 - Funkciók befejezése (az MVP-n felül)
 - Kézi tesztelés
 - Hiba javítás
-
 
 ### Technikai tartozás (technical debt)
 

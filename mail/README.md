@@ -450,6 +450,7 @@ Deprecated.
 ### Email tests
 
 - https://www.mail-tester.com/ by Mailpoet
+- https://www.gmass.co/inbox
 - [Microsoft Remote Connectivity Analyzer](https://testconnectivity.microsoft.com/)
 - https://glockapps.com/
 - https://spamcheck.postmarkapp.com/
