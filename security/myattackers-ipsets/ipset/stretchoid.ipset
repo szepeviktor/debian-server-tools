@@ -254,6 +254,7 @@ add stretchoid 107.170.231.14
 add stretchoid 107.170.231.15
 add stretchoid 107.170.231.18
 add stretchoid 107.170.231.20
+add stretchoid 107.170.231.30
 # 107.170.232.0/24
 add stretchoid 107.170.232.6
 add stretchoid 107.170.232.8

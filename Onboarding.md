@@ -20,7 +20,7 @@ Details about [running your web application](https://git.io/vNryB)
 
 ### Specialized infrastructure providers
 
-Choose one per category.
+One per category.
 
 1. Domain registrar:
    **Gandi :eu:, AWS, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**

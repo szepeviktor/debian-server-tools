@@ -70,7 +70,7 @@ elif [ -f "${WPCRON_LOCATION}/html/wp-cron.php" ]; then
 elif [ -f "${WPCRON_LOCATION}/wp-cron.php" ]; then
     WPCRON_DIR="$WPCRON_LOCATION"
 else
-    Die 1 "Wp-cron not found (${WPCRON_LOCATION})"
+    Die 1 "WP-Cron not found (${WPCRON_LOCATION})"
 fi
 
 # Set server and execution environment information

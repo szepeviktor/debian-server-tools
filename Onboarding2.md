@@ -8,9 +8,9 @@ További részletek a [webes alkalmazás futtatásáról](/CV2.md)
 
 ### Speciális infrastruktúra szolgáltatók
 
-Saját szerver/tárhely felépítése.
+Saját tárhely felépítése.
 
-Kategóriánként **egy** szolgáltatóra van szükség.
+Kategóriánként **egy** szolgáltató.
 
 1. Domain regisztrátor
    **Gandi :eu:, AWS, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**
@@ -18,13 +18,13 @@ Kategóriánként **egy** szolgáltatóra van szükség.
    **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
 1. Szerver szolgáltató
    **UpCloud :eu:**
-1. SSL tanúsítvány szolgáltató (HTTPS-hez)
+1. SSL tanúsítvány kiadó (HTTPS-hez)
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
    [SSLMate](https://sslmate.com/),
    DigiCert,
    Certum :eu:,
    [Buypass](https://www.buypass.com/ssl) :eu:**
-1. CDN (statikus fájl kiszolgáló hálózat) szolgáltató
+1. CDN (fájl kiszolgáló hálózat) szolgáltató
    **AWS, KeyCDN :eu:, Akamai from Selectel**
 1. Tranzakciós email kiküldő
    **AWS, SparkPost, SparkPost EU :eu:**

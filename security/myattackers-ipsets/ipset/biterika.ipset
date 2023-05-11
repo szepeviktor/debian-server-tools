@@ -1,13 +1,13 @@
-# AS35048 - Biterika
-#: ipset -exist restore <ipset/biterika.ipset
-#: iptables -w -I myattackers-ipset -m set --match-set biterika src -j REJECT
-create biterika hash:net family inet hashsize 64 maxelem 32
-flush biterika
-add biterika 5.183.130.0/24
-add biterika 46.8.16.0/24
-add biterika 46.8.22.0/23
-add biterika 109.248.204.0/23
-add biterika 188.130.128.0/23
+# # AS35048 - Biterika
+# #: ipset -exist restore <ipset/biterika.ipset
+# #: iptables -w -I myattackers-ipset -m set --match-set biterika src -j REJECT
+# create biterika hash:net family inet hashsize 64 maxelem 32
+# flush biterika
+# add biterika 5.183.130.0/24
+# add biterika 46.8.16.0/24
+# add biterika 46.8.22.0/23
+# add biterika 109.248.204.0/23
+# add biterika 188.130.128.0/23
 
 #add biterika 94.158.190.0/24
 #add biterika 188.130.136.0/23
