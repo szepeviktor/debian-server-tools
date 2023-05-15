@@ -133,7 +133,6 @@ or with a queueing MTA. :snail:
 - Subresource Integrity (SRI)
   `integrity="sha256-$(cat resource.js|openssl dgst -sha256 -binary|openssl enc -base64)" crossorigin="anonymous"`
 - Google Search Console ("*This site may harm your computer*" notification on SERP)
-- Sucuri SiteCheck (includes Google Safe Browsing)
 - Virustotal (HTTP API)
 - **Maximum security**: convert website into static HTML +
   [Cognito Forms](https://www.cognitoforms.com/)
