@@ -21,6 +21,8 @@ ALPHABET="ÁáÉéÍíÓóÖöŐőÚúÜüŰű"
 #ALPHABET="ĄĆĘŁŃÓŚŹŻąćęłńóśźż"
 # Czech alphabet
 #ALPHABET="ÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž"
+# Croatian alphabet
+#ALPHABET="ČĆĐŠŽčćđšž"
 
 # UNICODE Latin-1 Supplement signs (00A1-00BF)
 #ALPHABET="$(for C in A{1..9} A{A..F} B{0..9} B{A..F};do printf "\\x${C}\\x00";done|iconv -f UNICODE -t UTF-8)"
