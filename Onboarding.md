@@ -177,7 +177,7 @@ Verify your URL
 
 - Document in hosting.yml and server.yml (Skype, `Ugyfelek.yml`, KeePass)
 - Gain access to providers (web based sub-account or API)
-- Manage migrations (WeTransfer.com)
+- Manage migrations (`magic-wormhole`, WeTransfer.com)
 - PTR/IPv4, PTR/IPv6 records
 - Domain locking and autorenew
 - DNS records (check, clean up, monitor)

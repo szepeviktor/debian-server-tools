@@ -46,7 +46,4 @@ s3qlctrl --version
 
 # List outdated packages
 #     pip3 list --no-cache-dir --path "${PYTHONPATH}" --outdated
-# Upgrade all packages
-#     pip3 list --no-cache-dir --path "${PYTHONPATH}" --outdated --format=freeze \
-#         | grep -v '^apsw==' \
-#         | pip3 install --no-cache-dir --ignore-installed --no-warn-script-location --prefix "/opt/s3ql/" --requirement /dev/stdin
+# Upgrade: remove and reinstall

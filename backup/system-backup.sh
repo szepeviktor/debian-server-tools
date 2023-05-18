@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :3.0.1
+# VERSION       :3.0.2
 # DATE          :2021-05-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -46,6 +46,7 @@ Onexit()
     set +e
 
     if [ "$RET" -ne 0 ]; then
+        logger -t "system-backup" "Failed. Exit status: ${RET}"
         # shellcheck disable=SC2086
         #if /usr/bin/s3qlstat ${S3QL_OPT} "$TARGET" &>/dev/null; then
         if [ -e "${TARGET}/.__s3ql__ctrl__" ]; then
@@ -377,6 +378,9 @@ fi
 Backup_files
 
 Umount
+
+# Backup database files
+cp --force /root/.s3ql/*.{db,params} /var/backups/
 
 # Log file: /root/.s3ql/mount.log
 logger -t "system-backup" "Finished. ${*}"

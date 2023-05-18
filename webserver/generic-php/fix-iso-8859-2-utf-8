@@ -2,6 +2,7 @@
 #
 # Fix UTF-8 encoded ISO-8859-2 characters.
 #
+# ALTERNATIVE   :iconv --from-code=UTF-8 --to-code=ISO-8859-2
 
 sed -i \
     -e 's#Ă‰#É#g' \
