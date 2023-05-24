@@ -9,8 +9,11 @@ Details about [running your web application](https://git.io/vNryB)
 ### Requirements
 
 1. **2-4 hours of time**
-1. One person able to consider things, decide and act at providers below:
-   thus connecting IT and finances
+1. One person able to consider things, decide and act at every provider
+    1. Finances
+    1. User management
+    1. Managing services
+    1. Reacting to notifications
 1. If moving: access to accounts at all providers below
 1. Company details (registered name, registration number, address)
 1. Access to company email account

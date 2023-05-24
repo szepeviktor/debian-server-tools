@@ -206,14 +206,15 @@ remarks: |
 
 teardown:
     - Notify users
-    - Email accounts
-    - RELAYCLIENT on the smarthost
-    - DNS resolver access
+    - Delete email accounts
+    - Delete `RELAYCLIENT` on the smarthost
+    - Revoke DNS resolver access
     - Remove from whitelists, postmaster tools, RBL monitors
     - Revoke SSL certificates
     - Remove from healthchecks.io and remote monitoring
     - Remove DNS records
     - Remove/reset PTR record
+    - Delete backups
     - Delete server
     - Cancel domain registration
 

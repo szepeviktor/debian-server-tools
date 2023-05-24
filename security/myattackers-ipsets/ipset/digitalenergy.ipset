@@ -121,3 +121,21 @@ add digitalenergy 185.222.56.0/22
 # AS46664 - VolumeDrive
 # HEFICED
 #add digitalenergy 102.165.48.0/21
+
+# AS174 - Cogent
+# IPXO
+#add digitalenergy 5.182.110.0/24
+#add digitalenergy 45.42.40.0/24
+#add digitalenergy 45.133.172.0/24
+#add digitalenergy 45.133.173.0/24
+#add digitalenergy 85.208.112.0/24
+#add digitalenergy 98.142.250.0/24
+#add digitalenergy 108.160.212.0/22
+#add digitalenergy 140.228.21.0/24
+#add digitalenergy 140.228.24.0/24
+#add digitalenergy 154.16.49.0/24
+#add digitalenergy 154.16.105.0/24
+#add digitalenergy 166.0.158.0/24
+#add digitalenergy 194.110.13.0/24
+#add digitalenergy 216.24.213.0/24
+#add digitalenergy 216.24.216.0/24

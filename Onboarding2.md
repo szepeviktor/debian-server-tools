@@ -10,6 +10,13 @@ További részletek a [webes alkalmazás futtatásáról](/CV2.md)
 
 Saját tárhely felépítése.
 
+Az alábbiakat kell intézni minden egyes szolgáltatónál.
+
+1. Pénzügyek
+1. Felhasználókezelés
+1. Szolgáltatások kezelése
+1. Értesítésekre való reagálás
+
 Kategóriánként **egy** szolgáltató.
 
 1. Domain regisztrátor

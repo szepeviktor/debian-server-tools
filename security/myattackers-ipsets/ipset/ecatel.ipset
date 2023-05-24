@@ -1,12 +1,9 @@
-# AS29073 - Ecatel LTD / Quasi Networks / Novogara, type: SSH,HTTP
+# AS202425 - Ecatel LTD / Quasi Networks / Novogara / IP Volume
 #: ipset -exist restore <ipset/ecatel.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set ecatel src -j REJECT
 create ecatel hash:net family inet hashsize 64 maxelem 64
 flush ecatel
 add ecatel 5.8.18.0/24
-add ecatel 46.243.146.0/24
-add ecatel 46.243.148.0/24
-add ecatel 77.72.83.0/24
 add ecatel 80.82.64.0/24
 add ecatel 80.82.65.0/24
 add ecatel 80.82.66.0/24
