@@ -13,4 +13,4 @@ token_store.txt
 
 # The right place for "OS" and "IDE and local environment" is
 # a file specified by git global configuration option `core.excludesFile`.
-# git config --global core.excludesfile ~/.gitignore
+# git config --global core.excludesFile ~/.gitignore

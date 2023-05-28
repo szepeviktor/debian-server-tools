@@ -3,6 +3,8 @@
 #: iptables -w -I myattackers-ipset -m set --match-set datacamp src -j REJECT
 create datacamp hash:net family inet hashsize 64 maxelem 64
 flush datacamp
+# Bunny CDN
+add datacamp 84.17.46.0/24
 
 # AS212238
 #add datacamp 31.14.75.0/24

@@ -52,6 +52,8 @@ declare -a IGNORE_PATTERNS=(
     #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 403 [0-9]+ "-" "Amazon CloudFront"$'
     # cPanel's Let's Encrypt HTTP-01 challenge
     #'"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$'
+    # .env file
+    #'"GET /.*\.env HTTP/(1\.0|1\.1|2\.0)" (403|404)'
     # SEO bots
     #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/|BLEXBot/)[^"]*"$'
     # Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General
@@ -151,6 +153,13 @@ while read -r CONFIG_FILE; do
     #    --start "now truncate 24h add -17h35m" --end "06:25:00" "${ACCESS_LOG}".[1] "${ACCESS_LOG}" \
     #    | grep --extended-regexp '([?&][^= ]+=[^& ]*\+|\?\S*%[[:xdigit:]]?[a-f])' \
     #    | sed -e "s#^#$(basename "${ACCESS_LOG}" .log): #"
+
+    ## Facebook Ads campaign errors
+    #nice dategrep --multiline \
+    #    --start "now truncate 24h add -17h35m" --end "06:25:00" "${ACCESS_LOG}".[1] "${ACCESS_LOG}" \
+    #    | grep --extended-regexp '"GET /.*\?utm_source=facebook.* HTTP/(1\.0|1\.1|2\.0)" [345][0-9][0-9]' \
+    #    | sed -e "s#^#$(basename "${ACCESS_LOG}" .log): #"
+
 done <<<"${APACHE_CONFIGS}" >"${LOG_EXCERPT}"
 
 {
