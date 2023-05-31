@@ -53,7 +53,7 @@ declare -a IGNORE_PATTERNS=(
     # cPanel's Let's Encrypt HTTP-01 challenge
     #'"GET /\.well-known/acme-challenge/.* "-" "Cpanel-HTTP-Client/1\.0"$'
     # .env file
-    #'"GET /.*\.env HTTP/(1\.0|1\.1|2\.0)" (403|404)'
+    #'"GET /(\S*/)?\.env HTTP/(1\.0|1\.1|2\.0)" (403|404)'
     # SEO bots
     #'"GET /\S* HTTP/(1\.0|1\.1|2\.0)" 404 [0-9]+ "[^"]+" "[^"]*(SemrushBot/|DotBot/|AhrefsBot/|MJ12bot/|AlphaBot/|BLEXBot/)[^"]*"$'
     # Google crawler https://en.wikipedia.org/wiki/List_of_search_engines#General

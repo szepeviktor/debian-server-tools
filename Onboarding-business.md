@@ -66,23 +66,23 @@ Goal: communicate on one common platform, retire email communication.
 ##### Asynchronous
 
 - Issues (bug reports, feature requests)
-- Külsősökkel való kapcsolat a platformon belül
-  vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
-- Fájl megosztás
-- Naptár
-- Belső tudástár [Notion](https://www.notion.so/)
-- Jegyzetek és dokumentumok (pl. szolgáltatók listája, céges telefonkönyv) közös szerkesztése
-- Hang üzenet [Yac](https://www.yac.com/)
+- Connecting with outsiders within the platform
+    or [email automation](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
+- File sharing
+- Calendar
+- Inner knowledge base [Notion](https://www.notion.so/)
+- Collaboration in notes and documents (e.g. list of service providers, company phonebook)
+- Voice messages [Yac](https://www.yac.com/)
 
-Szolgáltató: [Clubhouse](https://www.shortcut.com/)
+Provider: [Clubhouse](https://www.shortcut.com/)
 
 ##### Synchronous
 
 - Chat
-- Hanghívás, konferencia hívás
-- Videó hívás, képernyő megosztás
+- Voice call, conference call
+- Video call, screen sharing
 
-Szolgáltató: [Slack](https://slack.com/)
+Provider: [Slack](https://slack.com/)
 
 ##### Other providers
 
@@ -90,7 +90,7 @@ Szolgáltató: [Slack](https://slack.com/)
 
 ### Application Dashboard
 
-Adatvezérelt üzleti döntésekhez.
+For data-driven bisuness decisions.
 
 1. Nem kívánt dolgok megsokasodása
 1. Kívánt dolgok elmaradása
