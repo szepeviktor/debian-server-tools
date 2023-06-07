@@ -17,12 +17,15 @@ Custom business email.
 
     After April 2023
     - `1 smtp.google.com.`
+1. Add MTA-STS record and [policy](https://support.google.com/a/answer/9276511) `_mta-sts.`
+    - `"v=STSv1; id=$(date +%Y%m%d%H%M%S);"`
+    - `https://mta-sts.EXAMPLE.COM/.well-known/mta-sts.txt`
 1. [Enable mailing](https://admin.google.com/ac/domains/manage)
 1. [Generate DKIM record](https://admin.google.com/ac/apps/gmail/authenticateemail)
     1024 bit
 1. Add generated TXT record `google._domainkey.`
 1. Add report-only DMARC record `_dmarc.`
-    - `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net"`
+    - `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net;"`
 1. Use [Google Admin Toolbox](https://toolbox.googleapps.com/apps/checkmx/) Check MX service
     `https://toolbox.googleapps.com/apps/checkmx/check?dkim_selector=google&domain=EXAMPLE.COM`
 1. Optional [SMTP relay](https://admin.google.com/ac/apps/gmail/routing)

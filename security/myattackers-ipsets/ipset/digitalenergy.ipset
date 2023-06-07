@@ -126,6 +126,7 @@ add digitalenergy 185.222.56.0/22
 # IPXO
 #add digitalenergy 5.182.110.0/24
 #add digitalenergy 45.42.40.0/24
+#add digitalenergy 45.88.97.0/24
 #add digitalenergy 45.133.172.0/24
 #add digitalenergy 45.133.173.0/24
 #add digitalenergy 85.208.112.0/24

@@ -455,12 +455,11 @@ Deprecated.
 - https://glockapps.com/
 - https://spamcheck.postmarkapp.com/
 - checkmyauth@auth.returnpath.net
-- `https://winning.email/checkup/DOMAIN`
 
 #### HTML content and CSS inlining
 
-- https://inlinestyler.torchbox.com/styler/
 - https://putsmail.com/
+- https://inlinestyler.visigo.com/
 
 ### Prevent automatic replies
 

@@ -20,23 +20,23 @@ Az alábbiakat kell intézni minden egyes szolgáltatónál.
 
 Kategóriánként **egy** szolgáltató.
 
-1. Domain regisztrátor
+1. Domain regisztrátor:
    **Gandi :eu:, AWS, Name.com by Donuts, Hexonet by CentralNic, Rackhost/.hu :eu:**
-1. DNS szolgáltató
+1. DNS szolgáltató:
    **AWS, HE, [Google](https://cloud.google.com/dns/pricing), Exoscale :eu:, Gandi :eu:**
-1. Szerver szolgáltató
+1. Szerver szolgáltató:
    **UpCloud :eu:**
-1. SSL tanúsítvány kiadó (HTTPS-hez)
+1. SSL tanúsítvány kiadó (HTTPS-hez):
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
    [SSLMate](https://sslmate.com/),
    DigiCert,
    Certum :eu:,
    [Buypass](https://www.buypass.com/ssl) :eu:**
-1. CDN (fájl kiszolgáló hálózat) szolgáltató
+1. CDN (fájl kiszolgáló hálózat) szolgáltató:
    **AWS, KeyCDN :eu:, Akamai from Selectel**
-1. Tranzakciós email kiküldő
+1. Tranzakciós email kiküldő:
    **AWS, SparkPost, SparkPost EU :eu:**
-1. Biztonsági mentés szolgáltató
+1. Biztonsági mentés szolgáltató:
    **AWS, Backblaze B2, Selectel, Oktawave :eu:**
 
 [.hu domain regisztrátorok](https://www.domain.hu/regisztratorok/)

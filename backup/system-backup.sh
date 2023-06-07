@@ -215,7 +215,7 @@ Backup_innodb() # Error 6x
         # @TODO Use last incremental as base?
         BASE="$(Get_base_db_backup_dir)"
         if [ -z "$BASE" ] || [ ! -d "${TARGET}/innodb/${BASE}" ]; then
-            Error 60 "No base InnoDB backup"
+            Error 60 "No InnoDB base backup"
         fi
         mariabackup --socket=/var/run/mysqld/mysqld.sock --user=root \
             --backup --throttle=100 --incremental-basedir="${TARGET}/innodb/${BASE}" \
@@ -223,7 +223,7 @@ Backup_innodb() # Error 6x
             2>>"${TARGET}/innodb/backupex.log" || Error 61 "Incremental InnoDB backup failed"
     else
         # Create base backup
-        echo "Creating base InnoDB backup"
+        echo "Creating InnoDB base backup"
         mkdir "${TARGET}/innodb"
         mariabackup --socket=/var/run/mysqld/mysqld.sock --user=root \
             --backup --throttle=100 \
