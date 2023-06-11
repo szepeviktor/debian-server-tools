@@ -387,6 +387,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - Attractive [404 pages on AWWWARDS](http://www.awwwards.com/inspiration/search?text=404)
 - Cooperative
   - Search form
+  - Error reporting email address
   - Out of stock message
     `get_page_by_path( untrailingslashit( $_SERVER['REQUEST_URI'] ) . '__trashed', OBJECT, $post_type )`
   - Automatic suggestions (specific category archive)

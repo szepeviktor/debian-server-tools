@@ -16,7 +16,7 @@ Homestead.yaml
 # JetBrains IDEs
 /.idea/
 
-# Packages
+# Dependencies
 /composer.lock
 /vendor/
 /node_modules/

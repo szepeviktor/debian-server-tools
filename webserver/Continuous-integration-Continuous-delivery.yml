@@ -168,6 +168,7 @@ jobs:
             with:
                 php-version: "8.0"
                 coverage: "none"
+                # tools: "phpcs"
         -
             name: "Checkout repository"
             uses: "actions/checkout@v3"
@@ -178,6 +179,10 @@ jobs:
             name: "Check adherence to EditorConfig"
             uses: "greut/eclint-action@v0"
         -
+            name: "Look for TAB characters in the middle of the line"
+            run: |
+                ! git grep --perl-regexp --line-number -I '^(?!//)[^\t]+\t'
+        -
             name: "Install dependencies"
             uses: "ramsey/composer-install@v2"
             with:
@@ -185,9 +190,9 @@ jobs:
         -
             name: "Detect coding standards violations"
             run: "composer exec -- phpcs -s --standard=PSR12 src/"
-            # run: "composer exec -- pint --test"
-        # Move TODO-s into GitHub issues!
+            # run: "composer exec -- pint -v --test"
         -
+            # Move TODO-s into GitHub issues!
             name: "Search for TODO-s and FIXME-s"
             run: |
                 ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!*/integrate\.yml'
@@ -203,6 +208,11 @@ jobs:
         -
             name: "Checkout repository"
             uses: "actions/checkout@v3"
+        -
+            name: "Check for ignored files in the index"
+            run: |
+                # Add negated files: ':!:path/to/negated'
+                test -z "$(git ls-files --ignored --exclude-standard)"
         -
             name: "Check exported files"
             run: |

@@ -140,3 +140,6 @@ add digitalenergy 185.222.56.0/22
 #add digitalenergy 194.110.13.0/24
 #add digitalenergy 216.24.213.0/24
 #add digitalenergy 216.24.216.0/24
+
+# AS14956
+# IPXO

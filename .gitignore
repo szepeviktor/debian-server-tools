@@ -3,14 +3,17 @@ token_store.txt
 /security/fail2ban-conf/filter.d/apache-common.conf
 /TODO.*
 
+# 1. Keep ignores organized in categories
+# 2. Keep "OS" and "IDE and local environment" patterns on your local machine in user home
+#     A single .gitignore file cannot cover every OS, every IDE and every local environment.
+#     git config --global core.excludesFile ~/.gitignore
+#     https://git-scm.com/docs/gitignore
+# 3. Anchor patterns with a leading slash
+
 ## .gitignore categories
 # OS
 # IDE and local environment
-# Packages
+# Dependencies
 # Application
 # Tests
 # Distribution
-
-# The right place for "OS" and "IDE and local environment" is
-# a file specified by git global configuration option `core.excludesFile`.
-# git config --global core.excludesFile ~/.gitignore
