@@ -80,8 +80,6 @@ jobs:
         -
             name: "Set up PHP"
             uses: "shivammathur/setup-php@v2"
-            #env:
-            #    COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.GITHUB_TOKEN }}"}}'
             with:
                 php-version: "${{ matrix.php-version }}"
         -
@@ -90,6 +88,9 @@ jobs:
         -
             name: "Install dependencies"
             uses: "ramsey/composer-install@v2"
+            #env:
+            #    COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.GITHUB_TOKEN }}"}}'
+            #    COMPOSER_AUTH: '{"http-basic":{"nova.laravel.com":{"username":"${{ secrets.NOVA_LICENSE_ACCOUNT }}","password":"${{ secrets.NOVA_LICENSE_KEY }}"}}}'
             with:
                 dependency-versions: "${{ matrix.dependencies }}"
                 #composer-options: "--with=laravel/framework:${{ matrix.laravel-constraint }}"
@@ -168,7 +169,7 @@ jobs:
             with:
                 php-version: "8.0"
                 coverage: "none"
-                # tools: "phpcs"
+                tools: "phpcs,cs2pr"
         -
             name: "Checkout repository"
             uses: "actions/checkout@v3"
@@ -190,12 +191,26 @@ jobs:
         -
             name: "Detect coding standards violations"
             run: "composer exec -- phpcs -s --standard=PSR12 src/"
-            # run: "composer exec -- pint -v --test"
+        #-
+        #    name: "Detect coding standards violations"
+        #    id: "pint"
+        #    run: "composer exec -- pint --verbose --test"
+        #-
+        #    name: "Annotate Pint results"
+        #    if: "${{ failure() && steps.pint.outcome != 'success' }}"
+        #    run: "composer exec -- pint --test --format=checkstyle | cs2pr"
         -
             # Move TODO-s into GitHub issues!
             name: "Search for TODO-s and FIXME-s"
             run: |
-                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!*/integrate\.yml'
+                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!:*/integrate\.yml'
+        -
+            name: "Remove blank first lines and multiple blank lines"
+            run: |
+                git ls-files --cached | xargs -L 1 -- sed -i -e '/./,$!d' -e '/./n;N;/^\n$/D'
+        -
+            name: "Check differences to repository"
+            run: "git diff --exit-code"
 
     exported_files:
         name: "5️⃣ Exported files"
@@ -212,7 +227,8 @@ jobs:
             name: "Check for ignored files in the index"
             run: |
                 # Add negated files: ':!:path/to/negated'
-                test -z "$(git ls-files --ignored --exclude-standard)"
+                IGNORED_FILES="$(git ls-files --cached --ignored --exclude-standard)"
+                test -z "${IGNORED_FILES}"
         -
             name: "Check exported files"
             run: |

@@ -5,10 +5,12 @@ token_store.txt
 
 # 1. Keep ignores organized in categories
 # 2. Keep "OS" and "IDE and local environment" patterns on your local machine in user home
-#     A single .gitignore file cannot cover every OS, every IDE and every local environment.
 #     git config --global core.excludesFile ~/.gitignore
+#     A single .gitignore file cannot cover every OS, every IDE and every local environment.
 #     https://git-scm.com/docs/gitignore
 # 3. Anchor patterns with a leading slash
+# 4. Add a trailing slash to directories
+# 5. Keep the following order in each category: file name only patterns, dot files, other files
 
 ## .gitignore categories
 # OS

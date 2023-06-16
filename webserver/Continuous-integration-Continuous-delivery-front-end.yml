@@ -2,10 +2,11 @@
 
 name: "Front-end"
 
-# ECMAScript version: ES6 (2015)
+# ECMAScript version: ES5 (2009), ES6 (2015), ECMAScript 2016, 2017, 2018, 2019 ...
 # Node.js version: 16.17
 # npm version: 9.2
 #
+# https://github.com/tc39/proposals/blob/main/finished-proposals.md
 # https://kangax.github.io/compat-table/es6/
 # https://nodejs.dev/en/about/releases/
 # https://www.npmjs.com/package/npm?activeTab=versions
@@ -62,7 +63,8 @@ jobs:
         -
             name: "Check JavaScript files for syntax errors"
             run: |
-                find resources/js/ -type f -name '*.js' -print0 | xargs -0 -- npx acorn --ecma2015 --module --silent
+                find resources/js/ -type f -name '*.js' -print0 \
+                    | xargs -0 -- npx acorn --ecma2015 --module --silent
 
     js_coding_standards:
         name: "𝟐 JavaScript Coding Standards"
@@ -90,7 +92,7 @@ jobs:
             run: "npm ci"
         -
             name: "Run ESLint"
-            run: "npm run js:eslint -- --format json --output-file /tmp/eslint_report.json"
+            run: "npm run js:eslint -- --format json --output-file '${{ runner.temp }}/eslint-report.json'"
             continue-on-error: true
         -
             name: "Annotate ESLint Results"
@@ -98,7 +100,7 @@ jobs:
             with:
                 check-name: "𝕩 ESLint Annotations"
                 repo-token: "${{ secrets.GITHUB_TOKEN }}"
-                report-json: "/tmp/eslint_report.json"
+                report-json: "${{ runner.temp }}/eslint-report.json"
 
     scss_coding_standards:
         name: "𝟑 Sassy CSS Coding Standards"
@@ -168,7 +170,7 @@ jobs:
             uses: "actions/checkout@v3"
         -
             name: "Validate SVG files"
-            uses: "szepeviktor/svg-validator@v0.1.0"
+            uses: "szepeviktor/svg-validator@v0.2.0"
             with:
                 svg_path: "public/**/*.svg"
 
