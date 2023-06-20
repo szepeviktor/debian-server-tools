@@ -63,8 +63,8 @@ jobs:
         -
             name: "Check JavaScript files for syntax errors"
             run: |
-                find resources/js/ -type f -name '*.js' -print0 \
-                    | xargs -0 -- npx acorn --ecma2015 --module --silent
+                git ls-files --cached -z -- 'resources/js/*.js' \
+                    | xargs --null -- npx acorn --ecma2015 --module --silent
 
     js_coding_standards:
         name: "𝟐 JavaScript Coding Standards"

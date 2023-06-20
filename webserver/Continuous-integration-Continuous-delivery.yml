@@ -35,11 +35,11 @@ jobs:
             # https://html.spec.whatwg.org/multipage/named-characters.html
             name: "Find non-printable ASCII characters"
             run: |
-                #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 \
-                #    | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]' \
+                #! LC_ALL=C.UTF-8 git grep --perl-regexp --line-number -e '[^ -~]' -- '*.php'
                 #    | grep -v '// @ignore-non-ascii$'
-                ! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 \
-                    | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]'
+                #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 \
+                #    | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]'
+                ! LC_ALL=C.UTF-8 git grep --perl-regexp --line-number -e '[^ -~]' -- '*.php'
 
     syntax_errors:
         name: "1️⃣ Syntax errors"
@@ -58,7 +58,7 @@ jobs:
             uses: "actions/checkout@v3"
         -
             name: "Check source code for syntax errors"
-            run: "composer exec -- parallel-lint src/"
+            run: "composer exec --no-interaction -- parallel-lint src/"
             # @TODO Check template files for syntax errors
 
     unit_tests:
@@ -134,8 +134,8 @@ jobs:
         #-
         #    name: "Check JSON files"
         #    run: |
-        #        find . -type f -name '*.json' \
-        #            | xargs -t -L 1 -- php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
+        #        git ls-files --cached -z -- '*.json' \
+        #            | xargs -t --null -L 1 -- php -r 'json_decode(file_get_contents($argv[1]), null, 512, JSON_THROW_ON_ERROR);'
         -
             name: "Validate Composer configuration"
             run: "composer validate --no-interaction --strict"
@@ -146,13 +146,13 @@ jobs:
                 dependency-versions: "highest"
         -
             name: "Check PSR-4 mapping"
-            run: "composer dump-autoload --no-interaction --optimize --strict-psr"
+            run: "composer dump-autoload --optimize --strict-psr"
         #-
         #    name: "Check architecture"
         #    run: "composer exec -- phparkitect check --config=vendor/mortexa/laravel-arkitect/src/phparkitect.php"
         -
             name: "Perform static analysis"
-            run: "composer exec -- phpstan analyze -l 5 src/"
+            run: "composer exec -- phpstan analyze --level=5 src/"
             # @TODO Cognitive Complexity, Mess Detector, Magic Number Detector, Copy-Paste Detector
 
     coding_standards:
@@ -207,7 +207,7 @@ jobs:
         -
             name: "Remove blank first lines and multiple blank lines"
             run: |
-                git ls-files --cached | xargs -L 1 -- sed -i -e '/./,$!d' -e '/./n;N;/^\n$/D'
+                git ls-files --cached -z | xargs --null -L 1 -- sed -i -e '/./,$!d' -e '/./n;N;/^\n$/D'
         -
             name: "Check differences to repository"
             run: "git diff --exit-code"

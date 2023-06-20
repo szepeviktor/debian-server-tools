@@ -2,7 +2,7 @@
 # https://otx.alienvault.com/pulse/59646c87b126746267e5cf22
 #: ipset -exist restore <ipset/stretchoid.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set stretchoid src -j REJECT
-create stretchoid hash:net family inet hashsize 64 maxelem 512
+create stretchoid hash:net family inet hashsize 64 maxelem 4096
 flush stretchoid
 # Import Atsushi Fukuda's list
 #$ wget -qO- https://www.atsushifukuda.jp/articles/stretchoid-com/ \
