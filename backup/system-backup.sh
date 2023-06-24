@@ -35,8 +35,8 @@
 #     grep '^incremental =' innodb/*/xtrabackup_info
 
 # Contains STORAGE_URL, TARGET, MOUNT_OPTIONS, AUTHFILE, DB_EXCLUDE, SKIP_DB_SCHEMA_DIFF, HCHK_URL
-CONFIG="/root/.config/system-backup/configuration"
-HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"
+declare -r CONFIG="/root/.config/system-backup/configuration"
+declare -r HOME_EXCLUDE_LIST="/root/.config/system-backup/exclude.list"
 
 Onexit()
 {
@@ -329,9 +329,9 @@ Umount() # Error 3x
     /usr/bin/umount.s3ql ${S3QL_OPT} "$TARGET" || Error 31 "Umount failed"
 }
 
-declare -i CURRENT_DAY
-
 set -e
+
+declare -i CURRENT_DAY
 
 trap 'Onexit "$?" "$BASH_COMMAND"' EXIT HUP INT QUIT PIPE TERM
 

@@ -57,6 +57,10 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
+            name: "Search for conflict markers"
+            run: |
+                ! git grep --line-number -e '^\(<<<<<<<\|=======\|>>>>>>>\||||||||\)'
+        -
             name: "Check source code for syntax errors"
             run: "composer exec --no-interaction -- parallel-lint src/"
             # @TODO Check template files for syntax errors
@@ -151,6 +155,11 @@ jobs:
         #    name: "Check architecture"
         #    run: "composer exec -- phparkitect check --config=vendor/mortexa/laravel-arkitect/src/phparkitect.php"
         -
+            # https://github.com/phpstan/phpstan/issues/9475
+            name: "Search for $this->$this typo"
+            run: |
+                ! git grep --line-number -e '\$this\s*->\s*\$this'
+        -
             name: "Perform static analysis"
             run: "composer exec -- phpstan analyze --level=5 src/"
             # @TODO Cognitive Complexity, Mess Detector, Magic Number Detector, Copy-Paste Detector
@@ -190,7 +199,7 @@ jobs:
                 dependency-versions: "highest"
         -
             name: "Detect coding standards violations"
-            run: "composer exec -- phpcs -s --standard=PSR12 src/"
+            run: "composer exec -- phpcs -q --report=checkstyle --standard=PSR12 src/ | cs2pr"
         #-
         #    name: "Detect coding standards violations"
         #    id: "pint"
@@ -203,11 +212,12 @@ jobs:
             # Move TODO-s into GitHub issues!
             name: "Search for TODO-s and FIXME-s"
             run: |
-                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':/' ':!:*/integrate\.yml'
+                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':!:*/integrate\.yml'
         -
             name: "Remove blank first lines and multiple blank lines"
             run: |
-                git ls-files --cached -z | xargs --null -L 1 -- sed -i -e '/./,$!d' -e '/./n;N;/^\n$/D'
+                git ls-files --cached -z -- ':(exclude,glob)**/yarn.lock' \
+                    | xargs --null -L 1 -- sed -i -e '/./,$!d' -e '/^$/N;/^\n$/D'
         -
             name: "Check differences to repository"
             run: "git diff --exit-code"

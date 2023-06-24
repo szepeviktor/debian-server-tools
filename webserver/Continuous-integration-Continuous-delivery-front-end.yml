@@ -3,7 +3,7 @@
 name: "Front-end"
 
 # ECMAScript version: ES5 (2009), ES6 (2015), ECMAScript 2016, 2017, 2018, 2019 ...
-# Node.js version: 16.17
+# Node.js version: 18.12
 # npm version: 9.2
 #
 # https://github.com/tc39/proposals/blob/main/finished-proposals.md
@@ -48,7 +48,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Set up NodeJS"
+            name: "Set up Node.js"
             uses: "actions/setup-node@v3"
             with:
                 node-version: "18"
@@ -79,7 +79,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Set up NodeJS"
+            name: "Set up Node.js"
             uses: "actions/setup-node@v3"
             with:
                 node-version: "18"
@@ -111,7 +111,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Set up NodeJS"
+            name: "Set up Node.js"
             uses: "actions/setup-node@v3"
             with:
                 node-version: "18"
@@ -126,7 +126,7 @@ jobs:
             name: "Install stylelint-formatter-github-annotate"
             run: "npm install --no-save stylelint-formatter-github-annotate"
         -
-            name: "Check coding style"
+            name: "Detect coding standards violations"
             run: "npm run scss:cs -- --custom-formatter=node_modules/stylelint-formatter-github-annotate"
 
     build:
@@ -142,7 +142,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Set up NodeJS"
+            name: "Set up Node.js"
             uses: "actions/setup-node@v3"
             with:
                 node-version: "18"
