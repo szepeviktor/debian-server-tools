@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Integrate"
+name: "Back-end"
 
 on:  # yamllint disable-line rule:truthy
     pull_request: null
@@ -212,7 +212,7 @@ jobs:
             # Move TODO-s into GitHub issues!
             name: "Search for TODO-s and FIXME-s"
             run: |
-                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':!:*/integrate\.yml'
+                ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':!:*/back-end\.yml'
         -
             name: "Remove blank first lines and multiple blank lines"
             run: |

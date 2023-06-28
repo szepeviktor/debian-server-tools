@@ -1,6 +1,7 @@
 # Preventing machine and human errors in SaaS web applications
 
-[:hungary: Magyar változat](/CV2.md)
+[![hu](https://img.shields.io/badge/nyelv-magyar%20%F0%9F%87%AD%F0%9F%87%BA-white)](CV2.md)
+[![en](https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white)](CV.md)
 
 :two: Dual benefit for #SaaS manufacturers.
 

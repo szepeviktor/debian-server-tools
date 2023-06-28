@@ -1,6 +1,6 @@
 # Getting to know new clients
 
-## Processs of making a web application
+## Process of making a web application
 
 It is highly important to write down in advance what we will do.
 Do not make big decisions while writing source code.
@@ -90,7 +90,7 @@ Provider: [Slack](https://slack.com/)
 
 ### Application Dashboard
 
-For data-driven bisuness decisions.
+For data-driven business decisions.
 
 1. Nem kívánt dolgok megsokasodása
 1. Kívánt dolgok elmaradása

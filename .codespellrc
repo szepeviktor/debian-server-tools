@@ -1,6 +1,0 @@
-[codespell]
-skip=./.git,./mysql/mysqltuner,./image/packjpg,./image/jpegrescan,./mysql/mysql2sqlite,./monitoring/watcher,./security/ca/ca-web/text,./security/password2remember_hu.txt,./monitoring/aruba-serclient.deb/CONTENTS/usr/lib/python2.7/dist-packages/serclient,./mail/spam/21_KAM.cf,./mail/mx-check/disposable-email/*.grep
-check-hidden=
-check-filenames=
-builtin=clear,rare,informal,usage,code,names
-ignore-words-list=slave,master,blacklist,blacklists,whitelist,whitelists,referer
