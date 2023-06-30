@@ -57,7 +57,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Search for conflict markers"
+            name: "Search for conflict markers 🐌"
             run: |
                 ! git grep --line-number -e '^\(<<<<<<<\|=======\|>>>>>>>\||||||||\)'
         -
@@ -149,14 +149,14 @@ jobs:
             with:
                 dependency-versions: "highest"
         -
-            name: "Check PSR-4 mapping"
+            name: "Check PSR-4 mapping 🐌"
             run: "composer dump-autoload --optimize --strict-psr"
         #-
         #    name: "Check architecture"
         #    run: "composer exec -- phparkitect check --config=vendor/mortexa/laravel-arkitect/src/phparkitect.php"
         -
             # https://github.com/phpstan/phpstan/issues/9475
-            name: "Search for $this->$this typo"
+            name: "Search for $this->$this typo 🐌"
             run: |
                 ! git grep --line-number -e '\$this\s*->\s*\$this'
         -
@@ -189,7 +189,7 @@ jobs:
             name: "Check adherence to EditorConfig"
             uses: "greut/eclint-action@v0"
         -
-            name: "Look for TAB characters in the middle of the line"
+            name: "Look for TAB characters in the middle of the line 🐌"
             run: |
                 ! git grep --perl-regexp --line-number -I '^(?!//)[^\t]+\t'
         -
@@ -210,11 +210,11 @@ jobs:
         #    run: "composer exec -- pint --test --format=checkstyle | cs2pr"
         -
             # Move TODO-s into GitHub issues!
-            name: "Search for TODO-s and FIXME-s"
+            name: "Search for TODO-s and FIXME-s 🐌"
             run: |
                 ! git grep --extended-regexp --ignore-case '\b(TODO|FIXME)\b' -- ':!:*/back-end\.yml'
         -
-            name: "Remove blank first lines and multiple blank lines"
+            name: "Remove blank first lines and multiple blank lines 🐌"
             run: |
                 git ls-files --cached -z -- ':(exclude,glob)**/yarn.lock' \
                     | xargs --null -L 1 -- sed -i -e '/./,$!d' -e '/^$/N;/^\n$/D'
@@ -234,7 +234,7 @@ jobs:
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
-            name: "Check for ignored files in the index"
+            name: "Check for ignored files in the index 🐌"
             run: |
                 # Add negated files: ':!:path/to/negated'
                 IGNORED_FILES="$(git ls-files --cached --ignored --exclude-standard)"

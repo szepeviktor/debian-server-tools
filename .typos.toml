@@ -1,7 +1,28 @@
 [files]
-extend-exclude = ["mail/spam/21_KAM.cf","security/password2remember_hu.txt","monitoring/aruba-serclient.deb/","mysql/mysqltuner/","security/ca/ca-web/text","monitoring/watcher/","webserver/server-configs-nginx/","image/packjpg/","monitoring/hdd-seeker/","image/jpegrescan/"]
-[default.extend-identifiers]
-rsource = "rsource"
+extend-exclude = [
+    "image/jpegrescan/",
+    "image/packjpg/",
+    "mail/spam/21_KAM.cf",
+    "monitoring/aruba-serclient.deb/",
+    "monitoring/hdd-seeker/",
+    "monitoring/watcher/",
+    "mysql/mysqltuner/",
+    "security/ca/ca-web/text",
+    "security/password2remember_hu.txt",
+    "webserver/server-configs-nginx/"
+]
+
 [default.extend-words]
+
+[default.extend-identifiers]
+# False positives
+rsource = "rsource"
 helo = "helo"
 referer = "referer"
+# Typos
+intension = "intention"
+intensional = "intentional"
+intensionally = "intentionally"
+intensionaly = "intentionally"
+pervious = "previous"
+perviously = "previously"
