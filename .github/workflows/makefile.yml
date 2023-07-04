@@ -13,4 +13,4 @@ jobs:
     - uses: actions/checkout@v3
     - uses: docker://rhysd/actionlint:1.6.25
       with:
-        args: "-color webserver/Continuous-integration-Continuous-delivery*.yml"
+        args: "-color webserver/Continuous-integration-Continuous-delivery-commits.yml webserver/Continuous-integration-Continuous-delivery-docs.yml webserver/Continuous-integration-Continuous-delivery-front-end.yml webserver/Continuous-integration-Continuous-delivery-outdated.yml webserver/Continuous-integration-Continuous-delivery-spelling.yml webserver/Continuous-integration-Continuous-delivery-tag.yml webserver/Continuous-integration-Continuous-delivery-yaml.yml webserver/Continuous-integration-Continuous-delivery.yml"
