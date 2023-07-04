@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: docker://rhysd/actionlint:v1.6.25
+    - uses: docker://rhysd/actionlint:1.6.25
       with:
         args: -color
