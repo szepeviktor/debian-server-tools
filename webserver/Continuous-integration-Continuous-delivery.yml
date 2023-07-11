@@ -30,14 +30,14 @@ jobs:
         -
             name: "Check file permissions"
             run: |
-                test "$(find . -type f -not -path './.git/*' -executable)" = ""
+                test "$(find ./ -type f -not -path './.git/*' -executable)" = ""
         -
             # https://html.spec.whatwg.org/multipage/named-characters.html
             name: "Find non-printable ASCII characters"
             run: |
                 #! LC_ALL=C.UTF-8 git grep --perl-regexp --line-number -e '[^ -~]' -- '*.php'
                 #    | grep -v '// @ignore-non-ascii$'
-                #! LC_ALL=C.UTF-8 find . -type f -name '*.php' -print0 \
+                #! LC_ALL=C.UTF-8 find ./ -type f -name '*.php' -print0 \
                 #    | xargs --null -- grep --perl-regexp --with-filename --line-number '[^ -~]'
                 ! LC_ALL=C.UTF-8 git grep --perl-regexp --line-number -e '[^ -~]' -- '*.php'
 
@@ -87,6 +87,10 @@ jobs:
             with:
                 php-version: "${{ matrix.php-version }}"
         -
+            name: "Setup problem matcher for PHPUnit"
+            run: |
+                echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+        -
             name: "Checkout repository"
             uses: "actions/checkout@v3"
         -
@@ -100,6 +104,7 @@ jobs:
                 #composer-options: "--with=laravel/framework:${{ matrix.laravel-constraint }}"
         -
             name: "Execute unit tests"
+            #run: "composer exec -- phpunit"
             run: "composer exec -- pest --ci"
             # @TODO Functional tests
         #-
@@ -108,7 +113,7 @@ jobs:
         #    uses: "actions/upload-artifact@v3"
         #    with:
         #        path: "storage/logs/"
-        #        name: "larvel-logs-${{ matrix.php-version }}-${{ matrix.dependencies }}"
+        #        name: "laravel-logs-${{ matrix.php-version }}-${{ matrix.dependencies }}"
         #-
         #    name: "Send coverage to Coveralls"
         #    env:
@@ -206,7 +211,7 @@ jobs:
         #    run: "composer exec -- pint --verbose --test"
         #-
         #    name: "Annotate Pint results"
-        #    if: "${{ failure() && steps.pint.outcome != 'success' }}"
+        #    if: "${{ failure() && steps.pint.outcome == 'failure' }}"
         #    run: "composer exec -- pint --test --format=checkstyle | cs2pr"
         -
             # Move TODO-s into GitHub issues!

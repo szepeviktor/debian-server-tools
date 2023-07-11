@@ -3,6 +3,26 @@
 #: iptables -w -I myattackers-ipset -m set --match-set shadow-server src -j REJECT
 create shadow-server hash:net family inet hashsize 64 maxelem 32
 flush shadow-server
-# scan-*.shadowserver.org.
-add shadow-server 184.105.139.64/26
-add shadow-server 184.105.247.192/26
+#$ for N in {00..21};do dig +short scan-${N}.shadowserver.org. A;done|sortip -u|sed -e 's#^#add shadow-server #'
+add shadow-server 65.49.20.66
+add shadow-server 65.49.20.67
+add shadow-server 65.49.20.68
+add shadow-server 65.49.20.69
+add shadow-server 74.82.47.2
+add shadow-server 74.82.47.3
+add shadow-server 74.82.47.4
+add shadow-server 74.82.47.5
+add shadow-server 184.105.139.66
+add shadow-server 184.105.139.67
+add shadow-server 184.105.139.68
+add shadow-server 184.105.139.69
+add shadow-server 184.105.139.70
+add shadow-server 184.105.247.194
+add shadow-server 184.105.247.195
+add shadow-server 184.105.247.196
+add shadow-server 184.105.247.197
+add shadow-server 184.105.247.238
+add shadow-server 216.218.206.66
+add shadow-server 216.218.206.67
+add shadow-server 216.218.206.68
+add shadow-server 216.218.206.69

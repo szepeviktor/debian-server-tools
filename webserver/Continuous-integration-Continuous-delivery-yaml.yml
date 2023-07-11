@@ -48,4 +48,4 @@ jobs:
         -
             name: "Check YAML formatting"
             run: |
-                "$(python -m site --user-base)/bin/yamllint --strict ."
+                "$(python -m site --user-base)/bin/yamllint --strict ./"
