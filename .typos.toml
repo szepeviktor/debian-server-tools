@@ -19,6 +19,7 @@ extend-exclude = [
 rsource = "rsource"
 helo = "helo"
 referer = "referer"
+responsable = "responsable"
 # https://pkg.go.dev/os#pkg-constants
 "O_WRONLY" = "O_WRONLY"
 # Typos
