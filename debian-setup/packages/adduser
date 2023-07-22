@@ -145,7 +145,6 @@ fi
 #     man termcap # String Capabilities
 man()
 {
-    #
     #     so   Start standout mode (search)
     #     se   End standout mode
     #     us   Start underlining (italic)

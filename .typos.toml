@@ -1,27 +1,46 @@
 [files]
 extend-exclude = [
-    "image/jpegrescan/",
-    "image/packjpg/",
-    "mail/spam/21_KAM.cf",
-    "monitoring/aruba-serclient.deb/",
-    "monitoring/hdd-seeker/",
-    "monitoring/watcher/",
+    "Intercom.md", # HU
+    "mail/courier-pythonfilter/",
+    "mail/spam/21_KAM.cf", # Spam words
+    "monitoring/README.md", # Contains router names
     "mysql/mysqltuner/",
-    "security/ca/ca-web/text",
-    "security/password2remember_hu.txt",
+    "package/apt-sources/google-cloud-sdk.list", # Fingerprint
+    "package/docker-backport-goaccess.sh", # base64
+    "package/quicklz-build.sh", # base64
+    "package/s3ql-3C4E599F.asc", # GPG key
+    "security/ca/ca-web/text", # SSL certificate
+    "security/myattackers-ipsets/ipset/", # International names
+    "security/password2remember_hu.txt", # HU
     "webserver/server-configs-nginx/"
 ]
 
+[default]
+extend-ignore-re = [
+    " fo=1",
+    "\\|shs\\|",
+    "\\$!ba;",
+    ";ba'",
+    "/bin/\\(ba\\)\\?sh",
+    "-MISSy",
+    "\\^fpr:::::::::",
+    "   ue   End underlining"
+]
+
 [default.extend-words]
+helo = "helo"
 
 [default.extend-identifiers]
 # False positives
 rsource = "rsource"
-helo = "helo"
 referer = "referer"
 responsable = "responsable"
 # https://pkg.go.dev/os#pkg-constants
 "O_WRONLY" = "O_WRONLY"
+"SSL_CK_DES_192_EDE3_CBC_WITH_MD5" = "SSL_CK_DES_192_EDE3_CBC_WITH_MD5"
+"chello" = "chello"
+"LESS_TERMCAP_ue" = "LESS_TERMCAP_ue"
+
 # Typos
 contiguities = "continuities"
 intension = "intention"
