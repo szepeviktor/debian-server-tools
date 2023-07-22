@@ -7,9 +7,6 @@
 [submodule "security/ip-info"]
 	path = security/ip-info
 	url = git@github.com:szepeviktor/ip-info.git
-[submodule "mysql/mysql2sqlite"]
-	path = mysql/mysql2sqlite
-	url = https://github.com/dumblob/mysql2sqlite.git
 [submodule "webserver/server-configs-nginx"]
 	path = webserver/server-configs-nginx
 	url = git@github.com:szepeviktor/server-configs-nginx.git
