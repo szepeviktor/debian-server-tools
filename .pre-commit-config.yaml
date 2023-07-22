@@ -1,0 +1,145 @@
+---
+files: ^(.*\.(py|json|md|sh|yaml|cfg|txt))$
+exclude: ^(\.[^/]*cache/.*|.*/_user.py|backup/dropbox-get.py|backup/mega-get.py|backup/s3_set_cache_control.py|mail/extract-attachments/save_all_attachments.py|mail/mbox_send2.py|input/apt_check.py|package/pip[23]-debian.py|package/index_gen.py|mail/bouncedsn/test/.*.json)$
+repos:
+  - repo: https://github.com/executablebooks/mdformat
+    # Do this before other tools "fixing" the line endings
+    rev: 0.7.16
+    hooks:
+      - id: mdformat
+        name: Format Markdown
+        entry: mdformat  # Executable to run, with fixed options
+        language: python
+        types: [markdown]
+        args: [--wrap, '75', --number]
+        exclude: ^(webserver/Composer.json.md|backup/README.md)$
+        additional_dependencies:
+          - mdformat-toc
+          - mdformat-beautysh
+          # -mdformat-shfmt
+          # -mdformat-tables
+          - mdformat-config
+          - mdformat-black
+          - mdformat-web
+          - mdformat-gfm
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      # - id: no-commit-to-branch
+      #   args: [--branch, main]
+      - id: check-yaml
+        args: [--unsafe]
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+      - id: mixed-line-ending
+      - id: check-builtin-literals
+      - id: check-ast
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-docstring-first
+      - id: fix-byte-order-marker
+      - id: check-case-conflict
+      # - id: check-toml
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.32.0
+    hooks:
+      - id: yamllint
+        args:
+          - --no-warnings
+          - -d
+          - '{extends: relaxed, rules: {line-length: {max: 90}}}'
+  - repo: https://github.com/lovesegfault/beautysh.git
+    rev: v6.2.1
+    hooks:
+      - id: beautysh
+        exclude: ^monitoring/cse/can-send-email.sh|monitoring/syslog-errors.sh|monitoring/syslog-errors-infrequent|security/fail2ban-leanmail/dnsbl-generate.sh$
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.6.0
+    hooks:
+      - id: pyupgrade
+        args:
+          - --py37-plus
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        args:
+          - --safe
+          - --quiet
+          - -l 79
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
+    rev: v1.0.6
+    hooks:
+      - id: python-bandit-vulnerability-check
+        stages: [manual]
+        args: [--skip, 'B101', --recursive, .]
+  - repo: https://github.com/fsouza/autoflake8
+    rev: v0.4.0
+    hooks:
+      - id: autoflake8
+        args:
+          - -i
+          - -r
+          - --expand-star-imports
+          - .
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        args: [ '--builtins=_' ]
+        additional_dependencies:
+          - pyproject-flake8>=0.0.1a2
+          - flake8-bugbear>=22.1.11
+          - flake8-comprehensions>=3.8.0
+          - flake8_2020>=1.6.1
+          - mccabe>=0.6.1
+          - pycodestyle>=2.8.0
+          - pyflakes>=2.4.0
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.4
+    hooks:
+      - id: codespell
+  - repo: https://github.com/pre-commit/mirrors-pylint
+    rev: v3.0.0a5
+    hooks:
+      - id: pylint
+        # Check configuration using `pylint --generate-rcfile`
+        #exclude: ^$
+        additional_dependencies:
+          #- python-apt
+          #- apt_pkg
+          - boto
+          - bs4
+          - geoip2
+          - httplib2
+          - requests
+          - upcloud_api
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.3.0
+    hooks:
+      - id: mypy
+        args:
+          - --ignore-missing-imports
+          - --install-types
+          - --non-interactive
+          - --check-untyped-defs
+          - --show-error-codes
+          - --show-error-context
+          - --python-version
+          - "3.9"
+        additional_dependencies:
+          #- python3-apt
+          #- apt_pkg
+          - types-boto
+          - bs4
+          - geoip2
+          - httplib2
+          - types-requests
+          - upcloud_api
