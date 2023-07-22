@@ -493,7 +493,7 @@ following:
 
     d) make other distribution arrangements with the Copyright Holder.
 
-    e) permit and encourge anyone who receives a copy of the modified Package
+    e) permit and encourage anyone who receives a copy of the modified Package
        permission to make your modifications Freely Available
        in some specific way.
 
@@ -561,7 +561,7 @@ products derived from this software without specific prior written permission.
 
 10. THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
 IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
                                 The End
 */

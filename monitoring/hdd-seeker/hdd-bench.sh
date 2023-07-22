@@ -48,7 +48,7 @@ gcc -pthread -o seeker seeker_baryluk.c
 # https://github.com/mlsorensen/seekmark
 gcc -pthread -o seekmark seekmark-0.9.1.c
 
-# VMware/pysical
+# VMware/physical
 DEVICE="/dev/sda"
 # XEN
 [ -b "$DEVICE" ] || DEVICE="/dev/xvda"
