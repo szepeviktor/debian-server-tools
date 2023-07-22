@@ -8,4 +8,3 @@ AWS_HEADERS = {
     'Cache-Control':'max-age=31536000, public'
 }
 AWS_ACL = 'public-read'
-
