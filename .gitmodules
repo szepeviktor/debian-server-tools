@@ -1,12 +1,6 @@
 [submodule "mysql/mysqltuner"]
 	path = mysql/mysqltuner
 	url = https://github.com/major/MySQLTuner-perl.git
-[submodule "image/packjpg"]
-	path = image/packjpg
-	url = https://github.com/packjpg/packJPG.git
-[submodule "image/jpegrescan"]
-	path = image/jpegrescan
-	url = https://github.com/kud/jpegrescan.git
 [submodule "wheezy-repo"]
 	path = repo
 	url = https://github.com/szepeviktor/szepeviktor.github.io.git
