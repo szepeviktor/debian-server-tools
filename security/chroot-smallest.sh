@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --version
 #
 # Smallest chroot environment.
 #

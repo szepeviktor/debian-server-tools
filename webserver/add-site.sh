@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --version
 #
 # Add new Apache site.
 #

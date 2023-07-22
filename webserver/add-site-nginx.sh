@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/bash --version
 
 exit 0
 
@@ -57,7 +56,7 @@ if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $_SERVER['HTTP_X
     $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
 ```
-TODO: move this to nginx config
+# @TODO Move this to nginx config
 
 # ------------------------------------------------------
 

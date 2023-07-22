@@ -1,7 +1,10 @@
-#!/bin/bash
-
+#!/bin/bash --version
+#
 # Apache remove a site.
+#
 # Not a script but a manual.
+
+exit 0
 
 # Archive
 #
@@ -25,12 +28,8 @@
 # - email aliases
 # - email domain
 
-
-exit 0
-
-
 read -r -e -p "User name: " U
-read -r -e -p "Domain name without WWW: " DOMAIN
+read -r -e -p "Domain name without WWW: " D
 
 # backup
 tar -vcJf /root/$U_$(date "+%Y-%m-%d").tar.xz /home/$U

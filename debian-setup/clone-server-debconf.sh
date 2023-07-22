@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --version
 #
 # Clone a server by reinstalling packages and copying settings.
 #
