@@ -4,9 +4,6 @@
 [submodule "wheezy-repo"]
 	path = repo
 	url = https://github.com/szepeviktor/szepeviktor.github.io.git
-[submodule "monitoring/watcher"]
-	path = monitoring/watcher
-	url = https://github.com/getzze/Watcher.git
 [submodule "security/ip-info"]
 	path = security/ip-info
 	url = git@github.com:szepeviktor/ip-info.git
