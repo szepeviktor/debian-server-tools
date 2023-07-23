@@ -1,4 +1,5 @@
-#!/bin/bash --version
+#
+# Add a site to Nginx. A plan.
 
 exit 0
 

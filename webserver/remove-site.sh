@@ -1,8 +1,5 @@
-#!/bin/bash --version
 #
 # Apache remove a site.
-#
-# Not a script but a manual.
 
 exit 0
 

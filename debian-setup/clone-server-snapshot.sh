@@ -1,4 +1,3 @@
-#!/bin/bash --version
 #
 # Clone a Debian-based server by a snapshot.
 #

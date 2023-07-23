@@ -1,14 +1,12 @@
-#!/bin/bash --version
+#
+# Automated Debian install with preseed file
 
 exit 0
 
-# Automated Debian install with preseed file
-#
 # - two instances on the same private network with DHCP
 # - One is a webserver with the preseed file
 # - Two is automatically installed: auto url=http://192.168.1.2/path/to/preseed.file
 # - see https://www.debian.org/releases/stable/amd64/apb.html
-
 
 # Debian Installer steps (Expert Install)
 #

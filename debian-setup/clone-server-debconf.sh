@@ -1,10 +1,7 @@
-#!/bin/bash --version
 #
 # Clone a server by reinstalling packages and copying settings.
-#
 
 exit 0
-
 
 # Save on the "donor"
 

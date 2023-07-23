@@ -1,4 +1,5 @@
-#!/bin/bash --version
+#
+# Set up Traffic Server
 
 exit 0
 

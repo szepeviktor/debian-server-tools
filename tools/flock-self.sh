@@ -1,4 +1,3 @@
-#!/bin/bash --version
 #
 # Flock on itself.
 #

@@ -1,7 +1,7 @@
-#!/bin/bash --version
 #
 # Courier MTA - inbound configuration with mailboxs.
-#
+
+exit 0
 
 # Locally generated mail (sendmail, SMTP, notifications)
 #     MTA <-- sendmail (local monitoring scripts)
@@ -65,5 +65,3 @@
 # - weekly: grep "courieresmtpd: .*: 5[0-9][0-9] " "/var/log/mail.log.1" | grep -wv "554"
 # - monthly: top10-mailfolders.sh
 # - yearly: archive inbox and sent folders
-
-exit 0

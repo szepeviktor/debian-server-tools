@@ -1,7 +1,7 @@
-#!/bin/bash --version
 #
 # Courier MTA - full operation.
-#
+
+exit 0
 
 # Locally generated mail (sendmail, SMTP, notifications)
 #     MTA <-- sendmail
@@ -29,8 +29,6 @@
 #
 # Reading mail in local mailboxes (IMAP)
 #     MUA <-- MDA
-
-exit 0
 
 # Fix perms
 chmod 0640 /etc/courier/esmtpauthclient

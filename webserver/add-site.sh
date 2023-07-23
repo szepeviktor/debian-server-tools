@@ -1,8 +1,5 @@
-#!/bin/bash --version
 #
 # Add new Apache site.
-#
-# Not a script but a manual.
 
 exit 0
 

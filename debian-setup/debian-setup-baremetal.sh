@@ -1,4 +1,3 @@
-#!/bin/bash --version
 #
 # This is a *plan* for installing Debian on bare metal.
 

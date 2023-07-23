@@ -1,7 +1,7 @@
-#!/bin/bash --version
 #
 # Courier MTA - operate as a smarthost, deliver outbound messages.
-#
+
+exit 0
 
 # Locally generated mail (sendmail, notifications)
 #     MTA <-- sendmail (local monitoring scripts)
@@ -17,8 +17,6 @@
 # Forward to a foreign mailbox (SRS)
 #     MTA --> another MTA
 # @TODO Prefer pulling mail from local mailbox over forwarding
-
-exit 0
 
 # Add an MX record
 host -t MX $(hostname -f)

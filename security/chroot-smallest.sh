@@ -1,7 +1,5 @@
-#!/bin/bash --version
 #
 # Smallest chroot environment.
-#
 
 exit 0
 
