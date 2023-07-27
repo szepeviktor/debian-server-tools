@@ -205,17 +205,20 @@ remarks: |
 # Provider profile: cat ./providers/upcloud-defra1.yml
 
 teardown:
+    - Archive for long term
     - Notify users
     - Delete email accounts
-    - Delete `RELAYCLIENT` on the smarthost
+    - Delete `RELAYCLIENT` on the mail smarthost
+    - Remove from email whitelists, postmaster tools, RBL monitors
     - Revoke DNS resolver access
-    - Remove from whitelists, postmaster tools, RBL monitors
     - Revoke SSL certificates
     - Remove from healthchecks.io and remote monitoring
+    - Remove from webmaster tools
     - Remove DNS records
     - Remove/reset PTR record
     - Delete backups
     - Delete server
+    - Delete accounts at service providers
     - Cancel domain registration
 
 # YAML editor: http://yaml-online-parser.appspot.com/
