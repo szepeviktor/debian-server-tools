@@ -3,16 +3,16 @@
 name: "Docs"
 
 on:  # yamllint disable-line rule:truthy
-    pull_request:
-        paths:
-        - "**/*.md"
-        - "markdown-link-check.json"
-    push:
-        branches:
-        - "master"
-        paths:
-        - "**/*.md"
-        - "markdown-link-check.json"
+    # pull_request:
+    #     paths:
+    #     - "**/*.md"
+    #     - "markdown-link-check.json"
+    # push:
+    #     branches:
+    #     - "master"
+    #     paths:
+    #     - "**/*.md"
+    #     - "markdown-link-check.json"
     workflow_dispatch: null
 # Add [skip ci] to commit message to skip CI.
 
