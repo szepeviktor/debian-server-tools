@@ -4,7 +4,7 @@ Videos by Aurimas Mikalauskas: https://www.youtube.com/channel/UCMu7hy-Ji8OWoxAq
 
 Table engine: InnoDB
 
-### [Suggested configuration](http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof/)
+### [Suggested configuration](https://web.archive.org/web/20200803203017/http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof/)
 
 ```ini
 [mysqld]

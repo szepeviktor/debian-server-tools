@@ -46,7 +46,6 @@ Physical products, no dropshipping.
 - Shopsys
 - [WooCommerce](https://woocommerce.com/product-category/woocommerce-extensions/)
 - [Magento](https://marketplace.magento.com/)
-- [PrestaShop](https://addons.prestashop.com/en/)
 - https://github.com/topics/ecommerce-platform
 - https://jamstack.org/
 
@@ -82,7 +81,6 @@ Physical products, no dropshipping.
 - Facebook Messenger marketing https://recart.com/
 - Dynamic content https://www.dynamicyield.com
 - Content creation https://textual.ai/
-- Chatbot https://morph.ai/ecommerce
 - Chatbot https://racom.io/
 - https://hexometer.com/
 

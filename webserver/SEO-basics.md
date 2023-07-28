@@ -19,7 +19,6 @@ See [Production website note](/webserver/Production-website.md#seo)
 - [Google Autocomplete](https://support.google.com/websearch/answer/106230)
   by http://keywordshitter.com/
 - https://answerthepublic.com/
-- https://www.google.com/trends/correlate/
 - moz.com
 - semrush.com
 - ahrefs.com

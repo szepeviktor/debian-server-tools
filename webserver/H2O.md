@@ -35,10 +35,6 @@ make install
 
 `/usr/local/bin/h2o -c examples/h2o/h2o.conf`
 
-### Browser test
-
-http://http2.golang.org/gophertiles
-
 ### Debug
 
 `chrome://net-internals/#events`

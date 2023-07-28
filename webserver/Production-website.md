@@ -96,7 +96,7 @@ and other [SSL certificate authorities](https://www.netcraft.com/internet-data-m
 - HTML caching or `no-cache`?
 - Disallow HTML pages on CDN (robots-cdn.txt)
 - https://aws.amazon.com/console/
-- https://www.cloudflare.com/a/login see also [/webserver/CloudFlare.md](/webserver/CloudFlare.md)
+- https://dash.cloudflare.com/login see also [/webserver/CloudFlare.md](/webserver/CloudFlare.md)
 
 ### Mail sending
 
@@ -307,11 +307,10 @@ http://google-public-dns.appspot.com/cache :snail:
 - External URL-s should open in new window :snail:
 - Use emojis (meta description, titles)
 - Abandoned cart :snail:
-- [Contact widget](https://pepper.swat.io/)
 - Newsletter subscribe
 - Offer free download
 - Exit modal or Hijack box: *coupon, free download, blog notification, newsletter* etc.
-- Background: http://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg
+- [Whole page background](https://web.archive.org/web/20161118100408/https://www.aqua.hu/files/pix-background/nv-gf-gtx-heroesofthestormgeneric-skin2-hun.jpg)
 - Sharing: https://www.addthis.com/ https://www.po.st/ http://www.sharethis.com/ :snail:
 - Content to share: https://paper.li/
 - A/B testing: Google Optimize, Optimonk
@@ -405,7 +404,7 @@ http://google-public-dns.appspot.com/cache :snail:
 - Image format `convert PNG --quality 100 JPEG`
 - Image name `mv DSC-0005.jpeg prefix-descriptive-name.jpg`
 - Image optimization `jpeg-recompress JPEG OPTI_JPEG` :snail:
-- [Self-host Google Fonts](https://google-webfonts-helper.herokuapp.com/)
+- [Self-host Google Fonts](https://gwfh.mranftl.com/fonts)
 - [CSS statistics](https://cssstats.com/)
 - JavaScript, CSS concatenation, minification `cat small_1.css small_2.css >large.css`
 - [instant.page](https://github.com/instantpage/instant.page)
@@ -471,10 +470,10 @@ Google's [Search Quality Evaluator Guidelines](https://static.googleusercontent.
 
 - [On privacy](https://www.oath.com/en-gb/my-data/#startingwithdata)
 - Privacy Policy :snail:
-- [Cookie Consent Kit](http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm#section_4) + opt out,
-  [cookie notice template](http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
-  [Cookie Consent wizard by Insites](https://cookieconsent.insites.com/download/),
-  [EDAA Glossary](http://www.youronlinechoices.com/hu/szomagyarazat)
+- [Cookie Consent Kit](https://commission.europa.eu/resources-partners/europa-web-guide/design-content-and-development/privacy-security-and-legal-notices/cookies-and-similar-technologies_en#rules) + opt out,
+  [cookie notice template](https://web.archive.org/web/20191010153615/http://ec.europa.eu/ipg/docs/cookie-notice-template.zip),
+  [Cookie Consent wizard by Osano](https://www.osano.com/cookieconsent/download/),
+  [EDAA Glossary](https://www.youronlinechoices.com/hu/szomagyarazat)
 - Terms & Conditions
 - *Operated by*, *Hosted at*
 - `/.well-known/dnt-policy.txt`
@@ -502,7 +501,7 @@ Google's [Search Quality Evaluator Guidelines](https://static.googleusercontent.
     - [Felkészülés az Adatvédelmi Rendelet alkalmazására 12 lépésben](https://www.naih.hu/felkeszueles-az-adatvedelmi-rendelet-alkalmazasara.html)
 - Impresszum (csak űrlaphoz kell)
 - [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
-- Ingyenes [NAIH nyilvántartásba vétel](https://www.naih.hu/bejelentkezes.html) (hírlevél küldéshez)
+- Ingyenes [NAIH Tájékoztatás az adatvédelmi nyilvántartás megszűnéséről](https://www.naih.hu/adatvedelmi-nyilvantartas)
 
 ### Compatiblitity
 
@@ -588,7 +587,7 @@ See [/monitoring/README.md](/monitoring/README.md)
 
 Uptime ([pingdom.com](https://www.pingdom.com/),
 [hetrixtools.com](https://hetrixtools.com/),
-[selectel.com](https://selectel.com/services/additional/monitoring/)) :snail:
+[selectel.com](https://selectel.ru/en/services/additional/monitoring/)) :snail:
 
 [List of all errors in Apache httpd](https://wiki.apache.org/httpd/ListOfErrors)
 

@@ -41,6 +41,6 @@ cut -d"@" -f2 addr-orig|sort -u|xargs -I% bash -c 'echo -n "%:";echo -n "%"|sha1
 ### API
 
 - http://www.nameapi.org/en/live-demos/disposable-email-address-detector/
-- https://www.istempmail.com/check
+- https://www.istempmail.com/
 - https://www.validator.pizza/
 - https://www.block-disposable-email.com/cms/try/

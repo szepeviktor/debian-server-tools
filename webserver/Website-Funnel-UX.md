@@ -65,7 +65,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
     - https://www.protopie.io/
     - https://www.framer.com/
 1. Nézetek [mobilon](https://webmasters.googleblog.com/2018/03/rolling-out-mobile-first-indexing.html)
-   és [AMP változat](https://support.google.com/google-ads/answer/7336292?hl=hu)
+   és [AMP változat](https://support.google.com/adsense/answer/9187239?hl=hu)
    és [privát mód](https://support.google.com/chrome/answer/95464)
    és különböző készülékeken, böngészőkben
 1. Látogatási folyamat (user flow) szimuláció, validálás, [tesztelés](https://helio.app/)

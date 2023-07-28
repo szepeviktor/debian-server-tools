@@ -10,7 +10,7 @@
 
 ### Website
 
-WP-CLI config: [wp-cli.yml](http://wp-cli.org/config/) possibly above document root
+WP-CLI config: [wp-cli.yml](https://make.wordpress.org/cli/handbook/references/config/) possibly above document root
 
 ```yaml
 path: /home/user/website/code/wp
@@ -195,6 +195,6 @@ If you must use production Media Library from a staging/development site.
 
 - Export plugin and theme settings separately
 - Push to git repository
-- [WP downloader](https://github.com/szepeviktor/wordpress-plugin-construction/tree/master/shared-hosting-aid/wp-downloader)
+- [WP downloader](https://github.com/szepeviktor/shared-hosting-aid/tree/master/wp-downloader)
 - [Clean database](/webserver/Production-website.md#clean-up-database)
 - Dump database in a single transaction

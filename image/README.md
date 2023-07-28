@@ -27,7 +27,7 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 
 ### JPEG artifacts removal
 
-- http://www.vicman.net/jpegenhancer/ http://mirror.szepe.net/software/jpeginst.exe
+- http://www.vicman.net/jpegenhancer/
 - http://enhance.pho.to/
 - http://www.topazlabs.com/dejpeg
 - Photoshop / Ps Elements: Filter > Noise > Reduce Noise  [x] Remove JPEG Artifacts

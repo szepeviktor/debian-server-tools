@@ -44,7 +44,7 @@ Internet → Amazon SES → S3 storage → SNS notification → local web hook �
     Topics
     deploy PHP code, composer update
     `composer require aws/aws-php-sns-message-validator`
-    Create subscr HTTPS https://lampa.wip.services/ses-sns/endpoint.php
+    Create subscr HTTPS `https://example.com/ses-sns/endpoint.php`
     confirm URL
 - Test
     Publish { "default": "{\"tag\": 11}" }

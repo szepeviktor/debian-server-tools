@@ -89,7 +89,7 @@ Use Docker **containers** for testing.
 - PSR-12-based coding style (phpcs)
 - Warn on `TODO` and `FIXME`: "Move it into issues!" (phpcs)
 - PHP Compatibility check (phpcompatibility/php-compatibility)
-- [PHPDoc checker](https://github.com/odan/docblock-checker)
+- [PHPDoc checker](https://github.com/php-censor/phpdoc-checker)
 - [Static analysis](https://www.youtube.com/watch?v=majpU-_ShB0) (phpstan, larastan, psalm, phan)
 - Mess Detector (phpmd) rules: clean code, code size, controversial, design, naming, unused code
 - Critical vulnerabilities in dependencies (sensiolabs/security-checker, roave/security-advisories, dependencies.io)
@@ -105,7 +105,7 @@ Use Docker **containers** for testing.
 - Test deploy
 
 Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io/)
-[on Debian](https://exakat.readthedocs.io/en/latest/Installation.html#quick-installation-with-debian-ubuntu)
+[on Debian](https://exakat.readthedocs.io/en/latest/Administrator/Installation.html#installation-on-debian-ubuntu)
 
 ### Testing tools :pick:
 
@@ -279,7 +279,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 - Inactive accounts
 - [Authentication as a Service](https://auth0.com/rules/thisdata-alert-anomalies)
 - [Authentication system](https://www.arkoselabs.com/technology)
-- If you choose an [identity provider](https://www.lastpass.com/products/identity)
+- If you choose an [identity provider](https://www.lastpass.com/products/business)
   search the web for its name plus "breach" "exploit" "security"
 
 ### Email address lifecycle

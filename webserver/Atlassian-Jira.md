@@ -42,7 +42,7 @@ apt-get install fontconfig
 ### Set up database
 
 For MySQL configuration see
-https://confluence.atlassian.com/adminjiraserver/connecting-jira-applications-to-mysql-5-7-966063305.html
+https://confluence.atlassian.com/adminjiraserver0901/connecting-jira-applications-to-mysql-5-7-1155490939.html
 
 Edit `JIRA-USER` and `PASSWORD`
 

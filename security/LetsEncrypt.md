@@ -1,6 +1,6 @@
 # Let's Encrypt
 
-SSL certificate for web, mail etc. See [/security/cert-update-manuale-CN.sh](/security/cert-update-manuale-CN.sh)
+SSL certificate for web, mail etc. See [/security/cert-update-manuale.sh](/security/cert-update-manuale.sh)
 
 Test TLS connections, see [/security/README.md](/security/README.md)
 

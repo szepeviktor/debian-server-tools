@@ -70,7 +70,7 @@ Goal: communicate on one common platform, retire email communication.
 
 - Issues (bug reports, feature requests)
 - Connecting with outsiders within the platform
-    or [email automation](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
+    or [email automation](https://help.shortcut.com/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
 - File sharing
 - Calendar
 - Inner knowledge base [Notion](https://www.notion.so/)

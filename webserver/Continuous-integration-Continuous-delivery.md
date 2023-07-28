@@ -58,7 +58,7 @@ How to design and implement CI and CD.
 - Optionally back up project files before starting to deploy
 - Create a bot user on the server for git access with SSH key (`@companybot`)
 - List changes in current project files
-- [Check for maintenance mode](/webserver/laravel/Commands/IsDownForMaintenance.php),
+- [Check for maintenance mode](https://github.com/szepeviktor/running-laravel/blob/master/app/Console/Commands/IsDownForMaintenanceCommand.php),
   Turn on maintenance mode `php artisan down`
   covering static resource, page, AJAX and API requests
 - Clear caches (configuration, routes, application, template etc.)

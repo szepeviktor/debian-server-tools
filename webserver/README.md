@@ -12,7 +12,7 @@ https://github.com/avleen/bashttpd
 ### Private pull CDN
 
 - Apache mod_proxy in shm
-- http://www.symkat.com/sympull-cdn https://github.com/symkat/SymPullCDN
+- https://github.com/symkat/SymPullCDN
 
 ### Apache performance settings
 

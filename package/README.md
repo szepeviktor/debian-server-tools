@@ -77,7 +77,7 @@ Pin-Priority: <integer>
 - `Package: *systemd*`
 - `Pin: version 5.20*`
 - `Pin: release a=testing` see previous section and
-  [the Release file](https://packages.sury.org/php/dists/stretch/Release)
+  [the Release file](https://packages.sury.org/php/dists/bookworm/Release)
 - `Pin: origin ftp.hu.debian.org` pin by host name in sources.list
 - `Pin-Priority: -1` never install
 - `Pin-Priority: 1000` always install

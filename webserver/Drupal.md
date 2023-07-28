@@ -6,7 +6,7 @@ https://www.aegirproject.org/
 
 ### Drush 8
 
-- [/debian-setup/php-drush](/debian-setup/php-drush)
+- [/debian-setup/packages/php-drush](/debian-setup/packages/php-drush)
 - Create `sites/default/drushrc.php` , see code below
 - [Configuration](https://github.com/drush-ops/drush/blob/8.x/examples/example.drushrc.php)
 - First run: `drush status # --fields=drupal-version`
@@ -97,8 +97,8 @@ Browse modules: `drush pmi --format=yaml`
 
 Enable module: `drush en -y MODULE`
 
-Report 403 and 404: https://github.com/szepeviktor/waf4wordpress/tree/master/non-wp-projects/drupal8-fail2ban
-and [`Http_Analyzer`](https://github.com/szepeviktor/waf4wordpress/tree/master/http-analyzer)
+Report 403 and 404: https://github.com/szepeviktor/waf4wordpress/tree/mu-4.14.0/non-wp-projects/drupal-fail2ban/fail2ban_404
+and [`HttpAnalyzer`](https://github.com/szepeviktor/waf4wordpress/blob/master/src/HttpAnalyzer.php)
 
 APC cache backend: `drush en -y apc`
 

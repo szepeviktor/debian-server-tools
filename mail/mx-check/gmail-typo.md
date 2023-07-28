@@ -44,6 +44,6 @@ SLD swap
 `.\+@gmial\.com`
 `.\+@gamil\.com`
 
-[gmial.com is disposable??](https://github.com/martenson/disposable-email-domains/blob/master/disposable_email_blacklist.conf)
+[gmial.com is disposable??](https://github.com/disposable-email-domains/disposable-email-domains/blob/master/disposable_email_blocklist.conf)
 
 gamil.com delivers to webfaction.com??

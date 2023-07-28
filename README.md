@@ -10,7 +10,7 @@ Updated daily as I work.
 1. [Setting up your infrastructure and your application](/Onboarding.md)
 1. [All things WordPress](https://github.com/szepeviktor/wordpress-website-lifecycle)
 1. [WordPress Security](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/WordPress-security.md)
-1. [Running Laravel](/webserver/laravel)
+1. [Running Laravel](https://github.com/szepeviktor/running-laravel)
 1. [Running Drupal](/webserver/Drupal.md)
 1. [Monitoring on paranoid level](/monitoring#readme)
 1. [Continuous Integration and Continuous Delivery](/webserver/Continuous-integration-Continuous-delivery.md)

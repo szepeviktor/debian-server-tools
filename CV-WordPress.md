@@ -7,7 +7,7 @@ My main activity is **proactive** maintenance of existing websites and
 [web applications](/webserver/PHP-development.md).  
 These experiences could mean valuable feedback for your developer/s.  
 Traffic light example :vertical_traffic_light: a developer sees the green light,
-[I see red](/webserver/WordPress-security.md) and amber.
+[I see red](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/WordPress-security.md) and amber.
 
 ### Proactive maintenance features
 
@@ -101,7 +101,9 @@ Olyan helyen veszi hasznomat, ahol nehezen tolerálható az üzemszünet és az 
 A **fejlesztésbe** technológiai tanácsokkal és konkrét kivitelezéssel segítek be a tapasztalataim alapján.  
 A közlekedési jelzőlámpa példával élve :vertical_traffic_light:
 a fejlesztők a zöldet látják, én a sárgát és a pirosat.  
-A figyelmem az üzembiztonságon, a [sérülékenységen](/webserver/WordPress-security.md) és a sebességen van.
+A figyelmem az üzembiztonságon, a
+[sérülékenységen](https://github.com/szepeviktor/wordpress-website-lifecycle/blob/master/WordPress-security.md)
+és a sebességen van.
 
 ### Hogyan előzöm meg a hibákat?
 

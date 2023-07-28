@@ -47,8 +47,8 @@
 ### DNS lookup
 
 - https://toolbox.googleapps.com/apps/dig/
-- http://bgp.he.net/
-- http://mxtoolbox.com/DNSLookup.aspx
+- https://bgp.he.net/
+- https://mxtoolbox.com/DNSLookup.aspx
 
 ### Peering (routes, prefixes)
 
@@ -66,7 +66,7 @@ http://www.duckdns.org/
 - https://www.gandi.net/
 - https://www.dynadot.com/
 - https://www.rackhost.hu/ `.hu`
-- http://www.freenom.com/en/freeandpaiddomains.html
+- https://www.freenom.com/en/freeandpaiddomains.html
 
 # How to choose a domain registrar?
 

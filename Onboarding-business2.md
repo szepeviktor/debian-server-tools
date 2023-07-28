@@ -71,7 +71,7 @@ Cél: 1 közös platformon kommunikálni, az emailes kommunikációt kiszorítan
 
 - Hibajegy
 - Külsősökkel való kapcsolat a platformon belül
-    vagy [email automatizálással](https://help.clubhouse.io/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
+    vagy [email automatizálással](https://help.shortcut.com/hc/en-us/articles/206093065-Setting-Up-Zapier-Integrations)
 - Fájl megosztás
 - Naptár
 - Belső tudástár [Notion](https://www.notion.so/)

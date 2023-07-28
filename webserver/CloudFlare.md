@@ -45,7 +45,7 @@ Apache mod_remoteip module. Add to each vhost config.
 
 `a2enmod remoteip && apache2ctl configtest && service apache2 reload`
 
-See https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers-
+See https://developers.cloudflare.com/fundamentals/get-started/reference/http-request-headers/
 
 ### CDN-only settings
 
@@ -67,7 +67,7 @@ Use a CNAME. May be the CNAME of *another* domain.
 
 ### Trace Report
 
-[`https://example.com/cdn-cgi/trace`](https://support.cloudflare.com/hc/en-us/articles/200169986-Which-Cloudflare-data-center-do-I-reach-)
+[`https://example.com/cdn-cgi/trace`](https://developers.cloudflare.com/support/troubleshooting/general-troubleshooting/gathering-information-for-troubleshooting-sites/#identify-the-cloudflare-data-center-serving-your-request)
 
 ### Notes
 

@@ -177,7 +177,7 @@ https://testconnectivity.microsoft.com/tests/O365Ola/input
 service php7.0-fpm reload
 ```
 
-- Browse to: https://HORDE-URL/admin/config/
+- Browse to: `https://HORDE-URL/admin/config/`
 - Upgrade database schema
 - Upgrade configuration
 

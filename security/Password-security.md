@@ -20,6 +20,6 @@
 - soundex
 - Levenshtein
 - [metaphone](https://secure.php.net/manual/en/function.metaphone.php#39076)
-- https://siderite.blogspot.com/2014/11/super-fast-and-accurate-string-distance.html
+- https://siderite.dev/blog/super-fast-and-accurate-string-distance.html
 
 ### Expiration

@@ -9,7 +9,8 @@
 
 ### Incident (abuse) reporting
 
-https://www.csirt.cz/reportingrules/ and https://aws.amazon.com/forms/report-abuse
+https://www.csirt.cz/en/incident-reporting/how-report/
+and https://aws.amazon.com/forms/report-abuse
 
 > Subject should contain the **IP address** and **case type**
 > - Sending email spam
@@ -115,7 +116,7 @@ https://securityheaders.io/
 
 ### Strong Ciphers TLS and SSH
 
-[Strong Ciphers for Apache, nginx and Lighttpd and OpenSSH server settings](https://cipherli.st/)
+[Strong Ciphers for Apache, nginx and Lighttpd and OpenSSH server settings](https://github.com/RaymiiOrg/cipherli.st)
 
 Queries for supported algorithms
 
@@ -158,21 +159,11 @@ curl --data-binary '{"mode":"block","notes":"","configuration":{"value":"1.2.3.4
 
 ### Incapsula IP ranges
 
-https://incapsula.zendesk.com/hc/en-us/articles/200627570-Restricting-direct-access-to-your-website-Incapsula-s-IP-addresses-
-
-resp_format: json | apache | nginx | iptables | text
-
-```
-curl -s --data 'resp_format=apache' 'https://my.incapsula.com/api/integration/v1/ips'
-```
+https://docs.imperva.com/bundle/z-kb-articles-km/page/c85245b7.html
 
 ### StackPath IP ranges
 
-https://support.stackpath.com/hc/en-us/articles/224785167-IP-Blocks
-
-```
-curl -s https://www.maxcdn.com/one/assets/ips.txt
-```
+https://support.stackpath.com/hc/en-us/articles/360001091666-Review-and-Allowlist-CDN-WAF-IP-Blocks
 
 ### Difference between “BEGIN RSA PRIVATE KEY” and “BEGIN PRIVATE KEY”
 

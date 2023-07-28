@@ -268,6 +268,6 @@ Verify your URL
   web-based administration (import, export, backup, cPanel, phpMyAdmin),
   POP3/S protocol
 - How to design and implement [CI and CD](/webserver/Continuous-integration-Continuous-delivery.md)
-- [Running a Laravel application](/webserver/laravel)
+- [Running a Laravel application](https://github.com/szepeviktor/running-laravel)
 - [WordPress lifecycle](https://github.com/szepeviktor/wordpress-website-lifecycle)
 - Interesting read on [web applications](/webserver/PHP-development.md)

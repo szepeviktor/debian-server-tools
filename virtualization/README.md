@@ -4,8 +4,8 @@
 
 - https://github.com/hercules-team/augeas/wiki/Path-expressions
 - https://docs.saltstack.com/en/latest/ref/states/all/salt.states.file.html
-- https://docs.ansible.com/ansible/list_of_files_modules.html
-- https://puppetlabs.com/blog/why-puppet-isnt-a-file-management-tool
+- https://docs.ansible.com/ansible/2.8/modules/list_of_files_modules.html
+- https://web.archive.org/web/20151025163730/https://puppetlabs.com/blog/why-puppet-isnt-a-file-management-tool
 
 Use `conf.d` style configurations!
 

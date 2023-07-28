@@ -1,6 +1,6 @@
 # Test email addresses
 
-- Invalid address: Gmail's policy (letters, numbers, periods), [RFC 5322](http://emailregex.com/), Plus dash `-`
+- Invalid address: Gmail's policy (letters, numbers, periods), [RFC 5322](https://emailregex.com/), Plus dash `-`
 - Misspelling https://github.com/mailcheck/mailcheck and see /mail/mx-check/gmail-typo.grep
 - Disposable domain, see /mail/mx-check/
 - Disposable MX, see /mail/mx-check/disposable-mx.list

@@ -616,9 +616,9 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 #### Lookup Tools/Monitoring Tools
 
 - https://glockapps.com/spam-testing `R`
-- http://bgp.he.net/ip/1.2.3.4#_rbl
+- https://bgp.he.net/ip/1.2.3.4#_rbl
 - https://hetrixtools.com/dashboard/blacklist-monitors/
-- http://multirbl.valli.org/
+- https://multirbl.valli.org/
 - https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
 - https://rbltracker.com/ `R`
 - https://www.rblmon.com/accounts/register/ `R`

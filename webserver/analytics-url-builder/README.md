@@ -32,7 +32,7 @@ Ezt A/B teszteknél az A és a B változat megkülönböztetésére kell haszná
 Hibánál az `error` nevű site-ra irányít át az alábbi festett linkkel, és naplózza a hibás linket:
 `utm/honlap/festett-link-hiba`
 
-#### Szükséges Apache (.htaccess) beállítás:
+#### Szükséges Apache (.htaccess) beállítás
 
 ```htaccess
 # UTM
@@ -43,7 +43,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule "^" "/analytics-url-builder.php" [END]
 ```
 
-### Robotoknak robots.txt:
+### Robotoknak robots.txt
 
 ```
 User-agent: *
@@ -52,7 +52,7 @@ Disallow: /
 
 ### Favicon
 
-Forrás: http://fortawesome.github.io/Font-Awesome/icon/share/
+Forrás: https://fontawesome.com/icons/share?f=classic&s=solid
 
 ```bash
 base64 -d < favicon.xz.b64 | xzcat > favicon.ico
