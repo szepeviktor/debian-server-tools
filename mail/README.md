@@ -602,7 +602,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - [Return Path Certification](https://returnpath.com/solutions/email-deliverability-optimization/ip-certification/)
 - [Sophos Email](https://www.sophos.com/en-us/products/sophos-email/tech-specs.aspx)
 - [SolarWinds MSP (formerly SpamExperts)](https://www.solarwindsmsp.com/products/mail)
-- [IKARUS mail.security](https://www.ikarussecurity.com/solutions/all-solutions/network-protection/ikarus-cloudsecurity/ikarus-mailsecurity/)
+- [IKARUS mail.security](https://www.ikarussecurity.com/en/managed-it-ot-security-solutions/ikarus-mail-security/)
 - [Barracuda Essentials](https://www.barracuda.com/products/essentials)
 - [Proofpoint Essentials](https://www.proofpoint.com/us/products/essentials)
 - https://www.mailscanner.info/install/

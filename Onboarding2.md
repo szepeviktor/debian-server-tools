@@ -70,7 +70,7 @@ Ebben a részben a biztonságos regisztrációkra készülünk fel.
 - Belépés `Administrator`-ként
   [RDP Windows PC-khez](https://ci.freerdp.com/job/freerdp-nightly-windows/arch=win64,label=vs2013/)
   vagy [RDP Mac gépekre](https://itunes.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12)
-- [Basilisk böngésző](http://eu.basilisk-browser.org/release/basilisk-latest.win64.zip) letöltése
+- [Palemoon böngésző](https://www.palemoon.org/download.php?mirror=eu&bits=64&type=installer) letöltése
 - UpCloud parancsikon kirakása az Asztalra: `basilisk.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
 - AWS parancsikon: `"https://portal.aws.amazon.com/gp/aws/developer/registration/index.html"`
 - [`user.js`](https://github.com/szepeviktor/windows-workstation/blob/master/upcloud/user.js)

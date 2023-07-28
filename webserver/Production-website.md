@@ -326,7 +326,7 @@ http://google-public-dns.appspot.com/cache :snail:
 
 1. Theme meta and version in `style.css`
 1. `query-monitor` errors and warnings
-1. `theme-check` and http://themecheck.org/
+1. `theme-check` and https://themecheck.info/
 1. `vip-scanner`
 1. Frontend Debugger with `?remove-scripts`
 1. `p3-profiler`
