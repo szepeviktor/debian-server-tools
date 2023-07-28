@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Docs"
+
+on:  # yamllint disable-line rule:truthy
+    pull_request:
+        paths:
+        - "**/*.md"
+        - "markdown-link-check.json"
+    push:
+        branches:
+        - "master"
+        paths:
+        - "**/*.md"
+        - "markdown-link-check.json"
+    workflow_dispatch: null
+# Add [skip ci] to commit message to skip CI.
+
+permissions:
+    contents: "read"
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+    markdown_link:
+        name: "Markdown link"
+        runs-on: "ubuntu-22.04"
+        timeout-minutes: 10
+        steps:
+        -
+            name: "Checkout repository"
+            uses: "actions/checkout@v3"
+        -
+            name: "Cache NPM"
+            uses: "actions/cache@v3"
+            with:
+                path: "~/.npm"
+                key: "${{ runner.os }}-npm-markdown-link-check"
+        -
+            name: "Install markdown-link-check"
+            run: "npm install --global markdown-link-check"
+        -
+            name: "Check Markdown links"
+            run: |
+                git ls-files -z -- '*\.md' \
+                    | xargs -0 -- npm exec -- markdown-link-check -p -c markdown-link-check.json
