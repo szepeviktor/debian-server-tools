@@ -2,7 +2,7 @@
 
 ### Datasheets
 
-- Server ([server.yaml](/server.yml))
+- Server ([server.yaml](/debian-setup/server.yml))
 - Website ([hosting.yaml](/webserver/hosting.yml))
 - Project readme ([Project.md](/webserver/Project.md))
 - PHP extensions ([php-env-check.php](/webserver/php-env-check.php))
@@ -14,17 +14,17 @@
 - Visual change ([visualping.io](https://visualping.io/))
 - HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/), [Cryptosense](https://discovery.cryptosense.com/))
 - File changes ([tripwire-fake.sh](/monitoring/tripwire-fake.sh))
-- Application log ([laravel-report.sh](/monitoring/laravel-report.sh))
+- Application log ([laravel-report.sh](https://github.com/szepeviktor/running-laravel/blob/master/bin/laravel-report.sh))
 - Malware listing ([sitecheck.sucuri.net](https://sitecheck.sucuri.net/), [Unmask Parasites](https://www.unmaskparasites.com/))
 - PageSpeed ([PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/), [webpagetest.org](https://www.webpagetest.org/))
 - Health ([Google Search Console](https://www.google.com/webmasters/tools/) aka Webmaster Tools)
 - Traffic ([goaccess.sh](/monitoring/goaccess.sh), [HEAP](https://heapanalytics.com/), [Google Analytics](https://analytics.google.com/analytics/web/))
 - Report JavaScript, PHP (and other) errors [Sentry](https://docs.sentry.io/server/installation/),
-  client [for browsers](https://github.com/getsentry/sentry-javascript/tree/master/packages/raven-js)
+  client [for browsers](https://github.com/getsentry/sentry-javascript/tree/develop/packages/browser)
   and [for Laravel](https://github.com/getsentry/sentry-laravel)
   on CDN [with cross-origin resource sharing](https://blog.sentry.io/2016/05/17/what-is-script-error)
 - Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/),
-  [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.com/services/additional/monitoring/),
+  [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.ru/en/services/additional/monitoring/),
   [Oh Dear!](https://ohdearapp.com/))
 - Dependencies: listed in [hosting.yaml](/webserver/hosting.yml)
 - Dependencies: OCSP response ([ocsp-check.sh](/monitoring/ocsp-check.sh))

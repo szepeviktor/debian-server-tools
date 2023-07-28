@@ -498,7 +498,6 @@ Google's [Search Quality Evaluator Guidelines](https://static.googleusercontent.
     - Kártérítés és sérelemdíj
     - Törvényekre &sect; való hivatkozás
     - Kelt és érvényesség kezdete
-    - [Felkészülés az Adatvédelmi Rendelet alkalmazására 12 lépésben](https://www.naih.hu/felkeszueles-az-adatvedelmi-rendelet-alkalmazasara.html)
 - Impresszum (csak űrlaphoz kell)
 - [ÁSZF](https://net-jog.hu/kapcsolat/) (vásárláshoz)
 - Ingyenes [NAIH Tájékoztatás az adatvédelmi nyilvántartás megszűnéséről](https://www.naih.hu/adatvedelmi-nyilvantartas)

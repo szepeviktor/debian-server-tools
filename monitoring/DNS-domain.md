@@ -5,15 +5,12 @@
 - https://cloud.google.com/dns/
 - https://constellix.com/pricing/dns/service-comparison/
 - [list] https://www.keycdn.com/blog/best-free-dns-hosting-providers/
-- [list] http://www.solvedns.com/dns-comparison/
 
 ## DNS test tools
 
 - http://intodns.com/
 - http://www.dnsinspect.com/
 - http://dnscheck.pingdom.com/
-- http://www.solvedns.com/
-- https://www.ultratools.com/domainHealthReport
 - http://dnscheck.ripe.net/
 - http://www.domain.hu/domain/regcheck/ (for .hu TLD)
 - https://www.buddyns.com/delegation-lab/
@@ -22,13 +19,9 @@
 - `http://intodns.com/DOMAIN`
 - `http://www.dnsinspect.com/DOMAIN`
 - `http://dnscheck.pingdom.com/?domain=DOMAIN`
-- `http://www.solvedns.com/DOMAIN`
-- `https://www.ultratools.com/domainHealthReport`
 - `http://dnscheck.ripe.net/`
 - `http://www.domain.hu/domain/regcheck/?dname=DOMAIN` (for .hu TLD)
 - `https://www.buddyns.com/delegation-lab/DOMAIN`
-
-[DNS Hosting Speed](https://www.ultratools.com/tools/dnsHostingSpeed)
 
 [Detailed recursive DNS query](https://dnsquery.org/)
 

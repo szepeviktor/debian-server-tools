@@ -8,7 +8,7 @@
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # BASH-VERSION  :4.2+
-# DOCS          :http://www.openspf.org/SPF_Record_Syntax
+# DOCS          :http://www.open-spf.org/SPF_Record_Syntax
 # LOCATION      :/usr/local/bin/spf-survey.sh
 
 Do_spf()

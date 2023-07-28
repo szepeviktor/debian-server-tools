@@ -36,8 +36,6 @@ Leiratkozás: *Ezt a levelet azért kapja, mert*
 
 Leiratkozás: *Nem szeretne többször e-mailben értesülni akcióinkról? Ide kattinva leiratkozhat.*
 
-Jogi: NAIH azonosító
-
 Teszt-címek: our-addresses@example.com, https://mail-tester.com
 
 Kiküldési idő: 09:00 - 11:00

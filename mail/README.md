@@ -24,7 +24,7 @@
 - list: [M<sup>3</sup>AAWG members](https://www.m3aawg.org/about/roster)
 
 * https://sendgrid.com/ by Twilio has own AS, aligned DMARC through CNAME records
-* https://www.sendinblue.com/ :eu: (now Brevo) has own AS, [forced link tracking](https://help.sendinblue.com/hc/en-us/articles/209421325)
+* https://www.sendinblue.com/ :eu: (now Brevo) has own AS, [forced link tracking](https://help.brevo.com/hc/en-us/articles/209421325)
 * https://www.mailgun.com/ by Rackspace
 * https://www.mailjet.com/transactional by Mailgun
 * https://www.smtp2go.com/pricing/ on Linode
@@ -211,11 +211,6 @@ Create an alias:
 |/usr/bin/ssh -p 22 -i /home/user/.ssh/id_ecdsa user@example.com -- /usr/sbin/sendmail -f envelope-from@example.com
 ```
 
-### NAIH nyilvántartási szám - "Hungarian National Authority for Data Protection and Freedom of Information" registry
-
-- [NAIH kereső](http://81.183.229.204:8080/EMS/EMSDataProtectionRequest/Finder)
-- http://www.naih.hu/kereses-az-adatvedelmi-nyilvantartasban.html
-
 ### Courier MTA message processing order on reception
 
 1. SMTP communication
@@ -313,8 +308,8 @@ See also
 ### E-mail authentication
 
 - http://web.archive.org/web/20190205120542/https://www.unlocktheinbox.com/emailidentifieralignments/
-- http://www.openspf.org/Related_Solutions
-- http://www.openspf.org/FAQ/Common_mistakes#helo
+- http://www.open-spf.org/Related_Solutions
+- http://www.open-spf.org/FAQ/Common_mistakes#helo
 
 #### SPF (SMTP HELO, MAIL FROM:)
 
@@ -406,7 +401,7 @@ Deprecated.
 - Who (recipient name, email address, why) is subscribed
 - Unsubscribe link
 - [Forward to a friend](/mail/forward-to-a-friend.png)
-- GDPR, [NAIH nyilvántartási szám](https://www.naih.hu/bejelentkezes.html)
+- GDPR
 
 #### Email headers
 
