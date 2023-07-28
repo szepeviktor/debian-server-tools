@@ -45,4 +45,4 @@ jobs:
             name: "Check Markdown links"
             run: |
                 git ls-files -z -- '*\.md' \
-                    | xargs -0 -- npm run -- markdown-link-check -p -c markdown-link-check.json
+                    | xargs -0 -- npm exec -- markdown-link-check -p -c markdown-link-check.json
