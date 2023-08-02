@@ -88,11 +88,11 @@ Ez a regisztráció angol nyelven folyik, így a jegyzet is.
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card lenyíló lista
-- Servers / Deploy a server
+- Servers / Deploy a server / Add SSH public key
 - IP _hírnév_ ellenőrzése (Security Trails, Project Honey Pot, HE BGP Toolkit, AbuseIPDB)
 - Servers / Server listing / (szerver neve) / IP ADDRESSES / REVERSE DNS NAME Public IPv4 + IPv6
 - Kilépés (ezzel megakadályozzuk a munkamenetünk eltérítését)
-- Szerver IP címének és kapott jelszavának leírása
+- Szerver IP címének leírása
 
 ### Amazon Web Services regisztráció
 
@@ -100,7 +100,7 @@ Ez a regisztráció is angol nyelven folyik, így a jegyzet is.
 
 - https://aws.amazon.com/
 - [KeePass](https://keepass.info/) egy nyílt forráskódú jelszó menedzser
-- Account type: Professional
+- Account type: Business
 - Verification phone call: dial numbers
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))

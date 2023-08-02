@@ -16,7 +16,3 @@ block_comment_end = */
 
 [*.md]
 trim_trailing_whitespace = false
-
-[yarn.lock]
-indent_size = 2
-max_line_length = unset

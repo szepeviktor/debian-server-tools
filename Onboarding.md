@@ -90,18 +90,18 @@ This section contains preparations for secure registration.
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))
 - My Account / Billing / MANUAL
 - My Account / Billing / AUTOMATED / Credit Card drop-down
-- Servers / Deploy a server
+- Servers / Deploy a server / Add SSH public key
 - Check IP reputation (Security Trails, Project Honey Pot, HE BGP Toolkit, AbuseIPDB)
 - Servers / Server listing / (server name) / IP ADDRESSES / REVERSE DNS NAME Public IPv4 + IPv6
 - Log out (prevent session hijacking)
 - Have support enable **SMTP** for the account
-- Document server IP and password
+- Document server IP
 
 ### Amazon Web Services registration
 
 - https://aws.amazon.com/
 - [KeePass](https://keepass.info/) is an open source password manager
-- Account type: Professional
+- Account type: Business
 - Verification phone call: dial numbers
 - Support Plan: Basic
 - **Enable 2FA** ([Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2))

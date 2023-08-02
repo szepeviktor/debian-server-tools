@@ -1,8 +1,0 @@
-path: /home/USER/website/code/WP
-url: https://EXAMPLE.COM/
-debug: true
-user: viktor
-core update:
-    locale: hu_HU
-skip-plugins:
-    - whats-running

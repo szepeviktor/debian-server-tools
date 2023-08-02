@@ -23,7 +23,8 @@ add datacamp 193.150.70.0/24
 add datacamp 193.218.190.0/24
 
 # AS206092 - IPXO / SECFIREWALL
-# Legaco
+# Legaco, Panq
+add datacamp 45.86.200.0/24
 add datacamp 45.154.138.0/24
 add datacamp 63.135.161.0/24
 add datacamp 82.118.29.0/24
