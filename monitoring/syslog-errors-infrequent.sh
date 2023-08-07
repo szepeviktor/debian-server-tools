@@ -2,7 +2,7 @@
 #
 # Send interesting parts of syslog from the last 3 hours. Simple logcheck.
 #
-# VERSION       :1.0.0
+# VERSION       :1.0.1
 # DATE          :2021-03-18
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -21,7 +21,7 @@ Filter_failures()
 |alert|unknown|unable|miss[^y]|except|disable|invalid|[^e]fault|cannot|denied\
 |broken|exceed|too big|too many|unsafe|unsolicited|limit reach|unhandled|traps\
 |\\bbad\\b|corrupt|but got status|oom-killer|false|unreach|[^c]oops|ignor[ei]\
-|prohibit|timeout|blocked|unavailable|over quota"
+|prohibit|timeout|blocked|unavailable|over quota|unconfigured"
 }
 
 LOG_EXCERPT="$(mktemp --suffix=.syslog)"
