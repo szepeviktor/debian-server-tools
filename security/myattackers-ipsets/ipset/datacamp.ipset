@@ -8,6 +8,7 @@ add datacamp 84.17.46.0/24
 
 # AS212238
 #add datacamp 31.14.75.0/24
+#add datacamp 50.114.104.0/23
 #add datacamp 64.137.10.0/24
 add datacamp 64.137.43.0/24
 add datacamp 64.137.61.0/24
@@ -33,3 +34,5 @@ add datacamp 194.169.217.0/24
 
 # AS150303 - SoloRDP (QuadraNet)
 add datacamp 157.254.225.0/24
+
+# AS202044 - Getechbrothers

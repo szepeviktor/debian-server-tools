@@ -1,11 +1,12 @@
 [files]
 extend-exclude = [
+    "mail/courier-pythonfilter/",
+    "mysql/mysqltuner/",
+    "webserver/server-configs-nginx/",
     ".git/",
     "Intercom.md", # HU
-    "mail/courier-pythonfilter/",
     "mail/spam/21_KAM.cf", # Spam words
     "monitoring/README.md", # Contains router names
-    "mysql/mysqltuner/",
     "package/apt-sources/google-cloud-sdk.list", # Fingerprint
     "package/docker-backport-goaccess.sh", # base64
     "package/quicklz-build.sh", # base64
@@ -13,7 +14,6 @@ extend-exclude = [
     "security/ca/ca-web/text", # SSL certificate
     "security/myattackers-ipsets/ipset/", # International names
     "security/password2remember_hu.txt", # HU
-    "webserver/server-configs-nginx/"
 ]
 ignore-hidden = false
 
@@ -30,24 +30,26 @@ extend-ignore-re = [
 ]
 
 [default.extend-words]
-helo = "helo"
+# False positives
+"helo" = "helo"
+"chello" = "chello"
 
 [default.extend-identifiers]
 # False positives
-rsource = "rsource"
-referer = "referer"
-responsable = "responsable"
-# https://pkg.go.dev/os#pkg-constants
+"rsource" = "rsource"
+"referer" = "referer"
+"responsable" = "responsable"
+# https://manpages.debian.org/bookworm/manpages-dev/open.2.en.html#File_access_mode
 "O_WRONLY" = "O_WRONLY"
 "SSL_CK_DES_192_EDE3_CBC_WITH_MD5" = "SSL_CK_DES_192_EDE3_CBC_WITH_MD5"
-"chello" = "chello"
 "LESS_TERMCAP_ue" = "LESS_TERMCAP_ue"
 
 # Typos
-contiguities = "continuities"
-intension = "intention"
-intensional = "intentional"
-intensionally = "intentionally"
-intensionaly = "intentionally"
-pervious = "previous"
-perviously = "previously"
+"contiguities" = "continuities"
+"intension" = "intention"
+"intensional" = "intentional"
+"intensionally" = "intentionally"
+"intensionaly" = "intentionally"
+"pervious" = "previous"
+"perviously" = "previously"
+"Wordpress" = "WordPress"
