@@ -135,23 +135,23 @@ if [ "$(cat "$TEMP_JSON")" == "[]" ]; then
     # New RRs
     if [ "$TYPE" == "MX" ]; then
         printf '[
-  {
-    "name": "%s",
-    "type": "MX",
-    "priority": 10,
-    "data": "",
-    "ttl": 86400
-  }
+    {
+        "name": "%s",
+        "type": "MX",
+        "priority": 10,
+        "data": "",
+        "ttl": 86400
+    }
 ]' \
             "$NAME" > "$TEMP_JSON"
     else
         printf '[
-  {
-    "name": "%s",
-    "type": "%s",
-    "data": "",
-    "ttl": 86400
-  }
+    {
+        "name": "%s",
+        "type": "%s",
+        "data": "",
+        "ttl": 86400
+    }
 ]' \
             "$NAME" "$TYPE" > "$TEMP_JSON"
     fi

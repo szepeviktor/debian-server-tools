@@ -40,14 +40,14 @@ smtp-auth v$(Get_version "$0")
 Usage: $(basename "$0") <OPTION> ...
 Test SMTPS authentication.
 
-  -s <SERVER>       SMTPS server
-  -p <PORT>         SMTPS port (default: 465)
-  -u <USER>         SMTPS username
-  -w <PASSWORD>     SMTPS password
-  -a                Test authentication support
-  -P                PLAIN authentication
-  -L                LOGIN authentication
-  -C                CRAM-MD5 authentication
+    -s <SERVER>     SMTPS server
+    -p <PORT>       SMTPS port (default: 465)
+    -u <USER>       SMTPS username
+    -w <PASSWORD>   SMTPS password
+    -a              Test authentication support
+    -P              PLAIN authentication
+    -L              LOGIN authentication
+    -C              CRAM-MD5 authentication
 EOF
     exit 0
 }

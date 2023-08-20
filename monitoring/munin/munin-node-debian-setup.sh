@@ -3,7 +3,7 @@
 # Install munin node.
 #
 
-# @REWRITE: install&configure plugins per debian pkg, 
+# @REWRITE: install&configure plugins per debian pkg,
 # apt-get install munin-plugin-mysql
 #
 # +plugins https://packages.debian.org/source/experimental/munin  v2.999.x

@@ -19,15 +19,15 @@ $servers['imap'] = array(
     ),
     // 'debug' => '/home/horde/website/log/horde-debug.log',
     'spam' => array(
-         'innocent' => array(
-             'display' => true,
-             // Revoke and also unlearn
-             'program' => '/usr/bin/spamc --reporttype=revoke --max-size=1048576',
-         ),
-         'spam' => array(
-             'display' => false,
-             // Report and also learn
-             'program' => '/usr/bin/spamc --reporttype=report --max-size=1048576',
-         ),
+        'innocent' => array(
+            'display' => true,
+            // Revoke and also unlearn
+            'program' => '/usr/bin/spamc --reporttype=revoke --max-size=1048576',
+        ),
+        'spam' => array(
+            'display' => false,
+            // Report and also learn
+            'program' => '/usr/bin/spamc --reporttype=report --max-size=1048576',
+        ),
     ),
 );

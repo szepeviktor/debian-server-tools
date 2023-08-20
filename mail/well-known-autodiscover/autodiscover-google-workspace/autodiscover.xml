@@ -27,7 +27,7 @@ nntp: The values under this Account tag indicate configuration settings for a NN
 This value indicates if the goal of this account results is to provide the settings or redirect to another web server that can provide results.
 VALUES:
 redirectUrl: If this value is specified, then the URL tag will specify the http: or https: URL containing the Autodiscover results to be used.  In order to prevent the server from being able to send the client into an infinite loop, the client should stop redirecting after 10 redirects.
-redirectAddr: If this value is specified, then the XML tag will specify the e-mail address that Outlook should use to execute Autodiscover again.  In other words, the server is telling the client that the e-mail address the client should really be using for Autodiscover is not the one that was posted, but the one specified in this tag. 
+redirectAddr: If this value is specified, then the XML tag will specify the e-mail address that Outlook should use to execute Autodiscover again.  In other words, the server is telling the client that the e-mail address the client should really be using for Autodiscover is not the one that was posted, but the one specified in this tag.
 settings: If this value is specified, then the XML will contain the settings needed to configure the account.  The settings will primarily be under the PROTOCOL tag.
 -->
 <Action>settings</Action>

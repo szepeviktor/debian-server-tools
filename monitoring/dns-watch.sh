@@ -403,7 +403,7 @@ for DOMAIN in "${DNS_WATCH[@]}"; do
 
             # Failures per nameserver
             if [ -z "${NS_FAILURES[$NS_IP]}" ]; then
-               declare -i NS_FAILURES[$NS_IP]="0"
+                declare -i NS_FAILURES[$NS_IP]="0"
             fi
             # UDP and TCP lookup
             for PROTO in "" "T/"; do

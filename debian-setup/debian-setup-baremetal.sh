@@ -37,8 +37,8 @@ grep "^ARRAY" /etc/mdadm/mdadm.conf|cut -d' ' -f2
 
 cat <<EOF > /etc/monit/monitrc.d/mdadm-fs
 check filesystem dev_md0 with path /dev/md/0
-  group mdadm
-  if space usage > 80% for 5 times within 15 cycles then alert
+    group mdadm
+    if space usage > 80% for 5 times within 15 cycles then alert
 EOF
 
 apt-get install -y ipmitool

@@ -14,7 +14,7 @@
 FILE_GLOB="*.php"
 
 # Hungarian alphabet
-ALPHABET="ÁáÉéÍíÓóÖöŐőÚúÜüŰű"
+ALPHABET="ÁÉÍÓÖŐÚÜŰáéíóöőúüű"
 # Euro sign
 #ALPHABET+="€"
 # Polish alphabet

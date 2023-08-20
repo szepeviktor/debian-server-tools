@@ -4,10 +4,10 @@ To: @@EMAIL@@
 Reply-To: user@example.com
 List-ID: ${ID}-$(date -R | md5sum | cut -d" " -f1)
 List-Unsubscribe: <mailto:unsub@example.com?subject=unsubscribe_@@CAMPAIGN@@_@@EMAIL40@@>
-	<https://example.com/hirlevel/?c=@@CAMPAIGN@@&e=@@EMAIL40@@&h=@@CRYPT@@>
+    <https://example.com/hirlevel/?c=@@CAMPAIGN@@&e=@@EMAIL40@@&h=@@CRYPT@@>
 List-Unsubscribe-Post: List-Unsubscribe=One-Click
 X-Report-Abuse: Please report abuse here:
-	mailto:abuse@example.com
+    mailto:abuse@example.com
 Precedence: bulk
 X-Auto-Response-Suppress: OOF, AutoReply
 Auto-Submitted: auto-generated

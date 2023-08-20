@@ -62,18 +62,18 @@ done
 TEMP_JSON="$(mktemp)"
 trap 'rm -f "$TEMP_JSON"' EXIT HUP INT QUIT PIPE TERM
 printf '{
-  "client": {
-    "clientId": "%s",
-    "clientVersion": "%s"
-  },
-  "threatInfo": {
-    "threatTypes": ["THREAT_TYPE_UNSPECIFIED", "MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION"],
-    "platformTypes": ["ANY_PLATFORM"],
-    "threatEntryTypes": ["URL"],
-    "threatEntries": [
-      %s
-    ]
-  }
+    "client": {
+        "clientId": "%s",
+        "clientVersion": "%s"
+    },
+    "threatInfo": {
+        "threatTypes": ["THREAT_TYPE_UNSPECIFIED", "MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION"],
+        "platformTypes": ["ANY_PLATFORM"],
+        "threatEntryTypes": ["URL"],
+        "threatEntries": [
+            %s
+        ]
+    }
 }' \
     "$CLIENT_ID" \
     "$CLIENT_VERSION" \

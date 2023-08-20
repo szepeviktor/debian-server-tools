@@ -7,60 +7,60 @@
 # https://github.com/travis-ci/travis-build/tree/master/lib/travis/build/bash
 
 _shared_script_check_author: &script_check_author |
-  Check_author()
-  {
-    local author="$1"
-    local github_api_url="https://api.github.com/search/users"
-    echo "Checking ${author} ..."
-    test "${author%@users.noreply.github.com}" == "${author}" || return 0
-    curl -s -G --data-urlencode "q=type:user in:email ${author}" "${github_api_url}" \
-      | grep -F -x '  "total_count": 1,'
-  }
-  test -z "${TRAVIS_COMMIT_RANGE}" \
-    || git show --no-patch --pretty="format:%ae" "${TRAVIS_COMMIT_RANGE}" \
-    | sort -u \
-    | while read -r author; do Check_author "${author}"; done
+    Check_author()
+    {
+        local author="$1"
+        local github_api_url="https://api.github.com/search/users"
+        echo "Checking ${author} ..."
+        test "${author%@users.noreply.github.com}" == "${author}" || return 0
+        curl -s -G --data-urlencode "q=type:user in:email ${author}" "${github_api_url}" \
+            | grep -F -x '  "total_count": 1,'
+    }
+    test -z "${TRAVIS_COMMIT_RANGE}" \
+        || git show --no-patch --pretty="format:%ae" "${TRAVIS_COMMIT_RANGE}" \
+        | sort -u \
+        | while read -r author; do Check_author "${author}"; done
 
 _shared_script_check_executable: &script_check_executable |
-  # Scripts should be executable, all other files should not be executable
-  test -z "$(find bin/ -type f -name "*.sh" -not -executable)"
-  test -z "$(find . -type f -not -path "./.git/*" -not -path "./bin/*.sh" -executable)"
+    # Scripts should be executable, all other files should not be executable
+    test -z "$(find bin/ -type f -name "*.sh" -not -executable)"
+    test -z "$(find . -type f -not -path "./.git/*" -not -path "./bin/*.sh" -executable)"
 
 _shared_script_verify_exported_files: &script_verify_exported_files |
-  EXPECTED_FILES="CONTRIBUTING.md,LICENSE,README.md,composer.json,phpcs.xml.dist,phpstan.neon.dist,phpunit.xml.dist"
-  mkdir -p tests/ourselves
-  echo '{"repositories":[{"type":"path","url":"../../../","options":{"symlink":false}}],"minimum-stability":"dev"}' >tests/ourselves/composer.json
-  composer require --working-dir=tests/ourselves 'vendor/name:*'
-  CURRENT_FILES="$(find tests/ourselves/vendor/vendor/name/ -type f -not -path 'tests/ourselves/vendor/vendor/name/src/*' -printf '%f\0'|LC_ALL=C sort -z|paste -s -z -d ','|tr -d '\000')"
-  echo "$EXPECTED_FILES"
-  echo "$CURRENT_FILES"
-  test "$EXPECTED_FILES" == "$CURRENT_FILES"
+    EXPECTED_FILES="CONTRIBUTING.md,LICENSE,README.md,composer.json,phpcs.xml.dist,phpstan.neon.dist,phpunit.xml.dist"
+    mkdir -p tests/ourselves
+    echo '{"repositories":[{"type":"path","url":"../../../","options":{"symlink":false}}],"minimum-stability":"dev"}' >tests/ourselves/composer.json
+    composer require --working-dir=tests/ourselves 'vendor/name:*'
+    CURRENT_FILES="$(find tests/ourselves/vendor/vendor/name/ -type f -not -path 'tests/ourselves/vendor/vendor/name/src/*' -printf '%f\0'|LC_ALL=C sort -z|paste -s -z -d ','|tr -d '\000')"
+    echo "$EXPECTED_FILES"
+    echo "$CURRENT_FILES"
+    test "$EXPECTED_FILES" == "$CURRENT_FILES"
 
 _shared_script_install_phive: &script_install_phive |
-  # Install PHIVE (cached)
-  if [ ! -r "${HOME}/.phive/phive.phar" ]; then
-    mkdir -p "${HOME}/bin" "${HOME}/.phive"
-    if [ "$(phpenv version-name)" == 7.1 ]; then
-      # PHIVE v0.13.3 last version supporting PHP 7.1
-      travis_retry wget -O "${HOME}/.phive/phive.phar" \
-        "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar"
-      travis_retry wget -O "${HOME}/.phive/phive.phar.asc" \
-        "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar.asc"
-    else
-      travis_retry wget -O "${HOME}/.phive/phive.phar" "https://phar.io/releases/phive.phar"
-      travis_retry wget -O "${HOME}/.phive/phive.phar.asc" "https://phar.io/releases/phive.phar.asc"
+    # Install PHIVE (cached)
+    if [ ! -r "${HOME}/.phive/phive.phar" ]; then
+        mkdir -p "${HOME}/bin" "${HOME}/.phive"
+        if [ "$(phpenv version-name)" == 7.1 ]; then
+            # PHIVE v0.13.3 last version supporting PHP 7.1
+            travis_retry wget -O "${HOME}/.phive/phive.phar" \
+                "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar"
+            travis_retry wget -O "${HOME}/.phive/phive.phar.asc" \
+                "https://github.com/phar-io/phive/releases/download/0.13.3/phive-0.13.3.phar.asc"
+        else
+            travis_retry wget -O "${HOME}/.phive/phive.phar" "https://phar.io/releases/phive.phar"
+            travis_retry wget -O "${HOME}/.phive/phive.phar.asc" "https://phar.io/releases/phive.phar.asc"
+        fi
+        travis_retry gpg --batch --keyserver keys.openpgp.org --keyserver-options timeout=30 \
+            --recv-keys 0x9D8A98B29B2D5D79
+        if ! gpg --batch --verify "${HOME}/.phive/phive.phar.asc" "${HOME}/.phive/phive.phar"; then
+            echo "Invalid phive signature" 1>&2
+            rm -f "${HOME}/.phive/phive.phar"
+            exit 11
+        fi
+        rm "${HOME}/.phive/phive.phar.asc"
     fi
-    travis_retry gpg --batch --keyserver keys.openpgp.org --keyserver-options timeout=30 \
-      --recv-keys 0x9D8A98B29B2D5D79
-    if ! gpg --batch --verify "${HOME}/.phive/phive.phar.asc" "${HOME}/.phive/phive.phar"; then
-      echo "Invalid phive signature" 1>&2
-      rm -f "${HOME}/.phive/phive.phar"
-      exit 11
-    fi
-    rm "${HOME}/.phive/phive.phar.asc"
-  fi
-  install --verbose --mode=0755 --no-target-directory -D "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
-  export PATH="${HOME}/bin:${PATH}"
+    install --verbose --mode=0755 --no-target-directory -D "${HOME}/.phive/phive.phar" "${HOME}/bin/phive"
+    export PATH="${HOME}/bin:${PATH}"
 
 # On CI-s without "travis_retry"
 # gpg --batch --keyserver keys.openpgp.org --keyserver-options timeout=30 --recv-keys 0x9D8A98B29B2D5D79 \
@@ -70,7 +70,7 @@ if: "branch = master"
 
 language: "php"
 os:
-  - "linux"
+- "linux"
 # 12.04 Precise: 5.2 - 7.3
 # 14.04 Trusty: 5.4 - 7.4
 # 16.04 Xenial: 5.6 - 8.1
@@ -80,40 +80,41 @@ os:
 dist: "bionic"
 
 stages:
-  - "commits"
-  - "test"
+- "commits"
+- "test"
 
 env:
-  global:
+    global:
     - APP_ENV: "testing"
 
 jobs:
-  include:
-    - stage: "commits"
-      name: "Check committers have a GitHub account"
-      before_install: "skip"
-      install: "skip"
-      before_script: "skip"
-      script: *script_check_author
-      after_script: "skip"
-
-    - stage: "commits"
-      name: "Check file permissions"
-      before_install: "skip"
-      install: "skip"
-      before_script: "skip"
-      script: *script_check_executable
-      after_script: "skip"
+    include:
+    -
+        stage: "commits"
+        name: "Check committers have a GitHub account"
+        before_install: "skip"
+        install: "skip"
+        before_script: "skip"
+        script: *script_check_author
+        after_script: "skip"
+    -
+        stage: "commits"
+        name: "Check file permissions"
+        before_install: "skip"
+        install: "skip"
+        before_script: "skip"
+        script: *script_check_executable
+        after_script: "skip"
 
 cache:
-  directories:
+    directories:
     - "${HOME}/.phive"
     - "${HOME}/.composer/cache"
 
 before_install:
-  - "phpenv config-rm xdebug.ini"
-  - *script_install_phive
-  - "travis_retry phive install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2"
-  # Use Composer v1
-  - "composer self-update --1"
-  - "composer validate --strict"
+- "phpenv config-rm xdebug.ini"
+- *script_install_phive
+- "travis_retry phive install --force-accept-unsigned --trust-gpg-keys TRUSTED-KEY1,TRUSTED-KEY2"
+# Use Composer v1
+- "composer self-update --1"
+- "composer validate --strict"

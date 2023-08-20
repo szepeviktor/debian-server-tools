@@ -28,7 +28,7 @@
 # ? time synchronization to hypervisor, no ntpd (tsc_mode=2)
 # http://xenbits.xen.org/docs/4.3-testing/misc/tscmode.txt
 # ? Will there be PV guests?
-# 
+#
 # ? local services: DNS resolver, email forwarding for monitoring, NTP=179.43.191.2
 # ? default PTR: IPhex.client.privatelayer.com
 # ? docs on gateway IP

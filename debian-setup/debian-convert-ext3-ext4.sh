@@ -20,7 +20,7 @@ cat > /etc/initramfs-tools/hooks/tune2fs <<"EOF"
 PREREQ=""
 
 prereqs() {
-     echo "$PREREQ"
+    echo "$PREREQ"
 }
 
 case "$1" in
@@ -43,7 +43,7 @@ cat > /etc/initramfs-tools/scripts/init-premount/ext4 <<"EOF"
 PREREQ=""
 
 prereqs() {
-     echo "$PREREQ"
+    echo "$PREREQ"
 }
 
 case "$1" in

@@ -95,75 +95,72 @@ cruft:
 # Users of this server
 users:
 
-  #"User Name":
-  #  type: user account|empty domain|email account|cron job|Piwik|OWA|website|mailman|mirror
-  #  services:
-  #      - service 1
-  #      - service 2
+    #"User Name":
+    #  type: user account|empty domain|email account|cron job|Piwik|OWA|website|mailman|mirror
+    #  services:
+    #      - service 1
+    #      - service 2
 
 # Services provided by this server
 services:
 
-  private:
+    private:
 
-    #"service name 1":
-    #  type: daemon|login script|cron job
-    #  transport: tcp/123|php-ext|vhost|uds|name-service
-    #  source: non-packaged|non-repo
-    #  location: /path/dir
-    #  description: text
-    #"service name 2":
-    #  type: daemon
-    #  transport: tcp/443
-    #  description: vhost.name
-    irqbalance:
-      type: daemon
-    fail2ban:
-      type: daemon
-      transport: uds
-    suhosin:
-      type: php-ext
-      source: non-packaged
-      description: /usr/lib/php5/20121212
-    mod-pagespeed:
-      # daemon or Apache module?
-    drush:
-      source: composer
-      location: /opt/drush
-    courier-mta:
-      type: daemon
-      transport: [ tcp/25, tcp/465, tcp/587 ]
-    spamassassin:
-      type: daemon
-      transport: tcp/783
-    monit:
-      type: daemon
-      transport: uds
-    vmwaretools:
-      transport: VMCI socket
-      description: Virtual Machine Communication Interface
-    unattended-upgrades:
-      type: cron job
-    unscd:
-      type: daemon
-      transport: name service
-    mariadb:
-      type: daemon
-      transport: [ tcp/3306, uds ]
-    php7.4-fpm:
-      type: daemon
-      transport: uds
-    syslog-errors:
-      type: cron job
+        #"service name 1":
+        #  type: daemon|login script|cron job
+        #  transport: [ tcp/123|php-ext|vhost|uds|name-service ]
+        #  source: non-packaged|non-repo
+        #  location: /path/dir
+        #  description: text
+        #"service name 2":
+        #  type: daemon
+        #  transport: [ tcp/443 ]
+        #  description: vhost.name
+        irqbalance:
+            type: daemon
+        fail2ban:
+            type: daemon
+            transport: [ uds ]
+        suhosin:
+            type: php-ext
+            source: non-packaged
+            description: /usr/lib/php5/20121212
+        mod-pagespeed:
+            # daemon or Apache module?
+        courier-mta:
+            type: daemon
+            transport: [ tcp/25, tcp/465, tcp/587 ]
+        spamassassin:
+            type: daemon
+            transport: [ tcp/783 ]
+        monit:
+            type: daemon
+            transport: [ uds ]
+        vmwaretools:
+            transport: [ VMCI-socket ]
+            description: Virtual Machine Communication Interface
+        unattended-upgrades:
+            type: cron job
+        unscd:
+            type: daemon
+            transport: [ nameservice ]
+        mariadb:
+            type: daemon
+            transport: [ tcp/3306, uds ]
+        php7.4-fpm:
+            type: [ daemon ]
+            transport: uds
+        syslog-errors:
+            type: cron job
 
-  public:
+    public:
 
-    munin-node:
-      type: daemon
-      transport: tcp/4949
-    apache2:
-      type: daemon
-      transport: [ tcp/80, tcp/443 ]
+        munin-node:
+            type: daemon
+            transport: [ tcp/4949 ]
+        apache2:
+            type: daemon
+            transport: [ tcp/80, tcp/443 ]
 
 # Package management
 packaging:

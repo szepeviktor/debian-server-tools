@@ -6,7 +6,7 @@ Extract all attachments from messages in mailbox, or file.
 Attachments are stored in unique files within <directory> (default:
 "."), using the names supplied in their headers, or, if not supplied,
 (or the "--usefrom" flag is specified) the name
-  YYYY_MM_DD.HH:MM:SS.<sender@site>.<number>[.<count>].<ext>
+	YYYY_MM_DD.HH:MM:SS.<sender@site>.<number>[.<count>].<ext>
 where the date is taken from the message header and <number> is the
 attachment's order within the message.
 

@@ -124,21 +124,21 @@ GNU General Public License for more details.
 A very simple RFC 2047 Unicode e-mail header field converter.
 
 Usage:
-  $0 [-c] -d
-  $0 -e
+    $0 [-c] -d
+    $0 -e
 
 The program reads header lines from standard input and tries
 to decode or encode them.
 
 Operation modes:
-  -d decode (MIME-Header --> UTF-8)
-  -e encode (UTF-8 --> MIME-Header)
+    -d decode (MIME-Header --> UTF-8)
+    -e encode (UTF-8 --> MIME-Header)
 
 Options:
-  -c concatenate multiple output lines into 1
+    -c concatenate multiple output lines into 1
 
 Example:
-  echo "=?UTF-8?B?emHFvMOzxYLEhyBnxJnFm2zEhSBqYcW6xYQ=?=" | perl conv2047.pl -d
+    echo "=?UTF-8?B?emHFvMOzxYLEhyBnxJnFm2zEhSBqYcW6xYQ=?=" | perl conv2047.pl -d
 ENDHELP
 }
 
@@ -168,7 +168,7 @@ while (my $line = <>) {
     # debug("[$k] got line [2]: $line");
 
     my $output = ($wantConcat ? $line : "$line\n");
-       $output = encode('UTF-8', $output);
+    $output = encode('UTF-8', $output);
     print(STDOUT $output);
 
     $k++;

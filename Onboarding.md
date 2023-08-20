@@ -173,10 +173,6 @@ Verify your URL
 - My email address: `webmaster@`
 - Teamwork in one Gmail inbox: [Drag](https://www.dragapp.com/)
 
-<!--
-- Email 2.0 for work: [Consider](https://consider.co/) (Gmail only)
--->
-
 ### Infrastructure setup
 
 - Document in hosting.yml and server.yml (Skype, `Ugyfelek.yml`, KeePass)

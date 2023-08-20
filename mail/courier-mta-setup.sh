@@ -94,19 +94,19 @@ MYSQL_QUOTA_FIELD       quota
 MYSQL_UID_FIELD         uid
 
 CREATE TABLE IF NOT EXISTS `passwords` (
-  `id` char(128) CHARACTER SET latin1 NOT NULL,
-  `crypt` char(128) CHARACTER SET latin1 NOT NULL,
-  `clear` char(128) CHARACTER SET latin1 NOT NULL,
-  `name` char(128) CHARACTER SET latin1 NOT NULL,
-  `uid` int(10) unsigned NOT NULL DEFAULT '1',
-  `gid` int(10) unsigned NOT NULL DEFAULT '1',
-  `home` char(255) CHARACTER SET latin1 NOT NULL,
-  `maildir` char(255) CHARACTER SET latin1 NOT NULL,
-  `defaultdelivery` char(255) CHARACTER SET latin1 NOT NULL,
-  `quota` char(255) CHARACTER SET latin1 NOT NULL
+    `id` char(128) CHARACTER SET latin1 NOT NULL,
+    `crypt` char(128) CHARACTER SET latin1 NOT NULL,
+    `clear` char(128) CHARACTER SET latin1 NOT NULL,
+    `name` char(128) CHARACTER SET latin1 NOT NULL,
+    `uid` int(10) unsigned NOT NULL DEFAULT '1',
+    `gid` int(10) unsigned NOT NULL DEFAULT '1',
+    `home` char(255) CHARACTER SET latin1 NOT NULL,
+    `maildir` char(255) CHARACTER SET latin1 NOT NULL,
+    `defaultdelivery` char(255) CHARACTER SET latin1 NOT NULL,
+    `quota` char(255) CHARACTER SET latin1 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `passwords`
-  ADD UNIQUE KEY `id` (`id`);
+    ADD UNIQUE KEY `id` (`id`);
 # @TODO Test utf8.
 
 # Privileges for `courierauthu`@`localhost`

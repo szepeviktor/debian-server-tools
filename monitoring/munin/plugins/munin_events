@@ -32,12 +32,12 @@ INFO, WARNING, ERROR, FATAL.
 
 =head1 MAGIC MARKERS
 
-  #%# family=contrib
-  #%# capabilities=autoconf
+    #%# family=contrib
+    #%# capabilities=autoconf
 
 =head1 VERSION
 
-  1.2.20160514
+    1.2.20160514
 
 =head1 AUTHOR
 

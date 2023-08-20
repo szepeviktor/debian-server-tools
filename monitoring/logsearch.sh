@@ -44,24 +44,24 @@ logsearch v$(Get_version "$0")
 Usage: $(basename "$0") [OPTION] [PATTERN]
 Searches all Apache logs and displays selected log fields.
 
-  -l                include log path
-  -w                include log filename only (website)
-  -d                include request date/time
-  -i                include IP address
-  -r                include the request line
-  -n                include status code
-  -f                include referer
-  -u                include user agent
-  -q                show only unique lines
-  -s                numeric sort
-  -t                sort by IP
-  -c                show only line count
-  -m                display the output by \`most\`
-  -p                replace IP dots with \\.
-  -o                parse previous logs (log.1)
-  -e                parse error logs
-  -x <FILE>         use the specified log file
-  -h                display this help
+    -l          include log path
+    -w          include log filename only (website)
+    -d          include request date/time
+    -i          include IP address
+    -r          include the request line
+    -n          include status code
+    -f          include referer
+    -u          include user agent
+    -q          show only unique lines
+    -s          numeric sort
+    -t          sort by IP
+    -c          show only line count
+    -m          display the output by \`most\`
+    -p          replace IP dots with \\.
+    -o          parse previous logs (log.1)
+    -e          parse error logs
+    -x <FILE>   use the specified log file
+    -h          display this help
 EOF
     exit
 }

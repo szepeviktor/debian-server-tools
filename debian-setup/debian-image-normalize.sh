@@ -92,7 +92,8 @@ Info "Mark dependencies of standard packages as automatic"
 
 set +x
 for DEP in $(${APTI_SEARCH} \
- '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))'); do
+    '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))')
+do
     REGEXP="$(sed -e 's#\([^a-z0-9]\)#[\1]#g' <<<"$DEP")"
     if aptitude why "$DEP" 2>&1 | grep -q -E "^i.. \\S+\\s+(Pre)?Depends( | .* )${REGEXP}( |\$)"; then
         apt-mark auto "$DEP" || echo "[ERROR] Marking package ${DEP} failed." 1>&2
@@ -102,16 +103,21 @@ set -x
 
 Info "Install standard packages"
 
-STANDARD_PACKAGES="$(${APTI_SEARCH} \
- '?and(?archive(stable), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)), ?architecture(native))' \
- | grep -Evx "$STANDARD_BLACKLIST")"
+STANDARD_PACKAGES="$(
+    ${APTI_SEARCH} \
+        '?and(?archive(stable), ?or(?essential, ?priority(required), ?priority(important), ?priority(standard)), ?architecture(native))' \
+        | grep -Evx "$STANDARD_BLACKLIST"
+)"
 # shellcheck disable=SC2086
 apt-get -qq install ${STANDARD_PACKAGES}
 
 Info "Install missing recommended packages"
 
-MISSING_RECOMMENDS="$(${APTI_SEARCH} \
- '?and(?reverse-recommends(?installed), ?version(TARGET), ?not(?installed), ?architecture(native))' | grep -Evx "$STANDARD_BLACKLIST" || true)"
+MISSING_RECOMMENDS="$(
+    ${APTI_SEARCH} \
+        '?and(?reverse-recommends(?installed), ?version(TARGET), ?not(?installed), ?architecture(native))' \
+        | grep -Evx "$STANDARD_BLACKLIST" || true
+)"
 # shellcheck disable=SC2086
 apt-get -qq install ${MISSING_RECOMMENDS}
 echo "$MISSING_RECOMMENDS" | xargs -r -L 1 apt-mark auto
@@ -119,9 +125,12 @@ echo "$MISSING_RECOMMENDS" | xargs -r -L 1 apt-mark auto
 Info "Remove non-standard packages"
 
 # See override.${CODENAME}.main.gz at http://ftp.debian.org/debian/indices/
-MANUALLY_INSTALLED="$(${APTI_SEARCH} \
- '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' \
- | grep -Evx "$BOOT_PACKAGES" | tee removed.pkgs || true)"
+MANUALLY_INSTALLED="$(
+    ${APTI_SEARCH} \
+        '?and(?installed, ?not(?automatic), ?not(?essential), ?not(?priority(required)), ?not(?priority(important)), ?not(?priority(standard)))' \
+        | grep -Evx "$BOOT_PACKAGES" \
+        | tee removed.pkgs || true
+)"
 # shellcheck disable=SC2086
 apt-get purge -qq ${MANUALLY_INSTALLED}
 

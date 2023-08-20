@@ -21,7 +21,12 @@ https://rakhesh.com/windows/how-to-undo-changes-made-by-winrm-quickconfig/
 $UserCredential = Get-Credential
 # Enter admin account and password
 
-$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $UserCredential -Authentication Basic -AllowRedirection
+$Session = New-PSSession `
+    -ConfigurationName Microsoft.Exchange `
+    -ConnectionUri https://outlook.office365.com/powershell-liveid/ `
+    -Credential $UserCredential `
+    -Authentication Basic `
+    -AllowRedirection
 Import-PSSession $Session -DisableNameChecking
 ```
 

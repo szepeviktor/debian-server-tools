@@ -49,9 +49,9 @@ function range2cidr(ipStart, ipEnd,    bits, mask, newip) {
     while (bits < 32) {
         newip = bit_or(ipStart, mask)
         if ((newip>ipEnd) || ((bit_lshift(bit_rshift(ipStart,bits),bits)) != ipStart)) {
-           bits--
-           mask = bit_rshift(mask,1)
-           break
+            bits--
+            mask = bit_rshift(mask,1)
+            break
         }
         bits++
         mask = bit_lshift(mask,1)+1

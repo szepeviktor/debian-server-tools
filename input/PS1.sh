@@ -133,7 +133,7 @@ function __prompt_command() {
     PS1=""
 
     if [ "$RET" != 0 ]; then
-       # Can add `kill -l $?` to test to filter backgrounded
-       PS1+="${white}${redBG}${RET}${reset}"
+        # Can add `kill -l $?` to test to filter backgrounded
+        PS1+="${white}${redBG}${RET}${reset}"
     fi
 }

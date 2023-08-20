@@ -30,7 +30,8 @@ SELECT CONCAT(
     `tbl`.`TABLE_NAME`,
     '` ',
     @engine_string,
-    ';' ) AS `alters`
-  FROM `information_schema`.`TABLES` `tbl`
-  WHERE `tbl`.`TABLE_SCHEMA` = @data_base
-  LIMIT 0,1000;
+    ';'
+) AS `alters`
+FROM `information_schema`.`TABLES` `tbl`
+WHERE `tbl`.`TABLE_SCHEMA` = @data_base
+LIMIT 0, 1000;

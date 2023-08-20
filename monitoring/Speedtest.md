@@ -2,8 +2,6 @@
 
 [Timing details with curl](https://blog.josephscott.org/2011/10/14/timing-details-with-curl/)
 
-<!-- markdown-link-check-disable -->
-
 ### Target country speed test
 
 - speedtest-cli 100+

@@ -78,3 +78,5 @@ fi
 # Save iptables chains and rules except Fail2ban rules
 /sbin/iptables-save | grep -E -v '(:|\s)f2b-' >/etc/iptables/rules.v4
 /sbin/ip6tables-save | grep -E -v '(:|\s)f2b-' >/etc/iptables/rules.v6
+
+echo "OK."
