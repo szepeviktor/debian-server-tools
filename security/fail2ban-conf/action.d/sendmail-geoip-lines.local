@@ -11,7 +11,7 @@ actionban = printf %%b "X-Fail2ban: <ip>,<sender>
             Date: `LC_ALL=C date '+%%a, %%d %%h %%Y %%T %%z'`
             From: <sendername> <<sender>>
             To: <dest>\n
-            <failures> attempts against <name> - http://szepeviktor.github.io/ip-info/?<ip> https://bgp.he.net/ip/<ip>\n
+            <failures> attempts against <name> - https://www.abuseipdb.com/check/<ip> https://bgp.he.net/ip/<ip>\n
             https://toolbox.googleapps.com/apps/dig/#TXT/<ip-rev>abuse-contacts.abusix.org\n\n
             Country: `mmdblookup --file /var/lib/GeoIP/GeoLite2-Country.mmdb --ip '<ip>' registered_country iso_code | sed -n -e '0,/.*"\([A-Z]\+\)".*/s//\1/p'`
             AS: `mmdblookup --file /var/lib/GeoIP/GeoLite2-ASN.mmdb --ip '<ip>' | sed -n -e 's/^\s\+\(\([0-9]\+\)\|"\(.\+\)"\) <\S\+>$/\2\3/;TNext;x;/./{x;H;bNext};x;h;:Next;${x;s/\n/ /g;s/^/AS/;p}'`

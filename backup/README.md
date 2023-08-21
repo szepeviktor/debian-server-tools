@@ -221,7 +221,7 @@ openstack --os-cloud ${CLOUD_NAME} object list ${CONTAINER_NAME}
 - https://www.exoscale.ch/object-storage/
 - https://www.profitbricks.de/
 - https://auro.io/public_cloud_hosting/product
-- `https://www.pcextreme.com/aurora/objects`
+- https://web.archive.org/web/20180901071849/https://www.pcextreme.com/aurora/objects
 - https://zetta.io/en/products/object-storage/
 - https://www.e24cloud.com/en/cloud-features/files-in-the-cloud/
 - https://dunkel.de/s3
