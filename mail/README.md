@@ -583,7 +583,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - http://www.barracudacentral.org/lookups
 - http://www.cyren.com/ip-reputation-check.html
 - http://www.mcafee.com/threat-intelligence/ip/spam-senders.aspx [lookup](http://www.mcafee.com/threat-intelligence/ip/default.aspx?ip=1.2.3.4)
-- http://ipremoval.sms.symantec.com/lookup/
+- https://ipremoval.sms.symantec.com/
 - https://postmaster.aol.com/ip-reputation
 
 #### Threat Centers

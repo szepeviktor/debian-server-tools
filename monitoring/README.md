@@ -23,8 +23,10 @@
   client [for browsers](https://github.com/getsentry/sentry-javascript/tree/develop/packages/browser)
   and [for Laravel](https://github.com/getsentry/sentry-laravel)
   on CDN [with cross-origin resource sharing](https://blog.sentry.io/2016/05/17/what-is-script-error)
-- Uptime ([monit](/monitoring/monit/services), [pingdom.com](https://www.pingdom.com/),
-  [hetrixtools.com](https://hetrixtools.com/), [selectel.com](https://selectel.ru/en/services/additional/monitoring/),
+- Uptime ([monit](/monitoring/monit/services),
+  [pingdom.com](https://www.pingdom.com/),
+  [hetrixtools.com](https://hetrixtools.com/),
+  [selectel.com](https://docs.selectel.com/cloud-services/monitoring/description/),
   [Oh Dear!](https://ohdearapp.com/))
 - Dependencies: listed in [hosting.yaml](/webserver/hosting.yml)
 - Dependencies: OCSP response ([ocsp-check.sh](/monitoring/ocsp-check.sh))
@@ -75,7 +77,7 @@ https://github.com/errbit/errbit , https://github.com/airbrake/airbrake-js ,
 
 ### Performance tools
 
-http://www.perf-tooling.today/tools
+https://web.archive.org/web/20220120175537/http://www.perf-tooling.today/tools
 
 ### Search for errors in a log file
 
@@ -130,7 +132,7 @@ dmidecode -s system-product-name
 
 ### SMS sending
 
-- https://www.textlocal.com/
+- https://textlocal.com/
 - https://www.messagebird.com/
 - https://www.twilio.com/
 

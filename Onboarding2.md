@@ -34,7 +34,7 @@ Kategóriánként **egy** szolgáltató.
    [SSLMate](https://sslmate.com/),
    DigiCert,
    Certum :eu:,
-   [Buypass](https://www.buypass.com/ssl) :eu:**
+   [Buypass](https://www.buypass.com/products/tls-ssl-certificates) :eu:**
 1. CDN (fájl kiszolgáló hálózat) szolgáltató:
    **AWS, KeyCDN :eu:, Akamai from Selectel**
 1. Tranzakciós email kiküldő:

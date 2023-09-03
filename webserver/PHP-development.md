@@ -296,7 +296,7 @@ Try [Scrutinizer](https://scrutinizer-ci.com/) or [Exakat](https://www.exakat.io
 
 ### User support, user feedback
 
-List: https://www.g2crowd.com/categories/help-desk
+List: https://www.g2.com/categories/help-desk
 
 Multilingual support.
 

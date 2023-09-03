@@ -23,7 +23,7 @@ find ./out/ -maxdepth 1 -type f | parallel jpeg-recompress {} optimized/{/}
 ### Lossless compression
 
 - [JPEGrescan](https://github.com/kud/jpegrescan)
-- [packJPG](http://packjpg.encode.ru/?page_id=17) (already in pcompress)
+- [packJPG](http://packjpg.encode.su/) (already in pcompress)
 
 ### JPEG artifacts removal
 
