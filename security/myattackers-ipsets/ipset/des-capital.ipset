@@ -1,0 +1,22 @@
+# AS213035 - Des Capital / Delis / Serverion
+#: ipset -exist restore <ipset/des-capital.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set des-capital src -j REJECT
+create des-capital hash:net family inet hashsize 64 maxelem 32
+flush des-capital
+
+# AS211252 - Delis
+add des-capital 37.0.11.0/24
+add des-capital 45.12.253.0/24
+add des-capital 94.156.102.0/24
+add des-capital 95.214.24.0/24
+add des-capital 185.254.37.0/24
+add des-capital 194.55.224.0/24
+add des-capital 194.180.48.0/24
+
+# Single IP
+add des-capital 194.87.151.73
+
+# AS399471 - Serverion
+
+# AS17447 - Net4India
+add des-capital 147.78.103.0/24

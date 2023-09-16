@@ -2,8 +2,8 @@
 #
 # Report Apache client and server errors of the last 24 hours.
 #
-# VERSION       :3.0.0
-# DATE          :2023-03-18
+# VERSION       :3.2.0
+# DATE          :2023-09-13
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # LICENSE       :The MIT License (MIT)
@@ -145,7 +145,7 @@ while read -r CONFIG_FILE; do
     # https://datatracker.ietf.org/doc/html/rfc9110#section-15.5
     nice dategrep --multiline \
         --start "now truncate 24h add -17h35m" --end "06:25:00" "${ACCESS_LOG}".[1] "${ACCESS_LOG}" \
-        | grep --extended-regexp '" (40[0-9]|41[0-7]|42[126]|50[0-5]) [0-9]+ "' \
+        | grep --extended-regexp '" [45][0-9][0-9] [0-9]+ "' \
         | sed -e "s#^#$(basename "${ACCESS_LOG}" .log): #"
 
     ## "+" encoded spaces, lower case hexadecimal digits
@@ -175,7 +175,7 @@ done <<<"${APACHE_CONFIGS}" >"${LOG_EXCERPT}"
 
     Array_to_lines "${IGNORE_PATTERNS[@]}" \
         | grep --extended-regexp --invert-match --file=- "${LOG_EXCERPT}" \
-        | dd iflag=fullblock bs=1M count=5 2>/dev/null
+        | dd iflag=fullblock bs=1M count=2 2>/dev/null
 } | Maybe_sendmail
 
 rm "${LOG_EXCERPT}"

@@ -161,7 +161,7 @@ Exclude_hetrixtools()
 
 Goaccess()
 {
-    local GEOIP_DB="/var/lib/GeoIP/GeoLite2-City.mmdb"
+    local GEOIP_DB="/var/lib/GeoIP/GeoLite2-ASN.mmdb"
 
     # shellcheck disable=SC2046
     goaccess \
