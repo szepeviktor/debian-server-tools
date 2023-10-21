@@ -32,14 +32,14 @@ LOG_EXCERPT="$(mktemp --suffix=.syslog)"
     | Filter_failures \
     > "${LOG_EXCERPT}"
 
-echo "$(wc -l <"${LOG_EXCERPT}") failures total."
+printf '%d failures total.\n' "$(wc -l <"${LOG_EXCERPT}")"
 
 while read -r PATTERN; do
     COUNT="$(grep --extended-regexp --count "${PATTERN}" "${LOG_EXCERPT}")"
     if [ "${COUNT}" == 0 ]; then
         continue
     fi
-    echo "Ignored: $(printf '%4d' "${COUNT}") × #${PATTERN}#"
+    printf 'Ignored: %4d × #%s#\n' "${COUNT}" "${PATTERN}"
 done </etc/syslog-errors-excludes.grep
 
 grep --extended-regexp --invert-match --file=/etc/syslog-errors-excludes.grep "${LOG_EXCERPT}" \

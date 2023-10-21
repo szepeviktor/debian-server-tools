@@ -33,16 +33,9 @@ extend-ignore-re = [
 # False positives
 "helo" = "helo"
 "chello" = "chello"
-
-[default.extend-identifiers]
-# False positives
 "rsource" = "rsource"
 "referer" = "referer"
 "responsable" = "responsable"
-# https://manpages.debian.org/bookworm/manpages-dev/open.2.en.html#File_access_mode
-"O_WRONLY" = "O_WRONLY"
-"SSL_CK_DES_192_EDE3_CBC_WITH_MD5" = "SSL_CK_DES_192_EDE3_CBC_WITH_MD5"
-"LESS_TERMCAP_ue" = "LESS_TERMCAP_ue"
 
 # Typos
 "contiguities" = "continuities"
@@ -52,4 +45,14 @@ extend-ignore-re = [
 "intensionaly" = "intentionally"
 "pervious" = "previous"
 "perviously" = "previously"
+"covert" = "convert"
+
+[default.extend-identifiers]
+# False positives
+# https://manpages.debian.org/bookworm/manpages-dev/open.2.en.html#File_access_mode
+"O_WRONLY" = "O_WRONLY"
+"SSL_CK_DES_192_EDE3_CBC_WITH_MD5" = "SSL_CK_DES_192_EDE3_CBC_WITH_MD5"
+"LESS_TERMCAP_ue" = "LESS_TERMCAP_ue"
+
+# Typos
 "Wordpress" = "WordPress"

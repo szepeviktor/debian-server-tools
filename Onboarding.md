@@ -169,8 +169,9 @@ Verify your URL
 - :man: :incoming_envelope: :man_office_worker::older_man::woman_mechanic: *Bulk* email for newsletter: customer relations with [Intercom](https://www.intercom.com/)
 - Bounce messages for **all three** email types
 - Sender fraud protection and content integrity for **all three**: SPF, DKIM, DMARC
-- Outbound spam protection: [MailChannels](https://www.mailchannels.com/pricing/)
+- Auto-configuration for Outlook and Thunderbird
 - My email address: `webmaster@`
+- Outbound spam protection: [MailChannels](https://www.mailchannels.com/pricing/)
 - Teamwork in one Gmail inbox: [Drag](https://www.dragapp.com/)
 
 ### Infrastructure setup
