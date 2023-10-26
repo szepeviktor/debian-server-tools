@@ -11,9 +11,5 @@
 # DOCS          :https://top-frog.com/2009/08/28/quickly-unserialize-data-in-textmate/
 # LOCATION      :/usr/local/bin/php-unserialize
 
-/**
- * Unserialize standard input.
- *
- * @link https://top-frog.com/2009/08/28/quickly-unserialize-data-in-textmate/
- */
+// Unserialize standard input.
 var_dump( unserialize( file_get_contents( 'php://stdin' ) ) );

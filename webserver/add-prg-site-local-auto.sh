@@ -114,9 +114,9 @@ if echo "stats" | nc -q 3 localhost 11211 | grep -F 'bytes'; then
         cd phpMemAdmin/
         cat > composer.json <<"EOF"
 {
-  "repositories": [{ "type": "vcs", "url": "https://github.com/clickalicious/phpmemadmin.git" }],
-  "require": { "clickalicious/phpmemadmin": "dev-master" },
-  "scripts": { "post-autoload-dump": [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] }
+    "repositories": [{ "type": "vcs", "url": "https://github.com/clickalicious/phpmemadmin.git" }],
+    "require": { "clickalicious/phpmemadmin": "dev-master" },
+    "scripts": { "post-autoload-dump": [ "Clickalicious\\PhpMemAdmin\\Installer::postInstall" ] }
 }
 EOF
 

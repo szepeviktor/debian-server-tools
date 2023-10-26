@@ -95,8 +95,8 @@ maxretry = 6
 # 24h
 bantime  = 86400
 action   = %(action_cf1_mgl)s
-cf1email = 
-cf1apikey= 
+cf1email = @@CLOUDFLARE-API-EMAIL@@
+cf1apikey= @@CLOUDFLARE-API-KEY@@
 
 [apache-cf1-instant]
 #enabled  = true
@@ -106,8 +106,8 @@ maxretry = 1
 # 24h
 bantime  = 86400
 action   = %(action_cf1_mgl)s
-cf1email = 
-cf1apikey= 
+cf1email = @@CLOUDFLARE-API-EMAIL@@
+cf1apikey= @@CLOUDFLARE-API-KEY@@
 
 [suhosin]
 #enabled  = true
@@ -166,6 +166,6 @@ protocol = all
 # No email alert
 action   = iptables-allports[name=recidive, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
 #           cloudflare[cfemail="%(cfemail)s", cfapikey="%(cfapikey)s"]
-#cfemail  = 
-#cfapikey = 
+#cfemail  = @@CLOUDFLARE-API-EMAIL@@
+#cfapikey = @@CLOUDFLARE-API-KEY@@
 # Check action: fail2ban-client get recidive action cloudflare

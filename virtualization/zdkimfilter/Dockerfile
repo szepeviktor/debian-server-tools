@@ -14,8 +14,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN set -e -x \
     && apt-get update \
     && apt-get install -y wget subversion unzip build-essential courier-mta \
-                          libtool-bin m4 gettext autoconf pkg-config publicsuffix \
-                          libopendkim-dev uuid-dev zlib1g-dev libunistring-dev nettle-dev libopendbx1-dev \
+        libtool-bin m4 gettext autoconf pkg-config publicsuffix \
+        libopendkim-dev uuid-dev zlib1g-dev libunistring-dev nettle-dev libopendbx1-dev \
     && echo "Getting https://packages.debian.org/source/stretch-backports/libidn2 ..." \
     && wget "http://ftp.de.debian.org/debian/pool/main/libi/libidn2/libidn2-0_2.0.5-1~bpo9+1_amd64.deb" \
     && wget "http://ftp.de.debian.org/debian/pool/main/libi/libidn2/libidn2-dev_2.0.5-1~bpo9+1_amd64.deb" \

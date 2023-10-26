@@ -128,10 +128,12 @@ cd /etc/apache2/sites-available/
 # See /webserver/Apache-SSL.md
 sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >"${DOMAIN}.conf"
 # OCSP server monitoring
-( cd /usr/local/src/debian-server-tools/ && ./install.sh monitoring/ocsp-check.sh
-  editor "/usr/local/bin/ocsp--${DOMAIN}"
-  chmod +x "/usr/local/bin/ocsp--${DOMAIN}"
-  printf '05,35 *  * * *  nobody\t/usr/local/bin/ocsp--%s\n' "$DOMAIN" >"/etc/cron.d/ocsp-${DOMAIN//./-}" )
+cd /usr/local/src/debian-server-tools/
+./install.sh monitoring/ocsp-check.sh
+editor "/usr/local/bin/ocsp--${DOMAIN}"
+chmod +x "/usr/local/bin/ocsp--${DOMAIN}"
+printf '05,35 *  * * *  nobody\t/usr/local/bin/ocsp--%s\n' "$DOMAIN" >"/etc/cron.d/ocsp-${DOMAIN//./-}" )
+cd -
 # Certificate's common name differs from domain name
 #sed -e "s/@@CN@@/${CN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-site-ssl.conf >"${DOMAIN}.conf"
 
@@ -140,7 +142,7 @@ sed -e "s/@@SITE_DOMAIN@@/${DOMAIN}/g" -e "s/@@SITE_USER@@/${U}/g" <Skeleton-sit
 # See https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning
 # See https://developers.google.com/web/updates/2015/09/HPKP-reporting-with-chrome-46
 openssl x509 -in "/etc/ssl/localcerts/${CN}-public.pem" -noout -pubkey \
-  | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
+    | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64 -A
 
 # * SRI (Subresource Integrity) for foreign CDN content
 #     <link rel="stylesheet" href="URL" integrity="sha384-HASHBASE64" crossorigin="anonymous">
