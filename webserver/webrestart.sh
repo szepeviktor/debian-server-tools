@@ -43,7 +43,10 @@ echo "-----"
 
 APACHE_CONFIGS="$(ls /etc/apache2/sites-enabled/*.conf)"
 while read -r CONFIG_FILE; do
-    DOCROOT_MISSING="$(grep '^\s*<VirtualHost\|^\s*DocumentRoot' "$CONFIG_FILE" | sed -n -e '/VirtualHost/n;/DocumentRoot/!p')"
+    DOCROOT_MISSING="$(
+        grep '^\s*<VirtualHost\|^\s*DocumentRoot' "$CONFIG_FILE" \
+            | sed -n -e '/VirtualHost/n;/DocumentRoot/!p'
+    )"
     if [ -n "$DOCROOT_MISSING" ]; then
         Error "Missing DocumentRoot directive in ${CONFIG_FILE}"
     fi

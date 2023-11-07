@@ -35,6 +35,10 @@ add datacamp 82.118.29.0/24
 add datacamp 188.212.135.0/24
 add datacamp 194.169.217.0/24
 
+# AS137409 - Global Secure Layer
+# GSL Networks
+add datacamp 212.30.37.0/24
+
 # AS150303 - SoloRDP (QuadraNet)
 add datacamp 157.254.225.0/24
 

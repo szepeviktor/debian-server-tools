@@ -28,6 +28,7 @@ LOG_EXCERPT="$(mktemp --suffix=.syslog)"
 
 # Search recent log entries
 /usr/sbin/logtail2 /var/log/syslog \
+    | cat --show-tabs --show-nonprinting \
     | grep --fixed-strings --invert-match "$0" \
     | Filter_failures \
     > "${LOG_EXCERPT}"
@@ -51,7 +52,8 @@ rm "${LOG_EXCERPT}"
 if [ -s /var/log/boot ] && [ "$(wc -l </var/log/boot)" -gt 1 ]; then
     # Skip "(Nothing has been logged yet.)"
     /usr/sbin/logtail2 /var/log/boot \
-        | sed -e '1!b;/^(Nothing .*$/d' \
+        | sed -e '1!b;/^(Nothing has been logged yet.*$/d' \
+        | cat --show-tabs --show-nonprinting \
         | Filter_failures
 fi
 

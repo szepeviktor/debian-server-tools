@@ -388,7 +388,7 @@ Deprecated.
 - Link to online version (newsletter archive)
 - Company logo
 - Short main header
-- Personal content for the recipient (e.g. statistics)
+- Personalization (e.g. statistics)
 - :bulb: Sections: image + title + description + call2action + background color, see https://litmus.com/subscribe
 - "Updates from #RandomChannel"
 - Bind words together with `&nbsp;`
@@ -421,7 +421,7 @@ Deprecated.
   [Mailchimp Send Time Optimization](https://mailchimp.com/help/use-send-time-optimization/),
   recipient's time zone: [Mailchimp Timewarp](https://mailchimp.com/help/use-timewarp/)
 - HTML and plain text payload
-- [Bulk Senders Guidelines by Google](https://support.google.com/mail/answer/81126)
+- [Send bulk emails by Google](https://support.google.com/mail/topic/7279058)
 - [Spamhaus Marketing FAQ](https://www.spamhaus.org/faq/section/Marketing%20FAQs)
 - [Rackspace Postmaster](https://postmaster.emailsrvr.com/sending-to-us)
 - [Yahoo Sender Best Practices](https://senders.yahooinc.com/best-practices/)

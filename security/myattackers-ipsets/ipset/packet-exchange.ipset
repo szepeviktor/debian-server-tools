@@ -61,10 +61,10 @@ add packet-exchange 196.244.200.0/24
 add packet-exchange 196.245.164.0/24
 #add packet-exchange 196.245.159.0/24
 #add packet-exchange 196.245.160.0/24
-#add packet-exchange 196.245.163.0/24
+add packet-exchange 196.245.163.0/24
 add packet-exchange 196.245.216.0/24
 #add packet-exchange 196.245.219.0/24
-#add packet-exchange 196.245.220.0/24
+add packet-exchange 196.245.220.0/24
 add packet-exchange 196.245.236.0/24
 #add packet-exchange 196.245.237.0/24
 #add packet-exchange 196.245.246.0/24
