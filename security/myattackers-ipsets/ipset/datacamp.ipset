@@ -18,6 +18,8 @@ add datacamp 64.137.61.0/24
 #add datacamp 84.17.43.0/24
 #add datacamp 103.47.54.0/24
 #add datacamp 138.128.151.0/24
+# IPXO / Invermae
+add datacamp 185.240.120.0/23
 
 # Private Internet Hosting
 # jiri@cdn77.com: "some of the largest VPN provides worldwide"

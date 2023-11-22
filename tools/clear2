@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Clear the terminal screen including the scrollback buffer.
+#
+# DOCS          :https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
+# LOCATION      :/usr/local/bin/clear2
+
+tput clear
+clear
