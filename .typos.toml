@@ -55,4 +55,5 @@ extend-ignore-re = [
 "LESS_TERMCAP_ue" = "LESS_TERMCAP_ue"
 
 # Typos
+"Github" = "GitHub"
 "Wordpress" = "WordPress"

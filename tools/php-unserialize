@@ -12,4 +12,4 @@
 # LOCATION      :/usr/local/bin/php-unserialize
 
 // Unserialize standard input.
-var_dump( unserialize( file_get_contents( 'php://stdin' ) ) );
+var_dump(unserialize(file_get_contents('php://stdin')));
