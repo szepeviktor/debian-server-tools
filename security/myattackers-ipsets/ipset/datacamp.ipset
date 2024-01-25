@@ -41,8 +41,11 @@ add datacamp 194.169.217.0/24
 #add datacamp 45.130.83.0/24
 # VELCOM
 add datacamp 104.234.53.0/24
+# BANDITO-NEWYORK
+add datacamp 216.73.160.0/24
 
 add datacamp 166.1.12.0/24
+add datacamp 191.101.41.0/24
 
 # AS137409 - Global Secure Layer
 # GSL Networks

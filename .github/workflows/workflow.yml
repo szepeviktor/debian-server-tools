@@ -1,15 +1,15 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Actions"
+name: "Workflow"
 
 on:  # yamllint disable-line rule:truthy
     pull_request: null
     push:
         branches:
         - "master"
+    workflow_call: null
 
-permissions:
-    contents: "read"
+permissions: {}  # yamllint disable-line rule:braces
 
 concurrency:
     group: "${{ github.workflow }}-${{ github.ref }}"
@@ -17,12 +17,15 @@ concurrency:
 
 jobs:
     actionlint:
+        name: "Actionlint"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 1
         steps:
         -
-            uses: "actions/checkout@v3"
+            name: "Checkout repository"
+            uses: "actions/checkout@v4"
         -
-            uses: "docker://rhysd/actionlint:1.6.25"
+            name: "Analyze workflow files"
+            uses: "docker://rhysd/actionlint:1.6.26"
             with:
-                args: "-color -verbose -shellcheck ''"
+                args: "-color -verbose -shellcheck="
