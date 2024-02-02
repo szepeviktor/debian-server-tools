@@ -43,6 +43,8 @@ add datacamp 194.169.217.0/24
 add datacamp 104.234.53.0/24
 # BANDITO-NEWYORK
 add datacamp 216.73.160.0/24
+# US-NYC
+add datacamp 45.8.19.0/24
 
 add datacamp 166.1.12.0/24
 add datacamp 191.101.41.0/24
