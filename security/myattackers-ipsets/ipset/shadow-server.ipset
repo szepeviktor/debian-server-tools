@@ -6,49 +6,49 @@ flush shadow-server
 # old hostnames: scan-{00..21}.shadowserver.org.
 #$ for H in scan-{00..50}{a..o}.shadowserver.org.; do dig +short ${H} A; done
 # 64.62.197.*
-64.62.197.0/25
-64.62.197.128/26
-64.62.197.192/27
-64.62.197.224/31
-64.62.197.226/32
+add shadow-server 64.62.197.0/25
+add shadow-server 64.62.197.128/26
+add shadow-server 64.62.197.192/27
+add shadow-server 64.62.197.224/31
+add shadow-server 64.62.197.226/32
 # 65.49.20.*
-65.49.20.70/31
-65.49.20.72/29
-65.49.20.80/28
-65.49.20.96/28
-65.49.20.112/29
-65.49.20.120/30
-65.49.20.124/31
-65.49.20.126/32
+add shadow-server 65.49.20.70/31
+add shadow-server 65.49.20.72/29
+add shadow-server 65.49.20.80/28
+add shadow-server 65.49.20.96/28
+add shadow-server 65.49.20.112/29
+add shadow-server 65.49.20.120/30
+add shadow-server 65.49.20.124/31
+add shadow-server 65.49.20.126/32
 # 74.82.47.*
-74.82.47.6/31
-74.82.47.8/29
-74.82.47.16/28
-74.82.47.32/27
+add shadow-server 74.82.47.6/31
+add shadow-server 74.82.47.8/29
+add shadow-server 74.82.47.16/28
+add shadow-server 74.82.47.32/27
 # 184.105.139.*
-184.105.139.71/32
-184.105.139.72/29
-184.105.139.80/28
-184.105.139.96/28
-184.105.139.112/29
-184.105.139.120/30
-184.105.139.124/31
-184.105.139.126/32
+add shadow-server 184.105.139.71/32
+add shadow-server 184.105.139.72/29
+add shadow-server 184.105.139.80/28
+add shadow-server 184.105.139.96/28
+add shadow-server 184.105.139.112/29
+add shadow-server 184.105.139.120/30
+add shadow-server 184.105.139.124/31
+add shadow-server 184.105.139.126/32
 # 184.105.247.*
-184.105.247.198/31
-184.105.247.200/29
-184.105.247.208/28
-184.105.247.224/28
-184.105.247.240/29
-184.105.247.248/30
-184.105.247.252/31
-184.105.247.254/32
+add shadow-server 184.105.247.198/31
+add shadow-server 184.105.247.200/29
+add shadow-server 184.105.247.208/28
+add shadow-server 184.105.247.224/28
+add shadow-server 184.105.247.240/29
+add shadow-server 184.105.247.248/30
+add shadow-server 184.105.247.252/31
+add shadow-server 184.105.247.254/32
 # 216.218.206.*
-216.218.206.70/31
-216.218.206.72/29
-216.218.206.80/28
-216.218.206.96/28
-216.218.206.112/29
-216.218.206.120/30
-216.218.206.124/31
-216.218.206.126/32
+add shadow-server 216.218.206.70/31
+add shadow-server 216.218.206.72/29
+add shadow-server 216.218.206.80/28
+add shadow-server 216.218.206.96/28
+add shadow-server 216.218.206.112/29
+add shadow-server 216.218.206.120/30
+add shadow-server 216.218.206.124/31
+add shadow-server 216.218.206.126/32
