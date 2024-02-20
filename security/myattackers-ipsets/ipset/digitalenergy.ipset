@@ -16,6 +16,8 @@ add digitalenergy 85.237.200.0/24
 add digitalenergy 89.19.47.0/24
 add digitalenergy 91.92.34.0/24
 add digitalenergy 91.92.35.0/24
+# 188.214.234.0/23
+add digitalenergy 188.214.234.0/24
 # HR-SYSHEAD
 add digitalenergy 91.199.42.0/24
 add digitalenergy 102.128.141.0/24
