@@ -2,7 +2,15 @@
 
 Meghatározni valók egy sikerközpontú, munkaeszköznek tekintett honlaphoz.
 
-[Google UX iránymutatás](https://growrevenue.io/secret-google-ux-playbooks/)
+Google UX iránymutatás
+
+- [Google UX Playbook for Retail & E-Commerce](https://services.google.com/fh/files/events/pdf_retail_ux_playbook.pdf)
+- [Google UX Playbook for Lead Gen](https://services.google.com/fh/files/events/pdf_leadgen_ux_playbook.pdf)
+- [Google UX Playbook for Travel](http://services.google.com/fh/files/events/pdf_travel_ux_playbook.pdf)
+- [Google UX Playbook for Finance](http://services.google.com/fh/files/events/pdf_finance_ux_playbook.pdf)
+- [Google UX Playbook for Real Estate](https://services.google.com/fh/files/events/pdf_realestate_ux_playbook.pdf)
+- [Google UX Playbook for News and Content Sites](http://services.google.com/fh/files/events/pdf_news_ux_playbook.pdf)
+- [Google UX Playbook for Auto](http://services.google.com/fh/files/events/pdf_auto_ux_playbook.pdf)
 
 ### Stratégia
 
