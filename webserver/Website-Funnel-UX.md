@@ -58,7 +58,7 @@ Sok információ: szétszórt figyelem **vs.** Kevés információ: fókusz
   - Panorámakép
   - [Facebook 360 fotók](https://facebook360.fb.com/360-photos/)
   - [Facebook 3D fotó](https://hu-hu.facebook.com/help/414295416095269)
-- [Szövegbe ágyazott űrlap](https://www.towa-digital.com/wordpress/) ("coffee" gomb)
+- [Szövegbe ágyazott űrlap](https://web.archive.org/web/20200815012447/https://www.towa-digital.com/service/development-design/web-development/) ("coffee" gomb)
 - [Social](https://provesrc.com/) [proof](https://www.nudgify.com/)
 - Zsákutca hiba (Alul hova tovább?)
 - Fölös háttér, belépési oldal,
