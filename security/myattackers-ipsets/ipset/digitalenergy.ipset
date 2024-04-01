@@ -145,3 +145,6 @@ add digitalenergy 185.222.56.0/22
 
 # AS14956
 # IPXO
+
+# AS396356 - Latitude.sh
+add digitalenergy 185.223.152.0/24

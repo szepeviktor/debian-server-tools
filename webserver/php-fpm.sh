@@ -47,7 +47,7 @@ sed -e 's/^expose_php\s*=.*$/expose_php = Off/' -i "$PHP_FPM_INI"
 sed -e 's/^max_execution_time=.*$/max_execution_time = 65/' -i "$PHP_FPM_INI"
 sed -e 's/^memory_limit\s*=.*$/memory_limit = 128M/' -i "$PHP_FPM_INI"
 sed -e 's/^post_max_size\s*=.*$/post_max_size = 4M/' -i "$PHP_FPM_INI"
-# FullHD JPEG
+# Full HD JPEG
 #     rawtoppm 1920 1080 < /dev/urandom > random-fullhd.ppm
 #     convert random-fullhd.ppm -quality 94 random-fullhd.jpg
 sed -e 's/^upload_max_filesize\s*=.*$/upload_max_filesize = 4M/' -i "$PHP_FPM_INI"

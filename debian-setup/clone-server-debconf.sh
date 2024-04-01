@@ -154,7 +154,7 @@ sed -e 's|\t\S\+$|\t\t\t\t\t\tinstall|' packages.selections | dpkg --set-selecti
 apt-get dselect-upgrade
 apt-get install -f
 
-# Check package intergrity and SSH
+# Check package integrity and SSH
 debsums -c
 systemctl status
 dpkg -l | grep -F 'openssh-server' || echo 'ERROR: no SSH'
