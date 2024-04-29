@@ -26,6 +26,6 @@ jobs:
             uses: "actions/checkout@v4"
         -
             name: "Analyze workflow files"
-            uses: "docker://rhysd/actionlint:1.6.26"
+            uses: "docker://rhysd/actionlint:1.6.27"
             with:
                 args: "-color -verbose -shellcheck="

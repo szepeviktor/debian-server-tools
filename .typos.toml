@@ -6,16 +6,12 @@ extend-exclude = [
     "webserver/server-configs-nginx/",
     ".git/",
     "Intercom.md", # HU
-    "mail/mx-check/disposable-email/", # Domain lists
-    "mail/mx-check/disposable-mx.list", # Domain list
     "mail/spam/21_KAM.cf", # Spam words
-    "mail/spammer.dnsbl/spammer.dnsbl.zone", # Network names
     "monitoring/README.md", # Contains router names
     "package/apt-sources/google-cloud-sdk.list", # Fingerprint
     "package/docker-backport-goaccess.sh", # base64
     "package/quicklz-build.sh", # base64
     "package/s3ql-3C4E599F.asc", # GPG key
-    "repo/debian/dists/", # APT repository
     "security/ca/ca-web/text", # SSL certificate
     "security/myattackers-ipsets/ipset/", # International names
     "security/password2remember_hu.txt", # HU
@@ -30,25 +26,21 @@ extend-ignore-re = [
     ";ba'",
     "/bin/\\(ba\\)\\?sh",
     "-MISSy",
+    "Full HD",
+    "for VDISK in hd sd",
     "\\^fpr:::::::::",
     "   ue   End underlining",
-    "PIPE_PASSWORD='\\S+'",
     "\\|ignor\\[ei\\]",
     "nmap -n -Pn",
-    "\\|og\\[agv\\]",
 ]
 
 [default.extend-words]
-#"wht"="wht"
-"hd"="hd"
 # False positives
 "bck" = "bck"
-"eof" = "eof"
-"helo" = "helo"
 "chello" = "chello"
-"lst" = "lst"
-"rsource" = "rsource"
+"helo" = "helo"
 "referer" = "referer"
+"rsource" = "rsource"
 "seeked" = "seeked"
 
 # Typos
@@ -63,8 +55,6 @@ extend-ignore-re = [
 
 [default.extend-identifiers]
 # False positives
-"ogPipe" = "ogPipe"
-"ogShow" = "ogShow"
 # https://manpages.debian.org/bookworm/manpages-dev/open.2.en.html#File_access_mode
 "O_WRONLY" = "O_WRONLY"
 "SSL_CK_DES_192_EDE3_CBC_WITH_MD5" = "SSL_CK_DES_192_EDE3_CBC_WITH_MD5"
