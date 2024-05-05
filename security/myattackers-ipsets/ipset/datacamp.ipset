@@ -27,6 +27,7 @@ add datacamp 193.150.70.0/24
 add datacamp 193.218.190.0/24
 
 # AS206092 - IPXO / SECFIREWALL
+add datacamp 37.140.223.0/24
 # Legaco, Panq
 add datacamp 45.86.200.0/24
 add datacamp 45.92.229.0/24
@@ -51,6 +52,9 @@ add datacamp 45.8.19.0/24
 
 add datacamp 166.1.12.0/24
 add datacamp 191.101.41.0/24
+
+# AS42831 / Legaco
+#add datacamp 185.192.70.0/24
 
 # AS137409 - Global Secure Layer
 # GSL Networks
