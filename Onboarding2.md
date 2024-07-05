@@ -9,6 +9,16 @@
 
 További részletek a [webes alkalmazás futtatásáról](/CV2.md)
 
+- Ki lesz a Szolgáltatógazda
+- Infrastruktúra szolgáltatók kiválasztása
+- Fiók házirend
+- Email (személyes, tranzakciós, tömeges) küldés
+- Alkalmazás beállítása
+- Miről készüljön biztonsági mentés
+- Kiberbiztonság
+- Belső kommunikációnk
+- Fejlesztők informálása
+
 ### Speciális infrastruktúra szolgáltatók
 
 Saját tárhely felépítése.

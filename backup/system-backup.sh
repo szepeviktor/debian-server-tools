@@ -2,7 +2,7 @@
 #
 # Backup a server with S3QL.
 #
-# VERSION       :3.0.3
+# VERSION       :3.0.4
 # DATE          :2021-05-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -163,6 +163,7 @@ Check_db_schemas() # Error 5x
         #     Triggers included by default / --skip-triggers
         #     Event Scheduler --events / excluded by default
         mysqldump --skip-comments --no-data --routines --triggers --events "$DB" \
+            | sed -e '1 s#^/\*!999999\\- enable the sandbox mode \*/##' \
             | sed -e 's/ AUTO_INCREMENT=[0-9]\+\b//' \
             >"$TEMP_SCHEMA" || Error 51 "Schema dump failure"
 

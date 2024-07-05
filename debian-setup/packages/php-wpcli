@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WPCLI_URL="https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
-WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash"
+WPCLI_COMPLETION_URL="https://github.com/wp-cli/wp-cli/raw/main/utils/wp-completion.bash"
 
 set -e -x
 
