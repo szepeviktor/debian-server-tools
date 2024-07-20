@@ -23,7 +23,7 @@ set -e -x
 # http://inai.de/documents/Perfect_Ruleset.pdf
 # Enable loopback traffic
 Ip46tables -A INPUT -i lo -j ACCEPT
-# Enable statefull rules
+# Enable stateful rules
 Ip46tables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 # Drop invalid state packets
 Ip46tables -A INPUT -m conntrack --ctstate INVALID -j DROP
