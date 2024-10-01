@@ -13,4 +13,5 @@ $courierfilter: zdkimfilter\[[0-9]+\]:id=[0-9A-F.]+: verified: spf=pass, dkim=pa
 $@(citromail\.hu|vipmail\.hu)>,status: deferred$
 $spamd\[[0-9]+\]: spamd:|error@
 $mysqld: .* Unsafe statement written to the binary log .* Statement:
+$mysqld: .* \[Warning\] Aborted connection .*Got timeout reading communication packets
 $/usr/bin/php -d error_reporting=22517 -d disable_functions=error_reporting

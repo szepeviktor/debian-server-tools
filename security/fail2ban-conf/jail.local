@@ -33,12 +33,12 @@ destemail = admin@szepe.net
 chain = fail2ban
 
 # Ban & send an e-mail with GEOIP data and relevant log lines
-action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s", actionstart_on_demand=false]
              sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 action = %(action_mgl)s
 
 # Ban by CloudFlare send an e-mail with GEOIP data relevant log lines
-action_cf1_mgl = cloudflare[cfuser="%(cf1email)s", cftoken="%(cf1apikey)s"]
+action_cf1_mgl = cloudflare[cfuser="%(cf1email)s", cftoken="%(cf1apikey)s", actionstart_on_demand=false]
                  sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 
 # sendmail-geoip-lines = 2×geoip + host + grep log + sendmail

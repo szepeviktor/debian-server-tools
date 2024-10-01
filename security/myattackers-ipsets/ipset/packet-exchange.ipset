@@ -35,6 +35,7 @@ add packet-exchange 196.196.169.0/24
 add packet-exchange 196.196.203.0/24
 add packet-exchange 196.196.224.0/24
 add packet-exchange 196.196.246.0/24
+add packet-exchange 196.198.211.0/24
 add packet-exchange 196.199.55.0/24
 add packet-exchange 196.199.119.0/24
 add packet-exchange 196.199.122.0/24
