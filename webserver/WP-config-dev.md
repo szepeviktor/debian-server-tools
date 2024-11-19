@@ -176,6 +176,8 @@ By SMTP
 - Use local SMTP server: `smtp-uri` and [Mailcatcher](https://mailcatcher.me/)
   or [MailHog](https://github.com/mailhog/MailHog)
   or [mailtrap](https://mailtrap.io/)
+  or [Mailpit](https://github.com/axllent/mailpit)
+  or [MailCrab](https://github.com/tweedegolf/mailcrab)
 - Forward SMTP traffic to Mailcatcher, MailHog or any other SMTP server
 - Block outgoing SMTP traffic (TCP port 25, 587 and 465) by user
 
