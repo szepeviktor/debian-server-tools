@@ -24,7 +24,7 @@ MAXDAEMONS=40
 MAXPERC=5
 MAXPERIP=5
 PIDFILE=/run/courier/esmtpd.pid
-TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger"
+TCPDOPTS="-stderrlogger=/usr/sbin/courierlogger -noidentlookup"
 ESMTPAUTH=""
 ESMTPAUTH_WEBADMIN="LOGIN CRAM-MD5 CRAM-SHA1 CRAM-SHA256"
 ESMTPAUTH_TLS=""

@@ -5,7 +5,7 @@
    depends on gamin_bin
    depends on gamin_rc
 
- check file gamin_bin with path /usr/lib/gamin/gam_server
+ check file gamin_bin with path /usr/libexec/gam_server
    group system
    include /etc/monit/templates/rootbin
    if does not exist then unmonitor

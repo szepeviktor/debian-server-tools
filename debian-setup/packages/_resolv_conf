@@ -3,7 +3,7 @@
 declare -i RESOLVERS="0"
 # See resolv.conf(5)
 declare -i MAXNS="3"
-declare -r EXAMPLECOM_IP="93.184.216.34"
+declare -r EXAMPLECOM_IP="93.184.215.14"
 
 Check_resolver()
 {

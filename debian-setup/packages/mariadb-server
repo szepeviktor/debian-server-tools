@@ -5,7 +5,7 @@ set -e -x
 Pkg_install_quiet mariadb-server mariadb-client mariadb-backup
 
 # Disable the binary log
-sed -i -e 's/^log_bin/#&/' /etc/mysql/my.cnf
+sed -i -e 's/^log_bin/#&/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 Dinstall mysql/mysql-optimize.sh
 

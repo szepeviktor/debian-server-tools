@@ -1,4 +1,4 @@
 # Modern webserver
 deb [arch=amd64] http://szepeviktor.github.io/debian/ bullseye main
-#K: apt-key adv --keyserver keys.openpgp.org --recv-keys 6AA0453C451A4FBA
+#K: wget -qO/etc/apt/trusted.gpg.d/szepeviktor.gpg https://szepeviktor.github.io/szepeviktor.gpg
 #M: https://github.com/szepeviktor/szepeviktor.github.io

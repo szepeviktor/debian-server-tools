@@ -25,6 +25,8 @@ CWD="$(dirname "${BASH_SOURCE[0]}")"
 
 # Later versions of Ondřej Surý's PHP-FPM "Depends: systemd | systemd-tmpfiles"
 Pkg_install_quiet systemd-standalone-tmpfiles/bullseye-backports
+# Alternative
+#Pkg_install_quiet opentmpfiles
 
 # @nonDebian
 Pkg_install_quiet "php${PHP}-fpm" libpcre3 \
