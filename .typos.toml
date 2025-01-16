@@ -3,6 +3,7 @@ extend-exclude = [
     "mail/courier-pythonfilter/",
     "mail/msglint/",
     "mysql/mysqltuner/",
+    "repo/",
     "webserver/server-configs-nginx/",
     ".git/",
     "Intercom.md", # HU
@@ -32,6 +33,7 @@ extend-ignore-re = [
     "   ue   End underlining",
     "\\|ignor\\[ei\\]",
     "nmap -n -Pn",
+    "vim:.*\\bnoet\\b",
 ]
 
 [default.extend-words]

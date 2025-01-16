@@ -439,6 +439,7 @@ tail -f /var/log/apache2/SITE_USER-error.log | sed -e 's|\\n|\n●|g'
 
 ### SEO
 
+- Canonical URL-s, www/non-www/http/https redirection
 - `blog_public` and robots.txt :snail:
 - XML sitemaps linked from robots.txt :snail:
 - Excluded pages: `noindex, nofollow` :snail:

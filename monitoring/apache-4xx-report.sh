@@ -173,6 +173,11 @@ done <<<"${APACHE_CONFIGS}" >"${LOG_EXCERPT}"
         echo "Ignored: $(printf '%4d' "${COUNT}") × #${PATTERN}#"
     done
 
+    # Summary
+    #Array_to_lines "${IGNORE_PATTERNS[@]}" \
+    #    | grep --extended-regexp --invert-match --file=- "${LOG_EXCERPT}" \
+    #    | sed -n -e 's#^\(\S\+:\).* \(".\+" [0-9]\+\) .*$#\1 \2#p' | sort | uniq -cd
+
     Array_to_lines "${IGNORE_PATTERNS[@]}" \
         | grep --extended-regexp --invert-match --file=- "${LOG_EXCERPT}" \
         | dd iflag=fullblock bs=1M count=2 2>/dev/null
