@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Debian bullseye setup on a virtual server.
+# Debian GNU/Linux setup on a virtual server.
 #
 # VERSION       :3.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -82,8 +82,8 @@
 export IMAGE_ARCH="amd64"
 export IMAGE_MACHINE="x86_64"
 export IMAGE_ID="Debian"
-export IMAGE_CODENAME="bullseye"
-#export IMAGE_CODENAME="bookworm"
+export IMAGE_CODENAME="bookworm"
+#export IMAGE_CODENAME="trixie"
 
 # "A real danger for the future of GNU/Linux"
 # https://skarnet.org/software/s6/systemd.html

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Continue Debian bullseye setup on a virtual server.
+# Continue Debian GNU/Linux setup on a virtual server.
 #
 # VERSION       :3.0.0
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -55,9 +55,9 @@ packages/s-nail
 packages/goaccess
 
 # From backports
-# List available backports: apt-get upgrade -t bullseye-backports
+# List available backports: apt-get upgrade -t bookworm-backports
 # @nonDebian
-##Pkg_install_quiet -t bullseye-backports
+##Pkg_install_quiet -t bookworm-backports
 
 packages/needrestart
 

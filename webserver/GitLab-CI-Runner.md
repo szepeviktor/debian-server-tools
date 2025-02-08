@@ -8,7 +8,7 @@ docker run --rm -i -t -v /opt:/etc/gitlab-runner gitlab/gitlab-runner:latest reg
 #  --url "https://gitlab.com/" \
 #  --registration-token "PROJECT-REGISTRATION-TOKEN" \
 #  --executor "docker" \
-#  --docker-image "php:7.4-bullseye" \
+#  --docker-image "php:7.4-bookworm" \
 #  --description "gitlab-runner on UpCloud" \
 #  --tag-list "upcloud,docker" \
 #  --run-untagged \

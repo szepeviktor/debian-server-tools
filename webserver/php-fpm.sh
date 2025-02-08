@@ -24,8 +24,9 @@ PHP_TZ="UTC"
 CWD="$(dirname "${BASH_SOURCE[0]}")"
 
 # Later versions of Ondřej Surý's PHP-FPM "Depends: systemd | systemd-tmpfiles"
-Pkg_install_quiet systemd-standalone-tmpfiles/bullseye-backports
+Pkg_install_quiet systemd-standalone-tmpfiles/bookworm-backports
 # Alternative
+# @nonDebian
 #Pkg_install_quiet opentmpfiles
 
 # @nonDebian

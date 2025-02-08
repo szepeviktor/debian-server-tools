@@ -2,15 +2,15 @@
 
 set -e -x
 
-# @TODO move to v4.0 in stretch-backports
+# @TODO Migrate to Valkey
 
-# @TODO Prevent shutdown during background saving
+# Prevent shutdown during background saving
 cat >/etc/sysctl.d/redis-overcommit.conf <<"EOF"
 # https://redis.io/topics/faq#background-saving-fails-with-a-fork-error-under-linux-even-if-i-have-a-lot-of-free-ram
 #vm.overcommit_memory = 1
 EOF
 
-# @TODO Allow high backlog
+# Allow high backlog
 cat >/etc/sysctl.d/redis-tcp-listen-backlog.conf <<"EOF"
 # https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
 ##net.ipv4.tcp_max_syn_backlog = 512

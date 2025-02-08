@@ -11,15 +11,17 @@ sed -i -e 's|^\(password\t\+requisite\t\+pam_cracklib\.so\).\+$|\1 retry=3 difok
     /etc/pam.d/common-password
 
 # Nice welcome screen
-# @FIXME Python 2 does not handle UTF-8 in YAML
 printf '*\n*** %s ***\n*\n\n' "$(Data get-value system.trespass-warning)" >/etc/motd.tail
 
-Data get-value system.host-color "7" > /etc/hostcolor
+Data get-value system.host-color "7" >/etc/hostcolor
 
 if [ -d /etc/update-motd.d ]; then
-    # Remove default uname script
+    # Remove default uname scripts
     if [ -f /etc/update-motd.d/10-uname ] && [ "$(stat -c "%s" /etc/update-motd.d/10-uname)" == 23 ]; then
         rm /etc/update-motd.d/10-uname
+    fi
+    if [ -f /etc/update-motd.d/92-unattended-upgrades ] && [ "$(stat -c "%s" /etc/update-motd.d/92-unattended-upgrades)" == 165 ]; then
+        rm /etc/update-motd.d/92-unattended-upgrades
     fi
     # Halt on non-empty script directory
     test -z "$(find /etc/update-motd.d/ -type f -prune)"
@@ -31,7 +33,7 @@ fi
 mv /etc/motd "/etc/motd~"
 
 # Make motd a symlink
-ln -sf /var/run/motd /etc/motd
+ln -s -f /var/run/motd /etc/motd
 
 # Install scripts
 Dinstall input/update-motd.d/00-header
