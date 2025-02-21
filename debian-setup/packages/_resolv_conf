@@ -3,14 +3,14 @@
 declare -i RESOLVERS="0"
 # See resolv.conf(5)
 declare -i MAXNS="3"
-declare -r EXAMPLECOM_IP="93.184.215.14"
+declare -r EXAMPLECOM_NS="a.iana-servers.net."
 
 Check_resolver()
 {
     local NS="$1"
 
-    host -v -t A example.com "$NS" \
-        | grep -E -x "example\\.com\\.\\s+[0-9]+\\s+IN\\s+A\\s+${EXAMPLECOM_IP//./\\.}" 1>&2
+    host -v -t NS example.com "$NS" \
+        | grep -E -x "example\\.com\\.\\s+[0-9]+\\s+IN\\s+NS\\s+${EXAMPLECOM_NS//./\\.}" 1>&2
 }
 
 set -e -x

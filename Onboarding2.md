@@ -81,7 +81,7 @@ Ebben a részben a biztonságos regisztrációkra készülünk fel.
   [RDP Windows PC-khez](https://ci.freerdp.com/job/freerdp-nightly-windows/arch=win64,label=vs2013/)
   vagy [RDP Mac gépekre](https://itunes.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12)
 - [Palemoon böngésző](https://www.palemoon.org/download.php?mirror=eu&bits=64&type=installer) letöltése
-- UpCloud parancsikon kirakása az Asztalra: `basilisk.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
+- UpCloud parancsikon kirakása az Asztalra: `palemoon.exe "https://signup.upcloud.com/?promo=U29Q8S"`
 - AWS parancsikon: `"https://portal.aws.amazon.com/gp/aws/developer/registration/index.html"`
 - [`user.js`](https://github.com/szepeviktor/windows-workstation/blob/master/upcloud/user.js)
   letöltése a `%APPDATA%\Moonchild Productions\Basilisk\Profiles\` mappába

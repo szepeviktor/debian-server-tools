@@ -1,46 +1,34 @@
 #!/bin/bash
 #
-# Install S3QL 5.2.0 on Python 3.9
+# Install S3QL in Python venv
 #
 
-export PYTHONPATH="/opt/s3ql/lib/python3.9/site-packages"
+S3QL_VERSION="5.2.3"
+S3QL_PATH="/opt/s3ql"
 
 set -e -x
 
-py_pip_install()
+Pkg_install_quiet python3-venv \
+    python3-dev build-essential pkg-config libffi-dev libattr1-dev libsqlite3-dev libfuse3-dev fuse3 psmisc
+
+python3 -m venv "${S3QL_PATH}"
 {
-    pip3 install --no-cache-dir --ignore-installed --no-warn-script-location --prefix "/opt/s3ql/" "$@"
+    # shellcheck disable=SC1091
+    source "${S3QL_PATH}/bin/activate"
+
+    # S3QL needs pyfuse3, pip-distributed apsw contains sqlite3
+    pip3 install --no-cache-dir 'pyfuse3 >= 3.2.0, < 4.0' 'apsw >= 3.42.0'
+    pip3 install --no-cache-dir "https://github.com/s3ql/s3ql/releases/download/s3ql-${S3QL_VERSION}/s3ql-${S3QL_VERSION}.tar.gz"
+
+    # List packages
+    pip3 list
+
+    # Link all S3QL commands
+    for BIN_PATH in "${S3QL_PATH}/bin"/*s3ql*; do
+        ln --symbolic "${BIN_PATH}" "/usr/local/bin/${BIN_PATH##*/}"
+    done
+
+    deactivate
 }
-
-py_make_launcher()
-{
-    local BIN_PATH="$1"
-    local LAUNCHER_PATH="/usr/local/bin/${BIN_PATH##*/}"
-
-    # Generate launcher
-    # shellcheck disable=SC2086
-    printf '#!/bin/bash\nPYTHONPATH="%s" exec %s "$@"\n' \
-        "${PYTHONPATH}" "${BIN_PATH}" \
-        >"${LAUNCHER_PATH}"
-    chmod a+x "${LAUNCHER_PATH}"
-}
-
-Pkg_install_quiet python3-dev build-essential pkg-config libffi-dev libattr1-dev libsqlite3-dev libfuse3-dev fuse3 psmisc
-
-# S3QL needs pyfuse3, pip distributed apsw contains sqlite3
-py_pip_install 'pyfuse3 >= 3.2.0, < 4.0' 'apsw >= 3.42.0'
-py_pip_install 'https://github.com/s3ql/s3ql/releases/download/s3ql-5.2.0/s3ql-5.2.0.tar.gz'
-
-# Link all S3QL commands
-for BIN_PATH in /opt/s3ql/bin/*s3ql*; do
-    py_make_launcher "${BIN_PATH}"
-done
-
-# List packages
-pip3 list --no-cache-dir --path "${PYTHONPATH}"
 
 s3qlctrl --version
-
-# List outdated packages
-#     pip3 list --no-cache-dir --path "${PYTHONPATH}" --outdated
-# Upgrade: remove and reinstall

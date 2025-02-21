@@ -76,7 +76,7 @@ This section contains preparations for secure registration.
   [RDP on Windows](https://ci.freerdp.com/job/freerdp-nightly-windows/arch=win64,label=vs2013/)
   or [RDP on Mac](https://itunes.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12)
 - Download [Palemoon browser](https://www.palemoon.org/download.php?mirror=eu&bits=64&type=installer)
-- Create UpCloud shortcut on the Desktop: `palemoon.exe "https://www.upcloud.com/register/?promo=U29Q8S"`
+- Create UpCloud shortcut on the Desktop: `palemoon.exe "https://signup.upcloud.com/?promo=U29Q8S"`
 - Create AWS shortcut: `"https://portal.aws.amazon.com/gp/aws/developer/registration/index.html"`
 - Download [`user.js`](https://github.com/szepeviktor/windows-workstation/blob/master/upcloud/user.js) to `%APPDATA%\Moonchild Productions\Basilisk\Profiles\`
 - Open On-Screen Keyboard for entering passwords

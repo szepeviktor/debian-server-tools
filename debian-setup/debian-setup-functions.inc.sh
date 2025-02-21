@@ -28,7 +28,7 @@ export -f Is_installed_regexp
 
 Pkg_install_quiet()
 {
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y "$@"
+    DEBIAN_FRONTEND=noninteractive NEEDRESTART_SUSPEND=1 apt-get install -q -y "$@"
 }
 export -f Pkg_install_quiet
 
