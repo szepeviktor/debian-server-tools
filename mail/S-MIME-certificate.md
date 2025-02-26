@@ -17,3 +17,19 @@ Installing an S/MIME Personal Certificate for signing emails.
 - Delete certificate from Windows
 
 Displaying certificate: `openssl pkcs12 -in certificate.pfx`
+
+## Add intermediate certificate to PKCS #12
+
+```bash
+openssl pkcs12 -in pkcs12-from-Sectigo.p12 -out temp.p12 -nodes \
+    -passin pass:${PASSWORD} -passout pass:${PASSWORD}
+openssl pkcs12 -export -in temp.p12 -out viktor-szepe-net.pfx -certfile Sectigo-intermediate.pem \
+    -passin pass:${PASSWORD} -passout pass:${PASSWORD}
+rm temp.p12
+```
+
+## View PKCS #7 signature
+
+- Copy BASE64 encoded signature from email to smime.p7s.b64
+- Decode signature: `base64 -d <smime.p7s.b64 >smime.p7s`
+- `openssl pkcs7 -inform DER -in smime.p7s -print_certs -text`

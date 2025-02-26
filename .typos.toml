@@ -27,6 +27,7 @@ extend-ignore-re = [
     ";ba'",
     "/bin/\\(ba\\)\\?sh",
     "-MISSy",
+    "-passin ",
     "Full HD",
     "for VDISK in hd sd",
     "\\^fpr:::::::::",
