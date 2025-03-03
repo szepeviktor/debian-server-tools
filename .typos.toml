@@ -67,3 +67,6 @@ extend-ignore-re = [
 "Github" = "GitHub"
 "Wordpress" = "WordPress"
 "Automattic" = "Automattic"
+
+[type.py.extend-identifiers]
+"typ" = "typ"

@@ -32,6 +32,7 @@ editor "${S}/authorized_keys"
 echo "ssh://${U}@${DOMAIN}:SSH-PORT/home/${U}/dev.git"
 
 # Website directories
+chmod 0750 "/home/${U}"
 mkdir -v --mode=0750 "/home/${U}/website"
 #mkdir -v /home/${U}/website/{session,tmp,code,pagespeed,backup,fastcgicache}
 mkdir -v "/home/${U}/website/"{session,tmp,code,pagespeed,backup}

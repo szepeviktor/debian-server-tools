@@ -38,6 +38,9 @@ packages/most
 # Manual checks
 packages/_check-system
 
+# Dump PCI device IDs
+lspci -n >"${HOME}/lspci.out"
+
 # Basic packages
 Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
@@ -334,9 +337,6 @@ adduser USER
 # TODO - server backup
 ./install.sh backup/system-backup.sh
 # TODO - monit/apache+php
-lspci -n >lspci.out
-monitoring/monit/monit-debian-setup.sh
-# TODO - Monitoring
 open https://github.com/szepeviktor/debian-server-tools/blob/master/monitoring/README.md
 
 EOT

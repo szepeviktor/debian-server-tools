@@ -177,7 +177,7 @@ EOF
 
 # Add mc syntax highlights
 ROOT_MC_SYNTAX="/root/.local/share/mc/mcedit"
-ROOT_MC_SYNTAX_CONFIG="/root/.config/mc/mcedit"
+ROOT_MC_SYNTAX_CONFIG="/root/.local/share/mc/syntax"
 mkdir -p "$ROOT_MC_SYNTAX"
 wget -nv -P "$ROOT_MC_SYNTAX" https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/email.syntax
 wget -nv -P "$ROOT_MC_SYNTAX" https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/markdown.syntax

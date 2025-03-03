@@ -46,6 +46,7 @@ makealiases
 
 # Website directories
 (
+    chmod 0750 "/home/${U}"
     cd /home/${U}/
     install -o ${U} -g ${U} -m 0550 -d website
     cd website/

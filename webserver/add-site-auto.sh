@@ -18,6 +18,7 @@ adduser --disabled-password --gecos "" "$U"
 adduser _web "$U"
 
 # Website directories
+chmod 0750 "/home/${U}"
 mkdir -v --mode=0750 "/home/${U}/website"
 mkdir -v "/home/${U}/website/"{session,tmp,code,pagespeed,backup}
 chmod 0555 "/home/${U}/website/code"
