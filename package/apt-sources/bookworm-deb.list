@@ -1,0 +1,12 @@
+# New deb.debian.org mirror (Fastly and Amazon CloudFront)
+deb http://deb.debian.org/debian bookworm main contrib non-free
+
+# Security
+# https://wiki.debian.org/NewInBookworm#Changes
+deb http://deb.debian.org/debian-security bookworm-security main contrib non-free
+
+# Updates
+deb http://deb.debian.org/debian bookworm-updates main contrib non-free
+
+# Backports
+deb http://deb.debian.org/debian bookworm-backports main contrib non-free
