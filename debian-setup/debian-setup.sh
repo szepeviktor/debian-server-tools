@@ -167,7 +167,7 @@ rm -rf /var/lib/clamav /var/log/clamav
 rm -rf /etc/console-setup
 
 # Packages used on top of SETUP_PACKAGES
-Pkg_install_quiet ssh sudo dirmngr
+Pkg_install_quiet ssh sudo dirmngr zstd
 
 # Install SHYAML (config reader)
 Pkg_install_quiet python3-yaml

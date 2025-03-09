@@ -1,4 +1,5 @@
 if ! [ -x /usr/local/bin/testgam ]; then
-    echo "WARNING: Please install testgam from debian-server-tools/mail/gamin_*_amd64/testgam" 2>&1
-    echo "cp -v /usr/local/src/debian-server-tools/mail/gamin_0.1.10-4.1.bin/testgam /usr/local/bin/" 2>&1
+    echo "WARNING: Installing testgam from debian-server-tools/mail/gamin_*_amd64/testgam" 2>&1
+    echo "Can be built from gamin package" 2>&1
+    cp -v /usr/local/src/debian-server-tools/mail/gamin_0.1.10-4.1.bin/testgam /usr/local/bin/
 fi

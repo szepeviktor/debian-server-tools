@@ -2,5 +2,7 @@
 
 loglevel = NOTICE
 
+allowipv6 = yes
+
 dbpurgeage = 648000
 
