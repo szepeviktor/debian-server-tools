@@ -65,6 +65,8 @@ add datacamp 191.101.41.0/24
 add datacamp 185.192.70.0/24
 
 # AS137409 - Global Secure Layer
+# Legaco
+add datacamp 194.61.40.0/24
 # GSL Networks
 add datacamp 212.30.37.0/24
 

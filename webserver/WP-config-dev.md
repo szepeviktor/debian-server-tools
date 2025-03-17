@@ -82,8 +82,6 @@ define( 'SIMPLE_HISTORY_DEV', true );
 define( 'W3TC_PRO_DEV_MODE', true );
 ```
 
-See https://github.com/szepeviktor/WPHW
-
 ## Plugins
 
 MU plugins are from https://github.com/szepeviktor/wordpress-plugin-construction
@@ -189,7 +187,7 @@ If you must use production Media Library from a staging/development site.
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond "%{REQUEST_FILENAME}" !-f
-    RewriteRule "wp-content/uploads/(.*)$" "https://www.PRODUCTION.TLD/wp-content/uploads/$1" [R,L]
+    RewriteRule "wp-content/uploads/(.*)$" "https://www.PRODUCTION.example/wp-content/uploads/$1" [R,L]
 </IfModule>
 ```
 

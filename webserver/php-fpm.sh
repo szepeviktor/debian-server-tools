@@ -122,4 +122,8 @@ fi
 Dinstall monitoring/siteprotection.sh
 
 # Compare enabled extensions
-for PHPV in $(update-alternatives --list php); do echo "$PHPV ..."; colordiff -u <(php7.4 -m) <($PHPV -m); done
+if [ "$(update-alternatives --list php | wc --lines)" -gt 1 ]; then
+    for PHPV in $(update-alternatives --list php); do
+        echo "$PHPV ..."; colordiff --unified <(php7.4 --modules) <($PHPV --modules)
+    done
+fi

@@ -317,7 +317,8 @@ See also
 - check https://dmarcian.com/spf-survey/ http://tools.wordtothewise.com/authentication
 - monitor `host -t TXT <domain>; pyspf`
 - for sending servers: `v=spf1 a -all`
-- for non-email or empty domains: `v=spf1 -all`
+- for [non-email](https://www.cloudflare.com/learning/dns/dns-records/protect-domains-without-email/)
+  or empty domains: `v=spf1 -all`
 
 #### DKIM (any header field and message body)
 
