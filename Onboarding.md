@@ -15,7 +15,7 @@ Details about [running your web application](https://git.io/vNryB)
     1. Managing services
     1. Contacting support
     1. Reacting to notifications
-1. If moving: access to accounts at all providers below
+1. When moving: access to accounts with all providers below
 1. Company details (registered name, registration number, address)
 1. Access to company email account
 1. Access to company bank card including CVC and 3-D Secure device

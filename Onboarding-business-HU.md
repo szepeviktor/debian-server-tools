@@ -1,7 +1,7 @@
 # Új ügyfelekkel való ismerkedés (HU)
 
 [![en](https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white)](Onboarding-business.md)
-[![hu](https://img.shields.io/badge/nyelv-magyar%20%F0%9F%87%AD%F0%9F%87%BA-white)](Onboarding-business2.md)
+[![hu](https://img.shields.io/badge/nyelv-magyar%20%F0%9F%87%AD%F0%9F%87%BA-white)](Onboarding-business-HU.md)
 
 ## Alkalmazás gyártás menete
 
