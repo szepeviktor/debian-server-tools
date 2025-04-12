@@ -19,7 +19,7 @@ package:
         # See /package/apt-sources/
         sources:
             - sury-php
-            #- szepeviktor # for up to stretch
+            #- szepeviktor # for up to bullseye
             #- percona
             #- mysql-5.7
             #- oracle-mysql-server

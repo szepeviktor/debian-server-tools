@@ -1,5 +1,5 @@
 # DEB.SURY.ORG (is in CZ)
-deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ bookworm main
-#K: wget -qO/etc/apt/trusted.gpg.d/sury-php.gpg https://packages.sury.org/php/apt.gpg
+deb [signed-by=/etc/apt/trusted.gpg.d/debsuryorg-archive.gpg] https://packages.sury.org/php/ bookworm main
+#K: wget -qO/etc/apt/trusted.gpg.d/debsuryorg-archive.gpg https://szepeviktor.github.io/debsuryorg-archive-keyring.gpg
 #M: https://packages.sury.org/php/README.txt
 #P: printf 'Package: openssl libssl-dev libssl-doc libssl1.1\nPin: origin "packages.sury.org"\nPin-Priority: -1\n' >/etc/apt/preferences.d/sury-openssl.pref
