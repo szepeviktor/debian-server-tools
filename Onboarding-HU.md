@@ -29,7 +29,7 @@ Az alábbiakat kell intézni minden egyes szolgáltatónál.
 1. Felhasználókezelés
 1. Szolgáltatások kezelése
 1. Ügyfélszolgálattal való kapcsolattartás
-1. Értesítésekre való reagálás
+1. Értesítésekre való reagálás (status page)
 
 Kategóriánként **egy** szolgáltató.
 

@@ -15,6 +15,7 @@ wget -nv -O /etc/apt/sources.list "$SETUP_APTSOURCESLIST_URL"
 
 # APT settings
 echo 'Acquire::Languages "none";' >/etc/apt/apt.conf.d/00languages
+echo 'APT::Get::Update::SourceListWarnings::NonFreeFirmware "false";' >/etc/apt/apt.conf.d/20no-bookworm-firmware
 
 # Check Install-Recommends option
 #     apt-get install -o APT::AutoRemove::RecommendsImportant=false
