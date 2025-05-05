@@ -2,7 +2,7 @@
 #
 # Generate Diffie-Hellman parameters for Courier MTA.
 #
-# VERSION       :0.5.1
+# VERSION       :0.6.0
 # DATE          :2018-07-01
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -16,8 +16,9 @@
 # man 8 mkdhparams
 DH_BITS=medium nice /usr/sbin/mkdhparams 2>/dev/null
 
+# @TODO dhparam -check: p not safe prime
 if [ ! -r /etc/courier/dhparams.pem ] \
-    || ! openssl dhparam -in /etc/courier/dhparams.pem -check -noout &>/dev/null; then
+    || ! openssl dhparam -in /etc/courier/dhparams.pem -text -noout &>/dev/null; then
     echo "Failed to generate DH params" 1>&2
     exit 1
 fi

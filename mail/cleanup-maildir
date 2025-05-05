@@ -32,7 +32,7 @@ DESCRIPTION
   depends on COMMAND.  (See next section.)
       Note that FOLDERNAME is a name such as 'Drafts', and the
   corresponding maildir path is determined using the values of
-  maildir-root, folder-prefix, and folder-seperator.
+  maildir-root, folder-prefix, and folder-separator.
 
 COMMANDS
   archive - move old messages to subfolders based on message date
@@ -69,8 +69,8 @@ OPTIONS
   --maildir-root=F
       Specifies folder that contains mail folders.
       Default is "$HOME/Maildir".
-  --folder-seperator=str
-      Folder hierarchy seperator.  Default is '.'
+  --folder-separator=str
+      Folder hierarchy separator.  Default is '.'
   --folder-prefix=str
       Folder prefix.  Default is '.'
 
@@ -304,7 +304,7 @@ class MaildirCleaner(object):
     archiveHierDepth = 2
     folderBase = None
     folderPrefix = "."
-    folderSeperator = "."
+    folderSeparator = "."
     keepFlaggedThreads = False
     trashFolder = "Trash"
     isTrialRun = False
@@ -406,12 +406,12 @@ class MaildirCleaner(object):
                         mdate = time.gmtime(msg.getDateSentOrRecd())
                         datePart = str(mdate[0])
                         if self.archiveHierDepth > 1:
-                            datePart += self.folderSeperator \
+                            datePart += self.folderSeparator \
                                         + time.strftime("%m-%b", mdate)
                         if self.archiveHierDepth > 2:
-                            datePart += self.folderSeperator \
+                            datePart += self.folderSeparator \
                                         + time.strftime("%d-%a", mdate)
-                        subFolder = archiveFolder + self.folderSeperator \
+                        subFolder = archiveFolder + self.folderSeparator \
                                     + datePart
                         sfPath = os.path.join(self.folderBase, 
                                               self.folderPrefix + subFolder)
@@ -452,7 +452,7 @@ try:
     opts, args = getopt.getopt(sys.argv[1:], 
             "hqvnrm:t:a:kd:",
             ["help", "quiet", "verbose", "version", "mode=", "trash-folder=",
-             "age=", "keep-flagged-threads", "keep-read", "folder-seperator=",
+             "age=", "keep-flagged-threads", "keep-read", "folder-separator=",
              "folder-prefix=", "maildir-root=", "archive-folder=",
              "archive-hierarchy-depth=", "trial-run"])
 except getopt.GetoptError, (msg, opt):
@@ -489,8 +489,8 @@ for o, a in opts:
         cleaner.keepFlaggedThreads = True
     if o in ("-r", "--keep-read"):
         cleaner.keepRead = True
-    if o == "--folder-seperator":
-        cleaner.folderSeperator = a
+    if o == "--folder-separator":
+        cleaner.folderSeparator = a
     if o == "--folder-prefix":
         cleaner.folderPrefix = a
     if o == "--maildir-root":
