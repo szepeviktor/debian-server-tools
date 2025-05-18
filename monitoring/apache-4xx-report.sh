@@ -42,6 +42,7 @@ declare -a IGNORE_PATTERNS=(
     #'"GET /[a-z]+/wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 403'
     #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 404'
     #'"GET /[a-z]+/wp-login\.php\?redirect_to=\S+ HTTP/(1\.0|1\.1|2\.0)" 403'
+    #'"POST /xmlrpc\.php HTTP/(1\.0|1\.1|2\.0)" 403'
     # WordPress user enumeration
     #'"GET (/\?author=|/wp-json/wp/v2/users/)[0-9]+ HTTP/(1\.0|1\.1|2\.0)" 403'
     # WordPress' Windows Live Writer manifest

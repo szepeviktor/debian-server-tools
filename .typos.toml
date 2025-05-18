@@ -9,7 +9,7 @@ extend-exclude = [
     "Intercom.md", # HU
     "mail/mx-check/disposable-email/*.grep", # Domain names
     "mail/spam/21_KAM.cf", # Spam words
-    "monitoring/README.md", # Contains router names
+    "monitoring/README.md", # Router names
     "package/apt-sources/google-cloud-sdk.list", # Fingerprint
     "package/docker-backport-goaccess.sh", # base64
     "package/quicklz-build.sh", # base64
