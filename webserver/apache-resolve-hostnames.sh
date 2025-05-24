@@ -2,7 +2,7 @@
 #
 # List incorrect Apache domain names.
 #
-# VERSION       :0.2.0
+# VERSION       :0.2.1
 # DATE          :2015-08-26
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -22,7 +22,7 @@ apache2ctl -S | sed -n -e 's/^.*\(namevhost\|alias\) \(\S\+\).*$/\2/p' \
     | grep -F -v -x 'localhost' \
     | while read -r DOMAIN; do
         # Don't show correct A records nor CNAME records
-        host -t A "$DOMAIN" | grep -v " has address ${WAN_IP//./\\.}\$\\| is an alias for "
+        host -t A "$DOMAIN" | grep -v " has address ${WAN_IP//./\.}\$\\| is an alias for "
         # Show only CNAME records
         host -t A "$DOMAIN" | grep ' is an alias for '
     done

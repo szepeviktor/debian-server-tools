@@ -1,0 +1,14 @@
+# AS211680 - Internet Census Group / NSEC, Sistemas Informaticos / BITSIGHT
+#: ipset -exist restore <ipset/internet-census.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set internet-census src -j REJECT
+create internet-census hash:net family inet hashsize 64 maxelem 32
+flush internet-census
+
+# https://bgp.he.net/AS211680#_prefixes
+
+add internet-census 45.156.128.0/24
+add internet-census 45.156.129.0/24
+add internet-census 45.156.130.0/24
+add internet-census 185.180.140.0/24
+add internet-census 185.180.143.0/24
+add internet-census 185.226.198.0/24

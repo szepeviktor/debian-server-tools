@@ -2,7 +2,7 @@
 #
 # Run WordPress cron from CLI.
 #
-# VERSION       :0.12.0
+# VERSION       :0.13.0
 # DATE          :2018-08-17
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
@@ -26,8 +26,6 @@
 # Create cron job
 #
 #     01,31 *  * * *  webuser	/usr/local/bin/wp-cron-cli.sh /home/webuser/website/code
-
-WPCRON_LOCATION="$1"
 
 Die()
 {
@@ -54,6 +52,8 @@ Get_meta()
     fi
     echo "$VALUE"
 }
+
+WPCRON_LOCATION="$1"
 
 # Look for usual document root: /home/user/website/code
 if [ -z "$WPCRON_LOCATION" ] \
@@ -82,8 +82,9 @@ export REMOTE_ADDR="127.0.0.1"
 
 # Request data
 export REQUEST_METHOD="GET"
-#export REQUEST_URI="/<SUBDIR>/wp-cron.php"
+export REQUEST_URI="/wp-cron.php"
 #export SERVER_PROTOCOL="HTTP/1.1"
+export SERVER_SOFTWARE="PHP CLI"
 # shellcheck disable=SC2119
 WPCRON_VERSION="$(Get_meta)"
 export HTTP_USER_AGENT="Wp-cron/${WPCRON_VERSION} (php-cli; Linux)"
