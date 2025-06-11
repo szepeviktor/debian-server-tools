@@ -4,11 +4,14 @@
 create censys hash:net family inet hashsize 64 maxelem 32
 flush censys
 
-# https://support.censys.io/hc/en-us/articles/360043177092-Opt-Out-of-Scanning
+# https://docs.censys.com/docs/opt-out-of-data-collection
 
 # AS398324 - CENSYS-ARIN-01
+add censys 66.132.159.0/24
 add censys 162.142.125.0/24
 add censys 167.94.138.0/24
+add censys 206.168.34.0/24
+add censys 206.168.35.0/24
 
 # AS398705 - CENSYS-ARIN-02
 add censys 167.94.145.0/24
