@@ -95,58 +95,58 @@ Provider: [Slack](https://slack.com/)
 
 For data-driven business decisions.
 
-1. Nem kívánt dolgok megsokasodása
-1. Kívánt dolgok elmaradása
+1. Proliferation of undesired events
+1. Absence of desired events
 
-- Bevétel követés
-- Új regisztrációk, előfizetési csomag választás
-- Konverziók
-- Az alkalmazásban létrehozott aktorok darabszáma
+- Revenue tracking
+- New registrations, subscription plan selection
+- Conversions
+- Number of entities (actors) created within the application
 
-* Commit-ok darabszáma
-* Kinyitott és lezárt hibajegyek darabszáma
-* Hibanapló hossza
-* Hálózati forgalom
-* Támadások száma
+* Number of commits
+* Number of opened and closed issue tickets
+* Length of the error log
+* Network traffic
+* Number of attacks
 
-Szolgáltató: https://amplitude.com/
+Service provider: https://amplitude.com/
 
-### Szerkesztő képességei
+### Editor Skills
 
-1. Tipográfiai alapismeretek
-1. WYSIWYG szerkesztő profi használata
-1. Tartalom életciklusának megtervezése, kivitelezése
-1. SEO alapismeretek
-1. Az URL részeinek ismerete
-1. Saját bejövő linkek készítőivel való kapcsolat (pl. Facebook menedzserrel)
-1. Képek és média életciklusának ismerete
-1. Képek előfeldolgozása
-1. Beszédes fájlnevek adása
+1. Basic knowledge of typography
+1. Proficient use of WYSIWYG editors
+1. Planning and executing the content lifecycle
+1. Basic understanding of SEO
+1. Understanding the structure of URLs
+1. Communication with creators of inbound links (e.g., Facebook manager)
+1. Understanding the lifecycle of images and media
+1. Preprocessing images
+1. Using descriptive file names
 
-## Kódolási büdzsé
+## Coding Budget
 
-Egy fő back-end és egy fő front-end fejlesztő
-**olcsóbb**, gyorsabb és jobb munkát végez, mint egy fő.
+One dedicated back-end developer and one front-end developer
+can produce work that is **cheaper**, faster, and better than a single full-stack developer.
 
-- Specifikáció
-- Technológiák kiválasztása
-- Kód tervezés (architektúra)
-- Grafikai dizájn és UX
+- Specification
+- Technology selection
+- Code design (architecture)
+- Graphic design and UX
 - [MVP](https://en.wikipedia.org/wiki/Minimum_viable_product)
-- Funkciók befejezése (az MVP-n felül)
-- Kézi tesztelés
-- Hiba javítás
+- Completing features beyond the MVP
+- Manual testing
+- Bug fixing
 
-### Technikai tartozás (technical debt)
+### Technical Debt
 
 https://twitter.com/StepsizeHQ/status/1156582846057844736
 
-- Dokumentumok frissítése
-- Hiba kezelés (hiba kontextus, könnyű felderíthetőség) :point_right: ettől tönkremennek a cégek
-- Biztonság (security) növelése
-- Kód kommentelés (docblock, üzleti logika és a commit üzenetek is)
-- Kódolás nélküli (zero coverage) tesztek futtatása
-- Egység (unit) és funkcionális tesztek írása
-- Keretrendszer és csomag frissítés
-- `TODO` és `FIXME` kommentek keresése a forráskódban
-- Refaktorálás
+- Updating documentation
+- Error handling (context and traceability) :point_right: this is what ruins companies
+- Improving security
+- Writing code comments (docblocks, business logic, and commit messages)
+- Running tests with zero code coverage
+- Writing unit and functional tests
+- Updating frameworks and packages
+- Searching for `TODO` and `FIXME` comments in the source code
+- Refactoring

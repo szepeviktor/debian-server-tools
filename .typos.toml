@@ -6,7 +6,9 @@ extend-exclude = [
     "repo/",
     "webserver/server-configs-nginx/",
     ".git/",
+    "CV2.md", # HU
     "Intercom.md", # HU
+    "Onboarding-business-HU.md", # HU
     "mail/mx-check/disposable-email/*.grep", # Domain names
     "mail/spam/21_KAM.cf", # Spam words
     "monitoring/README.md", # Router names
@@ -36,6 +38,9 @@ extend-ignore-re = [
     "\\|ignor\\[ei\\]",
     "nmap -n -Pn",
     "vim:.*\\bnoet\\b",
+    "Excel function: =JOBB.*",
+    "Jobb felhasználói",
+    "Jobb helyezés",
 ]
 
 [default.extend-words]
