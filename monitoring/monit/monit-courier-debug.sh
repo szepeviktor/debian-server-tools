@@ -18,7 +18,7 @@ Courier_dbg() {
     date --rfc-3339=seconds
     RESOLVERS="$(sed -n -e 's/^nameserver\s\+\(\S\+\)\s*$/\1/p' /etc/resolv.conf)"
     while read -r RESOLVER; do
-        if ! host -W 3 -t PTR 8.8.8.8 "$RESOLVER" &>/dev/null; then
+        if ! host -W 3 -t PTR 9.9.9.9 "$RESOLVER" &>/dev/null; then
             echo -n "Resolver failed: ${RESOLVER} "
         fi
     done <<<"$RESOLVERS"

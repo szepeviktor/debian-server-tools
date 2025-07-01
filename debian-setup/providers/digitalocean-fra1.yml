@@ -8,7 +8,7 @@ networking:
         - 67.207.67.3
         - 67.207.67.2
         # google-public-dns-a.google.com.
-        - 8.8.8.8
+        - 9.9.9.9
     # IPv6 interface
     inet6:
         method: auto

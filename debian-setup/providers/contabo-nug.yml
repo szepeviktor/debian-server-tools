@@ -10,7 +10,7 @@ networking:
         # MAXNS=3
         #- 213.136.95.11
         # Google Public DNS
-        - 8.8.8.8
+        - 9.9.9.9
     inet6:
         method: static
         name: eth0

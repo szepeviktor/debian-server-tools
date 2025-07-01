@@ -139,7 +139,7 @@ can produce work that is **cheaper**, faster, and better than a single full-stac
 
 ### Technical Debt
 
-https://twitter.com/StepsizeHQ/status/1156582846057844736
+https://www.monkeyuser.com/2018/tech-debt/
 
 - Updating documentation
 - Error handling (context and traceability) :point_right: this is what ruins companies

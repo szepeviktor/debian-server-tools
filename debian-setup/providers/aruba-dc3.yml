@@ -7,7 +7,7 @@ networking:
     resolver:
         # https://support.forpsi.com/kb/a3019/i-have-serverhosting-at-forpsi-what-dns-servers-should-i-set-up.aspx
         - 81.2.193.227
-        - 8.8.8.8
+        - 9.9.9.9
         - 81.2.192.131
         # MAXNS=3
     # IPv6 interface

@@ -13,6 +13,9 @@
 
 Get_primary_ipv4()
 {
+    # Quad9
+    # https://www.quad9.net/microsoft/
+    echo "9.9.9.9"
     # CloudFlare
     # https://1.1.1.1/
     echo "1.1.1.1"
@@ -25,6 +28,9 @@ Get_primary_ipv4()
     # Hurricane Electric
     # ordns.he.net.
     echo "74.82.42.42"
+    # DNS4EU
+    # https://www.joindns4.eu/for-public#resolver-options
+    echo "86.54.11.100"
     # DNS.WATCH
     # https://dns.watch/index
     echo "84.200.69.80"
@@ -34,17 +40,12 @@ Get_primary_ipv4()
     # Neustar (DNS Advantage)
     # https://www.security.neustar/digital-performance/dns-services/recursive-dns
     echo "156.154.70.5"
-    # Norton ConnectSafe
-    # "On November 15, 2018, Norton ConnectSafe service is being retired"
     # Dyn
     # https://dyn.com/labs/dyn-internet-guide/
     echo "216.146.35.35"
     # Verisign
     # https://www.verisign.com/en_US/security-services/public-dns/index.xhtml
     echo "64.6.64.6"
-    # Quad9
-    # https://www.quad9.net/microsoft/
-    echo "9.9.9.9"
     # Comodo
     # https://www.comodo.com/secure-dns/
     echo "8.26.56.26"
@@ -57,9 +58,6 @@ Get_primary_ipv4()
     # UncensoredDNS
     # https://blog.uncensoreddns.org/
     echo "91.239.100.100"
-    # Freenom
-    # https://www.freenom.world/
-    echo "80.80.80.80"
 }
 
 Get_primary_ipv4 | xargs -t -I %% -- dig @%% "$@"

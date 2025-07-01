@@ -8,7 +8,7 @@ networking:
         # 108.61.10.10.choopa.net.
         - 108.61.10.10
         # google-public-dns-a.google.com.
-        - 8.8.8.8
+        - 9.9.9.9
         # MAXNS=3
         # google-public-dns-b.google.com.
         #- 8.8.4.4

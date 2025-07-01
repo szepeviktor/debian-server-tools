@@ -6,7 +6,7 @@ networking:
     name: eth0
     resolver:
         - 62.149.128.4
-        - 8.8.8.8
+        - 9.9.9.9
         - 62.149.132.4
 software:
     aruba-arping: "Fix duplicate IP problem"
