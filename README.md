@@ -163,10 +163,6 @@ echo "- - -" > /sys/class/scsi_host/host0/scan
 
 https://google-public-dns.appspot.com/cache
 
-### Free CDN for GitHub
-
-https://staticaly.com/ `https://cdn.staticaly.com/gh/USER/REPO/TAG/FILE`
-
 ### Whois servers
 
 - `whois -h whois.iana.org $TLD` https://www.iana.org/domains/root/db

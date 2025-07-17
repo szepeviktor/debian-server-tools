@@ -9,7 +9,7 @@ networking:
         - 79.143.183.251
         # MAXNS=3
         #- 79.143.183.252
-        # Google Public DNS
+        # Quad9
         - 9.9.9.9
     inet6:
         method: static

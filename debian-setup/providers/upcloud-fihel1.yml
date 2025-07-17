@@ -7,23 +7,25 @@ networking:
     resolver:
         # UpCloud fihel1 https://www.upcloud.com/support/dns-servers/
         - 80.69.160.26
-        # google-public-dns-a.google.com.
+        # dns.quad9.net.
         - 9.9.9.9
         # MAXNS=3
         # @Sigmatic
         #- 80.69.171.167
-        # google-public-dns-b.google.com.
-        #- 8.8.4.4
+        # dns.quad9.net.
+        #- 149.112.112.112
     # IPv6 interface
     inet6:
         method: auto
         name: eth0
         resolver:
-            # google-public-dns-a.google.com.
-            - 2001:4860:4860::8888
+            # UpCloud defra1
+            - 2a04:3540:53::1
             # MAXNS=3
-            # google-public-dns-b.google.com.
-            #- 2001:4860:4860::8844
+            # dns.quad9.net.
+            #- 2620:fe::fe
+            # dns.quad9.net.
+            #- 2620:fe::9
     # Private network
     private:
         method: dhcp

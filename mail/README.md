@@ -376,6 +376,7 @@ Deprecated.
 
 ### Bulk mail
 
+1. Language
 1. Tonality: **personal** or impersonal
 1. What is the most important message?
 
