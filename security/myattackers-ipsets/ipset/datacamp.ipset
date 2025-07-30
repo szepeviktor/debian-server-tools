@@ -58,6 +58,7 @@ add datacamp 45.8.19.0/24
 # VPN Consumer Washington DC
 add datacamp 136.144.42.0/24
 # LOGICWEB
+add datacamp 98.159.37.0/24
 add datacamp 173.239.254.0/24
 
 # AS7203 - Leaseweb USA

@@ -12,3 +12,8 @@ add internet-census 45.156.130.0/24
 add internet-census 185.180.140.0/24
 add internet-census 185.180.143.0/24
 add internet-census 185.226.198.0/24
+
+# AS21859 - ZEN-ECN
+add internet-census 185.180.141.0/24
+add internet-census 185.226.196.0/24
+add internet-census 185.226.197.0/24
