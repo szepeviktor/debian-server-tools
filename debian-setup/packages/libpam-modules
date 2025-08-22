@@ -3,11 +3,13 @@
 set -e -x
 
 # Dependencies
-Pkg_install_quiet libpam-cracklib bc figlet
+Pkg_install_quiet libpam-passwdqc libpam-pwquality bc figlet
 
 # Enforce strong passwords
-# man 8 pam_cracklib
-sed -i -e 's|^\(password\t\+requisite\t\+pam_cracklib\.so\).\+$|\1 retry=3 difok=3 minlen=16 minclass=2 maxrepeat=2 maxsequence=3 reject_username|' \
+# man 5 passwdqc.conf vs. https://manpages.debian.org/testing/libpam-pwquality/pam_pwquality.8.en.html
+sed -i -e 's#^\(password\t\+requisite\t\+pam_passwdqc\.so\).\+$#\1 retry=3 min=disabled,16,16,16,16 similar=deny#' \
+    /etc/pam.d/common-password
+sed -i -e 's#^\(password\t\+requisite\t\+pam_pwquality\.so\).\+$#\1 difok=3 maxrepeat=2 maxsequence=3 reject_username#' \
     /etc/pam.d/common-password
 
 # Nice welcome screen
@@ -33,6 +35,7 @@ fi
 mv /etc/motd "/etc/motd~"
 
 # Make motd a symlink
+# https://unix.stackexchange.com/a/356288
 ln -s -f /var/run/motd /etc/motd
 
 # Install scripts
