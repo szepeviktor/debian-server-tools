@@ -18,14 +18,14 @@ concurrency:
 jobs:
     actionlint:
         name: "Actionlint"
-        runs-on: "ubuntu-22.04"
+        runs-on: "ubuntu-24.04"
         timeout-minutes: 1
         steps:
         -
             name: "Checkout repository"
-            uses: "actions/checkout@v4"
+            uses: "actions/checkout@v5"
         -
             name: "Analyze workflow files"
-            uses: "docker://rhysd/actionlint:1.6.27"
+            uses: "docker://rhysd/actionlint:1.7.7"
             with:
                 args: "-color -verbose -shellcheck="
