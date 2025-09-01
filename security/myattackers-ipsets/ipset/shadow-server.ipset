@@ -1,7 +1,7 @@
 # AS6939 - Hurricane Electric / The Shadowserver Foundation
 #: ipset -exist restore <ipset/shadow-server.ipset
 #: iptables -w -I myattackers-ipset -m set --match-set shadow-server src -j REJECT
-create shadow-server hash:net family inet hashsize 64 maxelem 64
+create shadow-server hash:net family inet hashsize 128 maxelem 128
 flush shadow-server
 # old hostnames: scan-{00..21}.shadowserver.org.
 #$ for H in scan-{00..50}{a..o}.shadowserver.org.; do dig +short ${H} A; done \
