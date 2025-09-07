@@ -32,7 +32,7 @@ Xclude_filter()
     # Apache access control
     # Apache restart messages at 6 AM
     # Malformed ??? hostname "5e ed 1d 4c bb 01", "5e ed 51 84 bb 01" via SNI
-    grep -Ev "\\s(AH00128:|AH02032:\
+    grep -Ev "\\s(AH00128:|AH02032:|AH01883:\
 |w4wp_|bad_request_|no_wp_here_|404_not_found|403_forbidden|File does not exist:\
 |client denied by server configuration:)" \
         | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094|AH01883|h2_workers):.*' \

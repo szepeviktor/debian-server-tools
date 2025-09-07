@@ -33,9 +33,11 @@ add datacamp 37.140.223.0/24
 add datacamp 45.130.81.0/24
 add datacamp 45.131.194.0/24
 add datacamp 45.146.54.0/24
+add datacamp 64.64.108.0/24
 #add datacamp 85.237.194.0/24
 #add datacamp 91.230.225.0/24
 add datacamp 136.144.33.0/24
+add datacamp 173.239.216.0/24
 #add datacamp 173.239.254.0/24
 add datacamp 185.82.72.0/24
 #add datacamp 185.92.25.0/24

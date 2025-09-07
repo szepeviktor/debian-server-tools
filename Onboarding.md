@@ -36,8 +36,7 @@ One per category.
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
    [SSLMate](https://sslmate.com/),
    DigiCert,
-   Certum :eu:,
-   [Buypass](https://www.buypass.com/products/tls-ssl-certificates) :eu:**
+   Certum :eu:
 1. CDN provider:
    **AWS, KeyCDN :eu:, Akamai from Selectel**
 1. Transactional email provider:
