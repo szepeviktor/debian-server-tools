@@ -70,8 +70,8 @@
 
 ## See also
 
+- https://www.iana.org/assignments/http-fields/http-fields.xhtml
 - https://www.geeksforgeeks.org/web-tech/http-headers/
-- https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
 - https://github.com/mnot/redbot/blob/c47e907f0c76003fa6411e5a1ce0c9e35635d559/redbot/speak.py#L20-L27
 - [MDN HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
 

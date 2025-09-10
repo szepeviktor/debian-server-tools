@@ -28,7 +28,7 @@ add datacamp 193.150.70.0/24
 add datacamp 193.218.190.0/24
 
 # AS206092 - IPXO / SECFIREWALL / Internet Utilities Europe and Asia
-#add datacamp 31.171.130.0/24
+add datacamp 31.171.130.0/24
 add datacamp 37.140.223.0/24
 add datacamp 45.130.81.0/24
 add datacamp 45.131.194.0/24
