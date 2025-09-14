@@ -3,11 +3,8 @@
 file ..\*(\\.(conf|cfg|zone|local|cf|htaccess|ipset)|Dockerfile)$ Configuration\sFile
 include ini.syntax
 
-file ..\*\\.(md|mdown|markdown)$ Markdown\sDocument
-include markdown.syntax
-
 file ..\*\\.(eml|msg)$ Email\sSource
-include email.syntax
+include mail.syntax
 
 file ..\*\\.(less|scss)$ Dynamic\sStylesheet
 include css.syntax
@@ -19,5 +16,4 @@ file ..\*\\.(json)$ JavaScript\sObject\sNotation
 include js.syntax
 
 # Append /usr/share/mc/syntax/Syntax here!
-# Alt + U cat /usr/share/mc/syntax/Syntax
 
