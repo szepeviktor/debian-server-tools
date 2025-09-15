@@ -3,8 +3,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set shadow-server src -j REJECT
 create shadow-server hash:net family inet hashsize 128 maxelem 128
 flush shadow-server
-# old hostnames: scan-{00..21}.shadowserver.org.
-#$ for H in scan-{00..50}{a..o}.shadowserver.org.; do dig +short ${H} A; done \
+#$ for H in scan-{00..50}{,{a..o}}.shadowserver.org.; do dig +short ${H} A; done \
 #$   | iprange | sed -e 's#^#add shadow-server #'
 add shadow-server 64.62.197.2/31
 add shadow-server 64.62.197.4/30
@@ -16,7 +15,8 @@ add shadow-server 64.62.197.128/26
 add shadow-server 64.62.197.192/27
 add shadow-server 64.62.197.224/31
 add shadow-server 64.62.197.226
-add shadow-server 65.49.20.70/31
+add shadow-server 65.49.20.66/31
+add shadow-server 65.49.20.68/30
 add shadow-server 65.49.20.72/29
 add shadow-server 65.49.20.80/28
 add shadow-server 65.49.20.96/28
@@ -24,11 +24,13 @@ add shadow-server 65.49.20.112/29
 add shadow-server 65.49.20.120/30
 add shadow-server 65.49.20.124/31
 add shadow-server 65.49.20.126
-add shadow-server 74.82.47.6/31
+add shadow-server 74.82.47.2/31
+add shadow-server 74.82.47.4/30
 add shadow-server 74.82.47.8/29
 add shadow-server 74.82.47.16/28
 add shadow-server 74.82.47.32/27
-add shadow-server 184.105.139.71
+add shadow-server 184.105.139.66/31
+add shadow-server 184.105.139.68/30
 add shadow-server 184.105.139.72/29
 add shadow-server 184.105.139.80/28
 add shadow-server 184.105.139.96/28
@@ -36,18 +38,17 @@ add shadow-server 184.105.139.112/29
 add shadow-server 184.105.139.120/30
 add shadow-server 184.105.139.124/31
 add shadow-server 184.105.139.126
-add shadow-server 184.105.247.198/31
+add shadow-server 184.105.247.194/31
+add shadow-server 184.105.247.196/30
 add shadow-server 184.105.247.200/29
 add shadow-server 184.105.247.208/28
-add shadow-server 184.105.247.224/29
-add shadow-server 184.105.247.232/30
-add shadow-server 184.105.247.236/31
-add shadow-server 184.105.247.239
+add shadow-server 184.105.247.224/28
 add shadow-server 184.105.247.240/29
 add shadow-server 184.105.247.248/30
 add shadow-server 184.105.247.252/31
 add shadow-server 184.105.247.254
-add shadow-server 216.218.206.70/31
+add shadow-server 216.218.206.66/31
+add shadow-server 216.218.206.68/30
 add shadow-server 216.218.206.72/29
 add shadow-server 216.218.206.80/28
 add shadow-server 216.218.206.96/29
