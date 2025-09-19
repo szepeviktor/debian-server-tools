@@ -2,14 +2,14 @@
 #
 # Run ntpdate daily and on reboot to correct the system clock.
 #
-# VERSION       :0.6.1
-# DATE          :2016-03-06
+# VERSION       :0.7.1
+# DATE          :2025-09-19
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # LICENSE       :The MIT License (MIT)
 # URL           :https://github.com/szepeviktor/debian-server-tools
 # BASH-VERSION  :4.2+
 # DEPENDS       :apt-get install ntpdate bind9-host
-# CONFIG        :/etc/default/ntpdate
+# CONFIG        :/etc/default/ntpsec-ntpdate
 # LOCATION      :/usr/local/sbin/ntpdated
 # CRON.D        :@reboot root	/usr/local/sbin/ntpdated
 # CRON.D        :@hourly root	/usr/local/sbin/ntpdated
@@ -44,9 +44,9 @@ Get_pool_ips()
 
 set -e
 
-if [ -r /etc/default/ntpdate ]; then
+if [ -r /etc/default/ntpsec-ntpdate ]; then
     # shellcheck disable=SC1091
-    source /etc/default/ntpdate
+    source /etc/default/ntpsec-ntpdate
 fi
 
 # shellcheck disable=SC2086,SC2046

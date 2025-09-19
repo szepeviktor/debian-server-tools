@@ -46,9 +46,9 @@ Pkg_install_quiet \
     localepurge unattended-upgrades apt-listchanges debsums \
     ncurses-term mc most less time moreutils unzip \
     logtail apg bc dos2unix ccze colordiff sipcalc iprange jq \
-    net-tools dnsutils ntpdate ipset netcat-openbsd lftp s-nail \
-    gcc g++ libc6-dev make strace \
-    unscd cruft bash-completion htop mmdb-bin geoipupdate \
+    net-tools dnsutils ntpsec-ntpdate ipset netcat-openbsd \
+    lftp s-nail gcc g++ libc6-dev make strace \
+    unscd cruft-ng bash-completion htop mmdb-bin geoipupdate \
     init-system-helpers needrestart git mtr-tiny whois openssl
 
 # Provide mail command

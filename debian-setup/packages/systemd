@@ -6,7 +6,7 @@ if [ "$WITHOUT_SYSTEMD" == "yes" ]; then
     # Remove systemd
     # http://without-systemd.org/wiki/index.php/How_to_remove_systemd_from_a_Debian_jessie/sid_installation
     if Is_installed systemd; then
-        Pkg_install_quiet sysvinit-core sysvinit-utils bootlogd rsyslog
+        Pkg_install_quiet sysvinit-core sysvinit-utils orphan-sysvinit-scripts bootlogd rsyslog
         cp /usr/share/sysvinit/inittab /etc/inittab
         # Change to agetty
         #sed -i -e 's|:/sbin/getty |:/sbin/agetty |' /etc/inittab
