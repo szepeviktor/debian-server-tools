@@ -59,7 +59,7 @@ if [ -r "$CERT_EXPIRY_CONFIG" ]; then
 fi
 
 # Certificates in /etc/
-find /etc/ "(" -iname "*.crt" -or -iname "*.pem" ")" \
+find /etc/ "(" -iname "*.crt" -o -iname "*.pem" ")" \
     -not -path "/etc/ssl/certs/*" \
     -not -path "/etc/letsencrypt/archive/*" \
     | while read -r CERT; do

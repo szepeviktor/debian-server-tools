@@ -326,7 +326,7 @@ echo -e 'Acquire::Queue-mode "access";\nAcquire::http::Dl-Limit "1000";' >/etc/a
 packages/etckeeper
 
 # Remove old configuration files
-find /etc/ -type f "(" -iname "*old" -or -iname "*dist" ")" -print -delete
+find /etc/ -type f "(" -name "*-old" -o -name "*-dist" ")" -print -delete
 
 # List of emails
 find /var/mail/ -type f

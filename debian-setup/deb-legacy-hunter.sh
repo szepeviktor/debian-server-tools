@@ -1,8 +1,11 @@
 #!/bin/bash
+#
+# Clean up legacy packages after dist-upgrade
+#
+# aptitude search --disable-columns --display-format "%p" <TERMS>
 
+# Execute commands manually
 exit 0
-
-#aptitude search --disable-columns --display-format "%p" <TERMS>
 
 # 100% sure to remove
 apt autoremove --purge

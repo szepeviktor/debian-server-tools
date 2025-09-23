@@ -14,9 +14,9 @@
 
 #   Exclude WordPress cache: cache directory, Focus Cache
 #   Exclude Laravel view cache: SHA-1, xxHash
-#find /home/ -type f "(" -iname "*.php" -or -iname ".js" -or -iname ".htaccess" -or -iname ".env" ")" \
-find /home/ -type f "(" -iname "*.php" -or -iname ".htaccess" -or -iname ".env" ")" \
-    "(" -cmin -61 -or -mmin -61 ")" -printf '%p @%TH:%TM:%TS\n' \
+#find /home/ -type f "(" -iname "*.php" -o -iname ".js" -o -iname ".htaccess" -o -iname ".env" ")" \
+find /home/ -type f "(" -iname "*.php" -o -iname ".htaccess" -o -iname ".env" ")" \
+    "(" -cmin -61 -o -mmin -61 ")" -printf '%p @%TH:%TM:%TS\n' \
     | grep -v -E -x '/home/[[:alnum:]]+/website/code/wp-content/cache/\S+\.php @[0-9:.]+' \
     | grep -v -E -x '/home/[[:alnum:]]+/website/code/wp-content/focus-object-cache/[a-z_-]+/\S+\.php @[0-9:.]+' \
     | grep -v -E -x '/home/[[:alnum:]]+/website/code/storage/framework/views/[0-9a-z]{40}(\.blade)?\.php @[0-9:.]+' \
