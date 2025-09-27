@@ -3,7 +3,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set shadow-server src -j REJECT
 create shadow-server hash:net family inet hashsize 128 maxelem 128
 flush shadow-server
-#$ for H in scan-{{00..50}{,{a..o}},{60..99}-{0..13}}.shadowserver.org.; do dig +short ${H} A; done \
+#$ for H in scan-{{00..59}{,{a..o}},{60..99}-{0..13}}.shadowserver.org.; do dig +short ${H} A; done \
 #$   | iprange | sed -e 's#^#add shadow-server #'
 add shadow-server 64.62.156.10/31
 add shadow-server 64.62.156.12/30
@@ -21,8 +21,16 @@ add shadow-server 64.62.197.32/27
 add shadow-server 64.62.197.64/26
 add shadow-server 64.62.197.128/26
 add shadow-server 64.62.197.192/27
-add shadow-server 64.62.197.224/31
-add shadow-server 64.62.197.226
+add shadow-server 64.62.197.224/28
+add shadow-server 64.62.197.240/31
+add shadow-server 65.49.1.10/31
+add shadow-server 65.49.1.12/30
+add shadow-server 65.49.1.16/28
+add shadow-server 65.49.1.32/27
+add shadow-server 65.49.1.64/27
+add shadow-server 65.49.1.96/28
+add shadow-server 65.49.1.112/29
+add shadow-server 65.49.1.120/31
 add shadow-server 65.49.20.66/31
 add shadow-server 65.49.20.68/30
 add shadow-server 65.49.20.72/29

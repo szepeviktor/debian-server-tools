@@ -3,7 +3,8 @@
 # Install S3QL in Python venv
 #
 
-S3QL_VERSION="5.2.3"
+# https://github.com/s3ql/s3ql/releases
+S3QL_VERSION="5.4.0"
 S3QL_PATH="/opt/s3ql"
 
 set -e -x
