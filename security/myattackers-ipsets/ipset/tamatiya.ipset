@@ -17,8 +17,6 @@ add tamatiya 78.128.113.0/24
 
 # AS60310 - Ahoura / Mobin Ertebatat Zaman / Connected to AS133398 TELE-AS Tele Asia
 add tamatiya 45.142.120.0/24
-# AS44684 - Mythic Beasts / Farhang Azma
-add tamatiya 185.143.72.0/23
 # AS44684 - Mythic Beasts / VPS-BYTE
 add tamatiya 185.143.74.0/23
 
