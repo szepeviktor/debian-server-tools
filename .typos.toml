@@ -38,6 +38,7 @@ extend-ignore-re = [
     "\\|ignor\\[ei\\]",
     "nmap -n -Pn",
     "vim:.*\\bnoet\\b",
+    "127\\.0\\.0\\.1 STABL",
     "Excel function: =JOBB.*",
     "Jobb felhasználói",
     "Jobb helyezés",

@@ -4,7 +4,7 @@
 
 exit 0
 
-# On the "donor" before snapshoting
+# On the "donor" before snapshotting
 
 # Switch to DHCP
 apt-get install -qq isc-dhcp-client
@@ -15,7 +15,7 @@ editor /etc/network/interfaces
 
 ### Do snapshot! ###
 
-# Revert after snapshoting
+# Revert after snapshotting
 mv -f /etc/network/interfaces.clone /etc/network/interfaces
 mv -f /etc/resolv.conf.clone /etc/resolv.conf
 #ifdown eth0; ifup eth0

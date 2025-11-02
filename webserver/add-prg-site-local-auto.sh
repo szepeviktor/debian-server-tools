@@ -54,7 +54,7 @@ cp webserver/default-image-38FC48.jpg ${PRG_ROOT}/
 # kabel / ocp.php
 cp webserver/ocp.php ${PRG_ROOT}/
 
-# APC/APCu ontrol panel
+# APC/APCu control panel
 # apc.php from APC trunk for PHP 5.4-
 #     php -r 'if(1!==version_compare("5.5",phpversion())) exit(1);' \
 #         && wget -nv -O${PRG_ROOT}/apc.php "http://git.php.net/?p=pecl/caching/apc.git;a=blob_plain;f=apc.php;hb=HEAD"
