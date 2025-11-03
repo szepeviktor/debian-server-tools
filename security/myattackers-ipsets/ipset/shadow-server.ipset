@@ -27,10 +27,11 @@ add shadow-server 65.49.1.10/31
 add shadow-server 65.49.1.12/30
 add shadow-server 65.49.1.16/28
 add shadow-server 65.49.1.32/27
-add shadow-server 65.49.1.64/27
-add shadow-server 65.49.1.96/28
-add shadow-server 65.49.1.112/29
-add shadow-server 65.49.1.120/31
+add shadow-server 65.49.1.64/26
+add shadow-server 65.49.1.128/26
+add shadow-server 65.49.1.192/27
+add shadow-server 65.49.1.224/28
+add shadow-server 65.49.1.240/31
 add shadow-server 65.49.20.66/31
 add shadow-server 65.49.20.68/30
 add shadow-server 65.49.20.72/29
