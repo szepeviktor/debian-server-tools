@@ -6,6 +6,9 @@ flush censys
 
 # https://docs.censys.com/docs/opt-out-of-data-collection
 
+# undocumented
+add censys 66.132.153.0/24
+
 # AS398324 - CENSYS-ARIN-01
 add censys 66.132.159.0/24
 add censys 162.142.125.0/24
