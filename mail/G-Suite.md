@@ -26,8 +26,14 @@ Custom business email.
     1024 bit
 1. Add generated TXT record `google._domainkey.`
 1. Add report-only DMARC record `_dmarc.`
-    - `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net;"`
-1. Use [Google Admin Toolbox](https://toolbox.googleapps.com/apps/checkmx/) Check MX service
-
-    `https://toolbox.googleapps.com/apps/checkmx/check?dkim_selector=google&domain=EXAMPLE.COM`
+    - no action: `"v=DMARC1; p=none; rua=mailto:postmaster@szepe.net;"`
+    - or quarantine only: `"v=DMARC1; p=quarantine; rua=mailto:postmaster@szepe.net;"`
+    - or reject: `"v=DMARC1; p=reject; rua=mailto:postmaster@szepe.net;"`
+1. Tools for checking
+    - [dmarcian SPF Surveyor](https://dmarcian.com/spf-survey/)
+    - [dmarcian DKIM Inspector](https://dmarcian.com/dkim-inspector/)
+    - [dmarcian DMARC Domain Checker](https://dmarcian.com/domain-checker/)
+    - https://redsift.com/tools/investigate
+    - [Google Admin Toolbox](https://toolbox.googleapps.com/apps/checkmx/) Check MX service is broken
+    - https://intodns.com/
 1. Optional [SMTP relay](https://admin.google.com/ac/apps/gmail/routing)

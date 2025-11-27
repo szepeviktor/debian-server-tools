@@ -33,6 +33,8 @@ declare -a IGNORE_PATTERNS=(
     '"GET /(ogShow\.aspx|show\.aspx|ogPipe\.aspx|oo\.aspx|1|email|img/logo-s\.gif) HTTP/(1\.0|1\.1|2\.0)" (301|403) [0-9]+ "[^"]+" "Amazon CloudFront"$'
     # Favicon in a subdirectory
     #'/favicon\.(ico|png) HTTP/(1\.0|1\.1|2\.0)" (403|404) [0-9]+ "'
+    # Image probes
+    #'"GET /(image|images|img|imgs)/\S+ HTTP/(1\.0|1\.1|2\.0)" (403|404|429)'
     # WordPress login page
     #'"GET /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 404'
     #'"(GET|POST) /wp-login\.php HTTP/(1\.0|1\.1|2\.0)" 403'
