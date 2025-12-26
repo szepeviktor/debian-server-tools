@@ -43,7 +43,7 @@ Kategóriánként **egy** szolgáltató.
    **[Cheapsslsecurity.com](https://cheapsslsecurity.com/rapidssl/rapidsslcertificate.html),
    [SSLMate](https://sslmate.com/),
    DigiCert,
-   Certum :eu:
+   Certum :eu:**
 1. CDN (fájl kiszolgáló hálózat) szolgáltató:
    **AWS, KeyCDN :eu:, Akamai from Selectel**
 1. Tranzakciós email kiküldő:

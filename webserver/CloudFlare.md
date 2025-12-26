@@ -96,7 +96,7 @@ RewriteCond "%{HTTP:X-Forwarded-Proto}" "!=https" [OR]
 
 Restrict access
 
-- In Apache `RemoteIPTrustedProxyList`
+- In Apache `RemoteIPTrustedProxyList` and `Require expr "%{REMOTE_ADDR} != %{CONN_REMOTE_ADDR}"`
 - In Linux firewall on port 80 and 443 using an ipset
 
 SSL encryption toward Cloudflare edges

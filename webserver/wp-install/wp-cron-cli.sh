@@ -79,6 +79,7 @@ export REMOTE_ADDR="127.0.0.1"
 #export SERVER_SOFTWARE="Apache"
 #export SERVER_SOFTWARE="nginx"
 #export SERVER_NAME="<DOMAIN>"
+export SERVER_PORT="443"
 
 # Request data
 export REQUEST_METHOD="GET"

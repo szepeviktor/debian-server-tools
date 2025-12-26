@@ -21,7 +21,7 @@ Filter_failures()
 |alert|unknown|unable|miss[^y]|except|disable|invalid|[^e]fault|cannot|denied\
 |broken|exceed|too big|too many|unsafe|unsolicited|limit reach|unhandled|traps\
 |\\bbad\\b|corrupt|but got status|oom-killer|false|unreach|[^c]oops|ignor[ei]\
-|prohibit|timeout|blocked|unavailable|over quota|unconfigured"
+|prohibit|timeout|blocked|unavailable|over quota|unconfigured|wrong"
 }
 
 LOG_EXCERPT="$(mktemp --suffix=.syslog)"

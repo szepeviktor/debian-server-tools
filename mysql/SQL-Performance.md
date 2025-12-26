@@ -20,6 +20,15 @@ innodb_flush_method         = O_DIRECT
 innodb_thread_concurrency   = {CPU CORES - 1}
 ```
 
+```sql
+-- Recommended innodb_buffer_pool_size
+SELECT CEILING(Total_InnoDB_Bytes*1.6/POWER(1024, 3)) RIBPS
+FROM
+  (SELECT SUM(data_length+index_length) Total_InnoDB_Bytes
+   FROM information_schema.tables
+   WHERE ENGINE='InnoDB') A;
+```
+
 ### Slow log analysis
 
 - Install Percona Tools: `apt-get install percona-toolkit`
