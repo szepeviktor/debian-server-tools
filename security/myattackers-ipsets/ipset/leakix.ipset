@@ -3,7 +3,7 @@
 #: iptables -w -I myattackers-ipset -m set --match-set leakix src -j REJECT
 create leakix hash:net family inet hashsize 64 maxelem 256
 flush leakix
-#$ wget -qO- https://scan.leakix.net/json|jq -r '."probes"[]."ipv4"'|sortip -u|sed -e 's/^/add leakix /'
+#$ wget -qO- https://scan.leakix.net/json|jq -r '."probes"[]."ipv4"'|sort -Vu|sed -e 's/^/add leakix /'
 add leakix 23.239.4.252
 add leakix 23.239.21.238
 add leakix 46.101.1.225
