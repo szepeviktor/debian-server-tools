@@ -2,7 +2,7 @@
 #
 # Simulate Mozilla Firefox with wget.
 #
-# VERSION       :1.0.1
+# VERSION       :1.0.2
 # DATE          :2015-07-31
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -14,7 +14,7 @@
 #
 #     GET /request/uri HTTP/1.1
 #     Host: hostname:port
-#     User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55.0.2
+#     User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0
 #     Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 #     Accept-Language: en-US,en;q=0.5
 #     Accept-Encoding: gzip, deflate
@@ -29,7 +29,7 @@
 
 
 
-UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55.0.2"
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0"
 
 /usr/bin/wget --user-agent="$UA" \
     --header="Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \

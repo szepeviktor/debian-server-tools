@@ -8,4 +8,4 @@
 
 set -e
 
-echo "ping" | nc -C -q 10 localhost 6379 | grep -F "+PONG"
+echo "PING" | nc -C -q 10 localhost 6379 | grep -F "+PONG"
