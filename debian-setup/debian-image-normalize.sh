@@ -144,6 +144,14 @@ test -f /etc/aliases && rm /etc/aliases
 test -d /var/spool/exim4 && rm -rf /var/spool/exim4
 # Texinfo config
 test -d /etc/texmf && rm -r /etc/texmf
+# Cloud-init files
+# UpCloud data source: http://169.254.169.254/metadata/v1.json
+test -f /etc/ssh/sshd_config.d/50-cloud-init.conf && rm /etc/ssh/sshd_config.d/50-cloud-init.conf
+test -f /etc/sudoers.d/90-cloud-init-users && rm /etc/sudoers.d/90-cloud-init-users
+# /etc/network/interfaces is empty
+#/etc/network/interfaces.d/50-cloud-init
+test -f /var/log/cloud-init.log && rm /var/log/cloud-init.log
+test -d /var/tmp/cloud-init && rm -r /var/tmp/cloud-init
 
 Info "Do dist-upgrade finally"
 

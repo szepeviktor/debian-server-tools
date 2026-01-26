@@ -3,10 +3,9 @@
 # @TODO vallumd - central firewall
 
 [DEFAULT]
-#          localhost   own IP
-#                                    proxy         Googlebot      PayPal IPN
-ignoreip = 127.0.0.0/8 @@IP@@ 88.151.99.143 66.249.64.0/19 173.0.80.0/22
-           35.158.136.0/24 52.57.254.0/24 54.240.128.0/18 64.252.86.0/23 64.252.88.0/23 205.251.192.0/19 216.137.32.0/19
+#          localhost   own IP        Googlebot      PayPal IPN
+ignoreip = 127.0.0.0/8 @@IP@@ 66.249.64.0/19 173.0.80.0/22
+           35.158.136.0/24 52.57.254.0/24 54.240.128.0/18 64.252.86.0/23 64.252.88.0/23 64.252.126.0/24 205.251.192.0/19 216.137.32.0/19
 #          Amazon CloudFront
 # wget -qO- "https://ip-ranges.amazonaws.com/ip-ranges.json"|jq -r '.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix'|sortip
 
