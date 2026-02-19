@@ -2,7 +2,7 @@
 #
 # Check the reputation of an IP address
 #
-# VERSION       :1.1.0
+# VERSION       :1.2.0
 # DATE          :2020-08-30
 # AUTHOR        :Viktor Szépe <viktor@szepe.net>
 # URL           :https://github.com/szepeviktor/debian-server-tools
@@ -192,21 +192,6 @@ Match_known()
     fi
 
     return 10
-}
-
-Match_commented_list()
-{
-    local IP="$1"
-    local LIST="$2"
-    local CACHE_FILE
-
-    CACHE_FILE="$(Get_cache_file "$LIST")"
-
-    if [ ! -s "$CACHE_FILE" ]; then
-        return 10
-    fi
-
-    grepcidr -x -f "$CACHE_FILE" <<<"$IP" >/dev/null
 }
 
 Match_cidr_list()

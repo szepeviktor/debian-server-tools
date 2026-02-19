@@ -1,0 +1,8 @@
+# AS211590 - Bucklog
+#: ipset -exist restore <ipset/bucklog.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set bucklog src -j REJECT
+create bucklog hash:net family inet hashsize 64 maxelem 64
+flush bucklog
+#add bucklog 170.39.217.0/24
+# FBW NETWORKS
+add bucklog 185.177.72.0/24
