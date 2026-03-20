@@ -39,17 +39,11 @@ add velia 151.106.48.0/20
 #add velia 162.254.200.0/21
 #add velia 185.19.216.0/22
 #add velia 185.94.19.0/24
-add velia 185.99.98.0/23
-add velia 185.126.66.0/23
 #add velia 185.164.57.0/24
 #add velia 185.198.240.0/24
-# On cleantalk.org
-add velia 185.202.0.0/22
 #add velia 185.244.80.0/23
 
 # In add velia 192.155.96.0/20
-# Snowshoe spammer VELIANET-US-HUNGARYKFT
-add velia 192.155.99.64/27
 # Snowshoe spammer 192.155.104.0/21
 add velia 192.155.104.0/24
 add velia 192.155.105.0/24
