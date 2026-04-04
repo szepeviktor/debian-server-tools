@@ -1,5 +1,5 @@
-szepe.net: mail.szepe.net,25 /SECURITY=REQUIRED
-#satellite.this.fqdn: mail.szepe.net,25 /SECURITY=REQUIRED
+szepe.net: mail.szepe.net,465 /SECURITY=SMTPS
+#satellite.this.fqdn: mail.szepe.net,465 /SECURITY=SMTPS
 
 #hotmail.com: smtp-relay.example.com,587 /SECURITY=REQUIRED
 #hotmail.de: smtp-relay.example.com,587 /SECURITY=REQUIRED
