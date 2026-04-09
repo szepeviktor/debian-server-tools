@@ -237,6 +237,9 @@ case "$CHECK" in
     ROOT)
         RESULT="$(find / -mindepth 1 -maxdepth 1 -printf '%P\n' | sort | paste -s -d ":")"
         ;;
+    PID1CHILDREN)
+        RESULT="$(ps -o cmd= --ppid 1 | sort | md5sum | cut -d " " -f 1)"
+        ;;
     *)
         # Missing check
         exit 11

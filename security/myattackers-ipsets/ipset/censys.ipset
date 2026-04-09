@@ -4,13 +4,16 @@
 create censys hash:net family inet hashsize 64 maxelem 32
 flush censys
 
-# https://docs.censys.com/docs/opt-out-of-data-collection
-
-# undocumented
-add censys 66.132.153.0/24
+#$ https://docs.censys.com/docs/opt-out-of-data-collection
 
 # AS398324 - CENSYS-ARIN-01
+add censys 66.132.148.0/24
+add censys 66.132.153.0/24
 add censys 66.132.159.0/24
+add censys 66.132.172.0/24
+add censys 66.132.186.0/24
+add censys 66.132.195.0/24
+add censys 66.132.224.0/24
 add censys 162.142.125.0/24
 add censys 167.94.138.0/24
 add censys 206.168.34.0/24
