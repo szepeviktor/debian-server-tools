@@ -11,7 +11,7 @@
 
 - DNS resource records ([dns-watch.sh](/monitoring/dns-watch.sh), [dnsspy.io](https://dnsspy.io/))
 - HTTP message body (aka HTML source code)
-- Visual change ([visualping.io](https://visualping.io/))
+- Visual change ([visualping.io](https://visualping.io/), [snaplert.com](https://snaplert.com/) — pixel diffs, AI summaries, element-level zone picker)
 - HTTPS certificate and SSL settings ([ssl-check.sh](/monitoring/ssl-check.sh), [ssllabs.com](https://www.ssllabs.com/ssltest/), [Cryptosense](https://discovery.cryptosense.com/))
 - File changes ([tripwire-fake.sh](/monitoring/tripwire-fake.sh))
 - Application log ([laravel-report.sh](https://github.com/szepeviktor/running-laravel/blob/master/bin/laravel-report.sh))
