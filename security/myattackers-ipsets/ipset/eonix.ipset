@@ -3,7 +3,6 @@
 #: iptables -w -I myattackers-ipset -m set --match-set eonix src -j REJECT
 create eonix hash:net family inet hashsize 64 maxelem 32
 flush eonix
-add eonix 23.231.80.0/22
 
 # AS49532 - Eonix Corporation
 add eonix 23.231.12.0/22
@@ -22,8 +21,6 @@ add eonix 50.3.196.0/22
 #add eonix 104.206.188.0/22
 #add eonix 104.206.240.0/22
 #add eonix 104.206.248.0/22
-add eonix 107.158.216.0/22
-add eonix 107.158.220.0/22
 add eonix 173.44.164.0/22
 #add eonix 173.44.196.0/22
 add eonix 173.44.224.0/22

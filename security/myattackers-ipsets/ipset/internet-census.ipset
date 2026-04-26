@@ -9,7 +9,6 @@ flush internet-census
 add internet-census 45.156.128.0/24
 add internet-census 45.156.129.0/24
 add internet-census 45.156.130.0/24
-add internet-census 185.180.140.0/24
 add internet-census 185.180.143.0/24
 add internet-census 185.226.198.0/24
 

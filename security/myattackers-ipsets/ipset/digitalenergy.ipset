@@ -10,7 +10,6 @@ add digitalenergy 45.141.232.0/24
 add digitalenergy 45.141.234.0/24
 add digitalenergy 45.141.235.0/24
 add digitalenergy 45.145.121.0/24
-add digitalenergy 64.137.120.0/24
 add digitalenergy 85.208.115.0/24
 add digitalenergy 85.237.200.0/24
 add digitalenergy 89.19.47.0/24
@@ -18,8 +17,6 @@ add digitalenergy 91.92.34.0/24
 add digitalenergy 91.92.35.0/24
 # 188.214.234.0/23
 add digitalenergy 188.214.234.0/24
-# HR-SYSHEAD
-add digitalenergy 91.199.42.0/24
 add digitalenergy 102.128.141.0/24
 # GETHOSTED-MY
 add digitalenergy 103.75.228.0/24
@@ -31,7 +28,6 @@ add digitalenergy 179.61.128.0/20
 add digitalenergy 179.61.144.0/20
 add digitalenergy 179.61.160.0/20
 add digitalenergy 179.61.249.0/24
-add digitalenergy 181.214.0.0/20
 add digitalenergy 181.214.16.0/20
 add digitalenergy 181.214.32.0/20
 add digitalenergy 181.214.208.0/22
@@ -51,18 +47,13 @@ add digitalenergy 185.170.56.0/24
 add digitalenergy 185.212.204.0/23
 add digitalenergy 191.96.95.0/24
 add digitalenergy 191.96.97.0/24
-add digitalenergy 191.96.102.0/24
 add digitalenergy 191.96.132.0/24
 add digitalenergy 191.96.181.0/24
 add digitalenergy 191.101.50.0/24
 #add digitalenergy 191.101.64.0/20
 add digitalenergy 191.101.80.0/20
 add digitalenergy 191.101.112.0/20
-add digitalenergy 191.101.136.0/21
-add digitalenergy 191.101.161.0/24
 add digitalenergy 191.101.250.0/24
-add digitalenergy 192.109.110.0/24
-add digitalenergy 193.43.118.0/24
 # NL-HOSTINGKING
 add digitalenergy 193.176.186.0/24
 add digitalenergy 193.219.0.0/24
@@ -86,13 +77,6 @@ add digitalenergy 191.101.178.0/24
 
 # AS62000 - Netrix
 add digitalenergy 191.101.23.0/24
-
-# AS200557 - REGION40
-# Listed in region40.ipset
-##add digitalenergy 179.61.200.0/23
-##add digitalenergy 181.214.37.0/24
-##add digitalenergy 191.101.24.0/24
-##add digitalenergy 191.101.54.0/23
 
 # AS40676 - Psychz
 #add digitalenergy 181.41.215.0/24

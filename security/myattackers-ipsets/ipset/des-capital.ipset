@@ -13,10 +13,19 @@ add des-capital 185.254.37.0/24
 add des-capital 194.55.224.0/24
 add des-capital 194.180.48.0/24
 
+# AS9123 - Jsc timeweb
+#add des-capital 85.239.36.0/24
+#add des-capital 85.239.37.0/24
+#add des-capital 85.239.38.0/24
+#add des-capital 85.239.39.0/24
+#add des-capital 85.239.42.0/23
+#add des-capital 185.152.92.0/24
+#add des-capital 185.152.93.0/24
+#add des-capital 185.152.94.0/24
+#add des-capital 185.152.95.0/24
 # Single IP
 add des-capital 194.87.151.73
+add des-capital 212.60.20.0/24
+add des-capital 212.60.21.0/24
 
 # AS399471 - Serverion
-
-# AS17447 - Net4India
-add des-capital 147.78.103.0/24

@@ -3,18 +3,17 @@
 #: iptables -w -I myattackers-ipset -m set --match-set gigenet src -j REJECT
 create gigenet hash:net family inet hashsize 64 maxelem 128
 flush gigenet
-# TrafficTransitSolution
-add gigenet 83.171.225.0/24
 
 # AS8100 - QuadraNet
 # Trusov Ilya Igorevych
 add gigenet 5.188.217.0/24
-# FINE GROUP SERVERS SOLUTIONS
-add gigenet 79.110.28.0/24
 # TRUSOV
 add gigenet 79.110.31.0/24
 # TRUSOV
+add gigenet 185.14.192.0/24
 add gigenet 185.14.194.0/24
+# AS35624 - Silverstar / Fast Servers / FINE GROUP SERVERS SOLUTIONS
+add gigenet 185.46.84.0/22
 # ATOMOHOST
 add gigenet 185.89.100.0/23
 # TrafficTransitSolution
@@ -25,8 +24,11 @@ add gigenet 185.89.100.0/23
 # AS46844 - Sharktech
 # Trusov Ilya Igorevych
 add gigenet 37.9.44.0/22
-# FINE GROUP SERVERS SOLUTIONS
-add gigenet 178.159.99.0/24
+
+# AS56340 - Grand Ltd / Petersburg Internet Network
+add gigenet 91.243.90.0/24
+add gigenet 91.243.91.0/24
+add gigenet 91.243.93.0/24
 # TrafficTransitSolution
 #add gigenet 5.183.253.0/24
 #add gigenet 5.183.254.0/24

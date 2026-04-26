@@ -44,7 +44,6 @@ declare -a AS_HOSTING=(
     AS56322  # ServerAstra Kft.
     AS28573  # CLARO S.A. (ISP)
     AS9299   # Philippine Long Distance Telephone Company (ISP)
-    AS200557 # Region40
     AS32097  # WholeSale Internet
     AS55933  # Cloudie Limited
     AS9009   # M247 Ltd
