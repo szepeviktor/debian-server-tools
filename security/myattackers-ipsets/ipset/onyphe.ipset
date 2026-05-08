@@ -1,0 +1,16 @@
+# AS213412 - ONYPHE
+#: ipset -exist restore <ipset/onyphe.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set onyphe src -j REJECT
+create onyphe hash:net family inet hashsize 64 maxelem 32
+flush onyphe
+#$ wget -qO- https://smith.probe.onyphe.net/ip-ranges.txt|sort -Vu|sed -e 's#^#add onyphe #'
+add onyphe 51.254.49.96/28
+add onyphe 91.196.152.0/24
+add onyphe 91.230.168.0/24
+add onyphe 91.231.89.0/24
+add onyphe 94.231.206.0/24
+add onyphe 195.184.76.0/24
+
+#add onyphe 2a14:f100::/29
+#add onyphe 2001:41d0:33a:a00::400/124
+#add onyphe 2001:41d0:33d:9200::400/124

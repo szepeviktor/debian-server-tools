@@ -4,7 +4,7 @@
 #
 
 # https://github.com/s3ql/s3ql/releases
-S3QL_VERSION="5.4.0"
+S3QL_VERSION="5.4.2"
 S3QL_PATH="/opt/s3ql"
 
 set -e -x

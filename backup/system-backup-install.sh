@@ -31,7 +31,8 @@ mkdir -p /root/.config/system-backup
 cat >/root/.config/system-backup/configuration <<EOF
 STORAGE_URL="$(sed -n -e 's|^storage-url:\s*\(\S\+\)$|\1|p' /root/.s3ql/authinfo2)"
 TARGET="/media/server-backup.s3ql"
-#MOUNT_OPTIONS="--threads 4 --compress zlib-5"
+#MOUNT_OPTIONS="--max-cache-entries 10240 --threads 4 --compress zlib-5"
+#ulimit -n 10500
 MOUNT_OPTIONS="--compress zlib-5"
 AUTHFILE="/root/.s3ql/authinfo2"
 #DB_EXCLUDE="excluded-db1|excluded-db2"

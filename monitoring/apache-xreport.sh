@@ -36,6 +36,8 @@ Xclude_filter()
 |w4wp_|bad_request_|no_wp_here_|404_not_found|403_forbidden|File does not exist:\
 |client denied by server configuration:)" \
         | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094|AH01883|h2_workers):.*' \
+        | grep -Ev '\sAH00126: Invalid URI in request\s' \
+        | grep -Ev '\sAH10244: invalid URI path\s' \
 
 }
 
@@ -82,7 +84,7 @@ while read -r CONFIG_FILE; do
     nice dategrep --format '%a %b %d %T(.[0-9]+)? %Y' --multiline \
         --start "now truncate 24h add -17h35m" --end "06:25:00" "$ERROR_LOG".[1] "$ERROR_LOG" \
         | Xclude_filter \
-        | sed "s;^;$(basename "$ERROR_LOG" .log): ;"
+        | sed -e "s|^|$(basename "$ERROR_LOG" .log): |"
 
 done <<<"$APACHE_CONFIGS" | Maybe_sendmail
 

@@ -31,6 +31,10 @@ destemail = admin@szepe.net
 # Separate chain for Fail2ban
 chain = fail2ban
 
+# Use iptables
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
 # Ban & send an e-mail with GEOIP data and relevant log lines
 action_mgl = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s", actionstart_on_demand=false]
              sendmail-geoip-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
