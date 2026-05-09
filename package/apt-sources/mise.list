@@ -1,0 +1,4 @@
+# mise
+deb [signed-by=/etc/apt/trusted.gpg.d/mise.gpg] https://mise.en.dev/deb stable main
+#K: wget -qO- https://mise.en.dev/gpg-key.pub | gpg --yes --dearmor --output /etc/apt/trusted.gpg.d/mise.gpg
+#M: https://mise.en.dev/

@@ -1,5 +1,5 @@
 # New Relic Infrastructure
 # echo "license_key: $LICENSE_KEY" >>/etc/newrelic-infra.yml
-deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt stretch main
-#K: wget -qO- https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -
+deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/newrelic-infra.gpg] https://download.newrelic.com/infrastructure_agent/linux/apt stretch main
+#K: curl -fsSL https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | gpg --dearmor --output /etc/apt/trusted.gpg.d/newrelic-infra.gpg
 #M: https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/installation/install-infrastructure-linux

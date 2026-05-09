@@ -1,5 +1,5 @@
 # New Relic APM
 # newrelic-php5, (newrelic-sysmond)
-deb http://apt.newrelic.com/debian/ newrelic non-free
-#K: wget -qO- https://download.newrelic.com/548C16BF.gpg | apt-key add -
+deb [signed-by=/etc/apt/trusted.gpg.d/newrelic.gpg] http://apt.newrelic.com/debian/ newrelic non-free
+#K: wget -qO /etc/apt/trusted.gpg.d/newrelic.gpg https://download.newrelic.com/548C16BF.gpg
 #M: https://docs.newrelic.com/docs/agents/php-agent/installation/php-agent-installation-ubuntu-debian

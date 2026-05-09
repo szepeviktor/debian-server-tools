@@ -1,5 +1,5 @@
 # Deb-multimedia
-deb http://www.deb-multimedia.org/ stretch main non-free
-deb http://www.deb-multimedia.org/ stretch-backports main
+deb [signed-by=/etc/apt/trusted.gpg.d/deb-multimedia.gpg] http://www.deb-multimedia.org/ stretch main non-free
+deb [signed-by=/etc/apt/trusted.gpg.d/deb-multimedia.gpg] http://www.deb-multimedia.org/ stretch-backports main
 #K: apt-get update && apt-get install -y deb-multimedia-keyring
 #M: https://www.deb-multimedia.org/

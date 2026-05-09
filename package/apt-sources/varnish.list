@@ -1,4 +1,4 @@
 # Varnish is a web application accelerator
-deb https://repo.varnish-cache.org/debian/ stretch varnish-4.0
-#K: wget -qO- https://repo.varnish-cache.org/debian/GPG-key.txt | apt-key add -
+deb [signed-by=/etc/apt/trusted.gpg.d/varnish.gpg] https://repo.varnish-cache.org/debian/ stretch varnish-4.0
+#K: curl -fsSL https://repo.varnish-cache.org/debian/GPG-key.txt | gpg --dearmor --output /etc/apt/trusted.gpg.d/varnish.gpg
 #M: https://www.varnish-cache.org/installation/debian

@@ -1,5 +1,5 @@
 # GitLab CE
-deb https://packages.gitlab.com/gitlab/gitlab-ce/debian/ stretch main
-#K: wget -qO- https://packages.gitlab.com/gpg.key | apt-key add -
+deb [signed-by=/etc/apt/trusted.gpg.d/gitlab.gpg] https://packages.gitlab.com/gitlab/gitlab-ce/debian/ stretch main
+#K: curl -fsSL https://packages.gitlab.com/gpg.key | gpg --dearmor --output /etc/apt/trusted.gpg.d/gitlab.gpg
 #M: https://about.gitlab.com/installation/#debian?version=ce
 #F: E15E78F4:1A4C919DB987D435939638B914219A96E15E78F4

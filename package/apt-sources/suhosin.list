@@ -1,4 +1,4 @@
 # Suhosin for PHP 5.x
-deb http://repo.suhosin.org/ debian-jessie main
-#K: wget -qO- https://sektioneins.de/files/repository.asc | apt-key add -
+deb [signed-by=/etc/apt/trusted.gpg.d/suhosin.gpg] http://repo.suhosin.org/ debian-jessie main
+#K: curl -fsSL https://sektioneins.de/files/repository.asc | gpg --dearmor --output /etc/apt/trusted.gpg.d/suhosin.gpg
 #M: http://suhosin.org/stories/install.html

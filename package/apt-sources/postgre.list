@@ -1,4 +1,4 @@
 # PostgreSQL
-deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
-#K: wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+deb [signed-by=/etc/apt/trusted.gpg.d/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
+#K: curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor --output /etc/apt/trusted.gpg.d/postgresql.gpg
 #M: http://www.postgresql.org/download/linux/debian/
