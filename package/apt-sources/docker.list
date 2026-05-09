@@ -2,5 +2,5 @@
 ######## TODO Buster has https://packages.debian.org/buster/docker.io
 # Older versions of Docker were called: docker docker.io docker-engine
 deb [signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/debian stretch stable
-#K: curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor --output /etc/apt/trusted.gpg.d/docker.gpg
+#K: wget -qO- https://download.docker.com/linux/debian/gpg | gpg --dearmor --output /etc/apt/trusted.gpg.d/docker.gpg
 #M: https://docs.docker.com/install/linux/docker-ce/debian/

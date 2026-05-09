@@ -1,5 +1,5 @@
 # Rspamd
 deb [signed-by=/etc/apt/trusted.gpg.d/rspamd.gpg] http://rspamd.com/apt-stable/ stretch main
-#K: curl -fsSL https://rspamd.com/apt-stable/gpg.key | gpg --dearmor --output /etc/apt/trusted.gpg.d/rspamd.gpg
+#K: wget -qO- https://rspamd.com/apt-stable/gpg.key | gpg --dearmor --output /etc/apt/trusted.gpg.d/rspamd.gpg
 #M: https://rspamd.com/downloads.html#system2
 #F: BF21E25E:3FA347D5E599BE4595CA2576FFA232EDBF21E25E
