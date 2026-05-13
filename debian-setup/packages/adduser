@@ -113,8 +113,6 @@ if [ "$BASH" ]; then
     fi
 fi
 
-mesg n
-
 # Set the title on PuTTY terminals also
 case "$TERM" in
     putty*)

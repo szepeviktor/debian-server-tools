@@ -12,7 +12,7 @@
 # LOCATION      :/usr/local/sbin/apache-xreport.sh
 # CRON-DAILY    :/usr/local/sbin/apache-xreport.sh
 
-CCZE_CSS_URL="https://cdn.rawgit.com/szepeviktor/debian-server-tools/master/monitoring/apache-ccze.css"
+CCZE_CSS_URL="https://cdn.jsdelivr.net/gh/szepeviktor/debian-server-tools@master/monitoring/apache-ccze.css"
 CCZE_BODY_BG="#fdf6e3"
 EMAIL_HEADER="Subject: [admin] HTTP xerrors from $(hostname -f)
 From: webserver <root>
