@@ -1,0 +1,6 @@
+# AS401401 - Unredacted
+#: ipset -exist restore <ipset/unredacted.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set unredacted src -j REJECT
+create unredacted hash:net family inet hashsize 64 maxelem 32
+flush unredacted
+add unredacted 23.191.200.0/24

@@ -201,6 +201,10 @@ if hash redis-cli 2>/dev/null; then
     Display_right "Redis memory" "$(echo "INFO memory" | redis-cli | tr -d '\r' | grep -F -w 'used_memory_human' | cut -d ":" -f 2)" G
     Display_right "Redis keys" "$(echo "DBSIZE" | redis-cli | tr -d '\r' | cut -d " " -f 2)" G
 fi
+if hash valkey-cli 2>/dev/null; then
+    Display_right "Valkey memory" "$(valkey-cli INFO memory | tr -d '\r' | grep -F -w 'used_memory_human' | cut -d ":" -f 2)" G
+    Display_right "Valkey keys" "$(valkey-cli --raw DBSIZE)" G
+fi
 
 Do_display
 echo

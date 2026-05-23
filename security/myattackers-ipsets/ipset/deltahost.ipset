@@ -1,0 +1,11 @@
+# AS42159 - DELTAHOST / Zemlyaniy Dmitro Leonidovich / ->Serverius
+#: ipset -exist restore <ipset/deltahost.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set deltahost src -j REJECT
+create deltahost hash:net family inet hashsize 64 maxelem 32
+flush deltahost
+add deltahost 185.20.184.0/22
+add deltahost 185.36.188.0/22
+add deltahost 185.161.208.0/22
+add deltahost 185.236.76.0/22
+add deltahost 193.111.152.0/22
+#add deltahost 193.169.244.0/23
