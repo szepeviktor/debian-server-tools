@@ -1,4 +1,0 @@
-# MeiliSearch
-deb [trusted=yes] https://apt.fury.io/meilisearch/ /
-# TODO No signature
-#M: https://docs.meilisearch.com/reference/features/installation.html

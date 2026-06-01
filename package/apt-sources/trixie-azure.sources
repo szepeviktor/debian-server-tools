@@ -1,0 +1,26 @@
+# Microsoft Azure Traffic Manager mirror
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: trixie
+Components: main contrib non-free
+
+
+# Security
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian-security
+Suites: trixie-security
+Components: main contrib non-free
+
+
+# Updates
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: trixie-updates
+Components: main contrib non-free
+
+
+# Backports
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: trixie-backports
+Components: main contrib non-free

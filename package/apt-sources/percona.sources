@@ -1,0 +1,10 @@
+# Percona
+Types: deb
+URIs: http://repo.percona.com/apt/
+Suites: buster
+Components: main
+Signed-By: /etc/apt/keyrings/percona.gpg
+X-Documentation-URL: https://www.percona.com/doc/percona-xtrabackup/LATEST/installation/apt_repo.html
+X-Documentation-URL: https://www.percona.com/doc/percona-server/LATEST/installation/apt_repo.html
+X-Key-URL: https://github.com/percona/percona-repositories/raw/main/deb/percona-keyring.gpg
+X-Key-Format: binary

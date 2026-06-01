@@ -1,0 +1,26 @@
+# Microsoft Azure Traffic Manager mirror
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: buster
+Components: main contrib non-free
+
+
+# Security
+Types: deb
+URIs: http://security.debian.org/
+Suites: buster/updates
+Components: main contrib non-free
+
+
+# Updates
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: buster-updates
+Components: main contrib non-free
+
+
+# Backports
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: buster-backports
+Components: main contrib non-free

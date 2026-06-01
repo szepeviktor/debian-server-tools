@@ -1,0 +1,9 @@
+# Lighttpd 2.0 (work in progress)
+Types: deb
+URIs: http://debian.lighttpd.net/lighttpd2-nightlies
+Suites: stretch
+Components: main
+Signed-By: /etc/apt/keyrings/lighttpd2.gpg
+X-Key-URL: https://debian.lighttpd.net/jenkins-lighttpd.net.gpg
+X-Key-Format: binary
+X-Documentation-URL: https://debian.lighttpd.net/

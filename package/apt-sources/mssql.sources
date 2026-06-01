@@ -1,0 +1,11 @@
+# Microsoft ODBC Driver 17 for SQL Server
+Types: deb
+URIs: https://packages.microsoft.com/debian/9/prod
+Suites: stretch
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/microsoft.gpg
+X-Key-URL: https://packages.microsoft.com/keys/microsoft.asc
+X-Key-Format: armored
+X-Documentation-URL: https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server
+X-Key-Fingerprint: BC528686B50D79E339D3721CEB3E94ADBE1229CF

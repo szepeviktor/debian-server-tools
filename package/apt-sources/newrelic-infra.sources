@@ -1,0 +1,11 @@
+# New Relic Infrastructure
+# echo "license_key: $LICENSE_KEY" >>/etc/newrelic-infra.yml
+Types: deb
+URIs: https://download.newrelic.com/infrastructure_agent/linux/apt
+Suites: stretch
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/newrelic-infra.gpg
+X-Key-URL: https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg
+X-Key-Format: armored
+X-Documentation-URL: https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/installation/install-infrastructure-linux

@@ -1,0 +1,27 @@
+Types: deb
+URIs: @@MIRROR@@
+Suites: stable
+Components: main contrib non-free
+
+
+# Security updates
+Types: deb
+URIs: http://security.debian.org/
+Suites: stable/updates
+Components: main contrib non-free
+
+
+# Updates
+# (previously known as 'volatile')
+Types: deb
+URIs: @@MIRROR@@
+Suites: stable-updates
+Components: main contrib non-free
+
+
+# Backports
+# http://backports.debian.org/changes/stable-backports.html
+Types: deb
+URIs: @@MIRROR@@
+Suites: stable-backports
+Components: main contrib non-free

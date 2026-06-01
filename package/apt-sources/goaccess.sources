@@ -1,0 +1,9 @@
+# Goaccess
+Types: deb
+URIs: http://deb.goaccess.io/
+Suites: trixie
+Components: main
+Signed-By: /etc/apt/keyrings/goaccess.gpg
+X-Key-URL: https://deb.goaccess.io/goaccess.gpg.key
+X-Key-Format: binary
+X-Documentation-URL: https://goaccess.io/download#distro

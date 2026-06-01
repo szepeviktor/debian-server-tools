@@ -1,4 +1,0 @@
-# Google Linux Software Repositories (Google Chrome, Google Earth etc.)
-deb [signed-by=/etc/apt/trusted.gpg.d/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main
-#K: wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --yes --dearmor --output /etc/apt/trusted.gpg.d/google-linux.gpg
-#M: https://www.google.com/linuxrepositories/

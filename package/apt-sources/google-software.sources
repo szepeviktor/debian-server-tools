@@ -1,0 +1,9 @@
+# Google Linux Software Repositories (Google Chrome, Google Earth etc.)
+Types: deb
+URIs: http://dl.google.com/linux/chrome/deb/
+Suites: stable
+Components: main
+Signed-By: /etc/apt/keyrings/google-linux.gpg
+X-Key-URL: https://dl.google.com/linux/linux_signing_key.pub
+X-Key-Format: binary
+X-Documentation-URL: https://www.google.com/linuxrepositories/

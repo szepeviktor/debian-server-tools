@@ -1,5 +1,0 @@
-# Microsoft ODBC Driver 17 for SQL Server
-deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/debian/9/prod stretch main
-#K: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor --output /etc/apt/trusted.gpg.d/microsoft.gpg
-#M: https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server
-#F: BE1229CF:BC528686B50D79E339D3721CEB3E94ADBE1229CF

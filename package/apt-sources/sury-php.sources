@@ -1,0 +1,10 @@
+# DEB.SURY.ORG (is in CZ)
+Types: deb
+URIs: https://packages.sury.org/php/
+Suites: trixie
+Components: main
+Signed-By: /etc/apt/keyrings/debsuryorg.gpg
+X-Key-URL: https://szepeviktor.github.io/debsuryorg-archive-keyring.gpg
+X-Key-Format: binary
+X-Documentation-URL: https://packages.sury.org/php/README.txt
+X-Pref-Content: Package: openssl libssl-dev libssl-doc libssl1.1\nPin: origin "packages.sury.org"\nPin-Priority: -1\n

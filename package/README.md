@@ -93,14 +93,13 @@ wget -qO- KEY-URL | gpg -v --with-fingerprint
 ### Import signing keys
 
 ```
-apt-key adv --keyserver keys.openpgp.org --recv-keys KEY
-wget -qO- KEY-URL | apt-key add -
+wget -qO- KEY-URL | gpg --dearmor >/etc/apt/keyrings/REPO.gpg
 ```
 
 ##### Import all signing keys for Debian contributed packages
 
 ```bash
-grep -h -A5 "^deb " /etc/apt/sources.list.d/*.list|grep "^#K: "|cut -d" " -f2-|/bin/bash
+grep -h "^X-Key-URL:" /etc/apt/sources.list.d/*.sources
 ```
 
 ### Check APT configuration

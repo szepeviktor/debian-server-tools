@@ -1,0 +1,9 @@
+# Suhosin for PHP 5.x
+Types: deb
+URIs: http://repo.suhosin.org/
+Suites: debian-jessie
+Components: main
+Signed-By: /etc/apt/keyrings/suhosin.gpg
+X-Key-URL: https://sektioneins.de/files/repository.asc
+X-Key-Format: armored
+X-Documentation-URL: http://suhosin.org/stories/install.html

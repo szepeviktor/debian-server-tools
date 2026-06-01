@@ -1,0 +1,27 @@
+# New deb.debian.org mirror (Fastly and Amazon CloudFront)
+Types: deb
+URIs: http://deb.debian.org/debian
+Suites: bullseye
+Components: main contrib non-free
+
+
+# Security
+# https://wiki.debian.org/NewInBullseye#Changes
+Types: deb
+URIs: http://deb.debian.org/debian-security
+Suites: bullseye-security
+Components: main contrib non-free
+
+
+# Updates
+Types: deb
+URIs: http://deb.debian.org/debian
+Suites: bullseye-updates
+Components: main contrib non-free
+
+
+# Backports
+Types: deb
+URIs: http://deb.debian.org/debian
+Suites: bullseye-backports
+Components: main contrib non-free

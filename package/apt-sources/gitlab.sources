@@ -1,0 +1,10 @@
+# GitLab CE
+Types: deb
+URIs: https://packages.gitlab.com/gitlab/gitlab-ce/debian/
+Suites: stretch
+Components: main
+Signed-By: /etc/apt/keyrings/gitlab.gpg
+X-Key-URL: https://packages.gitlab.com/gpg.key
+X-Key-Format: armored
+X-Key-Fingerprint: 1A4C919DB987D435939638B914219A96E15E78F4
+X-Documentation-URL: https://about.gitlab.com/installation/#debian?version=ce

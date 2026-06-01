@@ -1,0 +1,27 @@
+# Microsoft Azure Traffic Manager mirror
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: bookworm
+Components: main contrib non-free
+
+
+# Security
+# https://wiki.debian.org/NewInBookworm#Changes
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian-security
+Suites: bookworm-security
+Components: main contrib non-free
+
+
+# Updates
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: bookworm-updates
+Components: main contrib non-free
+
+
+# Backports
+Types: deb
+URIs: http://debian-archive.trafficmanager.net/debian
+Suites: bookworm-backports
+Components: main contrib non-free

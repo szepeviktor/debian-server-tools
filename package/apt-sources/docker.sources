@@ -1,0 +1,11 @@
+# Docker
+######## TODO Buster has https://packages.debian.org/buster/docker.io
+# Older versions of Docker were called: docker docker.io docker-engine
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: stretch
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.gpg
+X-Key-URL: https://download.docker.com/linux/debian/gpg
+X-Key-Format: armored
+X-Documentation-URL: https://docs.docker.com/install/linux/docker-ce/debian/

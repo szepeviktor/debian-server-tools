@@ -1,0 +1,10 @@
+# Rspamd
+Types: deb
+URIs: http://rspamd.com/apt-stable/
+Suites: stretch
+Components: main
+Signed-By: /etc/apt/keyrings/rspamd.gpg
+X-Key-URL: https://rspamd.com/apt-stable/gpg.key
+X-Key-Format: armored
+X-Documentation-URL: https://rspamd.com/downloads.html#system2
+X-Key-Fingerprint: 3FA347D5E599BE4595CA2576FFA232EDBF21E25E

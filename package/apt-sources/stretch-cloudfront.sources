@@ -1,0 +1,26 @@
+# Amazon CloudFront mirror
+Types: deb
+URIs: http://cloudfront.debian.net/debian
+Suites: stretch
+Components: main contrib non-free
+
+
+# Security
+Types: deb
+URIs: http://security.debian.org/
+Suites: stretch/updates
+Components: main contrib non-free
+
+
+# Updates
+Types: deb
+URIs: http://cloudfront.debian.net/debian
+Suites: stretch-updates
+Components: main contrib non-free
+
+
+# Backports
+Types: deb
+URIs: http://cloudfront.debian.net/debian
+Suites: stretch-backports
+Components: main contrib non-free

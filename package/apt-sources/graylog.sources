@@ -1,0 +1,10 @@
+# Graylog
+Types: deb
+URIs: https://packages.graylog2.org/repo/debian/
+Suites: stable
+Components: 3.0
+Signed-By: /etc/apt/keyrings/graylog.gpg
+X-Key-URL: https://packages.graylog2.org/repo/debian/keyring.gpg
+X-Key-Format: binary
+X-Key-Fingerprint: 28AB6EB572779C2AD196BE22D44C1D8DB1606F22
+X-Documentation-URL: https://docs.graylog.org/en/3.0/pages/installation/operating_system_packages.html

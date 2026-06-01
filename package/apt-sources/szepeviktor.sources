@@ -1,0 +1,10 @@
+# Modern webserver
+Types: deb
+URIs: http://szepeviktor.github.io/debian/
+Suites: bullseye
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/szepeviktor.gpg
+X-Key-URL: https://szepeviktor.github.io/szepeviktor.gpg
+X-Key-Format: binary
+X-Documentation-URL: https://github.com/szepeviktor/szepeviktor.github.io

@@ -1,0 +1,9 @@
+# Glacier.pl
+Types: deb
+URIs: http://dl.mt-aws.com/debian/current/
+Suites: stretch
+Components: main
+Signed-By: /etc/apt/keyrings/mt-aws-glacier.gpg
+X-Key-URL: http://mt-aws.com/vsespb.gpg.key
+X-Key-Format: binary
+X-Documentation-URL: https://github.com/vsespb/mt-aws-glacier#installation-via-os-package-manager

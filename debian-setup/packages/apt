@@ -15,7 +15,8 @@ if [ -f /etc/apt/sources.list.d/debian.sources ]; then
 fi
 
 # Set APT sources
-wget -nv -O /etc/apt/sources.list "$SETUP_APTSOURCESLIST_URL"
+rm -f /etc/apt/sources.list
+wget -nv -O /etc/apt/sources.list.d/debian.sources "$SETUP_APTSOURCESLIST_URL"
 
 # APT settings
 echo 'Acquire::Languages "none";' >/etc/apt/apt.conf.d/00languages

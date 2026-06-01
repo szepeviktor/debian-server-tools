@@ -1,4 +1,0 @@
-# Lighttpd 2.0 (work in progress)
-deb [signed-by=/etc/apt/trusted.gpg.d/lighttpd2.gpg] http://debian.lighttpd.net/lighttpd2-nightlies stretch main
-#K: wget -qO /etc/apt/trusted.gpg.d/lighttpd2.gpg https://debian.lighttpd.net/jenkins-lighttpd.net.gpg
-#M: https://debian.lighttpd.net/

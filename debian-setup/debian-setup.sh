@@ -97,11 +97,11 @@ export SETUP_PACKAGES="debian-archive-keyring lsb-release ca-certificates wget a
 export SETUP_APTSOURCES_URL_PREFIX="https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources"
 # @TODO Update to https://deb.debian.org/
 # Microsoft Azure Traffic Manager
-export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.list"
+export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-azure.sources"
 # Amazon CloudFront
-#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.list"
+#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-cloudfront.sources"
 # Fastly and Amazon CloudFront
-#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-deb.list"
+#export SETUP_APTSOURCESLIST_URL="${SETUP_APTSOURCES_URL_PREFIX}/${IMAGE_CODENAME}-deb.sources"
 
 export SETUP_SHYAML_URL="https://github.com/0k/shyaml/raw/master/shyaml.py"
 
@@ -178,13 +178,7 @@ chmod +x /usr/local/bin/shyaml
 shyaml --version
 
 # Add APT repositories
-for REPO in $(Data get-values package.apt.sources); do
-    wget -nv -O "/etc/apt/sources.list.d/${REPO}.list" "${SETUP_APTSOURCES_URL_PREFIX}/${REPO}.list"
-done
-# Import signing keys
-eval "$(grep -h -A 5 "^deb " /etc/apt/sources.list.d/*.list | grep "^#K: " | cut -d " " -f 2-)"
-# Get package lists
-apt-get update -qq
+../package/apt-add-repo.sh $(Data get-values package.apt.sources)
 
 # Virtualization environment
 packages/virt-what

@@ -1,0 +1,9 @@
+# FrankenPHP
+Types: deb
+URIs: https://pkg.henderkes.com/api/packages/85/debian
+Suites: php-zts
+Components: main
+Signed-By: /etc/apt/keyrings/frankenphp-85.asc
+X-Key-URL: https://pkg.henderkes.com/api/packages/85/debian/repository.key
+X-Key-Format: binary
+X-Documentation-URL: https://frankenphp.dev/docs/#deb-packages

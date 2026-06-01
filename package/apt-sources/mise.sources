@@ -1,0 +1,9 @@
+# mise
+Types: deb
+URIs: https://mise.en.dev/deb
+Suites: stable
+Components: main
+Signed-By: /etc/apt/keyrings/mise.gpg
+X-Key-URL: https://mise.en.dev/gpg-key.pub
+X-Key-Format: binary
+X-Documentation-URL: https://mise.en.dev/

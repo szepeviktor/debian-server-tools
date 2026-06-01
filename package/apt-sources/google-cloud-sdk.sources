@@ -1,0 +1,10 @@
+# Google Cloud SDK
+Types: deb
+URIs: http://packages.cloud.google.com/apt
+Suites: cloud-sdk-stretch
+Components: main
+Signed-By: /etc/apt/keyrings/google-cloud-sdk.gpg
+X-Key-URL: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+X-Key-Format: binary
+X-Key-Fingerprint: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+X-Documentation-URL: https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu

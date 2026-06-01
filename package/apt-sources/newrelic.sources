@@ -1,0 +1,10 @@
+# New Relic APM
+# newrelic-php5, (newrelic-sysmond)
+Types: deb
+URIs: http://apt.newrelic.com/debian/
+Suites: newrelic
+Components: non-free
+Signed-By: /etc/apt/keyrings/newrelic.gpg
+X-Key-URL: https://download.newrelic.com/548C16BF.gpg
+X-Key-Format: binary
+X-Documentation-URL: https://docs.newrelic.com/docs/agents/php-agent/installation/php-agent-installation-ubuntu-debian

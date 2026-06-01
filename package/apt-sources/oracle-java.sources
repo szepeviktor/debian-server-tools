@@ -1,0 +1,12 @@
+# Oracle JDK 8
+# "bionic" for stretch
+Types: deb
+URIs: http://ppa.launchpad.net/webupd8team/java/ubuntu
+Suites: bionic
+Components: main
+Signed-By: /etc/apt/keyrings/oracle-java.gpg
+# Oracle JDK 7
+#deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ precise main
+X-Documentation-URL: https://launchpad.net/~webupd8team/+archive/ubuntu/java
+X-Key-URL: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xEEA14886
+X-Key-Format: armored

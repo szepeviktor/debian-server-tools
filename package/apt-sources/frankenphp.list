@@ -1,4 +1,0 @@
-# FrankenPHP
-deb [signed-by=/etc/apt/trusted.gpg.d/frankenphp-85.asc] https://pkg.henderkes.com/api/packages/85/debian php-zts main
-#K: wget -qO/etc/apt/trusted.gpg.d/frankenphp-85.asc https://pkg.henderkes.com/api/packages/85/debian/repository.key
-#M: https://frankenphp.dev/docs/#deb-packages

@@ -29,8 +29,8 @@ Auto_country() {
     test -n "$MIRROR"
     rm -f geoipupdate_*_amd64.deb sources.list
 
-    wget -nv -O- "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/sources.list" \
-        | sed -e "s|@@MIRROR@@|${MIRROR}|" >/etc/apt/sources.list
+    wget -nv -O- "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/sources.sources" \
+        | sed -e "s|@@MIRROR@@|${MIRROR}|" >/etc/apt/sources.list.d/debian.sources
 }
 
 set -e -x
@@ -42,8 +42,9 @@ test -d /tmp && cd /tmp/
 echo 'Dpkg::Use-Pty "0";' >/etc/apt/apt.conf.d/00usepty
 
 # LeaseWeb sources
-wget -nv -O /etc/apt/sources.list \
-    "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/${DEBIAN_CODENAME}-for-upcloud.list"
+rm -f /etc/apt/sources.list
+wget -nv -O /etc/apt/sources.list.d/debian.sources \
+    "https://github.com/szepeviktor/debian-server-tools/raw/master/package/apt-sources/${DEBIAN_CODENAME}-for-upcloud.sources"
 
 # Update Debian
 apt-get clean -q
@@ -54,9 +55,15 @@ apt-get dist-upgrade -qq
 
 # docker
 apt-get install -qq dirmngr apt-transport-https
-wget -qO- https://download.docker.com/linux/debian/gpg | apt-key add -
-echo "deb https://download.docker.com/linux/debian ${DEBIAN_CODENAME} stable" \
-    >/etc/apt/sources.list.d/docker.list
+install -d /etc/apt/keyrings
+wget -qO- https://download.docker.com/linux/debian/gpg | gpg --dearmor >/etc/apt/keyrings/docker.gpg
+cat >/etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: ${DEBIAN_CODENAME}
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.gpg
+EOF
 apt-get update -q
 # https://forums.docker.com/t/62505 ExecStart=/usr/bin/dockerd -H unix://
 apt-get install -qq docker-ce || apt-get install -qq -f

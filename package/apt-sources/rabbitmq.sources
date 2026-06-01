@@ -1,0 +1,9 @@
+# RabbitMQ
+Types: deb
+URIs: https://packagecloud.io/rabbitmq/rabbitmq-server/debian/
+Suites: buster
+Components: main
+Signed-By: /etc/apt/keyrings/rabbitmq.gpg
+X-Key-URL: https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
+X-Key-Format: armored
+X-Documentation-URL: https://packagecloud.io/rabbitmq/rabbitmq-server/install

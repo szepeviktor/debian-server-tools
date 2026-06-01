@@ -1,0 +1,10 @@
+# MongoDB Server
+Types: deb
+URIs: http://repo.mongodb.org/apt/debian
+Suites: stretch/mongodb-org/4.0
+Components: main
+Signed-By: /etc/apt/keyrings/mongodb.gpg
+X-Documentation-URL: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/
+X-Key-URL: https://www.mongodb.org/static/pgp/server-4.0.asc
+X-Key-Format: armored
+X-Key-Fingerprint: 9DA31620334BD75D9DCB49F368818C72E52529D4

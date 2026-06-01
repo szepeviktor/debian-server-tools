@@ -1,0 +1,7 @@
+# MeiliSearch
+Types: deb
+URIs: https://apt.fury.io/meilisearch/
+Suites: /
+Trusted: yes
+# TODO No signature
+X-Documentation-URL: https://docs.meilisearch.com/reference/features/installation.html

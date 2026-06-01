@@ -1,0 +1,10 @@
+# mod_pagespeed
+Types: deb
+URIs: http://dl.google.com/linux/mod-pagespeed/deb/
+Suites: stable
+Components: main
+Signed-By: /etc/apt/keyrings/google-linux.gpg
+X-Key-URL: https://dl-ssl.google.com/linux/linux_signing_key.pub
+X-Key-Format: binary
+#deb http://dl.google.com/linux/mod-pagespeed/deb/ beta main
+X-Documentation-URL: https://developers.google.com/speed/pagespeed/module/download

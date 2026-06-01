@@ -1,0 +1,13 @@
+# Deb-multimedia
+Types: deb
+URIs: http://www.deb-multimedia.org/
+Suites: stretch
+Components: main non-free
+Trusted: yes
+
+Types: deb
+URIs: http://www.deb-multimedia.org/
+Suites: stretch-backports
+Components: main
+X-Documentation-URL: https://www.deb-multimedia.org/
+Trusted: yes

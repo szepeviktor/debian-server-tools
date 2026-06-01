@@ -1,0 +1,10 @@
+# Yarn
+Types: deb
+URIs: https://dl.yarnpkg.com/debian/
+Suites: stable
+Components: main
+Signed-By: /etc/apt/keyrings/yarnpkg.gpg
+X-Key-URL: https://dl.yarnpkg.com/debian/pubkey.gpg
+X-Key-Format: binary
+X-Documentation-URL: https://classic.yarnpkg.com/en/docs/install#debian-stable
+X-Key-Fingerprint: 72ECF46A56B4AD39C907BBB71646B01B86E50310

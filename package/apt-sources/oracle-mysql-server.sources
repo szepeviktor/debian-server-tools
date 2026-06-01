@@ -1,0 +1,11 @@
+# MySQL
+Types: deb
+URIs: http://repo.mysql.com/apt/debian/
+Suites: stretch
+Components: mysql-5.7
+Signed-By: /etc/apt/keyrings/mysql.gpg
+X-Documentation-URL: https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/
+# Pin mysql-common package above MariaDB
+X-Key-URL: https://repo.mysql.com/RPM-GPG-KEY-mysql
+X-Key-Format: armored
+X-Pref-Content: Package: mysql-common\nPin: release o=MySQL\nPin-Priority: 1000\n

@@ -1,0 +1,9 @@
+# PostgreSQL
+Types: deb
+URIs: http://apt.postgresql.org/pub/repos/apt/
+Suites: stretch-pgdg
+Components: main
+Signed-By: /etc/apt/keyrings/postgresql.gpg
+X-Key-URL: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+X-Key-Format: armored
+X-Documentation-URL: http://www.postgresql.org/download/linux/debian/

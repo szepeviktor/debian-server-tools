@@ -1,0 +1,10 @@
+# NGINX stable
+Types: deb
+URIs: http://nginx.org/packages/debian/
+Suites: stretch
+Components: nginx
+Signed-By: /etc/apt/keyrings/nginx.gpg
+X-Key-URL: https://nginx.org/keys/nginx_signing.key
+X-Key-Format: armored
+#deb http://nginx.org/packages/mainline/debian/ stretch nginx
+X-Documentation-URL: http://nginx.org/en/linux_packages.html

@@ -1,0 +1,10 @@
+# Prosody
+Types: deb
+URIs: http://packages.prosody.im/debian
+Suites: stretch
+Components: main
+Signed-By: /etc/apt/keyrings/prosody.gpg
+X-Key-URL: https://prosody.im/files/prosody-debian-packages.key
+X-Key-Format: binary
+X-Documentation-URL: https://prosody.im/download/package_repository
+X-Key-Fingerprint: 107D65A0A148C237FDF00AB47393D7E674D9DBB5

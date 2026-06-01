@@ -1,0 +1,9 @@
+# Varnish is a web application accelerator
+Types: deb
+URIs: https://repo.varnish-cache.org/debian/
+Suites: stretch
+Components: varnish-4.0
+Signed-By: /etc/apt/keyrings/varnish.gpg
+X-Key-URL: https://repo.varnish-cache.org/debian/GPG-key.txt
+X-Key-Format: armored
+X-Documentation-URL: https://www.varnish-cache.org/installation/debian

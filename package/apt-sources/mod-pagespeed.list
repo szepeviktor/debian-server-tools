@@ -1,5 +1,0 @@
-# mod_pagespeed
-deb [signed-by=/etc/apt/trusted.gpg.d/google-linux.gpg] http://dl.google.com/linux/mod-pagespeed/deb/ stable main
-#deb http://dl.google.com/linux/mod-pagespeed/deb/ beta main
-#K: wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --yes --dearmor --output /etc/apt/trusted.gpg.d/google-linux.gpg
-#M: https://developers.google.com/speed/pagespeed/module/download

@@ -1,4 +1,0 @@
-# Glacier.pl
-deb [signed-by=/etc/apt/trusted.gpg.d/mt-aws-glacier.gpg] http://dl.mt-aws.com/debian/current/ stretch main
-#K: wget -qO /etc/apt/trusted.gpg.d/mt-aws-glacier.gpg http://mt-aws.com/vsespb.gpg.key
-#M: https://github.com/vsespb/mt-aws-glacier#installation-via-os-package-manager

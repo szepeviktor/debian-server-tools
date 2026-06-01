@@ -1,5 +1,0 @@
-# Graylog
-deb [signed-by=/etc/apt/trusted.gpg.d/graylog.gpg] https://packages.graylog2.org/repo/debian/ stable 3.0
-#K: wget -qO /etc/apt/trusted.gpg.d/graylog.gpg https://packages.graylog2.org/repo/debian/keyring.gpg
-#M: https://docs.graylog.org/en/3.0/pages/installation/operating_system_packages.html
-#F: B1606F22:28AB6EB572779C2AD196BE22D44C1D8DB1606F22

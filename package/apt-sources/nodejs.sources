@@ -1,0 +1,10 @@
+# Node.js from NodeSource
+# https://nodejs.org/en/about/releases/
+Types: deb
+URIs: https://deb.nodesource.com/node_22.x
+Suites: nodistro
+Components: main
+Signed-By: /etc/apt/keyrings/nodesource.gpg
+X-Key-URL: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+X-Key-Format: binary
+X-Documentation-URL: https://github.com/nodesource/distributions/blob/master/README.md#debmanual
