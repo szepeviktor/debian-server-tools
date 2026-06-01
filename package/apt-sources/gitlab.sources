@@ -4,7 +4,7 @@ URIs: https://packages.gitlab.com/gitlab/gitlab-ce/debian/
 Suites: stretch
 Components: main
 Signed-By: /etc/apt/keyrings/gitlab.gpg
-X-Key-URL: https://packages.gitlab.com/gpg.key
+X-Key-URL: https://packages.gitlab.com/gpgkey/gpg.key
 X-Key-Format: armored
-X-Key-Fingerprint: 1A4C919DB987D435939638B914219A96E15E78F4
+X-Key-Fingerprint: F6403F6544A38863DAA0B6E03F01618A51312F3F
 X-Documentation-URL: https://about.gitlab.com/installation/#debian?version=ce

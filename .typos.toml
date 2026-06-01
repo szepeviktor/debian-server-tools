@@ -34,6 +34,7 @@ extend-ignore-re = [
     "Full HD",
     "for VDISK in hd sd",
     "\\^fpr:::::::::",
+    '== "fpr"',
     "   ue   End underlining",
     "\\|ignor\\[ei\\]",
     "nmap -n -Pn",

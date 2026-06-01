@@ -1,21 +1,29 @@
 # Magyar email szolgáltatók (HU)
 
-### ESP
+Rövid lista magyarországi vagy magyar felhasználóknak ismert e-mail szolgáltatásokról.
+Frissítve: 2026-06
 
-- freemail.hu, onbox.hu - New Wave Media Group
-- citromail.hu - Centrál Médiacsoport
-- indamail.hu, vipmail.hu, index.hu, freestart.hu - Inda-Labs
-- mailbox.hu - MBX
+### Aktív webmail / mailbox szolgáltatók
 
-### ISP
+- `freemail.hu`, `onbox.hu` - Mediaworks Hungary Zrt.
+- `citromail.hu` - Inbox.com AS
+- `indamail.hu`, `vipmail.hu`, `freestart.hu` - Inbox.com AS
+- `mailbox.hu` - Yellow Hashtag OÜ
 
-- t-online.hu, t-email.hu, axelero.hu - Magyar Telekom
-- invitel.hu, vnet.hu, fibermail.hu - Invitel
-- chello.hu, upcmail.hu - Liberty Global
-- digikabel.hu, hdsnet.hu - DIGI
-- tolna.net - TARR
+### Régi vagy ISP-hez kötött domainek
 
-### Hosting szolgáltató
+- `t-online.hu`, `t-email.hu`, `axelero.hu` - Magyar Telekom
+- `invitel.hu`, `vnet.hu`, `fibermail.hu` - Invitel / legacy
+- `chello.hu`, `upcmail.hu` - UPC / Liberty Global / legacy
+- `digikabel.hu`, `hdsnet.hu` - DIGI / legacy
+- `tolna.net` - TARR
+
+### Megjegyzések
+
+- A korábbi tulajdonosi viszonyok több helyen megváltoztak, ezért régi listákat nem érdemes változtatás nélkül átvenni.
+- `index.hu` korábban kapcsolódott az Indamail köréhez, de önálló, jelenlegi mailbox márkaként nem érdemes külön számolni vele.
+
+### Hosting / üzleti mailszolgáltatás
 
 - [Integrity Mailszolgáltatás](https://integrity.hu/mailszolgaltatas/)
 - Unas.hu SPF rekord: `include:spf.unas.eu`
