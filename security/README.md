@@ -159,10 +159,6 @@ curl --data-binary '{"mode":"block","notes":"","configuration":{"value":"1.2.3.4
 
 https://docs.imperva.com/bundle/z-kb-articles-km/page/c85245b7.html
 
-### StackPath IP ranges
-
-https://support.stackpath.com/hc/en-us/articles/360001091666-Review-and-Allowlist-CDN-WAF-IP-Blocks
-
 ### Difference between “BEGIN RSA PRIVATE KEY” and “BEGIN PRIVATE KEY”
 
 http://stackoverflow.com/questions/20065304/what-is-the-differences-between-begin-rsa-private-key-and-begin-private-key/20065522#20065522
