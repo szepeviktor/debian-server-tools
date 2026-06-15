@@ -126,6 +126,18 @@
    group integrity
    if status != 0 then alert
 
+ # Open TCP listening sockets
+ check program network_tcp_listen
+    with path "/usr/local/sbin/server-integrity.sh -c TCPLISTEN -r '@@INTEGRITY_TCPLISTEN@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
+ # Open UDP listening sockets
+ check program network_udp_listen
+    with path "/usr/local/sbin/server-integrity.sh -c UDPLISTEN -r '@@INTEGRITY_UDPLISTEN@@'" every 33 cycles
+   group integrity
+   if status != 0 then alert
+
  # List of files in /
  check program fs_rootlist
     with path "/usr/local/sbin/server-integrity.sh -c ROOT -r '@@INTEGRITY_ROOTLIST@@'" every 33 cycles

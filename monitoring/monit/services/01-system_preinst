@@ -32,4 +32,6 @@ INTEGRITY_HOP2_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c HOP2 -h "$INTEG
 INTEGRITY_REVERSE_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c PTR1)"
 INTEGRITY_FIRST_MX_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c MX1 || true)"
 INTEGRITY_RESOLVERS_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c RES)"
+INTEGRITY_TCPLISTEN_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c TCPLISTEN)"
+INTEGRITY_UDPLISTEN_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c UDPLISTEN)"
 INTEGRITY_ROOTLIST_DEFAULT="$(/usr/local/sbin/server-integrity.sh -c ROOT)"
