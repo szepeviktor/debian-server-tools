@@ -25,14 +25,13 @@ APACHE_CONFIGS="$(find /etc/apache2/sites-enabled/ -type l -name "*.conf")"
 
 Xclude_filter()
 {
-    # AH00128: File does not exist
-    # #AH00162: server seems busy, (you may need "to increase StartServers, or Min/MaxSpareServers)
-    # AH02032: Hostname %s provided via SNI and hostname %s provided via HTTP are different
-    # WAF for WordPress
-    # Apache access control
-    # Apache restart messages at 6 AM
-    # Malformed ??? hostname "5e ed 1d 4c bb 01", "5e ed 51 84 bb 01" via SNI
-    grep -Ev "\\s(AH00128:|AH02032:|AH01883:\
+    # Ignore encoded-slash 404s, missing files, and SNI hostname mismatch.
+    # Ignore WAF markers and plain "File does not exist" noise.
+    # Ignore Apache access-control denials.
+    # Ignore expected Apache restart/info messages during the 6 AM maintenance window.
+    # Ignore malformed request noise with invalid URIs.
+    # Ignore malformed request noise with invalid URI paths.
+    grep -Ev "\\s(AH00026:|AH00128:|AH02032:\
 |w4wp_|bad_request_|no_wp_here_|404_not_found|403_forbidden|File does not exist:\
 |client denied by server configuration:)" \
         | grep -Evx '\[.* 06:.* [0-9][0-9][0-9][0-9]\] \[\S+:(info|notice)\] \[pid [0-9]+:tid [0-9]+\] (AH00493|AH00830|AH01887|AH01876|AH03090|AH00489|AH00490|AH00094|AH01883|h2_workers):.*' \
