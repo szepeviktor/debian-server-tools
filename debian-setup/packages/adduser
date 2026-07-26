@@ -176,6 +176,9 @@ EOF
 # Add mc syntax highlights
 ROOT_MC_SYNTAX_CONFIG="/root/.local/share/mc/syntax"
 mkdir -p "$ROOT_MC_SYNTAX_CONFIG"
+wget -nv \
+    -O "${ROOT_MC_SYNTAX_CONFIG}/monit.syntax" \
+    https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/monit.syntax
 {
     wget -nv -O- https://github.com/szepeviktor/debian-server-tools/raw/master/input/mc/Syntax
     #cat /usr/share/mc/syntax/Syntax

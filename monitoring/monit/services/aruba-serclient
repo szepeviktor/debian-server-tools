@@ -1,31 +1,31 @@
- check process serclient with pidfile /run/serclient.pid
-   group system
-   group serclient
-   start program = "/usr/sbin/service serclient start"
-   stop program = "/usr/sbin/service serclient stop"
-   restart program = "/usr/sbin/service serclient restart"
-   if 5 restarts with 5 cycles then unmonitor
-   depends on serclient_bin
-   depends on serclient_rc
-   depends on serclient_log
-   depends on serclient_test
+check process serclient with pidfile /run/serclient.pid
+    group system
+    group serclient
+    start program = "/usr/sbin/service serclient start"
+    stop program = "/usr/sbin/service serclient stop"
+    restart program = "/usr/sbin/service serclient restart"
+    if 5 restarts with 5 cycles then unmonitor
+    depends on serclient_bin
+    depends on serclient_rc
+    depends on serclient_log
+    depends on serclient_test
 
- check file serclient_bin with path /usr/lib/python2.7/dist-packages/serclient/service.py
-   group serclient
-   include /etc/monit/templates/rootbin
+check file serclient_bin with path /usr/lib/python2.7/dist-packages/serclient/service.py
+    group serclient
+    include /etc/monit/templates/rootbin
 
- check file serclient_rc with path /etc/default/serclient.ini
-   group serclient
-   include /etc/monit/templates/rootrc
+check file serclient_rc with path /etc/default/serclient.ini
+    group serclient
+    include /etc/monit/templates/rootrc
 
- check file serclient_log with path /var/log/serclient.log
-   group serclient
+check file serclient_log with path /var/log/serclient.log
+    group serclient
 # FIXME   if timestamp > 30 minutes then alert
-   if failed permission 640 then unmonitor
-   if failed uid root then unmonitor
-   if failed gid root then unmonitor
+    if failed permission 640 then unmonitor
+    if failed uid root then unmonitor
+    if failed gid root then unmonitor
 
- check program serclient_test with path /usr/local/sbin/aruba-serclient-test.sh with timeout 10 seconds
-   group serclient
-   if status != 0 then alert
-   if changed status then alert
+check program serclient_test with path /usr/local/sbin/aruba-serclient-test.sh with timeout 10 seconds
+    group serclient
+    if status != 0 then alert
+    if changed status then alert

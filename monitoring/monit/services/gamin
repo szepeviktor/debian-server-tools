@@ -1,16 +1,16 @@
- check program gamin_test with path /usr/local/sbin/gamin-test.sh with timeout 2 seconds
-   group system
-   if status != 0 then alert
-   if changed status then alert
-   depends on gamin_bin
-   depends on gamin_rc
+check program gamin_test with path /usr/local/sbin/gamin-test.sh with timeout 2 seconds
+    group system
+    if status != 0 then alert
+    if changed status then alert
+    depends on gamin_bin
+    depends on gamin_rc
 
- check file gamin_bin with path /usr/libexec/gam_server
-   group system
-   include /etc/monit/templates/rootbin
-   if does not exist then unmonitor
+check file gamin_bin with path /usr/libexec/gam_server
+    group system
+    include /etc/monit/templates/rootbin
+    if does not exist then unmonitor
 
- check file gamin_rc with path /etc/gamin/gaminrc
-   group system
-   include /etc/monit/templates/rootrc
-   if does not exist then unmonitor
+check file gamin_rc with path /etc/gamin/gaminrc
+    group system
+    include /etc/monit/templates/rootrc
+    if does not exist then unmonitor

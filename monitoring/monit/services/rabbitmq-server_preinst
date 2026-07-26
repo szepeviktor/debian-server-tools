@@ -1,4 +1,4 @@
-if [ -z "RABBITMQ_USER_DEFAULT" ]; then
+if [ -z "$RABBITMQ_USER_DEFAULT" ]; then
     RABBITMQ_USER_DEFAULT="monitu"
 fi
 if Is_pkg_installed apg; then

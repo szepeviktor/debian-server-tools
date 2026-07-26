@@ -1,37 +1,37 @@
- # Dotdeb packaged redis-server
- check process "redis" with pidfile "/run/redis/redis-server.pid"
-   group "cache"
-   group "redis"
-   start program = "/usr/sbin/service redis-server start"
-   stop program = "/usr/sbin/service redis-server stop"
-   restart program = "/usr/sbin/service redis-server restart"
-   if failed host localhost port 6379 protocol redis then restart
-   if cpu > 60% for 2 cycles then alert
-   if cpu > 98% for 5 cycles then restart
-   if 4 restarts within 20 cycles then unmonitor
-   depends on redis_bin
-   depends on redis_rc
-   depends on redis_init
-   depends on redis_test
+# Dotdeb packaged redis-server
+check process "redis" with pidfile "/run/redis/redis-server.pid"
+    group "cache"
+    group "redis"
+    start program = "/usr/sbin/service redis-server start"
+    stop program = "/usr/sbin/service redis-server stop"
+    restart program = "/usr/sbin/service redis-server restart"
+    if failed host localhost port 6379 protocol redis then restart
+    if cpu > 60% for 2 cycles then alert
+    if cpu > 98% for 5 cycles then restart
+    if 4 restarts within 20 cycles then unmonitor
+    depends on redis_bin
+    depends on redis_rc
+    depends on redis_init
+    depends on redis_test
 
- check file "redis_bin" with path "/usr/bin/redis-server"
-   group "redis"
-   include "/etc/monit/templates/rootbin"
+check file "redis_bin" with path "/usr/bin/redis-server"
+    group "redis"
+    include "/etc/monit/templates/rootbin"
 
- check file "redis_rc" with path "/etc/redis/redis.conf"
-   group "redis"
-   # Debian packaged redis-server
-   #include "/etc/monit/templates/rootrc"
-   if changed checksum then alert
-   if failed permission 640 then unmonitor
-   if failed uid "redis" then unmonitor
-   if failed gid "redis" then unmonitor
+check file "redis_rc" with path "/etc/redis/redis.conf"
+    group "redis"
+    # Debian packaged redis-server
+    #include "/etc/monit/templates/rootrc"
+    if changed checksum then alert
+    if failed permission 640 then unmonitor
+    if failed uid "redis" then unmonitor
+    if failed gid "redis" then unmonitor
 
- check file "redis_init" with path "/etc/init.d/redis-server"
-   group "redis"
-   include "/etc/monit/templates/rootbin"
+check file "redis_init" with path "/etc/init.d/redis-server"
+    group "redis"
+    include "/etc/monit/templates/rootbin"
 
- check program "redis_test" with path "/usr/local/sbin/redis-server-test.sh" with timeout 12 seconds
-   group "redis"
-   if status != 0 then alert
-   if changed status then alert
+check program "redis_test" with path "/usr/local/sbin/redis-server-test.sh" with timeout 12 seconds
+    group "redis"
+    if status != 0 then alert
+    if changed status then alert

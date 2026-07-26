@@ -38,6 +38,7 @@ rpm2cpio mc-*x86_64.rpm | cpio -id
 
 # Install mc
 mkdir -vp ~/.config/mc/mcedit ~/.local/share/mc ~/.mc | Progressbar
+# MC 4.8.17 predates the 4.8.29 syntax path migration and requires this path.
 # Syntax
 cp -va usr/share/mc/syntax/* ~/.config/mc/mcedit/ | Progressbar
 # Make includes use absolute path

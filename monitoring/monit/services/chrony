@@ -1,18 +1,18 @@
- check process chronyd with pidfile /run/chrony/chronyd.pid
-   group system
-   group chronyd
-   start program = "/usr/sbin/service chrony start"
-   stop program = "/usr/sbin/service chrony stop"
-   restart program = "/usr/sbin/service chrony restart"
+check process chronyd with pidfile /run/chrony/chronyd.pid
+    group system
+    group chronyd
+    start program = "/usr/sbin/service chrony start"
+    stop program = "/usr/sbin/service chrony stop"
+    restart program = "/usr/sbin/service chrony restart"
 ##   if failed unixsocket /run/chrony/chronyd.sock then restart
-   if 4 restarts within 12 cycles then unmonitor
-   depends on chronyd_bin
-   depends on chronyd_init
+    if 4 restarts within 12 cycles then unmonitor
+    depends on chronyd_bin
+    depends on chronyd_init
 
- check file chronyd_bin with path /usr/sbin/chronyd
-   group chronyd
-   include /etc/monit/templates/rootbin
+check file chronyd_bin with path /usr/sbin/chronyd
+    group chronyd
+    include /etc/monit/templates/rootbin
 
- check file chronyd_init with path /etc/init.d/chrony
-   group chronyd
-   include /etc/monit/templates/rootbin
+check file chronyd_init with path /etc/init.d/chrony
+    group chronyd
+    include /etc/monit/templates/rootbin

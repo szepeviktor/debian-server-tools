@@ -1,23 +1,23 @@
 # From Debian package
- check process mdadm with pidfile /run/mdadm/monitor.pid
-   group system
-   group mdadm
-   start program = "/usr/sbin/service mdadm start"
-   stop program = "/usr/sbin/service mdadm stop"
-   restart program = "/usr/sbin/service mdadm restart"
-   if 5 restarts with 5 cycles then unmonitor
-   depends on mdadm_bin
-   depends on mdadm_conf
-   depends on mdadm_init
+check process mdadm with pidfile /run/mdadm/monitor.pid
+    group system
+    group mdadm
+    start program = "/usr/sbin/service mdadm start"
+    stop program = "/usr/sbin/service mdadm stop"
+    restart program = "/usr/sbin/service mdadm restart"
+    if 5 restarts with 5 cycles then unmonitor
+    depends on mdadm_bin
+    depends on mdadm_conf
+    depends on mdadm_init
 
- check file mdadm_bin with path /sbin/mdadm
-   group mdadm
-   include /etc/monit/templates/rootbin
+check file mdadm_bin with path /sbin/mdadm
+    group mdadm
+    include /etc/monit/templates/rootbin
 
- check file mdadm_conf with path /etc/mdadm/mdadm.conf
-   group mdadm
-   include /etc/monit/templates/rootrc
+check file mdadm_conf with path /etc/mdadm/mdadm.conf
+    group mdadm
+    include /etc/monit/templates/rootrc
 
- check file mdadm_init with path /etc/init.d/mdadm
-   group mdadm
-   include /etc/monit/templates/rootbin
+check file mdadm_init with path /etc/init.d/mdadm
+    group mdadm
+    include /etc/monit/templates/rootbin

@@ -1,153 +1,153 @@
- # Uptime
- check system $HOST_uptime
-   if uptime > 180 days then alert every 33 cycles
+# Uptime
+check system $HOST_uptime
+    if uptime > 180 days then alert every 33 cycles
 
- check system $HOST
-   # Overload
-   if cpu usage (user) > 70% then alert
-   if cpu usage (system) > 30% then alert
-   # Momentary overload (n+1)
-   if loadavg (1min) > 3 then alert
-   # Constant overload (n)
-   if loadavg (5min) > 2 then alert
-   # Memory usage
-   if memory usage > 75% then alert
-   if swap usage > 25% then alert
-   #if swap usage > 45% then alert
-   # IO overload
-   if cpu usage (wait) > 20% then alert
-   if filedescriptors > 5000 then alert
+check system $HOST
+    # Overload
+    if cpu usage (user) > 70% then alert
+    if cpu usage (system) > 30% then alert
+    # Momentary overload (n+1)
+    if loadavg (1min) > 3 then alert
+    # Constant overload (n)
+    if loadavg (5min) > 2 then alert
+    # Memory usage
+    if memory usage > 75% then alert
+    if swap usage > 25% then alert
+    #if swap usage > 45% then alert
+    # IO overload
+    if cpu usage (wait) > 20% then alert
+    if filedescriptors > 5000 then alert
 
- # Disk full
- check filesystem rootfs with path "/"
-   if space usage > 90% then alert
+# Disk full
+check filesystem rootfs with path "/"
+    if space usage > 90% then alert
 
- # Available entropy at first
- check program kernel_entropy
-    with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'"
-   group integrity
-   if status != 0 then alert
+# Available entropy at first
+check program kernel_entropy
+        with path "/usr/local/sbin/server-integrity.sh -c ENTROPY -r '@@INTEGRITY_ENTROPY@@'"
+    group integrity
+    if status != 0 then alert
 
- # Number of CPU cores
- check program hardware_cpu
-    with path "/usr/local/sbin/server-integrity.sh -c CPU -r '@@INTEGRITY_CPU@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Number of CPU cores
+check program hardware_cpu
+        with path "/usr/local/sbin/server-integrity.sh -c CPU -r '@@INTEGRITY_CPU@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Total memory (MB)
- check program hardware_ram
-    with path "/usr/local/sbin/server-integrity.sh -c RAM -r '@@INTEGRITY_RAM_MB@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Total memory (MB)
+check program hardware_ram
+        with path "/usr/local/sbin/server-integrity.sh -c RAM -r '@@INTEGRITY_RAM_MB@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # PCI devices
- check program hardware_pci_hash
-    with path "/usr/local/sbin/server-integrity.sh -c PCI -r '@@INTEGRITY_PCI_HASH@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# PCI devices
+check program hardware_pci_hash
+        with path "/usr/local/sbin/server-integrity.sh -c PCI -r '@@INTEGRITY_PCI_HASH@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # USB devices
- check program hardware_usb_hash
-    with path "/usr/local/sbin/server-integrity.sh -c USB -r '@@INTEGRITY_USB_HASH@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# USB devices
+check program hardware_usb_hash
+        with path "/usr/local/sbin/server-integrity.sh -c USB -r '@@INTEGRITY_USB_HASH@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Disk partitions
- #  - bare metal /dev/[sh]d*
- #  - VMware /dev/sd*
- #  - KVM /dev/vd*
- #  - XEN /dev/xvd*
- #  - OpenVZ: no disk devices, enter empty string
- check program hardware_disk
-    with path "/usr/local/sbin/server-integrity.sh -c DISK -r '@@INTEGRITY_DISKS@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Disk partitions
+#  - bare metal /dev/[sh]d*
+#  - VMware /dev/sd*
+#  - KVM /dev/vd*
+#  - XEN /dev/xvd*
+#  - OpenVZ: no disk devices, enter empty string
+check program hardware_disk
+        with path "/usr/local/sbin/server-integrity.sh -c DISK -r '@@INTEGRITY_DISKS@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Swap sizes (kB)
- check program hardware_swap
-    with path "/usr/local/sbin/server-integrity.sh -c SWAP -r '@@INTEGRITY_SWAPS@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Swap sizes (kB)
+check program hardware_swap
+        with path "/usr/local/sbin/server-integrity.sh -c SWAP -r '@@INTEGRITY_SWAPS@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Kernel clock source
- check program kernel_clocksource
-    with path "/usr/local/sbin/server-integrity.sh -c CLOCKSOURCE -r '@@INTEGRITY_CLOCKSOURCE@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Kernel clock source
+check program kernel_clocksource
+        with path "/usr/local/sbin/server-integrity.sh -c CLOCKSOURCE -r '@@INTEGRITY_CLOCKSOURCE@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Virtual console on Xen
- check program device_vconsole
-    with path "/usr/local/sbin/server-integrity.sh -c VCONSOLE -r '@@INTEGRITY_VCONSOLE@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Virtual console on Xen
+check program device_vconsole
+        with path "/usr/local/sbin/server-integrity.sh -c VCONSOLE -r '@@INTEGRITY_VCONSOLE@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # First nameserver (IPv4 only)
- check program network_dns
-    with path "/usr/local/sbin/server-integrity.sh -c DNS1 -r '@@INTEGRITY_FIRST_DNS@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# First nameserver (IPv4 only)
+check program network_dns
+        with path "/usr/local/sbin/server-integrity.sh -c DNS1 -r '@@INTEGRITY_FIRST_DNS@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # First IPv4 address
- check program network_ip
-    with path "/usr/local/sbin/server-integrity.sh -c IP1 -r '@@INTEGRITY_FIRST_IP@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# First IPv4 address
+check program network_ip
+        with path "/usr/local/sbin/server-integrity.sh -c IP1 -r '@@INTEGRITY_FIRST_IP@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Default IPv4 gateway
- check program network_gateway
-   with path "/usr/local/sbin/server-integrity.sh -c GATEWAY -r '@@INTEGRITY_GATEWAY@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Default IPv4 gateway
+check program network_gateway
+    with path "/usr/local/sbin/server-integrity.sh -c GATEWAY -r '@@INTEGRITY_GATEWAY@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # First hop towards the nearest root server
- # WARNING There could be more routers
- check program network_hop
-   with path "/usr/local/sbin/server-integrity.sh -c HOP1 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP@@'" every 33 cycles
- # Second hop
- #  with path "/usr/local/sbin/server-integrity.sh -c HOP2 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP2@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# First hop towards the nearest root server
+# WARNING There could be more routers
+check program network_hop
+    with path "/usr/local/sbin/server-integrity.sh -c HOP1 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP@@'" every 33 cycles
+# Second hop
+#  with path "/usr/local/sbin/server-integrity.sh -c HOP2 -h @@INTEGRITY_NEAREST@@ -r '@@INTEGRITY_HOP2@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # First reverse record
- check program network_ptr
-    with path "/usr/local/sbin/server-integrity.sh -c PTR1 -r '@@INTEGRITY_REVERSE@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# First reverse record
+check program network_ptr
+        with path "/usr/local/sbin/server-integrity.sh -c PTR1 -r '@@INTEGRITY_REVERSE@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # First mail exchanger
- check program network_mx
-    with path "/usr/local/sbin/server-integrity.sh -c MX1 -r '@@INTEGRITY_FIRST_MX@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# First mail exchanger
+check program network_mx
+        with path "/usr/local/sbin/server-integrity.sh -c MX1 -r '@@INTEGRITY_FIRST_MX@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Number of resolvers
- check program network_resolvers
-    with path "/usr/local/sbin/server-integrity.sh -c RES -r '@@INTEGRITY_RESOLVERS@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Number of resolvers
+check program network_resolvers
+        with path "/usr/local/sbin/server-integrity.sh -c RES -r '@@INTEGRITY_RESOLVERS@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Open TCP listening sockets
- check program network_tcp_listen
-    with path "/usr/local/sbin/server-integrity.sh -c TCPLISTEN -r '@@INTEGRITY_TCPLISTEN@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Open TCP listening sockets
+check program network_tcp_listen
+        with path "/usr/local/sbin/server-integrity.sh -c TCPLISTEN -r '@@INTEGRITY_TCPLISTEN@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Open UDP listening sockets
- check program network_udp_listen
-    with path "/usr/local/sbin/server-integrity.sh -c UDPLISTEN -r '@@INTEGRITY_UDPLISTEN@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# Open UDP listening sockets
+check program network_udp_listen
+        with path "/usr/local/sbin/server-integrity.sh -c UDPLISTEN -r '@@INTEGRITY_UDPLISTEN@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # List of files in /
- check program fs_rootlist
-    with path "/usr/local/sbin/server-integrity.sh -c ROOT -r '@@INTEGRITY_ROOTLIST@@'" every 33 cycles
-   group integrity
-   if status != 0 then alert
+# List of files in /
+check program fs_rootlist
+        with path "/usr/local/sbin/server-integrity.sh -c ROOT -r '@@INTEGRITY_ROOTLIST@@'" every 33 cycles
+    group integrity
+    if status != 0 then alert
 
- # Password shadow file
- check file password_shadow with path "/etc/shadow"
-   group integrity
-   if changed checksum      then alert
-   if failed permission 640 then unmonitor
-   if failed uid root       then unmonitor
-   if failed gid shadow     then unmonitor
+# Password shadow file
+check file password_shadow with path "/etc/shadow"
+    group integrity
+    if changed checksum      then alert
+    if failed permission 640 then unmonitor
+    if failed uid root       then unmonitor
+    if failed gid shadow     then unmonitor

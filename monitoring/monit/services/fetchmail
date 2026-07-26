@@ -1,24 +1,24 @@
- check process fetchmail with pidfile /run/fetchmail/fetchmail.pid
-   group fetchmail
-   group mail
-   start program = "/usr/sbin/service fetchmail start"
-   stop program = "/usr/sbin/service fetchmail stop"
-   restart program = "/usr/sbin/service fetchmail restart"
-   depends on fetchmail_bin
-   depends on fetchmail_init
-   depends on fetchmail_rc
+check process fetchmail with pidfile /run/fetchmail/fetchmail.pid
+    group fetchmail
+    group mail
+    start program = "/usr/sbin/service fetchmail start"
+    stop program = "/usr/sbin/service fetchmail stop"
+    restart program = "/usr/sbin/service fetchmail restart"
+    depends on fetchmail_bin
+    depends on fetchmail_init
+    depends on fetchmail_rc
 
- check file fetchmail_bin with path /usr/bin/fetchmail
-   group fetchmail
-   include /etc/monit/templates/rootbin
+check file fetchmail_bin with path /usr/bin/fetchmail
+    group fetchmail
+    include /etc/monit/templates/rootbin
 
- check file fetchmail_init with path /etc/init.d/fetchmail
-   group fetchmail
-   include /etc/monit/templates/rootbin
+check file fetchmail_init with path /etc/init.d/fetchmail
+    group fetchmail
+    include /etc/monit/templates/rootbin
 
- check file fetchmail_rc with path /etc/fetchmailrc
-   group fetchmail
-   if failed checksum then unmonitor
-   if failed permission 600 then unmonitor
-   if failed uid fetchmail then unmonitor
-   if failed gid root then unmonitor
+check file fetchmail_rc with path /etc/fetchmailrc
+    group fetchmail
+    if failed checksum then unmonitor
+    if failed permission 600 then unmonitor
+    if failed uid fetchmail then unmonitor
+    if failed gid root then unmonitor

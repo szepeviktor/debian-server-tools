@@ -1,84 +1,84 @@
- check process courier-mta with pidfile /run/courier/esmtpd.pid
-   group mail
-   start program = "/usr/sbin/service courier-mta start"
-   stop program = "/usr/sbin/service courier-mta stop"
-   restart program = "/usr/sbin/service courier-mta restart"
-   # When TCPDOPTS="-nodnslookup" is NOT set in Courier
-   #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds then restart
-   #if 5 restarts within 5 cycles then unmonitor
-   # With one cycles tolerance
-   #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds for 2 cycles then restart
-   #if 5 restarts within 10 cycles then unmonitor
-   # For changing "EHLO localhost" see https://mmonit.com/monit/documentation/#GENERIC-SEND-EXPECT
-   if failed host localhost port 25 type tcp protocol smtp then restart
-   if 5 restarts within 5 cycles then unmonitor
-   depends on courier-mta_bin
-   depends on courier-mta_init
-   depends on courier-mta_cert
-   depends on courier-mta_cert_dh
-   depends on courier-mta_mailq
-   depends on courier-mta_sendmail_bin
+check process courier-mta with pidfile /run/courier/esmtpd.pid
+    group mail
+    start program = "/usr/sbin/service courier-mta start"
+    stop program = "/usr/sbin/service courier-mta stop"
+    restart program = "/usr/sbin/service courier-mta restart"
+    # When TCPDOPTS="-nodnslookup" is NOT set in Courier
+    #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds then restart
+    #if 5 restarts within 5 cycles then unmonitor
+    # With one cycles tolerance
+    #if failed host localhost port 25 type tcp protocol smtp timeout 12 seconds for 2 cycles then restart
+    #if 5 restarts within 10 cycles then unmonitor
+    # For changing "EHLO localhost" see https://mmonit.com/monit/documentation/#GENERIC-SEND-EXPECT
+    if failed host localhost port 25 type tcp protocol smtp then restart
+    if 5 restarts within 5 cycles then unmonitor
+    depends on courier-mta_bin
+    depends on courier-mta_init
+    depends on courier-mta_cert
+    depends on courier-mta_cert_dh
+    depends on courier-mta_mailq
+    depends on courier-mta_sendmail_bin
 
- check process courier-msa with pidfile /run/courier/esmtpd-msa.pid
-   group mail
-   start program = "/usr/sbin/service courier-msa start"
-   stop program = "/usr/sbin/service courier-msa stop"
-   restart program = "/usr/sbin/service courier-msa restart"
-   # Extended timeout for DNS queries
-   if failed host localhost port 587 type tcp protocol smtp timeout 12 seconds then restart
-   if 5 restarts within 5 cycles then unmonitor
-   depends on courier-mta_bin
-   depends on courier-mta_init
+check process courier-msa with pidfile /run/courier/esmtpd-msa.pid
+    group mail
+    start program = "/usr/sbin/service courier-msa start"
+    stop program = "/usr/sbin/service courier-msa stop"
+    restart program = "/usr/sbin/service courier-msa restart"
+    # Extended timeout for DNS queries
+    if failed host localhost port 587 type tcp protocol smtp timeout 12 seconds then restart
+    if 5 restarts within 5 cycles then unmonitor
+    depends on courier-mta_bin
+    depends on courier-mta_init
 
- check file courier-mta_bin with path /usr/sbin/courieresmtpd
-   group mail
-   include /etc/monit/templates/rootbin
+check file courier-mta_bin with path /usr/sbin/courieresmtpd
+    group mail
+    include /etc/monit/templates/rootbin
 
- check file courier-mta_init with path /etc/init.d/courier-mta
-   group mail
-   include /etc/monit/templates/rootbin
+check file courier-mta_init with path /etc/init.d/courier-mta
+    group mail
+    include /etc/monit/templates/rootbin
 
- check file courier-mta_cert with path /etc/courier/esmtpd.pem
-   group mail
-   if failed checksum then unmonitor
-   if failed permission 600 then unmonitor
-   if failed uid "courier" then unmonitor
-   if failed gid "root" then unmonitor
+check file courier-mta_cert with path /etc/courier/esmtpd.pem
+    group mail
+    if failed checksum then unmonitor
+    if failed permission 600 then unmonitor
+    if failed uid "courier" then unmonitor
+    if failed gid "root" then unmonitor
 
- check file courier-mta_cert_dh with path /etc/courier/dhparams.pem
-   group mail
-   if failed checksum then unmonitor
-   if failed permission 600 then unmonitor
-   if failed uid "courier" then unmonitor
-   if failed gid "root" then unmonitor
+check file courier-mta_cert_dh with path /etc/courier/dhparams.pem
+    group mail
+    if failed checksum then unmonitor
+    if failed permission 600 then unmonitor
+    if failed uid "courier" then unmonitor
+    if failed gid "root" then unmonitor
 
- check program courier-mta_mailq with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
-   group mail
-   if status != 0 then alert
+check program courier-mta_mailq with path "/usr/local/sbin/courier-mailq-test.sh" with timeout 10 seconds
+    group mail
+    if status != 0 then alert
 
- check file courier-mta_sendmail_bin with path "/usr/sbin/sendmail"
-   group mail
-   if failed checksum then unmonitor
-   #if failed permission 4755 then unmonitor
-   if failed permission 2755 then unmonitor
-   if failed uid "root" then unmonitor
-   if failed gid "courier" then unmonitor
+check file courier-mta_sendmail_bin with path "/usr/sbin/sendmail"
+    group mail
+    if failed checksum then unmonitor
+    #if failed permission 4755 then unmonitor
+    if failed permission 2755 then unmonitor
+    if failed uid "root" then unmonitor
+    if failed gid "courier" then unmonitor
 
- check process courierfilter with pidfile /run/courier/courierfilter.pid
-   group mail
-   start program = "/usr/sbin/courierfilter start"
-   stop program = "/usr/sbin/courierfilter stop"
-   restart program = "/usr/sbin/courierfilter restart"
-   if 5 restarts within 5 cycles then unmonitor
-   depends on courierfilter_bin
+check process courierfilter with pidfile /run/courier/courierfilter.pid
+    group mail
+    start program = "/usr/sbin/courierfilter start"
+    stop program = "/usr/sbin/courierfilter stop"
+    restart program = "/usr/sbin/courierfilter restart"
+    if 5 restarts within 5 cycles then unmonitor
+    depends on courierfilter_bin
 
- check file courierfilter_bin with path /usr/sbin/courierfilter
-   group mail
-   include /etc/monit/templates/rootbin
+check file courierfilter_bin with path /usr/sbin/courierfilter
+    group mail
+    include /etc/monit/templates/rootbin
 
- check file courier-mta_srs with path "/etc/srs_secret"
-   group mail
-   if failed checksum then unmonitor
-   if failed permission 0640 then unmonitor
-   if failed uid "root" then unmonitor
-   if failed gid "courier" then unmonitor
+check file courier-mta_srs with path "/etc/srs_secret"
+    group mail
+    if failed checksum then unmonitor
+    if failed permission 0640 then unmonitor
+    if failed uid "root" then unmonitor
+    if failed gid "courier" then unmonitor

@@ -1,18 +1,18 @@
 # From Debian package
- check process atd with pidfile /run/atd.pid
-   group system
-   group atd
-   start program = "/usr/sbin/service atd start"
-   stop program = "/usr/sbin/service atd stop"
-   restart program = "/usr/sbin/service atd restart"
-   if 5 restarts within 5 cycles then unmonitor
-   depends on atd_bin
-   depends on atd_init
+check process atd with pidfile /run/atd.pid
+    group system
+    group atd
+    start program = "/usr/sbin/service atd start"
+    stop program = "/usr/sbin/service atd stop"
+    restart program = "/usr/sbin/service atd restart"
+    if 5 restarts within 5 cycles then unmonitor
+    depends on atd_bin
+    depends on atd_init
 
- check file atd_bin with path /usr/sbin/atd
-   group atd
-   include /etc/monit/templates/rootbin
+check file atd_bin with path /usr/sbin/atd
+    group atd
+    include /etc/monit/templates/rootbin
 
- check file atd_init with path /etc/init.d/atd
-   group atd
-   include /etc/monit/templates/rootbin
+check file atd_init with path /etc/init.d/atd
+    group atd
+    include /etc/monit/templates/rootbin

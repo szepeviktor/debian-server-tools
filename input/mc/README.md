@@ -1,9 +1,10 @@
 ```bash
-install --mode=0644 ./install email.syntax ~/.local/share/mc/mcedit/
-install --mode=0644 ./install markdown.syntax ~/.local/share/mc/mcedit/
-install --mode=0644 ./Syntax ~/.config/mc/mcedit/
-cat /usr/share/mc/syntax/Syntax >> ~/.config/mc/mcedit/Syntax
+install --directory --mode=0755 ~/.local/share/mc/syntax/
+install --mode=0644 ./monit.syntax ~/.local/share/mc/syntax/
+install --mode=0644 ./Syntax ~/.local/share/mc/syntax/
+cat /usr/share/mc/syntax/Syntax >> ~/.local/share/mc/syntax/Syntax
 
+install --directory --mode=0755 ~/.config/mc/mcedit/
 install --mode=0644 ./menu ~/.config/mc/mcedit/
 ```
 

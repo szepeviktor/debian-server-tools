@@ -1,23 +1,23 @@
- check process udevd matching udevd
-   group system
-   group udevd
-   start program = "/usr/sbin/service udev start"
-   stop program = "/usr/sbin/service udev stop"
-   restart program = "/usr/sbin/service udev restart"
-   if 5 restarts with 5 cycles then unmonitor
-   depends on udevadm
-   depends on udevd_bin
-   depends on udevd_init
+check process udevd matching udevd
+    group system
+    group udevd
+    start program = "/usr/sbin/service udev start"
+    stop program = "/usr/sbin/service udev stop"
+    restart program = "/usr/sbin/service udev restart"
+    if 5 restarts with 5 cycles then unmonitor
+    depends on udevadm
+    depends on udevd_bin
+    depends on udevd_init
 
- check program udevadm with path "/bin/udevadm trigger --verbose --dry-run --type=devices --subsystem-match=rtc"
-   group udevd
-   if status != 0 then alert
-   if changed status then alert
+check program udevadm with path "/bin/udevadm trigger --verbose --dry-run --type=devices --subsystem-match=rtc"
+    group udevd
+    if status != 0 then alert
+    if changed status then alert
 
- check file udevd_bin with path /lib/systemd/systemd-udevd
-   group udevd
-   include /etc/monit/templates/rootbin
+check file udevd_bin with path /lib/systemd/systemd-udevd
+    group udevd
+    include /etc/monit/templates/rootbin
 
- check file udevd_init with path /etc/init.d/udev
-   group udevd
-   include /etc/monit/templates/rootbin
+check file udevd_init with path /etc/init.d/udev
+    group udevd
+    include /etc/monit/templates/rootbin

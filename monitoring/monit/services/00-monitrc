@@ -2,7 +2,7 @@
 # Work-around cron "03,04 *  * * *"
 # May run TWICE in two minutes!
 set daemon 115
-  start delay 10
+    start delay 10
 
 # Alert emails
 set mailserver localhost port 25, @@SMARTHOST@@ port @@SMARTHOST_PORT@@
@@ -11,7 +11,7 @@ set alert @@ALERT_ADDRESS@@ with reminder on 2 cycles
 
 # Web interface
 set httpd unixsocket /run/monit.sock
-  allow mon:it
+    allow mon:it
 
 # Verify certificates
 set ssl options { verify: enable }

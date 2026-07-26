@@ -1,24 +1,24 @@
- check process unscd with pidfile /run/nscd/nscd.pid
-   group system
-   group unscd
-   start program = "/usr/sbin/service unscd start"
-   stop program = "/usr/sbin/service unscd stop"
-   # Needs --full-restart
-   restart program = "/usr/sbin/service unscd --full-restart"
-   if failed unixsocket /run/nscd/socket then restart
-   if 5 restarts within 5 cycles then unmonitor
-   depends on unscd_bin
-   depends on unscd_init
-   depends on unscd_rc
+check process unscd with pidfile /run/nscd/nscd.pid
+    group system
+    group unscd
+    start program = "/usr/sbin/service unscd start"
+    stop program = "/usr/sbin/service unscd stop"
+    # Needs --full-restart
+    restart program = "/usr/sbin/service unscd --full-restart"
+    if failed unixsocket /run/nscd/socket then restart
+    if 5 restarts within 5 cycles then unmonitor
+    depends on unscd_bin
+    depends on unscd_init
+    depends on unscd_rc
 
- check file unscd_bin with path /usr/sbin/nscd
-   group unscd
-   include /etc/monit/templates/rootbin
+check file unscd_bin with path /usr/sbin/nscd
+    group unscd
+    include /etc/monit/templates/rootbin
 
- check file unscd_init with path /etc/init.d/unscd
-   group unscd
-   include /etc/monit/templates/rootbin
+check file unscd_init with path /etc/init.d/unscd
+    group unscd
+    include /etc/monit/templates/rootbin
 
- check file unscd_rc with path /etc/nscd.conf
-   group unscd
-   include /etc/monit/templates/rootrc
+check file unscd_rc with path /etc/nscd.conf
+    group unscd
+    include /etc/monit/templates/rootrc

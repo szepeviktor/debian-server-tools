@@ -1,0 +1,412 @@
+# Syntax highlighting for Monit control files
+#
+# Install this file as:
+#   ~/.local/share/mc/syntax/monit.syntax
+#
+# Add these lines to ~/.local/share/mc/syntax/Syntax before the generic
+# *.cfg/*.conf rule:
+#
+#   file (\\.?monitrc|.\*\\.(monit|monitrc))$ Monit\scontrol\sfile
+#   include monit.syntax
+#
+# https://github.com/lutzmad/vscode-monitrc
+
+caseinsensitive
+
+wholechars abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.
+
+context default
+
+# Top-level statements
+    keyword whole set brightcyan
+    keyword whole check brightcyan
+    keyword whole include brightcyan
+
+# Service types and major clauses
+    keyword whole process yellow
+    keyword whole file yellow
+    keyword whole filesystem yellow
+    keyword whole directory yellow
+    keyword whole host yellow
+    keyword whole network yellow
+    keyword whole system yellow
+    keyword whole fifo yellow
+    keyword whole program yellow
+    keyword whole daemon yellow
+    keyword whole interval yellow
+    keyword whole alert yellow
+    keyword whole terminal yellow
+    keyword whole init yellow
+    keyword whole onreboot yellow
+    keyword whole expectbuffer yellow
+    keyword whole limits yellow
+    keyword whole fips yellow
+    keyword whole logfile yellow
+    keyword whole log yellow
+    keyword whole eventqueue yellow
+    keyword whole idfile yellow
+    keyword whole statefile yellow
+    keyword whole pidfile yellow
+    keyword whole mmonit yellow
+    keyword whole mailserver yellow
+    keyword whole mail-format yellow
+    keyword whole httpd yellow
+    keyword whole path yellow
+    keyword whole address yellow
+    keyword whole interface yellow
+    keyword whole matching yellow
+    keyword whole match yellow
+
+# Conditions and flow control
+    keyword whole if brightcyan
+    keyword whole then brightcyan
+    keyword whole else brightcyan
+    keyword whole failed brightcyan
+    keyword whole succeeded brightcyan
+    keyword whole passed brightcyan
+    keyword whole recovered brightcyan
+    keyword whole changed brightcyan
+    keyword whole exist brightcyan
+    keyword whole exists brightcyan
+    keyword whole nonexist brightcyan
+    keyword whole content brightcyan
+    keyword whole status brightcyan
+    keyword whole uptime brightcyan
+    keyword whole every brightcyan
+    keyword whole repeat brightcyan
+    keyword whole reminder brightcyan
+    keyword whole timeout brightcyan
+    keyword whole retry brightcyan
+    keyword whole depends brightcyan
+    keyword whole depend brightcyan
+    keyword whole group brightcyan
+    keyword whole mode brightcyan
+
+# Actions
+    keyword whole start brightred
+    keyword whole stop brightred
+    keyword whole restart brightred
+    keyword whole monitor brightred
+    keyword whole unmonitor brightred
+    keyword whole exec brightred
+    keyword whole ignore brightred
+    keyword whole noalert brightred
+
+# Tests, resources and options
+    keyword whole cpu yellow
+    keyword whole memory yellow
+    keyword whole mem yellow
+    keyword whole swap yellow
+    keyword whole loadavg yellow
+    keyword whole load yellow
+    keyword whole threads yellow
+    keyword whole thread yellow
+    keyword whole children yellow
+    keyword whole child yellow
+    keyword whole total yellow
+    keyword whole read yellow
+    keyword whole write yellow
+    keyword whole pagein yellow
+    keyword whole pageout yellow
+    keyword whole inode yellow
+    keyword whole space yellow
+    keyword whole service yellow
+    keyword whole fsflag yellow
+    keyword whole fsflags yellow
+    keyword whole permission yellow
+    keyword whole perm yellow
+    keyword whole size yellow
+    keyword whole hardlink yellow
+    keyword whole uid yellow
+    keyword whole euid yellow
+    keyword whole gid yellow
+    keyword whole security yellow
+    keyword whole attribute yellow
+    keyword whole attributes yellow
+    keyword whole filedescriptors yellow
+    keyword whole link yellow
+    keyword whole saturation yellow
+    keyword whole upload yellow
+    keyword whole uploaded yellow
+    keyword whole download yellow
+    keyword whole downloaded yellow
+    keyword whole packetin yellow
+    keyword whole packetout yellow
+    keyword whole bytein yellow
+    keyword whole byteout yellow
+    keyword whole speed yellow
+    keyword whole checksum yellow
+    keyword whole timestamp yellow
+    keyword whole atime yellow
+    keyword whole ctime yellow
+    keyword whole mtime yellow
+    keyword whole pid yellow
+    keyword whole ppid yellow
+    keyword whole responsetime yellow
+    keyword whole count yellow
+    keyword whole action yellow
+    keyword whole connection yellow
+    keyword whole instance yellow
+    keyword whole invalid yellow
+    keyword whole resource yellow
+    keyword whole data yellow
+
+# Connection, HTTP and TLS options
+    keyword whole port magenta
+    keyword whole hostname magenta
+    keyword whole hostheader magenta
+    keyword whole unixsocket magenta
+    keyword whole unix magenta
+    keyword whole socket magenta
+    keyword whole outgoing magenta
+    keyword whole type magenta
+    keyword whole protocol magenta
+    keyword whole proto magenta
+    keyword whole request magenta
+    keyword whole method magenta
+    keyword whole send magenta
+    keyword whole expect magenta
+    keyword whole origin magenta
+    keyword whole target magenta
+    keyword whole secret magenta
+    keyword whole version magenta
+    keyword whole checksum magenta
+    keyword whole rsakey magenta
+    keyword whole maxforward magenta
+    keyword whole ssl magenta
+    keyword whole tls magenta
+    keyword whole verify magenta
+    keyword whole selfsigned magenta
+    keyword whole cipher magenta
+    keyword whole certificate magenta
+    keyword whole pemfile magenta
+    keyword whole pemchain magenta
+    keyword whole pemkey magenta
+    keyword whole clientpemfile magenta
+    keyword whole cacertificatefile magenta
+    keyword whole cacertificatepath magenta
+    keyword whole certmd5 magenta
+    keyword whole signature magenta
+    keyword whole register magenta
+    keyword whole credentials magenta
+    keyword whole username magenta
+    keyword whole password magenta
+    keyword whole allow magenta
+    keyword whole facility magenta
+    keyword whole basedir magenta
+    keyword whole slots magenta
+    keyword whole slot magenta
+    keyword whole hostgroups magenta
+
+# Supported protocol names
+    keyword whole apache-status brightmagenta
+    keyword whole clamav brightmagenta
+    keyword whole default brightmagenta
+    keyword whole dns brightmagenta
+    keyword whole dwp brightmagenta
+    keyword whole fail2ban brightmagenta
+    keyword whole ftp brightmagenta
+    keyword whole gps brightmagenta
+    keyword whole http brightmagenta
+    keyword whole https brightmagenta
+    keyword whole imap brightmagenta
+    keyword whole imaps brightmagenta
+    keyword whole ldap2 brightmagenta
+    keyword whole ldap3 brightmagenta
+    keyword whole lmtp brightmagenta
+    keyword whole memcache brightmagenta
+    keyword whole mongodb brightmagenta
+    keyword whole mqtt brightmagenta
+    keyword whole mysql brightmagenta
+    keyword whole mysqls brightmagenta
+    keyword whole nntp brightmagenta
+    keyword whole ntp3 brightmagenta
+    keyword whole pgsql brightmagenta
+    keyword whole pop brightmagenta
+    keyword whole pops brightmagenta
+    keyword whole postfix-policy brightmagenta
+    keyword whole radius brightmagenta
+    keyword whole rdate brightmagenta
+    keyword whole redis brightmagenta
+    keyword whole rsync brightmagenta
+    keyword whole sieve brightmagenta
+    keyword whole sip brightmagenta
+    keyword whole smtp brightmagenta
+    keyword whole smtps brightmagenta
+    keyword whole spamassassin brightmagenta
+    keyword whole ssh brightmagenta
+    keyword whole tns brightmagenta
+    keyword whole websocket brightmagenta
+    keyword whole icmp brightmagenta
+    keyword whole ping brightmagenta
+    keyword whole ping4 brightmagenta
+    keyword whole ping6 brightmagenta
+    keyword whole tcp brightmagenta
+    keyword whole tcpssl brightmagenta
+    keyword whole udp brightmagenta
+    keyword whole ipv4 brightmagenta
+    keyword whole ipv6 brightmagenta
+
+# Operators and values
+    keyword whole equal brightgreen
+    keyword whole eq brightgreen
+    keyword whole notequal brightgreen
+    keyword whole ne brightgreen
+    keyword whole greater brightgreen
+    keyword whole gt brightgreen
+    keyword whole less brightgreen
+    keyword whole lt brightgreen
+    keyword whole older brightgreen
+    keyword whole newer brightgreen
+    keyword whole ge brightgreen
+    keyword whole le brightgreen
+    keyword whole active brightgreen
+    keyword whole passive brightgreen
+    keyword whole manual brightgreen
+    keyword whole batch brightgreen
+    keyword whole nostart brightgreen
+    keyword whole laststate brightgreen
+    keyword whole enable brightgreen
+    keyword whole disable brightgreen
+    keyword whole allow brightgreen
+    keyword whole reject brightgreen
+    keyword whole auto brightgreen
+    keyword whole readonly brightgreen
+    keyword whole read-only brightgreen
+    keyword whole cleartext brightgreen
+    keyword whole crypt brightgreen
+    keyword whole md5 brightgreen
+    keyword whole sha1 brightgreen
+    keyword whole sha256 brightgreen
+    keyword whole get brightgreen
+    keyword whole head brightgreen
+    keyword whole syslog brightgreen
+    keyword whole log_daemon brightgreen
+    keyword whole log_user brightgreen
+    keyword whole log_local0 brightgreen
+    keyword whole log_local1 brightgreen
+    keyword whole log_local2 brightgreen
+    keyword whole log_local3 brightgreen
+    keyword whole log_local4 brightgreen
+    keyword whole log_local5 brightgreen
+    keyword whole log_local6 brightgreen
+    keyword whole log_local7 brightgreen
+    keyword whole sslv2 brightgreen
+    keyword whole sslv3 brightgreen
+    keyword whole tlsv1 brightgreen
+    keyword whole tlsv11 brightgreen
+    keyword whole tlsv12 brightgreen
+    keyword whole tlsv13 brightgreen
+
+# Units
+    keyword whole percent cyan
+    keyword whole operation cyan
+    keyword whole operations cyan
+    keyword whole xoperation cyan
+    keyword whole xoperations cyan
+    keyword whole packet cyan
+    keyword whole packets cyan
+    keyword whole byte cyan
+    keyword whole bytes cyan
+    keyword whole kilobyte cyan
+    keyword whole kilobytes cyan
+    keyword whole megabyte cyan
+    keyword whole megabytes cyan
+    keyword whole gigabyte cyan
+    keyword whole gigabytes cyan
+    keyword whole kb cyan
+    keyword whole mb cyan
+    keyword whole gb cyan
+    keyword whole millisecond cyan
+    keyword whole milliseconds cyan
+    keyword whole ms cyan
+    keyword whole second cyan
+    keyword whole seconds cyan
+    keyword whole minute cyan
+    keyword whole minutes cyan
+    keyword whole hour cyan
+    keyword whole hours cyan
+    keyword whole day cyan
+    keyword whole days cyan
+    keyword whole month cyan
+    keyword whole months cyan
+    keyword whole cycle cyan
+    keyword whole cycles cyan
+    keyword whole time cyan
+    keyword whole times cyan
+
+# Noise words used by Monit's natural-language-like grammar
+    keyword whole and lightgray
+    keyword whole are lightgray
+    keyword whole as lightgray
+    keyword whole but lightgray
+    keyword whole capacity lightgray
+    keyword whole does lightgray
+    keyword whole for lightgray
+    keyword whole has lightgray
+    keyword whole in lightgray
+    keyword whole is lightgray
+    keyword whole last lightgray
+    keyword whole of lightgray
+    keyword whole on lightgray
+    keyword whole only lightgray
+    keyword whole option lightgray
+    keyword whole options lightgray
+    keyword whole or lightgray
+    keyword whole per lightgray
+    keyword whole program lightgray
+    keyword whole programs lightgray
+    keyword whole rate lightgray
+    keyword whole sum lightgray
+    keyword whole than lightgray
+    keyword whole the lightgray
+    keyword whole to lightgray
+    keyword whole use lightgray
+    keyword whole using lightgray
+    keyword whole via lightgray
+    keyword whole was lightgray
+    keyword whole with lightgray
+    keyword whole within lightgray
+    keyword whole without lightgray
+
+# Operators, delimiters, numbers and Monit runtime variables
+    keyword == brightgreen
+    keyword != brightgreen
+    keyword <= brightgreen
+    keyword >= brightgreen
+    keyword = brightgreen
+    keyword < brightgreen
+    keyword > brightgreen
+    keyword % cyan
+    keyword { brightcyan
+    keyword } brightcyan
+    keyword \\[ brightcyan
+    keyword \\] brightcyan
+    keyword , brightcyan
+    keyword whole \{0123456789\}\[0123456789\] brightcyan
+    keyword whole \[0123456789\]\.\{0123456789\}\[0123456789\] brightcyan
+    keyword whole \{0123456789\}\[0123456789\]\.\[0123456789\] brightcyan
+    keyword whole $EVENT brightmagenta
+    keyword whole $SERVICE brightmagenta
+    keyword whole $DATE brightmagenta
+    keyword whole $HOST brightmagenta
+    keyword whole $ACTION brightmagenta
+    keyword whole $DESCRIPTION brightmagenta
+    keyword whole $SYSTEM brightmagenta
+
+# Quoted strings and shell command strings
+context " " green
+    keyword \\\" brightgreen
+    keyword \\\\ brightgreen
+
+context ' ' green
+    keyword \\\' brightgreen
+    keyword \\\\ brightgreen
+
+context ` ` green
+    keyword \\\` brightgreen
+    keyword \\\\ brightgreen
+
+# A hash starts a comment outside quoted contexts.
+context exclusive # \n brown
+    spellcheck

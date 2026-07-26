@@ -1,17 +1,17 @@
- check process haveged with pidfile /run/haveged.pid
-   group system
-   group haveged
-   start program = "/usr/sbin/service haveged start"
-   stop program = "/usr/sbin/service haveged stop"
-   restart program = "/usr/sbin/service haveged restart"
-   if 5 restarts with 5 cycles then unmonitor
-   depends on haveged_bin
-   depends on haveged_init
+check process haveged with pidfile /run/haveged.pid
+    group system
+    group haveged
+    start program = "/usr/sbin/service haveged start"
+    stop program = "/usr/sbin/service haveged stop"
+    restart program = "/usr/sbin/service haveged restart"
+    if 5 restarts with 5 cycles then unmonitor
+    depends on haveged_bin
+    depends on haveged_init
 
- check file haveged_bin with path /usr/sbin/haveged
-   group haveged
-   include /etc/monit/templates/rootbin
+check file haveged_bin with path /usr/sbin/haveged
+    group haveged
+    include /etc/monit/templates/rootbin
 
- check file haveged_init with path /etc/init.d/haveged
-   group haveged
-   include /etc/monit/templates/rootbin
+check file haveged_init with path /etc/init.d/haveged
+    group haveged
+    include /etc/monit/templates/rootbin

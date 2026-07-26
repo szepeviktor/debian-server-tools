@@ -1,46 +1,46 @@
 # https://mmonit.com/monit/documentation/
 
- # https://mmonit.com/monit/changes/
- check process "SERVICE" with pidfile "/run/SERVICE.pid"
-   group "system"
-   group "GROUP"
-   start program = "/usr/sbin/service SERVICE_INIT start"
-   stop program = "/usr/sbin/service SERVICE_INIT stop"
-   restart program = "/usr/sbin/service SERVICE_INIT restart"
-   if failed unixsocket "/run/SERVICE.sock" then restart
-   if 5 restarts with 5 cycles then unmonitor
-   depends on SERVICE_bin
-   depends on SERVICE_test
-   depends on SERVICE_rc
-   depends on SERVICE_STRICT
-   depends on SERVICE_init
-   depends on SERVICE_log
+# https://mmonit.com/monit/changes/
+check process "SERVICE" with pidfile "/run/SERVICE.pid"
+    group "system"
+    group "GROUP"
+    start program = "/usr/sbin/service SERVICE_INIT start"
+    stop program = "/usr/sbin/service SERVICE_INIT stop"
+    restart program = "/usr/sbin/service SERVICE_INIT restart"
+    if failed unixsocket "/run/SERVICE.sock" then restart
+    if 5 restarts with 5 cycles then unmonitor
+    depends on SERVICE_bin
+    depends on SERVICE_test
+    depends on SERVICE_rc
+    depends on SERVICE_STRICT
+    depends on SERVICE_init
+    depends on SERVICE_log
 
- check file "SERVICE_bin" with path "/usr/sbin/SERVICE"
-   group "GROUP"
-   include "/etc/monit/templates/rootbin"
+check file "SERVICE_bin" with path "/usr/sbin/SERVICE"
+    group "GROUP"
+    include "/etc/monit/templates/rootbin"
 
- #check program "SERVICE_test" with path "/usr/sbin/service SERVICE status" with timeout 10 seconds
- check program "SERVICE_test" with path "/usr/bin/SERVICE_TOOL.sh ping" with timeout 2 seconds
-   group "GROUP"
-   if status != 0 then alert
-   if changed status then alert
+#check program "SERVICE_test" with path "/usr/sbin/service SERVICE status" with timeout 10 seconds
+check program "SERVICE_test" with path "/usr/bin/SERVICE_TOOL.sh ping" with timeout 2 seconds
+    group "GROUP"
+    if status != 0 then alert
+    if changed status then alert
 
- check file "SERVICE_rc" with path "/etc/SERVICE/SERVICErc"
-   group "GROUP"
-   include "/etc/monit/templates/rootrc"
+check file "SERVICE_rc" with path "/etc/SERVICE/SERVICErc"
+    group "GROUP"
+    include "/etc/monit/templates/rootrc"
 
- check file "SERVICE_STRICT" with path "/etc/SERVICE/SERVICE_STRICTrc"
-   group "GROUP"
-   include "/etc/monit/templates/rootstrict"
+check file "SERVICE_STRICT" with path "/etc/SERVICE/SERVICE_STRICTrc"
+    group "GROUP"
+    include "/etc/monit/templates/rootstrict"
 
- check file "SERVICE_init" with path "/etc/init.d/SERVICE"
-   group "GROUP"
-   include "/etc/monit/templates/rootbin"
+check file "SERVICE_init" with path "/etc/init.d/SERVICE"
+    group "GROUP"
+    include "/etc/monit/templates/rootbin"
 
- check file "SERVICE_log" with path "/var/log/SERVICE.log"
-   group "GROUP"
-   if timestamp > 30 minutes then alert
-   if failed permission 640 then unmonitor
-   if failed uid "root" then unmonitor
-   if failed gid "adm" then unmonitor
+check file "SERVICE_log" with path "/var/log/SERVICE.log"
+    group "GROUP"
+    if timestamp > 30 minutes then alert
+    if failed permission 640 then unmonitor
+    if failed uid "root" then unmonitor
+    if failed gid "adm" then unmonitor

@@ -1,17 +1,17 @@
- check process courier-imap with pidfile /run/courier/imapd.pid
-   group mail
-   start program = "/usr/sbin/service courier-imap start"
-   stop program = "/usr/sbin/service courier-imap stop"
-   restart program = "/usr/sbin/service courier-imap restart"
-   if failed host localhost port 143 type tcp protocol imap then restart
-   if 5 restarts within 5 cycles then unmonitor
-   depends on courier-imap_bin
-   depends on courier-imap_init
+check process courier-imap with pidfile /run/courier/imapd.pid
+    group mail
+    start program = "/usr/sbin/service courier-imap start"
+    stop program = "/usr/sbin/service courier-imap stop"
+    restart program = "/usr/sbin/service courier-imap restart"
+    if failed host localhost port 143 type tcp protocol imap then restart
+    if 5 restarts within 5 cycles then unmonitor
+    depends on courier-imap_bin
+    depends on courier-imap_init
 
- check file courier-imap_bin with path /usr/bin/imapd
-   group mail
-   include /etc/monit/templates/rootbin
+check file courier-imap_bin with path /usr/bin/imapd
+    group mail
+    include /etc/monit/templates/rootbin
 
- check file courier-imap_init with path /etc/init.d/courier-imap
-   group mail
-   include /etc/monit/templates/rootbin
+check file courier-imap_init with path /etc/init.d/courier-imap
+    group mail
+    include /etc/monit/templates/rootbin
