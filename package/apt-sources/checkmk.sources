@@ -1,0 +1,10 @@
+# Checkmk
+Types: deb
+URIs: https://download.checkmk.com/checkmk/
+Suites: stable
+Components: main
+Signed-By: /etc/apt/keyrings/checkmk.gpg
+X-Key-URL: https://download.checkmk.com/checkmk/Check_MK-pubkey.gpg
+X-Key-Format: binary
+X-Key-Fingerprint: B1E7106575B723F00611C612434DAC48C4503261
+X-Documentation-URL: https://docs.checkmk.com/latest/en/install_packages_debian.html
