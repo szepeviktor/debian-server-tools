@@ -21,7 +21,9 @@ Add_ipsets()
 
 Install_ipsets()
 {
-    # @nonDebian
+    echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections -v
+    echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections -v
+    echo "ipset-persistent ipset-persistent/autosave boolean true" | debconf-set-selections -v
     apt-get install -y iptables-persistent ipset-persistent
 
     # Clear IP sets
