@@ -8,13 +8,12 @@ cat /proc/sys/kernel/random/entropy_avail
 
 ### Edit mods-enabled/ssl.conf
 
-https://wiki.mozilla.org/Security/Server_Side_TLS
+https://docs.tlsref.org/server-side-tls.html
 
 - ECDSA certificate **Speed!**
 - Entropy source **Speed!**
-- Protocol **TLS1.2 Speed!**
+- Protocol **TLS1.3 Speed!**
 - Ciphersuites **AES-NI Speed!**
-- DH parameters
 - SSL session cache **Speed!**
 - OCSP stapling **Speed!**
 - SNI
@@ -25,7 +24,7 @@ https://istlsfastyet.com/
 
 [Current master in Debian](https://salsa.debian.org/apache-team/apache2/blob/master/debian/config-dir/mods-available/ssl.conf)
 
-See [/webserver/apache-conf-available/ssl-mozilla-intermediate.default](/webserver/apache-conf-available/ssl-mozilla-intermediate.default)
+See [/webserver/apache-conf-available/ssl-tlsref-modern.default](/webserver/apache-conf-available/ssl-tlsref-modern.default)
 
 ### Installing CA on a server
 

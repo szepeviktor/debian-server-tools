@@ -1,0 +1,30 @@
+<IfModule mod_ssl.c>
+
+    # TLSRef TLS Configurator
+    # generated for Apache 2.4.60, OpenSSL 3.0.20, TLSRef Guideline v6.0
+    # https://configurator.tlsref.org/#server=apache&version=2.4.60&config=modern&openssl=3.0.20&hsts&ocsp&guideline=6.0
+
+    # Pseudo Random Number Generator (PRNG)
+    SSLRandomSeed startup builtin
+    SSLRandomSeed startup file:/dev/urandom 512
+    SSLRandomSeed connect builtin
+    SSLRandomSeed connect file:/dev/urandom 512
+
+    # Certificate and CRL MIME types
+    AddType application/x-x509-ca-cert .crt
+    AddType application/x-pkcs7-crl .crl
+
+    SSLPassPhraseDialog exec:/usr/share/apache2/ask-for-passphrase
+
+    # Session cache
+    SSLSessionCache shmcb:${APACHE_RUN_DIR}/ssl_scache(512000)
+    SSLSessionCacheTimeout 300
+
+    # modern configuration
+    SSLProtocol             -all +TLSv1.3
+    SSLOpenSSLConfCmd       Curves X25519:prime256v1:secp384r1
+    SSLCipherSuite          TLSv1.3 TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+    SSLHonorCipherOrder     off
+    SSLSessionTickets       off
+
+</IfModule>

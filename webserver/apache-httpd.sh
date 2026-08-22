@@ -5,7 +5,6 @@ set -e -x
 # shellcheck disable=SC1091
 source debian-setup-functions.inc.sh
 
-# TODO Apache-SSL move out ssl.conf to a file
 # Consider libapache2-mod-qos (testing backport)
 # Apache security
 # - https://github.com/rfxn/linux-malware-detect
@@ -35,7 +34,7 @@ sed -e 's/^LogLevel warn/LogLevel info/' -i /etc/apache2/apache2.conf
 sed -e '/<Location \/server-status>/,/<\/Location>/d' -i /etc/apache2/mods-available/status.conf
 # Modules
 a2enmod actions rewrite headers deflate expires proxy_fcgi http2
-cp -f "${CWD}/apache-conf-available/ssl-mozilla-intermediate.default" /etc/apache2/mods-available/ssl.conf
+cp -f "${CWD}/apache-conf-available/ssl-tlsref-modern.default" /etc/apache2/mods-available/ssl.conf
 # ssl module depends on socache_shmcb
 a2enmod ssl
 
