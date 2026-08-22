@@ -2,6 +2,19 @@
 
 An IP set plugin for `netfilter-persistent`.
 
+Debian bookworm ships an `ipset-persistent` binary package from the
+`iptables-persistent` source package. Prefer the Debian package on bookworm and
+newer systems.
+
+This local package is kept only for old systems where the Debian package is not
+available.
+
+The Debian package saves and loads ipsets from:
+
+```text
+/etc/iptables/ipsets
+```
+
 ### How to Build
 
 ```bash

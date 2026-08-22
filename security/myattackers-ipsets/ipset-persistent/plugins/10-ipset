@@ -9,14 +9,14 @@ rc="0"
 
 load_rules() {
     # Load IP sets
-    if [ ! -f /etc/iptables/ipset ]; then
+    if [ ! -f /etc/iptables/ipsets ]; then
         echo "Warning: skipping IP sets (no rules to load)"
     elif [ ! -x /sbin/ipset ]; then
         rc="2"
     else
         # Although ipset command automatically loads ip_set* modules
         /sbin/modprobe --quiet ip_set
-        /sbin/ipset restore -exist < /etc/iptables/ipset 2> /dev/null
+        /sbin/ipset restore -exist < /etc/iptables/ipsets 2> /dev/null
         if [ $? -ne 0 ]; then
             rc="1"
         fi
@@ -29,15 +29,15 @@ save_rules() {
     else
         # Although ipset command automatically loads ip_set* modules
         /sbin/modprobe --quiet ip_set
-        touch /etc/iptables/ipset
-        chmod 0640 /etc/iptables/ipset
-        /sbin/ipset save > /etc/iptables/ipset
+        touch /etc/iptables/ipsets
+        chmod 0640 /etc/iptables/ipsets
+        /sbin/ipset save > /etc/iptables/ipsets
         if [ $? -ne 0 ]; then
             rc="1"
         fi
         # Exclude Fail2ban IP sets
         # Avoid piping
-        sed -i -e '/ f2b-/d' /etc/iptables/ipset
+        sed -i -e '/ f2b-/d' /etc/iptables/ipsets
     fi
 }
 
