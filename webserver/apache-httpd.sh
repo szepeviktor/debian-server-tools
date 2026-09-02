@@ -41,6 +41,7 @@ a2enmod ssl
 # Configuration
 # @TODO Add '<IfModule !module.c> Error "We need that module"' to confs and sites.
 cp -f "${CWD}/apache-conf-available/"*.conf /etc/apache2/conf-available/
+cp -a "${CWD}/apache-conf-available/h5bp" /etc/apache2/conf-available/
 cp -f "${CWD}/apache-sites-available/"*.conf /etc/apache2/sites-available/
 # Security through obscurity
 sed -e 's/^ServerTokens OS/ServerTokens Prod/' -i /etc/apache2/conf-available/security.conf
