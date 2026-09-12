@@ -22,7 +22,8 @@ TEMP_IP="$(mktemp)"
 trap 'rm -f "$TEMP_IP"' EXIT HUP INT QUIT PIPE TERM
 
 wget -q --tries=3 --timeout=10 -O- "$AMAZON_IP_URL" \
-    | >"$TEMP_IP" jq -r '(.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix),(.ipv6_prefixes[] | select(.service == "CLOUDFRONT").ipv6_prefix)'
+    | jq -r '(.prefixes[] | select(.service == "CLOUDFRONT").ip_prefix),(.ipv6_prefixes[] | select(.service == "CLOUDFRONT").ipv6_prefix)' \
+    >"$TEMP_IP"
 
 # Check list
 if [ ! -s "$TEMP_IP" ] || grep -v -x '[0-9a-f:.]\+/[0-9]\+' "$TEMP_IP"; then

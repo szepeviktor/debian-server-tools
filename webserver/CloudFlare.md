@@ -35,12 +35,13 @@ IPv4 list
 wget -O /etc/apache2/conf-available/cloudflare-ipv4.list "https://www.cloudflare.com/ips-v4"
 ```
 
-Apache mod_remoteip module. Add to each vhost config.
+Restrict access to Cloudflare IPv4 ranges. Add to each full-CDN vhost config.
 
 ```apache
     # mod_remoteip - Cloudflare is trusted by us
     RemoteIPHeader CF-Connecting-IP
     RemoteIPTrustedProxyList conf-available/cloudflare-ipv4.list
+    Require expr "%{REMOTE_ADDR} != %{CONN_REMOTE_ADDR}"
 ```
 
 `a2enmod remoteip && apache2ctl configtest && service apache2 reload`
