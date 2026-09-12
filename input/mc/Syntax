@@ -3,7 +3,7 @@
 file ((^|.\*/)monitrc|.\*\\.monitrc|.\*/debian-server-tools/monitoring/monit/services/.\*|.\*/monit\\.d/.\*|.\*/etc/monit/(conf\\.d|conf-available|conf-enabled)/.\*)$ Monit\sControl\sFile
 include monit.syntax
 
-file ..\*(\\.(conf|cfg|zone|local|cf|htaccess|ipset)|Dockerfile)$ Configuration\sFile
+file ..\*(\\.(conf|cnf|cfg|zone|local|cf|htaccess|ipset)|Dockerfile)$ Configuration\sFile
 include ini.syntax
 
 file ..\*\\.(eml|msg)$ Email\sSource
