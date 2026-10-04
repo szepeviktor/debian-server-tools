@@ -93,6 +93,10 @@ export HTTP_USER_AGENT="Wp-cron/${WPCRON_VERSION} (php-cli; Linux)"
 cd "$WPCRON_DIR" || Die 2 "Cannot change to directory (${WPCRON_DIR})"
 test -r wp-cron.php || Die 3 "File not found (${WPCRON_DIR}/wp-cron.php)"
 
+if /usr/bin/php7.4 /usr/local/bin/wp maintenance-mode is-active --path="${WPCRON_DIR}" --quiet; then
+    Die 10 "WordPress is in maintenance mode"
+fi
+
 # Alternative:  wp cron event run --due-now
 nice /usr/bin/php7.4 -d mail.add_x_header=Off -d user_ini.filename="" wp-cron.php \
     || Die 4 "PHP exit status ${?} in ${WPCRON_DIR}/wp-cron.php"
