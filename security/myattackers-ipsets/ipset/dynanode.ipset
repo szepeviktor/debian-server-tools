@@ -1,0 +1,11 @@
+# AS400463 - DynaNode
+#: ipset -exist restore <ipset/dynanode.ipset
+#: iptables -w -I myattackers-ipset -m set --match-set dynanode src -j REJECT
+create dynanode hash:net family inet hashsize 64 maxelem 32
+flush dynanode
+add dynanode 156.230.192.0/18
+add dynanode 156.241.192.0/18
+add dynanode 196.51.0.0/17
+add dynanode 196.51.128.0/17
+add dynanode 199.16.236.0/22
+
