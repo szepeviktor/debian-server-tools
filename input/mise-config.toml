@@ -1,0 +1,12 @@
+[tools]
+bat = "latest"
+gdu = "latest"
+gh = "latest"
+"gitlab:greut/eclint" = "latest"
+lychee = "latest"
+shellcheck = "latest"
+typos = "latest"
+yq = "latest"
+yt-dlp = { version = "latest", rename_exe = "yt-dlp" }
+"github:AlDanial/cloc" = { version = "latest", asset_pattern = "cloc-{{ version }}.pl", bin = "cloc" }
+"github:lexiforest/curl-impersonate" = { version = "latest", asset_pattern = "curl-impersonate-*.x86_64-linux-gnu.tar.gz", filter_bins = ["curl-impersonate", "curl_chrome145", "curl_firefox144", "curl_firefox147", "curl_safari260"] }

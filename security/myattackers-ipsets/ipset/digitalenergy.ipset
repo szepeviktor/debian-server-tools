@@ -18,6 +18,7 @@ add digitalenergy 91.92.35.0/24
 # 188.214.234.0/23
 add digitalenergy 188.214.234.0/24
 add digitalenergy 102.128.141.0/24
+add digitalenergy 102.165.52.0/22
 # GETHOSTED-MY
 add digitalenergy 103.75.228.0/24
 add digitalenergy 103.112.0.0/24
