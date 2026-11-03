@@ -22,7 +22,7 @@ Error() {
 
 set -e
 
-export NTPSERVERS="${*:-0.europe.pool.ntp.org}"
+export NTPSERVERS="${*:-ntspool.time.nl}"
 declare -i OFFSET_MSEC
 
 OFFSET="$(

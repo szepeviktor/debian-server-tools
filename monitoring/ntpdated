@@ -19,7 +19,7 @@ Get_pool_ips()
 {
     local -i SERVER_INDEX="0"
     # shellcheck disable=SC2206
-    local -a SERVERS=( ${NTPSERVERS} 0.europe.pool.ntp.org )
+    local -a SERVERS=( ${NTPSERVERS} ntspool.time.nl )
     local A_RECORDS
     local -A IPS
 
