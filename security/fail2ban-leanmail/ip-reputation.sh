@@ -288,13 +288,11 @@ Match_dangerous()
 Match_tor()
 {
     local IP="$1"
-    local OWN_IP
     local HOSTNAME
     local ANSWER
 
-    # https://www.torproject.org/projects/tordnsel.html.en
-    OWN_IP="$(ip addr show dev eth0 | sed -n -e 's/^\s*inet \([0-9\.]\+\)\b.*$/\1/p')"
-    printf -v HOSTNAME "%s.80.%s.ip-port.exitlist.torproject.org." "$(Reverse_ip "$IP")" "$(Reverse_ip "$OWN_IP")"
+    # https://blog.torproject.org/changes-tor-exit-list-service/
+    printf -v HOSTNAME "%s.dnsel.torproject.org." "$(Reverse_ip "$IP")"
 
     # First answer
     ANSWER="$(dig +retry=0 +time="$TIMEOUT" +short @"$NS1" "$HOSTNAME" A 2>/dev/null | head -n 1)"
