@@ -439,13 +439,13 @@ Match()
         echo "anonymous-proxy"
     fi
 
-    # https://www.alienvault.com/forums/discussion/5246/otx-reputation-file-format
-    if Match_list "$IP" "https://reputation.alienvault.com/reputation.snort"; then
+    # https://netapi.com/compromised-ips/
+    if Match_list "$IP" "https://netapi.com/api2/?method=compromised&dataset_type=ip"; then
         if [ "$MODE" == ANY ]; then
-            Log_match "alienvault"
+            Log_match "netapi"
             return 0
         fi
-        echo "alienvault"
+        echo "netapi"
     fi
 
     # Network tests ordered by hit rate
