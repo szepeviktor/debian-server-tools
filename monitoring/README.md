@@ -54,7 +54,7 @@ https://github.com/errbit/errbit , https://github.com/airbrake/airbrake-js ,
 - Apache logs ([apache-4xx-report.sh](/monitoring/apache-4xx-report.sh), [apache-xreport.sh](/monitoring/apache-xreport.sh))
 - File changes ([siteprotection.sh](/monitoring/siteprotection.sh))
 - Errors in syslog ([syslog-errors.sh](/monitoring/syslog-errors.sh))
-- RBL - DNS blacklists ([hetrixtools.com](https://hetrixtools.com/), [RBLTracker](https://rbltracker.com/), [RBLmon](https://www.rblmon.com/))
+- RBL - DNS blacklists ([hetrixtools.com](https://hetrixtools.com/), [Generator Labs](https://generatorlabs.com/blacklist-monitoring), [RBLmon](https://www.rblmon.com/))
 - Email deliverability ([can-send-email.sh](/monitoring/cse))
 - Recipient domain and DNS
 - TOP 10 mailfolders ([top10-mailfolders.sh](/monitoring/top10-mailfolders.sh))

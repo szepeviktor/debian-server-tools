@@ -620,7 +620,7 @@ Sample response: `The IP address 1.2.3.4 is on the the following MIPSpace Reputa
 - https://hetrixtools.com/dashboard/blacklist-monitors/
 - https://multirbl.valli.org/
 - https://mxtoolbox.com/problem/blacklist/ [chart](https://mxtoolbox.com/Public/ChartHandler.aspx?type=TopBlacklistActivity)
-- https://rbltracker.com/ `R`
+- https://generatorlabs.com/blacklist-monitoring `R`
 - https://www.rblmon.com/accounts/register/ `R`
 
 ### Free e-mail backup server
